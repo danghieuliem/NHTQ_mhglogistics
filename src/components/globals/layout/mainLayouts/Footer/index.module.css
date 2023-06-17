@@ -1,0 +1,60 @@
+.footer {
+  @apply bg-sec;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  padding: 6px 20px;
+  color: #fff;
+  transition: 0.3s;
+  z-index: 100;
+  width: 100%;
+  margin-left: auto;
+  transition: all 0.3s ease-in-out;
+  height: 36px;
+}
+
+
+
+.toolsExt {
+  @apply justify-end sm:justify-between w-full sm:!w-fit;
+  display: flex;
+  width: fit-content;
+  justify-content: space-between
+}
+
+.toolsExt .icon {
+  @apply shadow-xl;
+  border-radius: 4px;
+  margin-left: 10px;
+  padding: 2px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
+  background-color: #fff;
+  border: 1px solid transparent;
+  display: flex;
+}
+
+.toolsExt .icon img {
+  margin-right: 8px;
+}
+
+.toolsExt .icon span {
+  font-weight: bold;
+}
+
+.toolsExt .icon:hover {
+  transform: scale(1.08);
+}
+
+@media screen and (max-width: 1280px) {
+  .footer {
+    width: calc(100% - 46px);
+  }
+
+  .hover {
+    width: calc(100% - 220px);
+  }
+}

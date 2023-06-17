@@ -1,0 +1,285 @@
+.userMain {
+  width: 1200px;
+  max-width: 100%;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+
+.logo {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
+  justify-content: space-evenly;
+  position: relative;
+  flex-direction: column;
+}
+
+.mainTitle {
+  @apply text-lg font-semibold uppercase text-[#000] m-5;
+  display: none;
+}
+
+.logo .img {
+  max-width: 200px;
+  height: auto;
+  margin: auto;
+  padding: 0 10px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.logo .img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.navigation {
+  @apply bg-sec xl:block hidden !sticky z-[888] top-0;
+  position: relative;
+  width: 100%;
+  z-index: 1000;
+}
+
+.navigation.expand {
+  transform: translateX(0%);
+}
+
+.list {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 0 !important;
+  border: none !important;
+  background-color: transparent !important;
+}
+
+.list::after,
+.list::before {
+  display: none !important;
+}
+
+.item {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  letter-spacing: 0.7px;
+  transition: 0.3s;
+  line-height: normal;
+}
+
+.link {
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  height: 100%;
+  position: relative;
+}
+
+.link.active:not(.heading) {
+  @apply bg-main;
+  /* border-radius: 8px; */
+  /* box-shadow: 0px 0px 10px 0 #00000059; */
+}
+
+.link i,
+.link span {
+  @apply !text-white;
+}
+
+.link.active i,
+.link.active span {
+  @apply !text-[#fff];
+}
+
+.title {
+  position: relative;
+  width: 100%;
+  color: #333;
+  font-size: 12px;
+  font-weight: bold;
+  display: none;
+}
+
+.heading .title {
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: default;
+  position: relative;
+}
+
+.span {
+  position: relative;
+  height: inherit;
+  height: fit-content;
+  margin-right: 10px;
+}
+
+.spans {
+  position: relative;
+  top: -1px;
+  width: 20px;
+  height: inherit;
+  text-align: center;
+  margin-right: 10px;
+}
+
+.icon {
+  height: inherit;
+  color: #333 !important;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.dots {
+  font-size: 20px;
+}
+
+.arrow {
+  /* position: relative;
+  margin-left: 10px;
+  transition: all 0.3s ease-in-out;
+  display: none;
+  height: 8px;
+  width: 8px; */
+  margin-left: 5px;
+}
+
+.iconArrow {
+  width: 100%;
+  height: 100%;
+}
+
+/* .arrow i {
+  font-size: 20px;
+  color: #333;
+  font-weight: 400;
+} */
+
+.dropdown {
+  @apply bg-sec;
+  overflow-y: hidden;
+  transition: all 0.3s ease-in-out;
+  padding: 20px;
+  width: fit-content;
+  top: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  border-radius: 0 0 8px 8px;
+}
+
+.dropdown .link {
+  padding: 12px 10px;
+  border-radius: 0;
+  margin: 0;
+  transition: all 0.3s ease-in-out;
+  height: fit-content;
+}
+
+.dropdown .link:hover {
+  @apply bg-main;
+  box-shadow: none;
+}
+
+.dropdown .link:hover .title {
+  @apply text-white;
+}
+
+.navigation.expand {
+  /* overflow-y: auto; */
+  width: auto;
+  transition: 0.3s;
+}
+
+.openMenu {
+  transition: 0.3s;
+  font-size: 22px;
+  color: #141046 !important;
+}
+
+.openUnMenu {
+  transition: 0.3s;
+  font-size: 22px;
+  color: #141046 !important;
+}
+
+.mainUserPage {
+  background-color: transparent;
+  transition: 0.3s;
+}
+
+.action {
+  z-index: 999;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+  color: #141046 !important;
+  font-size: 22px !important;
+  font-weight: bold;
+  line-height: 14px;
+  display: flex;
+  height: 64px;
+}
+
+.actionInfo {
+  color: #141046;
+  font-size: 14px;
+}
+
+.actionInfo:hover {
+  text-shadow: #ee9a78;
+}
+
+.navigation.expand .mainTitle {
+  display: block;
+}
+
+.navigation.expand .item .title {
+  display: block;
+}
+
+.navigation.expand .link .arrow {
+  display: block;
+}
+
+/* .activeLine {
+  @apply !bg-[#fff];
+  position: absolute;
+  top: 0;
+  width: calc(100% + 32px);
+  left: -16px;
+  height: 16px;
+}
+
+.activeLine::after {
+  @apply !bg-sec;
+  content: '';
+  position: absolute;
+  width: 16px;
+  left: 0;
+  top: 0;
+  height: 100%;
+  border-top-right-radius: 16px;
+
+}
+
+.activeLine::before {
+  @apply !bg-sec;
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 100%;
+  right: 0px;
+  top: 0;
+  border-top-left-radius: 16px;
+} */
+
+@media screen and (max-width: 1280px) {
+  .mainContentUser {
+    flex: 1;
+  }
+}

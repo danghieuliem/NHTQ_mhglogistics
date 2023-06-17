@@ -1,0 +1,89 @@
+.InfoContact {
+  padding: 80px 0;
+  background: url(/default/contact_bg.png);
+  position: relative;
+}
+
+.head {
+  text-align: center;
+}
+
+.InfoContact h1 {
+  font-weight: 700;
+  font-size: 36px !important;
+  line-height: 44px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.InfoContact p {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.bottom {
+  display: flex;
+}
+
+.bottom .box {
+  width: calc(4 / 12 * 100%);
+  margin-top: 60px;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  align-items: center;
+  border-right: 1px solid #ffffff20;
+}
+
+.box:last-child {
+  border: none;
+}
+
+.box h3 {
+  font-weight: 700;
+  font-size: 20px !important;
+  line-height: 24px;
+  text-align: center;
+  color: #ffffff;
+  margin: 16px 0 8px 0;
+}
+
+.box span {
+  font-weight: 400;
+  line-height: 19px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.boxContent {
+  text-align: center;
+}
+
+.boxIcon {
+  width: 60px;
+  border-radius: 100%;
+  border: 2px solid #fff;
+  padding: 14px;
+}
+
+@media screen and (max-width: 425px) {
+  .bottom {
+    flex-wrap: wrap;
+  }
+  .box {
+    margin-top: 30px !important;
+    width: 100% !important;
+    flex-direction: row;
+    justify-content: center;
+    border: none;
+  }
+  .boxContent {
+    width: 50%;
+  }
+}

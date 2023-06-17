@@ -1,0 +1,82 @@
+.popupNoti {
+  height: 50vh;
+  width: 50vw;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.head h1 {
+  @apply bg-main;
+  margin: 0;
+  padding: 16px 20px;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #fff;
+}
+
+.content {
+  flex: 1;
+  padding: 0px 20px 10px;
+  border-top: 1px solid #00000021;
+  border-bottom: 1px solid #00000021;
+  overflow-y: auto;
+}
+
+.content h3 {
+  font-size: 20px;
+  padding: 10px;
+  text-align: center;
+  position: relative;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 30px;
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+}
+
+.content h3::after {
+  @apply bg-main;
+  position: absolute;
+  content: "";
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 2px;
+}
+
+.btn {
+  padding: 10px;
+  background: #ff0000ad;
+  margin: 10px;
+  color: #fff !important;
+  box-shadow: 0px 10px 10px 0px #00000047;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn:hover {
+  transform: scale(0.9);
+  box-shadow: 0px 10px 10px 0px transparent;
+}
+
+.btn2 {
+  background-color: #333;
+}
+
+.foot {
+  text-align: end;
+}
+
+.contact {
+  @apply bg-main;
+  text-align: end;
+}
+
+.contact a {
+  padding: 10px;
+  display: inline-block;
+  color: #fff !important;
+}

@@ -1,0 +1,393 @@
+.header {
+  @apply bg-[#fff] shadow-md;
+  width: 100%;
+  height: 52px;
+}
+
+.innerHeaderManager {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+
+.innerHeaderUser {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: min(1200px, 100%);
+  padding: 0 15px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.openMenu {
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  padding: 6px 6px 6px 0;
+}
+
+
+.menu {
+  position: relative;
+  height: 100%;
+  line-height: 64px;
+  cursor: pointer;
+}
+
+.menu span i {
+  font-size: 20px;
+  padding: 1rem;
+  display: inline;
+}
+
+.totalNotiButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  text-align: center;
+  border-bottom: 2px solid #e4e4e4;
+}
+
+.totalNotiButton a {
+  @apply text-main;
+  width: fit-content;
+  transition: all 0.2s ease-in-out;
+  border-radius: 4px;
+  display: block;
+  padding: 4px 12px;
+  font-weight: bold;
+}
+
+.totalNotiButton a:hover {
+  @apply bg-main !text-white;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.wrapper li {
+  position: relative;
+  height: 100%;
+  transition: 0.3s;
+}
+
+@keyframes identifierBell {
+  0% {
+    transform: rotate3d(0, 0, 1, 0deg);
+  }
+  25% {
+    transform: rotate3d(0, 0, 1, 10deg);
+  }
+  50% {
+    transform: rotate3d(0, 0, 1, 0deg);
+  }
+  75% {
+    transform: rotate3d(0, 0, 1, 7deg);
+  }
+  100% {
+    transform: rotate3d(0, 0, 1, -10deg);
+  }
+}
+
+.bellIcon {
+  transform-origin: top;
+  animation: identifierBell linear 0.8s infinite;
+}
+
+.item {
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+
+.block {
+  display: flex;
+  align-items: center;
+  padding: 0 5px;
+  transition: 0.3s;
+}
+
+.block.user span {
+  font-size: 1rem;
+  color: #3e3c6a;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.block.screen span i {
+  font-size: 1rem;
+  color: #3e3c6a;
+}
+
+.block.bell span i {
+  font-size: 1rem;
+  color: #3e3c6a;
+}
+
+.profile {
+  cursor: pointer;
+}
+
+.block.profile .img img {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.block > .num {
+  position: absolute;
+  top: 7px;
+  right: 3px;
+  @apply bg-gold;
+  border-radius: 50%;
+  line-height: normal;
+  min-width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+}
+
+.block > .num span {
+  font-size: 10px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.wrapper > .item:hover > .dropdown {
+  transform: scale(1);
+}
+
+.userInfoWrapper {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: baseline;
+  align-items: baseline;
+  text-transform: capitalize;
+}
+
+.notification {
+  min-width: 436px;
+  transform-origin: 95% 0%;
+}
+
+@screen md {
+  .menu span i {
+    display: none;
+  }
+}
+
+.ant-drawer-body {
+  padding: 0;
+  transition: 0.3s;
+}
+
+/* @media (max-width: 767px) {
+  .action {
+    display: none;
+  }
+} */
+
+.action {
+  z-index: 999;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 22px;
+  font-weight: bold;
+  line-height: 14px;
+
+  display: flex;
+  align-items: center;
+  /* padding-top: 5px; */
+  border-radius: 5px;
+}
+
+.profileWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 130px;
+}
+
+.profileLink {
+  width: 100%;
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.profileLink::after {
+  @apply bg-sec;
+  content: "";
+  width: 0%;
+  height: 2px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: auto;
+  transition: all 0.2s ease;
+}
+
+.profileLink:hover {
+  @apply shadow-xl;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.profileLink i {
+  @apply text-sec;
+}
+
+.btnAccount:hover {
+  @apply bg-sec;
+}
+
+.btnAccount i,
+.btnAccount span {
+  @apply !text-sec;
+}
+
+.btnAccount:hover i,
+.btnAccount:hover span {
+  @apply !text-[#fff];
+}
+
+.btnLogout:hover {
+  @apply bg-red;
+}
+
+.btnLogout i,
+.btnLogout span {
+  @apply !text-red;
+}
+
+.btnLogout:hover i,
+.btnLogout:hover span {
+  @apply !text-[#fff];
+}
+
+.actionInfo {
+  color: #3e3c6a;
+  font-size: 14px;
+}
+
+.actionInfo:hover {
+  text-shadow: #ee9a78;
+}
+
+.menuAction {
+  padding-right: 10px;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  height: 54px;
+}
+
+.textMain > *:not(.count) {
+  padding: 7px;
+  border-radius: 5px;
+  background-color: antiquewhite;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.textMain > *:not(.count):hover {
+  background-color: rgb(100, 99, 97);
+  color: #e1e1e1;
+}
+
+.btnSwitchManager {
+  @apply bg-main;
+  border-radius: 8px;
+  padding: 6px 12px;
+  transition: all 0.1s;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.VIP {
+  @apply bg-green;
+  border-radius: 8px;
+  transition: all 0.1s;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 6px 8px;
+  font-weight: bold;
+  color: #fff;
+  display: block;
+  line-height: initial;
+}
+
+
+.btnSwitchManager::after {
+  @apply bg-sec;
+  position: absolute;
+  content: "";
+  left: auto;
+  right: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  transition: all 0.1s;
+  /* z-index: -1; */
+}
+
+.btnSwitchManager:hover::after {
+  width: 100%;
+  left: 0;
+  right: auto;
+}
+
+.btnSwitchManager i {
+  @apply text-white items-center flex;
+  z-index: 10;
+}
+
+.btnSwitchManager span {
+  @apply text-white text-[12px] leading-[initial];
+  z-index: 10;
+}
+
+@media screen and (max-width: 1280px) {
+  .innerHeaderUser {
+    width: min(1280px, 100%);
+  }
+}
+
+@media screen and (max-width: 768px){
+  .header {
+    position: relative;
+  }
+}

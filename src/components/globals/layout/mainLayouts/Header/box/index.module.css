@@ -1,0 +1,92 @@
+.notiList {
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.notiHead {
+  @apply mb-2 pb-2;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  border-bottom: 2px solid #e4e4e4;
+  position: sticky;
+  top: 0;
+}
+
+.notiHeadItem {
+  @apply shadow-lg;
+  display: block;
+  border-radius: 4px;
+  text-align: center;
+  padding: 6px;
+  line-height: initial;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.notiListBody {
+  overflow: auto;
+  flex: 1;
+  padding-right: 3px;
+}
+
+.notiListBody::-webkit-scrollbar {
+  width: 5px;
+  height: 20px;
+}
+
+.notiListBody::-webkit-scrollbar-thumb {
+  @apply bg-main;
+  border-radius: 100px;
+}
+
+.notiListBody::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.notiItem {
+  cursor: pointer;
+  padding: 6px;
+  margin: 4px 0;
+  border-radius: 4px;
+  height: fit-content;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid transparent;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.notiItem:hover {
+  background: #efefef;
+}
+
+.notRead {
+  @apply bg-blue;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+}
+
+.content {
+  font-weight: 600;
+}
+
+.contentWrapper {
+  flex: 1;
+}
+
+
+.iconLoading {
+  @apply text-red;
+  font-size: 30px !important;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

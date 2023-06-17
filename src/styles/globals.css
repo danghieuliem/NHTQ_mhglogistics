@@ -1,0 +1,205 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer component {
+  .words-break {
+    word-break: break-word;
+  }
+}
+
+@layer base {
+  p {
+    margin-bottom: 0 !important;
+  }
+  a {
+    color: #6b6f82 !important;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: revert !important;
+  }
+}
+
+:root {
+  --primary-color: #f14f04;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 2px;
+  height: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-sec;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-main;
+}
+
+.ant-skeleton.ant-skeleton-element.ant-skeleton-active {
+  width: 100%;
+}
+
+#auth-link {
+  transition: all 0.3s ease-in-out;
+}
+
+#auth-link.submit {
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.mr-3 .ant-spin.ant-spin-spinning .ant-spin-dot.ant-spin-dot-spin {
+  display: block;
+}
+
+.mr-3
+  .ant-spin.ant-spin-spinning
+  .ant-spin-dot.ant-spin-dot-spin
+  .ant-spin-dot-item {
+  background-color: #fff;
+}
+
+/* .ant-scrolling-effect {
+	touch-action: auto !important;
+	width: auto !important;
+	overflow: unset !important;
+} */
+
+.ant-modal-confirm-body-wrapper {
+  padding: 16px;
+}
+
+.border {
+  border: 1px solid #36613638;
+}
+
+.borderBottom {
+  border-bottom: 1px solid #36613638;
+}
+
+.boxShadow {
+  box-shadow: 0 0 20px 6px #0000003b;
+}
+
+.bg-chat {
+  background-color: #0275e0;
+}
+
+.breadcrumb-2 {
+  font-size: 24px;
+  text-transform: uppercase;
+  line-height: 29px;
+  margin: 50px 0 20px 0;
+  color: #3e3c6a;
+  font-weight: bolder;
+  transition: 0.3s;
+}
+
+.container {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.component-container {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.app-wrapper {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-content {
+  @apply bg-white;
+  overflow: hidden;
+  height: calc(100vh - 88px);
+}
+
+.app-main-content {
+  overflow: hidden auto;
+}
+
+.app-main {
+  width: 100%;
+}
+
+.app-container {
+  margin: 0 auto;
+}
+
+.app-main-inner {
+  width: min(1200px, 100%);
+  padding: 15px;
+  margin: 0 auto;
+}
+
+.menu-active {
+  width: calc(100vw - 220px);
+}
+
+
+
+
+/* body.ant-scrolling-effect {
+  touch-action: unset !important;
+  width: auto !important;
+  overflow: auto !important;
+} */
+
+.small_title {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
+  position: relative;
+  display: inline-block;
+  text-transform: uppercase;
+}
+
+.small_title::after {
+  position: absolute;
+  content: "";
+  width: 32px;
+  height: 2px;
+  background-color: #f5851e;
+  left: 110%;
+  top: 50%;
+  transform: translateY(-50%);
+  text-transform: uppercase;
+}
+
+.main_title {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 44px;
+  color: #000000;
+}
+
+@media screen and (max-width: 860px) {
+  .mainDes {
+    font-size: 14px !important;
+  }
+}

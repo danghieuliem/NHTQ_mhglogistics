@@ -1,0 +1,72 @@
+
+.managerAppMainInner {
+  width: 100%;
+}
+
+.managerAppContent {
+  display: flex;
+  height: calc(100vh - 52px);
+}
+
+.userAppContent {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 52px);
+}
+
+@media screen and (max-width: 1280px) {
+  .userAppContent {
+    flex-direction: row;
+  }
+}
+
+.fixed {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200;
+}
+
+.breadcrumb {
+  font-size: 24px;
+  text-transform: uppercase;
+  line-height: 29px;
+  margin: 50px 0 20px 0;
+  color: #3e3c6a;
+  font-weight: bolder;
+  transition: 0.3s;
+}
+
+.decoration {
+  top: 64px;
+  left: 0;
+  width: 100%;
+  z-index: 0;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0 0 0 0;
+  background-color: black;
+  opacity: 0.4;
+  z-index: 10000;
+}
+
+@media screen and (max-width: 1280px) {
+  .main {
+    min-height: calc(96vh + 3px);
+  }
+  .innerMainUser {
+    padding-top: 10px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .main {
+    min-height: calc(100vh - 90px);
+    /* width: 100%; */
+  }
+}

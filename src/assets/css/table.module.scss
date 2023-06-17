@@ -1,0 +1,63 @@
+.extentable {
+  @apply border-main bg-[#fff];
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+  margin: 4px 0;
+  width: 100%;
+  padding: 12px;
+  display: flex;
+  width: 100%;
+
+  &-content {
+    width: 50%;
+  }
+
+  &-row {
+    color: #333;
+    font-size: 14px !important;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &-label {
+    font-weight: bold;
+    font-weight: 600;
+  }
+
+  &-value {
+    color: #777 !important;
+  }
+
+  &-actions {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    // border-top: 1px solid #dddde8;
+    // padding-top: 6px;
+    // margin-top: 6px;
+  }
+
+  &-button {
+    margin: 0 4px;
+  }
+}
+
+
+@media screen and (max-width: 680px) {
+  .extentable {
+    flex-direction: column;
+
+    &-content,
+    &-actions {
+      width: 100%;
+    }
+
+    &-actions {
+      border-top: 1px solid #dddde8;
+      padding-top: 6px;
+      margin-top: 6px;
+    }
+  }
+}

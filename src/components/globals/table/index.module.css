@@ -1,0 +1,31 @@
+.table table > thead > tr > th::before {
+  content: unset !important;
+}
+
+.maintable table > thead > tr > th,
+.table table > thead > tr > th {
+  @apply !text-white !bg-sec ;
+  /* background-color: #c1c1c1 !important; */
+  padding: 6px 10px;
+  font-weight: bold;
+  white-space: nowrap;
+  /* text-transform: uppercase; */
+  border-right: 1px solid !important;
+  font-size: 12px !important;
+  border-bottom: 0;
+  line-height: initial;
+}
+
+.maintable table > thead > tr > th:last-of-type,
+.table table > thead > tr > th:last-of-type {
+  border-right: none !important;
+} 
+
+.table table > tbody > tr > td,
+.maintable table > tbody > tr > td,
+.table table > tfoot > tr > td,
+.maintable table > tfoot > tr > td {
+  color: #6b6f82;
+  padding: 2px 8px;
+  height: 45px;
+}

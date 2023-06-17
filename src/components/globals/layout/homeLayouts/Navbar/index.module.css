@@ -1,0 +1,113 @@
+.navbar {
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  background-color: white;
+}
+
+.MenuList {
+  min-width: 100%;
+  border: 0 !important;
+  display: flex;
+  margin: 0;
+}
+
+.MenuList li {
+  padding: 20px;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.MenuList a {
+  @apply !text-sec;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.MenuList .activeMenuStyle {
+  @apply bg-sec;
+}
+
+.MenuList .activeMenuStyle a {
+  @apply !text-white;
+}
+
+.bgColor {
+  background-color: transparent !important;
+  color: #135963 !important;
+  font-size: 30px !important;
+  height: auto !important;
+}
+
+.MenuList span {
+  color: black;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.mobileVisible {
+  display: none;
+}
+
+.menuFoot {
+  background-color: #287cfb2b;
+  padding: 10px 5px;
+  border-radius: 8px;
+  box-shadow: 6px 5px 20px 0 #00000066;
+}
+
+.activeLine {
+  @apply !bg-sec;
+  position: absolute;
+  top: 0;
+  width: calc(100% + 32px);
+  left: -16px;
+  height: 16px;
+}
+
+.activeLine::after {
+  @apply !bg-white;
+  content: '';
+  position: absolute;
+  width: 16px;
+  left: 0;
+  top: 0;
+  height: 100%;
+  border-top-right-radius: 16px;
+
+}
+
+.activeLine::before {
+  @apply !bg-white;
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 100%;
+  right: 0px;
+  top: 0;
+  border-top-left-radius: 16px;
+}
+
+@media screen and (max-width: 1025px) {
+  .mobileVisible {
+    display: block;
+  }
+
+  .mobileHidden .MenuList {
+    display: none;
+  }
+
+  .MenuList {
+    flex-direction: column;
+  }
+
+  .MenuList a {
+    color: #333 !important;
+  }
+}
+
+.mobileHidden ul {
+  background: none !important;
+}

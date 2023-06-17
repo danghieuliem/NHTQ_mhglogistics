@@ -1,0 +1,147 @@
+.trackingWrapper {
+  padding: 80px 0;
+  background: url(/default/service_default.png);
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.top {
+  position: relative;
+}
+
+.line {
+  position: absolute;
+  @apply !bg-main;
+  width: 8px;
+  top: -5%;
+  left: -40px;
+  height: 70%;
+}
+
+.line::after,
+.line::before {
+  @apply bg-main;
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 24px;
+  height: 8px
+}
+
+.line::after {
+  bottom: 0
+}
+
+.top h1 {
+  @apply text-white;
+
+  font-weight: 700;
+  font-size: 36px !important;
+  line-height: 44px;
+
+}
+
+.mainDes {
+  @apply text-white;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px !important;
+}
+
+.main {
+  position: absolute;
+  width: 38%;
+  bottom: 0;
+}
+
+.inner {
+  width: 50%;
+  padding: 16px;
+  border-radius: 6px;
+  margin-left: auto;
+}
+
+.main img {
+  width: 100%;
+}
+
+.trackingForm {
+  background-color: #061d49;
+  padding: 16px;
+  border-radius: 6px;
+  width: 100%;
+  margin: 10px 0;
+  border: 1px solid #f5851d;
+}
+
+.tabSearchTitle {
+  color: #f5f5f5;
+  font-weight: 700;
+  display: block;
+  letter-spacing: 0.02em;
+}
+
+.formTracking .inputForm {
+  width: 100%;
+  height: 40px;
+  border: 2px solid rgb(230, 230, 230);
+  border-top-left-radius: 5px !important;
+  border-bottom-left-radius: 5px !important;
+}
+
+.formTracking .inputForm input:focus {
+  outline: none;
+  box-shadow: 0 0 20px #9ecaed;
+}
+
+.formTracking .inputForm input {
+  width: 100%;
+  height: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+  /* border-radius: 10px !important; */
+}
+
+.btnSearch {
+  height: 100%;
+  position: relative;
+}
+
+.btnSearch span {
+  transition: all 0.3s ease-in-out;
+}
+
+.btnSearch span:hover i {
+  transform: scale(1.5);
+}
+
+.btnSearch span i {
+  color: #f5851e;
+  font-weight: 400;
+  font-size: 20px;
+  transition: all 0.3s ease-in-out;
+  letter-spacing: 0.02em;
+}
+
+@media screen and (max-width: 1024px) {
+  .main {
+    width: 50%;
+  }
+}
+
+
+@media screen and (max-width: 820px) {
+  .main {
+    display: none;
+  }
+  .inner {
+    width: 100%;
+  }
+  .line {
+    display: none;
+  }
+}

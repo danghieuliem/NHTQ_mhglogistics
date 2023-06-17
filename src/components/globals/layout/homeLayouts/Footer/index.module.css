@@ -1,0 +1,140 @@
+.footerTop {
+  padding: 80px 0;
+  background-color: #151c29;
+}
+
+.inner {
+  @apply grid grid-cols-3 gap-4;
+}
+
+.logo {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.logo a {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 60%;
+  margin: auto;
+  margin-bottom: 70px;
+}
+
+.logo img {
+  width: 100%;
+}
+
+.title {
+  color: #f5f5f5;
+}
+
+.footerBottom {
+  background-color: #151c29;
+}
+
+.cRight {
+  border-top: 1px solid #e6e6e6;
+  padding: 20px 0;
+  font-weight: 400;
+  font-size: 16px;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: #f5f5f5;
+  line-height: initial;
+}
+
+.colorD {
+  color: #f5f5f5 !important;
+  opacity: 0.6;
+}
+
+.contactBox {
+  margin-bottom: 20px;
+  color: #f5f5f5 !important;
+}
+
+.contactBox,
+.contactLink {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.contactBox img,
+.contactLink img {
+  margin-right: 12px;
+}
+
+.socialFoot {
+  display: flex;
+}
+
+.socialFoot a {
+  background: #f5851e;
+  width: 2rem;
+  height: 2rem;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.socialFoot a:hover {
+  box-shadow: 4px 6px 9px 0 #c9c9c933;
+  transform: translateY(-5px);
+}
+
+.socialFoot a i {
+  color: #fff;
+  font-size: 16px;
+}
+
+.menuItem {
+  @apply text-base py-1.5;
+  transition: all 0.3s ease-in-out;
+}
+
+.menuItem:hover {
+  padding-left: 10px;
+}
+
+.menuItem:hover a {
+  color: #f5851e !important;
+}
+
+@media screen and (max-width: 1024px) {
+  .logo a {
+    justify-content: center;
+  }
+  /* .inner {
+    @apply grid-cols-2;
+  } */
+}
+
+@media screen and (max-width: 520px) {
+  .footerTop {
+    padding: 20px 0;
+  }
+  .inner {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .logo a {
+    margin: auto;
+    width: 100%;
+  }
+  .socialFoot {
+    margin: 20px 0;
+  }
+  .inner div {
+    padding-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 425px) {
+  .inner {
+    @apply grid-cols-2
+  }
+}

@@ -1,0 +1,13 @@
+.breadCrumb {
+  display: flex
+}
+
+.aTitle {
+  @apply bg-sec !text-white;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-right: 10px;
+  display: block;
+}
+

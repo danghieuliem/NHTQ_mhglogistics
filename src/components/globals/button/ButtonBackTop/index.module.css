@@ -1,0 +1,76 @@
+@keyframes upToTop {
+  0% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+  33% {
+    transform: translateY(-40px);
+    opacity: 0;
+  }
+  66% {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  99% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes borderAnimation {
+  0% {
+    border-radius: 12px;
+  }
+  50% {
+    border-radius: 100%;
+  }
+  100% {
+    border-radius: 12px;
+  }
+}
+
+.backTopWrapper {
+  @apply bg-main;
+  position: fixed !important;
+  top: 90%;
+  right: 5px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px !important;
+  font-size: 28px !important;
+  color: #fff !important;
+  border-radius: 4px;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 10px 7px 0 #00000040;
+  transition: all 0.3s ease-in-out;
+  z-index: 9999 !important;
+  width: 45px !important;
+  height: 45px !important;
+  bottom: unset !important;
+  overflow: hidden;
+}
+
+.backTopWrapper:hover {
+  box-shadow: 0px 10px 14px 0px transparent;
+  transform: translate(-50%, -37%);
+}
+
+.backTopWrapper:hover .backTopInner {
+  animation: upToTop 1.2s infinite ease-in-out forwards;
+}
+
+.backTopInner {
+  @apply w-full h-full flex items-center justify-center;
+  flex-direction: column;
+}
+
+.backTopIcon {
+  @apply text-[#fff] text-[24px];
+}
+
+@media screen and (max-width: 768px) {
+  .backTopWrapper {
+    display: none;
+  }
+}

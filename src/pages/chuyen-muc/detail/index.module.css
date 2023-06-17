@@ -1,0 +1,25 @@
+.chuyenMucDetail {
+  padding: 80px 0;
+}
+
+.chuyenMucDetailContent {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+}
+
+.left {
+  grid-column: 1 / 10;
+}
+.right {
+  grid-column: 10 / 13;
+}
+
+@media screen and (max-width: 680px) {
+  .right {
+    display: none;
+  }
+  .chuyenMucDetailContent {
+    display: block;
+  }
+}

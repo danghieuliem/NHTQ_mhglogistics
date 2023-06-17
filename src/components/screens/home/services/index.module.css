@@ -1,0 +1,91 @@
+.servicesWrap {
+  background-image: url(/default/server_default.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 80px 0;
+}
+
+.servicesWrap h1 {
+  font-weight: 700;
+  font-size: 36px !important;
+  line-height: 44px;
+  color: #000000;
+}
+
+.innerContent {
+  @apply grid grid-cols-3 gap-4;
+  margin-top: 40px;
+}
+
+.box {
+  @apply col-span-1;
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+  border: 1px solid transparent;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0px 0px 20px 4px transparent;
+}
+
+.box:nth-child(1) h3 {
+  width: 70%;
+}
+
+.box:hover {
+  box-shadow: 0px 0px 20px 4px #00000042;
+}
+
+.logo {
+}
+
+.logo img {
+  width: 4rem;
+  height: 4rem;
+}
+
+@media screen and (max-width: 860px) {
+  .servicesWrap {
+    padding: 60px 0;
+  }
+  .innerContent {
+    @apply grid-cols-2 gap-5;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .servicesWrap {
+    padding: 60px 0;
+  }
+  .innerContent {
+    @apply grid-cols-1 gap-5;
+  }
+  .box {
+    border: 1px solid #3333334d;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .logo {
+    width: fit-content;
+    margin-right: 20px;
+  }
+
+  .logo img {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .box h3 {
+    width: 80% !important;
+    margin: 0;
+    font-size: 18px !important;
+    min-height: unset !important;
+  }
+  .box p {
+    margin-top: 20px;
+  }
+}

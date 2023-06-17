@@ -1,0 +1,102 @@
+.select-box {
+  position: relative;
+  display: block;
+  width: 100%;
+  font-size: 14px;
+  /* color: #60666d; */
+}
+
+.select-box__current {
+  position: relative;
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+}
+.select-box__current:focus + .select-box__list {
+  opacity: 1;
+  -webkit-animation-name: none;
+  animation-name: none;
+}
+.select-box__current:focus + .select-box__list .select-box__option {
+  cursor: pointer;
+}
+
+.select-box__icon {
+  color: #6b6f82;
+  position: absolute;
+  font-size: 16px;
+  right: 0;
+}
+
+.select-box__value {
+  display: -webkit-box;
+  display: flex;
+}
+.select-box__input {
+  display: none;
+}
+.select-box__input:checked + .select-box__input-text {
+  display: block;
+}
+.select-box__input-text {
+  display: none;
+  width: 100%;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+
+.select-box__list {
+  position: absolute;
+  z-index: 997;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  width: 100%;
+  padding: 0;
+  list-style: none;
+  opacity: 0;
+  -webkit-animation-name: HideList;
+  animation-name: HideList;
+  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.5s;
+  -webkit-animation-delay: 0.5s;
+  animation-delay: 0.5s;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-animation-timing-function: step-start;
+  animation-timing-function: step-start;
+  box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
+}
+.select-box__option {
+  display: block;
+  padding: 4px 8px;
+  font-size: 16px;
+}
+.select-box__option:hover,
+.select-box__option:focus {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+@-webkit-keyframes HideList {
+  from {
+    -webkit-transform: scaleY(1);
+    transform: scaleY(1);
+  }
+  to {
+    -webkit-transform: scaleY(0);
+    transform: scaleY(0);
+  }
+}
+
+@keyframes HideList {
+  from {
+    -webkit-transform: scaleY(1);
+    transform: scaleY(1);
+  }
+  to {
+    -webkit-transform: scaleY(0);
+    transform: scaleY(0);
+  }
+}
