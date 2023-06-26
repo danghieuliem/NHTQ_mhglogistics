@@ -1,21 +1,28 @@
 .footer {
-  @apply bg-sec;
+  @apply bg-main;
+  padding: 4px 0;
+}
+
+.inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 12px;
-  padding: 6px 20px;
-  color: #fff;
-  transition: 0.3s;
-  z-index: 100;
-  width: 100%;
-  margin-left: auto;
-  transition: all 0.3s ease-in-out;
-  height: 36px;
 }
 
+.tag {
+  @apply text-white;
+  font-size: 14px;
+  font-weight: 600;
+  margin-right: 8px;
+}
 
+.value {
+  @apply text-sec;
+  font-size: 14px;
+  font-weight: 600;
+}
 
+/* 
 .toolsExt {
   @apply justify-end sm:justify-between w-full sm:!w-fit;
   display: flex;
@@ -57,4 +64,4 @@
   .hover {
     width: calc(100% - 220px);
   }
-}
+} */

@@ -5,10 +5,11 @@ import {
   DataTable,
   FormInput,
   FormInputNumber,
-  FormUpload
+  FormUpload,
 } from "~/components";
 import { TControl } from "~/types/field";
 import { TColumnsType, TTable } from "~/types/table";
+import { _format } from "~/utils";
 
 export const CreateOrderTable: React.FC<
   TControl<TUserCreateOrder> & TTable<TUserCreateOrderProduct>
@@ -17,16 +18,14 @@ export const CreateOrderTable: React.FC<
     {
       dataIndex: "Id",
       title: "STT",
-      align: "center",
+      align: "right",
       render: (_, __, index) => ++index,
+      width: 50,
+      responsive: ["sm"],
     },
     {
       dataIndex: "ImageProduct",
-      title: (
-        <>
-          Hình ảnh <br /> sản phẩm
-        </>
-      ),
+      title: "Hình ảnh",
       align: "center",
       render: (_, __, index) => (
         <FormUpload
@@ -35,12 +34,13 @@ export const CreateOrderTable: React.FC<
           name={`Products.${index}.ImageProduct` as const}
         />
       ),
+      width: 100,
       responsive: ["lg"],
     },
     {
       dataIndex: "LinkProduct",
       title: "Link sản phẩm",
-      align: "center",
+      width: 120,
       render: (_, __, index) => (
         <FormInput
           control={control}
@@ -55,6 +55,7 @@ export const CreateOrderTable: React.FC<
     {
       dataIndex: "NameProduct",
       title: "Tên sản phẩm",
+      width: 120,
       render: (_, __, index) => (
         <FormInput
           control={control}
@@ -67,11 +68,8 @@ export const CreateOrderTable: React.FC<
     },
     {
       dataIndex: "PropertyProduct",
-      title: (
-        <>
-          Màu sắc/ <br /> Kích thước
-        </>
-      ),
+      title: "Thuộc tính",
+      width: 120,
       render: (_, __, index) => (
         <FormInput
           control={control}
@@ -85,13 +83,9 @@ export const CreateOrderTable: React.FC<
     },
     {
       dataIndex: "PriceProduct",
-      title: (
-        <>
-          Giá sản phẩm <br /> (¥){" "}
-        </>
-      ),
+      title: <>Giá (¥)</>,
+      width: 100,
       align: "right",
-      responsive: ["sm"],
       render: (_, __, index) => (
         <FormInputNumber
           prefix="¥ "
@@ -102,12 +96,13 @@ export const CreateOrderTable: React.FC<
           rules={{ required: "This field is required" }}
         />
       ),
+      responsive: ["md"],
     },
     {
       dataIndex: "QuantityProduct",
+      responsive: ["md"],
       title: "Số lượng",
       align: "right",
-      responsive: ["sm"],
       render: (_, __, index) => (
         <FormInputNumber
           control={control}
@@ -117,6 +112,7 @@ export const CreateOrderTable: React.FC<
           rules={{ required: "This field is required" }}
         />
       ),
+      width: 80,
     },
     {
       dataIndex: "NoteProduct",
@@ -128,25 +124,30 @@ export const CreateOrderTable: React.FC<
           placeholder=""
         />
       ),
-      responsive: ["xl"],
+      responsive: ["lg"],
+      width: 120,
     },
     {
       dataIndex: "action",
       title: "Thao tác",
       align: "right",
+      width: 80,
       render: (_, __, index) => (
-        <ActionButton
-          title="Xoá"
-          icon="fas fa-minus-circle"
-          onClick={() => {
-            if (data.length > 1) {
-              remove(index);
-            } else {
-              toast.warning("Phải có ít nhất 1 đơn hàng");
-            }
-          }}
-          btnRed
-        />
+        <div>
+          <ActionButton
+            title="Xoá"
+            isButton
+            isButtonClassName="bg-red !text-white w-fit m-auto"
+            icon="!mr-0"
+            onClick={() => {
+              if (data.length > 1) {
+                remove(index);
+              } else {
+                toast.warning("Phải có ít nhất 1 đơn hàng");
+              }
+            }}
+          />
+        </div>
       ),
     },
   ];
@@ -154,81 +155,87 @@ export const CreateOrderTable: React.FC<
   const expandable = {
     expandedRowRender: (item, index) => {
       return (
-        <div className="extentable">
-          <div className="extentable-content w-full grid grid-cols-2 md:grid-cols-4 gap-2">
-            <div className="extentable-row justify-center">
-              <span className="extentable-value">
-                <FormUpload
-                  image
-                  control={control}
-                  label="Ảnh sản phẩm"
-                  name={`Products.${index}.ImageProduct` as const}
-                />
-              </span>
+        <div className="extentable w-full">
+          <div className="extentable-content grid grid-cols-3 gap-3 w-full">
+            <div className="col-span-3 md:col-span-1">
+              <div className="extentable-row">
+                <span className="extentable-value">
+                  <FormUpload
+                    image
+                    label="Ảnh"
+                    control={control}
+                    name={`Products.${index}.ImageProduct` as const}
+                  />
+                </span>
+              </div>
             </div>
-            <div className="extentable-row justify-center">
-              <span className="extentable-value">
-                <FormInput
-                  control={control}
-                  name={`Products.${index}.LinkProduct` as const}
-                  placeholder="Link sản phẩm"
-                  label="Link sản phẩm"
-                  hideError
-                  rules={{ required: "This field is required" }}
-                />
-              </span>
-            </div>
-            <div className="extentable-row justify-center">
-              <span className="extentable-value">
-                <FormInputNumber
-                  prefix="¥ "
-                  control={control}
-                  name={`Products.${index}.PriceProduct` as const}
-                  placeholder=""
-                  hideError
-                  label="Giá sản phẩm"
-                  rules={{ required: "This field is required" }}
-                />
-              </span>
-            </div>
-            <div className="extentable-row justify-center">
-              <span className="extentable-value">
-                <FormInputNumber
-                  control={control}
-                  name={`Products.${index}.QuantityProduct` as const}
-                  placeholder=""
-                  label="Số lượng"
-                  hideError
-                  rules={{ required: "This field is required" }}
-                />
-              </span>
-            </div>
-            <div className="extentable-row justify-center">
-              <span className="extentable-value">
-                <FormInput
-                  control={control}
-                  name={`Products.${index}.PropertyProduct` as const}
-                  placeholder=""
-                  hideError
-                  label="Thuộc tính"
-                  rules={{ required: "This field is required" }}
-                />
-              </span>
-            </div>
-            <div className="extentable-row justify-center">
-              <span className="extentable-value">
-                <FormInput
-                  control={control}
-                  label="Ghi chú:"
-                  name={`Products.${index}.NoteProduct` as const}
-                  placeholder=""
-                />
-              </span>
+            <div className="col-span-3 grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div className="extentable-row">
+                <span className="extentable-value">
+                  <FormInput
+                    label="Link sản phẩm"
+                    control={control}
+                    name={`Products.${index}.LinkProduct` as const}
+                    placeholder=""
+                    hideError
+                    rules={{ required: "This field is required" }}
+                  />
+                </span>
+              </div>
+              <div className="extentable-row">
+                {/* <span className="extentable-label">Ngày đặt: </span> */}
+                <span className="extentable-value">
+                  <FormInput
+                    control={control}
+                    label="Thuộc tính"
+                    name={`Products.${index}.PropertyProduct` as const}
+                    placeholder=""
+                    hideError
+                    rules={{ required: "This field is required" }}
+                  />
+                </span>
+              </div>
+              <div className="extentable-row md:hidden">
+                <span className="extentable-value">
+                  <FormInputNumber
+                    label="Giá (¥)"
+                    prefix="¥ "
+                    control={control}
+                    name={`Products.${index}.PriceProduct` as const}
+                    placeholder=""
+                    hideError
+                    rules={{ required: "This field is required" }}
+                  />
+                </span>
+              </div>
+              <div className="extentable-row md:hidden">
+                <span className="extentable-value">
+                  <FormInputNumber
+                    control={control}
+                    label="Số lượng"
+                    name={`Products.${index}.QuantityProduct` as const}
+                    placeholder=""
+                    hideError
+                    rules={{ required: "This field is required" }}
+                  />
+                </span>
+              </div>
+              <div className="extentable-row">
+                <span className="extentable-value">
+                  <FormInput
+                    label="Ghi chú"
+                    control={control}
+                    name={`Products.${index}.NoteProduct` as const}
+                    placeholder=""
+                  />
+                </span>
+              </div>
             </div>
           </div>
         </div>
       );
     },
+    defaultExpandAllRows: true,
   };
 
   return (
@@ -236,9 +243,9 @@ export const CreateOrderTable: React.FC<
       {...{
         columns,
         data,
-        bordered: true,
-        expandable: expandable,
-        title: "Danh sách sản phẩm",
+        // bordered: true,
+        expandable,
+        // scroll: { y: 700 },
       }}
     />
   );

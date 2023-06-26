@@ -1,11 +1,15 @@
 import Cookie from "js-cookie";
 import router from "next/router";
+import { useQuery } from "react-query";
 import { toast } from "react-toastify";
-import { authenticate, setToken } from "~/api";
+import { authenticate, setToken, user as userAPI } from "~/api";
+import configHomeData from "~/api/config-home";
 import {
   setRouter,
   setUser,
-  useAppDispatch
+  updateGlobal,
+  useAppDispatch,
+  updateUser,
 } from "~/store";
 import { _format } from "~/utils";
 
@@ -15,32 +19,58 @@ const buttonStyle =
 const Index = () => {
   // const {data: session, status} = useSession();
   const dispatch = useAppDispatch();
+  useQuery({
+    queryKey: ["homeConfig"],
+    queryFn: () =>
+      configHomeData.get().then((res) => {
+        dispatch(updateGlobal({ ...res?.Data }));
+      }),
+    staleTime: 3000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: true,
+  });
 
   function auth(data) {
     const id = toast.loading("Đang xử lý ...");
     authenticate
       .loginDemon(data)
       .then((res) => {
-        Cookie.set("tokenNHTQ-demo", res?.Data?.token);
+        const session = res?.Data?.token;
+        session && setToken(session);
+        Cookie.set("tokenNHTQ-demo", session);
         try {
+          const token = res.Data.token;
+          Cookie.set("tokenNHTQ-demo", token);
+          setToken(token);
           const user: TUser = JSON.parse(
-            _format.getJWTDecode(res?.Data?.token)[
+            _format.getJWTDecode(token)[
               "http://schemas.microsoft.com/ws/2008/06/identity/claims/userdata"
             ]
           );
-          localStorage.setItem("currentUser", JSON.stringify(user));
+          userAPI
+            .getByID(user?.UserId)
+            .then((res) => {
+              dispatch(
+                updateUser({
+                  ...res?.Data,
+                  IsConfirmOTP: false,
+                  Roles: [],
+                  LastName: "",
+                  FirstName: "",
+                  Token: token,
+                })
+              );
+              dispatch(setRouter(user.UserGroupId));
+            })
+            .catch(() => console.log("error to fetching user by id!"));
 
-          // dispatch(getCartInfoByUserId(user?.UserId));
-          dispatch(setUser(user));
-          dispatch(setRouter(user.UserGroupId));
-          setToken(res?.Data?.token);
+          router.push("/user");
           toast.update(id, {
-            render: "Đang dô nè ông già, đừng gấp :)))",
+            render: "Đang dô nè ông già, đừng gấp!!!!! :)))",
             isLoading: false,
             autoClose: 3000,
             type: "success",
           });
-          router.push("/user");
         } catch (error) {
           toast.update(id, {
             render: "Lỗi gì kìa ông già :)))",

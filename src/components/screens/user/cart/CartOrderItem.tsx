@@ -1,4 +1,4 @@
-import { Checkbox, Collapse, Spin, Tooltip } from "antd";
+import { Checkbox, Tooltip } from "antd";
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
@@ -9,8 +9,9 @@ import { IconButton } from "~/components/globals/button/IconButton";
 import { showToast, toast } from "~/components/toast";
 import { setSelectedShopIds, useAppDispatch } from "~/store";
 import { _format } from "~/utils";
-import { CheckboxCustom } from "./block";
 import { OrderTempItem } from "./OrderTempItem";
+import { CheckboxCustom } from "./block";
+import { Button } from "~/components";
 
 type TProps = {
   cart: TUserCartOrderShopTemp;
@@ -30,25 +31,26 @@ const TopContainer = ({
   disabled,
 }) => {
   return (
-    <div className="topContainer">
+    <div className="bg-main p-[8px]">
       <div className="top flex justify-between items-center">
-        <div className="">
-          {/* {checked && <div className="mb-3 text-xs font-semibold tracking-wide">Bạn đã chọn đơn hàng này!</div>} */}
-          <Tooltip title="Chọn đặt đơn hàng này">
-            <Checkbox onChange={() => toggleShopId(cart?.Id)} checked={checked}>
-              <span className="text-[#fff]">
-                Tên shop: <span className="font-bold">{cart?.ShopName}</span>
-              </span>
-            </Checkbox>
-          </Tooltip>
-        </div>
+        <Tooltip title="Chọn đặt đơn hàng này">
+          <Checkbox
+            onChange={() => toggleShopId(cart?.Id)}
+            checked={checked}
+            className="mr-2"
+          ></Checkbox>
+          <span className="text-[#fff] ml-2 ">
+            <span className="mr-2">Tên shop:</span>{" "}
+            <span className="text-lg">{cart?.ShopName}</span>
+          </span>
+        </Tooltip>
         <IconButton
           onClick={() => onHandleShop(cart?.Id)}
           icon={loading ? "fas fa-sync fa-spin" : "fas fa-trash-alt"}
           title=""
           showLoading
           toolip="Xóa cửa hàng"
-          btnClass="!text-white hover:!bg-[#cc3a00]"
+          btnClass="!text-white hover:!bg-red text-[18px]"
           btnIconClass="!mr-0"
           disabled={disabled}
         />
@@ -166,95 +168,77 @@ export const CartOrderItem: React.FC<TProps> = ({
     setLoading(true);
     mutationDeleteShop.mutateAsync(id);
   };
-
   return (
-    <div
-      className="cartOrderItemContainer tableBox py-3"
-      style={{
-        pointerEvents: loading ? "none" : "all",
-      }}
-    >
-      <Collapse
-        defaultActiveKey={1}
-        collapsible="disabled"
-        className="collapse-cart-order-item"
-      >
-        <Collapse.Panel
-          header={
-            <TopContainer
-              checked={checked}
-              toggleShopId={toggleShopId}
-              cart={cart}
-              onHandleShop={onHandleShop}
-              loading={loading}
-              disabled={loadingPayment}
+    <>
+      <div className="col-span-12">
+        <TopContainer
+          checked={checked}
+          toggleShopId={toggleShopId}
+          cart={cart}
+          onHandleShop={onHandleShop}
+          loading={loading}
+          disabled={loadingPayment}
+        />
+      </div>
+      <div className="col-span-12 md:col-span-9 lg:col-span-9 bg-[#FFF1E4]">
+        <OrderTempItem
+          data={cart?.OrderTemps}
+          onHandleProduct={onHandleProduct}
+        />
+        {/* {cart?.OrderTemps?.map((orderTempData, index) => (
+          <div key={orderTempData?.Id}>
+            <OrderTempItem
+              {...{
+                orderTempData,
+                index,
+                isLoading:
+                  mutationDeleteProduct.isLoading ||
+                  mutationUpdateProduct.isLoading,
+                deleteProduct: () =>
+                  onHandleProduct("delete", {
+                    Id: orderTempData?.Id,
+                    Quantity: 0,
+                  }),
+                updateProduct: (Quantity, Brand) =>
+                  onHandleProduct("update", {
+                    Id: orderTempData?.Id,
+                    Quantity,
+                    Brand,
+                  }),
+              }}
             />
-          }
-          key={1}
-          showArrow={false}
-        >
-          {cart?.OrderTemps?.map((orderTempData, index) => (
-            <Spin
-              key={orderTempData?.Id}
-              spinning={
-                (mutationDeleteProduct.isLoading ||
-                  mutationUpdateProduct.isLoading) &&
-                mutationUpdateProduct.variables?.Id === orderTempData?.Id
-              }
-            >
-              <div key={orderTempData?.Id}>
-                <OrderTempItem
-                  {...{
-                    orderTempData,
-                    index,
-                    isLoading:
-                      mutationDeleteProduct.isLoading ||
-                      mutationUpdateProduct.isLoading,
-                    deleteProduct: () =>
-                      onHandleProduct("delete", {
-                        Id: orderTempData?.Id,
-                        Quantity: 0,
-                      }),
-                    updateProduct: (Quantity, Brand) =>
-                      onHandleProduct("update", {
-                        Id: orderTempData?.Id,
-                        Quantity,
-                        Brand,
-                      }),
-                  }}
-                />
-              </div>
-            </Spin>
-          ))}
-        </Collapse.Panel>
-      </Collapse>
-      <div className="divide">
-        <div className="footer grid col-span-3">
-          <div className="left col-span-1">
-            <div className="leftTitle ">Thông tin đơn hàng</div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="col-span-1">
+          </div>
+        ))} */}
+      </div>
+      <div className="col-span-12 md:col-span-3 lg:col-span-3 bg-[#EBF4FE] p-1 lg:p-4">
+        <div className="grid grid-cols-4 md:grid-cols-1 gap-4 lg:gap-6">
+          <div className="col-span-4 sm:col-span-2 md:col-span-1">
+            <div className=" cartNewWrapper-orders-items-label">
+              Dịch vụ tuỳ chọn
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="col-span-1 md:col-span-2 lg:col-span-1">
                 <CheckboxCustom
                   defaultChecked={cart?.IsFastDelivery}
                   onChange={(e) => onChangeCheckbox(e, "IsFastDelivery")}
                   label="Giao tận nhà"
                 />
               </div>
-              <div className="col-span-1">
+              <div className="col-span-1 md:col-span-2 lg:col-span-1">
                 <CheckboxCustom
                   defaultChecked={cart?.IsCheckProduct}
                   onChange={(e) => onChangeCheckbox(e, "IsCheckProduct")}
                   label="Kiểm hàng"
                 />
               </div>
-              <div className="col-span-1">
+              <div className="col-span-1 md:col-span-2 lg:col-span-1">
                 <CheckboxCustom
                   defaultChecked={cart?.IsPacked}
                   onChange={(e) => onChangeCheckbox(e, "IsPacked")}
                   label="Đóng gỗ"
                 />
               </div>
-              <div className="col-span-1">
+              <div className="col-span-1 md:col-span-2 lg:col-span-1">
                 <CheckboxCustom
                   defaultChecked={cart?.IsInsurance}
                   onChange={(e) => onChangeCheckbox(e, "IsInsurance")}
@@ -263,40 +247,28 @@ export const CartOrderItem: React.FC<TProps> = ({
               </div>
             </div>
           </div>
-          <div className="mid col-span-1">
-            <div className="leftTitle">Tổng tiền đơn hàng</div>
-            <div className="totalPrice">
-              <span className="totalPriceLeft">Tiền hàng:</span>
-              <span className="totalPriceRight">
-                {_format.getVND(cart?.PriceVND)}
-              </span>
+          <div className="col-span-2 sm:col-span-1">
+            <div className="cartNewWrapper-orders-items-label">
+              Tổng tiền đơn hàng
             </div>
-            <div className="totalPrice">
-              <span className="totalPriceLeft">Tổng tính:</span>
-              <span className="totalPriceRight">
-                {_format.getVND(cart?.PriceVND)}
+            <div className="grid grid-cols-2 gap-2">
+              <span className="hidden lg:block">Tiền hàng:</span>
+              <span className="col-span-2 lg:col-span-1 font-bold text-red">
+                {_format.getVND(cart?.PriceVND, " đ")}
               </span>
             </div>
           </div>
-          <div className="col-span-1 flex items-end justify-end">
-            <div className="text-right">
-              <IconButton
-                onClick={() => onPayment(true)}
-                icon={
-                  loadingPayment
-                    ? "fas fa-spinner fa-spin"
-                    : "fas fa-bags-shopping"
-                }
-                title="Tiếp tục đặt hàng"
-                showLoading
-                btnClass="ml-2 !bg-orange !text-white"
-                disabled={loadingPayment}
-                toolip=""
-              />
-            </div>
+          <div className="col-span-2 flex items-end justify-end md:justify-center md:block sm:col-span-1 text-center">
+            <Button
+              onClick={() => onPayment(true)}
+              // icon="mr-0"
+              title="Tiếp tục đặt hàng"
+              btnClass="ml-2 !bg-blue !text-[12px] md:!text-[14px] !text-white sm:w-fit lg:w-[180px]"
+              loading={loadingPayment}
+            />
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

@@ -1,3 +1,4 @@
+import { Card } from "antd";
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import { DataTable } from "~/components";
@@ -65,9 +66,9 @@ const templageMethods = [
 ];
 
 const styleLi = `pb-2 col-span-1 grid gap-2 grid grid-cols-6 border-b border-[#56545454] last:border-none`;
-const styleWrapIcon = `col-span-3 lg:col-span-2 text-sm text-[#000]`;
+const styleWrapIcon = `col-span-3 lg:col-span-3 text-sm text-[#000]`;
 const styleIcon = `text-[#ffa500] text-[18px]`;
-const styleValue = `col-span-3 lg:col-span-4 text-sm text-[#666565] font-semibold`;
+const styleValue = `col-span-3 lg:col-span-3 text-sm text-[#666565] font-semibold`;
 
 export const OrderIDDetail: React.FC<
   TTable<TFeeSupports> & { dataAll; data2 }
@@ -88,7 +89,7 @@ export const OrderIDDetail: React.FC<
       dataIndex: "Id",
       render: (value, record, index) => <>{++index}</>,
       title: "STT",
-      responsive: ["lg"]
+      responsive: ["lg"],
     },
     {
       dataIndex: "SupportName",
@@ -104,9 +105,8 @@ export const OrderIDDetail: React.FC<
   ];
 
   return (
-    <>
-      <div className="tableBox mt-4 px-4">
-        <div className="titleTable">Dịch vụ đơn hàng</div>
+    <div className="grid grid-cols-1 gap-4">
+      <Card title="Dịch vụ đơn hàng">
         <div className="grid grid-cols-1 gap-2">
           {renderMethods.map((item) => (
             <div className={styleLi} key={`${item?.id}-${item?.id}`}>
@@ -129,20 +129,8 @@ export const OrderIDDetail: React.FC<
             </div>
           ))}
         </div>
-      </div>
-      <div className="tableBox mt-4">
-        <div className="titleTable">Phụ phí</div>
-        <DataTable
-          {...{
-            columns,
-            data,
-            bordered: true,
-          }}
-        />
-      </div>
-      <div className="tableBox my-4 px-4">
-        <div className="titleTable">Thông tin người nhận</div>
-
+      </Card>
+      <Card title="Thông tin người nhận">
         <div className="grid grid-cols-1 gap-2">
           <div className={styleLi}>
             <div className={styleWrapIcon}>
@@ -173,7 +161,15 @@ export const OrderIDDetail: React.FC<
             <div className={styleValue}>{dataAll?.ReceiverPhone}</div>
           </div>
         </div>
-      </div>
-    </>
+      </Card>
+      <DataTable
+        {...{
+          columns,
+          data,
+          bordered: true,
+          title: "Danh sách phụ phí",
+        }}
+      />
+    </div>
   );
 };

@@ -113,7 +113,6 @@ export const FloatingListForm: React.FC<TForm<TSmallPackage>> = ({
 						title="Cập nhật"
 						btnClass="!bg-main"
 						onClick={handleSubmit(handelConfirm)}
-						showLoading
 					/>
 					<Button
 						title="Hủy"

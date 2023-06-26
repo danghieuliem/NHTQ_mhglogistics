@@ -12,6 +12,7 @@ export const TariffUserTable: FC<TTable<TTariffUser>> = ({
     {
       dataIndex: "Id",
       title: "ID",
+      align: "right"
     },
     {
       dataIndex: "Name",

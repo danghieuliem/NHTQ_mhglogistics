@@ -11,7 +11,7 @@ type TProps<T extends object = object> = {
 export const ConfigurationSocialNetwork: FC<TProps<TConfig2>> = ({control, data}) => {
 	return (
 		<React.Fragment>
-			<div className="grid grid-cols-2 gap-4 px-6 mt-4">
+			<div className="grid grid-cols-3 gap-4">
 				<div className="col-span-1">
 					<FormInput control={control} name="Facebook" label="Facebook" placeholder="#" required={false} />
 				</div>
@@ -26,7 +26,7 @@ export const ConfigurationSocialNetwork: FC<TProps<TConfig2>> = ({control, data}
 					<span className="absolute top-0 right-0 cursor-pointer">
 						<Tooltip title="Hướng dẫn!">
 							<i
-								className="fas fa-question-circle"
+								className="fas fa-info-square text-blue"
 								onClick={() =>
 									Modal.info({
 										title: "Hướng dẫn lấy link fanpage",
@@ -72,7 +72,7 @@ export const ConfigurationSocialNetwork: FC<TProps<TConfig2>> = ({control, data}
 					<span className="absolute top-0 right-0 cursor-pointer">
 						<Tooltip title="Hướng dẫn!">
 							<i
-								className="fas fa-question-circle"
+								className="fas fa-info-square text-blue"
 								onClick={() =>
 									Modal.info({
 										title: "Hướng dẫn lấy link google map.",

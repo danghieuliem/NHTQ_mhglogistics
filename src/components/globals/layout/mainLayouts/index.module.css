@@ -1,6 +1,5 @@
-
 .managerAppMainInner {
-  width: 100%;
+  width: min(1600px, 100%);
 }
 
 .managerAppContent {
@@ -33,11 +32,11 @@
 .breadcrumb {
   font-size: 24px;
   text-transform: uppercase;
-  line-height: 29px;
-  margin: 50px 0 20px 0;
-  color: #3e3c6a;
+  margin: 10px 0;
+  color: #3e3e44;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
   font-weight: bolder;
-  transition: 0.3s;
 }
 
 .decoration {

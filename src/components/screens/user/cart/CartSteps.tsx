@@ -27,16 +27,27 @@ export const CartSteps = ({ current = 1 }: { current?: number }) => {
     <div className="cartStep">
       {steps?.map((step) => (
         <React.Fragment key={step?.current}>
-          <div className={clsx("cartStep-Item", current >= step.current && "active")}>
-            <div className="cartStep-Icon">
-              <i className={step?.icon}></i>
+          <div
+            className={clsx(
+              "cartStep-Item",
+              current >= step.current && "active"
+            )}
+          >
+            <div className="cartStep-Icon-wrapper">
+              <div className="cartStep-Icon">
+                <i className={step?.icon}></i>
+              </div>
             </div>
             <div className="cartStep-Title">{step?.title}</div>
           </div>
-					{
-						step?.isDivide && 
-						<div className={clsx("cartStep-process", current === step.current && "active")} />
-					}
+          {step?.isDivide && (
+            <div
+              className={clsx(
+                "cartStep-process",
+                current === step.current && "active"
+              )}
+            />
+          )}
         </React.Fragment>
       ))}
     </div>

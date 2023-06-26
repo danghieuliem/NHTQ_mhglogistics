@@ -124,7 +124,6 @@ export const CheckWarehouseVietNamAssign2: React.FC<TProps> = ({ onCancel, visib
 						title="Thêm"
 						btnClass="!mr-0 !bg-pending min-w-[unset]"
 						onClick={handleSubmit((data) => onPress([{ ...data, IsAssign: true, AssignType: 2 }]))}
-						showLoading
 					/>
 					<Button title="Hủy" btnClass="!bg-active min-w-[unset]" onClick={onCancel} />
 				</FormCard.Footer>

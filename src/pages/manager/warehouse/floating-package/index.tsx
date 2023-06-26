@@ -3,7 +3,6 @@ import { useMutation, useQuery } from "react-query";
 import { smallPackage } from "~/api";
 import {
   CheckWarehouseVietNamAssign1,
-  CheckWarehouseVietNamAssign2,
   FloatingPackageTable,
   Layout,
   MissingPackageFilter,
@@ -12,12 +11,8 @@ import {
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import { TNextPageWithLayout } from "~/types/layout";
-import { selectUser, useAppSelector } from "~/store";
 
 const Index: TNextPageWithLayout = () => {
-  const { user: userStore } = useAppSelector(selectUser);
-  if (!userStore) return null;
-
   const modalType = useRef<"assign1" | "assign2">("assign1");
   const [modalAssign1, setModalAssign1] = useState(false);
   const [modalAssign2, setModalAssign2] = useState(false);
@@ -87,7 +82,7 @@ const Index: TNextPageWithLayout = () => {
   };
 
   return (
-    <div className="tableBox">
+    <>
       <MissingPackageFilter handleFilter={handleFilter} />
       <FloatingPackageTable
         {...{
@@ -124,7 +119,7 @@ const Index: TNextPageWithLayout = () => {
 					onPress={_onPress}
 				/>
 			</div> */}
-    </div>
+    </>
   );
 };
 

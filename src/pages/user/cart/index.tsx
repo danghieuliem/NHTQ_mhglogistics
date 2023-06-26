@@ -1,29 +1,26 @@
-import { LoadingOutlined } from "@ant-design/icons";
-import { Divider, Empty, Spin } from "antd";
+import { Divider } from "antd";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useQuery, useQueryClient } from "react-query";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { orderShopTemp, searchAPI } from "~/api";
 import {
   CardAmount,
   CartOrder,
-  CartSteps,
+  Empty,
   FormInput,
   FormSelect,
-  showToast,
+  Loading,
   UserLayout,
+  showToast,
 } from "~/components";
+import { breadcrumb, dataSearchProduct } from "~/configs";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
+import { RootState, setSelectedShopIds, useAppDispatch } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
-import router from "next/router";
-import { useForm } from "react-hook-form";
-import { dataSearchProduct } from "~/configs";
-import {
-  selectUser,
-  setSelectedShopIds,
-  useAppDispatch,
-  useAppSelector,
-} from "~/store";
-import { toast } from "react-toastify";
+import { _format } from "~/utils";
 type TSearch = {
   Id: number;
   SearchItem: string;
@@ -65,6 +62,7 @@ const TopCartComponent = () => {
       toast.error;
     }
   };
+
   return (
     <div className="tableBox cartSearch">
       <div className="cartSearch-title">Tìm kiếm sản phẩm</div>
@@ -120,42 +118,52 @@ const TopCartComponent = () => {
 };
 
 const Index: TNextPageWithLayout = () => {
-  const { user } = useAppSelector(selectUser);
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
+  const router = useRouter();
   const [currentCart, setCurrentCart] = useState([]);
 
   const [note, setNote] = useState<{ [key: number]: string }>();
   const [totalSelectPrice, setTotalSelectPrice] = useState(0);
   const [chosenShopIds, setChosenShopIds] = useState<number[]>([]);
+  const [isLoadingData, setIsLoadingData] = useState(true);
 
-  const UserId = user?.UserId;
   const dispatch = useAppDispatch();
 
   const {
     refetch: refetchCart,
     isLoading,
     isFetching,
-  } = useQuery(["user-cart"], () => orderShopTemp.getList({ UID: UserId }), {
-    onSuccess: (data) => {
-      const newCart = data?.Data?.Items.map((item) => {
-        const parseOrderTemps = JSON.parse(item?.OrderTempsJson);
-        return {
-          ...item,
-          OrderTemps: parseOrderTemps,
-        };
-      });
-
-      setCurrentCart(newCart);
-    },
-    onError: (error) => {
-      showToast({
-        title: (error as any)?.response?.data?.ResultCode,
-        message: (error as any)?.response?.data?.ResultMessage,
-        type: "error",
-      });
-    },
-    enabled: !!UserId,
-    retry: false,
-  });
+  } = useQuery(
+    ["user-cart", router],
+    () => orderShopTemp.getList({ UID: userCurrentInfo?.Id }),
+    {
+      onSuccess: (data) => {
+        const newCart = data?.Data?.Items.map((item) => {
+          const parseOrderTemps = JSON.parse(item?.OrderTempsJson);
+          return {
+            ...item,
+            OrderTemps: parseOrderTemps,
+          };
+        });
+        setIsLoadingData(false);
+        setCurrentCart(newCart);
+      },
+      onError: (error) => {
+        showToast({
+          title: (error as any)?.response?.data?.ResultCode,
+          message: (error as any)?.response?.data?.ResultMessage,
+          type: "error",
+        });
+      },
+      retry: false,
+      refetchOnWindowFocus: true,
+      staleTime: 5000,
+      keepPreviousData: true,
+      enabled: currentCart.length === 0,
+    }
+  );
 
   // function handleCalTotalPriceSelect(arr) {
   //   return arr.map((itemId) => {
@@ -203,17 +211,17 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <React.Fragment>
-      <div className="titlePageUser">Giỏ hàng</div>
       {window.innerWidth >= 680 && (
         <>
           <TopCartComponent />
-          <CartSteps current={1} />
+          {/* <CartSteps current={1} /> */}
         </>
       )}
-      {isFetching && isLoading ? (
-        <span className="bg-[#fff] flex w-full h-[300px] items-center justify-center">
-          <Spin indicator={<LoadingOutlined style={{ fontSize: 80 }} spin />} />
-        </span>
+
+      {/* {isFetching && isLoading ? (
+        <div className="pt-[120px]">
+          <Loading />
+        </div>
       ) : (
         <>
           {currentCart.length <= 0 ? (
@@ -222,8 +230,41 @@ const Index: TNextPageWithLayout = () => {
               className="bg-[#fff] h-[300px] flex flex-col items-center justify-center"
             />
           ) : (
-            <div className="grid xl:grid-cols-12 gap-4">
-              <div className="md:order-2 xl:order-1 xl:col-span-9">
+            <div className="cartNewWrapper pb-[50px]">
+              <div className="flex gap-2 items-center justify-between mb-4">
+                <div className="flex gap-2">
+                  <div className="flex gap-2 items-center">
+                    <span className="cartNewWrapper-label">Tổng shop:</span>
+                    <span className="text-[20px] text-red font-bold">
+                      {_format.getVND(currentCart?.length, "")}
+                    </span>
+                  </div>
+                  <div className="flex gap-2 items-center">
+                    <span className="cartNewWrapper-label">Tổng sản phẩm:</span>
+                    <span className="text-[20px] text-red font-bold">
+                      {_format.getVND(
+                        currentCart.reduce(
+                          (cur, prev) => cur + (prev.OrderTemps?.length || 0),
+                          0
+                        ),
+                        ""
+                      )}
+                    </span>
+                  </div>
+                </div>
+                <div className="">
+                  <span className="cartNewWrapper-label">Tổng tiền:</span>
+                  <span className="text-[20px] text-red font-bold ml-2">
+                    {_format.getVND(
+                      currentCart?.reduce((acc, cur) => {
+                        return (acc = acc + cur?.PriceVND);
+                      }, 0),
+                      " đ"
+                    )}
+                  </span>
+                </div>
+              </div>
+              <div className="cartNewWrapper-orders pb">
                 <CartOrder
                   currentCart={currentCart}
                   note={note}
@@ -233,7 +274,7 @@ const Index: TNextPageWithLayout = () => {
                   refetchCart={refetchCart}
                 />
               </div>
-              <div className="md:order-1 xl:order-2 xl:col-span-3">
+              <div className="cartNewWrapper-amount">
                 <CardAmount
                   isFetching={isFetching}
                   currentCart={currentCart}
@@ -248,12 +289,78 @@ const Index: TNextPageWithLayout = () => {
             </div>
           )}
         </>
+      )} */}
+      {isLoadingData && (
+        <div className="pt-[120px]">
+          <Loading />
+        </div>
+      )}
+      {currentCart.length <= 0 && !isLoadingData && <Empty />}
+      {currentCart.length > 0 && (
+        <div className="cartNewWrapper pb-[100px] md:pb-[50px]">
+          <div className="flex flex-wrap gap-1 items-center justify-between lg:mb-4">
+            <div className="flex gap-2">
+              <div className="flex gap-2 items-center">
+                <span className="cartNewWrapper-label">Tổng shop:</span>
+                <span className="text-[20px] text-red font-bold">
+                  {_format.getVND(currentCart?.length, "")}
+                </span>
+              </div>
+              <div className="flex gap-2 items-center">
+                <span className="cartNewWrapper-label">Tổng sản phẩm:</span>
+                <span className="text-[20px] text-red font-bold">
+                  {_format.getVND(
+                    currentCart.reduce(
+                      (cur, prev) => cur + (prev.OrderTemps?.length || 0),
+                      0
+                    ),
+                    ""
+                  )}
+                </span>
+              </div>
+            </div>
+            <div className="">
+              <span className="cartNewWrapper-label">Tổng tiền:</span>
+              <span className="text-[20px] text-red font-bold ml-2">
+                {_format.getVND(
+                  currentCart?.reduce((acc, cur) => {
+                    return (acc = acc + cur?.PriceVND);
+                  }, 0),
+                  " đ"
+                )}
+              </span>
+            </div>
+          </div>
+          <div className="cartNewWrapper-orders pb">
+            <CartOrder
+              currentCart={currentCart}
+              note={note}
+              setNote={setNote}
+              toggleShopId={toggleShopId}
+              chosenShopIds={chosenShopIds}
+              refetchCart={refetchCart}
+            />
+          </div>
+          <div className="cartNewWrapper-amount">
+            <CardAmount
+              isFetching={isFetching}
+              currentCart={currentCart}
+              allShopIds={chosenShopIds}
+              chosenShopIds={chosenShopIds}
+              toggleAllShopId={toggleAllShopId}
+              // totalSelectPrice={totalSelectPrice}
+              onPress={onPress}
+              refetchCart={refetchCart}
+            />
+          </div>
+        </div>
       )}
     </React.Fragment>
   );
 };
 
 Index.displayName = SEOHomeConfigs.shopping.shopingBag;
+Index.breadcrumb = breadcrumb.shoppingCart;
 Index.Layout = UserLayout;
 
 export default Index;

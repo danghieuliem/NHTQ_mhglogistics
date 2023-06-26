@@ -204,192 +204,184 @@ export const CheckWarehouseChinaForm = () => {
         mutationAddOrderTransactionCode.isLoading
       }
     >
-      <div className="flex items-end mx-4">
-        <div className="order-last ">
-          <HookWrapper
-            hookList={[
-              () => {
-                usePressKeyboard(
-                  [
-                    {
-                      keyList: ["Control", "b"],
-                      cb: () => setModalPackage(true),
+      <div className="grid grid-cols-4 gap-4">
+        <div className="tableBox col-span-3 h-fit">
+          <div className="grid grid-cols-4 gap-4">
+            <div className="col-span-3 grid grid-cols-3 gap-2">
+              <FormSelect
+                control={control}
+                name="BigPackageId"
+                isLoading={isFetching}
+                placeholder="Chọn bao lớn"
+                data={bigPackages}
+                select={{
+                  label: "Name",
+                  value: "Id",
+                }}
+                selectContainerClassName="col-span-2"
+                required={false}
+                callback={(val) => {
+                  setValue("BigPackageId", val);
+                }}
+              />
+              <div className="col-span-1 flex items-center">
+                <HookWrapper
+                  hookList={[
+                    () => {
+                      usePressKeyboard(
+                        [
+                          {
+                            keyList: ["Control", "b"],
+                            cb: () => setModalPackage(true),
+                          },
+                        ],
+                        {}
+                      );
                     },
-                  ],
-                  {}
-                );
-              },
-            ]}
-          >
-            <IconButton
-              onClick={() => setModalPackage(true)}
-              btnClass="mb-4 mb-0"
-              icon="fas fa-plus"
-              title="Tạo mới (Ctrl + B)"
-              toolip=""
-            />
-          </HookWrapper>
-        </div>
-        <FormSelect
-          control={control}
-          name="BigPackageId"
-          label="Bao lớn"
-          isLoading={isFetching}
-          placeholder="Chọn bao lớn"
-          data={bigPackages}
-          select={{
-            label: "Name",
-            value: "Id",
-          }}
-          selectContainerClassName="!max-w-[500px] mr-4"
-          required={false}
-          callback={(val) => {
-            setValue("BigPackageId", val);
-          }}
-        />
-      </div>
-      <div className="flex items-end mx-4">
-        <div className="flex-1 flex items-end">
-          <FormInput
-            control={control}
-            label="Mã vận đơn"
-            name="OrderTransactionCode"
-            placeholder="Nhập mã vận đơn"
-            inputContainerClassName="max-w-[500px] mr-4"
-            inputClassName="barcode mb-4 mb-0"
-            prefix={
-              <Tooltip placement="topLeft" title={"Open barcode!"}>
-                <div className="pl-2">
-                  <i className="fas fa-barcode text-2xl"></i>
-                </div>
-              </Tooltip>
-            }
-            onEnter={handleSubmit(_onCreate)}
-            rules={{
-              required: "Vui lòng nhập mã vận đơn!",
-            }}
-          />
-          <IconButton
-            onClick={handleSubmit(_onCreate)}
-            btnClass=""
-            icon="fas fa-barcode-read"
-            title="Quét mã (Enter)"
-            toolip=""
-            btnIconClass="!mr-4"
-          />
-        </div>
-        {/* <div className="order-last ">
-          <HookWrapper
-            hookList={[
-              () => {
-                usePressKeyboard(
-                  [
-                    {
-                      keyList: ["Control", "b"],
-                      cb: () => setModalPackage(true),
-                    },
-                  ],
-                  {}
-                );
-              },
-            ]}
-          >
-            <IconButton
-              onClick={() => setModalPackage(true)}
-              btnClass="mb-4 mb-0"
-              icon="fas fa-plus"
-              title="Tạo bao mới (Ctrl + B)"
-              toolip=""
-            />
-          </HookWrapper>
-        </div> */}
-      </div>
-      <div className="xl:flex mt-4 mx-4">
-        <HookWrapper
-          hookList={[
-            () => {
-              usePressKeyboard(
-                [
-                  {
-                    keyList: ["Control", "q"],
-                    cb: handleSubmitArray((data) =>
-                      _onPress(
-                        Object.values(data).reduce(
-                          (prev, cur) => [...prev, ...cur],
-                          []
-                        )
+                  ]}
+                >
+                  <IconButton
+                    onClick={() => setModalPackage(true)}
+                    icon="fas fa-plus"
+                    title="Tạo mới"
+                    toolip=""
+                    btnClass="h-fit w-fit"
+                  />
+                </HookWrapper>
+              </div>
+            </div>
+            <div className="col-span-3 grid grid-cols-3 gap-2">
+              <FormInput
+                control={control}
+                name="OrderTransactionCode"
+                placeholder="Nhập mã vận đơn"
+                inputClassName="barcode"
+                prefix={
+                  <Tooltip placement="topLeft" title={"Open barcode!"}>
+                    <i className="fas fa-barcode !text-sec"></i>
+                  </Tooltip>
+                }
+                onEnter={handleSubmit(_onCreate)}
+                rules={{
+                  required: "Vui lòng nhập mã vận đơn!",
+                }}
+                inputContainerClassName="col-span-2"
+              />
+              <div className="col-span-1 flex items-center">
+                <IconButton
+                  onClick={handleSubmit(_onCreate)}
+                  btnClass="h-fit"
+                  icon="fas fa-barcode-read"
+                  title="Quét mã"
+                  toolip=""
+                />
+              </div>
+            </div>
+          </div>
+
+          {!!Object.keys(watchArray()).length && (
+            <div className="mt-4">
+              <HookWrapper
+                hookList={[
+                  () => {
+                    usePressKeyboard(
+                      [
+                        {
+                          keyList: ["Control", "q"],
+                          cb: handleSubmitArray((data) =>
+                            _onPress(
+                              Object.values(data).reduce(
+                                (prev, cur) => [...prev, ...cur],
+                                []
+                              )
+                            )
+                          ),
+                        },
+                      ],
+                      {}
+                    );
+                  },
+                ]}
+              >
+                <IconButton
+                  icon="fas fa-edit"
+                  title="Cập nhật tất cả kiện"
+                  btnClass="mr-4 mb-4 xl:mb-0"
+                  onClick={handleSubmitArray((data) =>
+                    _onPress(
+                      Object.values(data).reduce(
+                        (prev, cur) => [...prev, ...cur],
+                        []
                       )
-                    ),
-                  },
-                ],
-                {}
-              );
-            },
-          ]}
-        >
-          <IconButton
-            icon="fas fa-edit"
-            title="Cập nhật tất cả kiện (Ctrl + Q)"
-            btnClass="mr-4 mb-4 xl:mb-0"
-            onClick={handleSubmitArray((data) =>
-              _onPress(
-                Object.values(data).reduce((prev, cur) => [...prev, ...cur], [])
-              )
-            )}
-            toolip=""
-          />
-        </HookWrapper>
-        <HookWrapper
-          hookList={[
-            () => {
-              usePressKeyboard(
-                [
-                  {
-                    keyList: ["Control", "m"],
-                    cb: () => setModalCode(true),
-                  },
-                ],
-                {}
-              );
-            },
-          ]}
-        >
-          <IconButton
-            icon="far fa-plus"
-            title="Thêm mã kiện (Ctrl + M)"
-            onClick={() => setModalCode(true)}
-            toolip=""
-          />
-        </HookWrapper>
+                    )
+                  )}
+                  toolip=""
+                />
+              </HookWrapper>
+              {/* <HookWrapper
+                  hookList={[
+                    () => {
+                      usePressKeyboard(
+                        [
+                          {
+                            keyList: ["Control", "m"],
+                            cb: () => setModalCode(true),
+                          },
+                        ],
+                        {}
+                      );
+                    },
+                  ]}
+                >
+                  <IconButton
+                    icon="far fa-plus"
+                    title="Thêm mã kiện (Ctrl + M)"
+                    onClick={() => setModalCode(true)}
+                    toolip=""
+                  />
+                </HookWrapper> */}
+            </div>
+          )}
+        </div>
+
+        <div className="tableBox col-span-1">
+          <p className="font-bold">Phím tắt: </p>
+          <p>Ctrl + B: Tạo bao mới</p>
+          <p>Ctrl + Q: Cập nhật tất cả các kiện</p>
+          <p>Enter: Quét mã vận đơn</p>
+        </div>
       </div>
-      <CheckWarehouseChinaNewBagForm
-        visible={modalPackage}
-        refetch={refetch}
-        onCancel={() => setModalPackage(false)}
-      />
-      <CheckWarehouseChinaNewCodeForm
-        visible={modalCode}
-        onCancel={() => setModalCode(false)}
-        newOrderTransactionCode={newOrderTransactionCode.current}
-        handleData={(newData: TWarehouseCN[], key: string) =>
-          handleData(newData, key)
-        }
-      />
-      {!!Object.keys(watchArray()).length &&
-        Object.keys(watchArray()).map((key) => (
-          <CheckWarehouseChinaTable
-            data={watchArray(key)}
-            name={key}
-            key={key}
-            handleSubmit={handleSubmitArray}
-            onPress={_onPress}
-            onHide={_onHide}
-            control={controlArray}
-            onIsLost={null}
-            bigPackageList={bigPackages || []}
-            defaultIdBigPackageSelected={getValues("BigPackageId")}
-          />
-        ))}
+
+      <div>
+        <CheckWarehouseChinaNewBagForm
+          visible={modalPackage}
+          refetch={refetch}
+          onCancel={() => setModalPackage(false)}
+        />
+        <CheckWarehouseChinaNewCodeForm
+          visible={modalCode}
+          onCancel={() => setModalCode(false)}
+          newOrderTransactionCode={newOrderTransactionCode.current}
+          handleData={(newData: TWarehouseCN[], key: string) =>
+            handleData(newData, key)
+          }
+        />
+        {!!Object.keys(watchArray()).length &&
+          Object.keys(watchArray()).map((key) => (
+            <CheckWarehouseChinaTable
+              data={watchArray(key)}
+              name={key}
+              key={key}
+              handleSubmit={handleSubmitArray}
+              onPress={_onPress}
+              onHide={_onHide}
+              control={controlArray}
+              onIsLost={null}
+              bigPackageList={bigPackages || []}
+              defaultIdBigPackageSelected={getValues("BigPackageId")}
+            />
+          ))}
+      </div>
     </Spin>
   );
 };

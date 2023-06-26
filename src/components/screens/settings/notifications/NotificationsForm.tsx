@@ -153,12 +153,12 @@ export const NotificationsForm: FC<
 				<FormCard.Footer>
 					<Button
 						title="Cập nhật"
-						btnClass="!bg-main"
+						btnClass="!bg-main mr-2"
 						onClick={handleSubmit(_onPress)}
 					/>
 					<Button
 						title="Hủy"
-						btnClass="!bg-pending xl:text-base text-sm"
+						btnClass="!bg-red"
 						onClick={handleOnCancel}
 					/>
 				</FormCard.Footer>

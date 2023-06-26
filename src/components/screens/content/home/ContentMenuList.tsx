@@ -12,6 +12,7 @@ import {
 } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
 import { TColumnsType, TTable } from "~/types/table";
+import TagStatus from "../../status/TagStatus";
 
 export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
   const [addNewModal, setAddNewModal] = useState(false);
@@ -47,27 +48,28 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
       dataIndex: "Active",
       title: "Trạng thái",
       render: (_, record) => (
-        <Tag color={record?.Active ? "green" : "red"}>
-          {record?.Active ? "Hiện" : "Ẩn"}
-        </Tag>
+        <TagStatus
+          color={record?.Active ? "green" : "red"}
+          statusName={record?.Active ? "Hiện" : "Ẩn"}
+        />
       ),
     },
     {
       dataIndex: "action",
-      align: "right",
       title: "Thao tác",
       render: (_, record) => (
-        <Space>
+        <div className="flex gap-1 flex-wrap justify-center">
           <ActionButton
             icon="fas fa-edit"
             onClick={() => setEdit(record?.Id)}
             title="Chỉnh sửa nội dung"
+            iconContainerClassName="!text-sec p-0"
           />
           <ActionButton
             icon="fas fa-layer-plus"
             onClick={() => setChild(record?.Id)}
             title="Thêm menu con"
-            iconContainerClassName="iconGreen"
+            iconContainerClassName="!text-sec p-0"
           />
           <Popconfirm
             onConfirm={() => _onRemove(record?.Id)}
@@ -79,118 +81,115 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
             <ActionButton
               icon="fas fa-trash-alt"
               title="Delete"
-              iconContainerClassName="iconGreen"
+              iconContainerClassName="!text-sec p-0"
             />
           </Popconfirm>
-        </Space>
+        </div>
       ),
     },
   ];
 
   return (
     <React.Fragment>
-      <div className="md:flex items-center justify-between pb-4 border-[#333]">
-        <p className="text-[16px] text-main font-[600]">
-          DANH SÁCH MENU
-        </p>
-        <IconButton
-          onClick={() => setAddNewModal(true)}
-          btnIconClass={""}
-          title="Thêm"
-          icon="far fa-plus"
-          showLoading
-          toolip="Thêm menu"
-          btnClass="iconGreen mt-[-10px]"
-        />
-      </div>
-        <DataTable
-          {...{
-            data: data,
-            columns,
-            isExpand: true,
-            expandable: {
-              expandIcon: ({ expanded, onExpand, record }) =>
-                record?.Children.length > 0 ? (
-                  <>
-                    {expanded ? (
-                      <i
-                        className="fas fa-folder-open"
-                        onClick={(e) => onExpand(record, e)}
-                      ></i>
-                    ) : (
-                      <i
-                        className="fas fa-folder-plus"
-                        onClick={(e) => onExpand(record, e)}
-                      ></i>
-                    )}
-                  </>
-                ) : (
+      <DataTable
+        {...{
+          data: data,
+          columns,
+          isExpand: true,
+          title: "Danh sách menu",
+          extraElment: (
+            <IconButton
+              onClick={() => setAddNewModal(true)}
+              title="Thêm"
+              icon="far fa-plus"
+              showLoading
+              toolip="Thêm menu"
+              btnClass="!bg-green mt-[-10px]"
+            />
+          ),
+          expandable: {
+            expandIcon: ({ expanded, onExpand, record }) =>
+              record?.Children.length > 0 ? (
+                <>
+                  {expanded ? (
+                    <i
+                      className="fas fa-folder-open"
+                      onClick={(e) => onExpand(record, e)}
+                    ></i>
+                  ) : (
+                    <i
+                      className="fas fa-folder-plus"
+                      onClick={(e) => onExpand(record, e)}
+                    ></i>
+                  )}
+                </>
+              ) : (
+                <div className="">
+                  <i className="fas fa-folder"></i>
+                </div>
+              ),
+            expandedRowRender: (record) => {
+              const OrderBy = record?.Children.sort(
+                (a, b) => a?.Position - b?.Position
+              );
+              return OrderBy?.map((item) => (
+                <div
+                  key={item?.Id}
+                  className="flex justify-between items-center"
+                >
                   <div className="">
-                    <i className="fas fa-folder"></i>
-                  </div>
-                ),
-              expandedRowRender: (record) => {
-                const OrderBy = record?.Children.sort(
-                  (a, b) => a?.Position - b?.Position
-                );
-                return OrderBy?.map((item) => (
-                  <div
-                    key={item?.Id}
-                    className="flex justify-between items-center"
-                  >
-                    <div className="">
-                      {/* <Tooltip title="Vị trí menu" className="mr-4">
+                    {/* <Tooltip title="Vị trí menu" className="mr-4">
 												{item?.Position}
 											</Tooltip> */}
-                      <Tooltip title="Trạng thái">
-                        <Tag
-                          color={item?.Active ? "green" : "red"}
-                          className="mr-4"
-                        >
-                          {item?.Active ? "Hiện" : "Ẩn"}
-                        </Tag>
-                      </Tooltip>
-                      <Tooltip
-                        title="Tên menu con"
-                        className="ml-1 text-[12px] text-[#6b6f82]"
+                    <Tooltip title="Trạng thái">
+                      <Tag
+                        color={item?.Active ? "green" : "red"}
+                        className="mr-4"
                       >
-                        {item?.Name}
-                      </Tooltip>
-                      {/* <Tooltip title="Trạng thái">
+                        {item?.Active ? "Hiện" : "Ẩn"}
+                      </Tag>
+                    </Tooltip>
+                    <Tooltip
+                      title="Tên menu con"
+                      className="ml-1 text-[12px] text-[#6b6f82]"
+                    >
+                      {item?.Name}
+                    </Tooltip>
+                    {/* <Tooltip title="Trạng thái">
 												<Tag color={item?.Active ? "green" : "red"}>{item?.Active ? "Hiện" : "Ẩn"}</Tag>
 											</Tooltip> */}
-                    </div>
-                    <Space>
-                      <div>
-                        <ActionButton
-                          icon="fas fa-edit"
-                          onClick={() => setEdit(item?.Id)}
-                          title="Chỉnh sửa nội dung"
-                        />
-                      </div>
-                      <div>
-                        <Popconfirm
-                          onConfirm={() => _onRemove(item?.Id)}
-                          placement="topRight"
-                          title="Bạn muốn xoá menu này?"
-                          okText="Yes"
-                          cancelText="No"
-                        >
-                          <ActionButton
-                            icon="fas fa-trash-alt"
-                            title="Delete"
-                            iconContainerClassName="iconGreen"
-                          />
-                        </Popconfirm>
-                      </div>
-                    </Space>
                   </div>
-                ));
-              },
-              rowExpandable: (record) => record?.Children.length > 0,
+                  <Space>
+                    <div>
+                      <ActionButton
+                        icon="fas fa-edit"
+                        onClick={() => setEdit(item?.Id)}
+                        title="Chỉnh sửa nội dung"
+                      />
+                    </div>
+                    <div>
+                      <Popconfirm
+                        onConfirm={() => _onRemove(item?.Id)}
+                        placement="topRight"
+                        title="Bạn muốn xoá menu này?"
+                        okText="Yes"
+                        cancelText="No"
+                      >
+                        <ActionButton
+                          icon="fas fa-trash-alt"
+                          title="Delete"
+                          iconContainerClassName="iconGreen"
+                        />
+                      </Popconfirm>
+                    </div>
+                  </Space>
+                </div>
+              ));
             },
-          }}
-        />
+            rowExpandable: (record) => record?.Children.length > 0,
+          },
+        }}
+      />
 
       <AddNewContentForm
         visible={addNewModal}

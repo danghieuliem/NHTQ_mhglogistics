@@ -1,4 +1,5 @@
 type TUser = {
+  Id: any;
   UserGroupName: ReactNode;
   AvatarIMG: string;
   Email: string;
@@ -20,6 +21,7 @@ type TUser = {
   UserId?: number;
   Wallet?: number;
   LevelId?: number;
+  Token: string;
 };
 
 type TCreateOrder = {

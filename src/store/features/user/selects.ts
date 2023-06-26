@@ -10,15 +10,11 @@ export const selectRouter = (state: RootState) => state.user.menuRouter;
 export const selectFirstPageDashboard = (state: RootState) => {
 	try {
 		const routers = state.user.menuRouter;
-		if (!routers && !routers?.length) return '';
-		let path = '';
-		const firstGroup = routers[0].controllers[0];
-		path = firstGroup.path;
-		if (path && path !== 'javascript:;') return path;
-		const firstChildInGroup = firstGroup?.childrens[0];
-		if (!firstChildInGroup) return '';
-		path = firstChildInGroup.path;
-		return path;
+		if (routers[0].path === "javascript:;") {
+			return routers[0].childrens[0].path;
+		} else {
+			return routers[0].path
+		}
 	} catch (err) {
 		return '';
 	}

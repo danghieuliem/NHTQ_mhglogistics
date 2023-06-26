@@ -41,7 +41,7 @@ export const WareHouseInfo = () => {
 	];
 
 	return (
-		<div className="grid grid-cols-2 tableBox mb-4">
+		<div className="">
 			<h2 className="col-span-2 text-[#141046] font-semibold">Thông tin kho</h2>
 			<div className="col-span-2">
 				<DataTable

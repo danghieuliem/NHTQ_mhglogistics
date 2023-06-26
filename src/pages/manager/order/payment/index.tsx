@@ -23,9 +23,7 @@ const Index: TNextPageWithLayout = () => {
 
   if (isError)
     return (
-      <Empty
-        description={`Không tìm thấy đơn hàng ${query?.id} để thanh toán`}
-      />
+      <Empty />
     );
 
   return (

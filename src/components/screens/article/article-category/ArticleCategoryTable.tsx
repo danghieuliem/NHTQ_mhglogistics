@@ -1,9 +1,11 @@
-import { Tag, Tooltip } from "antd";
+import { Tooltip } from "antd";
+import Link from "next/link";
 import router from "next/router";
 import { FC } from "react";
-import { ActionButton, DataTable } from "~/components";
+import { ActionButton, DataTable, IconButton } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 
 export const ArticleCategoryTable: FC<TTable<TPageType>> = ({
   data,
@@ -30,9 +32,10 @@ export const ArticleCategoryTable: FC<TTable<TPageType>> = ({
       dataIndex: "Active",
       title: "Trạng thái",
       render: (_, record) => (
-        <Tag color={!record.Active ? "red" : "green"}>
-          {!record.Active ? "Ẩn" : "Hiện"}
-        </Tag>
+        <TagStatus
+          color={!record.Active ? "red" : "green"}
+          statusName={!record.Active ? "Ẩn" : "Hiện"}
+        />
       ),
     },
     {
@@ -45,44 +48,16 @@ export const ArticleCategoryTable: FC<TTable<TPageType>> = ({
       title: "Thao tác",
       align: "right",
       render: (_, record) => (
-        <ActionButton
-          onClick={() => {
-            router.push({
-              pathname: "/manager/article/article-category/detail",
-              query: { id: record?.Id },
-            });
-          }}
-          icon="fad fa-edit"
-          title="Cập nhật"
-        />
+        <Link
+          href={`/manager/article/article-category/detail/?id=${record?.Id}`}
+        >
+          <a target="_blank">
+            <ActionButton icon="fad fa-edit" title="Cập nhật" isButton />
+          </a>
+        </Link>
       ),
     },
   ];
-
-  // const expandable = {
-  //   expandedRowRender: (record) => (
-  //     <ul className="px-2 text-xs">
-  //       <li className="sm:hidden flex justify-between py-2">
-  //         <span className="font-medium mr-4">Lần cuối thay đổi:</span>
-  //         {_format.getVNDate(record.lastEdited)}
-  //       </li>
-  //       <li className="xl:hidden flex justify-between py-2">
-  //         <span className="font-medium mr-4">Thao tác:</span>
-
-  //         <ActionButton
-  //           onClick={() => {
-  //             router.push({
-  //               pathname: "/manager/article/article-category/detail",
-  //               query: { id: record?.Id },
-  //             });
-  //           }}
-  //           icon="fad fa-edit"
-  //           title="Cập nhật"
-  //         />
-  //       </li>
-  //     </ul>
-  //   ),
-  // };
 
   return (
     <DataTable
@@ -93,6 +68,22 @@ export const ArticleCategoryTable: FC<TTable<TPageType>> = ({
         // expandable: expandable,
         loading,
         pagination,
+        extraElmentClassName: "w-fit ml-auto",
+        extraElment: (
+          <div>
+            <Link href="/manager/article/article-category/add">
+              <a target="_blank">
+                <IconButton
+                  btnClass={"iconGreen w-[180px]"}
+                  icon="far fa-plus"
+                  title={"Thêm chuyên mục"}
+                  showLoading
+                  toolip=""
+                />
+              </a>
+            </Link>
+          </div>
+        ),
       }}
     />
   );

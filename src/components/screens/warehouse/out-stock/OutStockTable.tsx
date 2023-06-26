@@ -4,9 +4,10 @@ import React, { useState } from "react";
 import { useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 import { outStockSession } from "~/api";
-import { DataTable, IconButton } from "~/components";
+import { ActionButton, DataTable, IconButton } from "~/components";
 import { smallPackageStatusData } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
+import TagStatus from "../../status/TagStatus";
 
 const CustomInput = ({ data, setIdsExport, idsExport, handleOnChangeKey }) => {
   const [inputValue, setInputValue] = useState("");
@@ -79,7 +80,12 @@ export const OutStockTable: React.FC<
       dataIndex: "OrderTypeName",
       title: "Loại ĐH",
       render: (_) => {
-        return <Tag color={_ === "Đơn ký gửi" ? "blue" : "green"}>{_}</Tag>;
+        return (
+          <TagStatus
+            color={_ === "Đơn ký gửi" ? "blue" : "green"}
+            statusName={_}
+          />
+        );
       },
     },
     {
@@ -137,77 +143,13 @@ export const OutStockTable: React.FC<
       dataIndex: "Status",
       title: "Trạng thái",
       render: (status, record) => (
-        <Tag color={smallPackageStatusData.find((x) => x.id === status)?.color}>
-          {smallPackageStatusData.find((x) => x.id === status)?.name}
-        </Tag>
+        <TagStatus
+          color={smallPackageStatusData.find((x) => x.id === status)?.color}
+          statusName={smallPackageStatusData.find((x) => x.id === status)?.name}
+        />
       ),
     },
   ];
-
-  // const expandable = {
-  //   expandedRowRender: (record, index) => (
-  //     <ul className="px-2 text-xs">
-  //       <li className="sm:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Loại ĐH:</span>
-  //         <div>{record.OrderTypeName}</div>
-  //       </li>
-  //       <li className="sm:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Đơn hàng:</span>
-  //         <div className="flex justify-center">
-  //           <div className="mx-1">
-  //             <p className="font-medium">KĐ</p>
-  //             {record.IsCheckProduct ? (
-  //               <i className="fas fa-check-circle text-xl text-success"></i>
-  //             ) : (
-  //               <i className="fas fa-times-circle text-xl text-warning"></i>
-  //             )}
-  //           </div>
-  //           <div className="mx-1">
-  //             <p className="font-medium">ĐG</p>
-  //             {record.IsPackged ? (
-  //               <i className="fas fa-check-circle text-xl text-success"></i>
-  //             ) : (
-  //               <i className="fas fa-times-circle text-xl text-warning"></i>
-  //             )}
-  //           </div>
-  //           <div className="mx-1">
-  //             <p className="font-medium">BH</p>
-  //             {record.IsInsurance ? (
-  //               <i className="fas fa-check-circle text-xl text-success"></i>
-  //             ) : (
-  //               <i className="fas fa-times-circle text-xl text-warning"></i>
-  //             )}
-  //           </div>
-  //         </div>
-  //       </li>
-  //       <li className="md:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Cân nặng (KG):</span>
-  //         <div>{record.Weight}</div>
-  //       </li>
-  //       <li className="md:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Kích thước:</span>
-  //         <div>{record.LWH}</div>
-  //       </li>
-  //       <li className="lg:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Tổng ngày lưu kho:</span>
-  //         <div>{record.TotalDateInLasteWareHouse}</div>
-  //       </li>
-  //       <li className="xl:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Trạng thái:</span>
-  //         <div>
-  //           <Tag
-  //             color={
-  //               smallPackageStatusData.find((x) => x.id === record.Status)
-  //                 ?.color
-  //             }
-  //           >
-  //             {smallPackageStatusData.find((x) => x.id === record.Status)?.name}
-  //           </Tag>
-  //         </div>
-  //       </li>
-  //     </ul>
-  //   ),
-  // };
 
   const queryClient = useQueryClient();
 
@@ -248,7 +190,7 @@ export const OutStockTable: React.FC<
 
   return (
     <div className="mt-4">
-      <div className="flex justify-between items-end mb-4">
+      <div className="flex justify-between items-end">
         <div className="flex items-center w-[80%]">
           <div className="w-full">
             <CustomInput
@@ -271,13 +213,12 @@ export const OutStockTable: React.FC<
         </div>
         <div>
           {idsExport?.length > 0 && (
-            <IconButton
+            <ActionButton
               onClick={() => handleOutStock()}
-              btnClass="!mr-4"
               icon="fas fa-hand-holding-box"
-              btnIconClass="!mr-2"
               title="Xuất kho các kiện đã chọn!"
-              toolip=""
+              isButton
+              isButtonClassName="bg-main !text-white"
             />
           )}
         </div>

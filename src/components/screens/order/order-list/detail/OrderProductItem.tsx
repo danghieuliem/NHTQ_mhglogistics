@@ -65,7 +65,7 @@ export const OrderProductItem: React.FC<TProps> = ({
   return (
     <div
       key={order.Id}
-      className={`orderProductItem ${changeValue && "!"}border-[red]`}
+      className={`orderProductItem ${changeValue && "!"}border-[red] my-2`}
       style={{
         opacity: loading ? "0.4" : "1",
         pointerEvents: loading ? "none" : "all",
@@ -175,8 +175,7 @@ export const OrderProductItem: React.FC<TProps> = ({
                     RoleID === 6
                   )
                 }
-                width={"100%"}
-                size="middle"
+                className="!rounded-[6px] !w-full"
                 min={0}
                 max={100000}
                 value={quantity}
@@ -201,7 +200,7 @@ export const OrderProductItem: React.FC<TProps> = ({
                       RoleID === 6
                     )
                   }
-                  size="middle"
+                  className="!rounded-[6px] !w-full"
                   value={_format.getVND(priceOrigin, "")}
                   onChange={handleChangePriceCNY}
                 />
@@ -215,7 +214,7 @@ export const OrderProductItem: React.FC<TProps> = ({
             <div className="text-orange">
               <div className="text-sm">
                 <InputNumber
-                  size="middle"
+                  className="!rounded-[6px] !w-full"
                   value={_format.getVND(priceVND, "")}
                   disabled={true}
                   // onChange={handleChangePriceCNY}
@@ -229,7 +228,7 @@ export const OrderProductItem: React.FC<TProps> = ({
             </div>
             <div className="text-sm">
               <InputNumber
-                size="middle"
+                 className="!rounded-[6px] !w-full"
                 value={_format.getVND(total, "")}
                 disabled={true}
               />

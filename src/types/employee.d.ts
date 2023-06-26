@@ -51,6 +51,7 @@ type TEmployee = TBaseReponseParams &
     TotalUnPaidPrice: number;
     OneSignalPlayerID: String;
     ShippingType?: number;
+    LevelName?: string;
   };
 
 type TBonus = {

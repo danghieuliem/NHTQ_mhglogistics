@@ -1,43 +1,43 @@
+import { Divider, Popover } from "antd";
 import router from "next/router";
 import React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useMutation, useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { transportationOrder, user } from "~/api";
 import {
+  ActionButton,
   CreateDepositSelect,
   CreateDepositTable,
-  IconButton,
   Layout,
-  toast,
+  toast
 } from "~/components";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
 import { useDeepEffect } from "~/hooks";
 import { useCatalogue } from "~/hooks/useCatalogue";
-import { useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-  const { current: newUser } = useAppSelector((state) => state.user);
-  if (!newUser) return null;
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 
-  const { data: userList } = useQuery(
-    [],
-    () =>
-      user
-        .getList({
-          UID: newUser?.UserId,
-          RoleID: newUser?.UserGroupId,
-        })
-        .then((res) => {
-          return res?.Data;
-        }),
-    { enabled: !!newUser }
+  const { data: userList } = useQuery([], () =>
+    user
+      .getList({
+        UID: userCurrentInfo?.Id,
+        RoleID: userCurrentInfo?.UserGroupId,
+      })
+      .then((res) => {
+        return res?.Data;
+      })
   );
 
   const { warehouseTQ, warehouseVN, shippingTypeToWarehouse } = useCatalogue({
-    warehouseTQEnabled: !!newUser,
-    warehouseVNEnabled: !!newUser,
-    shippingTypeToWarehouseEnabled: !!newUser,
+    warehouseTQEnabled: true,
+    warehouseVNEnabled: true,
+    shippingTypeToWarehouseEnabled: true,
   });
 
   const { control, reset, handleSubmit, setValue } =
@@ -107,50 +107,83 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <React.Fragment>
-      <div className="breadcrumb-2">Tạo đơn hàng ký gửi</div>
-      <div className="tableBox pt-4">
-        <CreateDepositSelect
-          {...{
-            control,
-            warehouseTQCatalogue: warehouseTQ,
-            warehouseVNCatalogue: warehouseVN,
-            shippingTypeToWarehouseCatalogue: shippingTypeToWarehouse,
-            append,
-            user: userList?.Items,
-          }}
+      <div className="flex w-fit ml-auto">
+        <ActionButton
+          onClick={() =>
+            append({
+              Amount: null,
+              OrderTransactionCode: null,
+              Category: null,
+              IsCheckProduct: false,
+              IsPacked: false,
+              IsInsurance: false,
+              Kg: 0,
+              UserNote: null,
+              FeeShip: null,
+            })
+          }
+          title="Thêm kiện"
+          icon="far fa-plus"
+          isButton
+          isButtonClassName="bg-green !text-white mr-2"
         />
-        {/* {fields.length > 0 && (
-					<> */}
-        {/* <p className="titleTable">Danh sách kiện ký gửi</p> */}
-        <CreateDepositTable
-          {...{
-            data: fields,
-            control,
-            handleSubmit: handleSubmit,
-            onPress: _onPress,
-            remove,
-            setValue,
-          }}
-        />
-        <div className="text-right px-4">
-          <IconButton
-            showLoading
-            onClick={handleSubmit(_onPress)}
-            icon="fas fa-check-circle"
-            title="Tạo đơn hàng"
-            btnClass="mt-4 !bg-orange !text-white"
-            toolip=""
-            btnIconClass=""
+        <Popover
+          trigger={"click"}
+          placement="bottomLeft"
+          content={
+            <div className="grid grid-cols-4 p-4 w-[500px]">
+              <div className="col-span-4 grid grid-col-2">
+                <CreateDepositSelect
+                  {...{
+                    control,
+                    warehouseTQCatalogue: warehouseTQ,
+                    warehouseVNCatalogue: warehouseVN,
+                    shippingTypeToWarehouseCatalogue: shippingTypeToWarehouse,
+                    append,
+                    user: userList?.Items,
+                  }}
+                />
+              </div>
+              <div className="col-span-4">
+                <Divider className="!my-4" />
+              </div>
+              <div className="col-span-4 flex items-end justify-end">
+                <ActionButton
+                  onClick={handleSubmit(_onPress)}
+                  icon="fas fa-check-circle"
+                  title="Tạo đơn"
+                  isButton
+                  isButtonClassName="bg-main !text-white"
+                />
+              </div>
+            </div>
+          }
+        >
+          <ActionButton
+            icon="mr-0"
+            title="Tiêp tục"
+            isButton
+            isButtonClassName="bg-sec !text-white"
           />
-        </div>
-        {/* </>
-				)} */}
+        </Popover>
       </div>
+
+      <CreateDepositTable
+        {...{
+          data: fields,
+          control,
+          handleSubmit: handleSubmit,
+          onPress: _onPress,
+          remove,
+          setValue,
+        }}
+      />
     </React.Fragment>
   );
 };
 
 Index.displayName = SEOHomeConfigs.consignmentShipping.createOderDeposit;
+Index.breadcrumb = "Tạo đơn hàng ký gửi";
 Index.Layout = Layout;
 
 export default Index;

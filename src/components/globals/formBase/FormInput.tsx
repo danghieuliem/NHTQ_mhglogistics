@@ -57,7 +57,7 @@ export const FormInput = <TFieldValues extends FieldValues = FieldValues>({
     <div className={clsx(inputContainerClassName, "relative w-full")}>
       {label && (
         <label
-          className="text-[12px] py-[2px] font-bold"
+          className="text-[12px] text-label py-[2px] font-bold"
           htmlFor={name}
         >
           {label} {required === true && <span className="text-red">*</span>}
@@ -90,8 +90,7 @@ export const FormInput = <TFieldValues extends FieldValues = FieldValues>({
                 suffix={suffix}
                 className={clsx(
                   inputClassName,
-                  "h-10 !rounded-[8px]",
-                  !_.isEmpty(error) && "!border-warning"
+                  !_.isEmpty(error) && "!border-red"
                 )}
                 allowClear={allowClear}
               />
@@ -101,7 +100,7 @@ export const FormInput = <TFieldValues extends FieldValues = FieldValues>({
                   name={name as any}
                   render={({ message }) => (
                     <p
-                      className={`text-warning text-xs font-medium mt-1`}
+                      className={`text-red text-right text-[10px] font-medium mt-1`}
                     >
                       {message}
                     </p>

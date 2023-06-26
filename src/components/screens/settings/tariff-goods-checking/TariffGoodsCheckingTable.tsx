@@ -12,6 +12,7 @@ export const TariffGoodsCheckingTable: FC<TTable<any>> = ({
     {
       dataIndex: "Id",
       title: "ID",
+      align: "right"
     },
     {
       dataIndex: "AmountFrom",

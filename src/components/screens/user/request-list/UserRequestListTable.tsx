@@ -1,4 +1,4 @@
-import { Modal, Pagination, Space, Tag } from "antd";
+import { Modal, Pagination, Tag } from "antd";
 import router from "next/router";
 import React from "react";
 import { payHelp } from "~/api";
@@ -6,6 +6,7 @@ import { ActionButton, DataTable, showToast } from "~/components";
 import { EPaymentData, paymentStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 
 type TProps = {
   filter;
@@ -75,7 +76,7 @@ export const UserRequestListTable: React.FC<
       title: "Trạng thái",
       render: (status, record) => {
         const color = paymentStatus.find((x) => x.id === status);
-        return <Tag color={color?.color}>{record?.StatusName}</Tag>;
+        return <TagStatus color={color?.color} statusName={record?.StatusName} />
       },
     },
     {
@@ -218,20 +219,17 @@ export const UserRequestListTable: React.FC<
           columns,
           data,
           expandable: expandable,
-          title: "Danh sách yêu cầu thanh toán hộ",
-          scroll: { y: 700, x: 0 },
+          scroll: { y: 700 },
         }}
       />
-      <div className="mt-4 text-right">
-        <Pagination
-          total={filter?.TotalItems}
-          current={filter?.PageIndex}
-          pageSize={filter?.PageSize}
-          onChange={(page, pageSize) =>
-            handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-          }
-        />
-      </div>
+      <Pagination
+        total={filter?.TotalItems}
+        current={filter?.PageIndex}
+        pageSize={filter?.PageSize}
+        onChange={(page, pageSize) =>
+          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
+        }
+      />
     </>
   );
 };

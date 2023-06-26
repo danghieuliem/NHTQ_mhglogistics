@@ -1,5 +1,6 @@
 export const breadcrumb = {
   dashboard: "dashboard",
+  shoppingCart: "Giỏ hàng",
   warehouse: {
     checkWarehouseVN: "Kiểm hàng Việt Nam",
     checkWarehouseTQ: "Kiểm hàng Trung Quốc",
@@ -45,6 +46,7 @@ export const breadcrumb = {
   },
   order: {
     complainList: "Khiếu nại",
+    anotherOrder: "Đơn hàng mua hộ khác",
     orderList: {
       main: "Đơn hàng mua hộ",
       detail: "Chi tiết đơn hàng",

@@ -19,11 +19,11 @@ export const ClientTransactionHistoryTable: React.FC<
       dataIndex: "Created",
       title: "Ngày giao dịch",
       render: (date) => _format.getVNDate(date),
-      width: 170,
     },
     {
       dataIndex: "Content",
       title: "Nội dung",
+      width: 300
     },
     {
       dataIndex: "TradeTypeName",
@@ -59,7 +59,7 @@ export const ClientTransactionHistoryTable: React.FC<
           columns,
           // bordered,
           loading,
-          scroll: { y: 600 },
+          scroll: { y: 600, x: 1200 },
         }}
       />
       <div className="mt-4 text-right">

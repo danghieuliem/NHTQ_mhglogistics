@@ -1,15 +1,14 @@
 import { Affix } from "antd";
 import clsx from "clsx";
-import router from "next/router";
 import { Link } from "rc-scroll-anim";
 import React, { FC } from "react";
 import { useFormContext } from "react-hook-form";
 import { useMediaQuery } from "react-responsive";
 import { toast } from "react-toastify";
-import { mainOrder, order } from "~/api";
+import { mainOrder } from "~/api";
 import { FormSelect } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
-import { orderStatus, statusData } from "~/configs/appConfigs";
+import { orderStatus } from "~/configs/appConfigs";
 import { useCatalogue } from "~/hooks/useCatalogue";
 import { _format } from "~/utils";
 
@@ -26,9 +25,9 @@ type TProps = {
 
 const nameContent =
   "w-2/4 py-1 text-sm font-bold text-[#3E3C6A] tracking-normal";
-const contentItem = "flex items-center border-b border-[#EDF1F7] py-[4px]";
+const contentItem = "flex items-center";
 const contentValue = "w-2/4 py-1 text-sm font-medium text-black";
-const linkMenu = "cursor-pointer py-[2px] text-[#0000005a] text-sm block";
+const linkMenu = "cursor-pointer py-[2px] !text-main text-sm block";
 const linkMenuActive = "border-l-2 border-orange !text-black font-medium";
 
 const IsShouldAffix: React.FC<{}> = ({ children }) => {
@@ -79,9 +78,9 @@ const ComponentAffix: React.FC<TProps> = ({
 
   return (
     <>
-      <div className="tableBox md:mb-4 xl:mb-0">
-        <div className="md:grid grid-cols-2 gap-4 xl:block">
-          <div className="col-span-1">
+      <div className="tableBox">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="col-span-2">
             {!data?.IsCheckNotiPrice && data?.OrderType === 3 && (
               <div className={clsx(contentItem)}>
                 <div className={clsx(nameContent)}>Báo giá: </div>
@@ -125,7 +124,7 @@ const ComponentAffix: React.FC<TProps> = ({
               <div className={clsx(contentValue)}>{data?.Id}</div>
             </div>
             <div className={clsx(contentItem)}>
-              <div className={clsx(nameContent)}>Loại đơn hàng</div>
+              <div className={clsx(nameContent)}>Loại đơn</div>
               <div className={clsx(contentValue)}>{data?.OrderTypeName}</div>
             </div>
             <div className={clsx(contentItem)}>
@@ -140,12 +139,6 @@ const ComponentAffix: React.FC<TProps> = ({
                 {_format.getVND(data?.Deposit)}
               </div>
             </div>
-            {/* <div className={clsx(contentItem)}>
-              <div className={clsx(nameContent)}>Tiền phải cọc</div>
-              <div className={clsx(contentValue, "text-[#008000]")}>
-                {_format.getVND(data?.AmountDeposit)}
-              </div>
-            </div> */}
             <div className={clsx(contentItem)}>
               <div className={clsx(nameContent)}>Còn lại</div>
               <div className={clsx(contentValue, "!text-warning")}>
@@ -153,8 +146,8 @@ const ComponentAffix: React.FC<TProps> = ({
               </div>
             </div>
           </div>
-          <div className="col-span-1">
-            <div className={clsx(contentItem, "xl:mt-4 border-none")}>
+          <div className="col-span-2">
+            <div className={clsx(contentItem)}>
               <FormSelect
                 control={control}
                 name="Status"
@@ -174,7 +167,7 @@ const ComponentAffix: React.FC<TProps> = ({
                 }
               />
             </div>
-            <div className={clsx(contentItem, "border-none")}>
+            <div className={clsx(contentItem)}>
               <FormSelect
                 control={control}
                 name="FromPlace"
@@ -196,7 +189,7 @@ const ComponentAffix: React.FC<TProps> = ({
                 }
               />
             </div>
-            <div className={clsx(contentItem, "border-none")}>
+            <div className={clsx(contentItem)}>
               <FormSelect
                 control={control}
                 name="ReceivePlace"
@@ -218,11 +211,11 @@ const ComponentAffix: React.FC<TProps> = ({
                 }
               />
             </div>
-            <div className={clsx(contentItem, "border-none")}>
+            <div className={clsx(contentItem)}>
               <FormSelect
                 control={control}
                 name="ShippingType"
-                label="Phương thức vận chuyển"
+                label="PPVC"
                 placeholder=""
                 data={shippingTypeToWarehouse}
                 select={{ label: "Name", value: "Id" }}
@@ -390,7 +383,7 @@ const ComponentAffix: React.FC<TProps> = ({
         </ul>
       </div>
 
-      <IconButton
+      {/* <IconButton
         onClick={() =>
           router.push(
             `/manager/order/order-list${data?.OrderType === 3 ? "?q=3" : ""}`
@@ -402,7 +395,7 @@ const ComponentAffix: React.FC<TProps> = ({
         btnClass="mr-2 !bg-orange !text-white md:hidden xl:block"
         showLoading
         toolip=""
-      />
+      /> */}
     </>
   );
 };

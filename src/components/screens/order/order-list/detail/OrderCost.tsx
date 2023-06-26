@@ -1,9 +1,9 @@
 import { Tooltip } from "antd";
 import React, { useCallback, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
+import { toast } from "react-toastify";
 import { FormInputNumber } from "~/components";
 import { FormCheckbox } from "~/components/globals/formBase";
-import { toast } from "react-toastify";
 type TProps = {
   loading: boolean;
   data:
@@ -63,7 +63,7 @@ const ChangeChargeComponent = ({ control, data, RoleID }) => {
       </div>
       <div className="flex items-center mt-4">
         <div className={costTitle}>
-          Phí vận chuyển TQ-VN (CK: {data?.FeeWeightCK ?? 0}%)
+          Phí vc TQ-VN (CK: {data?.FeeWeightCK ?? 0}%)
         </div>
         <div className={costBox}>
           <div className="col-span-2 flex items-center">
@@ -110,8 +110,8 @@ export const OrderCost: React.FC<TProps> = ({ loading, data, RoleID }) => {
 
   return (
     <React.Fragment>
-      <div className="mb-4 text-base font-bold py-2 uppercase border-b border-main">
-        Phí cố định
+      <div className="mb-4 py-2 uppercase border-b">
+        <span className="text-base font-bold">Phí cố định</span>
       </div>
       <div className="flex items-center mb-4">
         <div className={costTitle}>Tỷ giá</div>
@@ -361,8 +361,8 @@ export const OrderCost: React.FC<TProps> = ({ loading, data, RoleID }) => {
       <ChangeChargeComponent control={control} data={data} RoleID={RoleID} />
 
       {/*  4 serve */}
-      <div className="my-4 text-base font-bold py-2 uppercase border-b border-main">
-        Phí tùy chọn
+      <div className="my-4 py-2 uppercase border-b">
+        <span className="text-base font-bold">Phí tùy chọn</span>
       </div>
       <div className="flex items-center mt-4">
         <div className="w-1/4 text-sm font-semibold flex items-center justify-between">
@@ -599,8 +599,8 @@ export const OrderCost: React.FC<TProps> = ({ loading, data, RoleID }) => {
       </div>
 
       {/* Payment charge */}
-      <div className="my-4 text-base font-bold py-2 uppercase border-b border-main">
-        Thanh toán
+      <div className="my-4 py-2 uppercase border-b">
+      <span className="text-base font-bold">Thanh toán</span>
       </div>
       <div className="flex items-center mt-4">
         <div className="w-1/4 text-sm font-semibold flex items-center justify-between">

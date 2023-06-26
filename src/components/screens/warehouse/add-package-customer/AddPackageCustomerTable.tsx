@@ -1,17 +1,15 @@
 import { Input } from "antd";
-import clsx from "clsx";
 import React from "react";
 import { useFieldArray } from "react-hook-form";
 import {
-  FormInputNumber,
-  Button,
-  FormTextarea,
   ActionButton,
   DataTable,
+  FormInputNumber,
+  FormTextarea,
   FormUpload,
 } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
-import { FormInput, FormSelect } from "~/components/globals/formBase";
+import { FormSelect } from "~/components/globals/formBase";
 import { smallPackageStatusData } from "~/configs/appConfigs";
 import { TControl } from "~/types/field";
 import { TColumnsType, TTable } from "~/types/table";
@@ -226,175 +224,32 @@ export const AddPackageCustomerTable: React.FC<
     },
   ];
 
-  const expandable = {
-    expandedRowRender: (record, index) => (
-      <ul className="px-2 text-xs">
-        <li className="sm:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Loại ĐH:</span>
-          {record.OrderType}
-        </li>
-        <li className="sm:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Đơn hàng:</span>
-          <div className="flex justify-center">
-            <div className="mx-1">
-              <p className="font-medium">KĐ</p>
-              {record.IsCheckProduct ? (
-                <i className="fas fa-check-circle text-xl text-success"></i>
-              ) : (
-                <i className="fas fa-times-circle text-xl text-warning"></i>
-              )}
-            </div>
-            <div className="mx-1">
-              <p className="font-medium">ĐG</p>
-              {record.IsPackged ? (
-                <i className="fas fa-check-circle text-xl text-success"></i>
-              ) : (
-                <i className="fas fa-times-circle text-xl text-warning"></i>
-              )}
-            </div>
-            <div className="mx-1">
-              <p className="font-medium">BH</p>
-              {record.IsInsurance ? (
-                <i className="fas fa-check-circle text-xl text-success"></i>
-              ) : (
-                <i className="fas fa-times-circle text-xl text-warning"></i>
-              )}
-            </div>
-          </div>
-        </li>
-        <li className="md:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Cân nặng:</span>
-          {record.Weight && _format.getVND(record.Weight, "")}
-        </li>
-        <li className="md:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Kích thước:</span>
-          <React.Fragment>
-            <div className="flex items-center">
-              d:
-              <FormInputNumber
-                control={control}
-                name={`${name}.${index}.Length` as any}
-                placeholder=""
-                inputClassName="max-w-[60px] h-[30px] text-center"
-                onEnter={() => onPress([data[index]])}
-              />
-            </div>
-            <div className="flex items-center mx-[8px]">
-              r:
-              <FormInputNumber
-                control={control}
-                name={`${name}.${index}.Width` as any}
-                placeholder=""
-                inputClassName="max-w-[60px] h-[30px] text-center"
-                onEnter={() => onPress([data[index]])}
-              />
-            </div>
-            <div className="flex items-center">
-              c:
-              <FormInputNumber
-                control={control}
-                name={`${name}.${index}.Height` as any}
-                placeholder=""
-                inputClassName="max-w-[60px] h-[30px] text-center"
-                onEnter={() => onPress([data[index]])}
-              />
-            </div>
-          </React.Fragment>
-        </li>
-        <li className="lg:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Ghi chú:</span>
-          <FormTextarea
-            rows={2}
-            control={control}
-            name={`${name}.${index}.UserNote` as any}
-            placeholder=""
-          />
-        </li>
-        <li className="lg:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Khách ghi chú:</span>
-          <FormTextarea
-            rows={2}
-            control={control}
-            name={`${name}.${index}.StaffNoteCheck` as any}
-            placeholder=""
-          />
-        </li>
-        <li className="xl:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Hình ảnh:</span>
-          <FormUpload
-            control={control}
-            name={`${name}.${index}.IMG` as any}
-            image
-          />
-        </li>
-        <li className="xl:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Trạng thái:</span>
-          <FormSelect
-            control={control}
-            name={`${name}.${index}.Status` as any}
-            data={[smallPackageStatusData[2]]}
-            disabled
-            defaultValue={smallPackageStatusData[2]}
-            placeholder="Chọn trạng thái"
-          />
-        </li>
-        <li className="xl:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Thao tác:</span>
-          <div>
-            <ActionButton
-              icon="fas fa-sync-alt"
-              onClick={() => onPress([data[index]])}
-              title="Cập nhật"
-            />
-            <ActionButton
-              icon="fas fa-eye-slash"
-              onClick={() => onHide([data[index]])}
-              title="Ẩn đi"
-            />
-          </div>
-        </li>
-      </ul>
-    ),
-  };
-
   return (
     <React.Fragment>
-      <div className="mt-8">
-        <div className="lg:flex items-center justify-between mb-3">
-          <div className="lg:flex order-last">
-            <IconButton
-              onClick={() => onHide(data)}
-              btnClass={"mr-4 mb-4 lg:mb-0"}
-              title="Ẩn tất cả"
-              icon="fas fa-eye-slash"
-              toolip=""
-            />
-            <IconButton
-              onClick={() => onPress(data)}
-              btnClass="mb-4 lg:mb-0"
-              icon="fas fa-edit"
-              title="Cập nhật tất cả"
-              toolip=""
-            />
-          </div>
-          <div className="flex items-center">
-            <div className="max-w-[400px] px-4 bg-[#f6ded5] text-[#f0916b] py-[10px] text-sm font-bold uppercase">
-              {`Mã vận đơn | ${data[0]?.OrderTransactionCode}`}
-            </div>
-            <span className="ml-4 text-green text-xs font-semibold">
-              Bạn đã quét{" "}
-              <span className="text-orange text-sm">{data.length}</span> kiện
-            </span>
-          </div>
+      <div className="grid grid-cols-4 gap-4 mt-4">
+        <div className="col-span-3 bg-white w-fit px-4 shadow-md flex items-center !text-sec rounded-[6px]">
+          Bạn đã quét <span className="text-red font-bold text-md mx-1">{data.length}</span>
+          kiện
         </div>
-
-        <DataTable
-          data={data}
-          columns={columns}
-          bordered
-          expandable={expandable}
-        />
+        <div className="col-span-1 flex items-center justify-end">
+          <IconButton
+            onClick={() => onHide(data)}
+            btnClass={"mr-4 mb-4 lg:mb-0"}
+            title="Ẩn tất cả"
+            icon="fas fa-eye-slash"
+            toolip=""
+          />
+          <IconButton
+            onClick={() => onPress(data)}
+            btnClass="mb-4 lg:mb-0"
+            icon="fas fa-edit"
+            title="Cập nhật tất cả"
+            toolip=""
+          />
+        </div>
       </div>
+
+      <DataTable data={data} columns={columns} bordered />
     </React.Fragment>
   );
 };

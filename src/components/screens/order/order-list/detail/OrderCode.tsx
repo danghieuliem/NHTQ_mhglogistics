@@ -63,9 +63,10 @@ export const OrderCode: React.FC<TProps> = ({
                 cancelText="No"
               >
                 <ActionButton
-                  iconContainerClassName="ml-2 border-none"
-                  icon="fas fa-minus-circle"
-                  title="Xóa"
+                  title="Xoá"
+                  icon="fas fa-trash-alt"
+                  isButton
+                  isButtonClassName="bg-red !text-white ml-4"
                   disabled={RoleID === 4 && data?.Status === 0}
                 />
               </Popconfirm>

@@ -1,10 +1,12 @@
 import { Pagination, Space, Tag } from "antd";
 import { useRouter } from "next/router";
 import { FC } from "react";
-import { ActionButton, DataTable } from "~/components";
+import { ActionButton, DataTable, IconButton } from "~/components";
 import { activeData, getLevelId } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
+import Link from "next/link";
 type TProps = {
   filter: {
     TotalItems: number;
@@ -30,272 +32,313 @@ export const EmployeeManagementTable: FC<TTable<TEmployee> & TProps> = ({
   // });
   const router = useRouter();
 
-  const columns: TColumnsType<TEmployee> = [
+  const colEmployee: TColumnsType<TEmployee> = [
     {
       dataIndex: "Id",
       title: "ID",
       width: 60,
-      fixed: "left"
+      align: "right",
+      fixed: "left",
     },
     {
       dataIndex: "UserName",
-      title: "Username",
-      fixed: "left"
+      title: "Thông tin hệ thống",
+      render: (_, record) => {
+        return (
+          <div className="flex flex-col gap-[4px]">
+            <div className="font-bold">
+              <i className="fas fa-user mr-1"></i>
+              {record?.UserName}
+            </div>
+            <div className="flex items-center">
+              <TagStatus
+                color={activeData[record?.Status].color}
+                statusName={activeData[record?.Status].name}
+              />
+              <span
+                className={`${
+                  record?.LevelId > 3 ? "text-[#8a64e3]" : "text-orange"
+                } font-semibold ml-1 text-xs`}
+              >
+                {" - "}
+                {getLevelId[record?.LevelId]?.Name}
+              </span>
+            </div>
+            <div className="font-bold text-sec text-xs">
+              <i className="fas fa-coins mr-1"></i>
+              {_format.getVND(record?.Wallet)}
+            </div>
+          </div>
+        );
+      },
+      fixed: "left",
     },
     {
       dataIndex: "FullName",
-      title: "Họ và tên",
-    },
-    {
-      dataIndex: "UserGroupName",
-      title: "Quyền hạn",
-      className: router?.pathname.includes("admin") ? "hidden" : "",
-      key: "UserGroupName",
-    },
-    {
-      dataIndex: "LevelId",
-      title: "VIP",
-      width: 70,
-      responsive: ["xl"],
+      title: "Thông tin cá nhân",
+      width: 300,
       render: (_, record) => {
         return (
-          <span
-            className={`${
-              record?.LevelId > 3 ? "text-[#8a64e3]" : "text-orange"
-            } font-semibold text-xs`}
-          >
-            {getLevelId[record?.LevelId]?.Name}
-          </span>
+          <div className="flex flex-col">
+            <span className="font-bold">
+              <i className="fas fa-user mr-1"></i>
+              {record?.FullName}
+            </span>
+            <span className="text-green">
+              <i className="fas fa-phone mr-1"></i>
+              {record?.Phone}
+            </span>
+            <span>
+              <i className="fas fa-at mr-1"></i>
+              {record?.Email}
+            </span>
+          </div>
         );
       },
     },
     {
-      dataIndex: "Phone",
-      title: "Số điện thoại",
-      align: "right",
-    },
-    {
-      dataIndex: "Wallet",
-      title: "Số dư VNĐ",
-      align: "right",
-      render: (_, record) => _format.getVND(record?.Wallet, " "),
-    },
-    {
-      dataIndex: "Email",
-      title: "Email",
-    },
-    // {
-    //   dataIndex: "DatHangId",
-    //   title: "Nhân viên",
-    //   render: (_, record) => {
-    //     const orderEm = dathangList?.Data?.Items.filter(
-    //       (item) => item.Id === record?.DatHangId
-    //     )[0];
-    //     const salerEm = saleList?.Data?.Items.filter(
-    //       (item) => item.Id === record?.SaleId
-    //     )[0];
-    //     return (
-    //       <div className="flex flex-col">
-    //         <span className="flex justify-between">
-    //           Đặt hàng:
-    //           <span className="font-bold">{orderEm?.UserName ?? "--"}</span>
-    //         </span>
-    //         <span className="flex justify-between">
-    //           Kinh doanh:
-    //           <span className="font-bold">{salerEm?.UserName ?? "--"}</span>
-    //         </span>
-    //       </div>
-    //     );
-    //   },
-    //   responsive: ["xl"],
-    // },
-    // {
-    //   dataIndex: "WarehouseFrom",
-    //   title: "Thông tin kho",
-    //   render: (_, record) => {
-    //     return (
-    //       <div>
-    //         <div className="flex flex-col">
-    //           <span className="flex justify-between">
-    //             Trung Quốc:
-    //             <span className="font-bold">
-    //               {
-    //                 warehouseTQ?.find(
-    //                   (x) => x.Id === Number(record?.WarehouseFrom)
-    //                 )?.Name
-    //               }
-    //             </span>
-    //           </span>
-    //           <span className="flex justify-between">
-    //             Việt Nam:
-    //             <span className="font-bold">
-    //               {
-    //                 warehouseVN?.find(
-    //                   (x) => x.Id === Number(record?.WarehouseTo)
-    //                 )?.Name
-    //               }
-    //             </span>
-    //           </span>
-    //         </div>
-    //       </div>
-    //     );
-    //   },
-    //   responsive: ["xl"],
-    // },
-    {
-      dataIndex: "Status",
-      title: "Trạng thái",
-      render: (status: number) => (
-        <Tag color={activeData[status].color}>{activeData[status].name}</Tag>
-      ),
+      dataIndex: "UserGroupName",
+      title: "Quyền hạn",
+      key: "UserGroupName",
     },
     {
       dataIndex: "Created",
       title: "Ngày tạo",
       render: (_, record) => {
         return (
-          <>
+          <div>
             <div>{_format.getVNDate(record.Created)}</div>
             <div>{record.CreatedBy}</div>
-          </>
+          </div>
         );
       },
-      responsive: ["xl"],
     },
     {
       dataIndex: "Updated",
       title: "Ngày cập nhật",
       render: (_, record) => {
         return (
-          <>
-            <div>{_format.getVNDate(record?.Updated)}</div>
-            <div>{record?.UpdatedBy}</div>
-          </>
+          <div>
+            <div>{_format.getVNDate(record.Updated)}</div>
+            <div>{record.UpdatedBy}</div>
+          </div>
         );
       },
-      responsive: ["xl"],
     },
     {
       dataIndex: "action",
       title: "Thao tác",
       align: "right",
-      className: '',
-      fixed: "right",
-      // width: 200,
+      width: 220,
       render: (_, record) => (
-        <Space>
+        <div className="grid grid-cols-2 gap-1">
           {UserGroupId === 1 && (
-            <ActionButton
-              onClick={() =>
-                router.push({
-                  pathname: "/manager/employee/employee-management/detail",
-                  query: { id: record?.Id },
-                })
-              }
-              icon="fas fa-edit"
-              title="Cập nhật"
-            />
+            <Link
+              href={`/manager/employee/employee-management/detail/?id=${record?.Id}`}
+            >
+              <a target="_blank">
+                <ActionButton
+                  icon="!mr-0"
+                  title="Cập nhật"
+                  isButton
+                  isButtonClassName="!justify-center !w-full"
+                />
+              </a>
+            </Link>
           )}
+          <Link href={`/manager/money/vietnam-recharge/?id=${record?.Id}`}>
+            <a target="_blank">
+              <ActionButton
+                icon="!mr-0"
+                title="Nạp tiền"
+                isButton
+                isButtonClassName="!justify-center !w-full"
+              />
+            </a>
+          </Link>
 
-          <ActionButton
-            onClick={() =>
-              router.push({
-                pathname: "/manager/money/vietnam-recharge",
-                query: { id: record?.Id },
-              })
-            }
-            icon="fas fa-funnel-dollar"
-            title="Nạp tiền"
-            iconContainerClassName="iconBlue"
-            btnBlue
-          />
+          <Link href={`/manager/money/vietnam-withdrawal/?id=${record?.Id}`}>
+            <a target="_blank">
+              <ActionButton
+                icon="!mr-0"
+                title="Rút tiền"
+                isButton
+                isButtonClassName="!justify-center !w-full"
+              />
+            </a>
+          </Link>
 
-          <ActionButton
-            onClick={() =>
-              router.push({
-                pathname: "/manager/money/vietnam-withdrawal",
-                query: { id: record?.Id },
-              })
-            }
-            icon="fas fa-money-check-edit-alt"
-            title="Rút tiền"
-            iconContainerClassName="iconBlue"
-            btnBlue
-          />
-
-          <ActionButton
-            onClick={() =>
-              router.push({
-                pathname: "/manager/client/transaction-history/",
-                query: { id: record?.Id },
-              })
-            }
-            icon="fas fa-usd-square"
-            title="Lịch sử giao dịch"
-            iconContainerClassName="iconBlue"
-            btnBlue
-          />
-        </Space>
+          <Link href={`/manager/client/transaction-history/?id=${record?.Id}`}>
+            <a target="_blank">
+              <ActionButton
+                icon="!mr-0"
+                title="Giao dịch"
+                isButton
+                isButtonClassName="!justify-center !w-full"
+              />
+            </a>
+          </Link>
+        </div>
       ),
-      responsive: ["xl"],
     },
   ];
 
-  const expandable = {
-    expandedRowRender: (record) => (
-      <ul className="px-2 text-xs">
-        <li className="xl:hidden flex justify-between py-2">
-          <span className="font-medium mr-4">Ngày tạo:</span>
-          {_format.getVNDate(record.Created)}
-        </li>
-        <li className="xl:hidden flex justify-between py-2">
-          <span className="font-medium mr-4">Ngày cập nhật:</span>
-          {_format.getVNDate(record.Updated)}
-        </li>
-        <li className="xl:hidden flex justify-between py-2">
-          <span className="font-medium mr-4">Thao tác:</span>
-          <Space>
-            {UserGroupId === 1 && (
-              <ActionButton
-                onClick={() =>
-                  router.push({
-                    pathname: "/manager/employee/employee-management/detail",
-                    query: { id: record?.Id },
-                  })
-                }
-                icon="fas fa-edit"
-                title="Cập nhật"
+  const colAdmin: TColumnsType<TEmployee> = [
+    {
+      dataIndex: "Id",
+      title: "ID",
+      width: 60,
+      align: "right",
+      fixed: "left",
+    },
+    {
+      dataIndex: "UserName",
+      title: "Thông tin hệ thống",
+      render: (_, record) => {
+        return (
+          <div className="flex flex-col gap-[4px]">
+            <div className="font-bold">
+              <i className="fas fa-user mr-1"></i>
+              {record?.UserName}
+            </div>
+            <div className="flex items-center">
+              <TagStatus
+                color={activeData[record?.Status].color}
+                statusName={activeData[record?.Status].name}
               />
-            )}
+              <span
+                className={`${
+                  record?.LevelId > 3 ? "text-[#8a64e3]" : "text-orange"
+                } font-semibold ml-1 text-xs`}
+              >
+                {" - "}
+                {getLevelId[record?.LevelId]?.Name}
+              </span>
+            </div>
+            <div className="font-bold text-sec text-xs">
+              <i className="fas fa-coins mr-1"></i>
+              {_format.getVND(record?.Wallet)}
+            </div>
+          </div>
+        );
+      },
+      fixed: "left",
+    },
+    {
+      dataIndex: "FullName",
+      title: "Thông tin cá nhân",
+      width: 300,
+      render: (_, record) => {
+        return (
+          <div className="flex flex-col">
+            <span className="font-bold">
+              <i className="fas fa-user mr-1"></i>
+              {record?.FullName}
+            </span>
+            <span className="text-green">
+              <i className="fas fa-phone mr-1"></i>
+              {record?.Phone}
+            </span>
+            <span>
+              <i className="fas fa-at mr-1"></i>
+              {record?.Email}
+            </span>
+          </div>
+        );
+      },
+    },
+    {
+      dataIndex: "Created",
+      title: "Ngày tạo",
+      render: (_, record) => {
+        return (
+          <div>
+            <div>{_format.getVNDate(record.Created)}</div>
+            <div>{record.CreatedBy}</div>
+          </div>
+        );
+      },
+    },
+    {
+      dataIndex: "Updated",
+      title: "Ngày cập nhật",
+      render: (_, record) => {
+        return (
+          <div>
+            <div>{_format.getVNDate(record.Updated)}</div>
+            <div>{record.UpdatedBy}</div>
+          </div>
+        );
+      },
+    },
+    {
+      dataIndex: "action",
+      title: "Thao tác",
+      align: "right",
+      width: 220,
+      fixed: "right",
+      render: (_, record) => (
+        <div className="grid grid-cols-2 gap-1">
+          {UserGroupId === 1 && (
+            <Link
+              href={`/manager/employee/employee-management/detail/?id=${record?.Id}`}
+            >
+              <a target="_blank">
+                <ActionButton
+                  icon="!mr-0"
+                  title="Cập nhật"
+                  isButton
+                  isButtonClassName="!justify-center !w-full"
+                />
+              </a>
+            </Link>
+          )}
+          <Link href={`/manager/money/vietnam-recharge/?id=${record?.Id}`}>
+            <a target="_blank">
+              <ActionButton
+                icon="!mr-0"
+                title="Nạp tiền"
+                isButton
+                isButtonClassName="!justify-center !w-full"
+              />
+            </a>
+          </Link>
 
-            <ActionButton
-              onClick={() =>
-                router.push({
-                  pathname: "/manager/money/vietnam-recharge",
-                  query: { id: record?.Id },
-                })
-              }
-              icon="fas fa-badge-dollar"
-              title="Nạp tiền"
-              iconContainerClassName="iconBlue"
-              btnBlue
-            />
-          </Space>
-        </li>
-      </ul>
-    ),
-  };
+          <Link href={`/manager/money/vietnam-withdrawal/?id=${record?.Id}`}>
+            <a target="_blank">
+              <ActionButton
+                icon="!mr-0"
+                title="Rút tiền"
+                isButton
+                isButtonClassName="!justify-center !w-full"
+              />
+            </a>
+          </Link>
+
+          <Link href={`/manager/client/transaction-history/?id=${record?.Id}`}>
+            <a target="_blank">
+              <ActionButton
+                icon="!mr-0"
+                title="Giao dịch"
+                isButton
+                isButtonClassName="!justify-center !w-full"
+              />
+            </a>
+          </Link>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <>
       <DataTable
         {...{
           loading,
-          columns,
+          columns: router?.pathname.includes("admin") ? colAdmin : colEmployee,
           data,
           bordered: true,
-          expandable: expandable,
-          // scroll: {x: 1200, y: 600}
+          scroll: { x: 1200, y: 700 },
         }}
       />
       <div className="mt-4 text-right">

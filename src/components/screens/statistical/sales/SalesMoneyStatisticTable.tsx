@@ -62,27 +62,6 @@ export const SalesMoneyStatisticTable = ({ data }) => {
     // },
   ];
 
-  const expandable = {
-    expandedRowRender: (data) => (
-      <ul className="px-2 text-xs">
-        <li className="flex justify-between py-2">
-          <span className="font-medium mr-4">Đặt cọc &#8594; Hàng về VN:</span>
-          <div className="flex items-center justify-center">
-            <span>{_format.getVND(data.NotPay)}</span>
-          </div>
-        </li>
-        <li className="flex justify-between py-2">
-          <span className="font-medium mr-4">
-            Đã thanh toán &#8594; Đã hoàn thành:
-          </span>
-          <div className="flex items-center justify-center">
-            <span>{_format.getVND(data.Pay)}</span>
-          </div>
-        </li>
-      </ul>
-    ),
-  };
-
   return (
     <>
       {
@@ -93,7 +72,6 @@ export const SalesMoneyStatisticTable = ({ data }) => {
             bordered: true,
             // summary,
             rowKey: "Name",
-            expandable: expandable,
             title: 'Chi tiết'
           }}
         />

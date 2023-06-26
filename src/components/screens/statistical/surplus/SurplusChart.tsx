@@ -42,7 +42,7 @@ export const SurplusChart = ({dataChart, totalWallet}) => {
 			</div>
 			<div className="text-base font-semibold text-center pb-2 text-[#626262]">
 				<span>Biểu đồ số lượng user theo số dư</span>
-				<Bar data={data} height={"100px"} />
+				<Bar data={data} height={70} />
 			</div>
 		</React.Fragment>
 	);

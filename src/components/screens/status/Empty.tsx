@@ -1,10 +1,22 @@
-import { Empty as Emp, EmptyProps } from 'antd';
-import React from 'react';
+import * as empty from "~/assets/json/empty.json";
 
-export const Empty: React.FC<EmptyProps> = (props) => {
-	return (
-		<div className="bg-white overflow-hidden rounded-xl h-[calc(100vh-54px-12px-45px-8px-32px-32px)] flex items-center justify-center">
-			<Emp {...props} />
-		</div>
-	);
+import Lottie from "react-lottie";
+
+export const Empty = () => {
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: empty,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  console.log("hello");
+
+  return (
+    <div className={"w-full h-full p-[20%]"}>
+      <Lottie options={defaultOptions} width={"200px"} />
+    </div>
+  );
 };

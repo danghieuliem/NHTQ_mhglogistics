@@ -1,4 +1,5 @@
-import { selectUser, useAppDispatch, useAppSelector } from '~/store';
+import { useSelector } from 'react-redux';
+import { RootState, useAppDispatch } from '~/store';
 
 export const AdminLayout = ({ children }) => {
 	const dispatch = useAppDispatch();
@@ -7,8 +8,10 @@ export const AdminLayout = ({ children }) => {
 };
 
 export const CheckAdminLayout = ({ children }) => {
-	const { user } = useAppSelector(selectUser);
-	const userGroupId = user?.UserGroupId;
+	  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
+	const userGroupId = userCurrentInfo?.UserGroupId;
 	if (!userGroupId || userGroupId === 2) return <>{children}</>;
 	return <AdminLayout>{children}</AdminLayout>;
 };

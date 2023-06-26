@@ -44,7 +44,7 @@ export const FormTextarea = <TFieldValues extends FieldValues = FieldValues>({
     <div className="w-full relative">
       {label && (
         <label
-          className="text-[12px] py-[2px] font-bold"
+          className="text-[12px] py-[2px] font-bold text-label"
           htmlFor={name}
         >
           {label} {required === true && <span className="text-red">*</span>}

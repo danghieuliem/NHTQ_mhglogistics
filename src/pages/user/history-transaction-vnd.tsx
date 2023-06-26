@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { historyPayWallet } from "~/api";
 import {
   HistoryTransactionVNDFilter,
@@ -8,13 +9,14 @@ import {
   showToast,
 } from "~/components";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
-import { useAppSelector } from "~/store";
+import { RootState, useAppSelector } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 import { _format } from "~/utils";
 
 const Index: TNextPageWithLayout = () => {
-  const { current: newUser } = useAppSelector((state) => state.user);
-
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
   const [filter, setFilter] = useState({
     PageIndex: 1,
     PageSize: 20,
@@ -23,12 +25,12 @@ const Index: TNextPageWithLayout = () => {
     FromDate: null,
     Status: null,
     ToDate: null,
-    UID: newUser?.UserId,
+    UID: userCurrentInfo?.Id,
   });
 
   useEffect(() => {
-    setFilter({ ...filter, UID: newUser?.UserId });
-  }, [newUser]);
+    setFilter({ ...filter, UID: userCurrentInfo?.Id });
+  }, [userCurrentInfo?.Id]);
 
   const handleFilter = (newFilter) => {
     setFilter({ ...filter, ...newFilter });
@@ -53,7 +55,6 @@ const Index: TNextPageWithLayout = () => {
           type: "error",
         });
       },
-      enabled: !!newUser,
     }
   );
 
@@ -84,19 +85,18 @@ const Index: TNextPageWithLayout = () => {
           <HistoryTransactionVNDFilter handleFilter={handleFilter} />
         </div>
       </div>
-      <div className="tableBox">
-        <HistoryTransactionVNDTable
-          data={data?.Items}
-          filter={filter}
-          handleFilter={handleFilter}
-          loading={isFetching}
-        />
-      </div>
+      <HistoryTransactionVNDTable
+        data={data?.Items}
+        filter={filter}
+        handleFilter={handleFilter}
+        loading={isFetching}
+      />
     </React.Fragment>
   );
 };
 
 Index.displayName = SEOHomeConfigs.financialManagement.listTransactionVND;
 Index.Layout = UserLayout;
+Index.breadcrumb = "Lịch sử giao dịch";
 
 export default Index;

@@ -163,6 +163,7 @@ type TCreateWareHouse = {
   Name: string;
   IsChina: number;
   Address: string;
+  Active: boolean;
 };
 
 type TFilterWareHouseFee = {

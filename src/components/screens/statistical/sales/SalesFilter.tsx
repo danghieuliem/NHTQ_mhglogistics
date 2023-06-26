@@ -1,8 +1,6 @@
-import clsx from "clsx";
 import React, { useRef } from "react";
 import { FilterRangeDate } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
-import { Button } from "~/components/globals/button/PrimaryButton";
 
 type TProps = {
   handleFilter: (fromDate: string, toDate: string) => void;
@@ -21,7 +19,7 @@ export const SalesFilter: React.FC<TProps> = ({
   const toDate = useRef<string>(null);
 
   return (
-    <div className="lg:flex items-end">
+    <div className="flex items-end mb-4">
       <FilterRangeDate
         format="DD/MM/YYYY"
         placeholder="Từ ngày/đến ngày"
@@ -31,7 +29,7 @@ export const SalesFilter: React.FC<TProps> = ({
         }}
       />
       <IconButton
-        title="Xem thống kê"
+        title="Thống kê theo ngày lọc"
         btnIconClass="!mr-2"
         icon="far fa-info-square"
         onClick={() => {

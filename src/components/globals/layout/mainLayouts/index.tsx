@@ -2,7 +2,8 @@ import clsx from "clsx";
 import { useRouter } from "next/router";
 import React, { ReactElement, useCallback, useState } from "react";
 // import OneSignal from "react-onesignal";
-import { useAppSelector } from "~/store";
+import { useSelector } from "react-redux";
+import { RootState } from "~/store";
 import { TlayoutWithChild } from "~/types/layout";
 import { _func } from "~/utils";
 import { ButtonBackTop } from "../../button/ButtonBackTop";
@@ -11,6 +12,7 @@ import { MenuHorizontal } from "../userLayout/menuHorizontal";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import styles from "./index.module.css";
+import Footer from "./Footer";
 
 type TProps = {
   breadcrumb?: string;
@@ -23,7 +25,9 @@ export const Layout: TlayoutWithChild & React.FC<TProps> = ({
   breadcrumb,
 }) => {
   const router = useRouter();
-  const userNew = useAppSelector((state) => state.user.current);
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
   // const ids = useAppSelector((state) => state?.user?.current)?.UserId;
 
   // useEffect(() => {
@@ -48,17 +52,18 @@ export const Layout: TlayoutWithChild & React.FC<TProps> = ({
   //   });
   // }, []);
 
-  const [hover, setHover] = useState(userPage ? window.innerWidth >= 1280 : true);
+  const [hover, setHover] = useState(
+    userPage ? window.innerWidth >= 1280 : true
+  );
   const handleHover = useCallback((bool: boolean) => setHover(bool), []);
 
   const [tabbar, setTabbar] = useState(false);
   const handleTabbar = useCallback((bool: boolean) => setTabbar(bool), []);
 
-  const userGroupId = userNew?.UserGroupId;
+  const userGroupId = userCurrentInfo?.UserGroupId;
   if (userGroupId !== 1) {
     _func.handleCheckAccessPage(userGroupId, router);
   }
-
   return (
     <AuthLayoutProtector>
       <Header
@@ -79,7 +84,9 @@ export const Layout: TlayoutWithChild & React.FC<TProps> = ({
         {window.innerWidth >= 1280 && userPage ? (
           <MenuHorizontal />
         ) : (
-          <Sidebar {...{ hover, handleHover, tabbar, handleTabbar }} />
+          <Sidebar
+            {...{ hover, handleHover, tabbar, handleTabbar, userPage }}
+          />
         )}
 
         <div className={clsx("app-main-content height-content app-main")}>
@@ -95,8 +102,11 @@ export const Layout: TlayoutWithChild & React.FC<TProps> = ({
 
             {children}
           </div>
-
           <ButtonBackTop />
+          {
+            (userPage === true && window.innerWidth >= 1280) &&
+            <Footer hover={false} userPage />
+          }
         </div>
       </main>
     </AuthLayoutProtector>

@@ -22,8 +22,8 @@ export const StatisticalRechargeFilter: React.FC<TProps> = ({
   const { bank } = useCatalogue({ bankEnabled: true });
 
   return (
-    <div className="grid grid-cols-1 gap-4 mb-4 content-start">
-      <div className="col-span-1 lg:mb-0">
+    <div className="grid grid-cols-1 gap-2">
+      <div className="col-span-1">
         <FilterInput
           id="username"
           name="username"
@@ -34,7 +34,7 @@ export const StatisticalRechargeFilter: React.FC<TProps> = ({
           }}
         />
       </div>
-      <div className="col-span-1 lg:mb-0">
+      <div className="col-span-1">
         <FilterSelect
           isClearable={true}
           data={bank}
@@ -46,7 +46,7 @@ export const StatisticalRechargeFilter: React.FC<TProps> = ({
           }}
         />
       </div>
-      <div className="col-span-1 lg:mb-0">
+      <div className="col-span-1">
         <FilterRangeDate
           handleDate={(val: string[]) => {
             fromDate.current = val[0];
@@ -56,7 +56,7 @@ export const StatisticalRechargeFilter: React.FC<TProps> = ({
           format="DD/MM/YYYY"
         />
       </div>
-      <div className="col-span-1 lg:mb-0 flex items-end pb-2">
+      <div className="col-span-1 flex items-end justify-end mt-4">
         <IconButton
           onClick={() =>
             handleFilter(
@@ -66,7 +66,6 @@ export const StatisticalRechargeFilter: React.FC<TProps> = ({
               toDate.current
             )
           }
-          btnClass={"mr-4"}
           icon="fas fa-filter"
           title="Lọc"
           showLoading

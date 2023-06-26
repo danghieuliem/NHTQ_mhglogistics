@@ -1,15 +1,11 @@
-import React from 'react';
-import { Layout, AddPackageCustomerForm } from '~/components';
-import { breadcrumb } from '~/configs';
-import { SEOConfigs } from '~/configs/SEOConfigs';
-import { TNextPageWithLayout } from '~/types/layout';
+import React from "react";
+import { Layout, AddPackageCustomerForm } from "~/components";
+import { breadcrumb } from "~/configs";
+import { SEOConfigs } from "~/configs/SEOConfigs";
+import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-	return (
-		<div className="tableBox">
-			<AddPackageCustomerForm />
-		</div>
-	);
+  return <AddPackageCustomerForm />;
 };
 
 Index.displayName = SEOConfigs.assignPro;

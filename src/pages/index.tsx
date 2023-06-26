@@ -19,7 +19,7 @@ import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-  const dataGlobal: any = useSelector((state: RootState) => state.dataGlobal);
+  const dataGlobal: TConfig = useSelector((state: RootState) => state.dataGlobal);
 
   const { data: dataService } = useQuery({
     queryKey: ["dataService"],

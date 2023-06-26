@@ -69,7 +69,7 @@ export const StatisticalRechargeChart = (dataChart: TProps) => {
       {
         label: "Tổng tiền nạp",
         data: [dataChart?.dataChart?.totalRecharge],
-        backgroundColor: "blue",
+        backgroundColor: "green",
       },
       {
         label: "Tổng tiền rút",
@@ -85,7 +85,7 @@ export const StatisticalRechargeChart = (dataChart: TProps) => {
         Biểu đồ thống kê tiền nạp
       </p>
       {/* <Line options={options} data={data} height={100} /> */}
-      <Bar height={100} data={data} />
+      <Bar height={100} data={data} options={options}/>
     </React.Fragment>
   );
 };

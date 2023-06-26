@@ -1,7 +1,6 @@
 import React from "react";
-import {FormInput, FormInputNumber, FormSelect, FormTextarea} from "~/components/globals/formBase";
-import {paymentData} from "~/configs/appConfigs";
-import {TControl} from "~/types/field";
+import { FormInput, FormInputNumber, FormTextarea } from "~/components/globals/formBase";
+import { TControl } from "~/types/field";
 
 export const RequestPaymentDetailRightForm: React.FC<TControl<TRequestPaymentOrder> & {loading: boolean}> = ({
 	control,
@@ -13,33 +12,8 @@ export const RequestPaymentDetailRightForm: React.FC<TControl<TRequestPaymentOrd
 	return (
 		<React.Fragment>
 			<div className="tableBox mb-4">
-				<div className="text-base mb-4 font-bold">MÃ ĐƠN HÀNG</div>
+				<div className="text-base mb-4 font-bold">THÔNG TIN ĐƠN HÀNG</div>
 				<div className="grid grid-cols-2 gap-4">
-					<div className="col-span-1">
-						<FormInput
-							control={control}
-							name="UserName"
-							label="Username"
-							disabled
-							placeholder=""
-							rules={{required: "This field is required"}}
-						/>
-					</div>
-					<div className="col-span-1">
-						<FormSelect
-							menuPlacement="bottom"
-							control={control}
-							name="Status"
-							label="Trạng thái"
-							defaultValue={{
-								id: paymentData[getValues("Status")]?.id,
-								name: paymentData[getValues("Status")]?.name,
-							}}
-							placeholder=""
-							data={paymentData.slice(1)}
-							rules={{required: "This field is required"}}
-						/>
-					</div>
 					<div className="col-span-1">
 						<FormInputNumber
 							control={control}
@@ -101,7 +75,7 @@ export const RequestPaymentDetailRightForm: React.FC<TControl<TRequestPaymentOrd
 				</div>
 			</div>
 			<div className="grid grid-cols-2 gap-4 tableBox">
-				<div className="text-base col-span-2 mb-4 font-bold">CHI TIẾT HÓA ĐƠN</div>
+				<div className="text-base col-span-2 font-bold">CHI TIẾT HÓA ĐƠN</div>
 				{fields.map((item, index) => (
 					<React.Fragment key={item.id}>
 						<div className="col-span-1">

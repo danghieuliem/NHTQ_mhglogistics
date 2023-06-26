@@ -1,17 +1,18 @@
 .wrapperResizeImage {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .renderImageList {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin: 5px 0;
 }
 
 .renderImageList img {
-  width: 40px;
-  height: 40px;
-  margin: 0 10px;
+  width: 60px;
+  /* height: 40px; */
+  margin-right: 4px;
 }
 
 .img {
@@ -25,11 +26,8 @@
 }
 
 .input {
-  flex: 1;
-  border: 1px solid #33333340;
   display: flex;
   padding: 4px 10px;
-  background: #f5f5f5;
 }
 
 .input input {

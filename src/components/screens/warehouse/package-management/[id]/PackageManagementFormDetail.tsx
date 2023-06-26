@@ -189,7 +189,6 @@ export const PackageManagementFormDetail: React.FC<
 						title="Cập nhật"
 						btnClass="!bg-main"
 						onClick={handleSubmit(_onPress)}
-						showLoading
 					/>
 					<Button title="Hủy" btnClass="!bg-red" onClick={onCancel} />
 				</FormCard.Footer>

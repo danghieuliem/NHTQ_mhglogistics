@@ -1,10 +1,11 @@
-import { Pagination, Space, Tag } from "antd";
+import { Pagination, Space } from "antd";
 import router from "next/router";
 import React from "react";
 import { ActionButton, DataTable } from "~/components";
-import { reportStatus, reportStatusData } from "~/configs/appConfigs";
+import { reportStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 
 type TProps = {
   filter;
@@ -22,36 +23,49 @@ export const ComplainListTable: React.FC<TTable<TReport> & TProps> = ({
     {
       dataIndex: "Id",
       title: "ID",
+      width: 50, 
+      align: "center",
+      fixed: "left"
     },
     {
       dataIndex: "UserName",
       title: "Username",
+      fixed: "left",
+      width: 140,
     },
     {
       dataIndex: "MainOrderId",
       title: "Mã đơn hàng",
+      width: 120,
+      align: "right"
     },
     {
       dataIndex: "Amount",
       title: "Số tiền",
       align: "right",
+      width: 120,
       render: (money) => _format.getVND(money, " "),
     },
     {
       dataIndex: "ComplainText",
       title: "Nội dung",
+      width: 260
     },
     {
       dataIndex: "Status",
       title: "Trạng thái",
+      width: 120,
       render: (status, record) => {
         const color = reportStatus.find((x) => x.id === status);
-        return <Tag color={color?.color}>{record?.StatusName}</Tag>;
+        return (
+          <TagStatus color={color?.color} statusName={record?.StatusName} />
+        );
       },
     },
     {
       dataIndex: "Created",
       title: "Ngày tạo",
+      width: 200,
       render: (_, record) => {
         return (
           <>
@@ -60,12 +74,11 @@ export const ComplainListTable: React.FC<TTable<TReport> & TProps> = ({
           </>
         );
       },
-      responsive: ["xl"],
     },
     {
       dataIndex: "Updated",
       title: "Ngày duyệt",
-      align: "center",
+      width: 200,
       render: (_, record) => {
         return (
           <>
@@ -74,19 +87,19 @@ export const ComplainListTable: React.FC<TTable<TReport> & TProps> = ({
           </>
         );
       },
-      responsive: ["xl"],
     },
     {
       dataIndex: "action",
       key: "action",
       title: "Thao tác",
-      align: "right",
+      width: 200,
       render: (_, record) => (
         <Space className="flex">
           <ActionButton
             onClick={() => handleModal(record)}
             icon="fas fa-edit"
             title="Cập nhật"
+            isButton
           />
 
           <ActionButton
@@ -97,27 +110,13 @@ export const ComplainListTable: React.FC<TTable<TReport> & TProps> = ({
               })
             }
             icon="fas fa-info"
-            title="Chi tiết đơn"
+            title="Chi tiết"
+            isButton
           />
         </Space>
       ),
     },
   ];
-
-  const expandable = {
-    expandedRowRender: (record) => (
-      <ul className="px-2 text-xs">
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Ngày tạo - Người tạo:</span>
-          {_format.getVNDate(record.Created)} - {record.CreatedBy}
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Ngày duyệt - Người duyệt:</span>
-          {_format.getVNDate(record.Updated)} - {record?.UpdatedBy}
-        </li>
-      </ul>
-    ),
-  };
 
   return (
     <>
@@ -127,19 +126,17 @@ export const ComplainListTable: React.FC<TTable<TReport> & TProps> = ({
           data,
           loading,
           bordered: true,
-          expandable: expandable,
+          scroll: {y: 700, x: 1200}
         }}
       />
-      <div className="mt-4 text-right">
-        <Pagination
-          total={filter?.TotalItems}
-          current={filter?.PageIndex}
-          pageSize={filter?.PageSize}
-          onChange={(page, pageSize) =>
-            handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-          }
-        />
-      </div>
+      <Pagination
+        total={filter?.TotalItems}
+        current={filter?.PageIndex}
+        pageSize={filter?.PageSize}
+        onChange={(page, pageSize) =>
+          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
+        }
+      />
     </>
   );
 };

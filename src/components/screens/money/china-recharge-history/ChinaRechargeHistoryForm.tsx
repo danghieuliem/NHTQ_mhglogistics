@@ -124,7 +124,6 @@ export const ChinaRechargeHistoryForm: React.FC<TForm<TRechargeRMB>> = ({
 					<Button
 						title="Cập nhật"
 						btnClass="!bg-main"
-						showLoading
 						onClick={handleSubmit(_onPress)}
 					/>
 					<Button title="Hủy" btnClass="bg-pending" onClick={onCancel} />

@@ -1,4 +1,4 @@
-import { Tag } from "antd";
+import React from "react";
 import { useQuery } from "react-query";
 import { adminSendUserWallet } from "~/api";
 import { showToast } from "~/components";
@@ -6,7 +6,7 @@ import { moneyStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
 import { DataTable } from "../..";
-import React from "react";
+import TagStatus from "../status/TagStatus";
 
 export const NewRecharges = React.memo(() => {
   const {
@@ -39,13 +39,13 @@ export const NewRecharges = React.memo(() => {
         }),
     }
   );
-  
+
   const columns: TColumnsType<TNewRecharge> = [
-    {
-      title: "STT",
-      dataIndex: "Id",
-      render: (_, __, index) => ++index,
-    },
+    // {
+    //   title: "STT",
+    //   dataIndex: "Id",
+    //   render: (_, __, index) => ++index,
+    // },
     {
       title: "Ngày giờ",
       dataIndex: "Created",
@@ -72,51 +72,21 @@ export const NewRecharges = React.memo(() => {
       dataIndex: "Status",
       render: (status, _) => {
         const color = moneyStatus.find((x) => x.id === status);
-        return (
-          <Tag color={color?.color} key={status}>
-            {_.StatusName}
-          </Tag>
-        );
+        return <TagStatus color={color?.color} statusName={_.StatusName} />;
       },
     },
   ];
 
-  // const expandable = {
-  // 	expandedRowRender: (data) => (
-  // 		<ul className="px-2 text-xs">
-  // 			<li className="md:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Ngày giờ:</span>
-  // 				{_format.getVNDate(data?.Created)}
-  // 			</li>
-  // 			<li className="md:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Trạng thái:</span>
-  // 				<Tag color={data?.status === 1 ? "green" : "orange"}>{data?.StatusName}</Tag>
-  // 			</li>
-  // 			<li className="lg:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Thao tác:</span>
-  // 				<Link href="/money/recharge-history">
-  // 					<a>
-  // 						<i className=" text-orange text-base far fa-info-square"></i>
-  // 					</a>
-  // 				</Link>
-  // 			</li>
-  // 		</ul>
-  // 	),
-  // };
-
   return (
-    <div className="tableBox">
-      <DataTable
-        {...{
-          columns,
-          data: userRechargeData,
-          style: "secondary",
-          loading: isFetching,
-          title: "Khách hàng mới nạp tiền",
-          // expandable: expandable,
-          href: "/money/recharge-history",
-        }}
-      />
-    </div>
+    <DataTable
+      {...{
+        columns,
+        data: userRechargeData,
+        style: "secondary",
+        loading: isFetching,
+        title: "Khách hàng mới nạp tiền",
+        // expandable: expandable,
+      }}
+    />
   );
 });

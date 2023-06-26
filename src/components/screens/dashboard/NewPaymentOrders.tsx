@@ -1,12 +1,12 @@
-import { Tag } from "antd";
 import Link from "next/link";
+import React from "react";
 import { useQuery } from "react-query";
 import { payHelp } from "~/api";
 import { paymentStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
-import { ActionButton, DataTable, showToast } from "../..";
-import React from "react";
+import { DataTable, showToast } from "../..";
+import TagStatus from "../status/TagStatus";
 
 export const NewPaymentOrders = React.memo(() => {
   const { isFetching, data, isLoading } = useQuery(
@@ -43,7 +43,15 @@ export const NewPaymentOrders = React.memo(() => {
     {
       title: "ID",
       dataIndex: "Id",
-      render: (_, __, index) => ++index,
+      render: (_, __, index) => {
+        return (
+          <Link
+            href={`/manager/order/request-payment/detail/?id=${_}`}
+          >
+            <a target="_blank">{_}</a>
+          </Link>
+        );
+      },
     },
     {
       title: "Username",
@@ -66,66 +74,21 @@ export const NewPaymentOrders = React.memo(() => {
       dataIndex: "Status",
       render: (status, _) => {
         const color = paymentStatus.find((x) => x.id === status);
-        return (
-          <Tag color={color?.color} key={status}>
-            {_.StatusName}
-          </Tag>
-        );
+        return <TagStatus color={color?.color} statusName={_.StatusName} />;
       },
-    },
-    {
-      title: "Thao tác",
-      dataIndex: "action",
-      align: "right",
-      render: (_, record) => (
-        <Link href={`/manager/order/request-payment/detail/?id=${record?.Id}`}>
-          <a>
-            <ActionButton
-              onClick={undefined}
-              icon="far fa-info-square"
-              title="Đến chi tiết"
-            />
-          </a>
-        </Link>
-      ),
     },
   ];
 
-  // const expandable = {
-  // 	expandedRowRender: (data) => (
-  // 		<ul className="px-2 text-xs">
-  // 			<li className="md:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Tổng tiền (VNĐ):</span>
-  // 				{data?.TotalPrice}
-  // 			</li>
-  // 			<li className="md:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Trạng thái:</span>
-  // 				<Tag color="red">{data?.StatusName}</Tag>
-  // 			</li>
-  // 			<li className="lg:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Thao tác:</span>
-  // 				<Link href={`/manager/order/request-payment/detail/?id=${data?.Id}`}>
-  // 					<a>
-  // 						<i className=" text-orange text-base fas fa-edit"></i>
-  // 					</a>
-  // 				</Link>
-  // 			</li>
-  // 		</ul>
-  // 	),
-  // };
-
   return (
-    <div className="tableBox">
-      <DataTable
-        {...{
-          columns,
-          data,
-          loading: isFetching,
-          style: "secondary",
-          title: "Đơn thanh toán hộ mới",
-          // expandable: expandable,
-        }}
-      />
-    </div>
+    <DataTable
+      {...{
+        columns,
+        data,
+        loading: isFetching,
+        style: "secondary",
+        title: "Đơn thanh toán hộ mới",
+        // expandable: expandable,
+      }}
+    />
   );
-})
+});

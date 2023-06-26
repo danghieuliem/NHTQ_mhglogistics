@@ -1,4 +1,4 @@
-import { Pagination, Space, Tag } from "antd";
+import { Pagination } from "antd";
 import router from "next/router";
 import React from "react";
 import { bigPackage } from "~/api";
@@ -6,6 +6,7 @@ import { ActionButton, DataTable, toast } from "~/components";
 import { bigPackageStatusData } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 type TProps = {
   filter;
   handleFilter: (newFilter) => void;
@@ -31,48 +32,56 @@ export const PackageManagementTable: React.FC<TTable<TPackage> & TProps> = ({
     {
       dataIndex: "Id",
       title: "ID",
+      width: 50,
+      fixed: "left"
+    },
+    {
+      dataIndex: "Created",
+      title: "Ngày tạo",
+      width: 200,
+      render: (date) => _format.getVNDate(date),
     },
     {
       dataIndex: "Code",
       title: "Mã bao hàng",
+      width: 120
     },
     {
       dataIndex: "Total",
       title: "Tổng kiện",
       align: "right",
+      width: 100,
+      render: (_) => <>{_format.getVND(_, " ")}</>
     },
     {
       dataIndex: "Weight",
       title: "Cân nặng kg",
       align: "right",
+      width: 100,
+      render: (_) => <>{_format.getVND(_, " ")}</>
     },
     {
       dataIndex: "Volume",
       title: "Khối m3",
       align: "right",
+      width: 100,
+      render: (_) => <>{_format.getVND(_, " ")}</>
     },
     {
       dataIndex: "Status",
       title: "Trạng thái",
-      align: "center",
+      width: 180,
       render: (status, record) => (
-        <Tag color={bigPackageStatusData.find((x) => x.id === status)?.color}>
-          {record.StatusName}
-        </Tag>
+        <TagStatus color={bigPackageStatusData.find((x) => x.id === status)?.color} statusName={record.StatusName}/>
       ),
-    },
-    {
-      dataIndex: "Created",
-      title: "Ngày tạo",
-      align: "center",
-      render: (date) => _format.getVNDate(date),
     },
     {
       dataIndex: "action",
       title: "Thao tác",
-      align: "right",
+      width: 180,
+      fixed: "right",
       render: (_, record) => (
-        <Space>
+        <div className="flex flex-wrap gap-2">
           <ActionButton
             onClick={() =>
               router.push({
@@ -81,7 +90,8 @@ export const PackageManagementTable: React.FC<TTable<TPackage> & TProps> = ({
               })
             }
             icon="fas fa-sack"
-            title="Cho vào bao lớn"
+            title="Chi tiết"
+            isButton
           />
 
           <ActionButton
@@ -90,63 +100,15 @@ export const PackageManagementTable: React.FC<TTable<TPackage> & TProps> = ({
               return _onExportExcel(record.Id);
             }}
             icon="fad fa-download"
-            title="Xuất Thống Kê"
+            title="Xuất excel"
+            isButton
           />
-        </Space>
+        </div>
       ),
     },
   ];
 
-  // const expandable = {
-  //   expandedRowRender: (record) => (
-  //     <ul className="px-2 text-xs">
-  //       <li className="sm:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Cận nặng kg:</span>
-  //         {record.Weight}
-  //       </li>
-  //       <li className="md:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Khối m3:</span>
-  //         {record.Volume}
-  //       </li>
-  //       <li className="lg:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Trạng thái:</span>
-  //         <div>
-  //           <Tag
-  //             color={
-  //               bigPackageStatusData.find((x) => x.id === record?.Status)?.color
-  //             }
-  //           >
-  //             {record.StatusName}
-  //           </Tag>
-  //         </div>
-  //       </li>
-  //       <li className="xl:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Ngày tạo:</span>
-  //         {_format.getVNDate(record.Created)}
-  //       </li>
-  //       <li className="xl:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Thao tác:</span>
-  //         <Space>
-  //           <ActionButton
-  //             onClick={() =>
-  //               router.push({
-  //                 pathname: "/manager/warehouse/package-management/detail",
-  //                 query: { id: record?.Id },
-  //               })
-  //             }
-  //             icon="fas fa-sack"
-  //             title="Cho vào bao lớn"
-  //           />
-  //           <ActionButton
-  //             onClick={() => _onExportExcel(record.Id)}
-  //             icon="fad fa-download"
-  //             title="Xuất Thống Kê"
-  //           />
-  //         </Space>
-  //       </li>
-  //     </ul>
-  //   ),
-  // };
+
 
   return (
     <>
@@ -157,6 +119,7 @@ export const PackageManagementTable: React.FC<TTable<TPackage> & TProps> = ({
           data,
           bordered: true,
           // expandable: expandable,
+          scroll: {y: 700, x: 1200}
         }}
       />
       <div className="mt-4 text-right">

@@ -1,6 +1,7 @@
 import { TablePaginationConfig } from "antd";
 import { useRef, useState } from "react";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { priceChange } from "~/api";
 import configHomeData from "~/api/config-home";
 import {
@@ -12,12 +13,14 @@ import {
 import { breadcrumb } from "~/configs";
 import { defaultPagination } from "~/configs/appConfigs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
-import { selectUser, useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 import { _format } from "~/utils";
 
 const Index: TNextPageWithLayout = () => {
-  const { user } = useAppSelector(selectUser);
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 
   const [pagination, setPagination] =
     useState<TablePaginationConfig>(defaultPagination);
@@ -40,7 +43,8 @@ const Index: TNextPageWithLayout = () => {
       onSuccess: (data) =>
         setPagination({ ...pagination, total: data.TotalItem }),
       onError: toast.error,
-      enabled: user?.UserGroupId === 1,
+      enabled: userCurrentInfo?.UserGroupId === 1,
+      refetchOnWindowFocus: false
     }
   );
 
@@ -57,38 +61,31 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <>
-      <div className="flex tableBox px-5 py-2 flex items-center justify-start mb-5 w-fit">
-        <div className="items-center mr-2 text-[20px] text-white IconFilter">
-          <i className="far fa-poll "></i>
-        </div>
-        <div className="text-right ml-3">
-          <p>Giá tiền mặc định</p>
-          <span className="text-blue font-semibold">
+      <div className="tableBox w-fit">
+        <div className="text-right">
+          <p className="font-bold">Giá tiền mặc định: </p>
+          <span className="text-main font-semibold">
             {_format.getVND(configData?.PricePayHelpDefault, " VNĐ")}
           </span>
         </div>
       </div>
 
-      <div className="tableBox">
-        <div className="tableBoxNon mb-0">
-          <TariffPriceChangeTable
-            {...{
-              loading: isFetching,
-              data: data?.Items,
-              handleModal,
-              pagination,
-              handlePagination: (pagination) => setPagination(pagination),
-            }}
-          />
-        </div>
-        <TariffPriceChangeForm
-          {...{
-            onCancel: () => setModal(false),
-            defaultValues: item.current,
-            visible: modal,
-          }}
-        />
-      </div>
+      <TariffPriceChangeTable
+        {...{
+          loading: isFetching,
+          data: data?.Items,
+          handleModal,
+          pagination,
+          handlePagination: (pagination) => setPagination(pagination),
+        }}
+      />
+      <TariffPriceChangeForm
+        {...{
+          onCancel: () => setModal(false),
+          defaultValues: item.current,
+          visible: modal,
+        }}
+      />
     </>
   );
 };

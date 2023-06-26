@@ -4,6 +4,7 @@ import { ActionButton, DataTable } from "~/components";
 import { transportStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 
 const DetailInfo = (record) => {
   const divStyle = `flex justify-between items-center border-b border-[#e4e4e4] py-1`;
@@ -25,15 +26,21 @@ const DetailInfo = (record) => {
             </div>
             <div className={divStyle}>
               UserName:{" "}
-              <span className="font-bold text-[12px]">{record?.record?.UserName}</span>
+              <span className="font-bold text-[12px]">
+                {record?.record?.UserName}
+              </span>
             </div>
             <div className={divStyle}>
               Kho Trung Quốc:{" "}
-              <span className="font-bold text-[12px]">{record?.record?.WareHouseFrom}</span>
+              <span className="font-bold text-[12px]">
+                {record?.record?.WareHouseFrom}
+              </span>
             </div>
             <div className={divStyle}>
               Kho Việt Nam:{" "}
-              <span className="font-bold text-[12px]">{record?.record?.WareHouseTo}</span>
+              <span className="font-bold text-[12px]">
+                {record?.record?.WareHouseTo}
+              </span>
             </div>
             <div className={divStyle}>
               Ngày tạo:{" "}
@@ -152,7 +159,9 @@ const DetailInfo = (record) => {
               </div>
               <div className={divStyle}>
                 UserName:{" "}
-                <span className="font-bold text-[12px]">{record?.record?.UserName}</span>
+                <span className="font-bold text-[12px]">
+                  {record?.record?.UserName}
+                </span>
               </div>
               <div className={divStyle}>
                 Kho Trung Quốc:{" "}
@@ -162,7 +171,9 @@ const DetailInfo = (record) => {
               </div>
               <div className={divStyle}>
                 Kho Việt Nam:{" "}
-                <span className="font-bold text-[12px]">{record?.record?.WareHouseTo}</span>
+                <span className="font-bold text-[12px]">
+                  {record?.record?.WareHouseTo}
+                </span>
               </div>
               <div className={divStyle}>
                 Ngày tạo:{" "}
@@ -275,7 +286,7 @@ const DetailInfo = (record) => {
   );
 };
 
-export const UserTransfer = ({ data, isLoading, isFetching, pagination }) => {
+export const UserTransfer = ({ data, isFetching }) => {
   const columns: TColumnsType<TNewDeliveryOrders> = [
     {
       title: "ID",
@@ -309,7 +320,9 @@ export const UserTransfer = ({ data, isLoading, isFetching, pagination }) => {
       dataIndex: "Status",
       render: (status, record) => {
         const color = transportStatus.find((x) => x.id === status);
-        return <Tag color={color?.color}>{record?.StatusName}</Tag>;
+        return (
+          <TagStatus color={color?.color} statusName={record?.StatusName} />
+        );
       },
     },
     {
@@ -389,18 +402,16 @@ export const UserTransfer = ({ data, isLoading, isFetching, pagination }) => {
   };
 
   return (
-    <div className="tableBox overflow-hidden">
-      <DataTable
-        {...{
-          columns,
-          data: data?.Items,
-          loading: isFetching,
-          bordered: true,
-          title: "Đơn hàng ký gửi",
-          expandable: expandable,
-          // pagination,
-        }}
-      />
-    </div>
+    <DataTable
+      {...{
+        columns,
+        data: data?.Items,
+        loading: isFetching,
+        bordered: true,
+        title: "Đơn hàng ký gửi",
+        expandable: expandable,
+        bgHeaderType: "depositTable"
+      }}
+    />
   );
 };

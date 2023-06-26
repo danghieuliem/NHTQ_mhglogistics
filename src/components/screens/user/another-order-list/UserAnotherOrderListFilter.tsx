@@ -1,6 +1,4 @@
-import { Collapse, Drawer, Popover, Space, Tag } from "antd";
-import Dragger from "antd/lib/upload/Dragger";
-import clsx from "clsx";
+import { Card, Drawer, Popover, Space, Tag } from "antd";
 import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 import {
@@ -11,9 +9,9 @@ import {
 } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
 import {
-  createdOrderStatusData,
   ECreatedOrderStatusData,
   ESearchData,
+  createdOrderStatusData,
   search2Data,
 } from "~/configs/appConfigs";
 import { TTable } from "~/types/table";
@@ -27,7 +25,7 @@ const inputProps = {
 };
 
 const filterBox = `py-2 font-bold uppercase text-[12px] rounded-[4px]
-flex items-center justify-center border shadow-lg 
+flex items-center justify-center border border-[#e8e8e8] shadow-lg 
 cursor-pointer hover:shadow-sm transition-all duration-500 hover:!bg-main hover:!text-white`;
 
 type TProps = {
@@ -40,37 +38,41 @@ type TProps = {
 
 const NumberOfOrderComp = ({ numberOfOrder }) => {
   return (
-    <div className="min-w-[300px]">
-      {numberOfOrder?.map((item, index) => (
-        <div
-          className="grid grid-cols-3 gap-2 py-1 my-1"
-          key={`${item.name}-${index}`}
-        >
-          <div className="col-span-2 font-bold">{item.name}</div>
-          <div className="col-span-1 text-main text-right font-bold">
-            {item.value}
+    <Card>
+      <div className="min-w-[300px]">
+        {numberOfOrder?.map((item, index) => (
+          <div
+            className="grid grid-cols-3 gap-2 py-1 my-1"
+            key={`${item.name}-${index}`}
+          >
+            <div className="col-span-2 font-bold">{item.name}</div>
+            <div className="col-span-1 text-main text-right font-bold">
+              {item.value}
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </Card>
   );
 };
 
 const MoneyOfOrdersComp = ({ moneyOfOrders }) => {
   return (
-    <div className="w-fit">
-      {moneyOfOrders?.map((item, index) => (
-        <div
-          className="grid grid-cols-2 md:grid-cols-3 gap-2 py-1 my-1"
-          key={`${item.label}-${index}`}
-        >
-          <div className="col-span-1 md:col-span-2 font-bold">{item.label}</div>
-          <div className="col-span-1 text-main text-right font-bold">
-            {_format.getVND(item.value)}
+    <Card>
+      <div className="w-fit">
+        {moneyOfOrders?.map((item, index) => (
+          <div
+            className="grid grid-cols-2 md:grid-cols-3 gap-2 py-1 my-1"
+            key={`${item.label}-${index}`}
+          >
+            <div className="col-span-1 md:col-span-2 font-bold">{item.label}</div>
+            <div className="col-span-1 text-main text-right font-bold">
+              {_format.getVND(item.value)}
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </Card>
   );
 };
 
@@ -118,10 +120,10 @@ export const UserAnotherOrderListFilter: React.FC<TProps> = ({
         icon="fas fa-filter"
         isButton
         onClick={() => setIsShow(!isShow)}
-        isButtonClassName="bg-red !text-white hover:bg-sec ml-2"
+        isButtonClassName="bg-main !text-white ml-2"
       />
       <Drawer
-        title={<Tag color="text-white" className="!bg-main shadow-lg">Bộ lọc nâng cao</Tag>}
+        title={<Tag color="text-white" className="!bg-sec">Bộ lọc nâng cao</Tag>}
         placement="right"
         visible={isShow}
         closable={false}
@@ -140,7 +142,7 @@ export const UserAnotherOrderListFilter: React.FC<TProps> = ({
           </Space>
         }
       >
-        <div className="p-4">
+        <>
           <div className="grid grid-cols-1 gap-2">
             <div className="col-span-1 font-bold mb-2 text-[20px]">
               Lọc theo thuộc tính:{" "}
@@ -239,7 +241,7 @@ export const UserAnotherOrderListFilter: React.FC<TProps> = ({
               ))}
             </div>
           </div>
-        </div>
+        </>
       </Drawer>
     </div>
   );

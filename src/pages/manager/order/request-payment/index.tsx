@@ -49,6 +49,8 @@ const Index: TNextPageWithLayout = () => {
         });
       },
       onError: toast.error,
+      staleTime: 5000,
+      refetchOnWindowFocus: true
     }
   );
 
@@ -68,14 +70,12 @@ const Index: TNextPageWithLayout = () => {
   };
 
   return (
-    <div className="tableBox px-2">
-      <div className="">
-        <RequestPaymentFilter
-          userSale={userSale}
-          handleFilter={handleFilter}
-          handleExporTExcel={handleExporTExcel}
-        />
-      </div>
+    <>
+      <RequestPaymentFilter
+        userSale={userSale}
+        handleFilter={handleFilter}
+        handleExporTExcel={handleExporTExcel}
+      />
       <RequestPaymentTable
         userSale={userSale}
         loading={isFetching}
@@ -84,7 +84,7 @@ const Index: TNextPageWithLayout = () => {
         handleFilter={handleFilter}
         refetch={refetch}
       />
-    </div>
+    </>
   );
 };
 

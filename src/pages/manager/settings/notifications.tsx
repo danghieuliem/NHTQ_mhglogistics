@@ -1,6 +1,7 @@
 import { TablePaginationConfig } from "antd";
 import { useRef, useState } from "react";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { notificationSetting } from "~/api";
 import {
   Layout,
@@ -10,11 +11,13 @@ import {
 } from "~/components";
 import { breadcrumb, defaultPagination } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
-import { selectUser, useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-  const { user } = useAppSelector(selectUser);
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 
   const [pagination, setPagination] =
     useState<TablePaginationConfig>(defaultPagination);
@@ -36,7 +39,7 @@ const Index: TNextPageWithLayout = () => {
       onSuccess: (data) =>
         setPagination({ ...pagination, total: data?.TotalItem }),
       onError: toast.error,
-      enabled: user?.UserGroupId === 1,
+      enabled: userCurrentInfo?.UserGroupId === 1,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
     }
@@ -50,19 +53,17 @@ const Index: TNextPageWithLayout = () => {
   };
 
   return (
-    <div className="bg-white rounded-t-xl">
-      <div className="tableBox py-2">
-        <p className="text-red italic text-[18px] py-4">
-          * Chỉ kích hoạt thông báo đến các nhân viên khi thực sự cần thiết để
-          tránh tình trạng chậm, lag!
-        </p>
-        <NotificationsTable
-          handleModal={handleModal}
-          data={data?.Items}
-          loading={isFetching}
-          handlePagination={(pagination) => setPagination(pagination)}
-        />
-      </div>
+    <>
+      <p className="text-red italic text-[18px]">
+        * Chỉ kích hoạt thông báo đến các nhân viên khi thực sự cần thiết để
+        tránh tình trạng chậm, lag!
+      </p>
+      <NotificationsTable
+        handleModal={handleModal}
+        data={data?.Items}
+        loading={isFetching}
+        handlePagination={(pagination) => setPagination(pagination)}
+      />
       <NotificationsForm
         {...{
           onCancel: () => setModal(false),
@@ -71,7 +72,7 @@ const Index: TNextPageWithLayout = () => {
           refetch: refetch,
         }}
       />
-    </div>
+    </>
   );
 };
 Index.displayName = SEOConfigs?.settings?.notification;

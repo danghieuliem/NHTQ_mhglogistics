@@ -1,5 +1,5 @@
-import { Pagination, Tag } from "antd";
-import router from "next/router";
+import { Modal, Pagination } from "antd";
+import Link from "next/link";
 import React from "react";
 import { useMutation } from "react-query";
 import { transportationOrder } from "~/api";
@@ -7,6 +7,7 @@ import { ActionButton, DataTable, FilterSelect, toast } from "~/components";
 import { transportStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 
 type TProps = {
   refetch: () => void;
@@ -42,8 +43,16 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
   const columns: TColumnsType<TUserDeposit> = [
     {
       dataIndex: "Id",
-      title: "ID Đơn",
-      width: 80,
+      title: "ID",
+      width: 50,
+      align: "right",
+      fixed: "left",
+    },
+    {
+      dataIndex: "OrderTransactionCode",
+      title: <>Mã vận đơn</>,
+      width: 120,
+      fixed: "left",
     },
     {
       dataIndex: "UserName",
@@ -53,7 +62,6 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
     {
       dataIndex: "WareHouseFrom",
       title: <>Thông tin</>,
-      responsive: ["xl"],
       width: 250,
       render: (_, record) => {
         return (
@@ -77,7 +85,6 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
     {
       dataIndex: "TotalPriceVND",
       title: <>Thông tin phí (VNĐ)</>,
-      responsive: ["xl"],
       width: 250,
       render: (_, record) => {
         return (
@@ -85,22 +92,28 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
             <div className="flex justify-between">
               <span className="font-semibold">Phí cân nặng: </span>
               <span>
-                {_format.getVND(record?.PayableWeight * record?.FeeWeightPerKg, ' ')}
+                {_format.getVND(
+                  record?.PayableWeight * record?.FeeWeightPerKg,
+                  " "
+                )}
               </span>
             </div>
             <div className="flex justify-between">
               <span className="font-semibold">Phí khối: </span>
               <span>
-                {_format.getVND(record?.VolumePayment * record?.FeePerVolume, ' ')}
+                {_format.getVND(
+                  record?.VolumePayment * record?.FeePerVolume,
+                  " "
+                )}
               </span>
             </div>
             <div className="flex justify-between">
               <span className="font-semibold">Phí vận chuyển: </span>
-              <span>{_format.getVND(record?.DeliveryPrice, ' ')}</span>
+              <span>{_format.getVND(record?.DeliveryPrice, " ")}</span>
             </div>
             <div className="flex justify-between">
               <span className="font-semibold">Tổng tiền: </span>
-              <span>{_format.getVND(record?.TotalPriceVND, ' ')}</span>
+              <span>{_format.getVND(record?.TotalPriceVND, " ")}</span>
             </div>
           </>
         );
@@ -109,16 +122,19 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
     {
       dataIndex: "SalerID",
       title: <>Nhân viên</>,
+      width: 160,
       render: (_, record) => {
         return (
           <FilterSelect
             placeholder="Kinh doanh"
             data={userSale}
-            defaultValue={{
-              Id: userSale?.find((x) => x.Id === record?.SalerID)?.Id,
-              UserName: userSale?.find((x) => x.Id === record?.SalerID)
-                ?.UserName,
-            }}
+            defaultValue={
+              !!record.SalerID && {
+                Id: userSale?.find((x) => x.Id === record?.SalerID)?.Id,
+                UserName: userSale?.find((x) => x.Id === record?.SalerID)
+                  ?.UserName,
+              }
+            }
             select={{ label: "UserName", value: "Id" }}
             callback={async (value) => {
               transportationOrder
@@ -129,143 +145,76 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
                 });
             }}
             handleSearch={(val) => val}
+            menuPortalTarget={document.querySelector("div.ant-table-wrapper")}
+            styles={{
+              menuPortal: (base) => {
+                return {
+                  ...base,
+                  // left: (base?.["left"] as number) - 64,
+                  // top: (base?.["top"] as number) - 68,
+                  zIndex: 800,
+                  marginBottom: "10px",
+                };
+              },
+            }}
           />
         );
       },
     },
     {
-      dataIndex: "OrderTransactionCode",
-      title: <>Mã vận đơn</>,
-    },
-    {
       dataIndex: "Created",
       title: "Ngày tạo",
-      width: 200,
+      width: 180,
       render: (date) => date && _format.getVNDate(date),
-      responsive: ["xl"],
     },
-    // {
-    //   dataIndex: "WareHouseTo",
-    //   title: (
-    //     <>
-    //       Kho <br /> Việt Nam
-    //     </>
-    //   ),
-    //   responsive: ["xl"],
-    // },
-    // {
-    //   dataIndex: "ShippingTypeName",
-    //   title: (
-    //     <>
-    //       Phương thức <br /> vận chuyển
-    //     </>
-    //   ),
-    //   responsive: ["xl"],
-    // },
-    // {
-    //   dataIndex: "TotalPriceVND",
-    //   title: (
-    //     <>
-    //       Tổng tiền <br /> (VNĐ)
-    //     </>
-    //   ),
-    //   align: "right",
-    //   render: (fee) => _format.getVND(fee, " "),
-    // },
-    // {
-    //   dataIndex: "PayableWeight",
-    //   align: "right",
-    //   title: (
-    //     <>
-    //       Cân nặng <br /> (KG)
-    //     </>
-    //   ),
-    //   render: (_) => _format.getVND(_, " "),
-    // },
-    // {
-    //   dataIndex: "VolumePayment",
-    //   align: "right",
-    //   title: (
-    //     <>
-    //       Cân nặng <br /> (KG)
-    //     </>
-    //   ),
-    //   render: (_) => _format.getVND(_, " "),
-    // },
     {
       dataIndex: "Status",
       title: "Trạng thái",
       render: (status, record) => {
         const color = transportStatus.find((x) => x.id === status);
-        return <Tag color={color?.color}>{record?.StatusName}</Tag>;
+        return (
+          <TagStatus color={color?.color} statusName={record?.StatusName} />
+        );
       },
       width: 120,
     },
     {
       dataIndex: "action",
       title: "Thao tác",
-      align: "right",
+      width: 120,
+      fixed: "right",
       render: (_, record) => {
         return (
-          <>
+          <div className="grid grid-cols-1 gap-2">
             {record?.Status === 2 && (RoleID === 1 || RoleID === 3) && (
               <ActionButton
-                onClick={() => _onPress({ ...record, Status: 3 })}
-                icon="fas fa-check"
-                title="Duyệt đơn này!"
+                onClick={() => Modal.confirm({
+                  title: "Xác nhận duyệt đơn này?",
+                  onOk: () => _onPress({ ...record, Status: 3 })
+                })}
+                icon="!mr-0"
+                title="Duyệt đơn"
+                isButton
+                isButtonClassName="bg-blue !text-white"
               />
             )}
-            <ActionButton
-              onClick={() => {
-                router.push({
-                  pathname: "/manager/deposit/deposit-list/detail",
-                  query: { id: record.Id },
-                });
-              }}
-              icon="fas fa-edit"
-              title={"Cập nhật"}
-            />
-          </>
+            <Link
+              href={`/manager/deposit/deposit-list/detail/?id=${record.Id}`}
+            >
+              <a target="_blank">
+                <ActionButton
+                  icon="!mr-0"
+                  title="Chi tiết"
+                  isButton
+                  isButtonClassName="bg-main !text-white"
+                />
+              </a>
+            </Link>
+          </div>
         );
       },
-      // responsive: ["xl"],
     },
   ];
-
-  const expandable = {
-    expandedRowRender: (record) => (
-      <ul className="px-2 text-xs">
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Kho Trung Quốc:</span>
-          {record?.WareHouseFrom}
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Kho Việt Nam:</span>
-          {record?.WareHouseTo}
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Phương thức vận chuyển:</span>
-          {record?.ShippingTypeName}
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Ngày tạo:</span>
-          {_format.getVNDate(record?.Created)}
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Ngày về đến kho đích:</span>
-          {_format.getVNDate(record?.DateInVNWareHouse)}
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Ngày yêu cầu xuất kho:</span>
-          {_format.getVNDate(record?.DateExportRequest)}
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Ngày xuất kho:</span>
-          {_format.getVNDate(record?.DateExport)}
-        </li>
-      </ul>
-    ),
-  };
 
   return (
     <>
@@ -275,20 +224,17 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
           data,
           loading,
           bordered: true,
-          expandable: expandable,
-          scroll: { y: 600 },
+          scroll: { y: 700, x: 1200 },
         }}
       />
-      <div className="mt-4 text-right">
-        <Pagination
-          total={filter?.TotalItems}
-          current={filter?.PageIndex}
-          pageSize={filter?.PageSize}
-          onChange={(page, pageSize) =>
-            handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-          }
-        />
-      </div>
+      <Pagination
+        total={filter?.TotalItems}
+        current={filter?.PageIndex}
+        pageSize={filter?.PageSize}
+        onChange={(page, pageSize) =>
+          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
+        }
+      />
     </>
   );
 };

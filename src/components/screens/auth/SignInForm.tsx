@@ -1,13 +1,16 @@
-import { Modal } from "antd";
+import { Card, Modal } from "antd";
 import Cookie from "js-cookie";
-import router from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { authenticate } from "~/api";
-import { Button, FormCard, FormInput } from "~/components";
+import { authenticate, setToken, user as userAPI } from "~/api";
+import { Button, FormInput } from "~/components";
 import { showToast } from "~/components/toast";
+import { setRouter, updateUser, useAppDispatch } from "~/store";
+import { _format } from "~/utils";
 
 export const SignInForm = ({ visible, setOpenModal }) => {
+  const dispatch = useAppDispatch();
+
   const { handleSubmit, control, reset, resetField } = useForm<TLogin>({
     mode: "onBlur",
     defaultValues: {
@@ -33,13 +36,35 @@ export const SignInForm = ({ visible, setOpenModal }) => {
       .then((res) => {
         const token = res.Data.token;
         Cookie.set("tokenNHTQ-demo", token);
-        setOpenModal("");
-        router.push("/");
+        setToken(token);
+        const user: TUser = JSON.parse(
+          _format.getJWTDecode(token)[
+            "http://schemas.microsoft.com/ws/2008/06/identity/claims/userdata"
+          ]
+        );
+        userAPI
+          .getByID(user?.UserId)
+          .then((res) => {
+            dispatch(
+              updateUser({
+                ...res?.Data,
+                IsConfirmOTP: false,
+                Roles: [],
+                LastName: "",
+                FirstName: "",
+                Token: token,
+              })
+            );
+            setOpenModal("");
+            setLoading(false);
+            dispatch(setRouter(user.UserGroupId));
+          })
+          .catch(() => console.log("error to fetching user by id!"));
       })
       .catch(() => {
         resetField("password");
         showToast({
-          title: "Lỗi đăng nhập!",
+          title: "",
           message: "Tên đăng nhập hoặc mật khẩu không chính xác",
           type: "error",
         });
@@ -48,96 +73,82 @@ export const SignInForm = ({ visible, setOpenModal }) => {
   };
 
   return (
-    <Modal
-      visible={visible}
-      footer={false}
-      closeIcon={true}
-      className="min-w-[500px]"
-    >
+    <Modal visible={visible} footer={false} closeIcon={true} closable={false}>
       <div className="authContainer">
-        <FormCard>
-          <FormCard.Header onCancel={() => setOpenModal("")}>
-            <p className="heading !pb-0">Đăng nhập</p>
-          </FormCard.Header>
-          <FormCard.Body>
-            <form onSubmit={handleSubmit(_onPress)}>
-              <div className="gridContainer">
-                <div className="col-span-2">
-                  <FormInput
-                    disabled={loading}
-                    control={control}
-                    name="userName"
-                    homeType="login"
-                    label="Tài khoản"
-                    placeholder="Nhập tài khoản"
-                    rules={{
-                      required: "Bạn chưa điền thông tin!",
-                    }}
-                  />
-                </div>
-                <div className="col-span-2">
-                  <div className="relative">
-                    <FormInput
-                      disabled={loading}
-                      control={control}
-                      name="password"
-                      label="Mật khẩu"
-                      allowClear={false}
-                      suffix={
-                        <div
-                          className="show-pass"
-                          onClick={() => setShowP(!showP)}
-                        >
-                          <i
-                            className={
-                              !showP ? "fas fa-eye-slash" : "fas fa-eye"
-                            }
-                          ></i>
-                        </div>
-                      }
-                      homeType="login"
-                      type={!showP ? "password" : "text"}
-                      placeholder="Nhập mật khẩu"
-                      rules={{
-                        required: "Bạn chưa điền thông tin!",
-                      }}
-                    />
-                  </div>
-                </div>
-                <div
-                  className="group col-span-2 !mt-2 text-center uppercase font-bold"
-                  style={{ pointerEvents: loading ? "none" : "all" }}
-                >
-                  <button type="submit" className="w-full">
-                    <Button
-                      showLoading
-                      title="Đăng nhập"
-                      btnClass="!bg-main !mx-0 w-full !rounded-none shadow-xl hover:shadow-none"
-                      disabled={loading}
-                    />
-                  </button>
-                </div>
-                <div
-                  className="forgotpasswordLinkTo group col-span-2 !pt-4 border-t border-[#c4c4c4]"
-                  style={{ pointerEvents: loading ? "none" : "all" }}
-                >
-                  <div
-                    className="link"
-                    onClick={() => setOpenModal("register")}
-                  >
-                    <a className="!mt-0 !inline-block">Đăng ký</a>
-                  </div>
-                  <div
-                    className="link"
-                    onClick={() => setOpenModal("forgetPassword")}
-                  >
-                    <a className="!mt-0 !inline-block">Quên mật khẩu?</a>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </FormCard.Body>
-        </FormCard>
+        <Card
+          className="!m-[-10px]"
+          extra={
+            <div className="flex items-center justify-between">
+              <p className="heading !pb-0">Đăng nhập</p>
+              <span
+                className="cursor-pointer"
+                onClick={() => setOpenModal(false)}
+              >
+                <i className="fas fa-times text-[#adadad] hover:text-red text-[20px]"></i>
+              </span>
+            </div>
+          }
+          actions={[
+            <div className="link" onClick={() => setOpenModal("register")}>
+              <a className="!mt-0 !inline-block">Đăng ký</a>
+            </div>,
+            <div
+              className="link"
+              onClick={() => setOpenModal("forgetPassword")}
+            >
+              <a className="!mt-0 !inline-block">Quên mật khẩu?</a>
+            </div>,
+          ]}
+        >
+          <form onSubmit={handleSubmit(_onPress)}>
+            <div className="col-span-2">
+              <FormInput
+                disabled={loading}
+                control={control}
+                name="userName"
+                homeType="login"
+                label="Tài khoản"
+                placeholder="Nhập tài khoản"
+                rules={{
+                  required: "Bạn chưa điền thông tin!",
+                }}
+                prefix={
+                  <i className="fas fa-user"></i>
+                }
+              />
+            </div>
+            <div className="col-span-2">
+              <FormInput
+                disabled={loading}
+                control={control}
+                name="password"
+                label="Mật khẩu"
+                allowClear={false}
+                prefix={<i className="fas fa-lock"></i>}
+                suffix={
+                  <i
+                    onClick={() => setShowP(!showP)}
+                    className={!showP ? "fas fa-eye-slash" : "fas fa-eye"}
+                  ></i>
+                }
+                homeType="login"
+                type={!showP ? "password" : "text"}
+                placeholder="Nhập mật khẩu"
+                rules={{
+                  required: "Bạn chưa điền thông tin!",
+                }}
+              />
+            </div>
+            <div className="col-span-2">
+              <Button
+                loading={loading}
+                title="Đăng nhập"
+                btnClass="w-full"
+                htmlType="submit"
+              />
+            </div>
+          </form>
+        </Card>
       </div>
     </Modal>
   );

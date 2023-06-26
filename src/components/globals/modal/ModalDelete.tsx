@@ -20,13 +20,14 @@ export const ModalDelete: React.FC<TProps> = ({
 	title,
 	input
 }) => {
-	const { control, handleSubmit } = useForm<{ Note: string }>({
+	const { control, handleSubmit, formState: {isSubmitting} } = useForm<{ Note: string }>({
 		mode: 'onBlur'
 	});
 
 	return (
 		<Modal
 			style={{ top: 300 }}
+			className='!w-fit'
 			closable={false}
 			footer={null}
 			visible={visible}
@@ -53,9 +54,9 @@ export const ModalDelete: React.FC<TProps> = ({
 					<div className="flex justify-center">
 						<Button
 							title="Xác nhận"
-							showLoading={true}
+							loading={isSubmitting}
 							onClick={input ? handleSubmit(onConfirm) : onConfirm}
-							btnClass="!bg-main"
+							btnClass="!bg-main mr-2"
 						/>
 						<Button title="Huỷ bỏ" onClick={onCancel} btnClass="!bg-red" />
 					</div>

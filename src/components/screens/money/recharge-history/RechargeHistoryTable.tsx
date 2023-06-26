@@ -8,6 +8,7 @@ import { ActionButton, DataTable, toast } from "~/components";
 import { moneyStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 
 type TProps = {
   filter: {
@@ -41,6 +42,8 @@ export const RechargeHistoryTable: React.FC<
       dataIndex: "Id",
       title: "ID",
       width: 50,
+      align: "right",
+      fixed: "left"
     },
     {
       dataIndex: "UserName",
@@ -78,7 +81,7 @@ export const RechargeHistoryTable: React.FC<
       title: "Trạng thái",
       render: (_, record) => {
         const color = moneyStatus.find((x) => x.id === _);
-        return <Tag color={color?.color}>{record.StatusName}</Tag>;
+        return <TagStatus color={color?.color} statusName={record.StatusName}/>
       },
       width: 100,
     },
@@ -86,12 +89,15 @@ export const RechargeHistoryTable: React.FC<
       dataIndex: "action",
       title: "Thao tác",
       align: "right",
+      fixed: "right",
+      width: 160,
       render: (_, record) => (
         <Space>
           <ActionButton
             onClick={() => handleModal(record)}
             icon="fad fa-edit"
             title="Cập nhật"
+            isButton
           />
           <ReactToPrint content={() => componentRef.current}>
             <PrintContextConsumer>
@@ -104,36 +110,17 @@ export const RechargeHistoryTable: React.FC<
                       handlePrint();
                     });
                   }}
+                  isButton
                   icon="fad fa-print"
-                  title="In phiếu xuất"
+                  title="In phiếu"
                 />
               )}
             </PrintContextConsumer>
           </ReactToPrint>
         </Space>
       ),
-      width: 100,
     },
   ];
-
-  const expandable = {
-    expandedRowRender: (record) => (
-      <ul className="px-2 text-xs">
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Ngày tạo:</span>
-          {_format.getVNDate(record.Created)}
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Người duyệt:</span>
-          {record.UpdatedBy || "---"}
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Ngày duyệt:</span>
-          {_format.getVNDate(record.Created)}
-        </li>
-      </ul>
-    ),
-  };
 
   const ComponentToPrint = React.forwardRef<{}, {}>((props, ref: any) => {
     return (
@@ -245,9 +232,8 @@ export const RechargeHistoryTable: React.FC<
           columns,
           data,
           bordered: true,
-          expandable: expandable,
           loading: loading,
-          scroll: { y: 700 },
+          scroll: { y: 700, x: 1200 },
           filter,
           handleFilter,
         }}

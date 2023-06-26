@@ -1,16 +1,83 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+
+const initialState: TConfig = {
+  WebsiteName: "",
+  LogoIMG: "",
+  CompanyName: "",
+  CompanyShortName: "",
+  CompanyLongName: "",
+  TaxCode: "",
+  Address: "",
+  Address2: "",
+  Address3: "",
+  AboutText: "",
+  TimeWork: "",
+  EmailContact: "",
+  EmailSupport: "",
+  Hotline: "",
+  HotlineSupport: "",
+  HotlineFeedback: "",
+  BannerIMG: "",
+  BannerText: "",
+  BackgroundAuth: "",
+  ChromeExtensionLink: "",
+  CocCocExtensionLink: "",
+  Facebook: "",
+  Twitter: "",
+  Instagram: "",
+  Youtube: "",
+  GoogleMapLink: "",
+  WechatLink: "",
+  ZaloLink: "",
+  Skype: "",
+  Pinterest: "",
+  FacebookFanpage: "",
+  Currency: 0,
+  PricePayHelpDefault: 0,
+  SalePercent: 0,
+  SalePercentAfter3Month: 0,
+  DatHangPercent: 0,
+  InsurancePercent: 0,
+  InsurancePercentTransport: 0,
+  AgentCurrency: 0,
+  NumberLinkOfOrder: 0,
+  SaleTranportationPersent: 0,
+  SalePayHelpPersent: 0,
+  RemoveCartDay: 0,
+  NotiPopupTitle: "",
+  NotiPopupEmail: "",
+  NotiPopup: "",
+  NotiRun: "",
+  FooterLeft: "",
+  FooterRight: "",
+  MetaTitle: "",
+  MetaKeyword: "",
+  MetaDescription: "",
+  OGTitle: "",
+  OGDescription: "",
+  OGImage: "",
+  OGTwitterTitle: "",
+  OGTwitterDescription: "",
+  OGTwitterImage: "",
+  GoogleAnalytics: "",
+  WebmasterTools: "",
+  HeaderScriptCode: "",
+  FooterScriptCode: "",
+  GoogleSiteVerification: "",
+  OGLocale: "",
+  OneSignalAppID: "",
+  RestAPIKey: "",
+};
 
 export const dataGlobalSlice = createSlice({
   name: "dataGlobal",
-  initialState: {},
+  initialState: initialState,
   reducers: {
-    update: (state: any, action: any) => {
-      return {
-        ...state,
-        ...action.payload,
-      };
+    updateGlobal: (state: any, action: PayloadAction<TConfig>) => {
+      
+      return state = action.payload;
     },
   },
 });
 
-export const { update } = dataGlobalSlice.actions;
+export const { updateGlobal } = dataGlobalSlice.actions;

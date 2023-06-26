@@ -1,10 +1,12 @@
-import { Pagination, Space, Tag } from "antd";
+import { Pagination, Space } from "antd";
 import router from "next/router";
 import { FC } from "react";
 import { ActionButton, DataTable } from "~/components";
 import { useCatalogue } from "~/hooks/useCatalogue";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
+import Link from "next/link";
 type TProps = {
   filter: {
     TotalItems: number;
@@ -19,46 +21,54 @@ export const ArticleListTable: FC<TTable<TPage> & TProps> = ({
   filter,
   handleFilter,
 }) => {
-  const { pageType } = useCatalogue({ pageTypeEnabled: true });  
+  const { pageType } = useCatalogue({ pageTypeEnabled: true });
 
   const columns: TColumnsType<TPage> = [
     {
       dataIndex: "Id",
       title: "ID",
+      width: 50,
+      align: "left",
+      fixed: "left",
     },
     {
       dataIndex: "Title",
       title: "Tiêu đề bài viết",
-    },
-    {
-      dataIndex: "Code",
-      title: "Link bài viết",
-    },
-    {
-      dataIndex: "Active",
-      title: "Trạng thái",
-      render: (_, record) => (
-        <Tag color={!record.Active ? "red" : "green"}>
-          {!record.Active ? "Ẩn" : "Hiện"}
-        </Tag>
-      ),
-    },
-    {
-      dataIndex: "SideBar",
-      title: "Sibebar",
-      render: (_, record) => (
-        <Tag color={!record.SideBar ? "red" : "green"}>
-          {!record.SideBar ? "Ẩn" : "Hiện"}
-        </Tag>
-      ),
+      width: 240,
+      fixed: "left",
     },
     {
       dataIndex: "PageTypeId",
       title: "Chuyên mục",
       render: (_, record) => {
         const Categories = pageType?.find((x) => x?.Id === record?.PageTypeId);
-        return <p>{Categories?.Name}</p>;
+        return <span className="font-bold">{Categories?.Name}</span>;
       },
+    },
+    {
+      dataIndex: "Code",
+      title: "Link bài viết",
+      width: 300,
+    },
+    {
+      dataIndex: "Active",
+      title: "Trạng thái",
+      render: (_, record) => (
+        <TagStatus
+          color={!record.Active ? "red" : "green"}
+          statusName={!record.Active ? "Ẩn" : "Hiện"}
+        />
+      ),
+    },
+    {
+      dataIndex: "SideBar",
+      title: "Sibebar",
+      render: (_, record) => (
+        <TagStatus
+          color={!record.SideBar ? "red" : "green"}
+          statusName={!record.SideBar ? "Ẩn" : "Hiện"}
+        />
+      ),
     },
     {
       dataIndex: "Created",
@@ -68,57 +78,20 @@ export const ArticleListTable: FC<TTable<TPage> & TProps> = ({
     {
       dataIndex: "action",
       title: "Thao tác",
-      align: "right",
+      width: 140,
+      fixed: "right",
       render: (_, record) => (
         <Space>
-          <ActionButton
-            onClick={() => {
-              router.push({
-                pathname: "/manager/article/article-list/detail",
-                query: { id: record.Id },
-              });
-            }}
-            icon="fad fa-edit"
-            title="Cập nhật"
-          />
+          <Link href={`/manager/article/article-list/detail/?id=${record.Id}`}>
+            <a target="_blank">
+              <ActionButton icon="fad fa-edit" title="Cập nhật" isButton />
+            </a>
+          </Link>
         </Space>
       ),
     },
   ];
 
-  // const expandable = {
-  // 	expandedRowRender: (_, record) => (
-  // 		<ul className="px-2 text-xs">
-  // 			<li className="sm:hidden flex justify-between py-2">
-  // 				<span className="font-medium mr-4">Trạng thái:</span>
-  // 				<Tag color={record.Status ? "green" : "red"}>Hiện</Tag>
-  // 			</li>
-  // 			<li className="md:hidden flex justify-between py-2">
-  // 				<span className="font-medium mr-4">Chuyên mục:</span>
-  // 				{record.categoryName}
-  // 			</li>
-  // 			<li className="lg:hidden flex justify-between py-2">
-  // 				<span className="font-medium mr-4">Ngày tạo:</span>
-  // 				{_format.getVNDate(record.createdAt)}
-  // 			</li>
-  // 			<li className="xl:hidden flex justify-between py-2">
-  // 				<span className="font-medium mr-4">Thao tác:</span>
-  // 				<Space>
-  // 					<ActionButton
-  // 						onClick={() => {
-  // 							router.push({
-  // 								pathname: "/manager/article/article-list/detail",
-  // 								query: {id: record.Id},
-  // 							});
-  // 						}}
-  // 						icon="fad fa-edit"
-  // 						title="Cập nhật"
-  // 					/>
-  // 				</Space>
-  // 			</li>
-  // 		</ul>
-  // 	),
-  // };
 
   return (
     <>
@@ -129,9 +102,9 @@ export const ArticleListTable: FC<TTable<TPage> & TProps> = ({
           bordered: true,
           // expandable: expandable,
           loading,
+          scroll: {y: 700, x: 1200}
         }}
       />
-      <div className="mt-4 text-right">
         <Pagination
           total={filter?.TotalItems}
           current={filter?.PageIndex}
@@ -140,7 +113,6 @@ export const ArticleListTable: FC<TTable<TPage> & TProps> = ({
             handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
           }
         />
-      </div>
     </>
   );
 };

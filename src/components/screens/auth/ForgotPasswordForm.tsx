@@ -1,10 +1,10 @@
-import { Modal } from "antd";
+import { Card, Modal } from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { authenticate } from "~/api";
 import { Button, showToast } from "~/components";
-import { FormCard, FormInput } from "~/components/globals/formBase";
+import { FormInput } from "~/components/globals/formBase";
 
 export const ForgotPasswordForm = ({ visible, setOpenModal }) => {
   const { handleSubmit, control, getValues, reset } = useForm<{
@@ -53,66 +53,65 @@ export const ForgotPasswordForm = ({ visible, setOpenModal }) => {
   };
 
   return (
-    <Modal visible={visible} footer={false} closeIcon={false} closable={false} className="min-w-[500px]">
+    <Modal
+      visible={visible}
+      footer={false}
+      closeIcon={false}
+      closable={false}
+    >
       <div className="authContainer">
-        <FormCard>
-          <FormCard.Header onCancel={() => setOpenModal("")}>
-            <p className="heading !pb-0">Quên mật khẩu?</p>
-          </FormCard.Header>
-          <FormCard.Body>
-            <form onSubmit={handleSubmit(_onPress)}>
-              <div
-                className="gridContainer"
-                style={{
-                  pointerEvents: loading ? "none" : "all",
-                  opacity: loading ? "0.8" : "1",
-                }}
+        <Card
+          className="!m-[-10px]"
+          extra={
+            <div className="flex items-center justify-between">
+              <p className="heading !pb-0">Lấy lại mật khẩu</p>
+              <span
+                className="cursor-pointer"
+                onClick={() => setOpenModal(false)}
               >
-                <div className="col-span-2">
-                  <FormInput
-                    control={control}
-                    placeholder="Nhập địa chỉ email gửi yêu cầu"
-                    name="Email"
-                    homeType="forgetPass"
-                    label="Email"
-                    type={"email"}
-                    rules={{
-                      required: "Vui lòng điền email..",
-                      pattern: {
-                        value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                        message: "email không đúng định dạng",
-                      },
-                    }}
-                  />
-                </div>
-                <div className="group col-span-2 !mt-4 uppercase font-bold text-end">
-                  <button type="submit" className="w-full">
-                    <Button
-                      showLoading
-                      title="Gửi yêu cầu khôi phục"
-                      btnClass="!bg-main !m-0 !rounded-none shadow-xl hover:shadow-none transition-all duration-300 w-full"
-                    />
-                  </button>
-                </div>
-
-                <div
-                  className="forgotpasswordLinkTo group col-span-2 !pt-4 border-t border-[#c4c4c4]"
-                  id="auth-link"
-                >
-                  <div className="link" onClick={() => setOpenModal("signIn")}>
-                    <a className="!mt-0 !inline-block">Đăng nhập</a>
-                  </div>
-                  <div
-                    className="link"
-                    onClick={() => setOpenModal("register")}
-                  >
-                    <a className="!mt-0 !inline-block">Đăng ký</a>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </FormCard.Body>
-        </FormCard>
+                <i className="fas fa-times text-[#adadad] hover:text-red text-[20px]"></i>
+              </span>
+            </div>
+          }
+          actions={[
+            <div className="link" onClick={() => setOpenModal("signIn")}>
+              <a className="!mt-0 !inline-block">Đăng nhập</a>
+            </div>,
+            <div className="link" onClick={() => setOpenModal("register")}>
+              <a className="!mt-0 !inline-block">Đăng ký</a>
+            </div>,
+          ]}
+        >
+          <form onSubmit={handleSubmit(_onPress)}>
+            <div className="col-span-2">
+              <FormInput
+                control={control}
+                placeholder="Nhập địa chỉ email gửi yêu cầu"
+                name="Email"
+                homeType="forgetPass"
+                label="Email"
+                type={"email"}
+                disabled={loading}
+                rules={{
+                  required: "Vui lòng điền email.",
+                  pattern: {
+                    value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                    message: "Không đúng định dạng",
+                  },
+                }}
+                prefix={<i className="fas fa-envelope"></i>}
+              />
+            </div>
+            <div className="col-span-2">
+              <Button
+                loading={loading}
+                btnClass="w-full"
+                title="Gửi yêu cầu"
+                htmlType="submit"
+              />
+            </div>
+          </form>
+        </Card>
       </div>
     </Modal>
   );

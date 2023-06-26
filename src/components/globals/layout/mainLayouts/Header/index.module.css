@@ -25,14 +25,14 @@
 }
 
 .openMenu {
+  @apply bg-main shadow-lg;
   border-radius: 4px;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
   width: 32px;
   height: 32px;
-  padding: 6px 6px 6px 0;
+  /* padding: 6px 6px 6px 0; */
 }
-
 
 .menu {
   position: relative;
@@ -52,11 +52,8 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding-bottom: 5px;
-  margin-bottom: 10px;
   cursor: pointer;
   text-align: center;
-  border-bottom: 2px solid #e4e4e4;
 }
 
 .totalNotiButton a {
@@ -327,7 +324,7 @@
 
 .btnSwitchManager {
   @apply bg-main;
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 6px 12px;
   transition: all 0.1s;
   display: flex;
@@ -338,7 +335,7 @@
 
 .VIP {
   @apply bg-green;
-  border-radius: 8px;
+  border-radius: 4px;
   transition: all 0.1s;
   align-items: center;
   position: relative;
@@ -349,7 +346,6 @@
   display: block;
   line-height: initial;
 }
-
 
 .btnSwitchManager::after {
   @apply bg-sec;
@@ -380,13 +376,55 @@
   z-index: 10;
 }
 
+.svg {
+  transition: all 0.4s ease;
+}
+
+.svg .menu__svg path {
+  fill: none;
+  transition: stroke-dasharray 0.4s, stroke-dashoffset 0.4s;
+  stroke: #fff;
+  stroke-width: 10px !important;
+  stroke-linecap: round;
+}
+.svg .menu__svg path:nth-child(1) {
+  stroke-dasharray: 40 160;
+}
+.svg .menu__svg path:nth-child(2) {
+  transform: rotate(0);
+}
+.svg .menu__svg path:nth-child(3) {
+  stroke-dasharray: 40 85;
+  transform-origin: 50%;
+  transition: transform 0.4s, stroke-dashoffset 0.4s;
+}
+
+.active .menu__svg {
+  transform: rotate(45deg);
+}
+.active .menu__svg path {
+  fill: none;
+  transition: stroke-dasharray 0.4s, stroke-dashoffset 0.4s;
+  stroke-linecap: round;
+}
+.active .menu__svg path:nth-child(1){
+  stroke-dashoffset: -64px;
+}
+.active .menu__svg path:nth-child(2) {
+  transform-origin: 50%;
+  transform: rotate(90deg);
+}
+.active .menu__svg path:nth-child(3) {
+  stroke-dashoffset: -64px;
+}
+
 @media screen and (max-width: 1280px) {
   .innerHeaderUser {
     width: min(1280px, 100%);
   }
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 768px) {
   .header {
     position: relative;
   }

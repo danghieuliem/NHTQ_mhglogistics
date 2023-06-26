@@ -2,16 +2,18 @@ import { Spin } from "antd";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
+import { useSelector } from "react-redux";
 import { transportationOrder } from "~/api";
 import { DepositListForm, Layout, NotFound, toast } from "~/components";
 import { breadcrumb } from "~/configs";
 import { useCatalogue } from "~/hooks/useCatalogue";
-import { selectUser, useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = ({ connection }) => {
-  const { user } = useAppSelector(selectUser);
-  if (!user) return null;
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 
   const { query } = useRouter();
   // realtime
@@ -62,15 +64,13 @@ const Index: TNextPageWithLayout = ({ connection }) => {
 
   return (
     <Spin spinning={loading}>
-      <div className="mb-6">
-        <DepositListForm
-          defaultValues={data?.Data}
-          shippingTypeToWarehouseCatalogue={shippingTypeToWarehouse}
-          loading={isLoading}
-          refetch={refetch}
-          RoleID={user?.UserGroupId}
-        />
-      </div>
+      <DepositListForm
+        defaultValues={data?.Data}
+        shippingTypeToWarehouseCatalogue={shippingTypeToWarehouse}
+        loading={isLoading}
+        refetch={refetch}
+        RoleID={userCurrentInfo?.UserGroupId}
+      />
     </Spin>
   );
 };

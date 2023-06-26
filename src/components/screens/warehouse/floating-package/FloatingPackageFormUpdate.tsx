@@ -166,7 +166,6 @@ export const FloatingPackageFormUpdate: React.FC<
 						title="Cập nhật"
 						btnClass="!bg-main"
 						onClick={handleSubmit(_onPress)}
-						showLoading
 					/>
 					<Button
 						title="Hủy"

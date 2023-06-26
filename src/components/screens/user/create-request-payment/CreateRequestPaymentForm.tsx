@@ -4,6 +4,7 @@ import Router from "next/router";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { payHelp } from "~/api";
 import {
@@ -14,13 +15,14 @@ import {
 } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
 import { useDeepEffect } from "~/hooks";
-import { selectUser, useAppSelector } from "~/store";
+import { RootState } from "~/store";
 
 const boxContent = "col-span-1 p-4";
 
 export const CreateRequestPaymentForm = () => {
-  const { user: UserData } = useAppSelector(selectUser);
-  if (!UserData) return null;
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 
   const [loading, setLoading] = useState(false);
 
@@ -28,7 +30,7 @@ export const CreateRequestPaymentForm = () => {
     useForm<TCreateRequestPaymentOrder>({
       mode: "onBlur",
       defaultValues: {
-        UserName: UserData.UserName,
+        UserName: userCurrentInfo.UserName,
         PayHelpDetails: [
           {
             desc2: "",
@@ -246,16 +248,16 @@ export const CreateRequestPaymentForm = () => {
             required={false}
           />
         </div>
-      <div className="absolute bottom-[10px] right-[10px]">
-        <IconButton
-          onClick={handleSubmit(_onPress)}
-          btnClass="mt-4 !bg-orange !text-white"
-          icon={loading ? "fas fa-sync fa-spin" : "fas fa-check-circle"}
-          title="Gửi yêu cầu"
-          showLoading
-          toolip=""
-        />
-      </div>
+        <div className="absolute bottom-[10px] right-[10px]">
+          <IconButton
+            onClick={handleSubmit(_onPress)}
+            btnClass="mt-4 !bg-orange !text-white"
+            icon={loading ? "fas fa-sync fa-spin" : "fas fa-check-circle"}
+            title="Gửi yêu cầu"
+            showLoading
+            toolip=""
+          />
+        </div>
       </div>
     </div>
   );

@@ -1,21 +1,24 @@
 import router from "next/router";
 import { useState } from "react";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { smallPackage } from "~/api";
 import {
   showToast,
   toast,
+  TransactionCodeManagementFilter,
   TransactionCodeManagementTable,
-  UserLayout
+  UserLayout,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
-import { selectUser, useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-  const { user: userStore } = useAppSelector(selectUser);
-  if (!userStore) return null;
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 
   const [filter, setFilter] = useState({
     SearchType: null,
@@ -28,7 +31,7 @@ const Index: TNextPageWithLayout = () => {
     PageSize: 20,
     PageIndex: 1,
     Menu: 2,
-    UID: userStore.UserId,
+    UID: userCurrentInfo.Id,
   });
 
   const handleFilter = (newFilter) => {
@@ -48,7 +51,6 @@ const Index: TNextPageWithLayout = () => {
           PageSize: data?.PageSize,
         }),
       onError: toast.error,
-      enabled: !!userStore,
     }
   );
 
@@ -69,15 +71,19 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <>
-      <div className="tableBox mt-6">
-        <TransactionCodeManagementTable
-          handleExporTExcel={handleExporTExcel}
-          data={data?.Items}
-          loading={isFetching}
-          filter={filter}
+      <div className="">
+        <TransactionCodeManagementFilter
           handleFilter={handleFilter}
+          handleExporTExcel={handleExporTExcel}
         />
       </div>
+      <TransactionCodeManagementTable
+        handleExporTExcel={handleExporTExcel}
+        data={data?.Items}
+        loading={isFetching}
+        filter={filter}
+        handleFilter={handleFilter}
+      />
     </>
   );
 };

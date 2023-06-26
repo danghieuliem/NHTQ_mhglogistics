@@ -14,16 +14,11 @@ import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import { TNextPageWithLayout } from "~/types/layout";
 import { _format } from "~/utils";
-import { selectUser, useAppSelector } from "~/store";
 
-const boxTop =
-  "col-span-1 tableBox cardTopTable p-2 items-center";
+const boxTop = "col-span-1 tableBox cardTopTable p-2 items-center";
 const boxBottom = "tableBox cardTopTable col-span-1 w-full p-3";
 
 const Index: TNextPageWithLayout = () => {
-  const { user: userStore } = useAppSelector(selectUser);
-  if (!userStore) return null;
-
   const [filter, setFilter] = useState({
     PageIndex: 1,
     PageSize: 20,
@@ -119,9 +114,9 @@ const Index: TNextPageWithLayout = () => {
       </div>
       <div className="grid grid-cols-3 gap-2 mb-4">
         <div className={boxBottom}>
-          <p className="IconBoxFilter text-center IconFilter text-white bg-[#e75b5b]">
+          <div className="IconBoxFilter IconFilter text-white bg-[#e75b5b]">
             <i className="fas fa-sack-dollar"></i>
-          </p>
+          </div>
           <div>
             <div className="text-right">Tổng số tiền:</div>
             <span className="font-bold text-base text-[#e75b5b] flex items-center justify-end">
@@ -130,9 +125,9 @@ const Index: TNextPageWithLayout = () => {
           </div>
         </div>
         <div className={boxBottom}>
-          <p className="IconBoxFilter text-white bg-green IconFilter text-center">
+          <div className="IconBoxFilter text-white bg-green IconFilter">
             <i className="fas fa-sack-dollar"></i>
-          </p>
+          </div>
           <div>
             <div className="text-right">Tổng số tiền đã duyệt:</div>
             <span className="font-bold text-base text-green flex items-center justify-end">
@@ -141,9 +136,9 @@ const Index: TNextPageWithLayout = () => {
           </div>
         </div>
         <div className={boxBottom}>
-          <p className="IconBoxFilter text-white bg-main IconFilter text-center">
+          <div className="IconBoxFilter text-white bg-main IconFilter">
             <i className="fas fa-sack-dollar"></i>
-          </p>
+          </div>
           <div>
             <div className="text-right">Tổng số tiền chờ duyệt:</div>
             <span className="font-bold text-base text-main flex items-center justify-end">
@@ -152,13 +147,11 @@ const Index: TNextPageWithLayout = () => {
           </div>
         </div>
       </div>
-      <div className="tableBox">
-        <div className="pb-4">
-          <RechargeHistoryFilter
-            handleFilter={handleFilter}
-            handleExportExcel={handleExportExcel}
-          />
-        </div>
+      <div className="">
+        <RechargeHistoryFilter
+          handleFilter={handleFilter}
+          handleExportExcel={handleExportExcel}
+        />
         <RechargeHistoryTable
           {...{
             data: userRechargeData?.Items,

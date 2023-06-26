@@ -2,6 +2,7 @@ import { Modal } from "antd";
 import router from "next/router";
 import { useState } from "react";
 import { useMutation, useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { staffIncome } from "~/api";
 import {
   BonusManagementFilter,
@@ -13,22 +14,22 @@ import {
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
-import { useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 import { _format } from "~/utils";
 
 const Index: TNextPageWithLayout = () => {
-  const { current: newUser } = useAppSelector((state) => state.user);
-
-  if (!newUser) return null;
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [filter, setFilter] = useState({
     PageIndex: 1,
     PageSize: 20,
-    RoleID: newUser?.UserGroupId,
-    UID: newUser?.UserId,
+    RoleID: userCurrentInfo?.UserGroupId,
+    UID: userCurrentInfo?.Id,
     TotalItems: null,
     SearchContent: null,
     FromDate: null,
@@ -54,7 +55,8 @@ const Index: TNextPageWithLayout = () => {
           PageSize: data?.PageSize,
         }),
       onError: toast.error,
-      enabled: !!newUser,
+      refetchOnWindowFocus: true,
+      staleTime: 5000,
     }
   );
 
@@ -63,8 +65,8 @@ const Index: TNextPageWithLayout = () => {
       const res = await staffIncome.exportExcel({
         ...filter,
         PageSize: 99999,
-        RoleID: newUser?.UserGroupId,
-        UID: newUser?.UserId,
+        RoleID: userCurrentInfo?.UserGroupId,
+        UID: userCurrentInfo?.Id,
       });
       router.push(`${res.Data}`);
     } catch (error) {
@@ -105,53 +107,45 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <>
-      <div className="mb-4 flex">
-        <div className="tableBox p-3 max-w-[800px] text-sm flex justify-between mr-2 items-center">
-          <div className="mr-2 bg-main IconFilter !text-white text-[26px]">
-            <i className="far fa-poll"></i>
-          </div>
-          <div className="ml-2">
-            <div className="text-[#5c5b5b]">Tổng tiền đã thanh toán:</div>
+      <div className="flex items-end justify-between">
+        <div className="flex">
+          <div className="tableBox flex flex-col mr-2">
+            <div className="text-label font-bold">Tổng tiền đã thanh toán:</div>
             <span className="text-blue font-semibold flex justify-end">
               {_format.getVND(data?.Items[0]?.MaxTotalPriceReceivePayment)}
             </span>
           </div>
-        </div>
-        <div className="tableBox p-3 max-w-[800px] text-sm flex justify-between items-center">
-          <div className="mr-2 !text-white IconFilter text-[26px]">
-            <i className="far fa-poll "></i>
-          </div>
-          <div className="ml-2">
-            <span className="text-[#5c5b5b]">Tổng tiền chưa thanh toán:</span>
+          <div className="tableBox flex flex-col">
+            <span className="text-label font-bold">
+              Tổng tiền chưa thanh toán:
+            </span>
             <span className="text-orange font-semibold flex items-center justify-end">
               {_format.getVND(data?.Items[0]?.MaxTotalPriceReceiveNotPayment)}
             </span>
           </div>
         </div>
-      </div>
-      <div className="tableBox">
-        {(newUser?.UserGroupId === 1 ||
-          newUser?.UserGroupId === 3 ||
-          newUser?.UserGroupId === 8) && (
-          <div className="pb-4">
-            <BonusManagementFilter
-              handleFilter={handleFilter}
-              onExportExcel={_onExportExcel}
-              setIsModalOpen={() => setIsModalOpen(true)}
-            />
-          </div>
-        )}
 
-        <BonusManagementTable
-          loading={isFetching}
-          data={data?.Items}
-          filter={filter}
-          handleFilter={handleFilter}
-          handlePayment={_handlePayment}
-          RoleID={newUser?.UserGroupId}
-          type={0}
-        />
+        {(userCurrentInfo?.UserGroupId === 1 ||
+          userCurrentInfo?.UserGroupId === 3 ||
+          userCurrentInfo?.UserGroupId === 8) && (
+          <BonusManagementFilter
+            handleFilter={handleFilter}
+            onExportExcel={_onExportExcel}
+            setIsModalOpen={() => setIsModalOpen(true)}
+          />
+        )}
       </div>
+
+      <BonusManagementTable
+        loading={isFetching}
+        data={data?.Items}
+        filter={filter}
+        handleFilter={handleFilter}
+        handlePayment={_handlePayment}
+        RoleID={userCurrentInfo?.UserGroupId}
+        type={0}
+      />
+
       <Modal visible={isModalOpen} closable={false} footer={false}>
         <FormCard>
           <FormCard.Header onCancel={() => setIsModalOpen(false)}>
@@ -167,17 +161,17 @@ const Index: TNextPageWithLayout = () => {
           </FormCard.Body>
           <FormCard.Footer>
             <Button
-              title="Hủy"
-              onClick={() => setIsModalOpen(false)}
-              btnClass="!bg-red"
-            />
-            <Button
               title="Thanh toán"
-              btnClass="!bg-main"
+              btnClass="!bg-main mr-2"
               disabled={
                 data?.Items[0]?.MaxTotalPriceReceiveNotPayment ? false : true
               }
               onClick={() => _handlePayAll()}
+            />
+            <Button
+              title="Hủy"
+              onClick={() => setIsModalOpen(false)}
+              btnClass="!bg-red"
             />
           </FormCard.Footer>
         </FormCard>

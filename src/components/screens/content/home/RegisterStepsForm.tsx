@@ -112,9 +112,8 @@ export const RegisterStepsForm: React.FC<
         <FormCard.Footer>
           <Button
             title="Cập nhật"
-            btnClass="!bg-main"
+            btnClass="!bg-main mr-2"
             onClick={handleSubmit(_onPress)}
-            showLoading
           />
           <Button
             title="Hủy"

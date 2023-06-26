@@ -4,6 +4,7 @@ import { DataTable } from "~/components";
 import { reportStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 
 export const ReportListTable: React.FC<TTable<TReport>> = ({
   data,
@@ -36,11 +37,7 @@ export const ReportListTable: React.FC<TTable<TReport>> = ({
       dataIndex: "Amount",
       align: "right",
       width: 200,
-      title: (
-        <>
-          Tiền bồi thường <br /> (VNĐ)
-        </>
-      ),
+      title: <>Tiền bồi thường</>,
       render: (money) => _format.getVND(money, ""),
     },
     {
@@ -61,7 +58,11 @@ export const ReportListTable: React.FC<TTable<TReport>> = ({
       title: "Trạng thái",
       width: 120,
       render: (status, record) => (
-        <Tag color={reportStatus[status]?.color}>{record?.StatusName}</Tag>
+        <TagStatus
+          color={reportStatus[status]?.color}
+          statusName={record?.StatusName}
+        />
+        // <Tag color={reportStatus[status]?.color}>{record?.StatusName}</Tag>
       ),
     },
   ];
@@ -113,7 +114,6 @@ export const ReportListTable: React.FC<TTable<TReport>> = ({
         onChange: handlePagination,
         scroll: { y: 660 },
         mediaWidth: 1200,
-        title: "Danh sách khiếu nại",
       }}
     />
   );
