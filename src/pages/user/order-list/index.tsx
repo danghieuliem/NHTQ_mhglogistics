@@ -2,28 +2,26 @@ import { Pagination } from "antd";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useSelector } from "react-redux";
 import { mainOrder } from "~/api";
 import {
   ModalDelete,
   showToast,
   toast,
   UserAnotherOrderListDrawer,
-  UserAnotherOrderListFilter,
   UserAnotherOrderListTable,
   UserLayout,
 } from "~/components";
-import {
-  createdMoneyOfOrdersData,
-  ECreatedOrderStatusData,
-  orderStatus,
-} from "~/configs/appConfigs";
+import { createdMoneyOfOrdersData, orderStatus } from "~/configs/appConfigs";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
-import { selectUser, useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 import { TDepositType, TModalType } from "~/types/table";
 
 const Index: TNextPageWithLayout = () => {
-  const { user } = useAppSelector(selectUser);
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
   const { query } = useRouter();
   const [items, setItems] = useState<TOrder[]>([]);
   const type = useRef<"deposit" | "payment">("deposit");
@@ -35,11 +33,11 @@ const Index: TNextPageWithLayout = () => {
     TotalItems: null,
     PageIndex: 1,
     PageSize: 20,
-    
+
     Status: null,
     FromDate: null,
     ToDate: null,
-    UID: user?.UserId,
+    UID: userCurrentInfo?.Id,
     OrderType: query?.q === "3" ? 3 : 1,
   });
 
@@ -60,12 +58,12 @@ const Index: TNextPageWithLayout = () => {
       ToDate: null,
       PageIndex: 1,
       PageSize: 20,
-      UID: user?.UserId,
+      UID: userCurrentInfo?.Id,
       OrderType: query?.q === "3" ? 3 : 1,
       TotalItems: null,
     });
     setMoneyOfOrders(createdMoneyOfOrdersData);
-  }, [query?.q, user]);
+  }, [query?.q, userCurrentInfo?.Id]);
 
   const { data, isFetching, refetch } = useQuery(
     ["orderList", filter],
@@ -86,7 +84,7 @@ const Index: TNextPageWithLayout = () => {
         });
       },
       retry: true,
-      enabled: !!user?.UserId,
+      enabled: !!userCurrentInfo?.Id,
     }
   );
 
@@ -181,18 +179,18 @@ const Index: TNextPageWithLayout = () => {
           type: "error",
         });
       },
-      enabled: !!user?.UserId,
+      enabled: !!userCurrentInfo?.Id,
     }
   );
 
   useQuery(
     [
       "number-of-order",
-      { UID: user?.UserId, orderType: query?.q === "3" ? 3 : 1 },
+      { UID: userCurrentInfo?.Id, orderType: query?.q === "3" ? 3 : 1 },
     ],
     () =>
       mainOrder.getNumberOfOrder({
-        UID: user?.UserId,
+        UID: userCurrentInfo?.Id,
         orderType: query?.q === "3" ? 3 : 1,
       }),
     {
@@ -212,36 +210,32 @@ const Index: TNextPageWithLayout = () => {
           type: "error",
         });
       },
-      enabled: !!user?.UserId,
+      enabled: !!userCurrentInfo?.Id,
     }
   );
 
   return (
     <React.Fragment>
-      <div className="tableBox mt-6">
-        <UserAnotherOrderListTable
-          {...{
-            data: data?.Items,
-            handleFilter,
-            moneyOfOrders,
-            loading: isFetching,
-            selectedRowKeys: items.map((item) => item.Id),
-            handleModal,
-            type,
-            q: query?.q,
-          }}
-        />
-        <div className="mt-4 text-right">
-          <Pagination
-            total={filter?.TotalItems}
-            current={filter?.PageIndex}
-            pageSize={filter?.PageSize}
-            onChange={(page, pageSize) =>
-              handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-            }
-          />
-        </div>
-      </div>
+      <UserAnotherOrderListTable
+        {...{
+          data: data?.Items,
+          handleFilter,
+          moneyOfOrders,
+          loading: isFetching,
+          selectedRowKeys: items.map((item) => item.Id),
+          handleModal,
+          type,
+          q: query?.q,
+        }}
+      />
+      <Pagination
+        total={filter?.TotalItems}
+        current={filter?.PageIndex}
+        pageSize={filter?.PageSize}
+        onChange={(page, pageSize) =>
+          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
+        }
+      />
       <ModalDelete
         visible={modal && depositType !== "some" && type.current === "deposit"}
         onConfirm={() => {
@@ -284,6 +278,7 @@ const Index: TNextPageWithLayout = () => {
 };
 
 Index.displayName = SEOHomeConfigs.buyGroceries.listOder;
+Index.breadcrumb = "Đơn hàng";
 Index.Layout = UserLayout;
 
 export default Index;

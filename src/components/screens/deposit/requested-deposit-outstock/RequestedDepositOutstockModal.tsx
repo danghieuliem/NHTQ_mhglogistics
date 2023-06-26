@@ -69,7 +69,6 @@ export const RequestedDepositOutstockModal: React.FC<
 						title="Xuất kho"
 						btnClass="!bg-orange"
 						onClick={handleSubmit(_onPress)}
-						showLoading
 					/>
 					<Button title="Huỷ" btnClass="!bg-red" onClick={onCancel} />
 				</FormCard.Footer>

@@ -85,9 +85,8 @@ export const CheckWarehouseChinaNewCodeForm: React.FC<
         <FormCard.Footer>
           <Button
             title="Thêm"
-            showLoading
             onClick={handleSubmit(_onPress)}
-            btnClass="!bg-[#f14f04]"
+            btnClass="!bg-main mr-2"
           />
           <Button title="Huỷ" onClick={onCancel} btnClass="!bg-red" />
         </FormCard.Footer>

@@ -16,6 +16,7 @@ type TProps = {
 	prefix?: React.ReactNode;
 	allowClear?: boolean;
 	label?: string;
+	disabled?: boolean;
 };
 
 export const FilterInput: FC<TProps> = ({
@@ -30,7 +31,8 @@ export const FilterInput: FC<TProps> = ({
 	defaultValue,
 	prefix,
 	allowClear = true,
-	label
+	label,
+	disabled = false
 }) => {
 	const input = useRef("");
 	const handleInput = useCallback((val: string) => (input.current = val), []);
@@ -45,6 +47,7 @@ export const FilterInput: FC<TProps> = ({
 					!handleSearch ? "pr-12" : "pr-4",
 					inputClassName
 				)}
+				disabled={disabled}
 				type={type}
 				value={value}
 				defaultValue={defaultValue}

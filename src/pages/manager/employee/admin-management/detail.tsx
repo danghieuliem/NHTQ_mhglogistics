@@ -40,7 +40,7 @@ const Index: TNextPageWithLayout = () => {
   // ===== END =====
 
   if (isError)
-    return <Empty description={`Không tìm thấy nhân viên #${query?.id}`} />;
+    return <Empty />;
 
   return (
     <div className="">

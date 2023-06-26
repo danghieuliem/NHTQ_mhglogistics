@@ -12,9 +12,5 @@ export const Loading = () => {
     },
   };
 
-  return (
-    <div className="fixed inset-0 w-full h-full z-[999999] bg-white flex items-center justify-center">
-      <Lottie options={defaultOptions} height={400} width={400} />
-    </div>
-  );
+  return <Lottie options={defaultOptions} height={"auto"} width={150} />;
 };

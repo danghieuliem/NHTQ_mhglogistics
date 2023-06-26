@@ -1,11 +1,11 @@
-import { Tag } from "antd";
 import Link from "next/link";
+import React from "react";
 import { useQuery } from "react-query";
 import { mainOrder } from "~/api";
 import { orderStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
-import { ActionButton, DataTable, showToast } from "../..";
-import React from "react";
+import { DataTable, showToast } from "../..";
+import TagStatus from "../status/TagStatus";
 
 export const NewOrders = React.memo(() => {
   const { data, isFetching, isLoading } = useQuery(
@@ -14,7 +14,7 @@ export const NewOrders = React.memo(() => {
       {
         PageIndex: 1,
         PageSize: 10,
-        Status: 0,
+        // Status: 0,
         OrderBy: "Created desc",
       },
     ],
@@ -23,7 +23,7 @@ export const NewOrders = React.memo(() => {
         .getList({
           PageIndex: 1,
           PageSize: 10,
-          Status: 0,
+          // Status: 0,
           OrderBy: "Created desc",
         })
         .then((res) => res.Data.Items),
@@ -37,10 +37,20 @@ export const NewOrders = React.memo(() => {
         }),
     }
   );
+
   const columns: TColumnsType<TNewOrders> = [
     {
       title: "ID đơn",
       dataIndex: "Id",
+      render: (_) => {
+        return (
+          <Link href={`/manager/order/order-list/detail/?id=${_}`}>
+            <a target="_blank" className="">
+              {_}
+            </a>
+          </Link>
+        )
+      }
     },
     {
       title: "Username",
@@ -49,72 +59,27 @@ export const NewOrders = React.memo(() => {
     {
       title: "Loại đơn hàng",
       dataIndex: "OrderTypeName",
+      render: (_) => <span className="font-bold" style={{color: _.includes("khác") ? "#009000" : "#1582F5"}}>{_}</span>
     },
     {
       title: "Trạng thái",
       dataIndex: "Status",
       render: (status, _) => {
         const color = orderStatus.find((x) => x.id === status);
-        return (
-          <Tag color={color?.color} key={status}>
-            {_.StatusName}
-          </Tag>
-        );
+        return <TagStatus color={color?.color} statusName={_.StatusName} />;
       },
-    },
-    {
-      title: "Thao tác",
-      dataIndex: "action",
-      align: "right",
-      render: (_, record) => (
-        <Link href={`/manager/order/order-list/detail/?id=${record?.Id}`}>
-          <a>
-            <ActionButton
-              onClick={undefined}
-              icon="far fa-info-square"
-              title="Chi tiết"
-            />
-          </a>
-        </Link>
-      ),
     },
   ];
 
-  // const expandable = {
-  //   expandedRowRender: (data) => (
-  //     <ul className="px-2 text-xs">
-  //       <li className="md:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Loại đơn hàng:</span>
-  //         {data?.OrderTypeName}
-  //       </li>
-  //       <li className="md:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Trạng thái:</span>
-  //         <Tag color="red">{data?.StatusName}</Tag>
-  //       </li>
-  //       <li className="lg:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Thao tác:</span>
-  //         <Link href={`/manager/order/order-list/${data?.Id}`}>
-  //           <a>
-  //             <i className=" text-orange text-base fas fa-eye"></i>
-  //           </a>
-  //         </Link>
-  //       </li>
-  //     </ul>
-  //   ),
-  // };
-
   return (
-    <div className="tableBox">
-      <DataTable
-        {...{
-          columns,
-          data,
-          loading: isFetching,
-          style: "secondary",
-          title: "Đơn mua hộ mới",
-          // expandable: expandable,
-        }}
-      />
-    </div>
+    <DataTable
+      {...{
+        columns,
+        data,
+        loading: isFetching,
+        title: "Đơn mua hộ mới",
+        // expandable: expandable,
+      }}
+    />
   );
-})
+});

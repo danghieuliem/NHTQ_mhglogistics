@@ -3,7 +3,7 @@ import { IconButton } from "~/components/globals/button/IconButton";
 import { FilterRangeDate } from "~/components/globals/filterBase";
 
 type TProps = {
-  handleFilter: (fromDate: string, toDate: string) => void;
+  handleFilter: (newFilter) => void;
 };
 
 export const PaymentProfitFilter: React.FC<TProps> = ({ handleFilter }) => {
@@ -23,7 +23,12 @@ export const PaymentProfitFilter: React.FC<TProps> = ({ handleFilter }) => {
       </div>
       <div className="col-span-1 xl:mb-0 mb-4 flex items-end">
         <IconButton
-          onClick={() => handleFilter(fromDate.current, toDate.current)}
+          onClick={() => {
+            handleFilter({
+              FromDate: fromDate.current,
+              ToDate: toDate.current,
+            });
+          }}
           btnClass="lg:mx-4"
           title="Xem thống kê"
           icon="far fa-info-square"

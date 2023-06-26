@@ -70,24 +70,24 @@ instance.interceptors.response.use(
       response?.data?.ResultMessage === "Unauthorized";
 
     if (ResultCodeM) {
-      toast.error("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại", {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      setTimeout(() => {
-        localStorage.removeItem("currentUser");
-        Cookies.remove("tokenNHTQ-demo");
+      // toast.error("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại", {
+      //   position: "top-center",
+      //   autoClose: 1000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      //   theme: "colored",
+      // });
+      Cookies.remove("tokenNHTQ-demo");
+      router.push("/");
+      // setTimeout(() => {
 
-        router.asPath.includes("/")
-          ? window.location.reload()
-          : router.push("/");
-      }, 1000);
+      //   router.asPath.includes("/")
+      //     ? window.location.reload()
+      //     : 
+      // }, 1000);
       return null;
     }
     return response;

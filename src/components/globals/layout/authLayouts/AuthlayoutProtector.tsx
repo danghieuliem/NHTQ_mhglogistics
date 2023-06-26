@@ -1,85 +1,51 @@
+import { HubConnectionBuilder } from "@microsoft/signalr";
 import Cookies from "js-cookie";
 import router from "next/router";
 import { FC, ReactElement, useEffect } from "react";
-import { user } from "~/api";
+import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
+import configHomeData from "~/api/config-home";
 import { setToken } from "~/api/instance";
 import {
+  RootState,
   selectConnection,
-  selectUser,
-  setApiRoles,
   setConnection,
   setRouter,
-  setUser,
-  updateUser,
+  updateGlobal,
   useAppDispatch,
-  useAppSelector
+  useAppSelector,
 } from "~/store";
-import { _format } from "~/utils";
-import { CheckAdminLayout } from "./AdminLayout";
-import { HubConnectionBuilder } from "@microsoft/signalr";
-
-const HandleGetUserCurrentInfo = async (userId: number) => {
-  try {
-    return await user.getByID(userId);
-  } catch (error) {
-    console.log("Lỗi nè!");
-  }
-};
 
 const AuthLayoutProtector: FC<{ children: ReactElement[] | ReactElement }> = ({
   children,
 }) => {
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector(selectUser);
-  const UserId = user?.UserId;
-  const session = Cookies.get("tokenNHTQ-demon");
-  const curUser = localStorage.getItem("currentUser");
+  const session = Cookies.get("tokenNHTQ-demo");
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 
-  if (!curUser && !session) {
+  if (!userCurrentInfo.Id || !session) {
     router.push("/");
     return null;
   }
 
-  useEffect(() => {
-    if (!session) return;
-    (async () => {
-      session && setToken(session);
+  useQuery({
+    queryKey: ["homeConfig"],
+    queryFn: () =>
+      configHomeData.get().then((res) => {
+        dispatch(updateGlobal({ ...res?.Data }));
+      }),
+    staleTime: 3000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: true,
+  });
 
-      const user: TUser = JSON.parse(
-        _format.getJWTDecode(session)[
-          "http://schemas.microsoft.com/ws/2008/06/identity/claims/userdata"
-        ]
-      );
-
-      console.log("hello");
-
-      localStorage.setItem("currentUser", JSON.stringify(user));
-      // dispatch(getCartInfoByUserId(user?.UserId));
-      dispatch(setUser(user));
-      dispatch(setRouter(user.UserGroupId));
-      dispatch(setApiRoles(user));
-
-      if (user?.UserId) {
-        await HandleGetUserCurrentInfo(user?.UserId)
-          .then((res) => {
-            dispatch(
-              updateUser({
-                ...res?.Data,
-                IsConfirmOTP: false,
-                Roles: [],
-                LastName: "",
-                FirstName: "",
-              })
-            );
-            setToken(session);
-          })
-          .catch((error) => {});
-      }
-    })();
-  }, [session]);
+  setToken(userCurrentInfo?.Token);
+  dispatch(setRouter(userCurrentInfo.UserGroupId));
 
   useEffect(() => {
-    if (!UserId) return;
+    if (!userCurrentInfo?.Id) return;
     (async () => {
       try {
         let connection = new HubConnectionBuilder()
@@ -90,8 +56,8 @@ const AuthLayoutProtector: FC<{ children: ReactElement[] | ReactElement }> = ({
         await connection.start();
         await connection.invoke(
           "join",
-          JSON.stringify(user.UserId),
-          JSON.stringify(user.UserGroupId)
+          JSON.stringify(userCurrentInfo?.Id),
+          JSON.stringify(userCurrentInfo?.UserGroupId)
         );
 
         dispatch(setConnection(connection));
@@ -103,7 +69,7 @@ const AuthLayoutProtector: FC<{ children: ReactElement[] | ReactElement }> = ({
         console.error(err);
       }
     })();
-  }, [UserId]);
+  }, [userCurrentInfo?.Id]);
 
   const connection = useAppSelector(selectConnection);
   const connectionId = connection?.connectionId;
@@ -116,7 +82,7 @@ const AuthLayoutProtector: FC<{ children: ReactElement[] | ReactElement }> = ({
     });
   }, [connectionId]);
 
-  return <CheckAdminLayout>{children}</CheckAdminLayout>;
+  return <>{children}</>;
 };
 
 export default AuthLayoutProtector;

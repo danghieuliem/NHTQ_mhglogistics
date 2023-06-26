@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { DataTable } from "~/components";
-import { transactionData } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 
@@ -15,22 +14,21 @@ const TransactionTable: FC<TTable<TStatisticalTransaction>> = ({
       dataIndex: "Id",
       title: "STT",
       render: (_, __, index) => <>{++index}</>,
-      width: 70,
+      width: 50,
     },
     {
       dataIndex: "Content",
       key: "Content",
       title: "Nội dung",
-      // width: 220,
+      width: 300,
     },
     {
       dataIndex: "TradeTypeName",
       key: "TradeTypeName",
       title: "Loại giao dịch",
-      responsive: ["xl"],
       sorter: (a, b) => a?.TradeType - b?.TradeType,
       render: (record) => <>{record}</>,
-      // width: 100,
+      width: 140,
     },
     {
       dataIndex: "Amount",
@@ -53,8 +51,7 @@ const TransactionTable: FC<TTable<TStatisticalTransaction>> = ({
       key: "Created",
       title: "Ngày giờ",
       render: (date) => _format.getVNDate(date),
-      // width: 120,
-      responsive: ["xl"],
+      width: 140,
     },
   ];
 
@@ -83,7 +80,7 @@ const TransactionTable: FC<TTable<TStatisticalTransaction>> = ({
         onChange: handlePagination,
         expandable: expandable,
         loading,
-        scroll: { y: 500 },
+        scroll: { y: 700, x: 1200 },
       }}
     />
   );

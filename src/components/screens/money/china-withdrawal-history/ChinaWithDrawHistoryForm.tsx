@@ -120,7 +120,6 @@ export const ChinaWithdrawHistoryForm: React.FC<TForm<TRefund>> = ({
 					<Button
 						title="Cập nhật"
 						btnClass="!bg-main"
-						showLoading
 						onClick={handleSubmit(_onPress)}
 					/>
 					<Button title="Hủy" btnClass="bg-pending" onClick={onCancel} />

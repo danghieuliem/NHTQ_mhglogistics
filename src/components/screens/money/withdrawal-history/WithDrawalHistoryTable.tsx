@@ -1,4 +1,4 @@
-import { Pagination, Space, Tag } from "antd";
+import { Pagination, Space } from "antd";
 import React, { useRef, useState } from "react";
 import { useQuery } from "react-query";
 import ReactToPrint, { PrintContextConsumer } from "react-to-print";
@@ -9,6 +9,7 @@ import { ActionButton, DataTable } from "~/components";
 import { moneyStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 type TProps = {
   filter;
   handleFilter: (newFilter) => void;
@@ -140,6 +141,8 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
       dataIndex: "Id",
       title: "ID",
       fixed: "left",
+      width: 50,
+      align: "right"
     },
     {
       dataIndex: "UserName",
@@ -148,12 +151,10 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
           Người <br /> thực hiện GD
         </div>
       ),
-      fixed: "left",
     },
     {
       dataIndex: "Beneficiary",
       title: "Người nhận",
-      fixed: "left",
     },
     {
       dataIndex: "BankNumber",
@@ -169,11 +170,12 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
       title: "Số tiền rút (VNĐ)",
       align: "right",
       render: (money) => _format.getVND(money, " "),
+      width: 140,
     },
     {
       dataIndex: "Note",
       title: "Nội dung rút tiền",
-      responsive: ["xl"],
+      width: 140,
     },
     {
       dataIndex: "Created",
@@ -186,7 +188,6 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
           </>
         );
       },
-      responsive: ["xl"],
     },
     {
       dataIndex: "Updated",
@@ -199,28 +200,30 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
           </>
         );
       },
-      responsive: ["xl"],
     },
     {
       dataIndex: "Status",
       title: "Trạng thái",
+      width: 140,
       render: (status, record) => {
         const color = moneyStatus.find((x) => x.id === status);
-        return <Tag color={color?.color}>{record.StatusName}</Tag>;
+        return <TagStatus color={color?.color} statusName={record.StatusName}/>
       },
     },
     {
       dataIndex: "action",
       key: "action",
       title: "Thao tác",
-      align: "right",
+      fixed: "right",
+      width: 140,
       render: (_, record) => (
-        <Space>
+        <div className="flex flex-wrap gap-2">
           {record?.Status !== 3 && (
             <ActionButton
               onClick={() => handleModal(record)}
               icon="fad fa-edit" // fas fa-sync fa-spin
               title="Cập nhật"
+              isButton
             />
           )}
 
@@ -236,39 +239,16 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
                     });
                   }}
                   icon="fad fa-print"
-                  title="In phiếu xuất"
+                  title="In phiếu"
+                  isButton
                 />
               )}
             </PrintContextConsumer>
           </ReactToPrint>
-        </Space>
+        </div>
       ),
-      fixed: "right",
     },
   ];
-
-  const expandable = {
-    expandedRowRender: (record) => (
-      <ul className="px-2 text-xs">
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Ngày rút:</span>
-          {_format.getVNDate(record.Created)}
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Người duyệt:</span>
-          {record.UpdatedBy}
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Ngày duyệt:</span>
-          {_format.getVNDate(record.Updated)}
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Nội dung rút:</span>
-          {record.Note}
-        </li>
-      </ul>
-    ),
-  };
 
   return (
     <React.Fragment>
@@ -280,11 +260,10 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
           columns,
           data,
           bordered: true,
-          expandable: expandable,
           loading,
+          scroll: {y: 700, x: 1200}
         }}
       />
-      <div className="mt-4 text-right">
         <Pagination
           total={filter?.TotalItems}
           current={filter?.PageIndex}
@@ -293,7 +272,6 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
             handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
           }
         />
-      </div>
-    </React.Fragment>
+˝    </React.Fragment>
   );
 };

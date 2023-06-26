@@ -1,6 +1,7 @@
 import router from "next/router";
 import { useState } from "react";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { smallPackage } from "~/api";
 import {
   Layout,
@@ -11,12 +12,13 @@ import {
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
-import { selectUser, useAppSelector } from "~/store";
 
 const Index: TNextPageWithLayout = () => {
-  const { user: userStore } = useAppSelector(selectUser);
-  if (!userStore) return null;
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
   const [filter, setFilter] = useState({
     SearchType: null,
     SearchContent: null,
@@ -28,8 +30,8 @@ const Index: TNextPageWithLayout = () => {
     PageSize: 20,
     PageIndex: 1,
     Menu: 2,
-    UID: userStore?.UserId,
-    RoleID: userStore?.UserGroupId,
+    UID: userCurrentInfo?.Id,
+    RoleID: userCurrentInfo?.UserGroupId,
   });
 
   const handleFilter = (newFilter) => {
@@ -49,7 +51,6 @@ const Index: TNextPageWithLayout = () => {
           PageSize: data?.PageSize,
         }),
       onError: toast.error,
-      enabled: !!userStore,
     }
   );
 
@@ -69,7 +70,7 @@ const Index: TNextPageWithLayout = () => {
   };
 
   return (
-    <div className="tableBox">
+    <>
       <div className="">
         <TransactionCodeManagementFilter
           handleFilter={handleFilter}
@@ -83,7 +84,7 @@ const Index: TNextPageWithLayout = () => {
         filter={filter}
         handleFilter={handleFilter}
       />
-    </div>
+    </>
   );
 };
 

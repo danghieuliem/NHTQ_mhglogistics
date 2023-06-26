@@ -1,4 +1,4 @@
-import { Empty } from "antd";
+import { Divider, Popover } from "antd";
 import { useRouter } from "next/router";
 import React, { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -11,13 +11,11 @@ import {
   warehouseTo,
 } from "~/api";
 import {
-  CartSteps,
+  ActionButton,
   ConfirmCompleteForm,
   PaymentOrderInfo,
   ReceiveInfoForm,
-  StaticUserForm,
   UserLayout,
-  WareHouseInfo,
   toast,
 } from "~/components";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
@@ -43,18 +41,18 @@ const Index: TNextPageWithLayout & React.FC<{}> = () => {
     }))
   ).map((res) => res.data);
 
-  const {
-    control: addressControl,
-    getValues: getValuesAddress,
-    watch: addressWatch,
-  } = useForm({
-    mode: "onBlur",
-    defaultValues: {
-      city: null,
-      districts: null,
-      address: null,
-    },
-  });
+  // const {
+  //   control: addressControl,
+  //   getValues: getValuesAddress,
+  //   watch: addressWatch,
+  // } = useForm({
+  //   mode: "onBlur",
+  //   defaultValues: {
+  //     city: null,
+  //     districts: null,
+  //     address: null,
+  //   },
+  // });
 
   const { data: userPayment } = useQuery(
     "userPayment",
@@ -154,26 +152,26 @@ const Index: TNextPageWithLayout & React.FC<{}> = () => {
   const mutationPayment = useMutation(orderShopTemp.payment);
 
   const onPress = async (data: TUserPayment) => {
-    setValue(
-      "Address",
-      `${getValuesAddress("address")}, ${getValuesAddress(
-        "city"
-      )}, ${getValuesAddress("districts")}`
-    );
+    // setValue(
+    //   "Address",
+    //   `${getValuesAddress("address")}, ${getValuesAddress(
+    //     "city"
+    //   )}, ${getValuesAddress("districts")}`
+    // );
 
     if (!data?.IsAgreement) {
       toast.warning("Vui lòng xác nhận trước khi thanh toán");
       return;
     }
 
-    if (
-      getValuesAddress("address") === null ||
-      getValuesAddress("city") === null ||
-      getValuesAddress("districts") === null
-    ) {
-      toast.warning("Vui lòng chọn địa chỉ nhân hàng!");
-      return;
-    }
+    // if (
+    //   getValuesAddress("address") === null ||
+    //   getValuesAddress("city") === null ||
+    //   getValuesAddress("districts") === null
+    // ) {
+    //   toast.warning("Vui lòng chọn địa chỉ nhân hàng!");
+    //   return;
+    // }
 
     const shopPayments = getValues("ShopPayments");
 
@@ -223,18 +221,10 @@ const Index: TNextPageWithLayout & React.FC<{}> = () => {
 
   return (
     <div className="">
-      <div className="">
-        <div className="titlePageUser">Thanh toán</div>
-        <CartSteps current={2} />
-        {!ids.length ||
-          (!orderShopTempsData?.[0] && (
-            <Empty description="Không tìm thấy dữ liệu nào trong thanh toán" />
-          ))}
-      </div>
       {!!ids.length && !!orderShopTempsData?.[0] && (
         <React.Fragment>
-          <div className="grid grid-cols-10 gap-4">
-            <div className="xl:col-span-7 col-span-10 flex flex-col gap-4 order-1">
+          <div className="grid grid-cols-12 gap-4">
+            <div className="col-span-12 lg:col-span-9 grid grid-cols-1 gap-4">
               {orderShopTempsData.map((orderShopTempData, index) => (
                 <Fragment key={`${index}-${orderShopTempData?.Id}`}>
                   <PaymentOrderInfo
@@ -248,29 +238,56 @@ const Index: TNextPageWithLayout & React.FC<{}> = () => {
                       control,
                     }}
                   />
+                  <Divider />
                 </Fragment>
               ))}
             </div>
-            <div className="xl:col-span-3 col-span-10 flex flex-col order-2">
-              <WareHouseInfo />
-              <div className="sticky top-4">
-                <StaticUserForm control={control} />
-                <ReceiveInfoForm
-                  control={control}
-                  addressControl={addressControl}
-                  getValuesAddress={getValuesAddress}
-                  addressWatch={addressWatch}
-                />
-                <ConfirmCompleteForm
-                  totalPrice={Number(totalPrice)}
-                  control={control}
-                  loadingPayment={loadingPayment}
-                  onPress={handleSubmit(onPress)}
-                />
+            {window.innerWidth >= 1024 ? (
+              <div className="col-span-3">
+                {/* <WareHouseInfo /> */}
+                <div className="sticky top-4">
+                  {/* <StaticUserForm control={control} /> */}
+                  <ReceiveInfoForm
+                    control={control}
+                    // addressControl={addressControl}
+                    // getValuesAddress={getValuesAddress}
+                    // addressWatch={addressWatch}
+                  />
+                  <ConfirmCompleteForm
+                    totalPrice={Number(totalPrice)}
+                    control={control}
+                    loadingPayment={loadingPayment}
+                    onPress={handleSubmit(onPress)}
+                  />
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="fixed top-[77px] right-[15px]">
+                <Popover
+                  // trigger={"click"}
+                  placement="bottomLeft"
+                  content={
+                    <div className="p-4">
+                      <ReceiveInfoForm control={control} />
+                      <ConfirmCompleteForm
+                        totalPrice={Number(totalPrice)}
+                        control={control}
+                        loadingPayment={loadingPayment}
+                        onPress={handleSubmit(onPress)}
+                      />
+                    </div>
+                  }
+                >
+                  <ActionButton
+                    icon=""
+                    title="Tiếp tục đặt hàng"
+                    isButton
+                    isButtonClassName="bg-green !text-white"
+                  />
+                </Popover>
+              </div>
+            )}
           </div>
-          <div className="mb-4" />
         </React.Fragment>
       )}
     </div>
@@ -278,6 +295,7 @@ const Index: TNextPageWithLayout & React.FC<{}> = () => {
 };
 
 Index.displayName = SEOHomeConfigs.shopping.payment;
+Index.breadcrumb = "Thanh toán";
 Index.Layout = UserLayout;
 
 export default Index;

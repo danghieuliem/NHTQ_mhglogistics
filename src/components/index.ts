@@ -1,6 +1,5 @@
 // layouts
 export * from "./globals/layout/mainLayouts";
-export * from "./globals/layout/authLayouts";
 export * from "./globals/layout/userLayout";
 export * from "./globals/layout/homeLayouts";
 export * from "./globals/layout/blankLayouts";
@@ -118,6 +117,7 @@ export * from "./screens/status/Loading";
 export * from "./screens/status/Empty";
 export * from "./screens/status/NotFound";
 export * from "./screens/status/Finding";
+export * from "./screens/status/TagStatus"
 
 // globals
 export * from "./globals/authContainer";

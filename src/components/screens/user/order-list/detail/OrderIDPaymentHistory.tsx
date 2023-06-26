@@ -1,6 +1,6 @@
-import { Tag } from "antd";
 import React from "react";
 import { DataTable } from "~/components";
+import TagStatus from "~/components/screens/status/TagStatus";
 import { formalPaymentData } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
@@ -18,7 +18,7 @@ export const OrderIDPaymentHistory: React.FC<TTable<TPayOrderHistory>> = ({
       title: "Hình thức thanh toán",
       render: (record) => {
         const type = formalPaymentData.find((item) => item.id === record);
-        return <Tag color={type.color}>{type?.name}</Tag>;
+        return <TagStatus color={type.color} statusName={type?.name}/>
       },
     },
     {
@@ -55,9 +55,7 @@ export const OrderIDPaymentHistory: React.FC<TTable<TPayOrderHistory>> = ({
             </div>
             <div className="extentable-row">
               <span className="extentable-label">Loại thanh toán: </span>
-              <span className="extentable-value">
-                {item?.StatusName}
-              </span>
+              <span className="extentable-value">{item?.StatusName}</span>
             </div>
           </div>
         </div>
@@ -65,17 +63,15 @@ export const OrderIDPaymentHistory: React.FC<TTable<TPayOrderHistory>> = ({
     },
   };
 
-
-
   return (
-    <div className="tableBox rounded-b-none mt-4">
-      <div className="titleTable">Lịch sử thanh toán</div>
+    <div className="mt-4">
       <DataTable
         {...{
           columns,
           data,
           bordered: true,
           expandable: expandable,
+          title: "Lịch sử thanh toán",
         }}
       />
     </div>

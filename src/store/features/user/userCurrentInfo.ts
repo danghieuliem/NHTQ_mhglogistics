@@ -15,6 +15,8 @@ const initalState: TUser = {
   LastName: "",
   FirstName: "",
   OneSignalPlayerID: undefined,
+  Token: "",
+  Id: null
 };
 
 export const userCurrentInfo = createSlice({
@@ -22,7 +24,6 @@ export const userCurrentInfo = createSlice({
   initialState: initalState,
   reducers: {
     updateUser: (state: any, action: PayloadAction<TUser>) => {
-      console.log("newUser: ", { ...action.payload });
       return {
         ...state,
         ...action.payload,

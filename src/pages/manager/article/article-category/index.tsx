@@ -42,28 +42,7 @@ const Index: TNextPageWithLayout = () => {
     }
   );
 
-  return (
-    <>
-      <div className="tableBox">
-        <div className="flex justify-end items-end mb-4">
-          {/* <ArticleFilterBase handleFilter={handleFilter} /> */}
-          <div className="col-span-1 xl:text-left text-left xl:mb-0">
-            <IconButton
-              onClick={() =>
-                router.push("/manager/article/article-category/add")
-              }
-              btnClass={"iconGreen w-[180px]"}
-              icon="far fa-plus"
-              title={"Thêm chuyên mục"}
-              showLoading
-              toolip=""
-            />
-          </div>
-        </div>
-        <ArticleCategoryTable data={data?.Items} loading={isFetching} />
-      </div>
-    </>
-  );
+  return <ArticleCategoryTable data={data?.Items} loading={isFetching} />;
 };
 
 Index.displayName = SEOConfigs.post.Categories;

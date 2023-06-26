@@ -40,10 +40,10 @@ const PurchaseProfitChart = ({ dataChart }) => {
 	};
 	return (
 		<div>
-			<p className="text-sm !my-4 text-[#2d2d2daa] font-bold uppercase text-center">
+			<p className="text-md !mt-6 text-label font-bold uppercase text-center">
 				Thống kê lợi nhuận mua hàng hộ
 			</p>
-			<Bar height={100} data={data} />
+			<Bar height={70} data={data} />
 		</div>
 	);
 };

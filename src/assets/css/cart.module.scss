@@ -362,7 +362,7 @@
       -webkit-text-fill-color: transparent;
     }
 
-    &.active .cartStep-Icon::after {
+    &.active .cartStep-Icon-wrapper {
       background: linear-gradient(
         250.66deg,
         #d9ff42 -29.95%,
@@ -401,6 +401,16 @@
     }
   }
 
+  .cartStep-Icon-wrapper {
+    width: 68px;
+    height: 68px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(90deg, #1582f5 1.68%, #61adff 97.54%);
+  }
+
   &-Icon {
     width: 48px;
     height: 48px;
@@ -409,18 +419,7 @@
     align-items: center;
     border-radius: 100%;
     background-color: #fff;
-
     position: relative;
-
-    &::after {
-      border-radius: 100%;
-      content: "";
-      position: absolute;
-      width: 68px;
-      height: 68px;
-      z-index: -1;
-      background: linear-gradient(90deg, #1582f5 1.68%, #61adff 97.54%);
-    }
 
     i {
       font-size: 18px;
@@ -430,7 +429,7 @@
 
   &-Title {
     margin-top: 20px;
-    text-align: center
+    text-align: center;
   }
 
   @media screen and (max-width: 1200px) {
@@ -444,6 +443,64 @@
 
 .fillterBox {
   @apply border-2 border-main rounded-xl p-4 mb-4;
+}
+
+// Cart new
+.cartNewWrapper {
+  &-orders {
+    @apply grid grid-cols-1 gap-4;
+
+    &-items {
+      @apply grid grid-cols-12;
+      border-radius: 6px;
+      overflow: hidden;
+
+      &-label {
+        @apply text-[14px] lg:text-[16px] text-sec;
+        font-weight: bold;
+        margin-bottom: 12px;
+      }
+    }
+  }
+
+  &-label {
+    @apply text-[14px] lg:text-[16px] text-black;
+    font-weight: 600;
+  }
+
+  &-amount {
+    @apply fixed xl:w-full left-0 bottom-0 right-0 bg-label;
+    padding: 10px 0;
+    
+    @media screen and (max-width: 1280px) {
+      width: calc(100% - 44px);
+      margin-left: auto;
+    }
+
+    &-total,
+    &-select {
+      @apply col-span-1;
+    }
+
+    &-total {
+      @apply grid grid-cols-2 gap-2;
+
+      & > div {
+        @apply flex items-center justify-start gap-2;
+      }
+
+      &-value {
+        @apply text-white;
+        border-radius: 6px;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+      }
+    }
+  }
 }
 
 // table
@@ -493,16 +550,23 @@
 }
 
 .IconBoxFilter {
-  @apply pb-2 text-sm mr-4 tracking-wide rounded-[8px];
-  font-size: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
 }
 
 .titlePageUser {
-  @apply text-[24px] text-[#3E3C6A] font-semibold my-4;
+  font-size: 24px;
+  text-transform: uppercase;
+  margin: 9px 0 24px 0;
+  color: #3e3e44;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  font-weight: bolder;
 }
 
 .titleTable {
-  @apply text-main font-bold text-lg;
+  @apply text-label font-bold text-lg;
 }
 
 @media screen and (max-width: 768px) {

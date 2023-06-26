@@ -1,6 +1,7 @@
 import { TablePaginationConfig } from "antd";
 import React, { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useSelector } from "react-redux";
 import { withdraw } from "~/api";
 import {
   ModalDelete,
@@ -11,12 +12,13 @@ import {
 } from "~/components";
 import { defaultPagination } from "~/configs/appConfigs";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
-import { useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-  const { current: newUser } = useAppSelector((state) => state.user);
-
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
   const queryClient = useQueryClient();
   const item = React.useRef<TWithDraw>();
   const [modal, setModal] = useState(false);
@@ -34,7 +36,7 @@ const Index: TNextPageWithLayout = () => {
           PageIndex: pagination.current,
           PageSize: pagination.pageSize,
           OrderBy: "Id desc",
-          UID: newUser?.UserId,
+          UID: userCurrentInfo?.Id,
           Type: 2,
         })
         .then((res) => res.Data),
@@ -48,7 +50,6 @@ const Index: TNextPageWithLayout = () => {
           message: (error as any)?.response?.data?.ResultMessage,
           type: "error",
         }),
-      enabled: !!newUser,
     }
   );
 
@@ -76,17 +77,15 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <>
-      <div className="tableBox mt-6">
-        <WithDrawalVNDTable
-          {...{
-            data: data?.Items,
-            loading: isFetching,
-            pagination,
-            handleModal,
-            handlePagination: (pagination) => setPagination(pagination),
-          }}
-        />
-      </div>
+      <WithDrawalVNDTable
+        {...{
+          data: data?.Items,
+          loading: isFetching,
+          pagination,
+          handleModal,
+          handlePagination: (pagination) => setPagination(pagination),
+        }}
+      />
       <ModalDelete
         id={item.current?.Id}
         onCancel={() => handleModal(undefined)}
@@ -103,7 +102,7 @@ const Index: TNextPageWithLayout = () => {
 };
 
 Index.displayName = SEOHomeConfigs.financialManagement.withdrawMoneyVND;
-
+Index.breadcrumb = "Tạo yêu cầu rút";
 Index.Layout = UserLayout;
 
 export default Index;

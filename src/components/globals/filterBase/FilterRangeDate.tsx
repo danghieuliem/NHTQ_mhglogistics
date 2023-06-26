@@ -37,14 +37,14 @@ export const FilterRangeDate: React.FC<TProps> = ({
 
 	return (
 		<div className="relative" key={!blur ? 1 : new Date().getTime()}>
-			<div className="text-[10px] py-[2px] font-bold">
+			<div className="text-[10px] py-[2px] font-bold text-label">
 				{placeholder}
 			</div>
 			<DatePicker.RangePicker
 				disabled={disabled}
 				showTime={showTime}
 				format={format}
-				className="h-10 w-full !rounded-[8px]"
+				className="h-10 w-full !rounded-[6px]"
 				// onBlur={(dates) =>
 				// console.log(moment.unix(dates.timeStamp * 1000).format('MM/DD/YYYY'))
 				// }

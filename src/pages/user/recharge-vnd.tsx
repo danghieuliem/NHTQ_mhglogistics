@@ -1,6 +1,7 @@
 import { Drawer, Pagination, Space, Tag } from "antd";
 import React, { useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useSelector } from "react-redux";
 import { adminSendUserWallet } from "~/api";
 import {
   ActionButton,
@@ -8,14 +9,14 @@ import {
   IconButton,
   ModalDelete,
   RechargeVNDForm,
+  UserLayout,
   showToast,
   toast,
-  UserLayout,
 } from "~/components";
 import { RechargeContent } from "~/components/screens/user/recharge-vnd";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
 import { useCatalogue } from "~/hooks/useCatalogue";
-import { useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 import { _format } from "~/utils";
 
@@ -72,8 +73,10 @@ export const CreateRequestCom = ({ newUser, bank, TotalAmount }) => {
 };
 
 const Index: TNextPageWithLayout = () => {
-  const { current: newUser } = useAppSelector((state) => state.user);
-  const { bank } = useCatalogue({ bankEnabled: !!newUser });
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
+  const { bank } = useCatalogue({ bankEnabled: true });
   const item = useRef<TUserHistoryRechargeVND>();
   const [modal, setModal] = useState(false);
   const queryClient = useQueryClient();
@@ -83,7 +86,7 @@ const Index: TNextPageWithLayout = () => {
     PageIndex: 1,
     PageSize: 20,
     OrderBy: "Id desc",
-    UID: newUser?.UserId,
+    UID: userCurrentInfo?.Id,
   });
 
   const handleFilter = (newFilter) => {
@@ -95,7 +98,8 @@ const Index: TNextPageWithLayout = () => {
     () => adminSendUserWallet.getList({ ...filter }).then((res) => res.Data),
     {
       keepPreviousData: true,
-      enabled: !!newUser,
+      staleTime: 3000,
+      refetchOnWindowFocus: false,
       onSuccess: (data) => {
         setFilter({
           ...filter,
@@ -141,42 +145,39 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <React.Fragment>
-      <div className="mt-6">
-        {window.innerWidth >= 860 && (
-          <div className="tableBox grid grid-cols-12 gap-4 mb-4">
-            <div className="col-span-6 border-r-2 pr-4 border-[#dfdfdf]">
-              <RechargeContent newUser={newUser} />
-            </div>
-            <div className="col-span-6">
-              <RechargeVNDForm bankCatalogue={bank ?? []} newUser={newUser} />
-            </div>
+      {window.innerWidth >= 860 && (
+        <div className="tableBox grid grid-cols-12 gap-4 mb-4">
+          <div className="col-span-6 border-r-2 pr-4 border-[#dfdfdf]">
+            <RechargeContent newUser={userCurrentInfo} />
           </div>
-        )}
-      </div>
-
-      <div className="tableBox">
-        <HistoryRechargeVNDTable
-          {...{
-            data: data?.Items,
-            // pagination,
-            handleModal: (item: TUserHistoryRechargeVND) => handleModal(item),
-            loading: isFetching,
-            newUser,
-            bank,
-            TotalAmount: data?.Items[0]?.TotalAmount,
-          }}
-        />
-        <div className="mt-4 text-right">
-          <Pagination
-            total={filter?.TotalItems}
-            current={filter?.PageIndex}
-            pageSize={filter?.PageSize}
-            onChange={(page, pageSize) =>
-              handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-            }
-          />
+          <div className="col-span-6">
+            <RechargeVNDForm
+              bankCatalogue={bank ?? []}
+              newUser={userCurrentInfo}
+            />
+          </div>
         </div>
-      </div>
+      )}
+
+      <HistoryRechargeVNDTable
+        {...{
+          data: data?.Items,
+          // pagination,
+          handleModal: (item: TUserHistoryRechargeVND) => handleModal(item),
+          loading: isFetching,
+          newUser: userCurrentInfo,
+          bank,
+          TotalAmount: data?.Items[0]?.TotalAmount,
+        }}
+      />
+      <Pagination
+        total={filter?.TotalItems}
+        current={filter?.PageIndex}
+        pageSize={filter?.PageSize}
+        onChange={(page, pageSize) =>
+          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
+        }
+      />
       <ModalDelete
         id={item.current?.Id}
         onCancel={() => handleModal(undefined)}
@@ -193,5 +194,6 @@ const Index: TNextPageWithLayout = () => {
 
 Index.displayName = SEOHomeConfigs.financialManagement.rechargeVNĐ;
 Index.Layout = UserLayout;
+Index.breadcrumb = "Tạo yêu cầu nạp";
 
 export default Index;

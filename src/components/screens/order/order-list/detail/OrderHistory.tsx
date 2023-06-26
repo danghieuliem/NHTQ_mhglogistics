@@ -1,9 +1,7 @@
-import { TablePaginationConfig } from "antd";
-import React, { useState } from "react";
-import { defaultPagination } from "~/configs/appConfigs";
+import React from "react";
+import { DataTable } from "~/components/globals/table";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
-import { History } from "./History";
 
 type TProps = {
   data: TOrder;
@@ -16,14 +14,17 @@ export const OrderHistory: React.FC<TProps> = ({ data, loading }) => {
       dataIndex: "Created",
       title: "Ngày thanh toán",
       render: (date) => _format.getVNDate(date),
+      width: 200
     },
     {
       dataIndex: "CreatedBy",
       title: "Người Thực hiện",
+      width: 160
     },
     {
       dataIndex: "StatusName",
       title: "Loại thanh toán",
+      width: 160,
       render: (status, record) => {
         // let color = "orange";
         // if (category === 1) color = "blue";
@@ -33,69 +34,41 @@ export const OrderHistory: React.FC<TProps> = ({ data, loading }) => {
     },
     {
       dataIndex: "TypeName",
-      title: "Hình thức thanh toán",
+      title: "Hình thức",
+      width: 120
     },
     {
       dataIndex: "Amount",
       title: "Tiền thanh toán",
       align: "right",
       render: (money) => _format.getVND(money),
+      width: 200
     },
   ];
-
-  // const expandablePay = {
-  //   expandedRowRender: (record) => (
-  //     <ul className="px-2 text-xs">
-  //       <li className="sm:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Ngày thanh toán:</span>
-  //         <div>{_format.getVNDate(record.Created)}</div>
-  //       </li>
-  //       <li className="xl:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Tiền thanh toán:</span>
-  //         <div>{_format.getVND(record.Amount)}</div>
-  //       </li>
-  //     </ul>
-  //   ),
-  // };
 
   const changeHistoryColumns: TColumnsType<THistoryOrderChange> = [
     {
       dataIndex: "Created",
       title: "Ngày thay đổi",
-      // width: 179,
+      width: 200,
       render: (date) => _format.getVNDate(date),
     },
     {
       dataIndex: "CreatedBy",
       title: "Người thay đổi",
-      // width: 120,
+      width: 100,
     },
     {
       dataIndex: "UserGroupName",
       title: "Quyền hạn",
-      // width: 110,
+      width: 100,
     },
     {
       dataIndex: "HistoryContent",
       title: "Nội dung",
-      width: 400,
+      width: 300,
     },
   ];
-
-  // const expandableChange = {
-  //   expandedRowRender: (record) => (
-  //     <ul className="px-2 text-xs">
-  //       <li className="sm:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Ngày thay đổi:</span>
-  //         <div>{record.Created}</div>
-  //       </li>
-  //       <li className="xl:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Nội dung:</span>
-  //         <div className="text-right">{record.HistoryContent}</div>
-  //       </li>
-  //     </ul>
-  //   ),
-  // };
 
   const complainHistoryColumns: TColumnsType<TOrderComplain> = [
     {
@@ -126,56 +99,31 @@ export const OrderHistory: React.FC<TProps> = ({ data, loading }) => {
     },
   ];
 
-  // const expandableComplain = {
-  //   expandedRowRender: (record) => (
-  //     <ul className="px-2 text-xs">
-  //       <li className="sm:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Ngày khiếu nại:</span>
-  //         <div>{_format.getVNDate(record.Created)}</div>
-  //       </li>
-  //       <li className="md:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Trạng thái:</span>
-  //         <div>{record.StatusName}</div>
-  //       </li>
-  //       <li className="xl:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Nội dung:</span>
-  //         <div>{record.ComplainText}</div>
-  //       </li>
-  //     </ul>
-  //   ),
-  // };
-
-  const [pagination, setPagination] =
-    useState<TablePaginationConfig>(defaultPagination);
-
   return (
     <React.Fragment>
-      <div className="mx-2">
-        <History
-          title="LỊCH SỬ THANH TOÁN"
-          columns={paymentHistoryColumns}
-          data={data?.PayOrderHistories}
-          // expandable={expandablePay}
-        />
-      </div>
-      <div className="mt-8 border-t pt-4 mx-2">
-        <History
-          title="LỊCH SỬ THAY ĐỔI"
-          columns={changeHistoryColumns}
-          data={data?.HistoryOrderChanges}
-          pagination={pagination}
-          handlePagination={(pagination) => setPagination(pagination)}
-          // expandable={expandableChange}
-        />
-      </div>
-      <div className="mt-8 border-t pt-4 mx-2">
-        <History
-          title="LỊCH SỬ KHIẾU NẠI"
-          columns={complainHistoryColumns}
-          data={data?.Complains}
-          // expandable={undefined}
-        />
-      </div>
+      <DataTable
+        title="Lịch sử thanh toán"
+        columns={paymentHistoryColumns}
+        data={data?.PayOrderHistories}
+        style="detailOrder"
+        className="mb-4"
+        scroll={{y: 500}}
+      />
+      <DataTable
+        title="Lịch sử thay đổi"
+        columns={changeHistoryColumns}
+        data={data?.HistoryOrderChanges}
+        style="detailOrder"
+        scroll={{y: 600, x: 1200}}
+        className="mb-4"
+      />
+      <DataTable
+        title="Lịch sử khiếu nại"
+        columns={complainHistoryColumns}
+        data={data?.Complains}
+        scroll={{y: 500, x: 1200}}
+        style="detailOrder"
+      />
     </React.Fragment>
   );
 };

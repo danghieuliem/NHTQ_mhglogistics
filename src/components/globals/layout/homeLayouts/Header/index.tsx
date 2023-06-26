@@ -1,18 +1,16 @@
-import { Image, Avatar as AvatarAntd, Tooltip } from "antd";
+import { Avatar as AvatarAntd, Card, Image, Popover, Tooltip } from "antd";
 import clsx from "clsx";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useState } from "react";
-import { useQuery } from "react-query";
-import { user as userApi } from "~/api";
+import React, { useState } from "react";
 import { default as AvatarName } from "react-avatar";
+import { useDispatch, useSelector } from "react-redux";
 import {
   ForgotPasswordForm,
   RegisterForm,
   SignInForm,
 } from "~/components/screens/auth";
-import { getLevelId, socialList } from "~/configs";
+import { socialList } from "~/configs";
 import {
   RootState,
   logOut,
@@ -23,22 +21,13 @@ import {
 import { _format } from "~/utils";
 import Navbar from "../Navbar";
 import styles from "./index.module.css";
-import { useDispatch, useSelector } from "react-redux";
 // import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 
-const UserControl = ({
-  dataUser,
-  user,
-  isLogOut,
-  setOpenModal,
-  firstPage,
-  connection,
-}) => {
-  const dipatch = useDispatch();
-
+const UserControl = ({ user, setOpenModal, firstPage, connection }) => {
+  const dispatch = useDispatch();
   return (
     <div className={styles.userControl}>
-      {!user?.UserId || isLogOut === null ? (
+      {!user?.Id ? (
         <div className="login-user flex items-center justify-end ml-4">
           <a
             className={styles.headerTopLinkNotAuth}
@@ -54,76 +43,58 @@ const UserControl = ({
           </a>
         </div>
       ) : (
-        <div className={clsx("relative group ml-4", styles.hoverInfo)}>
-          <Link href={firstPage ? firstPage : "/user"}>
-            <a className="uppercase font-semibold flex text !text-main login-user items-center">
-              <i className="text-main text fas fa-user mr-2"></i>
-              <div>{user?.UserName || "Anonymus"} </div>
-            </a>
-          </Link>
-          <div className={clsx(styles.userInfoWrapper)}>
-            <div className={styles.head}>
-              <span className={styles.icon}>
-                {dataUser?.Data?.AvatarIMG ? (
-                  <AvatarAntd
-                    src={dataUser?.Data?.AvatarIMG}
-                    className="!rounded-[4px]"
-                  />
-                ) : (
-                  <AvatarName
-                    name={dataUser?.Data?.UserName}
-                    size={"40px"}
-                    textSizeRatio={2}
-                  />
-                )}
-              </span>
-              <span className={styles.headInfo}>
-                <span className="flex justify-between items-center">
-                  <Tooltip title="Quyền hạn của bạn">
-                    <span className="font-bold text-sec">
-                      {dataUser?.Data?.UserGroupName}
-                    </span>
-                  </Tooltip>
-                  <Tooltip title="Cấp độ VIP của bạn">
-                    <span className="text-white bg-main py-1 px-2 leading-[initial] rounded-[4px] text-[10px] font-bold">
-                      VIP {dataUser?.Data?.LevelId}
-                    </span>
-                  </Tooltip>
-                </span>
-                <Tooltip
-                  title="Số dư ví của bạn (VNĐ)"
-                  className="flex justify-between items-center text-main"
-                >
-                  <i className="fas fa-wallet !text-[14px]"></i>
-                  <span>
-                    {dataUser?.Data?.Wallet !== 0
-                      ? _format.getVND(dataUser?.Data?.Wallet, " ")
-                      : "--"}
+        <Popover
+          trigger={"click"}
+          placement="bottomRight"
+          content={
+            <Card
+              bodyStyle={{ padding: "8px" }}
+              headStyle={{ padding: "0 12px" }}
+              extra={
+                <div className={styles.head}>
+                  <span className={styles.icon}>
+                    {user?.AvatarIMG ? (
+                      <AvatarAntd
+                        src={user?.AvatarIMG}
+                        className="!rounded-[4px]"
+                      />
+                    ) : (
+                      <AvatarName
+                        name={user?.UserName}
+                        size={"40px"}
+                        textSizeRatio={2}
+                      />
+                    )}
                   </span>
-                </Tooltip>
-              </span>
-            </div>
-            <div className={styles.body}>
-              <ul className={styles.bodyList}>
-                <Link href={user?.UserGroupId === 2 ? "/user" : firstPage}>
-                  <li className={clsx(styles.bodyItem, styles.bodyItemPage)}>
-                    <a>
-                      <i className="fas fa-toolbox"></i>
-                      <span>Quản trị</span>
-                    </a>
-                  </li>
-                </Link>
-
-                <Link href="/user/cart">
-                  <li className={clsx(styles.bodyItem, styles.bodyItemCart)}>
-                    <a>
-                      <i className="fa fa-shopping-cart"></i>
-                      <span>Giỏ hàng</span>
-                    </a>
-                  </li>
-                </Link>
-
-                <li
+                  <span className={styles.headInfo}>
+                    <span className="flex justify-between items-center">
+                      <Tooltip title="Quyền hạn của bạn">
+                        <span className="font-bold text-sec">
+                          {user?.UserGroupName}
+                        </span>
+                      </Tooltip>
+                      <Tooltip title="Cấp độ VIP của bạn">
+                        <span className="text-white bg-main py-1 px-2 leading-[initial] rounded-[4px] text-[10px] font-bold">
+                          VIP {user?.LevelId}
+                        </span>
+                      </Tooltip>
+                    </span>
+                    <Tooltip
+                      title="Số dư ví của bạn (VNĐ)"
+                      className="flex justify-between items-center text-main"
+                    >
+                      <i className="fas fa-wallet !text-[14px]"></i>
+                      <span className="ml-4">
+                        {user?.Wallet !== 0
+                          ? _format.getVND(user?.Wallet, " ")
+                          : "--"}
+                      </span>
+                    </Tooltip>
+                  </span>
+                </div>
+              }
+              actions={[
+                <div
                   className={clsx(styles.bodyItem, styles.logOutButton)}
                   onClick={() => {
                     connection &&
@@ -132,79 +103,79 @@ const UserControl = ({
                         user.UserId.toString(),
                         user.UserGroupId.toString()
                       );
-                    localStorage.removeItem("currentUser");
                     Cookies.remove("tokenNHTQ-demo");
-                    dipatch(logOut)
-                    window.location.reload();
+                    dispatch(logOut());
                   }}
                 >
                   <a href="#">
                     <i className="fas fa-sign-out-alt"></i>
                     <span>Đăng xuât</span>
                   </a>
-                </li>
-              </ul>
-            </div>
+                </div>,
+              ]}
+            >
+              <div className={styles.body}>
+                <ul className={styles.bodyList}>
+                  <Link href={user?.UserGroupId === 2 ? "/user" : firstPage}>
+                    <li className={clsx(styles.bodyItem, styles.bodyItemPage)}>
+                      <a>
+                        <i className="fas fa-user-shield"></i>
+                        <span>Quản trị</span>
+                      </a>
+                    </li>
+                  </Link>
+
+                  <Link href="/user/cart">
+                    <li className={clsx(styles.bodyItem, styles.bodyItemCart)}>
+                      <a>
+                        <i className="fa fa-shopping-cart"></i>
+                        <span>Giỏ hàng</span>
+                      </a>
+                    </li>
+                  </Link>
+                </ul>
+              </div>
+            </Card>
+          }
+        >
+          <div
+            className={clsx(
+              "relative group ml-4  cursor-pointer",
+              styles.hoverInfo
+            )}
+          >
+            {/* <Link href={firstPage ? firstPage : "/user"}> */}
+            <span className="uppercase font-semibold flex text !text-main login-user items-center">
+              <i className="text-main text fas fa-user mr-2"></i>
+              <div>{user?.UserName || "Anonymus"} </div>
+            </span>
+            {/* </Link> */}
           </div>
-        </div>
+        </Popover>
       )}
     </div>
   );
 };
 
-const Header = ({ dataConfig, dataMenu }) => {
-  const router = useRouter();
-  const isLogOut = localStorage.getItem("currentUser");
-  const user = useAppSelector((state) => state.user.current);
-  const userId = user?.UserId;
+const Header = ({ dataMenu }) => {
   const firstPage = useAppSelector(selectFirstPageDashboard);
   const connection = useAppSelector(selectConnection);
   const [openModal, setOpenModal] = useState("");
 
-  // const userCurrentInfo: TUser = useSelector(
-  //   (state: RootState) => state.userCurretnInfo
-  // );
+  const dataGlobal: TConfig = useSelector((state: RootState) => state.dataGlobal);
+  const userCurrentInfo: TUser = useSelector((state: RootState) => state.userCurretnInfo);
 
-  // console.log(userCurrentInfo);
 
-  if (dataConfig) {
-    socialList?.forEach((social) => (social.link = dataConfig[social.title]));
-  }
+  console.log(firstPage);
 
-  // const { data: dataUser } = useQuery(
-  //   ["clientData", userId],
-  //   () => userApi.getByID(userId),
-  //   {
-  //     refetchOnReconnect: false,
-  //     refetchOnWindowFocus: false,
-  //     retry: false,
-  //     enabled: !!userId && isLogOut !== null,
-  //   }
-  // );
-
-  // Handling scroll effect
-  const [y, setY] = useState(window.scrollY);
-
-  const handleNavigation = useCallback((e) => setY(window.scrollY), [y]);
-
-  useEffect(() => {
-    setY(window.scrollY);
-    window.addEventListener("scroll", handleNavigation);
-
-    return () => {
-      window.removeEventListener("scroll", handleNavigation);
-    };
-  }, [handleNavigation]);
+  // if (dataConfig) {
+  //   socialList?.forEach((social) => (social.link = dataConfig[social.title]));
+  // }
 
   return (
     <>
       <header className={`${styles.fixed} `}>
-        <div
-          className={clsx(
-            styles.headerTop,
-            `${y > 0 ? styles.headerTopHidden : ""}`
-          )}
-        >
+        <div className={styles.headerTop}>
           <div className="container">
             <div className={styles.headerTopInner}>
               <div className={styles.headerTopLeft}>
@@ -216,22 +187,22 @@ const Header = ({ dataConfig, dataMenu }) => {
                       styles.headerTopLinkAuthRecharge
                     )}
                   >
-                    1¥ = {_format.getVND(dataConfig?.Currency, "")}
+                    1¥ = {_format.getVND(dataGlobal?.Currency, "")}
                   </span>
                 </div>
                 <div className="mr-3 w-fit flex">
                   <span className="text-white">Hotline:</span>
-                  <Link href={`tel:+${dataConfig?.Hotline}`}>
+                  <Link href={`tel:+${dataGlobal?.Hotline}`}>
                     <a className={styles.headerTopLinkAuth}>
-                      {dataConfig?.Hotline}
+                      {dataGlobal?.Hotline}
                     </a>
                   </Link>
                 </div>
                 <div className="mr-3 w-fit hidden md:hidden xl:flex">
                   <span className="text-white">Email:</span>
-                  <Link href={`mailto:${dataConfig?.EmailContact}`}>
+                  <Link href={`mailto:${dataGlobal?.EmailContact}`}>
                     <a className={styles.headerTopLinkAuth}>
-                      {dataConfig?.EmailContact}
+                      {dataGlobal?.EmailContact}
                     </a>
                   </Link>
                 </div>
@@ -270,9 +241,7 @@ const Header = ({ dataConfig, dataMenu }) => {
                 </div>
                 <UserControl
                   {...{
-                    dataUser: null,
-                    user,
-                    isLogOut,
+                    user: userCurrentInfo,
                     setOpenModal,
                     firstPage,
                     connection,
@@ -282,11 +251,7 @@ const Header = ({ dataConfig, dataMenu }) => {
             </div>
           </div>
         </div>
-        <div
-          className={`${styles.headerBottom} ${
-            y >= 100 && styles.headerBottomChange
-          }`}
-        >
+        <div className={styles.headerBottom}>
           <div className="container">
             <div className="justify-between flex items-center ">
               <div className={clsx(styles.left, "block lg:hidden xl:block")}>
@@ -294,7 +259,7 @@ const Header = ({ dataConfig, dataMenu }) => {
                   <a className="flex items-center">
                     <div className={styles.logo}>
                       <Image
-                        src={dataConfig?.LogoIMG || "/default/default_logo.png"}
+                        src={dataGlobal?.LogoIMG || "/default/default_logo.png"}
                         alt=""
                         width={"100%"}
                         height={"auto"}
@@ -309,7 +274,7 @@ const Header = ({ dataConfig, dataMenu }) => {
                 </Link>
               </div>
               <div className="flex items-center w-full justify-between  lg:w-full lg:justify-center xl:w-fit xl:justify-right">
-                <Navbar dataConfig={dataConfig} dataMenu={dataMenu} />
+                <Navbar dataConfig={dataGlobal} dataMenu={dataMenu} />
               </div>
             </div>
           </div>

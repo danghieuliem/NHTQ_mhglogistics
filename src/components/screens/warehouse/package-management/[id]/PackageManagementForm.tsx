@@ -34,8 +34,8 @@ export const PackageManagementForm: React.FC<TProps> = ({ data, loading }) => {
   };
 
   return (
-    <div className="grid grid-cols-1 gap-4">
-      <div className="col-span-1">
+    <div className="grid grid-cols-2 gap-4">
+      <div className="col-span-2">
         <FormInput
           control={control}
           name="Code"
@@ -64,7 +64,7 @@ export const PackageManagementForm: React.FC<TProps> = ({ data, loading }) => {
           rules={{ required: "Không bỏ trống khối" }}
         />
       </div>
-      <div className="col-span-">
+      <div className="col-span-2">
         <FormSelect
           control={control}
           data={packageStatusData.slice(2, 3)}
@@ -77,7 +77,7 @@ export const PackageManagementForm: React.FC<TProps> = ({ data, loading }) => {
           rules={{ required: "Không bỏ trống trạng thái" }}
         />
       </div>
-      <div className="col-span-1 flex border-t border-main pt-3 mt-3">
+      <div className="col-span-2 flex border-t border-main pt-4">
         <IconButton
           icon="fas fa-pencil"
           title="Cập nhật"

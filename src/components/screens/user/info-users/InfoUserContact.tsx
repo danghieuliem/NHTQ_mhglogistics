@@ -52,6 +52,7 @@ export const InfoUserContact: React.FC<any> = ({ data }) => {
   const [info, setInfo] = useState(templates);
   const dispatch = useDispatch();
 
+  console.log(data);
   useEffect(() => {
     if (!data) return;
 
@@ -107,9 +108,9 @@ export const InfoUserContact: React.FC<any> = ({ data }) => {
         <div className="grid grid-cols-12 gap-4">
           <div className="tableBox sm:col-span-4 md:col-span-3 flex sm:flex-col items-center justify-center">
             <div className="relative">
-              <Avatar
+            <Avatar
                 size={{ sm: 90, md: 120, lg: 150, xl: 150, xxl: 150 }}
-                src={data?.AvatarIMG ? data.AvatarIMG : "/empty_avatar.jpg"}
+                src={data?.AvatarIMG ? data.AvatarIMG : "/default/pro-empty.jpg"}
               />
               <Popover
                 trigger={"click"}

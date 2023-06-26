@@ -269,45 +269,51 @@ export const CheckWarehouseVietNamForm = () => {
         mutationUpdate.isLoading
       }
     >
-      <div className="flex items-end">
-        <FormInput
-          control={control}
-          name="OrderTransactionCode"
-          placeholder="Nhập mã vận đơn hoặc mã bao hàng"
-          inputContainerClassName="max-w-[424px] mr-4"
-          inputClassName="barcode"
-          label="Mã vận đơn/Mã bao hàng"
-          prefix={
-            <Tooltip placement="topLeft" title={"Open barcode!"}>
-              <div className="ml-2">
-                <i className="fas fa-barcode text-2xl"></i>
-              </div>
-            </Tooltip>
-          }
-          rules={{
-            required: "This field is required",
-          }}
-          onEnter={handleSubmit((data) => _onCreate(data))}
-        />
-        <IconButton
-          onClick={handleSubmit((data) => _onCreate(data))}
-          btnClass="order-last"
-          icon="fas fa-barcode-read"
-          title="Quét mã (Enter)"
-          toolip=""
-        />
-      </div>
-      <IconButton
-        onClick={handleSubmitArray((data) =>
-          _onPress(
-            Object.values(data).reduce((prev, cur) => [...prev, ...cur], [])
-          )
+      <div className="tableBox grid grid-cols-4 gap-4">
+        <div className="col-span-2">
+          <FormInput
+            control={control}
+            name="OrderTransactionCode"
+            placeholder="Nhập mã vận đơn hoặc mã bao hàng"
+            inputClassName="barcode"
+            prefix={
+              <Tooltip placement="topLeft" title={"Open barcode!"}>
+                <i className="fas fa-barcode"></i>
+              </Tooltip>
+            }
+            rules={{
+              required: "This field is required",
+            }}
+            onEnter={handleSubmit((data) => _onCreate(data))}
+          />
+        </div>
+        <div className="col-span-1 flex items-end">
+          <IconButton
+            onClick={handleSubmit((data) => _onCreate(data))}
+            icon="fas fa-barcode-read"
+            title="Quét mã (Enter)"
+            toolip=""
+          />
+        </div>
+        {!!Object.keys(watchArray()).length && (
+          <div className="col-span-4 flex items-end">
+            <IconButton
+              onClick={handleSubmitArray((data) =>
+                _onPress(
+                  Object.values(data).reduce(
+                    (prev, cur) => [...prev, ...cur],
+                    []
+                  )
+                )
+              )}
+              icon="fas fa-pencil"
+              title="Cập nhật tất cả kiện"
+              toolip=""
+            />
+          </div>
         )}
-        btnClass="mt-4"
-        icon="fas fa-pencil"
-        title="Cập nhật tất cả kiện (Ctrl + Q)"
-        toolip=""
-      />
+      </div>
+
       {!!Object.keys(watchArray()).length &&
         Object.keys(watchArray()).map((key) => (
           <CheckWarehouseChinaTable

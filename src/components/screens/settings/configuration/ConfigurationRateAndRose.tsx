@@ -13,7 +13,7 @@ export const ConfigurationRateAndRose: FC<TProps<TConfig3>> = ({
 }) => {
   return (
     <React.Fragment>
-      <div className="px-6 mt-4">
+      <div className="">
         <p className="text-xs" style={{ color: "red" }}>
           * KHÔNG ĐƯỢC ĐỂ TRỐNG!
         </p>
@@ -34,7 +34,7 @@ export const ConfigurationRateAndRose: FC<TProps<TConfig3>> = ({
               <FormInputNumber
                 control={control}
                 name="SalePayHelpPersent"
-                label="hoa hồng mua hộ"
+                label="Hoa hồng mua hộ"
                 suffix=" %"
                 // required={false}
                 placeholder=""
@@ -71,7 +71,7 @@ export const ConfigurationRateAndRose: FC<TProps<TConfig3>> = ({
               <FormInputNumber
                 control={control}
                 name="SalePercent"
-                label="nhân viên sale trong 3 tháng đầu"
+                label="Nhân viên sale trong 3 tháng đầu"
                 suffix=" %"
                 // required={false}
                 placeholder=""
@@ -84,7 +84,7 @@ export const ConfigurationRateAndRose: FC<TProps<TConfig3>> = ({
               <FormInputNumber
                 control={control}
                 name="SalePercentAfter3Month"
-                label="nhân viên sale sau 3 tháng"
+                label="Nhân viên sale sau 3 tháng"
                 suffix=" %"
                 placeholder=""
                 // required={false}
@@ -97,7 +97,7 @@ export const ConfigurationRateAndRose: FC<TProps<TConfig3>> = ({
               <FormInputNumber
                 control={control}
                 name="DatHangPercent"
-                label="nhân viên đặt hàng"
+                label="Nhân viên đặt hàng"
                 suffix=" %"
                 placeholder=""
                 // required={false}
@@ -108,34 +108,6 @@ export const ConfigurationRateAndRose: FC<TProps<TConfig3>> = ({
             </div>
           </div>
 
-          {/* <div className="span-col-1">
-            <div className="mb-3">
-              <FormInputNumber
-                control={control}
-                name="SalePayHelpPersent"
-                label="hoa hồng mua hộ"
-                suffix=" %"
-                // required={false}
-                placeholder=""
-                rules={{
-                  required: "Không bỏ trống!",
-                }}
-              />
-            </div>
-            <div className="mb-3">
-              <FormInputNumber
-                control={control}
-                name="SaleTranportationPersent"
-                label="Hoa hồng ký gửi"
-                suffix=" %"
-                // required={false}
-                placeholder=""
-                rules={{
-                  required: "Không bỏ trống!",
-                }}
-              />
-            </div>
-          </div> */}
           <div className="span-col-1">
             <div className="mb-3">
               <FormInputNumber

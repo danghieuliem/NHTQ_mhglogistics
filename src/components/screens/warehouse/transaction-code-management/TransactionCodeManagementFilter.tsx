@@ -39,7 +39,7 @@ export const TransactionCodeManagementFilter: React.FC<TProps> = ({
   const ToDate = useRef<string>(null);
 
   return (
-    <div className="flex w-fit ml-auto mb-1 flex-wrap">
+    <div className="flex w-fit ml-auto mb-1 flex-wrap justify-end">
       <ActionButton
         onClick={() => handleExporTExcel()}
         icon="fas fa-file-export !mr-2"
@@ -51,7 +51,7 @@ export const TransactionCodeManagementFilter: React.FC<TProps> = ({
         trigger={"click"}
         placement="topRight"
         content={
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-4 gap-2 p-2">
             <div className="col-span-4 md:col-span-2">
               <FilterSelect
                 data={
@@ -122,7 +122,7 @@ export const TransactionCodeManagementFilter: React.FC<TProps> = ({
           isButton
           icon=""
           title="Bộ lọc"
-          isButtonClassName="bg-red !text-white hover:!bg-main"
+          isButtonClassName="bg-main !text-white "
         />
       </Popover>
     </div>

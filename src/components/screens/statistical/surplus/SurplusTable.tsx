@@ -1,9 +1,10 @@
-import { Space, Tag } from "antd";
-import router from "next/router";
+import { Tag } from "antd";
+import Link from "next/link";
 import React from "react";
 import { ActionButton, DataTable } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 
 export const SurplusTable: React.FC<TTable<TStatisticalSurplus>> = ({
   data,
@@ -15,12 +16,15 @@ export const SurplusTable: React.FC<TTable<TStatisticalSurplus>> = ({
       dataIndex: "Id",
       title: "ID",
       width: 70,
+      fixed: "left",
+      align: "right"
     },
     {
       dataIndex: "UserName",
       key: "UserName",
       title: "Username",
-      width: 150,
+      width: 120,
+      fixed: "left",
     },
     {
       dataIndex: "UserGroupName",
@@ -34,7 +38,7 @@ export const SurplusTable: React.FC<TTable<TStatisticalSurplus>> = ({
       title: "Số dư (VNĐ)",
       align: "right",
       render: (money) => _format.getVND(money, " "),
-      width: 200,
+      width: 120,
     },
     {
       dataIndex: "Created",
@@ -42,7 +46,6 @@ export const SurplusTable: React.FC<TTable<TStatisticalSurplus>> = ({
       title: "Ngày tạo",
       render: (date) => _format.getVNDate(date),
       width: 200,
-      responsive: ["xl"],
     },
     {
       dataIndex: "Status",
@@ -55,7 +58,7 @@ export const SurplusTable: React.FC<TTable<TStatisticalSurplus>> = ({
         } else if (status === 2) {
           color = "yellow";
         }
-        return <Tag color={color}>{record.StatusName}</Tag>;
+        return <TagStatus color={color} statusName={record.StatusName}/>
       },
       width: 120,
     },
@@ -67,7 +70,6 @@ export const SurplusTable: React.FC<TTable<TStatisticalSurplus>> = ({
         <>{record?.SalerUserName ? record?.SalerUserName : "--"}</>
       ),
       width: 120,
-      responsive: ["xl"],
     },
     {
       dataIndex: "OrdererUserName",
@@ -77,81 +79,55 @@ export const SurplusTable: React.FC<TTable<TStatisticalSurplus>> = ({
         <>{record?.OrdererUserName ? record?.OrdererUserName : "--"}</>
       ),
       width: 120,
-      responsive: ["xl"],
     },
     {
       dataIndex: "action",
       key: "action",
       title: "Thao tác",
       align: "right",
+      width: 200,
+      fixed: "right",
       render: (_, record) => (
-        <Space>
-          <ActionButton
-            icon="fas fa-edit"
-            title="Cập nhật"
-            onClick={() =>
-              router.push({
-                pathname: "/manager/client/client-list/detail",
-                query: { id: record?.Id },
-              })
-            }
-          />
-          <ActionButton
-            icon="fas fa-badge-dollar"
-            title="Nạp tiền"
-            onClick={() =>
-              router.push({
-                pathname: "/manager/money/vietnam-recharge",
-                query: { id: record?.Id },
-              })
-            }
-          />
+        <div className="flex flex-wrap gap-1">
+          <Link href={`/manager/client/client-list/detail/?id=${record?.Id}`}>
+            <a target="_blank">
+              <ActionButton icon="mr-0" title="Cập nhật" isButton />
+            </a>
+          </Link>
 
-          <ActionButton
-            icon="fas fa-dolly-flatbed"
-            title="Lịch sử giao dịch"
-            onClick={() =>
-              router.push({
-                pathname: "/manager/client/transaction-history",
-                query: { id: record?.Id },
-              })
-            }
-          />
-        </Space>
+          <Link href={`/manager/money/vietnam-recharge/?id=${record?.Id}`}>
+            <a target="_blank">
+              <ActionButton
+                icon="mr-0"
+                title="Nạp tiền"
+                isButton
+              />
+            </a>
+          </Link>
+
+          <Link href={`/manager/client/transaction-history/?id=${record?.Id}`}>
+            <a target="_blank">
+              <ActionButton
+                icon="mr-0"
+                title="Lịch sử"
+                isButton
+              />
+            </a>
+          </Link>
+        </div>
       ),
       // width: 200,
     },
   ];
-
-  const expandable = {
-    expandedRowRender: (record) => (
-      <ul className="px-2 text-xs">
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Nv Kinh doanh:</span>
-          {record.SalerUserName || "---"}
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Nv đặt hàng:</span>
-          {record.OrdererUserName || "---"}
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Ngày tạo:</span>
-          {_format.getVNDate(record.Created)}
-        </li>
-      </ul>
-    ),
-  };
 
   return (
     <DataTable
       {...{
         columns,
         data,
-        bordered: true,
         pagination,
         onChange: handlePagination,
-        expandable: expandable,
-        scroll: { y: 500 },
+        scroll: { y: 700, x: 1200 },
       }}
     />
   );

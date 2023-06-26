@@ -124,7 +124,7 @@ export const TariffBuyProForm: FC<TForm<TTariffBuyPro>> = ({
         <FormCard.Footer>
           <Button
             title="Cập nhật"
-            btnClass="!bg-main"
+            btnClass="!bg-main mr-2"
             onClick={handleSubmit(_onPress)}
           />
           <Button title="Hủy" btnClass="!bg-red" onClick={onCancel} />

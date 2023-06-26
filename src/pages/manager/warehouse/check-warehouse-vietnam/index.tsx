@@ -1,14 +1,10 @@
-import { CheckWarehouseVietNamForm, Layout } from '~/components';
-import { breadcrumb } from '~/configs';
-import { SEOConfigs } from '~/configs/SEOConfigs';
-import { TNextPageWithLayout } from '~/types/layout';
+import { CheckWarehouseVietNamForm, Layout } from "~/components";
+import { breadcrumb } from "~/configs";
+import { SEOConfigs } from "~/configs/SEOConfigs";
+import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-	return (
-		<div className="tableBox">
-			<CheckWarehouseVietNamForm />
-		</div>
-	);
+  return <CheckWarehouseVietNamForm />;
 };
 
 Index.displayName = SEOConfigs.checkWarehouseVN;

@@ -1,9 +1,10 @@
-import { Space, Tag } from "antd";
+import { Space } from "antd";
 import router from "next/router";
 import { ActionButton, DataTable } from "~/components";
-import { paymentData, paymentStatus } from "~/configs";
+import { paymentStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 
 const columns: TColumnsType<TNewPaymentOrders> = [
   {
@@ -39,9 +40,9 @@ const columns: TColumnsType<TNewPaymentOrders> = [
   {
     title: "Trạng thái",
     dataIndex: "Status",
-    render: (status) => {
+    render: (status, record) => {
       const color = paymentStatus.find((x) => x.id === status);
-      return <Tag color={color?.color}>{color?.name}</Tag>;
+      return <TagStatus color={color?.color} statusName={record?.StatusName} />
     },
   },
   {
@@ -117,20 +118,18 @@ const expandable = {
     );
   },
 };
-export const UserPayment = ({ data, isLoading, isFetching, pagination }) => {
+export const UserPayment = ({ data, isFetching }) => {
   return (
-    <div className="tableBox">
-      <DataTable
-        {...{
-          columns,
-          data: data?.Items,
-          loading: isFetching,
-          bordered: true,
-          title: "Đơn hàng thanh toán hộ",
-          expandable: expandable,
-          // pagination,
-        }}
-      />
-    </div>
+    <DataTable
+      {...{
+        columns,
+        data: data?.Items,
+        loading: isFetching,
+        bordered: true,
+        title: "Đơn hàng thanh toán hộ",
+        expandable: expandable,
+        bgHeaderType: "paymentTable"
+      }}
+    />
   );
 };

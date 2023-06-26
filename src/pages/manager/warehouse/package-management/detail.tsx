@@ -1,3 +1,4 @@
+import { Divider } from "antd";
 import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 import { useQuery } from "react-query";
@@ -38,16 +39,14 @@ const Index: TNextPageWithLayout = () => {
     }
   );
 
-  if (isError)
-    return <Empty description={`Không tìm thấy bao hàng #${query.id}`} />;
-  if (!data) return null;
+  if (isError || !data) return <Empty />;
 
   return (
     <div className="xl:grid grid-cols-12 gap-4">
       <div className="col-span-3 mb-4">
         <div className="tableBox px-4">
           <div className="">
-            <div className="border-b mb-4 font-bold text-base text-[#424242] border-main pb-2">
+            <div className="border-b mb-4 font-bold text-base text-label border-label pb-2">
               <span>CẬP NHẬT BAO HÀNG</span>
             </div>
             <PackageManagementForm data={data?.Data} loading={isLoading} />
@@ -55,26 +54,20 @@ const Index: TNextPageWithLayout = () => {
         </div>
       </div>
       <div className="col-span-9">
-        <div className="tableBox px-4">
-          <div className="">
-            <div className="">
-              <div className="border-b font-bold text-base text-[#424242] border-main pb-2">
-                <span>DANH SÁCH MÃ VẬN ĐƠN</span>
-              </div>
-              <PackageManagementFormFilter
-                handleFilter={handleFilter}
-                loading={isLoading}
-              />
-            </div>
-            <PackageManagementFormTable
-              data={data?.Data?.SmallPackages?.filter((x) =>
-                x.OrderTransactionCode.includes(OrderTransactionCode)
-              )}
-              loading={isLoading}
-              handleModal={handleModal}
-            />
-          </div>
+        <div className="font-bold text-base text-label flex items-center justify-between">
+          <span>DANH SÁCH MÃ VẬN ĐƠN</span>
+          <PackageManagementFormFilter
+            handleFilter={handleFilter}
+            loading={isLoading}
+          />
         </div>
+        <PackageManagementFormTable
+          data={data?.Data?.SmallPackages?.filter((x) =>
+            x.OrderTransactionCode.includes(OrderTransactionCode)
+          )}
+          loading={isLoading}
+          handleModal={handleModal}
+        />
       </div>
       {/* <PackageManagementFormDetail
 				visible={modal}

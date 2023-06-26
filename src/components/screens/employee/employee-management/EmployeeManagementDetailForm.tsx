@@ -3,17 +3,13 @@ import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { user } from "~/api";
-import {
-  FormDate,
-  FormInput,
-  FormInputNumber, FormSelect
-} from "~/components";
+import { FormDate, FormInput, FormInputNumber, FormSelect } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
 import { showToast, toast } from "~/components/toast";
 import { activeData, genderData } from "~/configs/appConfigs";
 import { useDeepEffect } from "~/hooks";
 
-import { Switch } from "antd";
+import { Divider, Switch } from "antd";
 import { checkUnique, createComplain, EUnique } from "../../auth/method";
 
 type TProps = {
@@ -100,7 +96,7 @@ export const EmployeeManagementDetailForm: React.FC<TProps> = ({
   return (
     <div className="w-full">
       <div className="grid grid-cols-2 gap-4">
-        <div className="tableBox md:col-span-2 xl:col-span-1 h-fit">
+        <div className="tableBox md:col-span-2 xl:col-span-1">
           <div className="grid grid-cols-4 gap-4">
             <div className="col-span-4 font-bold text-[22px]">
               Cấu hình người dùng
@@ -419,23 +415,15 @@ export const EmployeeManagementDetailForm: React.FC<TProps> = ({
               </div>
             </div>
 
-            <div className="col-span-1 pt-3 mt-3 border-t border-[#ccc]">
-              <div className="flex justify-end items-end">
-                <IconButton
-                  icon="fas fa-edit"
-                  title="Cập nhật"
-                  onClick={handleSubmit(_onPress)}
-                  btnClass="!mr-2 !bg-active"
-                  showLoading
-                  toolip=""
-                />
-                <IconButton
-                  icon="fas fa-undo-alt"
-                  title="Trở về"
-                  toolip=""
-                  onClick={() => router.back()}
-                />
-              </div>
+            <div className="col-span-1 flex justify-end">
+              <IconButton
+                icon="fas fa-edit"
+                title="Cập nhật"
+                onClick={handleSubmit(_onPress)}
+                btnClass="!mr-2 !bg-active"
+                showLoading
+                toolip=""
+              />
             </div>
           </div>
         </div>

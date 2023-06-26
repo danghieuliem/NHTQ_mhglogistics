@@ -115,7 +115,7 @@ export const FormInputNumber = <
                 errors={errors}
                 name={name as any}
                 render={({ message }) => (
-                  <p className="text-warning text-xs font-medium mt-1 absolute top-0 right-0">
+                  <p className="text-warning text-xs font-medium mt-1">
                     {message}
                   </p>
                 )}

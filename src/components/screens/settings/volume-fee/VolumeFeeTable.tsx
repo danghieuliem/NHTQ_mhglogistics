@@ -1,10 +1,11 @@
-import { Modal, Tag } from "antd";
+import { Modal } from "antd";
 import { FC } from "react";
 import { toast } from "react-toastify";
 import { feeVolume } from "~/api";
 import { ActionButton, DataTable } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 type TProps = {
   refetch: () => void;
   handleUpdate: () => void;
@@ -18,9 +19,6 @@ type TProps = {
 };
 
 export const VolumeFeeTable: FC<TTable<TVolumeFee | any> & TProps> = ({
-  handleModal,
-  filter,
-  handleFilter,
   data,
   loading,
   refetch,
@@ -32,15 +30,17 @@ export const VolumeFeeTable: FC<TTable<TVolumeFee | any> & TProps> = ({
       dataIndex: "Id",
       title: "ID",
       width: 50,
+      align: "right",
     },
     {
       dataIndex: "HelpMovingName",
       title: "Loại đơn hàng",
       render: (_, record) => {
         return (
-          <Tag color={record.IsHelpMoving ? "#097aeb" : "#b31717"}>
-            {record.HelpMovingName}
-          </Tag>
+          <TagStatus
+            color={record.IsHelpMoving ? "#097aeb" : "#b31717"}
+            statusName={record.HelpMovingName}
+          />
         );
       },
       sorter: (a, b) => +a?.IsHelpMoving - +b?.IsHelpMoving,
@@ -75,7 +75,6 @@ export const VolumeFeeTable: FC<TTable<TVolumeFee | any> & TProps> = ({
     {
       dataIndex: "ShippingTypeToWareHouseName",
       title: "Hình thức vc",
-      // render: (_, record) => record.ShippingType,
     },
     {
       dataIndex: "action",
@@ -112,50 +111,6 @@ export const VolumeFeeTable: FC<TTable<TVolumeFee | any> & TProps> = ({
       },
     },
   ];
-
-  // const expandable = {
-  //   expandedRowRender: (record) => (
-  //     <ul className="px-2 text-xs">
-  //       <li className="sm:hidden py-2 flex justify-between">
-  //         <span className="font-medium mr-4">Đến kho:</span>
-  //         {record.WareHouseToName}
-  //       </li>
-  //       <li className="md:hidden py-2 flex justify-between">
-  //         <span className="font-medium mr-4">Cân nặng từ:</span>
-  //         {record.WeightFrom}
-  //       </li>
-  //       <li className="lg:hidden py-2 flex justify-between">
-  //         <span className="font-medium mr-4">Cân nặng đến:</span>
-  //         {record.WeightTo}
-  //       </li>
-  //       <li className="lg:hidden py-2 flex justify-between">
-  //         <span className="font-medium mr-4">Giá (vnđ):</span>
-  //         {record.Price}
-  //       </li>
-  //       <li className="xl:hidden py-2 flex justify-between">
-  //         <span className="font-medium mr-4">Hình thức vận chuyển:</span>
-  //         {record.ShippingType}
-  //       </li>
-  //       <li className="xl:hidden py-2 flex justify-between">
-  //         <span className="font-medium mr-4">Loại đơn hàng:</span>
-  //         <div>
-  //           <Tag color={record.Status === 1 ? "blue" : "red"}>
-  //             {record.Status === 1 ? "Đơn ký gửi" : "Đơn hàng mua hộ"}
-  //           </Tag>
-  //         </div>
-  //       </li>
-
-  //       <li className="xl:hidden py-2 flex justify-between">
-  //         <span className="font-medium mr-4">Thao tác:</span>
-  //         <ActionButton
-  //           onClick={() => handleModal(record)}
-  //           icon="fas fa-edit"
-  //           title="Cập nhật"
-  //         />
-  //       </li>
-  //     </ul>
-  //   ),
-  // };
 
   return (
     <>

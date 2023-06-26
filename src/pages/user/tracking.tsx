@@ -65,7 +65,6 @@ const Index: TNextPageWithLayout = ({connection}) => {
 
 	return (
 		<React.Fragment>
-			<h1 className="titlePageUser !mb-0">Tracking mã vận đơn</h1>
 			<Spin spinning={isLoading || loading}>
 				<div className="tableBox px-4 tracking">
 					<div className="max-w-[600px] my-3 mx-auto">
@@ -87,6 +86,7 @@ const Index: TNextPageWithLayout = ({connection}) => {
 };
 
 Index.displayName = SEOHomeConfigs.tracking;
+Index.breadcrumb = "Tracking mã vận đơn"
 Index.Layout = UserLayout;
 
 export default Index;

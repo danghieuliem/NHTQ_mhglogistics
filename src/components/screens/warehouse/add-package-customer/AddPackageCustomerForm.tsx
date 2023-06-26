@@ -9,7 +9,6 @@ import { smallPackage, user } from "~/api";
 import { FormInput, FormSelect, showToast } from "~/components";
 import { useDeepEffect } from "~/hooks";
 import { useCatalogue } from "~/hooks/useCatalogue";
-import { selectUser, useAppSelector } from "~/store";
 import { AddPackageCustomerTable } from "./AddPackageCustomerTable";
 
 let newKey = new Date().getTime().toString();
@@ -17,13 +16,10 @@ let newKey = new Date().getTime().toString();
 type TForm = TWarehouseVN & TAddtionalFieldWarehouse;
 
 export const AddPackageCustomerForm = () => {
-  const { user: userStore } = useAppSelector(selectUser);
-  if (!userStore) return null;
-
   const { warehouseTQ, warehouseVN, shippingTypeToWarehouse } = useCatalogue({
-    warehouseTQEnabled: !!userStore,
-    warehouseVNEnabled: !!userStore,
-    shippingTypeToWarehouseEnabled: !!userStore,
+    warehouseTQEnabled: true,
+    warehouseVNEnabled: true,
+    shippingTypeToWarehouseEnabled: true,
   });
 
   const { control, handleSubmit, getValues, reset } = useForm<TForm>({
@@ -176,25 +172,22 @@ export const AddPackageCustomerForm = () => {
   };
   return (
     <React.Fragment>
-      <div className="">
-        <div className="max-w-[500px]">
-          <FormInput
-            control={control}
-            name="OrderTransactionCode"
-            placeholder="Nhập mã vận đơn"
-            label="Nhập mã vận đơn"
-            inputClassName="barcode"
-            prefix={
-              <Tooltip placement="topLeft" title={"Open barcode!"}>
-                <div className="pl-2">
-                  <i className="fas fa-barcode text-2xl"></i>
-                </div>
-              </Tooltip>
-            }
-            rules={{ required: "This field is required" }}
-            onEnter={handleSubmit(_onCreate)}
-          />
-        </div>
+      <div className="tableBox ">
+        <FormInput
+          control={control}
+          name="OrderTransactionCode"
+          placeholder="Nhập mã vận đơn"
+          label="Nhập mã vận đơn"
+          inputClassName="barcode"
+          inputContainerClassName="max-w-[400px]"
+          prefix={
+            <Tooltip placement="topLeft" title={"Open barcode!"}>
+              <i className="fas fa-barcode"></i>
+            </Tooltip>
+          }
+          rules={{ required: "This field is required" }}
+          onEnter={handleSubmit(_onCreate)}
+        />
         {!!Object.keys(watchArray()).length && (
           <div className="grid grid-cols-2 gap-4 pt-4 mt-4 border-t border-[#cccccc]">
             <div className="col-span-1 flex items-center">

@@ -1,16 +1,18 @@
 import { TablePaginationConfig } from "antd";
 import { useState } from "react";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { complain } from "~/api";
 import { ReportListTable, showToast, UserLayout } from "~/components";
 import { defaultPagination } from "~/configs/appConfigs";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
-import { useAppSelector } from "~/store";
+import { RootState, useAppSelector } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-  const { current: newUser } = useAppSelector((state) => state.user);
-  if (!newUser) return null;
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 
   const [pagination, setPagination] =
     useState<TablePaginationConfig>(defaultPagination);
@@ -21,13 +23,13 @@ const Index: TNextPageWithLayout = () => {
       {
         Current: pagination.current,
         PageSize: pagination.pageSize,
-        UID: newUser?.UserId,
+        UID: userCurrentInfo?.Id,
       },
     ],
     () =>
       complain
         .getList({
-          UID: newUser?.UserId,
+          UID: userCurrentInfo?.Id,
           PageIndex: pagination.current,
           PageSize: pagination.pageSize,
           OrderBy: "Id desc",
@@ -35,7 +37,6 @@ const Index: TNextPageWithLayout = () => {
         .then((res) => res.Data),
     {
       keepPreviousData: true,
-      enabled: !!newUser,
       onSuccess: (data) =>
         setPagination({ ...pagination, total: data?.TotalItem }),
       onError: (error) => {
@@ -49,20 +50,19 @@ const Index: TNextPageWithLayout = () => {
   );
 
   return (
-    <div className="tableBox mt-6">
-      <ReportListTable
-        {...{
-          data: data?.Items,
-          pagination,
-          handlePagination: (pagination) => setPagination(pagination),
-          loading: isFetching,
-        }}
-      />
-    </div>
+    <ReportListTable
+      {...{
+        data: data?.Items,
+        pagination,
+        handlePagination: (pagination) => setPagination(pagination),
+        loading: isFetching,
+      }}
+    />
   );
 };
 
 Index.displayName = SEOHomeConfigs.complain;
+Index.breadcrumb = "Danh sách khiếu nại"
 Index.Layout = UserLayout;
 
 export default Index;

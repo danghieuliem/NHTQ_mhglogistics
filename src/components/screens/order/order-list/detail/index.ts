@@ -1,5 +1,4 @@
 export * from './AddOrderCode';
-export * from './History';
 export * from './MessageControlManager';
 export * from './OrderCode';
 export * from './OrderCost';

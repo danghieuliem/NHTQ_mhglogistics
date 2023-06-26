@@ -1,8 +1,8 @@
-import { Image, Tag } from "antd";
+import { Image } from "antd";
 import React, { useRef, useState } from "react";
 import { ActionButton, DataTable } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
-import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 import { ClientCommentForm } from "./ClientCommentForm";
 
 export const ClientComentList: React.FC<
@@ -13,7 +13,7 @@ export const ClientComentList: React.FC<
       dataIndex: "Id",
       title: "Vị trí",
       render: (_, __, index) => ++index,
-      width: 70,
+      width: 50,
     },
     {
       dataIndex: "IMG",
@@ -24,50 +24,50 @@ export const ClientComentList: React.FC<
           <Image
             src={record?.IMG ? record.IMG : "/default/pro-empty.jpg"}
             preview={false}
-            className="!h-[46px] !w-[46px]"
+            className="!h-[50px] !w-[50px]"
           />
         );
       },
-      width: 70
+      width: 100,
     },
     {
       dataIndex: "Name",
       title: "Tên khách hàng",
-      width: 120,
+      width: 180,
     },
     {
       dataIndex: "Active",
       title: "Trạng thái",
       render: (_, record) => (
-        <Tag color={record?.Active ? "green" : "red"}>
-          {record?.Active ? "Hiện" : "Ẩn"}
-        </Tag>
+        <TagStatus
+          color={record?.Active ? "green" : "red"}
+          statusName={record?.Active ? "Hiện" : "Ẩn"}
+        />
       ),
       width: 120,
     },
     {
       dataIndex: "Description",
       title: "Nội dung nhận xét",
-      responsive: ["xl"],
     },
-    {
-      dataIndex: "Created",
-      title: "Ngày tạo",
-      render: (date) => _format.getVNDate(date),
-      width: 200,
-    },
+    // {
+    //   dataIndex: "Created",
+    //   title: "Ngày tạo",
+    //   render: (date) => _format.getVNDate(date),
+    //   width: 200,
+    // },
     {
       dataIndex: "action",
       align: "right",
       title: "Thao tác",
       render: (_, record) => (
         <ActionButton
-          icon="fas fa-edit"
+          icon="fas fa-edit text-sec"
           onClick={() => handleModal(record)}
           title="Cập nhật"
         />
       ),
-      width: 80,
+      width: 120,
     },
   ];
 
@@ -95,7 +95,7 @@ export const ClientComentList: React.FC<
         {...{
           columns,
           data,
-          title: "DANH SÁCH KHÁCH HÀNG NHẬN XÉT",
+          title: "Khách hàng nhận xét",
           expandable: expandable,
         }}
       />

@@ -1,5 +1,5 @@
-import { Pagination, Space, Tag } from "antd";
-import router from "next/router";
+import { Pagination } from "antd";
+import Link from "next/link";
 import React from "react";
 import { toast } from "react-toastify";
 import { payHelp } from "~/api";
@@ -7,6 +7,7 @@ import { ActionButton, DataTable } from "~/components";
 import { paymentStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 
 type TProps = {
   filter;
@@ -22,10 +23,14 @@ export const RequestPaymentTable: React.FC<
     {
       dataIndex: "Id",
       title: "ID",
+      width: 50,
+      fixed: "left",
     },
     {
       dataIndex: "UserName",
       title: "Username",
+      fixed: "left",
+      width: 120,
     },
     {
       dataIndex: "SalerID",
@@ -40,51 +45,71 @@ export const RequestPaymentTable: React.FC<
         )?.UserName;
         return <>{salerName || "-"}</>;
       },
+      width: 120,
     },
     {
       dataIndex: "TotalPrice",
       title: "Tổng tiền (¥)",
       align: "right",
       render: (money) => _format.getVND(money, " "),
+      width: 120,
     },
     {
       dataIndex: "TotalPriceVND",
       title: "Tổng tiền (VNĐ)",
       align: "right",
       render: (money) => _format.getVND(money, " "),
+      width: 120,
     },
     {
       dataIndex: "Currency",
       title: "Tỷ giá",
       align: "right",
       render: (currency) => _format.getVND(currency, " "),
+      width: 120,
     },
     {
       dataIndex: "Note",
       title: "Ghi chú khách hàng",
+      width: 200,
     },
     {
       dataIndex: "Status",
       title: "Trạng thái",
       render: (status, record) => {
         const color = paymentStatus?.find((x) => x.id === status);
-        return <Tag color={color?.color}>{record?.StatusName}</Tag>;
+        return (
+          <TagStatus color={color?.color} statusName={record?.StatusName} />
+        );
       },
-      sorter: (a, b) => a.Status - b.Status,
+      width: 120,
     },
     {
       dataIndex: "Created",
       title: "Ngày tạo",
       render: (date) => _format.getVNDate(date),
-      // responsive: ["xl"],
+      width: 200,
     },
     {
       dataIndex: "action",
       key: "action",
       title: "Thao tác",
-      align: "right",
+      fixed: "right",
+      width: 100,
       render: (_, record) => (
-        <Space>
+        <div className="grid grid-cols-1 gap-2">
+          <Link
+            href={`/manager/order/request-payment/detail/?id=${record?.Id}`}
+          >
+            <a target="_blank">
+              <ActionButton
+                icon="!mr-0"
+                title="Chi tiết"
+                isButton
+                isButtonClassName="bg-main !text-white"
+              />
+            </a>
+          </Link>
           {record?.Status === 1 && (
             <ActionButton
               onClick={() => {
@@ -109,75 +134,16 @@ export const RequestPaymentTable: React.FC<
                     });
                   });
               }}
-              icon="fas fa-check"
-              title="Duyệt đơn này"
+              icon="mr-0"
+              title="Duyệt đơn"
+              isButton
+              isButtonClassName="bg-blue !text-white"
             />
           )}
-          <ActionButton
-            onClick={() =>
-              router.push({
-                pathname: "/manager/order/request-payment/detail",
-                query: { id: record?.Id },
-              })
-            }
-            icon="fas fa-edit"
-            title="Cập nhật"
-          />
-        </Space>
+        </div>
       ),
-      // responsive: ["xl"],
     },
   ];
-
-  // const expandable = {
-  //   expandedRowRender: (record) => (
-  //     <ul className="px-2 text-xs">
-  //       <li className="sm:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Tổng tiền (tệ):</span>
-  //         {_format.getVND(record.TotalPrice)}
-  //       </li>
-  //       <li className="md:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Tổng tiền (vnđ):</span>
-  //         {_format.getVND(record.TotalPriceVND)}
-  //       </li>
-  //       <li className="md:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Tỷ giá:</span>
-  //         {record.Currency}
-  //       </li>
-  //       <li className="lg:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Chưa hoàn thiện:</span>
-  //         {record.isComplete ? (
-  //           <i className="fad fa-check text-2xl text-green"></i>
-  //         ) : (
-  //           <i className="far fa-times text-2xl text-red"></i>
-  //         )}
-  //       </li>
-  //       <li className="xl:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Ngày tạo:</span>
-  //         {_format.getVNDate(record.Created)}
-  //       </li>
-  //       <li className="xl:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Trạng thái:</span>
-  //         <Tag color={paymentData[record.Status].color}>
-  //           {paymentData[record.Status].name}
-  //         </Tag>
-  //       </li>
-  //       <li className="xl:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Thao tác:</span>
-  //         <ActionButton
-  //           onClick={() =>
-  //             router.push({
-  //               pathname: "/manager/order/request-payment/detail",
-  //               query: { id: record?.Id },
-  //             })
-  //           }
-  //           icon="fas fa-edit"
-  //           title="Cập nhật"
-  //         />
-  //       </li>
-  //     </ul>
-  //   ),
-  // };
 
   return (
     <>
@@ -187,19 +153,17 @@ export const RequestPaymentTable: React.FC<
           columns,
           data,
           bordered: true,
-          // expandable: expandable,
+          scroll: { x: 1200, y: 700 },
         }}
       />
-      <div className="mt-4 text-right">
-        <Pagination
-          total={filter?.TotalItems}
-          current={filter?.PageIndex}
-          pageSize={filter?.PageSize}
-          onChange={(page, pageSize) =>
-            handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-          }
-        />
-      </div>
+      <Pagination
+        total={filter?.TotalItems}
+        current={filter?.PageIndex}
+        pageSize={filter?.PageSize}
+        onChange={(page, pageSize) =>
+          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
+        }
+      />
     </>
   );
 };

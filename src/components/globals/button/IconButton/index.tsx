@@ -18,16 +18,16 @@ type TProps = {
 };
 
 const styleBtn =
-  "bg-sec mx-0 py-[6px] px-[12px] rounded-[4px] text-white !font-semibold tracking-wide hover:bg-main hover:shadow-none transition-all duration-300";
+  "bg-main mx-0 py-[4px] px-[8px] rounded-[4px] text-white !font-semibold tracking-wide hover:bg-sec hover:shadow-none transition-all duration-300";
 
 const styleBtnGreen =
-  "text-white !bg-[#1f8f2b] hover:bg-[#d0f5d5] mx-0 py-[6px] px-[12px] rounded-md font-medium tracking-wide hover:shadow";
+  "text-white !bg-green hover:!opacity-[0.6] mx-0 py-[4px] px-[8px] rounded-[4px] font-medium tracking-wide hover:shadow";
 const styleBtnRed =
-  "text-white !bg-[#f02b02] mx-0 py-[6px] px-[12px] rounded-md font-medium tracking-wide hover:shadow";
+  "text-white !bg-red hover:!opacity-[0.6] mx-0 py-[4px] px-[8px] rounded-[4px] font-medium tracking-wide hover:shadow";
 const styleBtnBlue =
-  "text-white !bg-[#0275e0] hover:bg-[#bcdbf7] mx-0 py-[6px] px-[12px] rounded-md !font-semibold tracking-wide hover:shadow";
+  "text-white !bg-blue hover:!opacity-[0.6] mx-0 py-[4px] px-[8px] rounded-[4px] !font-semibold tracking-wide hover:shadow";
 const styleBtnYellow =
-  "text-white !bg-[#f5b811] hover:bg-[#f7e4a3] mx-0 py-[6px] px-[12px] rounded-md !font-semibold tracking-wide hover:shadow";
+  "text-white !bg-yellow hover:!opacity-[0.6]] mx-0 py-[4px] px-[8px] rounded-[4px] !font-semibold tracking-wide hover:shadow";
 const styleDisabled = "opacity-25 pointer-events-none";
 
 export const IconButton: React.FC<TProps> = ({
@@ -79,7 +79,7 @@ export const IconButton: React.FC<TProps> = ({
         <i
           className={clsx(
             loading ? "fas fa-sync fa-spin" : icon,
-            "mr-2 w-3 h-3 ",
+            "mr-2",
             btnIconClass
           )}
         ></i>

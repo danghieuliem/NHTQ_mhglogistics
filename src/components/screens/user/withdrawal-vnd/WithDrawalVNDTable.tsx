@@ -5,6 +5,7 @@ import { ActionButton, DataTable, WithDrawalVNDForm } from "~/components";
 import { ERechargeStatusData, moneyStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 
 export const WithDrawalVNDTable: React.FC<TTable<TWithDraw>> = ({
   data,
@@ -18,6 +19,7 @@ export const WithDrawalVNDTable: React.FC<TTable<TWithDraw>> = ({
       dataIndex: "Id",
       title: "ID đơn",
       responsive: ["sm"],
+      width: 90
     },
     {
       dataIndex: "Created",
@@ -26,22 +28,22 @@ export const WithDrawalVNDTable: React.FC<TTable<TWithDraw>> = ({
       responsive: ["xl"],
     },
     {
+      dataIndex: "Note",
+      title: "Nội dung",
+      responsive: ["lg"],
+    },
+    {
       dataIndex: "Amount",
       title: "Số tiền rút (VNĐ)",
       align: "right",
       render: (record) => _format.getVND(record, " "),
     },
     {
-      dataIndex: "Note",
-      title: "Nội dung",
-      responsive: ["lg"],
-    },
-    {
       dataIndex: "Status",
       title: "Trạng thái",
       render: (status, _) => {
         const color = moneyStatus.find((x) => x.id === status);
-        return <Tag color={color?.color}>{_?.StatusName}</Tag>;
+        return <TagStatus color={color?.color} statusName={color?.name} />
       },
     },
     {
@@ -57,7 +59,6 @@ export const WithDrawalVNDTable: React.FC<TTable<TWithDraw>> = ({
               onClick={() => handleModal(record)}
               icon="far fa-trash-alt"
               title="Huỷ"
-              isButtonClassName="bg-red !text-white"
               isButton={true}
             />
           )
@@ -122,7 +123,7 @@ export const WithDrawalVNDTable: React.FC<TTable<TWithDraw>> = ({
         expandable: expandable,
         mediaWidth: 1200,
         scroll: { y: 660 },
-        title: "Rút tiền",
+        title: "Danh sách yêu cầu",
         extraElment: (
           <div>
             <Popover

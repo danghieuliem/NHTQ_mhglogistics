@@ -9,7 +9,7 @@ export * from "./dom";
 
 class Format {
   // format date
-  getVNDate = (date: Date, format: string = "DD/MM/YYYY HH:mm:ss") => {
+  getVNDate = (date: Date, format: string = "DD/MM/YYYY - HH:mm:ss") => {
     if (!date) return "--";
     return moment(date).format(format);
   };
@@ -119,7 +119,7 @@ class Format {
         suffix
       );
     }
-    return price;
+    return price + suffix;
   };
 
   // format phần trăm
@@ -150,7 +150,7 @@ class Format {
       padding: "0px 12px",
       paddingRight: 0,
       minHeight: 40,
-      borderRadius: 8,
+      borderRadius: 6,
       // boxShadow: state.isFocused ? '0 0 0 2px rgba(246,67,2,.2)' : 'unset'
     }),
     menu: (base) => {
@@ -398,27 +398,27 @@ class FunctionHandle {
         }
         break;
       case 4:
-        if (pagePush.allowPath.findIndex((item) => item === pathname) === -1) {
+        if (!pagePush.allowPath.find(x => x.match(pathname))) {
           router.push(pagePush.page);
         }
         break;
       case 5:
-        if (pagePush.allowPath.findIndex((item) => item === pathname) === -1) {
+        if (!pagePush.allowPath.find(x => x.match(pathname))) {
           router.push(pagePush.page);
         }
         break;
       case 6:
-        if (pagePush.allowPath.findIndex((item) => item === pathname) === -1) {
+        if (!pagePush.allowPath.find(x => x.match(pathname))) {
           router.push(pagePush.page);
         }
         break;
       case 7:
-        if (pagePush.allowPath.findIndex((item) => item === pathname) === -1) {
+        if (!pagePush.allowPath.find(x => x.match(pathname))) {
           router.push(pagePush.page);
         }
         break;
       case 8:
-        if (pagePush.allowPath.findIndex((item) => item === pathname) === -1) {
+        if (!pagePush.allowPath.find(x => x.match(pathname))) {
           router.push(pagePush.page);
         }
         break;

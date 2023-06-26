@@ -10,10 +10,13 @@ import {
   DataTable,
   FormCard,
   FormInput,
+  FormRadio,
   FormSelect,
+  FormSwitch,
   IconButton,
   Layout,
 } from "~/components";
+import TagStatus from "~/components/screens/status/TagStatus";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import type { TNextPageWithLayout } from "~/types/layout";
@@ -135,9 +138,8 @@ const AddNewWareHouseForm = ({ onCancel, visible, refetchFrom, refetchTo }) => {
         <FormCard.Footer>
           <Button
             title="Thêm mới"
-            btnClass="!bg-main"
+            btnClass="!bg-main mr-2"
             onClick={handleSubmit(_onAddNew)}
-            showLoading
           />
           <Button
             title="Hủy"
@@ -208,9 +210,8 @@ const AddNewMethod = ({ onCancel, visible, refetchMethod }) => {
         <FormCard.Footer>
           <Button
             title="Thêm"
-            btnClass="!bg-main"
+            btnClass="!bg-main mr-2"
             onClick={handleSubmit(_onAddNew)}
-            showLoading
           />
           <Button
             title="Hủy"
@@ -347,6 +348,7 @@ const EditComponent = ({
                 inputContainerClassName="mb-2"
                 rules={{ required: "Vui lòng nhập đia chỉ kho!" }}
               />
+              <FormSwitch control={control} name="Active" label="Active" />
               {/* <FormSelect
                 label="Kho ở đâu?"
                 data={[
@@ -364,21 +366,25 @@ const EditComponent = ({
               /> */}
             </>
           ) : (
-            <FormInput
-              label="Tên phương thức vận chuyển"
-              control={control}
-              name={"Name"}
-              placeholder={"Tên phương thức vận chuyển"}
-              rules={{ required: "Vui lòng nhập tên phương thức vận chuyển!" }}
-            />
+            <>
+              <FormInput
+                label="Tên phương thức vận chuyển"
+                control={control}
+                name={"Name"}
+                placeholder={"Tên phương thức vận chuyển"}
+                rules={{
+                  required: "Vui lòng nhập tên phương thức vận chuyển!",
+                }}
+              />
+              <FormSwitch control={control} name="Active" label="Active" />
+            </>
           )}
         </FormCard.Body>
         <FormCard.Footer>
           <Button
             title="Cập nhật"
-            btnClass="!bg-main"
+            btnClass="!bg-main mr-2"
             onClick={handleSubmit(_onSubmit)}
-            showLoading
           />
           <Button
             title="Hủy"
@@ -427,6 +433,12 @@ const Index: TNextPageWithLayout = () => {
     {
       title: "ID",
       dataIndex: "Id",
+      align: "right",
+    },
+    {
+      title: "Ngày tạo",
+      dataIndex: "Created",
+      render: (date) => _format.getVNDate(date, "DD/MM/YYYY - HH:mm:A"),
     },
     {
       title: "Tên kho",
@@ -441,18 +453,16 @@ const Index: TNextPageWithLayout = () => {
       title: "Trạng thái",
       render(value, record, index) {
         return (
-          <Tag color={value ? "blue" : "red"}>{value ? "Hiện" : "Ẩn"}</Tag>
+          <TagStatus
+            color={value ? "blue" : "red"}
+            statusName={value ? "Hiện" : "Ẩn"}
+          />
         );
       },
     },
     {
       title: () => <>Nhân viên cập nhật</>,
       dataIndex: "UpdatedBy",
-    },
-    {
-      title: "Ngày tạo",
-      dataIndex: "Created",
-      render: (date) => _format.getVNDate(date, "DD/MM/YYYY - HH:mm:A"),
     },
     {
       title: "Cập nhật mới nhất",
@@ -468,19 +478,19 @@ const Index: TNextPageWithLayout = () => {
       render: (_, record) => {
         return (
           <Space>
-            <ActionButton
+            {/* <ActionButton
               onClick={() =>
                 Modal.confirm({
                   title: "Xác nhận ẩn kho này?",
                   content: <div>Ẩn kho sẽ không sử dụng được kho này nữa.</div>,
                   onOk: () => {
                     if (record?.IsChina) {
-                      warehouseFrom.delete(record?.Id).then(() => {
+                      warehouseFrom.update({...record, Active: false}).then(() => {
                         toast.success("Ẩn kho thành công");
                         refetchFrom();
                       });
                     } else {
-                      warehouseTo.delete(record?.Id).then(() => {
+                      warehouseTo.update({...record, Active: false}).then(() => {
                         toast.success("Ẩn kho thành công");
                         refetchTo();
                       });
@@ -490,7 +500,7 @@ const Index: TNextPageWithLayout = () => {
               }
               icon="fas fa-eye-slash"
               title="Ẩn kho"
-            />
+            /> */}
             <ActionButton
               onClick={() => {
                 item.current = { ...record, IsWareHouse: true };
@@ -509,15 +519,28 @@ const Index: TNextPageWithLayout = () => {
     {
       title: "ID",
       dataIndex: "Id",
+      align: "right",
+    },
+    {
+      title: "Ngày tạo",
+      dataIndex: "Created",
+      render: (date) => _format.getVNDate(date, "DD/MM/YYYY - HH:mm:A"),
     },
     {
       title: "Phương thức vận chuyển",
       dataIndex: "Name",
     },
     {
-      title: "Ngày tạo",
-      dataIndex: "Created",
-      render: (date) => _format.getVNDate(date, "DD/MM/YYYY - HH:mm:A"),
+      dataIndex: "Active",
+      title: "Trạng thái",
+      render(value, record, index) {
+        return (
+          <TagStatus
+            color={value ? "blue" : "red"}
+            statusName={value ? "Hiện" : "Ẩn"}
+          />
+        );
+      },
     },
     {
       title: "Cập nhật mới nhất",
@@ -537,7 +560,7 @@ const Index: TNextPageWithLayout = () => {
       render: (_, record) => {
         return (
           <Space>
-            <ActionButton
+            {/* <ActionButton
               onClick={() =>
                 Modal.confirm({
                   title: "Xác nhận phương thức này?",
@@ -551,7 +574,7 @@ const Index: TNextPageWithLayout = () => {
               }
               icon="fas fa-trash"
               title="Xóa"
-            />
+            /> */}
             <ActionButton
               onClick={() => {
                 item.current = { ...record, IsWareHouse: false };
@@ -568,65 +591,57 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <>
-      <div className="tableBox py-2 w-full">
-        <Tabs
-          tabBarExtraContent={
-            <div className="text-right">
-              <IconButton
-                onClick={() => setModalWarehouse(!modalWarehouse)}
-                title="Thêm kho"
-                icon="fas fa-plus"
-                showLoading
-                btnClass="!mr-4"
-                toolip="Thêm Kho"
-                green
-              />
-              <IconButton
-                onClick={() => setModalMethod(!modalMethod)}
-                title="Thêm phương thức"
-                icon="fas fa-plus"
-                showLoading
-                toolip="Thêm Kho"
-                green
-              />
-            </div>
-          }
-        >
-          <Tabs.TabPane key="1" tab={"Kho Trung Quốc"}>
-            <div className="tableBoxNon mt-4">
-              <DataTable
-                rowKey={"Id"}
-                key={"1"}
-                columns={columnsWarehouse}
-                data={warehouseFromData}
-                pagination={false}
-              />
-            </div>
-          </Tabs.TabPane>
-          <Tabs.TabPane key="2" tab={"Kho Việt Nam"}>
-            <div className="tableBoxNon mt-4">
-              <DataTable
-                rowKey={"Id"}
-                key={"2"}
-                columns={columnsWarehouse}
-                data={warehouseToData}
-                pagination={false}
-              />
-            </div>
-          </Tabs.TabPane>
-          <Tabs.TabPane key="3" tab={"Phương thức vận chuyển"}>
-            <div className="tableBoxNon mt-4">
-              <DataTable
-                rowKey={"Id"}
-                key={"3"}
-                columns={columnsMethod}
-                data={shippingType}
-                pagination={false}
-              />
-            </div>
-          </Tabs.TabPane>
-        </Tabs>
-      </div>
+      <Tabs
+        tabBarExtraContent={
+          <div className="">
+            <IconButton
+              onClick={() => setModalWarehouse(!modalWarehouse)}
+              title="Thêm kho"
+              icon="fas fa-plus"
+              showLoading
+              btnClass="!mr-4"
+              toolip="Thêm Kho"
+              green
+            />
+            <IconButton
+              onClick={() => setModalMethod(!modalMethod)}
+              title="Thêm phương thức"
+              icon="fas fa-plus"
+              showLoading
+              toolip="Thêm Kho"
+              green
+            />
+          </div>
+        }
+      >
+        <Tabs.TabPane key="1" tab={"Kho Trung Quốc"}>
+          <DataTable
+            rowKey={"Id"}
+            key={"1"}
+            columns={columnsWarehouse}
+            data={warehouseFromData}
+            pagination={false}
+          />
+        </Tabs.TabPane>
+        <Tabs.TabPane key="2" tab={"Kho Việt Nam"}>
+          <DataTable
+            rowKey={"Id"}
+            key={"2"}
+            columns={columnsWarehouse}
+            data={warehouseToData}
+            pagination={false}
+          />
+        </Tabs.TabPane>
+        <Tabs.TabPane key="3" tab={"Phương thức vận chuyển"}>
+          <DataTable
+            rowKey={"Id"}
+            key={"3"}
+            columns={columnsMethod}
+            data={shippingType}
+            pagination={false}
+          />
+        </Tabs.TabPane>
+      </Tabs>
       {modalWarehouse && (
         <AddNewWareHouseForm
           onCancel={() => setModalWarehouse(false)}

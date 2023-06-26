@@ -1,4 +1,4 @@
-import { Modal, Pagination, Tabs, Tag } from "antd";
+import { Modal, Pagination, Popover, Tabs, Tag } from "antd";
 import "antd/dist/antd.css";
 import clsx from "clsx";
 import React from "react";
@@ -16,12 +16,13 @@ import {
 import { EOrderStatusData, transportStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 type TProps = {
   handleSelectIds: (item: TUserDeposit) => void;
   filter;
   handleFilter: (newFilter) => void;
-  moneyOfOrders,
-  ids
+  moneyOfOrders;
+  ids;
 };
 
 const DetailInfo = (record) => {
@@ -68,7 +69,7 @@ const DetailInfo = (record) => {
             </div>
             <div className={divStyle}>
               Trạng thái:{" "}
-              <Tag color={color?.color}>{record?.record?.StatusName}</Tag>
+              <TagStatus color={color?.color} statusName={record?.record?.StatusName}/>
             </div>
             <div className={divStyle}>
               Phương thức vận chuyển:{" "}
@@ -79,7 +80,7 @@ const DetailInfo = (record) => {
             <div className={`${divStyle} flex-col items-baseline`}>
               Ghi chú nhân viên:{" "}
               <textarea
-                className="w-full border border-[#e4e4e4] px-3 py-2"
+                className="w-full border border-[#e4e4e4] px-3 py-2 bg-white"
                 readOnly
                 disabled
                 value={record?.record?.StaffNote ?? "--"}
@@ -88,7 +89,7 @@ const DetailInfo = (record) => {
             <div className={`${divStyle} flex-col items-baseline`}>
               Ghi chú khách hàng (hủy nếu có):{" "}
               <textarea
-                className="w-full border border-[#e4e4e4] px-3 py-2"
+                className="w-full border border-[#e4e4e4] px-3 py-2 bg-white"
                 readOnly
                 disabled
                 value={
@@ -201,7 +202,7 @@ const DetailInfo = (record) => {
               </div>
               <div className={divStyle}>
                 Trạng thái:{" "}
-                <Tag color={color?.color}>{record?.record?.StatusName}</Tag>
+                <TagStatus color={color?.color} statusName={record?.record?.StatusName}/>
               </div>
               <div className={divStyle}>
                 Phương thức vận chuyển:{" "}
@@ -212,7 +213,7 @@ const DetailInfo = (record) => {
               <div className={`${divStyle} flex-col items-baseline`}>
                 Ghi chú nhân viên:{" "}
                 <textarea
-                  className="w-full border border-[#e4e4e4] px-3 py-2"
+                  className="w-full border border-[#e4e4e4] px-3 py-2 bg-white"
                   readOnly
                   disabled
                   value={record?.record?.StaffNote ?? "--"}
@@ -221,7 +222,7 @@ const DetailInfo = (record) => {
               <div className={`${divStyle} flex-col items-baseline`}>
                 Ghi chú khách hàng (hủy nếu có):{" "}
                 <textarea
-                  className="w-full border border-[#e4e4e4] px-3 py-2"
+                  className="w-full border border-[#e4e4e4] px-3 py-2 bg-white"
                   readOnly
                   disabled
                   value={
@@ -311,7 +312,7 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
   handleFilter,
   filter,
   moneyOfOrders,
-  ids
+  ids,
 }) => {
   const { control, getValues, reset } = useForm({
     mode: "onBlur",
@@ -375,7 +376,9 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
       title: "Trạng thái",
       render: (status, record) => {
         const color = transportStatus.find((x) => x.id === status);
-        return <Tag color={color?.color}>{record?.StatusName}</Tag>;
+        return (
+          <TagStatus color={color?.color} statusName={record?.StatusName} />
+        );
       },
     },
     {
@@ -445,23 +448,22 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
                 isButton={true}
               />
             )}
-            <ActionButton
-              onClick={() =>
-                Modal.info({
-                  title: (
-                    <div className="text-[20px] font-bold">
-                      Thông tin chi tiết đơn #{record?.Id}
-                    </div>
-                  ),
-                  className: "!w-fit",
-                  content: <DetailInfo record={record} />,
-                })
+            <Popover
+              trigger={"click"}
+              placement="leftBottom"
+              content={
+                <div className="p-4 !bg-[#f5851f36] rounded-md">
+                  <DetailInfo record={record} />
+                </div>
               }
-              icon="fas fa-info-square"
-              title="Chi tiết đơn"
-              iconContainerClassName="iconRed"
-              isButton={true}
-            />
+            >
+              <ActionButton
+                icon="fas fa-info-square"
+                title="Chi tiết đơn"
+                iconContainerClassName="iconRed"
+                isButton={true}
+              />
+            </Popover>
           </div>
         );
       },
@@ -502,23 +504,22 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
           </div>
           <div className="extentable-actions">
             <div className="extentable-button">
-              <ActionButton
-                onClick={() =>
-                  Modal.info({
-                    title: (
-                      <div className="text-[20px] font-bold">
-                        Thông tin chi tiết đơn #{item?.Id}
-                      </div>
-                    ),
-                    className: "!w-fit",
-                    content: <DetailInfo record={item} />,
-                  })
+              <Popover
+                trigger={"click"}
+                placement="left"
+                content={
+                  <div className="p-4 w-[400px]">
+                    <DetailInfo record={item} />
+                  </div>
                 }
-                icon="fas fa-info-square"
-                title="Chi tiết đơn"
-                iconContainerClassName="iconRed"
-                isButton={true}
-              />
+              >
+                <ActionButton
+                  icon="fas fa-info-square"
+                  title="Chi tiết đơn"
+                  iconContainerClassName="iconRed"
+                  isButton={true}
+                />
+              </Popover>
             </div>
             {item.Status === EOrderStatusData.ArrivedToVietNamWarehouse && (
               <div className="extentable-button">
@@ -600,27 +601,25 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
           bordered: true,
           expandable: expandable,
           scroll: { y: 640 },
-          title: "Danh sách đơn ký gửi",
+          title: "Danh sách",
           extraElment: (
             <UserDepositListFilter
-            numberOfOrder={transportStatus}
-            moneyOfOrders={moneyOfOrders}
-            handleFilter={handleFilter}
-            isSelectSomeItems={!!ids.length}
-          />
-          )
+              numberOfOrder={transportStatus}
+              moneyOfOrders={moneyOfOrders}
+              handleFilter={handleFilter}
+              isSelectSomeItems={!!ids.length}
+            />
+          ),
         }}
       />
-      <div className="mt-4 text-right">
-        <Pagination
-          total={filter?.TotalItems}
-          current={filter?.PageIndex}
-          pageSize={filter?.PageSize}
-          onChange={(page, pageSize) =>
-            handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-          }
-        />
-      </div>
+      <Pagination
+        total={filter?.TotalItems}
+        current={filter?.PageIndex}
+        pageSize={filter?.PageSize}
+        onChange={(page, pageSize) =>
+          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
+        }
+      />
     </>
   );
 };

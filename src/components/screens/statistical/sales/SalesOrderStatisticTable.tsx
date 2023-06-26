@@ -1,9 +1,9 @@
-import { Tag } from "antd";
 import React from "react";
 import { DataTable, IconButton } from "~/components";
 import { orderStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils/index";
+import TagStatus from "../../status/TagStatus";
 
 export const SalesOrderStatisticTable = ({
   loading,
@@ -18,25 +18,27 @@ export const SalesOrderStatisticTable = ({
       dataIndex: "Id",
       title: "ID",
       fixed: "left",
-      width: 80,
+      width: 60,
     },
     {
       dataIndex: "Created",
       key: "Created",
-      title: "Ngày tạo",
-      render: (date) => _format.getVNDate(date),
       fixed: "left",
+      title: "Ngày tạo",
+      width: 200,
+      render: (date) => _format.getVNDate(date),
     },
     {
       dataIndex: "SalerUserName",
+      fixed: "left",
       key: "SalerUserName",
+      width: 120,
       title: (
         <>
           Nhân viên <br /> bán hàng
         </>
       ),
-      width: 80,
-      render: (_, record) => <>{record.SalerUserName ?? "--"}</>,
+      render: (_, record) => <>{record.SalerUserName || "--"}</>,
     },
     {
       dataIndex: "PriceVND",
@@ -45,10 +47,14 @@ export const SalesOrderStatisticTable = ({
           Tổng <br /> tiền hàng
         </>
       ),
+      fixed: "left",
       align: "right",
-      render: (money) => _format.getVND(money, ""),
+      width: 120,
+
+      render: (money) => <>{_format.getVND(money, "")}</>,
     },
     {
+      width: 120,
       dataIndex: "FeeShipCN",
       key: "FeeShipCN",
       title: (
@@ -57,10 +63,10 @@ export const SalesOrderStatisticTable = ({
         </>
       ),
       align: "right",
-      responsive: ["xl"],
       render: (money) => _format.getVND(money, ""),
     },
     {
+      width: 120,
       dataIndex: "FeeBuyPro",
       key: "FeeBuyPro",
       title: (
@@ -68,23 +74,23 @@ export const SalesOrderStatisticTable = ({
           Phí <br /> mua hàng
         </>
       ),
-      responsive: ["xl"],
       align: "right",
       render: (money) => _format.getVND(money, ""),
     },
     {
+      width: 120,
       dataIndex: "IsFastDeliveryPrice",
       key: "IsFastDeliveryPrice",
       title: (
         <>
-          Phí <br /> giao hàng <br /> tận nhà
+          Phí <br /> giao hàng
         </>
       ),
       align: "right",
-      responsive: ["xl"],
       render: (money) => _format.getVND(money, ""),
     },
     {
+      width: 120,
       dataIndex: "FeeWeight",
       key: "FeeWeight",
       title: (
@@ -93,10 +99,10 @@ export const SalesOrderStatisticTable = ({
         </>
       ),
       align: "right",
-      responsive: ["xl"],
       render: (money) => _format.getVND(money, ""),
     },
     {
+      width: 120,
       dataIndex: "IsCheckProductPrice",
       key: "IsCheckProductPrice",
       title: (
@@ -105,10 +111,10 @@ export const SalesOrderStatisticTable = ({
         </>
       ),
       align: "right",
-      responsive: ["xl"],
       render: (money) => _format.getVND(money, ""),
     },
     {
+      width: 120,
       dataIndex: "IsPackedPrice",
       key: "IsPackedPrice",
       title: (
@@ -117,10 +123,10 @@ export const SalesOrderStatisticTable = ({
         </>
       ),
       align: "right",
-      responsive: ["xl"],
       render: (money) => _format.getVND(money, ""),
     },
     {
+      width: 120,
       dataIndex: "TotalPriceVND",
       key: "TotalPriceVND",
       title: "Tổng tiền",
@@ -128,6 +134,7 @@ export const SalesOrderStatisticTable = ({
       render: (money) => _format.getVND(money, ""),
     },
     {
+      width: 120,
       dataIndex: "Deposit",
       key: "Deposit",
       title: "Đã trả",
@@ -135,6 +142,7 @@ export const SalesOrderStatisticTable = ({
       render: (money) => _format.getVND(money, ""),
     },
     {
+      width: 120,
       dataIndex: "MustPay",
       key: "MustPay",
       title: "Còn lại",
@@ -148,58 +156,14 @@ export const SalesOrderStatisticTable = ({
       width: 180,
       render: (statusName, _record) => {
         const color = orderStatus.find((x) => x.id === _record?.Status);
-        return <Tag color={color?.color}>{statusName}</Tag>;
+        return <TagStatus color={color?.color} statusName={statusName} />;
       },
       fixed: "right",
     },
   ];
 
-  const expandable = {
-    expandedRowRender: (data) => (
-      <ul className="px-2 text-xs">
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Phí ship TQ:</span>
-          {_format.getVND(data.FeeShipCN)}
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Phí mua hàng:</span>
-          {_format.getVND(data.FeeBuyPro)}
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Phí giao hàng tận nhà:</span>
-          {_format.getVND(data.IsFastDeliveryPrice)}
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Phí cân nặng:</span>
-          {_format.getVND(data.FeeWeight)}
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Phí kiểm đếm:</span>
-          {_format.getVND(data.IsCheckProductPrice)}
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Phí đóng gói:</span>
-          {_format.getVND(data.IsPackedPrice)}
-        </li>
-      </ul>
-    ),
-  };
-
   return (
     <React.Fragment>
-      <div className="flex items-end mb-4 justify-between">
-        <h2 className="titleTable !pb-0 !mb-0 !text-[16px]">Thống kê đơn hàng</h2>
-        {(RoleID === 1 || RoleID === 3) && (
-          <IconButton
-            title="Xuất Thống Kê"
-            onClick={exportExcel}
-            btnClass={"lg:mx-4"}
-            icon="fas fa-file-export"
-            btnIconClass="!mr-2"
-            showLoading
-          />
-        )}
-      </div>
       <DataTable
         {...{
           columns,
@@ -207,9 +171,22 @@ export const SalesOrderStatisticTable = ({
           bordered: true,
           pagination,
           onChange: (pagination) => handlePagination(pagination),
-          expandable: expandable,
           loading,
-          scroll: { x: 1500, y: 700 },
+          scroll: { x: 1200, y: 700 },
+          title: "Thống kê đơn hàng",
+          extraElment: (
+            <div className="">
+              {(RoleID === 1 || RoleID === 3) && (
+                <IconButton
+                  title="Xuất Thống Kê"
+                  onClick={exportExcel}
+                  icon="fas fa-file-export"
+                  btnIconClass="!mr-2"
+                  showLoading
+                />
+              )}
+            </div>
+          ),
         }}
       />
     </React.Fragment>

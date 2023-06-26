@@ -93,8 +93,8 @@ export const ComplainListForm: React.FC<TForm<TReport>> = ({
           </div>
         </FormCard.Header>
         <FormCard.Body>
-          <div className="lg:grid lg:grid-cols-4 gap-3">
-            <div className="col-span-1 mb-2 lg:mb-0">
+          <div className="grid grid-cols-4 gap-3">
+            <div className="col-span-1">
               <FormInput
                 control={control}
                 name="UserName"
@@ -104,7 +104,7 @@ export const ComplainListForm: React.FC<TForm<TReport>> = ({
                 required={false}
               />
             </div>
-            <div className="col-span-1 mb-2 lg:mb-0">
+            <div className="col-span-1">
               <FormInput
                 control={control}
                 name="MainOrderId"
@@ -114,7 +114,7 @@ export const ComplainListForm: React.FC<TForm<TReport>> = ({
                 required={false}
               />
             </div>
-            <div className="col-span-1 mb-2 lg:mb-0">
+            <div className="col-span-1">
               <FormInputNumber
                 control={control}
                 name="AmountCNY"
@@ -125,7 +125,7 @@ export const ComplainListForm: React.FC<TForm<TReport>> = ({
                 required={false}
               />
             </div>
-            <div className="col-span-1 mb-2 lg:mb-0">
+            <div className="col-span-1">
               <FormInputNumber
                 control={control}
                 name="CurrentCNYVN"
@@ -135,7 +135,8 @@ export const ComplainListForm: React.FC<TForm<TReport>> = ({
                 required={false}
               />
             </div>
-            <div className="col-span-4 mb-2 lg:mb-0">
+
+            <div className="col-span-2">
               <FormInputNumber
                 control={control}
                 name="Amount"
@@ -146,17 +147,8 @@ export const ComplainListForm: React.FC<TForm<TReport>> = ({
                 disabled={defaultValues?.Status === 3}
               />
             </div>
-            <div className="col-span-4 mb-2 lg:mb-0">
-              <FormTextarea
-                control={control}
-                name="ComplainText"
-                label="Nội dung"
-                placeholder=""
-                disabled
-                required={false}
-              />
-            </div>
-            <div className="col-span-4 mb-2 lg:mb-0">
+
+            <div className="col-span-2">
               <FormSelect
                 control={control}
                 name="Status"
@@ -171,23 +163,32 @@ export const ComplainListForm: React.FC<TForm<TReport>> = ({
                 disabled={defaultValues?.Status === 3}
               />
             </div>
-            <div className="col-span-4 mb-2 lg:mb-0">
+            <div className="col-span-1">
               <FormUpload
                 control={control}
                 name="IMG"
                 required={false}
                 disabled
+                label="Ảnh"
+              />
+            </div>
+            <div className="col-span-3">
+              <FormTextarea
+                control={control}
+                name="ComplainText"
+                label="Nội dung"
+                placeholder=""
+                disabled
+                required={false}
               />
             </div>
           </div>
         </FormCard.Body>
         <FormCard.Footer>
           <Button
-            showLoading
             title="Cập nhật"
-            btnClass="!bg-main"
+            btnClass="!bg-main mr-2"
             onClick={handleSubmit(_onPress)}
-            disabled={defaultValues?.Status === 3}
           />
           <Button title="Hủy" btnClass="!bg-red" onClick={onCancel} />
         </FormCard.Footer>

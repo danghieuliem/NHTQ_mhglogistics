@@ -1,13 +1,15 @@
 import { CaretRightOutlined } from "@ant-design/icons";
-import { Collapse, Spin } from "antd";
+import { Collapse } from "antd";
 import clsx from "clsx";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useMutation, useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { mainOrder } from "~/api";
 import {
   Empty,
+  Finding,
   Layout,
   OrderCode,
   OrderCost,
@@ -19,20 +21,21 @@ import {
   OrderSurChargeList,
   OrderTransferCodeList,
   showToast,
-  toast,
+  toast
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import { useCatalogue } from "~/hooks";
-import { selectConnection, useAppSelector } from "~/store";
+import { RootState, selectConnection, useAppSelector } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
-const className = "TabPanel py-4";
+const className = "TabPanel";
 const { Panel } = Collapse;
 
 const Index: TNextPageWithLayout = () => {
-  const { current: newUser } = useAppSelector((state) => state.user);
-  if (!newUser) return null;
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 
   const { query } = useRouter();
   const router = useRouter();
@@ -42,29 +45,29 @@ const Index: TNextPageWithLayout = () => {
   const connectionId = connection?.connectionId;
 
   const { userSale, userOrder } = useCatalogue({
-    userSaleEnabled: !!newUser,
-    userOrderEnabled: !!newUser,
+    userSaleEnabled: true,
+    userOrderEnabled: true,
   });
 
   const form = useForm<TOrder>({
     mode: "onBlur",
   });
 
-  useEffect(() => {
-    if (!connectionId) return;
-    let timeout = null;
-    connection.on("change", (mainOrders: TOrder[]) => {
-      if (!!mainOrders?.length) {
-        const item = mainOrders.some((order) => {
-          return order.Id === +query?.id;
-        });
-        if (item) {
-          form.reset(mainOrder[0]);
-        }
-      }
-    });
-    return () => clearTimeout(timeout);
-  }, [connectionId]);
+  // useEffect(() => {
+  //   if (!connectionId) return;
+  //   let timeout = null;
+  //   connection.on("change", (mainOrders: TOrder[]) => {
+  //     if (!!mainOrders?.length) {
+  //       const item = mainOrders.some((order) => {
+  //         return order.Id === +query?.id;
+  //       });
+  //       if (item) {
+  //         form.reset(mainOrder[0]);
+  //       }
+  //     }
+  //   });
+  //   return () => clearTimeout(timeout);
+  // }, [connectionId]);
 
   const { data, isError, isLoading, isFetching, refetch } = useQuery(
     ["order-list", orderId],
@@ -79,9 +82,8 @@ const Index: TNextPageWithLayout = () => {
       retry: false,
       enabled: !!+query?.id,
       keepPreviousData: true,
-      // enabled: false,
-      // refetchOnMount: "always",
-      // refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
+      staleTime: 2000,
     }
   );
 
@@ -114,18 +116,35 @@ const Index: TNextPageWithLayout = () => {
   };
 
   if (isError) {
-    return <Empty description={`Không tìm thấy đơn hàng #${query?.id}`} />;
+    return <Empty />;
+  }
+
+  if (isLoading) {
+    return <Finding />
+  }
+
+  {
+    /* {data && (
+        <MessageControlManager
+          clientId={data.Data.UID}
+          mainOrderId={+query?.id}
+        />
+      )} */
   }
 
   return (
-    <Spin spinning={isFetching}>
       <FormProvider {...form}>
-        <div className="xl:grid xl:grid-cols-10 gap-4 h-full w-full">
-          <div className="xl:col-span-2">
+        <div className="grid grid-cols-10 gap-4"
+          style={{
+            opacity: isFetching ? "0.8" : "1",
+            pointerEvents: isFetching ? "none" : 'all'
+          }}
+        >
+          <div className="col-span-3 xl:col-span-2">
             <div
               style={{
                 position: "sticky",
-                top: "80px",
+                top: "10px",
               }}
             >
               <OrderDetail
@@ -135,11 +154,11 @@ const Index: TNextPageWithLayout = () => {
                 data={data?.Data}
                 loading={isFetching}
                 refetch={refetch}
-                RoleID={newUser?.UserGroupId}
+                RoleID={userCurrentInfo?.UserGroupId}
               />
             </div>
           </div>
-          <div className="col-span-8 tableBoxPag !h-fit !pb-0 xl:ml-6">
+          <div className="col-span-7 xl:col-span-8">
             <Collapse
               expandIconPosition="right"
               expandIcon={({ isActive }) => (
@@ -155,13 +174,13 @@ const Index: TNextPageWithLayout = () => {
               >
                 <div
                   id="order-code"
-                  className={clsx(className, active === 0 && "", "px-4")}
+                  className={clsx(className, active === 0 && "")}
                 >
                   <OrderCode
                     data={data?.Data}
                     loading={isFetching}
                     refetch={refetch}
-                    RoleID={newUser?.UserGroupId}
+                    RoleID={userCurrentInfo?.UserGroupId}
                   />
                 </div>
               </Panel>
@@ -177,7 +196,7 @@ const Index: TNextPageWithLayout = () => {
                     data={data?.Data}
                     loading={isFetching}
                     handleUpdate={_onUpdate}
-                    RoleID={newUser?.UserGroupId}
+                    RoleID={userCurrentInfo?.UserGroupId}
                   />
                 </div>
               </Panel>
@@ -189,45 +208,45 @@ const Index: TNextPageWithLayout = () => {
               >
                 <div
                   id="product-list"
-                  className={clsx(className, active === 2 && "", "!px-2 !py-0")}
+                  className={clsx(className, active === 2 && "")}
                 >
                   <OrderProductList
                     data={data?.Data}
                     loading={isFetching}
                     refetch={refetch}
-                    RoleID={newUser?.UserGroupId}
+                    RoleID={userCurrentInfo?.UserGroupId}
                   />
                 </div>
               </Panel>
               <Panel header="Chi phí đơn hàng" key="4">
                 <div
                   id="surcharge-list"
-                  className={clsx(className, "p-2 !pt-0", active === 3 && "")}
+                  className={clsx(className, active === 3 && "")}
                 >
                   <OrderSurChargeList
                     data={data?.Data}
                     loading={isFetching}
                     handleUpdate={_onUpdate}
-                    RoleID={newUser?.UserGroupId}
+                    RoleID={userCurrentInfo?.UserGroupId}
                   />
                   <OrderCost
                     loading={isFetching}
                     data={data?.Data}
-                    RoleID={newUser?.UserGroupId}
+                    RoleID={userCurrentInfo?.UserGroupId}
                   />
                 </div>
               </Panel>
               <Panel header="Nhân viên xử lý" key="5">
                 <div
                   id="handling-staff"
-                  className={clsx(className, active === 5 && "", "px-4 !pt-0")}
+                  className={clsx(className, active === 5 && "")}
                 >
                   <OrderHandlingStaff
                     data={data?.Data}
                     userSaleCatalogue={userSale}
                     userOrderCatalogue={userOrder}
                     loading={isFetching}
-                    RoleID={newUser?.UserGroupId}
+                    RoleID={userCurrentInfo?.UserGroupId}
                   />
                 </div>
               </Panel>
@@ -251,13 +270,6 @@ const Index: TNextPageWithLayout = () => {
           </div>
         </div>
       </FormProvider>
-      {/* {data && (
-        <MessageControlManager
-          clientId={data.Data.UID}
-          mainOrderId={+query?.id}
-        />
-      )} */}
-    </Spin>
   );
 };
 

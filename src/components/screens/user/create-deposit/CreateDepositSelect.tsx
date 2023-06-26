@@ -1,7 +1,8 @@
-import React, { FC } from "react";
+import { useRouter } from "next/router";
+import { FC } from "react";
+import { useSelector } from "react-redux";
 import { FormSelect } from "~/components";
-import { IconButton } from "~/components/globals/button/IconButton";
-import { useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TControl } from "~/types/field";
 
 type TProps = TControl<TUserCreateDeposit> & {
@@ -12,7 +13,6 @@ type TProps = TControl<TUserCreateDeposit> & {
 };
 
 const infoContainer = "col-span-2";
-const listBox = "flex items-center justify-end mt-4 w-full";
 
 export const CreateDepositSelect: FC<TProps> = ({
   user,
@@ -22,111 +22,60 @@ export const CreateDepositSelect: FC<TProps> = ({
   warehouseVNCatalogue,
   append,
 }) => {
-  const { current: newUser } = useAppSelector((state) => state.user);
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
+  const router = useRouter();
 
   return (
     <>
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
-        <div className={infoContainer}>
-          {user?.UserId === newUser?.UserId ? (
-            <div className="mt-2 xl:mt-0 w-full hidden lg:block">
-              <FormSelect
-                data={user}
-                control={control}
-                name="UID"
-                placeholder=""
-                label="Username"
-                select={{ label: "UserName", value: "Id" }}
-                defaultValue={{
-                  UserName: newUser?.UserName,
-                  Id: newUser?.UserId,
-                }}
-                disabled
-                required={false}
-              />
-            </div>
-          ) : (
-            <div className="mt-2 xl:mt-0 w-full">
-              <FormSelect
-                data={user}
-                label="Username"
-                control={control}
-                name="UID"
-                placeholder="Chọn khách hàng"
-                select={{ label: "UserName", value: "Id" }}
-                rules={{ required: "This field is required" }}
-              />
-            </div>
-          )}
-        </div>
-        <div className={infoContainer}>
-          <div className="w-full">
-            <div className="mt-2 xl:mt-0 w-full">
-              <FormSelect
-                label="Phương thức vận chuyển"
-                data={shippingTypeToWarehouseCatalogue}
-                control={control}
-                name="ShippingTypeId"
-                placeholder="Chọn phương thức vận chuyển"
-                rules={{ required: "This field is required" }}
-                select={{ label: "Name", value: "Id" }}
-              />
-            </div>
+      <div className="grid grid-cols-4 gap-4">
+        {!router.asPath.match("/user/") && (
+          <div className={infoContainer}>
+            <FormSelect
+              data={user}
+              label="Username"
+              control={control}
+              name="UID"
+              placeholder="Khách hàng"
+              select={{ label: "UserName", value: "Id" }}
+              rules={{ required: "This field is required" }}
+            />
           </div>
+        )}
+        <div className={infoContainer}>
+          <FormSelect
+            label="Phương thức vận chuyển"
+            data={shippingTypeToWarehouseCatalogue}
+            control={control}
+            name="ShippingTypeId"
+            placeholder="Phương thức"
+            rules={{ required: "This field is required" }}
+            select={{ label: "Name", value: "Id" }}
+          />
         </div>
         <div className={infoContainer}>
-          <div className="w-full">
-            <div className="mt-2 xl:mt-0 w-full">
-              <FormSelect
-                label="Kho Trung Quốc"
-                data={warehouseTQCatalogue}
-                control={control}
-                name="WareHouseFromId"
-                placeholder="Chọn kho Trung Quốc"
-                rules={{ required: "This field is required" }}
-                select={{ label: "Name", value: "Id" }}
-              />
-            </div>
-          </div>
+          <FormSelect
+            label="Kho Trung Quốc"
+            data={warehouseTQCatalogue}
+            control={control}
+            name="WareHouseFromId"
+            placeholder="Kho Trung Quốc"
+            rules={{ required: "This field is required" }}
+            select={{ label: "Name", value: "Id" }}
+          />
         </div>
         <div className={infoContainer}>
-          <div className="w-full">
-            <div className="mt-2 xl:mt-0 w-full">
-              <FormSelect
-                label="Kho đích"
-                data={warehouseVNCatalogue}
-                control={control}
-                name="WareHouseId"
-                placeholder="Chọn kho đích"
-                rules={{ required: "This field is required" }}
-                select={{ label: "Name", value: "Id" }}
-              />
-            </div>
-          </div>
+          <FormSelect
+            label="Kho Việt Nam"
+            data={warehouseVNCatalogue}
+            control={control}
+            name="WareHouseId"
+            placeholder="Kho Việt Nam"
+            rules={{ required: "This field is required" }}
+            select={{ label: "Name", value: "Id" }}
+          />
         </div>
-      </div>
-      <div className={listBox}>
-        <IconButton
-          onClick={() =>
-            append({
-              Amount: null,
-              OrderTransactionCode: null,
-              Category: null,
-              IsCheckProduct: false,
-              IsPacked: false,
-              IsInsurance: false,
-              Kg: 0,
-              UserNote: null,
-              FeeShip: null,
-            })
-          }
-          title="Thêm kiện"
-          icon="far fa-plus"
-          btnClass=""
-          showLoading
-          toolip=""
-          green
-        />
       </div>
     </>
   );

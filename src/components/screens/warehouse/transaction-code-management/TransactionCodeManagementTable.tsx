@@ -1,10 +1,11 @@
 import { Pagination, Tag } from "antd";
 import { useRouter } from "next/router";
 import React from "react";
-import { DataTable, TransactionCodeManagementFilter } from "~/components";
+import { DataTable } from "~/components";
 import { packageStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 type TProps = {
   filter;
   handleFilter: (newFilter) => void;
@@ -17,11 +18,12 @@ export const TransactionCodeManagementTable: React.FC<
 
   const columnsUser: TColumnsType<TSmallPackage> = [
     {
-      dataIndex: "Id",
-      title: "ID",
-      align: "right",
-      width: 70,
-      responsive: ["sm"],
+      dataIndex: "MainOrderCode",
+      title: "Mã đơn hàng",
+      render: (_, record) => {
+        return <Tag color={record?.OrderType === 1 ? "red" : "blue"}>{_}</Tag>;
+      },
+      responsive: ["xl"],
     },
     {
       dataIndex: "Created",
@@ -45,15 +47,6 @@ export const TransactionCodeManagementTable: React.FC<
       dataIndex: "OrderTransactionCode",
       title: "Mã vận đơn",
       width: 160,
-    },
-    {
-      dataIndex: "MainOrderCode",
-      title: "Mã đơn hàng",
-      render: (_, record) => {
-        return <Tag color={record?.OrderType === 1 ? "red" : "blue"}>{_}</Tag>;
-      },
-      responsive: ["xl"],
-      sorter: (a, b) => a.OrderType - b.OrderType,
     },
     // {
     //   dataIndex: "ProductType",
@@ -114,7 +107,9 @@ export const TransactionCodeManagementTable: React.FC<
       title: "Trạng thái",
       render: (status, record) => {
         const color = packageStatus.find((x) => x.id === status);
-        return <Tag color={color?.color}>{record?.StatusName}</Tag>;
+        return (
+          <TagStatus color={color?.color} statusName={record?.StatusName} />
+        );
       },
       width: 140,
     },
@@ -196,7 +191,9 @@ export const TransactionCodeManagementTable: React.FC<
       fixed: "right",
       render: (status, record) => {
         const color = packageStatus.find((x) => x.id === status);
-        return <Tag color={color?.color}>{record?.StatusName}</Tag>;
+        return (
+          <TagStatus color={color?.color} statusName={record?.StatusName} />
+        );
       },
       width: 140,
     },
@@ -274,26 +271,18 @@ export const TransactionCodeManagementTable: React.FC<
           expandable: expandable,
           mediaWidth: 1200,
           loading: loading,
-          scroll: { y: 660 },
-          title: "Quản lý mã vẫn đơn",
-          extraElment: (
-            <TransactionCodeManagementFilter
-              handleFilter={handleFilter}
-              handleExporTExcel={handleExporTExcel}
-            />
-          ),
+          scroll: { y: 700 },
+          // title: "Danh sách mã vận đơn",
         }}
       />
-      <div className="mt-4 text-right">
-        <Pagination
-          total={filter?.TotalItems}
-          current={filter?.PageIndex}
-          pageSize={filter?.PageSize}
-          onChange={(page, pageSize) =>
-            handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-          }
-        />
-      </div>
+      <Pagination
+        total={filter?.TotalItems}
+        current={filter?.PageIndex}
+        pageSize={filter?.PageSize}
+        onChange={(page, pageSize) =>
+          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
+        }
+      />
     </>
   );
 };

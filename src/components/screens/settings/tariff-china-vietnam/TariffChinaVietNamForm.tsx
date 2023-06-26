@@ -1,14 +1,13 @@
-import {FC, useRef} from "react";
-import {useForm} from "react-hook-form";
-import {useMutation, useQuery, useQueryClient} from "react-query";
-import {shipping, warehouseFrom, warehouseTo} from "~/api";
-import {warehouseFee} from "~/api/warehouse-fee";
-import {Button, FormCard, FormInputNumber, FormSelect, Modal} from "~/components";
-import {toast} from "~/components/toast";
-import {categoryData} from "~/configs/appConfigs";
-import {useDeepEffect} from "~/hooks";
-import {TForm} from "~/types/table";
-import {_format} from "~/utils";
+import { FC, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { shipping, warehouseFrom, warehouseTo } from "~/api";
+import { warehouseFee } from "~/api/warehouse-fee";
+import { Button, FormCard, FormInputNumber, FormSelect, Modal } from "~/components";
+import { toast } from "~/components/toast";
+import { categoryData } from "~/configs/appConfigs";
+import { TForm } from "~/types/table";
+import { _format } from "~/utils";
 
 const AddNew = ({wareHouseFrom, wareHouse, shippingType, onCancel}) => {
 	const {handleSubmit, reset, control} = useForm<TTariffTQVN>({
@@ -119,7 +118,7 @@ const AddNew = ({wareHouseFrom, wareHouse, shippingType, onCancel}) => {
 				</div>
 			</FormCard.Body>
 			<FormCard.Footer>
-				<Button title="Cập nhật" btnClass="!bg-main" onClick={handleSubmit(_onPress)}/>
+				<Button title="Cập nhật" btnClass="!bg-main mr-2" onClick={handleSubmit(_onPress)}/>
 				<Button title="Hủy" btnClass="!bg-red" onClick={onCancel} />
 			</FormCard.Footer>
 		</>
@@ -280,7 +279,7 @@ const Update = ({wareHouseFrom, wareHouse, shippingType, idTarget, data, onCance
 				</div>
 			</FormCard.Body>
 			<FormCard.Footer>
-				<Button title="Cập nhật" btnClass="!bg-main" onClick={handleSubmit(_onPress)}/>
+				<Button title="Cập nhật" btnClass="!bg-main mr-2" onClick={handleSubmit(_onPress)}/>
 				<Button title="Hủy" btnClass="!bg-red" onClick={onCancel} />
 			</FormCard.Footer>
 		</>
@@ -295,6 +294,7 @@ export const TariffChinaVietNamForm: FC<
 			.getList({
 				PageSize: 20,
 				PageIndex: 1,
+				Active: true
 			})
 			.then((res) => res.Data.Items)
 	);
@@ -304,6 +304,7 @@ export const TariffChinaVietNamForm: FC<
 			.getList({
 				PageSize: 20,
 				PageIndex: 1,
+				Active: true
 			})
 			.then((res) => res.Data.Items)
 	);
@@ -315,6 +316,7 @@ export const TariffChinaVietNamForm: FC<
 				.getList({
 					PageSize: 20,
 					PageIndex: 1,
+					Active: true
 				})
 				.then((res) => res.Data.Items),
 		{

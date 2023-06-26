@@ -1,5 +1,4 @@
-import {Menu} from "antd";
-import Link from "next/link";
+import { Menu } from "antd";
 import React from "react";
 
 type TProps = {
@@ -9,6 +8,7 @@ type TProps = {
 		onClick: () => void;
 		title: string;
 		isHidden?: boolean;
+		className?: string;
 	}[];
 };
 

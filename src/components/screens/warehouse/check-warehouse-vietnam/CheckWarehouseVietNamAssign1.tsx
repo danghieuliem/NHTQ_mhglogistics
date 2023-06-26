@@ -59,11 +59,10 @@ export const CheckWarehouseVietNamAssign1: React.FC<TProps> = ({
 				<FormCard.Footer>
 					<Button
 						title="Thêm"
-						btnClass="!bg-main"
+						btnClass="!bg-main mr-2"
 						onClick={handleSubmit((data) =>
 							onPress([{ ...data, IsAssign: true, AssignType: 1 }])
 						)}
-						showLoading
 					/>
 					<Button title="Hủy" btnClass="!bg-red" onClick={onCancel} />
 				</FormCard.Footer>

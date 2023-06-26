@@ -1,7 +1,6 @@
-import { Skeleton, Tag } from "antd";
 import React from "react";
-import { ActionButton } from "~/components";
 import { DataTable } from "~/components/globals/table";
+import TagStatus from "~/components/screens/status/TagStatus";
 import { smallPackageStatusData } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
@@ -63,9 +62,10 @@ export const PackageManagementFormTable: React.FC<
       dataIndex: "Status",
       title: "Trạng thái",
       render: (status) => (
-        <Tag color={smallPackageStatusData.find((x) => x.id === status).color}>
-          {smallPackageStatusData.find((x) => x.id === status).name}
-        </Tag>
+        <TagStatus
+          color={smallPackageStatusData.find((x) => x.id === status).color}
+          statusName={smallPackageStatusData.find((x) => x.id === status).name}
+        />
       ),
       responsive: ["xl"],
     },
@@ -83,53 +83,5 @@ export const PackageManagementFormTable: React.FC<
     // 	responsive: ['xl']
     // }
   ];
-
-  const expandable = {
-    expandedRowRender: (record) => (
-      <ul className="px-2 text-xs">
-        <li className="sm:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Loại hàng:</span>
-          {record.category}
-        </li>
-        <li className="md:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Phí ship (tệ):</span>
-          {record.ship}
-        </li>
-        <li className="lg:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Cân nặng (kg):</span>
-          {record.kg}
-        </li>
-        <li className="xl:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Khối (m3):</span>
-          {record.m3}
-        </li>
-        <li className="xl:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Trạng thái:</span>
-          {/* <Tag color={record.Status === 1 ? 'green' : 'yellow'}>{record.StatusName}</Tag>{' '} */}
-        </li>
-        <li className="xl:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Ngày tạo:</span>
-          {_format.getVNDate(record.created)}
-        </li>
-        <li className="xl:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Thao tác:</span>
-          <ActionButton
-            onClick={() => handleModal(record)}
-            icon="fas fa-edit"
-            title="Cập nhật"
-          />{" "}
-        </li>
-      </ul>
-    ),
-  };
-
-  return (
-    <DataTable
-      loading={loading}
-      data={data}
-      columns={columns}
-      bordered
-      expandable={expandable}
-    />
-  );
+  return <DataTable loading={loading} data={data} columns={columns} />;
 };

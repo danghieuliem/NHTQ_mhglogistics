@@ -12,16 +12,12 @@ import {
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
-import { selectUser, useAppSelector } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-  const { user: userStore } = useAppSelector(selectUser);
-  if (!userStore) return null;
-
   const [filter, setFilter] = useState({
     TotalItems: null,
-    PageSize: 10,
+    PageSize: 20,
     PageIndex: 1,
     OrderBy: "Id desc",
     Status: 5,
@@ -85,10 +81,12 @@ const Index: TNextPageWithLayout = () => {
   };
 
   return (
-    <div className="tableBox">
-      <PurchaseProfiltFilter handleFilter={handleFilter} />
-      <PurchaseProfitChart dataChart={chartData} />
-      <div className="mt-10 border-t border-[#b9b9b9] mt-4 pt-4">
+    <div className="grid grid-cols-1 gap-4">
+      <div className="col-span-1">
+        <PurchaseProfiltFilter handleFilter={handleFilter} />
+        <PurchaseProfitChart dataChart={chartData} />
+      </div>
+      <div className="cols-span-1">
         <PurchaseProfitTable
           {...{
             data: data?.Items,
@@ -98,7 +96,6 @@ const Index: TNextPageWithLayout = () => {
             handleExportExcel: handleExportExcel,
           }}
         />
-        <div className="mt-4 text-right">
         <Pagination
           total={filter?.TotalItems}
           current={filter?.PageIndex}
@@ -107,7 +104,6 @@ const Index: TNextPageWithLayout = () => {
             handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
           }
         />
-      </div>
       </div>
     </div>
   );

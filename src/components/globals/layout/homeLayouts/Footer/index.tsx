@@ -1,17 +1,8 @@
 import Link from "next/link";
 import router from "next/router";
-import { socialList } from "~/configs";
 import styles from "./index.module.css";
-
-const handleSetMenu = (dataConfig) => {
-  const socialListRender = socialList?.map((social) => {
-    return {
-      ...social,
-      link: dataConfig[social.title],
-    };
-  });
-  return socialListRender;
-};
+import { RootState } from "~/store";
+import { useSelector } from "react-redux";
 
 const blogList = [
   {
@@ -36,24 +27,10 @@ const blogList = [
   },
 ];
 
-const Footer = ({ dataConfig, dataMenu }) => {
-  if (!dataConfig || !dataMenu) return null;
-  // const [socialListRender, setSocialListRender] = useState(
-  //   handleSetMenu(dataConfig)
-  // );
-  // useEffect(
-  //   () => setSocialListRender(handleSetMenu(dataConfig)),
-  //   [dataConfig, dataMenu]
-  // );
-
-  // const { data: articalList } = useQuery(["articalList"], () =>
-  //   Page.getList({
-  //     Active: true,
-  //     PageIndex: 1,
-  //     PageSize: 6,
-  //     OrderBy: "Id desc",
-  //   }).then((res) => res?.Data?.Items)
-  // );
+const Footer = ({ dataMenu }) => {
+  const dataGlobal: TConfig = useSelector(
+    (state: RootState) => state.dataGlobal
+  );
 
   return (
     <footer className="">
@@ -62,11 +39,7 @@ const Footer = ({ dataConfig, dataMenu }) => {
           <div className={styles.logo}>
             <Link href="/">
               <a className="">
-                <img
-                  src={"/default/logo_footer.png"}
-                  alt=""
-                  height={"auto"}
-                />
+                <img src={"/default/logo_footer.png"} alt="" height={"auto"} />
               </a>
             </Link>
           </div>
@@ -95,7 +68,7 @@ const Footer = ({ dataConfig, dataMenu }) => {
             </div>
             <div className="col-span-1">
               <div className={styles.title}>
-                <p className="uppercase font-bold text-lg !mb-4 mb-5">Blog</p>
+                <p className="uppercase font-bold text-lg mb-5">Blog</p>
               </div>
               {blogList.map((blog) => (
                 <div className={styles.menuItem} key={blog?.id}>
@@ -123,16 +96,6 @@ const Footer = ({ dataConfig, dataMenu }) => {
                   </div>
                 );
               })} */}
-              {/* {dataConfig?.FacebookFanpage && (
-								<div className="mt-4">
-									<iframe
-										src={dataConfig?.FacebookFanpage}
-										width="100%"
-										height="300"
-										allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-									/>
-								</div>
-							)} */}
             </div>
             <div className="col-span-1">
               <div className={styles.title}>
@@ -142,20 +105,20 @@ const Footer = ({ dataConfig, dataMenu }) => {
                 <div className={styles.contactBox}>
                   Hotline:
                   <a
-                    href={`tel:${dataConfig?.Hotline}`}
+                    href={`tel:${dataGlobal?.Hotline}`}
                     className={`${styles.contactLink}`}
                   >
-                    <span className={styles.colorD}>{dataConfig?.Hotline}</span>
+                    <span className={styles.colorD}>{dataGlobal?.Hotline}</span>
                   </a>
                 </div>
                 <div className={styles.contactBox}>
                   Email:
                   <a
-                    href={`mailto:${dataConfig?.EmailContact}`}
+                    href={`mailto:${dataGlobal?.EmailContact}`}
                     className={`${styles.contactLink}`}
                   >
                     <span className={styles.colorD}>
-                      {dataConfig?.EmailContact}
+                      {dataGlobal?.EmailContact}
                     </span>
                   </a>
                 </div>
@@ -163,13 +126,25 @@ const Footer = ({ dataConfig, dataMenu }) => {
                   Địa chỉ:
                   <span
                     className={styles.colorD}
-                    // dangerouslySetInnerHTML={{ __html: dataConfig?.Address }}
+                    // dangerouslySetInnerHTML={{ __html: dataGlobal?.Address }}
                   >
-                    {dataConfig?.Address}
+                    {dataGlobal?.Address}
                   </span>
                 </div>
               </div>
             </div>
+            {/* {dataGlobal?.FacebookFanpage && (
+              <div className="col-span-1">
+                <div className="mt-4">
+                  <iframe
+                    src={dataGlobal?.FacebookFanpage}
+                    width="100%"
+                    height="300"
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  />
+                </div>
+              </div>
+            )} */}
           </div>
         </div>
       </div>

@@ -1,24 +1,29 @@
+import { Divider, Popover } from "antd";
 import router from "next/router";
+import React from "react";
 import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
+import { useSelector } from "react-redux";
 import { transportationOrder } from "~/api";
 import {
+  ActionButton,
   CreateDepositSelect,
   CreateDepositTable,
   IconButton,
-  toast,
   UserLayout,
+  toast,
 } from "~/components";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
 import { useDeepEffect } from "~/hooks";
 import { useCatalogue } from "~/hooks/useCatalogue";
-import { selectUser, useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-  const { user } = useAppSelector(selectUser);
-  // if (!user) return null;
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
@@ -59,7 +64,7 @@ const Index: TNextPageWithLayout = () => {
       onSuccess: () => {
         toast.success("Tạo đơn hàng ký gửi thành công");
         reset({
-          UID: user.UserId,
+          UID: userCurrentInfo.Id,
           smallPackages: [
             {
               Amount: 1,
@@ -99,51 +104,84 @@ const Index: TNextPageWithLayout = () => {
   };
 
   return (
-    <div
-      style={{
-        pointerEvents: loading ? "none" : "all",
-      }}
-    >
-      <div className="titlePageUser">Tạo đơn ký gửi</div>
-      <div className="tableBox">
-        <CreateDepositSelect
-          {...{
-            control,
-            warehouseTQCatalogue: warehouseTQ,
-            warehouseVNCatalogue: warehouseVN,
-            shippingTypeToWarehouseCatalogue: shippingTypeToWarehouse,
-            append,
-          }}
-          user={user}
+    <React.Fragment>
+      <div className="flex w-fit ml-auto">
+        <ActionButton
+          onClick={() =>
+            append({
+              Amount: null,
+              OrderTransactionCode: null,
+              Category: null,
+              IsCheckProduct: false,
+              IsPacked: false,
+              IsInsurance: false,
+              Kg: 0,
+              UserNote: null,
+              FeeShip: null,
+            })
+          }
+          title="Thêm kiện"
+          icon="far fa-plus"
+          isButton
+          isButtonClassName="bg-green !text-white mr-2"
         />
-
-        <CreateDepositTable
-          {...{
-            data: fields,
-            control,
-            handleSubmit: handleSubmit,
-            onPress: _onPress,
-            remove,
-            setValue,
-          }}
-        />
-        <div className="text-right px-4">
-          <IconButton
-            showLoading
-            onClick={handleSubmit(_onPress)}
-            icon={loading ? "fas fa-sync fa-spin" : "fas fa-check-circle"}
-            title="Tạo đơn hàng"
-            btnClass="mt-4 !bg-orange !text-white"
-            toolip=""
-            btnIconClass=""
+        <Popover
+          trigger={"click"}
+          placement="bottomLeft"
+          content={
+            <div className="grid grid-cols-4 p-4 w-[500px]">
+              <div className="col-span-4 grid grid-col-2">
+                <CreateDepositSelect
+                  {...{
+                    control,
+                    warehouseTQCatalogue: warehouseTQ,
+                    warehouseVNCatalogue: warehouseVN,
+                    shippingTypeToWarehouseCatalogue: shippingTypeToWarehouse,
+                    append,
+                  }}
+                  user={userCurrentInfo}
+                />
+              </div>
+              <div className="col-span-4">
+                <Divider className="!my-4" />
+              </div>
+              <div className="col-span-4 flex items-end justify-end">
+                <ActionButton
+                  onClick={handleSubmit(_onPress)}
+                  icon="fas fa-check-circle"
+                  title="Tạo đơn"
+                  isButton
+                  isButtonClassName="bg-main !text-white"
+                />
+              </div>
+            </div>
+          }
+        >
+          <ActionButton
+            icon="mr-0"
+            title="Tiêp tục"
+            isButton
+            isButtonClassName="bg-sec !text-white"
           />
-        </div>
+        </Popover>
       </div>
-    </div>
+
+      <CreateDepositTable
+        {...{
+          data: fields,
+          control,
+          handleSubmit: handleSubmit,
+          onPress: _onPress,
+          remove,
+          setValue,
+        }}
+      />
+    </React.Fragment>
   );
 };
 
 Index.displayName = SEOHomeConfigs.consignmentShipping.createOderDeposit;
+Index.breadcrumb = "Tạo đơn ký gửi";
 Index.Layout = UserLayout;
 
 export default Index;

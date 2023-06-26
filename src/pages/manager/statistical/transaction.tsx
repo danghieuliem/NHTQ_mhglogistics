@@ -11,14 +11,10 @@ import {
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
-import { selectUser, useAppSelector } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 import { _format } from "~/utils";
 
 const Index: TNextPageWithLayout = () => {
-  const { user: userStore } = useAppSelector(selectUser);
-  if (!userStore) return null;
-
   const [filter, setFilter] = useState({
     TotalItems: null,
     PageIndex: 1,
@@ -69,7 +65,7 @@ const Index: TNextPageWithLayout = () => {
   );
 
   return (
-    <div className="tableBox">
+    <div className="">
       <TransactionFilter handleFilter={handleFilter} />
       <div className="text-lg text-[#333]">
         Tổng số tiền giao dịch:{" "}
@@ -78,14 +74,13 @@ const Index: TNextPageWithLayout = () => {
         </span>
       </div>
       <TransactionChart dataChart={chartData} />
-      <div className="mt-10">
+      <div className="mt-6">
         <TransactionTable
           {...{
             data: data?.Items,
             loading: isFetching,
           }}
         />
-        <div className="mt-4 text-right">
         <Pagination
           total={filter?.TotalItems}
           current={filter?.PageIndex}
@@ -94,7 +89,6 @@ const Index: TNextPageWithLayout = () => {
             handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
           }
         />
-      </div>
       </div>
     </div>
   );
