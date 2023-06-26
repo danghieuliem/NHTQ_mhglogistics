@@ -25,7 +25,8 @@ import "tippy.js/dist/tippy.css";
 import "~/assets/css/main.scss";
 import "../assets/fontawesome/css/all.min.css";
 import "../styles/globals.css";
-import "../styles/styles.css";
+import "../styles/newStyles.css";
+// import "../styles/styles.css";
 // signalR
 import BlankLayout from "~/components/globals/layout/blankLayouts";
 
@@ -69,10 +70,10 @@ const MyApp = ({
 
   return (
     // <SessionProvider session={session}>
-    <QueryClientProvider client={queryClient}>
-      <ConfigProvider locale={locale}>
-        <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <QueryClientProvider client={queryClient}>
+          <ConfigProvider locale={locale}>
             <Head>
               <link
                 rel="icon"
@@ -87,10 +88,10 @@ const MyApp = ({
               <Component {...pageProps} />
             </Layout>
             <ToastContainer />
-          </PersistGate>
-        </Provider>
-      </ConfigProvider>
-    </QueryClientProvider>
+          </ConfigProvider>
+        </QueryClientProvider>
+      </PersistGate>
+    </Provider>
     // </SessionProvider>
   );
 };

@@ -1,6 +1,5 @@
 import { TablePaginationConfig } from "antd";
-import clsx from "clsx";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useQuery } from "react-query";
 import { customerBenefits, customerTalk, menu, service, step } from "~/api";
 import {
@@ -15,8 +14,6 @@ import { breadcrumb } from "~/configs";
 import { defaultPagination } from "~/configs/appConfigs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import { TNextPageWithLayout } from "~/types/layout";
-
-const className = "tableBox xl:mb-5 py-4";
 
 const Index: TNextPageWithLayout = () => {
   const [pagination, setPagination] =
@@ -146,39 +143,40 @@ const Index: TNextPageWithLayout = () => {
     );
 
   return (
-    <React.Fragment>
-      <div className="grid grid-cols-12 gap-4">
-        <div className={clsx(className, "md:col-span-12 xl:col-span-5")}>
+    <div className="grid grid-cols-1 gap-4">
+      <div className="col-span-1 grid grid-cols-12 gap-4">
+        <div className="col-span-4">
           <ContentMenuList data={dataMenu?.Items} />
         </div>
-        <div
-          className={clsx(className, "md:col-span-12 xl:col-span-7 md:!mb-4")}
-        >
+        <div className="col-span-8">
           <RegisterStepsList
             data={dataRegisterSteps?.Items}
             refetchRegisterSteps={refetchRegisterSteps}
           />
         </div>
       </div>
-      <div className={clsx(className, "md:!mb-4")}>
-        <ServiceList
-          data={dataService?.Items}
-          refetchService={refetchService}
-        />
+      <div className="col-span-1 grid grid-cols-12 gap-4">
+        <div className="col-span-5">
+          <ServiceList
+            data={dataService?.Items}
+            refetchService={refetchService}
+          />
+        </div>
+        <div className="col-span-7">
+          <ClientBenefitList
+            data={datacustomerBenefits?.Items}
+            refetchcustomerBenefits={refetchcustomerBenefits}
+          />
+        </div>
       </div>
-      <div className={clsx(className, "md:!mb-4")}>
-        <ClientBenefitList
-          data={datacustomerBenefits?.Items}
-          refetchcustomerBenefits={refetchcustomerBenefits}
-        />
-      </div>
-      <div className={clsx(className, "md:!mb-4")}>
+
+      <div className="col-span-1">
         <ClientComentList
           data={dataCustomerComment?.Items}
           refetchcustomerComment={refetchcustomerComment}
         />
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

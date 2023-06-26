@@ -6,25 +6,20 @@ import {
   Layout,
   NotFound,
   PersonalRechargeFilter,
-  showToast,
-  toast,
   WithDrawalHistoryForm,
   WithDrawalHistoryTable,
+  showToast,
+  toast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import { TNextPageWithLayout } from "~/types/layout";
 import { _format } from "~/utils";
-import { selectUser, useAppSelector } from "~/store";
 
-const boxTop =
-  "col-span-1 tableBox cardTopTable p-2 items-center";
+const boxTop = "col-span-1 tableBox cardTopTable p-2 items-center";
 const boxBottom = "tableBox cardTopTable col-span-1 w-full p-3";
 
 const Index: TNextPageWithLayout = () => {
-  const { user: userStore } = useAppSelector(selectUser);
-  if (!userStore) return null;
-
   const item = useRef<TWithDraw>();
   const [modal, setModal] = useState(false);
 
@@ -145,7 +140,7 @@ const Index: TNextPageWithLayout = () => {
           </div>
         </div>
       </div>
-      <div className="tableBox ">
+      <div>
         <PersonalRechargeFilter
           handleFilter={handleFilter}
           handleExportExcel={handleExportExcel}

@@ -2,7 +2,8 @@ import { TablePaginationConfig } from "antd";
 import router from "next/router";
 import { useState } from "react";
 import { useQuery } from "react-query";
-import { reportMainOrder, reportPayOrderHistory } from "~/api";
+import { useSelector } from "react-redux";
+import { reportMainOrder } from "~/api";
 import {
   Layout,
   SalesFilter,
@@ -14,16 +15,13 @@ import {
 } from "~/components";
 import { breadcrumb, defaultPagination } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
-import { useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
-const styleBorder = `tableBox mb-4`;
-
 const Index: TNextPageWithLayout = () => {
-  const { current: newUser } = useAppSelector((state) => state.user);
-
-  if (!newUser) return null;
-
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 
   const [type, setType] = useState<"sum" | "detail">("detail");
   const [fromDate, setFromDate] = useState<string>(null);
@@ -100,8 +98,8 @@ const Index: TNextPageWithLayout = () => {
         PageSize: orderPagination.pageSize,
         FromDate: fromDate,
         ToDate: toDate,
-        UID: newUser?.UserId,
-        RoleID: newUser?.UserGroupId,
+        UID: userCurrentInfo?.Id,
+        RoleID: userCurrentInfo?.UserGroupId,
       },
     ],
     () =>
@@ -112,8 +110,8 @@ const Index: TNextPageWithLayout = () => {
           OrderBy: "Id desc",
           FromDate: fromDate,
           ToDate: toDate,
-          UID: newUser?.UserId,
-          RoleID: newUser?.UserGroupId,
+          UID: userCurrentInfo?.Id,
+          RoleID: userCurrentInfo?.UserGroupId,
           Status: 2,
         })
         .then((res) => res.Data),
@@ -136,16 +134,16 @@ const Index: TNextPageWithLayout = () => {
       {
         fromDate,
         toDate,
-        UID: newUser?.UserId,
-        RoleID: newUser?.UserGroupId,
+        UID: userCurrentInfo?.Id,
+        RoleID: userCurrentInfo?.UserGroupId,
       },
     ],
     () =>
       reportMainOrder.getTotalOverview({
         FromDate: fromDate,
         ToDate: toDate,
-        UID: newUser?.UserId,
-        RoleID: newUser?.UserGroupId,
+        UID: userCurrentInfo?.Id,
+        RoleID: userCurrentInfo?.UserGroupId,
       }),
     {
       onError: () => {
@@ -158,23 +156,23 @@ const Index: TNextPageWithLayout = () => {
     }
   );
 
-  const handleExportExcelPayment = async () => {
-    try {
-      const res = await reportPayOrderHistory.export({
-        UID: newUser?.UserId,
-        RoleID: newUser?.UserGroupId,
-      });
-      router.push(`${res.Data}`);
-    } catch (error) {
-      toast.error(error);
-    }
-  };
+  // const handleExportExcelPayment = async () => {
+  //   try {
+  //     const res = await reportPayOrderHistory.export({
+  //       UID: userCurrentInfo?.Id,
+  //       RoleID: userCurrentInfo?.UserGroupId,
+  //     });
+  //     router.push(`${res.Data}`);
+  //   } catch (error) {
+  //     toast.error(error);
+  //   }
+  // };
 
   const handleExportExcelOrder = async () => {
     try {
       const res = await reportMainOrder.export({
-        UID: newUser?.UserId,
-        RoleID: newUser?.UserGroupId,
+        UID: userCurrentInfo?.Id,
+        RoleID: userCurrentInfo?.UserGroupId,
       });
       router.push(`${res.Data}`);
     } catch (error) {
@@ -183,8 +181,8 @@ const Index: TNextPageWithLayout = () => {
   };
 
   return (
-    <div className="">
-      <div className={`${styleBorder}`}>
+    <div className="grid grid-cols-1 gap-4">
+      <div className="col-span-1">
         <SalesFilter
           handleFilter={handleFilter}
           type={type}
@@ -198,18 +196,18 @@ const Index: TNextPageWithLayout = () => {
           dataChart={totalOverviewData?.Data}
         />
       </div>
-      <div className={`${styleBorder} p-4`}>
-        {/* <p className="mb-4 text-base font-bold py-2 uppercase">Chi tiết</p> */}
+
+      <div className="col-span-1">
         <SalesMoneyStatisticTable data={totalOverviewData?.Data} />
       </div>
-      <div className={`${styleBorder}`}>
+      <div className="col-span-1">
         <SalesOrderStatisticTable
           pagination={orderPagination}
           handlePagination={setOrderPagination}
           loading={isFetchingOrder}
           data={userOrderReportData?.Items}
           exportExcel={handleExportExcelOrder}
-          RoleID={newUser?.UserGroupId}
+          RoleID={userCurrentInfo?.UserGroupId}
         />
       </div>
 

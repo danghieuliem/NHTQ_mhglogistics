@@ -5,7 +5,7 @@ const inputProps = {
 	id: 'code',
 	name: 'code',
 	placeholder: 'Nhập mã bao hàng',
-	label: 'Mã bao hàng'
+	// label: 'Mã bao hàng'
 };
 
 type TProps = {
@@ -14,7 +14,7 @@ type TProps = {
 
 export const PackageManagementFilter: React.FC<TProps> = ({ handleFilter }) => {
 	return (
-		<div className="max-w-[400px] pb-4">
+		<div className="max-w-[400px]">
 			<FilterInput
 				{...{
 					...inputProps,

@@ -49,7 +49,7 @@ export const RechargeVNDForm: React.FC<TProps> = ({
       queryClient.invalidateQueries("rechargeVNDList");
       toast.success("Gửi yêu cầu xác nhận chuyển khoản thành công");
       reset({
-        Amount: 1,
+        Amount: 1000,
         TradeContent: `NAP ${newUser?.UserName} <sodienthoai>`,
         BankId: bankCatalogue?.[0]?.Id,
       });
@@ -72,7 +72,7 @@ export const RechargeVNDForm: React.FC<TProps> = ({
     setLoading(true);
     mutationAdd.mutateAsync({
       ...data,
-      UID: newUser?.UserId,
+      UID: newUser?.Id,
       BankId: selectedBank?.Id,
     });
   };

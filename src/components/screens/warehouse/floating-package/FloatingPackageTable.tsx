@@ -1,12 +1,12 @@
-import { Pagination, Space, Tag } from "antd";
+import { Pagination, Space } from "antd";
 import React from "react";
 import { ActionButton, DataTable } from "~/components";
 import {
-  smallPackageStatusConfirm,
-  smallPackageStatusData,
+  packageStatus
 } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 type TProps = {
   filter;
   handleFilter: (newFilter) => void;
@@ -45,11 +45,11 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
     //   title: "Loại hàng",
     //   responsive: ["xl"],
     // },
-    {
-      dataIndex: "FeeShip",
-      title: "Phí ship tệ",
-      align: "right",
-    },
+    // {
+    //   dataIndex: "FeeShip",
+    //   title: "Phí ship tệ",
+    //   align: "right",
+    // },
     {
       dataIndex: "Weight",
       title: "Cân kg",
@@ -64,13 +64,10 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
       dataIndex: "Status",
       title: "Trạng thái kiện",
       render: (status, record) => (
-        <Tag
-          color={
-            smallPackageStatusData.find((x) => x.id === record.Status)?.color
-          }
-        >
-          {record.StatusName}
-        </Tag>
+        <TagStatus
+          color={packageStatus.find((x) => x.id === record.Status)?.color}
+          statusName={record.StatusName}
+        />
       ),
     },
     // {
@@ -85,25 +82,9 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
       responsive: ["xl"],
     },
     {
-      dataIndex: "FloatingStatus",
-      title: "Trạng thái",
-      render: (status, record) => (
-        <Tag
-          color={
-            smallPackageStatusConfirm.find(
-              (x) => x.id === record?.FloatingStatus
-            )?.color
-          }
-        >
-          {record.FloatingStatusName == ""
-            ? "Chưa xác nhận"
-            : record.FloatingStatusName}
-        </Tag>
-      ),
-    },
-    {
       dataIndex: "action",
       align: "right",
+      width: 180,
       title: "Thao tác",
       render: (_, record) => (
         <Space>
@@ -116,7 +97,8 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
           <ActionButton
             icon="fas fa-plus"
             onClick={() => handleAssign(record, "assign1")}
-            title="Gán đơn cho khách mua hộ"
+            title="Gán kiện mua hộ"
+            isButton
           />
           {/* <ActionButton
             icon="fas fa-plus"

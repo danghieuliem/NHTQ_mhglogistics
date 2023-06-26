@@ -16,14 +16,14 @@ export const ArticleFilterBase: React.FC<TProps> = ({handleFilter}) => {
 					name="code"
 					handleSubmit={(val) => handleFilter({SearchContent: val.trim().toLocaleLowerCase(), PageTypeId: null})}
 					allowClear={false}
-					label="Tên bài viết"
+					// label="Tên bài viết"
 					placeholder="Nhập tên bài viết"
 					id={""}
 				/>
 			</div>
 			<div className="col-span-1">
 				<FilterSelect
-					label="Tên chuyên mục"
+					// label="Tên chuyên mục"
 					placeholder="Chọn chuyên mục"
 					data={pageType}
 					select={{label: "Name", value: "Id"}}

@@ -36,7 +36,7 @@ const Index: TNextPageWithLayout = () => {
 	});
 	// ===== END =====
 
-	if (isError) return <Empty description={`Không tìm thấy khách hàng #${query?.id}`} />;
+	if (isError) return <Empty />;
 
 	return (
 		<div className="">

@@ -3,7 +3,6 @@ import React from "react";
 import {
   ActionButton,
   DataTable,
-  FormCheckbox,
   FormInput,
   FormInputNumber,
 } from "~/components";
@@ -22,8 +21,6 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
   remove,
   setValue,
 }) => {
-  function test() {}
-
   function handleCheckbox(ctrl, e) {
     setValue(ctrl, e.target.checked);
   }
@@ -32,13 +29,14 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
     {
       dataIndex: "Id",
       title: "STT",
-      align: "center",
+      align: "right",
       render: (_, __, index) => ++index,
+      width: 50,
+      responsive: ["sm"],
     },
     {
       dataIndex: "OrderTransactionCode",
       title: "Mã kiện",
-      align: "center",
       render: (_, __, index) => (
         <FormInput
           control={control}
@@ -57,12 +55,11 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
           }}
         />
       ),
+      width: 160,
     },
     {
       dataIndex: "Category",
       title: "Loại sản phẩm",
-      align: "center",
-      responsive: ["lg"],
       render: (_, __, index) => (
         <FormInput
           control={control}
@@ -70,12 +67,13 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
           placeholder=""
         />
       ),
+      responsive: ["lg"],
+      width: 120,
     },
     {
       dataIndex: "Amount",
       title: "Số lượng",
-      align: "center",
-      responsive: ["lg"],
+      align: "right",
       render: (_, __, index) => (
         <FormInputNumber
           control={control}
@@ -83,15 +81,13 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
           placeholder=""
         />
       ),
+      width: 80,
+      responsive: ["md"],
     },
     {
       dataIndex: "FeeShip",
-      title: (
-        <>
-          Phí COD <br /> Trung QUỐC (¥)
-        </>
-      ),
-      align: "center",
+      title: "Phí COD (¥)",
+      align: "right",
       render: (_, __, index) => (
         <FormInputNumber
           prefix={"¥ "}
@@ -100,12 +96,13 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
           placeholder=""
         />
       ),
+      width: 80,
+      responsive: ["md"],
     },
     {
       dataIndex: "IsCheckProduct",
       title: "Kiểm đếm",
       align: "center",
-      responsive: ["md"],
       render: (_, __, index) => (
         <Checkbox
           defaultChecked={false}
@@ -114,24 +111,27 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
           }
         />
       ),
+      width: 80,
+      responsive: ["lg"],
     },
     {
       dataIndex: "IsPacked",
       title: "Đóng gỗ",
+      width: 80,
       align: "center",
-      responsive: ["md"],
       render: (_, __, index) => (
         <Checkbox
           defaultChecked={false}
           onChange={(e) => handleCheckbox(`smallPackages.${index}.IsPacked`, e)}
         />
       ),
+      responsive: ["lg"],
     },
     {
       dataIndex: "IsInsurance",
       title: "Bảo hiểm",
       align: "center",
-      responsive: ["md"],
+      width: 80,
       render: (_, __, index) => (
         <Checkbox
           defaultChecked={false}
@@ -140,12 +140,12 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
           }
         />
       ),
+      responsive: ["lg"],
     },
     {
       dataIndex: "UserNote",
       title: "Ghi chú",
-      align: "center",
-      responsive: ["lg"],
+      width: 200,
       render: (_, __, index) => (
         <FormInput
           control={control}
@@ -153,15 +153,15 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
           placeholder=""
         />
       ),
+      responsive: ["lg"],
     },
     {
       dataIndex: "action",
       title: "Thao tác",
-      align: "right",
       render: (_, __, index) => (
         <ActionButton
           title="Xoá"
-          icon="fas fa-minus-circle"
+          icon="mr-0"
           onClick={() => {
             if (data.length > 1) {
               remove(index);
@@ -169,50 +169,63 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
               toast.warning("Phải có ít nhất 1 kiện ký gửi");
             }
           }}
-          btnRed
+          isButton
+          isButtonClassName="bg-red !text-white"
         />
       ),
+      width: 80,
     },
   ];
 
   const expandable = {
     expandedRowRender: (item, index) => {
       return (
-        <div className="extentable">
-          <div className="extentable-content">
-            <div className="extentable-row mb-2">
-              <span className="extentable-label">Loại sản phẩm</span>
+        <div className="extentable w-full">
+          <div className="extentable-content grid grid-cols-3 gap-3 w-full">
+            <div className="extentable-row">
               <span className="extentable-value">
                 <FormInput
                   control={control}
                   name={`smallPackages.${index}.Category`}
                   placeholder=""
+                  label="Loại sản phẩm"
                 />
               </span>
             </div>
-            <div className="extentable-row mb-2">
-              <span className="extentable-label">Số lượng</span>
+            <div className="extentable-row md:hidden">
               <span className="extentable-value">
                 <FormInputNumber
                   control={control}
+                  label="Số lượng"
                   name={`smallPackages.${index}.Amount`}
                   placeholder=""
                 />
               </span>
             </div>
-            <div className="extentable-row mb-2">
-              <span className="extentable-label">Ghi chú</span>
+            <div className="extentable-row md:hidden">
+              <span className="extentable-value">
+                <FormInputNumber
+                  prefix={"¥ "}
+                  label="Phí COD (¥)"
+                  control={control}
+                  name={`smallPackages.${index}.FeeShip`}
+                  placeholder=""
+                />
+              </span>
+            </div>
+            <div className="extentable-row md:hidden">
               <span className="extentable-value">
                 <FormInput
                   control={control}
+                  label="Ghi chú"
                   name={`smallPackages.${index}.UserNote`}
                   placeholder=""
                 />
               </span>
             </div>
-            <div className="flex justify-between md:hidden">
-              <div className="extentable-row flex w-fit">
-                <span className="extentable-value mr-2">
+            <div className="grid grid-cols-2 gap-2 col-span-2">
+              <div className="extentable-row justify-center">
+                <span className="extentable-value">
                   <Checkbox
                     defaultChecked={false}
                     onChange={(e) =>
@@ -220,10 +233,10 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
                     }
                   />
                 </span>
-                <span className="extentable-label">Kiểm hàng</span>
+                <span className="extentable-label ml-2">Kiểm đếm: </span>
               </div>
-              <div className="extentable-row flex w-fit">
-                <span className="extentable-value mr-2">
+              <div className="extentable-row justify-center">
+                <span className="extentable-value">
                   <Checkbox
                     defaultChecked={false}
                     onChange={(e) =>
@@ -231,10 +244,10 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
                     }
                   />
                 </span>
-                <span className="extentable-label">Đóng gỗ</span>
+                <span className="extentable-label ml-2">Đóng gỗ: </span>
               </div>
-              <div className="extentable-row flex w-fit">
-                <span className="extentable-value mr-2">
+              <div className="extentable-row justify-center">
+                <span className="extentable-value">
                   <Checkbox
                     defaultChecked={false}
                     onChange={(e) =>
@@ -242,13 +255,14 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
                     }
                   />
                 </span>
-                <span className="extentable-label">Bảo hiểm</span>
+                <span className="extentable-label ml-2">Bảo hiểm: </span>
               </div>
             </div>
           </div>
         </div>
       );
     },
+    defaultExpandAllRows: true,
   };
 
   return (
@@ -257,8 +271,7 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
         columns,
         data,
         bordered: true,
-        title: "Danh sách kiện",
-        expandable: expandable,
+        expandable,
       }}
     />
   );

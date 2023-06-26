@@ -1,9 +1,10 @@
-import { Table, Tag } from "antd";
+import { Table } from "antd";
 import Text from "antd/lib/typography/Text";
 import React from "react";
 import { DataTable } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 
 export const OutStockFormTableDetail: React.FC<
   TTable<TOutStockSessionPackages> & { totalMustPay; dataAll }
@@ -85,9 +86,10 @@ export const OutStockFormTableDetail: React.FC<
       title: "Trạng thái thanh toán",
       render: (record) => {
         return (
-          <Tag color={record ? "#388E3C" : "#D32F2F"}>
-            {record ? "Đã thanh toán" : "Chưa thanh toán"}
-          </Tag>
+          <TagStatus
+            color={record ? "#388E3C" : "#D32F2F"}
+            statusName={record ? "Đã thanh toán" : "Chưa thanh toán"}
+          />
         );
       },
     },
@@ -98,6 +100,7 @@ export const OutStockFormTableDetail: React.FC<
       render: (price) => _format.getVND(price, " "),
     },
   ];
+
   const summary = (data: TOutStockSessionPackages[]) => {
     return (
       <>
@@ -157,15 +160,13 @@ export const OutStockFormTableDetail: React.FC<
   };
 
   return (
-    <div className="mt-6">
-      <DataTable
-        {...{
-          data: data,
-          columns: columns,
-          loading: loading,
-          summary: !!data?.length ? summary : undefined,
-        }}
-      />
-    </div>
+    <DataTable
+      {...{
+        data: data,
+        columns: columns,
+        loading: loading,
+        summary: !!data?.length ? summary : undefined,
+      }}
+    />
   );
 };

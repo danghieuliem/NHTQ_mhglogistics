@@ -1,23 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { transportationOrder } from "~/api";
-import {
-  showToast,
-  UserDepositListTable,
-  UserLayout
-} from "~/components";
+import { showToast, UserDepositListTable, UserLayout } from "~/components";
+import { breadcrumb } from "~/configs";
 import { orderMoneyOfOrdersData, transportStatus } from "~/configs/appConfigs";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
-import { selectUser, useAppSelector } from "~/store";
+import { RootState, selectUser, useAppSelector } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 import { _format } from "~/utils";
 
 const Index: TNextPageWithLayout = () => {
-  const { user } = useAppSelector(selectUser);
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 
   useEffect(() => {
-    setFilter({ ...filter, UID: user?.UserId });
-  }, [user]);
+    setFilter({ ...filter, UID: userCurrentInfo?.Id });
+  }, [userCurrentInfo?.Id]);
 
   const [filter, setFilter] = useState({
     PageIndex: 1,
@@ -28,7 +28,7 @@ const Index: TNextPageWithLayout = () => {
     Status: null,
     FromDate: null,
     ToDate: null,
-    UID: user?.UserId,
+    UID: userCurrentInfo?.Id,
     OrderBy: "Id desc",
   });
 
@@ -47,6 +47,8 @@ const Index: TNextPageWithLayout = () => {
     () => transportationOrder.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,
+      refetchOnWindowFocus: false,
+      staleTime: 5000,
       onSuccess: (data) =>
         setFilter({
           ...filter,
@@ -61,7 +63,7 @@ const Index: TNextPageWithLayout = () => {
           type: "error",
         });
       },
-      enabled: !!user,
+      enabled: !!userCurrentInfo?.Id,
     }
   );
 
@@ -100,14 +102,15 @@ const Index: TNextPageWithLayout = () => {
       });
     },
     retry: false,
-    enabled: !!user,
+    enabled: !!userCurrentInfo?.Id,
+    refetchOnWindowFocus: false,
   });
 
   useQuery(
     ["deposit-infor-list"],
     () =>
       transportationOrder.getAmountInfo({
-        UID: user?.UserId,
+        UID: userCurrentInfo?.Id,
       }),
     {
       onSuccess: (res) => {
@@ -127,29 +130,30 @@ const Index: TNextPageWithLayout = () => {
         });
       },
       retry: false,
-      enabled: !!user,
-    }
+      enabled: !!userCurrentInfo?.Id,
+      refetchOnWindowFocus: false
+    },
+
   );
 
   return (
-    <div className="tableBox mt-6">
-      <UserDepositListTable
-        {...{
-          loading: isFetching,
-          data: data?.Items,
-          handleModal,
-          handleSelectIds,
-          filter,
-          handleFilter,
-          moneyOfOrders,
-          ids: !!ids.length,
-        }}
-      />
-    </div>
+    <UserDepositListTable
+      {...{
+        loading: isFetching,
+        data: data?.Items,
+        handleModal,
+        handleSelectIds,
+        filter,
+        handleFilter,
+        moneyOfOrders,
+        ids: !!ids.length,
+      }}
+    />
   );
 };
 
 Index.displayName = SEOHomeConfigs.consignmentShipping.listOderDeposit;
 Index.Layout = UserLayout;
+Index.breadcrumb = breadcrumb.deposit.depositList.main;
 
 export default Index;

@@ -1,10 +1,12 @@
-import { Space, Tag } from "antd";
+import { Space } from "antd";
 import router from "next/router";
 import { ActionButton, DataTable } from "~/components";
 import { orderStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
-export const UserOrder = ({ data, isLoading, isFetching, pagination }) => {
+import TagStatus from "../../status/TagStatus";
+
+export const UserOrder = ({ data, isFetching }) => {
   const columns: TColumnsType<TNewOrders> = [
     {
       title: "ID",
@@ -41,7 +43,9 @@ export const UserOrder = ({ data, isLoading, isFetching, pagination }) => {
       dataIndex: "Status",
       render: (status, record) => {
         const color = orderStatus.find((x) => x.id === status);
-        return <Tag color={color?.color}>{record?.StatusName}</Tag>;
+        return (
+          <TagStatus color={color?.color} statusName={record?.StatusName} />
+        );
       },
     },
     {
@@ -113,18 +117,16 @@ export const UserOrder = ({ data, isLoading, isFetching, pagination }) => {
   };
 
   return (
-    <div className="tableBox">
-      <DataTable
-        {...{
-          columns,
-          data: data?.Items,
-          bordered: true,
-          loading: isFetching,
-          title: "Đơn hàng mua hộ",
-          expandable,
-          // pagination,
-        }}
-      />
-    </div>
+    <DataTable
+      {...{
+        columns,
+        data: data?.Items,
+        bordered: true,
+        loading: isFetching,
+        title: "Đơn hàng mua hộ",
+        expandable,
+        bgHeaderType: "orderTable"
+      }}
+    />
   );
 };

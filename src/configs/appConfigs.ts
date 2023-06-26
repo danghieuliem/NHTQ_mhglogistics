@@ -826,7 +826,7 @@ export const activeData = [
   {
     id: EActiveData.Blocked,
     name: "Đang bị khóa",
-    color: "black",
+    color: "red",
   },
 ];
 // ===== END =====
@@ -891,8 +891,13 @@ export const paymentData = [
     color: "default",
   },
   {
+    id: EPaymentData.Confirmed,
+    name: "Xác nhận",
+    color: "#fbc02d",
+  },
+  {
     id: EPaymentData.Unpaid,
-    name: "Chưa thanh toán",
+    name: "Chờ xác nhận",
     color: "#D32F2F",
   },
   {
@@ -901,19 +906,14 @@ export const paymentData = [
     color: "#1976D2",
   },
   {
-    id: EPaymentData.Canceled,
-    name: "Đã hủy",
-    color: "#000",
-  },
-  {
     id: EPaymentData.Finished,
     name: "Hoàn thành",
     color: "#1976D2",
   },
   {
-    id: EPaymentData.Confirmed,
-    name: "Xác nhận",
-    color: "#fbc02d",
+    id: EPaymentData.Canceled,
+    name: "Đã hủy",
+    color: "#000",
   },
 ];
 // ===== END =====
@@ -990,17 +990,17 @@ export const smallPackageStatusConfirm = [
   {
     id: ESmallPackageStatusConfirm.Not,
     name: "Chưa xác nhận",
-    color: "yellow",
+    color: "red",
   },
   {
     id: ESmallPackageStatusConfirm.NotReceived,
     name: "Chưa có người nhận",
-    color: "red",
+    color: "blue",
   },
   {
     id: ESmallPackageStatusConfirm.waitConfirm,
     name: "Đang chờ xác nhận",
-    color: "#EAF3FB",
+    color: "green",
   },
   {
     id: ESmallPackageStatusConfirm.received,
@@ -1029,7 +1029,7 @@ export const bigPackageStatusData = [
     color: "green",
   },
   {
-    id: EBigPackageStatusData.ArrivedToChinaWarehouse,
+    id: EBigPackageStatusData.Cancel,
     name: "Huỷ",
     color: "black",
   },
@@ -1139,13 +1139,14 @@ export const search3Data = [
     name: "Tất cả",
   },
   {
-    id: ESearch3Data.Transport,
-    name: "Mã vận đơn",
-  },
-  {
     id: ESearch3Data.Username,
     name: "Username",
   },
+  {
+    id: ESearch3Data.Transport,
+    name: "Mã vận đơn",
+  },
+
 ];
 
 export const searchData = [
@@ -1154,16 +1155,8 @@ export const searchData = [
     name: "Tất cả",
   },
   {
-    id: ESearchData.ID,
-    name: "Mã đơn hàng",
-  },
-  {
     id: ESearchData.ID_Don,
     name: "ID đơn",
-  },
-  {
-    id: ESearchData.Transport,
-    name: "Mã vận đơn",
   },
   {
     id: ESearchData.Website,
@@ -1172,6 +1165,14 @@ export const searchData = [
   {
     id: ESearchData.Username,
     name: "Username",
+  },
+  {
+    id: ESearchData.Transport,
+    name: "Mã vận đơn",
+  },
+  {
+    id: ESearchData.ID,
+    name: "Mã đơn hàng",
   },
 ];
 
@@ -1827,6 +1828,8 @@ export const firstPageDirect = [
       "/manager/order/order-list/detail",
       "/manager/order/order-list?q=3",
       "/manager/client/client-list",
+      "/manager/deposit/deposit-list/",
+      "/manager/order/request-payment/"
     ],
   },
 ];
@@ -1892,7 +1895,7 @@ export const paymentStatus = [
     name: "Chờ duyệt",
     col: 2,
     value: null,
-    color: "pink",
+    color: "darkred",
   },
   {
     id: 2,
@@ -2002,7 +2005,7 @@ export const orderStatus = [
   {
     id: 100,
     name: "Chờ báo giá",
-    color: "red",
+    color: "purple",
     col: 1,
     money: null,
     value: null,

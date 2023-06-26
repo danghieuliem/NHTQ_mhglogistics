@@ -1,7 +1,8 @@
 import Tippy from '@tippyjs/react';
 import { FC, useEffect, useState } from 'react';
-import { EPermission, permissionsConstList, TControllerList } from '~/configs';
-import { selectApiRoles, selectUser, useAppSelector } from '~/store';
+import { useSelector } from 'react-redux';
+import { EPermission, TControllerList, permissionsConstList } from '~/configs';
+import { RootState, selectApiRoles, useAppSelector } from '~/store';
 import { AuthToolTip } from './AuthToolTip';
 
 type TProps = {
@@ -18,9 +19,11 @@ export const AuthContainer: FC<TProps> = ({
 }) => {
 	const [isRender, setIsRender] = useState<boolean>(false);
 	const apiRoles = useAppSelector(selectApiRoles);
-	const { user } = useAppSelector(selectUser);
+	  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 
-	const UserGroupId = user?.UserGroupId;
+	const UserGroupId = userCurrentInfo?.UserGroupId;
 	const isAdmin = UserGroupId && UserGroupId === 1;
 	useEffect(() => {
 		if (isAdmin) {

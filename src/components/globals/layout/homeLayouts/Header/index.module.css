@@ -154,69 +154,37 @@
   align-items: center;
 }
 
-.userInfoWrapper {
-  background-color: #fff;
-  padding: 10px;
-  width: 14vw;
-  border-radius: 8px;
-  position: absolute;
-  z-index: 9999;
-  right: 0;
-  top: 4vh;
-  border: 1px solid #33333326;
-
-  transform: scale(0);
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.2s ease-in-out;
-}
-
-.userInfoWrapper::after {
-  content: "";
-  position: absolute;
-  top: -12%;
-  width: calc(100% + 6px);
-  height: 30px;
-  background-color: transparent;
-  left: -3px;
-}
-
-.hoverInfo:hover .userInfoWrapper {
-  transform: scale(100%);
-  pointer-events: auto;
-  opacity: 1;
-}
-
-.userInfoWrapper .head {
+.head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 6px;
-  margin-bottom: 6px;
-  border-bottom: 2px solid #dedede;
 }
 
-.userInfoWrapper .head .icon {
-  padding-right: 12px;
+.head .icon {
+  padding-right: 8px;
   border-right: 2px solid #00000021;
 }
 
-.userInfoWrapper .head i {
+.head i {
   font-size: 20px;
 }
 
-.userInfoWrapper .head .headInfo {
+.head .headInfo {
   display: flex;
   flex-direction: column;
   flex: 1;
   padding-left: 12px;
 }
 
-.userInfoWrapper .body {
-  margin-bottom: -16px;
+ul.bodyList {
+  margin-bottom: 0;
 }
 
-.userInfoWrapper .bodyItem {
+/* .body {
+  margin-bottom: -16px;
+} */
+
+.bodyItem {
   cursor: pointer;
   padding: 4px;
   border-radius: 4px;
@@ -226,39 +194,44 @@
   transition: all 0.3s ease-in-out;
 }
 
-.userInfoWrapper .bodyItem:hover {
+.bodyItem:hover {
   @apply shadow-lg border-[#e77d1c24];
 }
 
-.userInfoWrapper .bodyItem:hover span,
-.userInfoWrapper .bodyItem:hover i {
+.bodyItem:hover span,
+.bodyItem:hover i {
   color: #fff !important;
 }
 
-.userInfoWrapper .bodyItem.bodyItemPage:hover {
+.bodyItem.logOutButton {
+  width: 80%;
+  margin: auto;
+}
+
+.bodyItem.bodyItemPage:hover {
   background-color: rgba(0, 0, 254, 0.8);
 }
 
-.userInfoWrapper .bodyItem.logOutButton:hover {
+.bodyItem.logOutButton:hover {
   background-color: rgba(255, 0, 0, 0.8);
 }
 
-.userInfoWrapper .bodyItem.bodyItemCart:hover {
+.bodyItem.bodyItemCart:hover {
   background-color: rgba(0, 128, 0, 0.8);
 }
 
-.userInfoWrapper .bodyItem i {
+.bodyItem i {
   @apply text-sec;
   margin-right: 12px;
   font-size: 14px;
 }
 
-.userInfoWrapper .bodyItem.logOutButton i,
-.userInfoWrapper .bodyItem.logOutButton span {
+.bodyItem.logOutButton i,
+.bodyItem.logOutButton span {
   color: rgba(255, 0, 0, 0.8);
 }
 
-.userInfoWrapper .bodyItem span {
+.bodyItem span {
   font-size: 16px;
   font-weight: 500;
 }

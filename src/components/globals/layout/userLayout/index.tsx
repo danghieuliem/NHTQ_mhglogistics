@@ -1,10 +1,16 @@
-import { FC } from "react";
+import React from "react";
 import { Layout } from "../mainLayouts";
 
-export const UserLayout: FC<{}> = ({ children }) => {
+type TProps = {
+  children: React.ReactNode;
+  breadcrumb?: string;
+};
 
+export const UserLayout: React.FC<TProps>  = ({ children , breadcrumb}) => {
+
+  console.log("userlayout");
   return (
-    <Layout userPage>
+    <Layout userPage={true} breadcrumb={breadcrumb}>
       {children}
     </Layout>
   );

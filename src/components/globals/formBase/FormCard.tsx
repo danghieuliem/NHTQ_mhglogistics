@@ -18,7 +18,7 @@ export const FormCard: FC<{ loading?: boolean }> & TSubComponents = ({
 
   return (
     <Spin tip="Loading..." spinning={loading} style={{ maxHeight: "unset" }}>
-      <div className="py-1 px-2">{children}</div>
+      <div className="">{children}</div>
     </Spin>
   );
 };

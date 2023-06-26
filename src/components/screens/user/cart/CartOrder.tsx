@@ -10,9 +10,9 @@ export const CartOrder = ({
   refetchCart,
 }) => {
   return (
-    <div className="cartOrderContainer">
+    <>
       {currentCart?.map((cart, index) => (
-        <div className="mb-4" key={`${index}-${cart?.ShopId}`}>
+        <div className="cartNewWrapper-orders-items" key={`${index}-${cart?.ShopId}`}>
           <CartOrderItem
             cart={cart}
             note={note?.[cart?.Id]}
@@ -25,6 +25,6 @@ export const CartOrder = ({
           />
         </div>
       ))}
-    </div>
+    </>
   );
 };

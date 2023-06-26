@@ -33,10 +33,9 @@ export const OrderHandlingStaff: React.FC<TProps> = ({
             Id: data?.SalerId,
           }
         }
-        placeholder=""
+        placeholder="Nhân viên saler"
         label="Nhân viên saler"
         isClearable
-        selectContainerClassName="mt-4"
         required={false}
         disabled={!(RoleID === 1 || RoleID === 3 || RoleID !== 4)}
       />
@@ -52,10 +51,9 @@ export const OrderHandlingStaff: React.FC<TProps> = ({
             Id: data?.DatHangId,
           }
         }
-        placeholder=""
+        placeholder="Nhân viên đặt hàng"
         label="Nhân viên đặt hàng"
         isClearable
-        selectContainerClassName="mt-4"
         required={false}
         disabled={!(RoleID === 1 || RoleID === 3 || RoleID !== 4)}
       />

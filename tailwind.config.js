@@ -11,9 +11,10 @@ module.exports = {
   // đổi màu ở đây thì vào globals đổi màu theo (nếu có)
   theme: {
     colors: {
-      main: "#F5851E",
+      main: "#FF7A00",
       sec: "#1F1F67",
-      label: "#6B6F82",
+      // sec: "#1582F5",
+      label: "#3E3E44",
       warning: "#F44336",
       warningBold: "#f14f04",
       success: "#388E3C",

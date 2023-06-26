@@ -1,21 +1,20 @@
-import { Space, Tag } from "antd";
+import { Space } from "antd";
 import { FC } from "react";
 import { ActionButton, DataTable } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 
 export const BanksTable: FC<TTable<TBank>> = ({
   handleModal,
-  handleConfirm,
   data,
-  pagination,
-  handlePagination,
   loading,
 }) => {
   const columns: TColumnsType<TBank> = [
     {
       dataIndex: "Id",
       title: "ID",
+      align: "right"
     },
     {
       dataIndex: "BankName",
@@ -51,9 +50,10 @@ export const BanksTable: FC<TTable<TBank>> = ({
       align: "right",
       render: (_, record) => {
         return (
-          <Tag color={record?.Active ? "blue" : "red"}>
-            {record?.Active ? "Hiện" : "Ẩn"}
-          </Tag>
+          <TagStatus
+            color={record?.Active ? "blue" : "red"}
+            statusName={record?.Active ? "Hiện" : "Ẩn"}
+          />
         );
       },
     },
@@ -74,41 +74,6 @@ export const BanksTable: FC<TTable<TBank>> = ({
     },
   ];
 
-  // const expandable = {
-  // 	expandedRowRender: (record) => (
-  // 		<ul className="px-2 text-xs">
-  // 			<li className="sm:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Chủ tài khoản:</span>
-  // 				{record.Branch}
-  // 			</li>
-  // 			<li className="md:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Số tài khoản:</span>
-  // 				{record.BankNumber}
-  // 			</li>
-  // 			<li className="md:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Chi nhánh:</span>
-  // 				{record.Name}
-  // 			</li>
-  // 			<li className="lg:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Lần cuối thay đổi:</span>
-  // 				<div className="w-full text-right">
-  // 					{_format.getVNDate(record.Updated)}
-  // 				</div>
-  // 			</li>
-  // 			<li className="xl:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Thao tác:</span>
-  // 				<Space>
-  // 					<ActionButton
-  // 						onClick={() => handleModal(record, "update")}
-  // 						icon="fas fa-edit"
-  // 						title="Cập nhật"
-  // 					/>
-  // 				</Space>
-  // 			</li>
-  // 		</ul>
-  // 	),
-  // };
-
   return (
     <DataTable
       {...{
@@ -116,8 +81,8 @@ export const BanksTable: FC<TTable<TBank>> = ({
         columns,
         data,
         bordered: true,
-        pagination,
-        onChange: handlePagination,
+        // pagination,
+        // onChange: handlePagination,
         // expandable: expandable,
       }}
     />

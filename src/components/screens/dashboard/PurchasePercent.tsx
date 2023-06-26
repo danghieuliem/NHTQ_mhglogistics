@@ -6,23 +6,30 @@ import {
   Tooltip,
 } from "chart.js";
 import { useState } from "react";
-import { PolarArea } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 import { useQuery } from "react-query";
 import { dashboard } from "~/api";
 import { showToast } from "~/components/toast";
+import TagStatus from "../status/TagStatus";
 
 ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 
 const options = {
+  responsive: true,
   plugins: {
     legend: {
       display: false,
     },
   },
+  // scales: {
+  //   xAxes: { grid: { display: false, drawBorder: false } },
+  //   yAxes: {
+  //     grid: { display: true, borderDash: [3, 3], drawBorder: false },
+  //   },
+  // },
 };
 
 export const PurchasePercent = () => {
-  const newUser = localStorage.getItem("currentUser");
   const [dataChart, setDataChart] = useState([]);
   const [dataLabels, setDataLabels] = useState([]);
 
@@ -36,7 +43,6 @@ export const PurchasePercent = () => {
           message: (error as any)?.response?.data?.ResultMessage,
           type: "error",
         }),
-      enabled: !!newUser,
       onSuccess: (data) => {
         setDataChart(data.Data.map((i) => i.Amount));
         setDataLabels(data.Data.map((i) => i.Name));
@@ -45,56 +51,40 @@ export const PurchasePercent = () => {
   );
 
   const data = {
-    labels: dataLabels || [],
+    labels: dataLabels,
     datasets: [
       {
-        label: "# of Votes",
-        data: dataChart || [],
+        // labels: dataLabels,
         backgroundColor: [
-          "#00000085",
-          "#ffa50065",
-          "#00808085",
-          "#f57c0085",
-          "#c7158585",
-          "#096dd985",
-          "#00800085",
-          "#f0000055",
-        ],
-        borderColor: [
           "#000",
-          "#ffa500",
-          "#008080",
           "#f57c00",
           "#c71585",
-          "#096dd9",
           "#008000",
+          "#ffa500",
+          "#008080",
+          "#096dd9",
           "#f00",
         ],
-        borderWidth: 2,
+        data: dataChart,
+        hoverOffset: 4,
       },
     ],
   };
 
   return (
-    <div className="grid grid-cols-1 h-[100%]">
-      <div className="tableBox lg:p-6 col-span-1 !py-4">
-        <p className="titleTable">Tỉ lệ đơn mua hộ</p>
-        <PolarArea className="mt-4" data={data} options={options} />
+    <div className="tableBox">
+      <p className="titleTable">Tỉ lệ đơn mua hộ</p>
+      <div className="grid grid-cols-2 gap-1 mt-4 ">
+        <TagStatus color="#000" statusName="Huỷ đơn hàng"/>
+        <TagStatus color="#f57c00" statusName="Đã về kho TQ"/>
+        <TagStatus color="#c71585" statusName="Đã về kho VN"/>
+        <TagStatus color="#008000" statusName="Đã hoàn thành"/>
+        <TagStatus color="#ffa500" statusName="Đã đặt cọc"/>
+        <TagStatus color="#008080" statusName="Đã mua hàng"/>
+        <TagStatus color="#096dd9" statusName="Đã thanh toán"/>
+        <TagStatus color="#f00" statusName="Chưa đặc cọc"/>
       </div>
-      {/* <div className="col-span-1 tableBox">
-				{templateColorPanel.map((item) => (
-					<div className={boxContain} key={item?.id}>
-						<div
-							className={itemContain}
-							style={{
-								backgroundColor: item?.color,
-								border: `1px solid ${item?.color}`,
-							}}
-						></div>
-						<p>{item?.label}</p>
-					</div>
-				))}
-			</div> */}
+      <Pie data={data} height={270} options={options} className="p-6 xl:p-10 my-[-17px]" />
     </div>
   );
 };

@@ -1,51 +1,56 @@
 export const repoCNRouter = [
   {
-    group: "Kiểm kho Trung Quốc",
-    controllers: [
+    path: "/manager/warehouse/check-warehouse-china/",
+    name: "Kiểm kho Trung Quốc",
+    icon: "fas fa-warehouse-alt",
+    childrens: [
       {
-        path: "/manager/warehouse/check-warehouse-china",
+        path: "/manager/warehouse/check-warehouse-china/",
         name: "Kiểm kho Trung Quốc",
-        icon: "fas fa-warehouse-alt",
       },
     ],
   },
   {
-    group: "Import mã vận đơn",
-    controllers: [
+    name: "Import mã vận đơn",
+    path: "/manager/warehouse/import/",
+    icon: "fas fa-upload",
+    childrens: [
       {
-        path: "/manager/warehouse/import",
+        path: "/manager/warehouse/import/",
         name: "Import mã vận đơn",
-        icon: "fas fa-upload",
       },
     ],
   },
   {
-    group: "Quản lý bao hàng",
-    controllers: [
+    name: "Quản lý bao hàng",
+    path: "/manager/warehouse/package-management/",
+    icon: "far fa-box-full",
+    childrens: [
       {
-        path: "/manager/warehouse/package-management",
+        path: "/manager/warehouse/package-management/",
         name: "Bao hàng",
-        icon: "far fa-box-full",
       },
     ],
   },
   {
-    group: "Quản lý mã vận đơn",
-    controllers: [
+    name: "Quản lý mã vận đơn",
+    path: "/manager/warehouse/transaction-code-management/",
+    icon: "fas fa-barcode-scan",
+    childrens: [
       {
-        path: "/manager/warehouse/transaction-code-management",
+        path: "/manager/warehouse/transaction-code-management/",
         name: "Mã vận đơn",
-        icon: "fas fa-barcode-scan",
       },
     ],
   },
   {
-    group: "Quản lý kiện trôi nổi",
-    controllers: [
+    path: "/manager/warehouse/floating-package/",
+    name: "Quản lý kiện trôi nổi",
+    icon: "fas fa-truck-loading",
+    childrens: [
       {
-        path: "/manager/warehouse/floating-package",
+        path: "/manager/warehouse/floating-package/",
         name: "Quản lý kiện trôi nổi",
-        icon: "fas fa-truck-loading",
       },
     ],
   },

@@ -4,6 +4,7 @@ import React from "react";
 import { ActionButton, DataTable, toast } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 
 type TProps = {
   filter: {
@@ -30,7 +31,9 @@ export const BonusManagementTable: React.FC<TTable<TBonus> & TProps> = ({
     {
       dataIndex: "PayHelpOrderId",
       title: "ID Đơn",
-      width: 80,
+      width: 60,
+      align: "right",
+      fixed: "left",
       render: (_, record) => {
         let mainID = null;
         switch (type) {
@@ -60,59 +63,88 @@ export const BonusManagementTable: React.FC<TTable<TBonus> & TProps> = ({
       render: (_, record) => {
         return <div>{_format.getVND(record?.TotalPriceReceive, "")}</div>;
       },
+      width: 140,
     },
     {
       dataIndex: "UserName",
       title: "Username",
+      width: 140,
     },
     {
       dataIndex: "RoleName",
       title: "Quyền hạn",
+      width: 140,
     },
     {
       dataIndex: "Status",
       title: "Trạng thái",
+      width: 140,
       render: (status, record) => (
-        <Tag color={status !== 1 ? "blue" : "red"}>{record.StatusName}</Tag>
+        <TagStatus
+          color={status !== 1 ? "blue" : "red"}
+          statusName={record.StatusName}
+        />
       ),
     },
-    // {
-    //   dataIndex: "Created",
-    //   title: "Ngày tạo - người tạo",
-    //   render: (_, record) => (
-    //     <>
-    //       {_format.getVNDate(record.Created)} - {record.CreatedBy}
-    //     </>
-    //   ),
-    //   width: 250,
-    //   responsive: ["xl"],
-    // },
     {
       dataIndex: "MainOrderCompleteDate",
-      title: "Ngày hoàn thành đơn",
+      title: "Ngày hoàn thành",
       render: (_, record) => (
         <>{_format.getVNDate(record?.MainOrderCompleteDate)}</>
       ),
+      width: 200,
     },
     {
       dataIndex: "Updated",
       title: <>Ngày cập nhật</>,
       render: (_, record) => (
         <>
-          {_format.getVNDate(record.Updated)} <br /> {record.UpdatedBy}
+          {_format.getVNDate(record.Updated)} <br />{" "}
+          <span className="text-green font-bold">{record.UpdatedBy}</span>
         </>
       ),
-      // width: 250,
-      responsive: ["xl"],
+      width: 200,
     },
     {
       dataIndex: "action",
       key: "action",
       title: "Thao tác",
       align: "right",
+      width: 180,
+      fixed: "right",
       render: (_, record) => {
         return (
-          <Space>
+          <div className="flex flex-wrap gap-1">
+            <ActionButton
+              isButton
+              // isButtonClassName="bg-main !text-white !h-fit"
+              onClick={() => {
+                let routerPush = {};
+                switch (type) {
+                  case 0:
+                    routerPush = {
+                      pathname: "/manager/order/order-list/detail",
+                      query: { id: record?.MainOrderId },
+                    };
+                    break;
+                  case 1:
+                    routerPush = {
+                      pathname: "/manager/deposit/deposit-list/detail",
+                      query: { id: record?.TransportationOrderId },
+                    };
+                    break;
+                  default:
+                    routerPush = {
+                      pathname: "/manager/order/request-payment/detail",
+                      query: { id: record?.PayHelpOrderId },
+                    };
+                    break;
+                }
+                router.push(routerPush);
+              }}
+              icon="!mr-0"
+              title="Chi tiết"
+            />
             {record.Status === 1 &&
               (RoleID === 1 || RoleID === 3 || RoleID === 8) && (
                 <ActionButton
@@ -150,117 +182,17 @@ export const BonusManagementTable: React.FC<TTable<TBonus> & TProps> = ({
                       },
                     })
                   }
-                  icon="far fa-credit-card"
+                  icon="!mr-0"
                   title="Thanh toán"
-                  iconContainerClassName="iconBlue"
-                  btnBlue
+                  isButton
+                  isButtonClassName="bg-blue !text-white h-fit"
                 />
               )}
-            <ActionButton
-              onClick={() => {
-                let routerPush = {};
-                switch (type) {
-                  case 0:
-                    routerPush = {
-                      pathname: "/manager/order/order-list/detail",
-                      query: { id: record?.MainOrderId },
-                    };
-                    break;
-                  case 1:
-                    routerPush = {
-                      pathname: "/manager/deposit/deposit-list/detail",
-                      query: { id: record?.TransportationOrderId },
-                    };
-                    break;
-                  default:
-                    routerPush = {
-                      pathname: "/manager/order/request-payment/detail",
-                      query: { id: record?.PayHelpOrderId },
-                    };
-                    break;
-                }
-                router.push(routerPush);
-              }}
-              icon="fas fa-info"
-              title="Xem chi tiết đơn"
-              iconContainerClassName=" iconYellow"
-              btnYellow
-            />
-          </Space>
+          </div>
         );
       },
-      responsive: ["xl"],
     },
   ];
-
-  const expandable = {
-    expandedRowRender: (record) => (
-      <ul className="px-2 text-xs">
-        <li className="flex justify-between py-2">
-          <span className="font-medium mr-4">Ngày tạo:</span>
-          {_format.getVNDate(record.Created)}
-        </li>
-        <li className="flex justify-between py-2">
-          <span className="font-medium mr-4">Ngày cập nhật:</span>
-          {_format.getVNDate(record.Updated)}
-        </li>
-        <li className="flex justify-between py-2">
-          <span className="font-medium mr-4">Thao tác:</span>
-          <Space>
-            {record.Status === 1 && (RoleID === 1 || RoleID === 3) && (
-              <ActionButton
-                onClick={() =>
-                  Modal.confirm({
-                    title: "Thanh toán hoa hồng đơn hàng này?",
-                    content: (
-                      <div className="mt-4 pb-4 border-b border-[#d5d4d4]">
-                        <div className="py-1 pl-5 flex justify-between">
-                          Username:{" "}
-                          <span className="font-bold">{record?.UserName}</span>
-                        </div>
-                        <div className="py-1 pl-5 flex justify-between">
-                          Hoa hồng:{" "}
-                          <span className="font-bold">
-                            {_format.getVND(record?.TotalPriceReceive, " VNĐ")}
-                          </span>
-                        </div>
-                      </div>
-                    ),
-                    okText: "Thanh toán",
-                    cancelText: "Hủy",
-
-                    onOk: () => {
-                      if (!record?.TotalPriceReceive) {
-                        toast.warning("Chưa có tiền hoa hồng để thanh toán!");
-                        return;
-                      }
-                      return handlePayment(record.Id);
-                    },
-                  })
-                }
-                icon="far fa-credit-card"
-                title="Thanh toán"
-                iconContainerClassName="iconBlue"
-                btnBlue
-              />
-            )}
-            <ActionButton
-              onClick={() =>
-                router.push({
-                  pathname: "/manager/order/order-list/detail",
-                  query: { id: record.MainOrderId },
-                })
-              }
-              icon="fas fa-info"
-              title="Xem chi tiết đơn"
-              iconContainerClassName=" iconYellow"
-              btnYellow
-            />
-          </Space>
-        </li>
-      </ul>
-    ),
-  };
 
   return (
     <>
@@ -270,20 +202,17 @@ export const BonusManagementTable: React.FC<TTable<TBonus> & TProps> = ({
           columns,
           data,
           bordered: true,
-          expandable: expandable,
-          scroll: { y: 700 },
+          scroll: { y: 700, x: 1200 },
         }}
       />
-      <div className="mt-4 text-right">
-        <Pagination
-          total={filter?.TotalItems}
-          current={filter?.PageIndex}
-          pageSize={filter?.PageSize}
-          onChange={(page, pageSize) =>
-            handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-          }
-        />
-      </div>
+      <Pagination
+        total={filter?.TotalItems}
+        current={filter?.PageIndex}
+        pageSize={filter?.PageSize}
+        onChange={(page, pageSize) =>
+          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
+        }
+      />
     </>
   );
 };

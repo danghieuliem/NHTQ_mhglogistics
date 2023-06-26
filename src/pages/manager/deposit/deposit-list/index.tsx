@@ -1,23 +1,25 @@
 import router from "next/router";
 import { useState } from "react";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { transportationOrder } from "~/api";
-import { breadcrumb } from "~/configs";
 import {
   DepositListFilter,
   DepositListTable,
   Layout,
   showToast,
 } from "~/components";
-import { transportStatus } from "~/configs/appConfigs";
+import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
-import { selectUser, useAppSelector } from "~/store";
-import { TNextPageWithLayout } from "~/types/layout";
+import { transportStatus } from "~/configs/appConfigs";
 import { useCatalogue } from "~/hooks";
+import { RootState } from "~/store";
+import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-  const { user } = useAppSelector(selectUser);
-  if (!user) return null;
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 
   const { userSale } = useCatalogue({
     userSaleEnabled: true,
@@ -32,8 +34,8 @@ const Index: TNextPageWithLayout = () => {
     TotalItems: null,
     PageIndex: 1,
     PageSize: 20,
-    UID: user?.UserId,
-    RoleID: user?.UserGroupId,
+    UID: userCurrentInfo?.Id,
+    RoleID: userCurrentInfo?.UserGroupId,
     SalerID: null,
   });
 
@@ -59,6 +61,8 @@ const Index: TNextPageWithLayout = () => {
           type: "error",
         });
       },
+      keepPreviousData: true,
+      staleTime: 5000,
     }
   );
 
@@ -84,8 +88,8 @@ const Index: TNextPageWithLayout = () => {
     ["deposit-infor-list"],
     () =>
       transportationOrder.getAmountInfo({
-        UID: user?.UserId,
-        RoleID: user?.UserGroupId,
+        UID: userCurrentInfo?.Id,
+        RoleID: userCurrentInfo?.UserGroupId,
       }),
     {
       onSuccess: (res) => {
@@ -105,6 +109,8 @@ const Index: TNextPageWithLayout = () => {
         });
       },
       retry: false,
+      keepPreviousData: true,
+      staleTime: 5000,
     }
   );
 
@@ -116,17 +122,15 @@ const Index: TNextPageWithLayout = () => {
         handleFilter={(newFilter) => handleFilter(newFilter)}
         handleExporTExcel={handleExporTExcel}
       />
-      <div className="tableBox">
-        <DepositListTable
-          userSale={userSale}
-          refetch={refetch}
-          data={data?.Items}
-          loading={isFetching}
-          filter={filter}
-          handleFilter={handleFilter}
-          RoleID={user?.UserGroupId}
-        />
-      </div>
+      <DepositListTable
+        userSale={userSale}
+        refetch={refetch}
+        data={data?.Items}
+        loading={isFetching}
+        filter={filter}
+        handleFilter={handleFilter}
+        RoleID={userCurrentInfo?.UserGroupId}
+      />
     </div>
   );
 };

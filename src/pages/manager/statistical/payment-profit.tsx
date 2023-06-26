@@ -1,4 +1,4 @@
-import { TablePaginationConfig } from "antd";
+import { Pagination } from "antd";
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { reportPayHelp } from "~/api";
@@ -9,45 +9,38 @@ import {
   PaymentProfitTable,
   toast,
 } from "~/components";
-import { breadcrumb, defaultPagination } from "~/configs";
+import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
-import { selectUser, useAppSelector } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-  const { user: userStore } = useAppSelector(selectUser);
-  if (!userStore) return null;
+  const [filter, setFilter] = useState({
+    TotalItems: null,
+    PageSize: 20,
+    PageIndex: 1,
+    OrderBy: "Id desc",
+    Status: 5,
+    fromDate: null,
+    toDate: null,
+  });
 
-  const [fromDate, setFromDate] = useState<string>(null);
-  const [toDate, setToDate] = useState<string>(null);
-  const handleFilter = (fromDate: string, toDate: string) => {
-    setFromDate(fromDate);
-    setToDate(toDate);
+  const handleFilter = (newFilter) => {
+    setFilter({ ...filter, ...newFilter });
   };
 
-  const [pagination, setPagination] =
-    useState<TablePaginationConfig>(defaultPagination);
   const [chartData, setChartData] = useState<Record<string, number>>(null);
 
   const { data, isFetching: isFetchingWithdraw } = useQuery(
-    [
-      "clientPurchaseReportData",
-      {
-        Current: pagination.current,
-        PageSize: pagination.pageSize,
-      },
-    ],
-    () =>
-      reportPayHelp
-        .getList({
-          PageIndex: pagination.current,
-          PageSize: pagination.pageSize,
-          OrderBy: "Id desc",
-        })
-        .then((res) => res.Data),
+    ["clientPurchaseReportData", { ...filter }],
+    () => reportPayHelp.getList({ ...filter }).then((res) => res.Data),
     {
       onSuccess: (data) => {
-        setPagination({ ...pagination, total: data?.TotalItem });
+        setFilter({
+          ...filter,
+          TotalItems: data?.TotalItem,
+          PageIndex: data?.PageIndex,
+          PageSize: data?.PageSize,
+        });
         setChartData({
           MaxTotalPrice: data?.Items[0]?.MaxTotalPrice,
           MaxTotalPriceVNDGiaGoc: data?.Items[0]?.MaxTotalPriceVNDGiaGoc,
@@ -56,21 +49,27 @@ const Index: TNextPageWithLayout = () => {
         });
       },
       onError: toast.error,
-      enabled: !!userStore,
+      staleTime: 5000,
     }
   );
 
   return (
-    <div className="tableBox">
+    <div>
       <PaymentProfitFilter handleFilter={handleFilter} />
       <PaymentProfitChart dataChart={chartData} />
       <div className="mt-10">
         <PaymentProfitTable
           {...{
             data: data?.Items,
-            pagination,
-            handlePagination: (pagination) => setPagination(pagination),
           }}
+        />
+        <Pagination
+          total={filter?.TotalItems}
+          current={filter?.PageIndex}
+          pageSize={filter?.PageSize}
+          onChange={(page, pageSize) =>
+            handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
+          }
         />
       </div>
     </div>

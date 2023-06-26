@@ -1,7 +1,6 @@
-import { Spin, Table, Tag } from "antd";
-import Link from "next/link";
+import { Divider, Spin, Table } from "antd";
 import React, { useRef } from "react";
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import ReactToPrint, { PrintContextConsumer } from "react-to-print";
 import { toast } from "react-toastify";
 import { outStockSession } from "~/api";
@@ -10,6 +9,7 @@ import { DataTable, FilterInput, IconButton } from "~/components";
 import { smallPackageStatusData } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 
 const fullNameProps = {
   placeholder: "Nhập họ tên người nhận",
@@ -89,23 +89,23 @@ export const OutstockPaymentDetail: React.FC<
       dataIndex: "SmallPackage",
       title: "Trạng thái kiện",
       render: (smallPackage: TSmallPackage) => (
-        <Tag
+        <TagStatus
           color={
             smallPackageStatusData.find((x) => smallPackage?.Status === x.id)
               ?.color
           }
-        >
-          {smallPackage?.StatusName}
-        </Tag>
+          statusName={smallPackage?.StatusName}
+        />
       ),
     },
     {
       dataIndex: "IsPayment",
       title: "Trạng thái thanh toán",
       render: (isPayment: boolean) => (
-        <Tag color={isPayment ? "#1965e0" : "#f52525"}>
-          {isPayment ? "Đã thanh toán" : "Chưa thanh toán"}
-        </Tag>
+        <TagStatus
+          color={isPayment ? "#1965e0" : "#f52525"}
+          statusName={isPayment ? "Đã thanh toán" : "Chưa thanh toán"}
+        />
       ),
     },
     {
@@ -117,47 +117,6 @@ export const OutstockPaymentDetail: React.FC<
       ),
     },
   ];
-
-  // const expandable = {
-  //   expandedRowRender: (record) => (
-  //     <ul className="px-2 text-xs">
-  //       {/* <li className="sm:hidden flex justify-between py-2">
-  // 				<span className="font-medium mr-4">ID:</span>
-  // 				<div>{record?.Id}</div>
-  // 			</li> */}
-  //       <li className="sm:hidden flex justify-between py-2">
-  //         <span className="font-medium mr-4">Cân nặng KG:</span>
-  //         <div>{_format.getVND(record?.SmallPackage?.PayableWeight, "")}</div>
-  //       </li>
-  //       <li className="md:hidden flex justify-between py-2">
-  //         <span className="font-medium mr-4">Trạng thái kiện:</span>
-  //         <div>
-  //           <Tag
-  //             color={
-  //               smallPackageStatusData.find(
-  //                 (x) => record?.SmallPackage?.Status === x.id
-  //               )?.color
-  //             }
-  //           >
-  //             {record?.SmallPackage?.StatusName}
-  //           </Tag>
-  //         </div>
-  //       </li>
-  //       <li className="lg:hidden flex justify-between py-2">
-  //         <span className="font-medium mr-4">Trạng thái thanh toán:</span>
-  //         <div>
-  //           <Tag color={record?.IsPayment ? "green" : "red"}>
-  //             {record?.IsPayment ? "Đã thanh toán" : "Chưa thanh toán"}
-  //           </Tag>
-  //         </div>
-  //       </li>
-  //       <li className="xl:hidden flex justify-between py-2">
-  //         <span className="font-medium mr-4">Tiền cần thanh toán:</span>
-  //         <div>{_format.getVND(record?.TotalLeftPay)}</div>
-  //       </li>
-  //     </ul>
-  //   ),
-  // };
 
   const summary = () => {
     return (
@@ -377,109 +336,92 @@ export const OutstockPaymentDetail: React.FC<
         </div>
       </div>
 
-      <div className="tableBox">
-        <div className="flex justify-between items-end pb-4 mb-4 px-[10px] border-b border-[#d7d7d7]">
-          <div className="flex px-4">
-            <div className="">
-              <FilterInput
-                {...fullNameProps}
-                inputClassName={"bg-[#333]"}
-                value={user.name}
-                // handleSearch={(val) =>
-                // 	handleUser((prev) => ({...prev, name: val}))
-                // }
-              />
-            </div>
-            <div className="ml-3">
-              <FilterInput
-                {...phoneNumberProps}
-                value={user.phone}
-                // handleSearch={(val) =>
-                // 	handleUser((prev) => ({...prev, phone: val}))
-                // }
-              />
-            </div>
+      <div className="flex justify-between items-end ">
+        <div className="flex">
+          <div className="">
+            <FilterInput
+              {...fullNameProps}
+              inputClassName={"bg-[#333]"}
+              value={user.name}
+              // handleSearch={(val) =>
+              // 	handleUser((prev) => ({...prev, name: val}))
+              // }
+            />
           </div>
-          <div className="flex items-center">
-            {!!item?.OutStockSessionPackages.find((x) => !x.IsPayment) ? (
-              <React.Fragment>
-                <IconButton
-                  icon="far fa-dollar-sign"
-                  title="Thanh toán bằng tiền mặt"
-                  onClick={() => onPayment(false)}
-                  btnClass="!mr-2"
-                  showLoading
-                  toolip=""
-                />
-                <IconButton
-                  icon="fas fa-credit-card"
-                  title="Thanh toán"
-                  onClick={() => onPayment(true)}
-                  btnClass="!mr-2"
-                  showLoading
-                  toolip="Thanh toán bằng ví điện tử!"
-                />
-                <IconButton
-                  icon="fas fa-sync"
-                  title="Reload"
-                  onClick={handleRefetch}
-                  btnClass="!mr-2"
-                  showLoading
-                  toolip=""
-                />
-              </React.Fragment>
-            ) : (
-              <ReactToPrint content={() => componentRef.current}>
-                <PrintContextConsumer>
-                  {({ handlePrint }) => (
-                    <IconButton
-                      icon="fas fa-print"
-                      title="In phiếu xuất kho"
-                      onClick={() =>
-                        outStockSession.export({ Id: item.Id }).then(() => {
-                          handleRefetch();
-                          handlePrint();
-                        })
-                      }
-                      btnClass="!mr-2"
-                      showLoading
-                      toolip=""
-                    />
-                  )}
-                </PrintContextConsumer>
-              </ReactToPrint>
-            )}
-            <Link
-              href={
-                type === "payment"
-                  ? "/manager/money/out-stock-payment"
-                  : "/manager/statistical/print-purchase"
-              }
-            >
-              <a>
-                <IconButton
-                  icon="fas fa-undo-alt"
-                  title="Trở về"
-                  btnClass=""
-                  toolip=""
-                />
-              </a>
-            </Link>
+          <div className="ml-3">
+            <FilterInput
+              {...phoneNumberProps}
+              value={user.phone}
+              // handleSearch={(val) =>
+              // 	handleUser((prev) => ({...prev, phone: val}))
+              // }
+            />
           </div>
         </div>
-        <div className="tex-center inline-block py-3 text-sm text-[#ed5b00] font-bold px-4">
-          <span> Phiếu xuất kho #{item?.Id}</span>
+        <div className="flex items-center">
+          {!!item?.OutStockSessionPackages.find((x) => !x.IsPayment) ? (
+            <React.Fragment>
+              <IconButton
+                icon="far fa-dollar-sign"
+                title="Thanh toán bằng tiền mặt"
+                onClick={() => onPayment(false)}
+                btnClass="!mr-2"
+                showLoading
+                toolip=""
+              />
+              <IconButton
+                icon="fas fa-credit-card"
+                title="Thanh toán"
+                onClick={() => onPayment(true)}
+                btnClass="!mr-2"
+                showLoading
+                toolip="Thanh toán bằng ví điện tử!"
+              />
+              <IconButton
+                icon="fas fa-sync"
+                title="Reload"
+                onClick={handleRefetch}
+                btnClass="!mr-2"
+                showLoading
+                toolip=""
+              />
+            </React.Fragment>
+          ) : (
+            <ReactToPrint content={() => componentRef.current}>
+              <PrintContextConsumer>
+                {({ handlePrint }) => (
+                  <IconButton
+                    icon="fas fa-print"
+                    title="In phiếu xuất kho"
+                    onClick={() =>
+                      outStockSession.export({ Id: item.Id }).then(() => {
+                        handleRefetch();
+                        handlePrint();
+                      })
+                    }
+                    btnClass="!mr-2"
+                    showLoading
+                    toolip=""
+                  />
+                )}
+              </PrintContextConsumer>
+            </ReactToPrint>
+          )}
         </div>
-        <DataTable
-          {...{
-            columns,
-            data: item?.OutStockSessionPackages,
-            bordered: true,
-            summary: !loading ? summary : undefined,
-            // expandable: expandable,
-          }}
-        />
       </div>
+      <Divider />
+      <div className="tex-center inline-block text-sm text-[#ed5b00] font-bold">
+        <span> Phiếu xuất kho #{item?.Id}</span>
+      </div>
+      <DataTable
+        {...{
+          columns,
+          data: item?.OutStockSessionPackages,
+          bordered: true,
+          summary: !loading ? summary : undefined,
+          // expandable: expandable,
+        }}
+      />
     </Spin>
   );
 };

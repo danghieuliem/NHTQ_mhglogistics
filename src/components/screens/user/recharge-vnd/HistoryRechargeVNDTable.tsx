@@ -6,6 +6,7 @@ import { ERechargeStatusData, rechargeStatusData } from "~/configs/appConfigs";
 import { CreateRequestCom } from "~/pages/user/recharge-vnd";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 
 interface TProps {
   newUser;
@@ -33,6 +34,13 @@ export const HistoryRechargeVNDTable: React.FC<
       responsive: ["sm"],
     },
     {
+      title: "Ngày nạp",
+      dataIndex: "Created",
+      render: (date) => _format.getVNDate(date),
+      responsive: ["lg"],
+      width: 200,
+    },
+    {
       title: "Nội dung",
       dataIndex: "TradeContent",
       responsive: ["md"],
@@ -47,19 +55,12 @@ export const HistoryRechargeVNDTable: React.FC<
     {
       title: "Trạng thái",
       dataIndex: "Status",
-      render: (status) => (
-        <Tag color={rechargeStatusData[status - 1].color}>
-          {rechargeStatusData[status - 1].name}
-        </Tag>
-      ),
+      render: (status) => {
+        const color = rechargeStatusData[status - 1];
+
+        return <TagStatus color={color?.color} statusName={color?.name} />;
+      },
       width: 140,
-    },
-    {
-      title: "Ngày nạp",
-      dataIndex: "Created",
-      render: (date) => _format.getVNDate(date),
-      responsive: ["lg"],
-      width: 200,
     },
     {
       title: "Thao tác",

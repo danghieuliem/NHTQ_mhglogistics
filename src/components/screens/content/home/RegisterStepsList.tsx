@@ -4,6 +4,7 @@ import { ActionButton, DataTable } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import { RegisterStepsForm } from "./RegisterStepsForm";
+import TagStatus from "../../status/TagStatus";
 
 export const RegisterStepsList: React.FC<
   TTable<TStep> & { refetchRegisterSteps }
@@ -36,9 +37,10 @@ export const RegisterStepsList: React.FC<
       dataIndex: "Active",
       title: "Trạng thái",
       render: (_, record) => (
-        <Tag color={record?.Active ? "green" : "red"}>
-          {record?.Active ? "Hiện" : "Ẩn"}
-        </Tag>
+        <TagStatus
+          color={record?.Active ? "green" : "red"}
+          statusName={record?.Active ? "Hiện" : "Ẩn"}
+        />
       ),
     },
     {
@@ -52,7 +54,7 @@ export const RegisterStepsList: React.FC<
       title: "Thao tác",
       render: (_, record) => (
         <ActionButton
-          icon="fas fa-edit"
+          icon="fas fa-edit text-sec"
           onClick={() => handleModal(record)}
           title="Cập nhật"
         />
@@ -67,37 +69,6 @@ export const RegisterStepsList: React.FC<
     setModal(true);
   };
 
-  // const expandable = {
-  //   expandedRowRender: (index, record) => (
-  //     <ul className="px-2 text-xs">
-  //       <li className="sm:hidden flex justify-between py-2">
-  //         <span className="font-medium mr-4">Link:</span>
-  //         {record.Link}
-  //       </li>
-  //       <li className="md:hidden flex justify-between py-2">
-  //         <span className="font-medium mr-4">Index:</span>
-  //       </li>
-  //       <li className="lg:hidden flex justify-between py-2">
-  //         <span className="font-medium mr-4">Trạng thái:</span>
-  //         <Tag color={record?.Active ? "green" : "red"}>
-  //           {record?.Active ? "Hiện" : "Ẩn"}
-  //         </Tag>
-  //       </li>
-  //       <li className="xl:hidden flex justify-between py-2">
-  //         <span className="font-medium mr-4">Ngày tạo:</span>
-  //         {_format.getVNDate(record.Created)}
-  //       </li>
-  //       <li className="xl:hidden flex justify-between py-2">
-  //         <span className="font-medium mr-4">Thao tác:</span>
-  //         <ActionButton
-  //           icon="fas fa-edit"
-  //           onClick={() => handleModal(record)}
-  //           title="Cập nhật"
-  //         />
-  //       </li>
-  //     </ul>
-  //   ),
-  // };
 
   return (
     <React.Fragment>
@@ -105,8 +76,7 @@ export const RegisterStepsList: React.FC<
         {...{
           columns,
           data,
-          title: "DANH SÁCH CÁC BƯỚC ĐĂNG KÝ",
-          // expandable: expandable,
+          title: "Cách bước đăng ký",
         }}
       />
       <RegisterStepsForm

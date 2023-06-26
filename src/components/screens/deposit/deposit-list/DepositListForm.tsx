@@ -1,5 +1,3 @@
-import { Tag } from "antd";
-import router from "next/router";
 import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
@@ -16,6 +14,7 @@ import {
 import { orderStatusData, transportStatus } from "~/configs/appConfigs";
 import { useDeepEffect } from "~/hooks";
 import { useCatalogue } from "~/hooks/useCatalogue";
+import TagStatus from "../../status/TagStatus";
 
 type TProps = {
   defaultValues: TUserDeposit;
@@ -111,12 +110,12 @@ export const DepositListForm: React.FC<TProps> = ({
   };
 
   return (
-    <div className="xl:grid xl:grid-cols-10 xl:gap-4 h-full w-full">
-      <div className="tableBox xl:block md:grid md:grid-cols-3 col-span-3 gap-4 h-fit p-5 xl:sticky xl:top-[80px] md:mb-4 xl:mb-0">
-        <div className="col-span-2 md:col-span-3 text-base xl:mb-4 font-bold py-2 uppercase border-b border-main">
+    <div className="grid grid-cols-12 gap-4">
+      <div className="col-span-4 tableBox grid grid-cols-4 gap-4 h-fit">
+        <div className="col-span-4 text-base font-bold py-2 uppercase border-b border-main">
           Thông tin
         </div>
-        <div className="col-span-2 md:col-span-1 xl:pb-4">
+        <div className="col-span-2">
           <FormInput
             control={control}
             name="UserName"
@@ -126,7 +125,7 @@ export const DepositListForm: React.FC<TProps> = ({
             required={false}
           />
         </div>
-        <div className="col-span-2 md:col-span-1 xl:pb-4">
+        <div className="col-span-2">
           <FormInput
             control={control}
             name="OrderTransactionCode"
@@ -136,7 +135,7 @@ export const DepositListForm: React.FC<TProps> = ({
             required={false}
           />
         </div>
-        <div className="col-span-2 md:col-span-1 xl:pb-4">
+        <div className="col-span-2">
           <FormInput
             control={control}
             name="Category"
@@ -146,7 +145,7 @@ export const DepositListForm: React.FC<TProps> = ({
             required={false}
           />
         </div>
-        <div className="col-span-2 md:col-span-1 xl:pb-4">
+        <div className="col-span-2">
           <FormSelect
             control={control}
             name="Status"
@@ -166,7 +165,7 @@ export const DepositListForm: React.FC<TProps> = ({
             rules={{ required: "Không bỏ trống trạng thái" }}
           />
         </div>
-        <div className="col-span-2 md:col-span-1 xl:pb-4">
+        <div className="col-span-2">
           <FormSelect
             control={control}
             name="ShippingTypeId"
@@ -184,7 +183,7 @@ export const DepositListForm: React.FC<TProps> = ({
             rules={{ required: "Không bỏ trống hình thức vận chuyển" }}
           />
         </div>
-        <div className="col-span-2 md:col-span-1 xl:pb-4">
+        <div className="col-span-2">
           <FormSelect
             control={control}
             data={warehouseTQ}
@@ -201,7 +200,7 @@ export const DepositListForm: React.FC<TProps> = ({
             select={{ label: "Name", value: "Id" }}
           />
         </div>
-        <div className="col-span-2 md:col-span-1 xl:pb-4">
+        <div className="col-span-2">
           <FormSelect
             control={control}
             data={warehouseVN}
@@ -218,7 +217,7 @@ export const DepositListForm: React.FC<TProps> = ({
             select={{ label: "Name", value: "Id" }}
           />
         </div>
-        <div className="col-span-1 xl:pb-4">
+        <div className="col-span-2">
           <FormInputNumber
             control={control}
             name="TotalPriceVND"
@@ -228,8 +227,8 @@ export const DepositListForm: React.FC<TProps> = ({
             disabled
           />
         </div>
-        <div className="col-span-2 md:col-span-3 pt-4 border-t border-main">
-          {(RoleID === 1 || RoleID === 3) && (
+        {(RoleID === 1 || RoleID === 3) && (
+          <div className="col-span-4 pt-4 border-t border-main">
             <IconButton
               onClick={handleSubmit(_onPress)}
               showLoading
@@ -239,178 +238,176 @@ export const DepositListForm: React.FC<TProps> = ({
               toolip=""
               btnClass="!mr-4"
             />
-          )}
-          <IconButton
-            onClick={() => router.back()}
-            showLoading
-            icon="fas fa-reply-all"
-            title="Trở về"
-            toolip=""
-          />
-        </div>
+          </div>
+        )}
       </div>
 
-      <div className="col-span-7 tableBoxPag gap-4 h-fit xl:ml-6 grid">
-        <div className="tableBox grid p-5 gap-4">
-          <div className="col-span-2 text-base font-bold py-2 uppercase border-b border-main flex justify-between">
+      <div className="col-span-8 tableBox">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="col-span-2 text-base font-bold py-2 uppercase border-b border-main flex justify-between mb-2">
             Chi tiết đơn hàng #{defaultValues?.Id}
             <span>
-              <Tag
+              <TagStatus
+                statusName={defaultValues?.StatusName}
                 color={
                   transportStatus.find((x) => x.id === defaultValues?.Status)
                     ?.color
                 }
-              >
-                {defaultValues?.StatusName}
-              </Tag>
+              />
             </span>
           </div>
-          <div className="col-span-1 pb-2">
-            <FormInputNumber
-              control={control}
-              name="PayableWeight"
-              suffix=" Kg"
-              label="Cân nặng (Kg)"
-              placeholder=""
-              required={false}
-              disabled
-            />
+          <div className="col-span-2 grid grid-cols-4 gap-4">
+            <div className="col-span-1">
+              <FormInputNumber
+                control={control}
+                name="PayableWeight"
+                suffix=" Kg"
+                label="Cân nặng (Kg)"
+                placeholder=""
+                required={false}
+                disabled
+              />
+            </div>
+            <div className="col-span-1">
+              <FormInputNumber
+                suffix=" VNĐ"
+                control={control}
+                name="FeeWeightPerKg"
+                label="Đơn giá cân nặng (VNĐ) "
+                placeholder=""
+                required={false}
+                callback={(val) => {
+                  handleCount("FeeWeightPerKg", val);
+                }}
+              />
+            </div>
+            <div className="col-span-1">
+              <FormInputNumber
+                control={control}
+                name="VolumePayment"
+                suffix=" &#x33A5;"
+                label="Thể tích (&#x33A5;)"
+                placeholder=""
+                required={false}
+                disabled
+              />
+            </div>
+            <div className="col-span-1">
+              <FormInputNumber
+                suffix=" VNĐ"
+                control={control}
+                name="FeePerVolume"
+                label={`Đơn giá thể tích (VNĐ)`}
+                placeholder=""
+                required={false}
+                callback={(val) => {
+                  handleCount("FeePerVolume", val);
+                }}
+              />
+            </div>
           </div>
-          <div className="col-span-1 pb-4">
-            <FormInputNumber
-              suffix=" VNĐ"
-              control={control}
-              name="FeeWeightPerKg"
-              label="Đơn giá cân nặng (VNĐ) "
-              placeholder=""
-              required={false}
-              callback={(val) => {
-                handleCount("FeeWeightPerKg", val);
-              }}
-            />
+          <div className="col-span-2 grid grid-cols-3 gap-4">
+            <div className="col-span-1">
+              <FormInputNumber
+                suffix=" VNĐ"
+                control={control}
+                name="DeliveryPrice"
+                label={`Phí vận chuyển (VNĐ) (CK: ${
+                  defaultValues?.FeeWeightCK ?? 0
+                }%)`}
+                placeholder=""
+                disabled
+                required={false}
+              />
+            </div>
+            <div className="col-span-1">
+              <FormInputNumber
+                prefix="¥ "
+                control={control}
+                name="CODFeeTQ"
+                label="Phí COD Trung Quốc (¥)"
+                placeholder=""
+                required={false}
+                callback={(val) => {
+                  handleCount("CODFeeTQ", val);
+                }}
+              />
+            </div>
+            <div className="col-span-1">
+              <FormInputNumber
+                suffix=" VNĐ"
+                control={control}
+                name="CODFee"
+                label="Phí COD Trung Quốc (VNĐ)"
+                placeholder=""
+                disabled
+                required={false}
+              />
+            </div>
           </div>
-          <div className="col-span-1 pb-2">
-            <FormInputNumber
-              control={control}
-              name="VolumePayment"
-              suffix=" &#x33A5;"
-              label="Thể tích (&#x33A5;)"
-              placeholder=""
-              required={false}
-              disabled
-            />
+          <div className="col-span-2 grid grid-cols-3 gap-4">
+            <div className="col-span-1 relative">
+              <FormCheckbox
+                control={control}
+                name="IsCheckProduct"
+                label=""
+                checkBoxClassName="absolute z-[99] top-[-2px] left-[100px]"
+              />
+              <FormInputNumber
+                control={control}
+                name="IsCheckProductPrice"
+                suffix=" VNĐ"
+                label="Phí kiểm hàng"
+                placeholder=""
+                required={false}
+                callback={(val) => {
+                  handleCount("IsCheckProductPrice", val);
+                  handleSetValue("IsCheckProduct", val > 0 && true);
+                }}
+              />
+            </div>
+            <div className="col-span-1 relative">
+              <FormCheckbox
+                control={control}
+                name="IsPacked"
+                label=""
+                checkBoxClassName="absolute z-[99] top-[-2px] left-[100px]"
+              />
+              <FormInputNumber
+                control={control}
+                name="IsPackedPrice"
+                suffix=" VNĐ"
+                label="Phí đóng gỗ"
+                placeholder=""
+                required={false}
+                callback={(val) => {
+                  handleCount("IsPackedPrice", val);
+                  handleSetValue("IsPacked", val > 0 && true);
+                }}
+              />
+            </div>
+            <div className="col-span-1 relative">
+              <FormCheckbox
+                control={control}
+                name="IsInsurance"
+                label=""
+                checkBoxClassName="absolute z-[99] top-[-2px] left-[100px]"
+              />
+              <FormInputNumber
+                control={control}
+                name="InsuranceMoney"
+                suffix=" VNĐ"
+                label="Phí bảo hiểm"
+                placeholder=""
+                required={false}
+                callback={(val) => {
+                  handleCount("InsuranceMoney", val);
+                  handleSetValue("IsInsurance", val > 0 && true);
+                }}
+              />
+            </div>
           </div>
-          <div className="col-span-1 pb-4">
-            <FormInputNumber
-              suffix=" VNĐ"
-              control={control}
-              name="FeePerVolume"
-              label={`Đơn giá thể tích (VNĐ)`}
-              placeholder=""
-              required={false}
-              callback={(val) => {
-                handleCount("FeePerVolume", val);
-              }}
-            />
-          </div>
-          <div className="col-span-2 pb-4">
-            <FormInputNumber
-              suffix=" VNĐ"
-              control={control}
-              name="DeliveryPrice"
-              label={`Phí vận chuyển (VNĐ) (CK: ${
-                defaultValues?.FeeWeightCK ?? 0
-              }%)`}
-              placeholder=""
-              disabled
-              required={false}
-            />
-          </div>
-          <div className="col-span-1 pb-4">
-            <FormInputNumber
-              prefix="¥ "
-              control={control}
-              name="CODFeeTQ"
-              label="Phí COD Trung Quốc (¥)"
-              placeholder=""
-              required={false}
-              callback={(val) => {
-                handleCount("CODFeeTQ", val);
-              }}
-            />
-          </div>
-          <div className="col-span-1 pb-4">
-            <FormInputNumber
-              suffix=" VNĐ"
-              control={control}
-              name="CODFee"
-              label="Phí COD Trung Quốc (VNĐ)"
-              placeholder=""
-              disabled
-              required={false}
-            />
-          </div>
-          <div className="col-span-2 pb-2 relative">
-            <FormCheckbox
-              control={control}
-              name="IsCheckProduct"
-              label=""
-              checkBoxClassName="absolute z-[99] top-[-2px] left-[100px]"
-            />
-            <FormInputNumber
-              control={control}
-              name="IsCheckProductPrice"
-              suffix=" VNĐ"
-              label="Phí kiểm hàng"
-              placeholder=""
-              required={false}
-              callback={(val) => {
-                handleCount("IsCheckProductPrice", val);
-                handleSetValue("IsCheckProduct", val > 0 && true);
-              }}
-            />
-          </div>
-          <div className="col-span-2 pb-2 relative">
-            <FormCheckbox
-              control={control}
-              name="IsPacked"
-              label=""
-              checkBoxClassName="absolute z-[99] top-[-2px] left-[100px]"
-            />
-            <FormInputNumber
-              control={control}
-              name="IsPackedPrice"
-              suffix=" VNĐ"
-              label="Phí đóng gỗ"
-              placeholder=""
-              required={false}
-              callback={(val) => {
-                handleCount("IsPackedPrice", val);
-                handleSetValue("IsPacked", val > 0 && true);
-              }}
-            />
-          </div>
-          <div className="col-span-2 pb-2 relative">
-            <FormCheckbox
-              control={control}
-              name="IsInsurance"
-              label=""
-              checkBoxClassName="absolute z-[99] top-[-2px] left-[100px]"
-            />
-            <FormInputNumber
-              control={control}
-              name="InsuranceMoney"
-              suffix=" VNĐ"
-              label="Phí bảo hiểm"
-              placeholder=""
-              required={false}
-              callback={(val) => {
-                handleCount("InsuranceMoney", val);
-                handleSetValue("IsInsurance", val > 0 && true);
-              }}
-            />
-          </div>
-          <div className="col-span-1 pb-2">
+          <div className="col-span-1">
             <FormTextarea
               control={control}
               name="Note"
@@ -418,28 +415,31 @@ export const DepositListForm: React.FC<TProps> = ({
               placeholder=""
               required={false}
               disabled
+              rows={2}
             />
           </div>
-          <div className="col-span-1 pb-2">
+          <div className="col-span-1">
             <FormTextarea
               control={control}
               name="StaffNote"
               label="Ghi chú của nhân viên"
               placeholder=""
               required={false}
+              rows={2}
             />
           </div>
-          <div className="col-span-2 pb-2">
+          <div className="col-span-2">
             <FormTextarea
               control={control}
               name="CancelReason"
               placeholder=""
               label="Lý do hủy đơn"
+              rows={2}
               required={false}
               disabled={canNote === 1 ? false : true}
             />
           </div>
-          <div className="col-span-2 pt-4 border-t border-main xl:hidden">
+          {/* <div className="col-span-2 pt-4 border-t border-main xl:hidden">
             {(RoleID === 1 || RoleID === 3) && (
               <IconButton
                 onClick={handleSubmit(_onPress)}
@@ -454,7 +454,7 @@ export const DepositListForm: React.FC<TProps> = ({
               title="Trở về"
               toolip=""
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

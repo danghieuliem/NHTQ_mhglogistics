@@ -49,7 +49,7 @@ const PaymentProfitChart = ({ dataChart }) => {
 			<p className="text-sm !my-4 text-[#2d2d2daa] uppercase font-bold text-center">
 				Thống kê lợi nhuận thanh toán hộ
 			</p>
-			<Bar height={110} options={options} data={data} />
+			<Bar height={70} options={options} data={data} />
 		</div>
 	);
 };

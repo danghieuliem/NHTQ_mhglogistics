@@ -62,7 +62,7 @@ export const OutStockForm = () => {
 
   return (
     <Spin spinning={loading}>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="tableBox grid grid-cols-2 gap-4">
         <div className="md:col-span-2 xl:col-span-1 flex">
           <FormSelect
             control={control}

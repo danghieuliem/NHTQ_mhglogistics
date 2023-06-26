@@ -5,6 +5,8 @@ import { useQuery, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 import { getAllNewNotify, notification } from "~/api";
 import styles from "./index.module.css";
+
+import { Loading } from "~/components/screens/status/Loading";
 import { _format } from "~/utils";
 
 const templateTabs = [
@@ -67,6 +69,7 @@ const Notification = ({ userPage, UID }) => {
   const totalItems = useRef(0);
   const TypeFilter = useRef(4);
 
+
   const [filter, setFilter] = useState({
     Type: TypeFilter.current,
     OfEmployee: userPage ? false : true,
@@ -127,7 +130,7 @@ const Notification = ({ userPage, UID }) => {
           list?.map((item) => <NotiItem item={item} key={item?.Id} />)
         ) : (
           <div className={styles.iconLoading}>
-            <i className="fas fa-spinner fa-spin"></i>
+            <Loading />
           </div>
         )}
       </div>

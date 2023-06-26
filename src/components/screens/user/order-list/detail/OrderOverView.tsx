@@ -1,7 +1,8 @@
-import { Tag } from "antd";
+import { Card } from "antd";
 import router from "next/router";
 import React, { useEffect, useState } from "react";
 import { IconButton } from "~/components";
+import TagStatus from "~/components/screens/status/TagStatus";
 import { orderStatus } from "~/configs";
 import { _format } from "~/utils";
 
@@ -195,78 +196,71 @@ export const OrderOverView: React.FC<TProps> = ({ data, updatePaid }) => {
   }, [data]);
 
   return (
-    <>
-      <div className="tableBox mt-4 px-4">
-        <div className="titleTable">Tổng quan đơn hàng</div>
-        <div className="px-[10px]">
-          <div className={styleLi}>
-            <div className={styleWrapIcon}>
-              <i className={`far fa-calendar-minus ${styleIcon}`}></i>
-              <span>Trạng thái đơn hàng: </span>
-            </div>
-            <Tag color={orderStatus.find((x) => x.id === data?.Status)?.color}>
-              {data?.StatusName}
-            </Tag>
-          </div>
-          {renderFee.map((item) => (
-            <div className={styleLi} key={`${item?.id}-${item?.id}`}>
-              <div className={styleWrapIcon}>
-                <i className={`${item?.icon} ${styleIcon}`}></i>
-                <span>{item?.label}</span>
-              </div>
-              <div className={styleValue}>
-                {item?.value.length > 1 &&
-                  item.value.map((x) => {
-                    if (
-                      x.key.includes("TQ") ||
-                      x.key.includes("CNY") ||
-                      x.key.includes("TQ")
-                    ) {
-                      if (
-                        x.key.includes("Price") ||
-                        x.key.includes("FeeShip")
-                      ) {
-                        return ` - (${_format.getVND(x?.value, " ¥")})`;
-                      } else {
-                        // return ` - (${x?.value} kg)`;
-                      }
-                    } else {
-                      return _format.getVND(x?.value, " VNĐ");
-                    }
-                  })}
-                {item?.value.length === 1 &&
-                  _format.getVND(item?.value[0].value, " VNĐ")}
-              </div>
-            </div>
-          ))}
+    <Card title="Tổng quan đơn hàng">
+      <div className={styleLi}>
+        <div className={styleWrapIcon}>
+          <i className={`far fa-calendar-minus ${styleIcon}`}></i>
+          <span>Trạng thái đơn hàng: </span>
         </div>
-        <div className="flex justify-between mt-4">
-          <IconButton
-            onClick={() => router.back()}
-            title="Trở về"
-            icon="fas fa-undo-alt"
-            showLoading
-          />
-          {data?.Status === 0 && (
-            <IconButton
-              onClick={() => updatePaid("deposit")}
-              title="Đặt cọc"
-              icon="fas fa-hand-holding-usd"
-              showLoading
-              toolip="Đặt cọc đơn này"
-            />
-          )}
-          {data?.Status === 7 && (
-            <IconButton
-              onClick={() => updatePaid("payment")}
-              title="Thanh toán"
-              icon="fas fa-money-check-edit-alt"
-              showLoading
-              toolip="Thanh toán đơn này"
-            />
-          )}
-        </div>
+        <TagStatus
+          color={orderStatus.find((x) => x.id === data?.Status)?.color}
+          statusName={data?.StatusName}
+        />
       </div>
-    </>
+      {renderFee.map((item) => (
+        <div className={styleLi} key={`${item?.id}-${item?.id}`}>
+          <div className={styleWrapIcon}>
+            <i className={`${item?.icon} ${styleIcon}`}></i>
+            <span>{item?.label}</span>
+          </div>
+          <div className={styleValue}>
+            {item?.value.length > 1 &&
+              item.value.map((x) => {
+                if (
+                  x.key.includes("TQ") ||
+                  x.key.includes("CNY") ||
+                  x.key.includes("TQ")
+                ) {
+                  if (x.key.includes("Price") || x.key.includes("FeeShip")) {
+                    return ` - (${_format.getVND(x?.value, " ¥")})`;
+                  } else {
+                    // return ` - (${x?.value} kg)`;
+                  }
+                } else {
+                  return _format.getVND(x?.value, " VNĐ");
+                }
+              })}
+            {item?.value.length === 1 &&
+              _format.getVND(item?.value[0].value, " VNĐ")}
+          </div>
+        </div>
+      ))}
+      <div className="flex justify-between mt-4">
+        <IconButton
+          onClick={() => router.back()}
+          title="Trở về"
+          icon="fas fa-undo-alt"
+          showLoading
+        />
+        {data?.Status === 0 && (
+          <IconButton
+            onClick={() => updatePaid("deposit")}
+            title="Đặt cọc"
+            icon="fas fa-hand-holding-usd"
+            showLoading
+            toolip="Đặt cọc đơn này"
+          />
+        )}
+        {data?.Status === 7 && (
+          <IconButton
+            onClick={() => updatePaid("payment")}
+            title="Thanh toán"
+            icon="fas fa-money-check-edit-alt"
+            showLoading
+            toolip="Thanh toán đơn này"
+          />
+        )}
+      </div>
+    </Card>
   );
 };

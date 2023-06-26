@@ -3,7 +3,7 @@ import router from "next/router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { bigPackage, smallPackage } from "~/api";
 import { FormSelect, FormUpload, showToast } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
@@ -112,6 +112,7 @@ export const ImportForm = () => {
           title="Xuất File Mẫu"
           toolip=""
           disabled={loadingExport}
+          blue
         />
       </div>
     </React.Fragment>

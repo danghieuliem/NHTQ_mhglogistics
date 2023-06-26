@@ -52,11 +52,11 @@ export const OutStockFormDetail: React.FC = () => {
 
   if (isError)
     return (
-      <Empty description={`Không tìm thấy hoá đơn xuất kho #${query?.id}`} />
+      <Empty />
     );
 
   return (
-    <div className="tableBox py-4">
+    <div className="">
       <OutStockFormFilter
         onReload={refetch}
         onOutstock={onOutstock}

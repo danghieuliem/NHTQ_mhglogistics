@@ -38,11 +38,13 @@ export const ActionButton: FC<TProps> = ({
   isButtonClassName,
   ...props
 }) => {
-  
   return isButton === true ? (
     <div
       {...props}
-      className={clsx("my-[2px] w-fit flex justify-between items-center border py-[5px] px-[8px] shadow-md hover:shadow-none transition-all duration-300 rounded-[4px] cursor-pointer text-[#061d49] hover:bg-[#061d49] hover:!text-[#fff]", isButtonClassName)}
+      className={clsx(
+        "my-[2px] w-fit flex justify-between items-center py-[5px] px-[8px] shadow-md hover:shadow-none transition-all duration-300 rounded-[4px] cursor-pointer text-[#061d49] hover:bg-[#061d49] hover:!text-[#fff]",
+        isButtonClassName
+      )}
       style={{
         opacity: disabled ? "0.3" : "1",
         pointerEvents: disabled ? "none" : "all",
@@ -65,7 +67,7 @@ export const ActionButton: FC<TProps> = ({
         <div className="cursor-pointer" onClick={onClick}>
           <div
             className={clsx(
-              " transition duration-300 text-center p-2 pt-[6px] h-8 mr-1 rounded-md text-[#27A689]",
+              " transition duration-300 text-center p-2 pt-[6px] h-8 mr-1 rounded-md text-sec",
               iconContainerClassName,
               btnGreen && btnStyleGreen,
               btnRed && btnStyleRed,

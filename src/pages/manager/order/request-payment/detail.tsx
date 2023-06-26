@@ -1,5 +1,4 @@
 import router, { useRouter } from "next/router";
-import React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useMutation, useQuery } from "react-query";
 import { payHelp } from "~/api";
@@ -58,16 +57,11 @@ const Index: TNextPageWithLayout = () => {
       });
   };
 
-  if (isError)
-    return (
-      <Empty
-        description={`Không tìm thấy đơn yêu cầu thanh toán hộ #${query?.id}`}
-      />
-    );
+  if (isError) return <Empty />;
 
   return (
-    <div className="grid grid-cols-12 gap-4 mb-4">
-      <div className="md:col-span-4 xl:col-span-3">
+    <div className="grid grid-cols-12 gap-4">
+      <div className="col-span-3">
         <RequestPaymentDetailLeftForm
           loading={isLoading}
           control={control}
@@ -77,7 +71,7 @@ const Index: TNextPageWithLayout = () => {
           data={data}
         />
       </div>
-      <div className="md:col-span-8 xl:col-span-9">
+      <div className="col-span-9">
         <RequestPaymentDetailRightForm
           loading={isLoading}
           control={control}

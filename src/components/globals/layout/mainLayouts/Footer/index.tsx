@@ -1,55 +1,31 @@
 import React from "react";
-import styles from "./index.module.css";
-import clsx from "clsx";
-import { RootState } from "~/store";
 import { useSelector } from "react-redux";
-import Link from "next/link";
-import { Tooltip } from "antd";
+import { RootState } from "~/store";
+import styles from "./index.module.css";
 
 type TProps = {
   hover: boolean;
   userPage?: boolean;
 };
-const Footer: React.FC<TProps> = ({ hover, userPage }) => {
+
+const Footer: React.FC<TProps> = () => {
   const dataGlobal: any = useSelector((state: RootState) => state.dataGlobal);
 
   return (
-    <footer
-      className={clsx(
-        styles.footer,
-        hover && styles.hover,
-      )}
-    >
-      <p className="hidden sm:block text-xs">© 2023 NHẬP HÀNG TRUNG QUỐC</p>
-      <div className={styles.toolsExt}>
-        <Link href={dataGlobal?.CocCocExtensionLink ?? "/"}>
-          <a target="_blank">
-            <Tooltip className={styles.icon} title="Cài đặt công cụ trên Cốc Cốc" placement="top">
-              <img
-                src="/default/logo-coccoc.png"
-                alt=""
-                width={16}
-                height={16}
-              />
-              <span>
-                Cốc Cốc
-              </span>
-            </Tooltip>
-          </a>
-        </Link>
-        <Link href={dataGlobal?.ChromeExtensionLink ?? "/"}>
-          <a target="_blank">
-            <Tooltip className={styles.icon} title="Cài đặt công cụ trên Chrome" placement="top">
-              <img
-                src="/default/logo-chrome.png"
-                alt=""
-                width={16}
-                height={16}
-              />
-              <span>Chrome</span>
-            </Tooltip>
-          </a>
-        </Link>
+    <footer className={styles.footer}>
+      <div className="component-container">
+        <div className={styles.inner}>
+          <div>
+            <span className={styles.tag}>Hotline hỗ trợ:</span>
+            <a className={styles.value} href={`tel:+${dataGlobal?.HotlineSupport}`}>
+              {dataGlobal?.HotlineSupport}
+            </a>
+          </div>
+          <div>
+            <span className={styles.tag}>Phiên bản: </span>
+            <span className={styles.value}>MONA.Software/NHTQ 6.0.5</span>
+          </div>
+        </div>
       </div>
     </footer>
   );

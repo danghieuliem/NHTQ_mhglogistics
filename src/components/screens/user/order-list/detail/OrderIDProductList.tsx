@@ -19,7 +19,7 @@ export const OrderIDProductList: React.FC<any> = ({ data }) => {
   };
 
   return (
-    <div className="tableBox mt-4">
+    <div className="tableBox mb-4">
       <div className="flex justify-between items-end mb-4">
         <div className="titleTable pb-0">Danh sách sản phẩm</div>
         <IconButton
@@ -34,7 +34,7 @@ export const OrderIDProductList: React.FC<any> = ({ data }) => {
       </div>
       <div className="orderProductItemWrapper">
         {data?.map((item, index) => (
-          <div key={index} className="orderProductItem border">
+          <div key={index} className="orderProductItem border border-main p-2 rounded-[]">
             <div className="flex flex-wrap">
               <div className="flex w-full items-center mb-5 justify-between px-3 borderBottom">
                 <Tooltip title="Link đến sản phẩm">

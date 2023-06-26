@@ -48,6 +48,7 @@ const Index: TNextPageWithLayout = () => {
           type: "error",
         });
       },
+      staleTime: 5000,
     }
   );
 
@@ -74,8 +75,8 @@ const Index: TNextPageWithLayout = () => {
   };
 
   return (
-    <div className="tableBox">
-      <div className="pb-4">
+    <div>
+      <div className="w-fit ml-auto">
         <ComplainListFilter
           handleFilter={handleFilter}
           handleExportExcel={handleExportExcel}

@@ -14,6 +14,7 @@ export const NotificationsTable: FC<TTable<any>> = ({
       dataIndex: "Id",
       key: "Id",
       title: "ID",
+      align: "right"
     },
     {
       dataIndex: "Name",
@@ -149,54 +150,6 @@ export const NotificationsTable: FC<TTable<any>> = ({
       ),
     },
   ];
-
-  // const expandable = {
-  //   expandedRowRender: (record) => (
-  //     <ul className="px-2 text-xs">
-  //       <li className="sm:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Thông báo admin:</span>
-  //         {record.isChecked ? (
-  //           <i className="fal fa-check xl:text-base text-sm  text-green"></i>
-  //         ) : (
-  //           <i className="far fa-times xl:text-base text-sm  text-red "></i>
-  //         )}
-  //       </li>
-  //       <li className="md:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Thông báo user:</span>
-  //         {record.isChecked ? (
-  //           <i className="fal fa-check xl:text-base text-sm  text-green"></i>
-  //         ) : (
-  //           <i className="far fa-times xl:text-base text-sm  text-red"></i>
-  //         )}
-  //       </li>
-  //       <li className="lg:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Gửi mail admin:</span>
-  //         {record.isChecked ? (
-  //           <i className="fal fa-check xl:text-base text-sm  text-green"></i>
-  //         ) : (
-  //           <i className="far fa-times xl:text-base text-sm  text-red"></i>
-  //         )}
-  //       </li>
-  //       <li className="xl:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Gửi mail user:</span>
-  //         {record.isChecked ? (
-  //           <i className="fal fa-check xl:text-base text-sm  text-green"></i>
-  //         ) : (
-  //           <i className="far fa-times xl:text-base text-sm  text-red"></i>
-  //         )}
-  //       </li>
-  //       <li className="xl:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Thao tác:</span>
-
-  //         <ActionButton
-  //           onClick={() => handleModal(record)}
-  //           icon="fas fa-edit"
-  //           title="Cập nhật"
-  //         />
-  //       </li>
-  //     </ul>
-  //   ),
-  // };
 
   return (
     <DataTable

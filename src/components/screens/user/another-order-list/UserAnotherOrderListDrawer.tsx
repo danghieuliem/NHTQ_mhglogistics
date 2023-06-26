@@ -32,13 +32,12 @@ export const UserAnotherOrderListDrawer: React.FC<TProps> = ({
   return (
     <Drawer
       className="order"
-      maskClosable={false}
       closable={false}
       placement="bottom"
       visible={visible}
       onClose={onCancel}
     >
-      <div className="w-10/12 mx-auto md:pl-20">
+      <div className="w-10/12 mx-auto">
         {!!depositedData?.length && (
           <div className="bg-white my-1 flex w-full items-center justify-between px-4 py-3 rounded-md">
             <div className="flex w-[40%]">

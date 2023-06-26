@@ -28,5 +28,6 @@ const Index: TNextPageWithLayout<TProps> = () => {
 
 Index.displayName = SEOHomeConfigs.payFor.detaiPay;
 Index.Layout = UserLayout;
+Index.breadcrumb = "";
 
 export default Index;

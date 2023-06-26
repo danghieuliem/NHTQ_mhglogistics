@@ -1,4 +1,4 @@
-import router from "next/router";
+import Link from "next/link";
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { Page } from "~/api";
@@ -20,7 +20,7 @@ const Index: TNextPageWithLayout = () => {
 
   const [filter, setFilter] = useState({
     PageIndex: 1,
-    PageSize: 10,
+    PageSize: 20,
     OrderBy: "PageTypeId",
     SearchContent: null,
     TotalItems: null,
@@ -53,25 +53,26 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <>
-      <div className="tableBox">
-        <div className="flex justify-between items-end pb-4 px-[10px]">
-          <ArticleFilterBase handleFilter={handleFilter} />
-          <IconButton
-            onClick={() => router.push("/manager/article/article-list/add")}
-            btnClass={"iconGreen"}
-            icon="far fa-plus"
-            title={"Thêm bài viết"}
-            showLoading
-            toolip=""
-          />
-        </div>
-        <ArticleListTable
-          data={data?.Items}
-          loading={isFetching}
-          filter={filter}
-          handleFilter={handleFilter}
-        />
+      <div className="flex justify-between items-end">
+        <ArticleFilterBase handleFilter={handleFilter} />
+        <Link href={"/manager/article/article-list/add"}>
+          <a target="_blank">
+            <IconButton
+              btnClass={"iconGreen"}
+              icon="far fa-plus"
+              title={"Thêm bài viết"}
+              showLoading
+              toolip=""
+            />
+          </a>
+        </Link>
       </div>
+      <ArticleListTable
+        data={data?.Items}
+        loading={isFetching}
+        filter={filter}
+        handleFilter={handleFilter}
+      />
     </>
   );
 };

@@ -144,7 +144,6 @@ export const FloatingPackageForm: React.FC<
 						title="Xác nhận"
 						btnClass="!bg-main"
 						onClick={handleSubmit(handleConfirmBigPakage)}
-						showLoading
 					/>
 					<Button
 						title="Hủy"

@@ -1,15 +1,11 @@
-import React from 'react';
-import { Layout, CheckWarehouseChinaForm } from '~/components';
-import { breadcrumb } from '~/configs';
-import { SEOConfigs } from '~/configs/SEOConfigs';
-import { TNextPageWithLayout } from '~/types/layout';
+import React from "react";
+import { Layout, CheckWarehouseChinaForm } from "~/components";
+import { breadcrumb } from "~/configs";
+import { SEOConfigs } from "~/configs/SEOConfigs";
+import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-	return (
-		<div className="tableBox ">
-			<CheckWarehouseChinaForm />
-		</div>
-	);
+  return <CheckWarehouseChinaForm />;
 };
 
 Index.displayName = SEOConfigs.checkWarehouseTQ;

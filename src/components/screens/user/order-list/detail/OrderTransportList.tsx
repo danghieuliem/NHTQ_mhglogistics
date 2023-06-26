@@ -1,8 +1,8 @@
-import { Tag } from "antd";
 import router from "next/router";
 import React from "react";
 import { smallPackage } from "~/api";
 import { DataTable, IconButton, toast } from "~/components";
+import TagStatus from "~/components/screens/status/TagStatus";
 import { smallPackageStatusData } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
@@ -39,6 +39,12 @@ export const OrderTransportList: React.FC<TTable<TSmallPackage>> = ({
       responsive: ["lg"],
     },
     {
+      dataIndex: "VolumePayment",
+      align: "right",
+      title: "Thể tích (m3)",
+      responsive: ["lg"],
+    },
+    {
       dataIndex: "LWH",
       align: "right",
       title: () => (
@@ -46,18 +52,6 @@ export const OrderTransportList: React.FC<TTable<TSmallPackage>> = ({
           KÍCH THƯỚC <br /> (D x R x C)
         </span>
       ),
-      responsive: ["lg"],
-    },
-    {
-      dataIndex: "Volume",
-      align: "right",
-      title: "Cân quy đổi (KG)",
-      responsive: ["lg"],
-    },
-    {
-      dataIndex: "PayableWeight",
-      align: "right",
-      title: "Cân tính tiền (KG)",
       responsive: ["lg"],
     },
     {
@@ -71,7 +65,7 @@ export const OrderTransportList: React.FC<TTable<TSmallPackage>> = ({
       title: "Trạng thái",
       render: (status, record) => {
         const orderStatus = smallPackageStatusData.find((x) => x.id === status);
-        return <Tag color={orderStatus?.color}>{record?.StatusName}</Tag>;
+        return <TagStatus color={orderStatus?.color} statusName={record?.StatusName} />
       },
     },
   ];
@@ -95,27 +89,14 @@ export const OrderTransportList: React.FC<TTable<TSmallPackage>> = ({
             </div>
             <div className="extentable-row">
               <span className="extentable-label">
-                {" "}
                 Kích thước (D x R x C):{" "}
               </span>
               <span className="extentable-value">{item?.LWH}</span>
             </div>
             <div className="extentable-row">
-              <span className="extentable-label">Cân quy đổi: </span>
+              <span className="extentable-label">Số khối: </span>
               <span className="extentable-value">
-                {_format.getVND(item?.Volume, " Kg")}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Cân tính tiền: </span>
-              <span className="extentable-value">
-                {_format.getVND(item?.PayableWeight, " Kg")}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Cân quy đổi: </span>
-              <span className="extentable-value">
-                {_format.getVND(item?.Volume, " m3")}
+                {_format.getVND(item?.VolumePayment, " m3")}
               </span>
             </div>
             <div className="extentable-row">
@@ -129,27 +110,25 @@ export const OrderTransportList: React.FC<TTable<TSmallPackage>> = ({
   };
 
   return (
-    <div className="tableBox">
-      <div className="flex justify-between items-end mb-4">
-        <div className="titleTable pb-0">Danh sách mã vận đơn</div>
-        <IconButton
-          onClick={() => onExportExcel()}
-          title="Xuất"
-          icon="fas fa-file-export"
-          showLoading
-          toolip="Xuất thống kê"
-          green
-          btnClass="!h-fit"
-        />
-      </div>
-      <DataTable
-        {...{
-          columns,
-          data,
-          bordered: true,
-          expandable: expandable,
-        }}
-      />
-    </div>
+    <DataTable
+      {...{
+        columns,
+        data,
+        bordered: true,
+        expandable: expandable,
+        title: "Danh sách mã vận đơn",
+        extraElment: (
+          <IconButton
+            onClick={() => onExportExcel()}
+            title="Xuất"
+            icon="fas fa-file-export"
+            showLoading
+            toolip="Xuất thống kê"
+            green
+            btnClass="!h-fit"
+          />
+        ),
+      }}
+    />
   );
 };

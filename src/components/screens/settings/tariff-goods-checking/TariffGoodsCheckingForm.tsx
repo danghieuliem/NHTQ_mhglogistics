@@ -71,7 +71,7 @@ export const TariffGoodsCheckingForm: FC<TForm<TTariffGoodsChecking>> = ({
 					</div>
 				</FormCard.Header>
 				<FormCard.Body>
-					<div className="grid grid-cols-2 gap-3">
+					<div className="grid grid-cols-4 gap-3">
 						<div className="col-span-2">
 							<FormInput
 								control={control}
@@ -129,7 +129,7 @@ export const TariffGoodsCheckingForm: FC<TForm<TTariffGoodsChecking>> = ({
 				<FormCard.Footer>
 					<Button
 						title="Cập nhật"
-						btnClass="!bg-main"
+						btnClass="!bg-main mr-2"
 						onClick={handleSubmit(_onPress)}
 					/>
 					<Button title="Hủy" btnClass="!bg-red" onClick={handleOnCancel} />

@@ -1,24 +1,27 @@
+import { Divider, Popover } from "antd";
 import router from "next/router";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { mainOrder, user } from "~/api";
 import {
+  ActionButton,
   CreateOrderSelect,
   CreateOrderTable,
   FormCheckbox,
   FormInput,
-  IconButton,
   Layout,
 } from "~/components";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
 import { useCatalogue } from "~/hooks/useCatalogue";
-import { useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-  const { current: newUser } = useAppSelector((state) => state.user);
-  if (!newUser) return null;
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 
   const defaultValuesProducts = [
     {
@@ -33,9 +36,9 @@ const Index: TNextPageWithLayout = () => {
   ];
 
   const { warehouseTQ, warehouseVN, shippingTypeToWarehouse } = useCatalogue({
-    warehouseTQEnabled: !!newUser,
-    warehouseVNEnabled: !!newUser,
-    shippingTypeToWarehouseEnabled: !!newUser,
+    warehouseTQEnabled: true,
+    warehouseVNEnabled: true,
+    shippingTypeToWarehouseEnabled: true,
   });
 
   const { control, reset, handleSubmit, resetField } =
@@ -56,20 +59,15 @@ const Index: TNextPageWithLayout = () => {
     keyName: "Id",
   });
 
-  const { data: userList } = useQuery(
-    [],
-    () =>
-      user
-        .getList({
-          UID: newUser?.UserId,
-          RoleID: newUser?.UserGroupId,
-        })
-        .then((res) => {
-          return res?.Data;
-        }),
-    {
-      enabled: !!newUser,
-    }
+  const { data: userList } = useQuery([], () =>
+    user
+      .getList({
+        UID: userCurrentInfo?.Id,
+        RoleID: userCurrentInfo?.UserGroupId,
+      })
+      .then((res) => {
+        return res?.Data;
+      })
   );
 
   const _onPress = (data: TUserCreateOrder) => {
@@ -97,84 +95,131 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <>
-      <div className="breadcrumb-2">Tạo đơn mua hộ khác</div>
-      <div className="tableBox pt-4">
-        <CreateOrderSelect
-          {...{
-            control,
-            warehouseTQCatalogue: warehouseTQ,
-            warehouseVNCatalogue: warehouseVN,
-            shippingTypeToWarehouseCatalogue: shippingTypeToWarehouse,
-            append,
-            user: userList?.Items,
-          }}
+      <div className="flex w-fit ml-auto">
+        <ActionButton
+          title="Thêm sản phẩm"
+          onClick={() =>
+            append({
+              Id: new Date().getTime(),
+              ImageProduct: null,
+              LinkProduct: null,
+              NameProduct: null,
+              NoteProduct: null,
+              PriceProduct: null,
+              PropertyProduct: null,
+              QuantityProduct: null,
+            })
+          }
+          icon="far fa-plus"
+          isButton
+          isButtonClassName="bg-green !text-white mr-2"
         />
-        {fields.length > 0 && (
-          <>
-            <CreateOrderTable
-              {...{
-                control,
-                data: fields,
-                remove,
-                append,
-              }}
-            />
-            <div className="grid grid-cols-5 gap-4 mt-4">
-              <div className="flex col-span-3">
-                <FormInput
-                  label="Ghi chú toàn đơn hàng"
-                  control={control}
-                  name="UserNote"
-                  placeholder={""}
-                  required={false}
-                  inputContainerClassName="w-[300px] flex flex-col items-baseline mr-5"
+        <Popover
+          trigger={"click"}
+          placement="bottomLeft"
+          content={
+            <div className="grid grid-cols-4 p-4 w-[500px]">
+              <div className="col-span-4 grid grid-col-2">
+                <CreateOrderSelect
+                  {...{
+                    control,
+                    warehouseTQCatalogue: warehouseTQ,
+                    warehouseVNCatalogue: warehouseVN,
+                    shippingTypeToWarehouseCatalogue: shippingTypeToWarehouse,
+                    append,
+                    userList: userList?.Items,
+                  }}
                 />
-                <div className="grid grid-cols-2">
-                  <FormCheckbox
+              </div>
+              <div className="col-span-4">
+                <Divider className="!my-4" />
+              </div>
+              <div className="col-span-4 grid grid-cols-2 gap-4">
+                <div className="col-span-2 grid grid-cols-2">
+                  <div className="col-span-1">
+                    <FormCheckbox
+                      control={control}
+                      name="IsPacked"
+                      defaultChecked={false}
+                      label="Đóng gỗ"
+                    />
+                  </div>
+                  <div className="col-span-1">
+                    <FormCheckbox
+                      control={control}
+                      name="IsCheckProduct"
+                      defaultChecked={false}
+                      label="Kiểm hàng"
+                    />
+                  </div>
+                  <div className="col-span-1">
+                    <FormCheckbox
+                      control={control}
+                      name="IsInsurance"
+                      defaultChecked={false}
+                      label="Bảo hiểm"
+                    />
+                  </div>
+                  <div className="col-span-1">
+                    <FormCheckbox
+                      control={control}
+                      name="IsFastDelivery"
+                      defaultChecked={false}
+                      label="Giao hàng"
+                    />
+                  </div>
+                </div>
+                <div className="col-span-2">
+                  <FormInput
+                    label="Ghi chú toàn đơn hàng"
                     control={control}
-                    name="IsPacked"
-                    defaultChecked={false}
-                    label="Đóng gỗ"
-                  />
-                  <FormCheckbox
-                    control={control}
-                    name="IsCheckProduct"
-                    defaultChecked={false}
-                    label="Kiểm hàng"
-                  />
-                  <FormCheckbox
-                    control={control}
-                    name="IsInsurance"
-                    defaultChecked={false}
-                    label="Bảo hiểm"
-                  />
-                  <FormCheckbox
-                    control={control}
-                    name="IsFastDelivery"
-                    defaultChecked={false}
-                    label="Giao hàng"
+                    name="UserNote"
+                    placeholder={""}
+                    required={false}
+                    inputContainerClassName=""
                   />
                 </div>
               </div>
-              <div className="col-span-2 flex items-end justify-end">
-                <IconButton
-                  icon="fas fa-check-circle"
-                  title="Tạo đơn hàng"
+              <div className="col-span-4">
+                <Divider className="!my-4" />
+              </div>
+              <div className="col-span-4 flex items-end justify-end">
+                <ActionButton
                   onClick={handleSubmit(_onPress)}
-                  showLoading
-                  toolip=""
-                  btnClass="!bg-orange !text-white col-span-1"
+                  icon="fas fa-check-circle"
+                  title="Tạo đơn"
+                  isButton
+                  isButtonClassName="bg-main !text-white"
                 />
               </div>
             </div>
-          </>
-        )}
+          }
+        >
+          <ActionButton
+            icon="mr-0"
+            title="Tiêp tục"
+            isButton
+            isButtonClassName="bg-sec !text-white"
+          />
+        </Popover>
       </div>
+
+      {fields.length > 0 && (
+        <CreateOrderTable
+          {...{
+            control,
+            data: fields,
+            remove,
+            append,
+          }}
+        />
+      )}
     </>
   );
 };
 
 Index.displayName = SEOHomeConfigs.buyGroceries.createOderPageTMDT;
+Index.breadcrumb = "Tạo đơn hàng mua hộ khác";
 Index.Layout = Layout;
 
 export default Index;

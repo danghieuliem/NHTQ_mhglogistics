@@ -3,7 +3,7 @@ import clsx from "clsx";
 import _ from "lodash";
 import React, {useRef, useState} from "react";
 import {Control, Controller, FieldValues, Path, RegisterOptions} from "react-hook-form";
-import {components, DropdownIndicatorProps, GroupBase, StylesConfig} from "react-select";
+import {components, DropdownIndicatorProps, GroupBase, IndicatorSeparatorProps, StylesConfig} from "react-select";
 import {AsyncPaginate} from "react-select-async-paginate";
 import {useDeepEffect} from "~/hooks";
 import {TFieldSelect} from "~/types/field";
@@ -38,6 +38,8 @@ type TProps<TFieldValues, TFieldDatas> = {
 	closeMenuOnSelect?: boolean;
 	itemIsValue?: boolean;
 	isLoading?: boolean;
+  indicatorSeparator?: React.ComponentType<IndicatorSeparatorProps<unknown, boolean, GroupBase<unknown>>>;
+
 };
 
 export const FormAsyncSelect = <TFieldValues extends FieldValues = FieldValues, TFieldDatas extends object = object>({
@@ -62,6 +64,7 @@ export const FormAsyncSelect = <TFieldValues extends FieldValues = FieldValues, 
 	closeMenuOnSelect = true,
 	itemIsValue = false,
 	isLoading = false,
+	indicatorSeparator = () => <span className="text-[#cfcfcf] !mx-2">|</span>,
 }: TProps<TFieldValues, TFieldDatas>) => {
 	const {label: l, value: v} = select;
 
@@ -132,7 +135,7 @@ export const FormAsyncSelect = <TFieldValues extends FieldValues = FieldValues, 
 	return (
 		<div className={clsx("w-full", selectContainerClassName)}>
 			{label && (
-				<label className="text-[12px] py-[2px] uppercase font-bold" htmlFor={name}>
+				<label className="text-[12px] text-label py-[2px] font-bold" htmlFor={name}>
 					{label} {required === true && <span className="text-red">*</span>}
 				</label>
 			)}
@@ -185,13 +188,17 @@ export const FormAsyncSelect = <TFieldValues extends FieldValues = FieldValues, 
 							}
 							{...newField}
 						/>
-						{!hideError && (
-							<ErrorMessage
-								errors={errors}
-								name={name as any}
-								render={({message}) => <p className="text-warning text-xs font-medium mt-1">{message}</p>}
-							/>
-						)}
+            {!hideError && (
+              <ErrorMessage
+                errors={errors}
+                name={name as any}
+                render={({ message }) => (
+                  <p className="text-warning text-xs font-medium mt-1">
+                    {message}
+                  </p>
+                )}
+              />
+            )}
 					</React.Fragment>
 				)}
 			/>
@@ -202,9 +209,7 @@ export const FormAsyncSelect = <TFieldValues extends FieldValues = FieldValues, 
 const DropdownIndicator: React.FC<DropdownIndicatorProps> = (props) => {
 	return (
 		<components.DropdownIndicator {...props}>
-			<span className="h-full cursor-pointer px-3">
-				<i className="text-[#6b6f82] text-base far fa-chevron-down"></i>
-			</span>
+			<img src="/icon/selecter-arrow.png" alt="" className="pr-2" />
 		</components.DropdownIndicator>
 	);
 };

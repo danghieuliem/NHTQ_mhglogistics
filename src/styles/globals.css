@@ -2,36 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer component {
-  .words-break {
-    word-break: break-word;
-  }
-}
-
-@layer base {
-  p {
-    margin-bottom: 0 !important;
-  }
-  a {
-    color: #6b6f82 !important;
-  }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-size: revert !important;
-  }
-}
-
-:root {
-  --primary-color: #f14f04;
+p {
+  margin: 0 !important;
 }
 
 /* width */
 ::-webkit-scrollbar {
-  width: 2px;
+  width: 0px;
   height: 7px;
 }
 
@@ -63,51 +40,13 @@
   opacity: 0.3;
 }
 
-.mr-3 .ant-spin.ant-spin-spinning .ant-spin-dot.ant-spin-dot-spin {
-  display: block;
-}
-
-.mr-3
-  .ant-spin.ant-spin-spinning
-  .ant-spin-dot.ant-spin-dot-spin
-  .ant-spin-dot-item {
-  background-color: #fff;
-}
-
-/* .ant-scrolling-effect {
-	touch-action: auto !important;
-	width: auto !important;
-	overflow: unset !important;
-} */
-
-.ant-modal-confirm-body-wrapper {
-  padding: 16px;
-}
-
-.border {
-  border: 1px solid #36613638;
-}
-
-.borderBottom {
-  border-bottom: 1px solid #36613638;
-}
-
-.boxShadow {
-  box-shadow: 0 0 20px 6px #0000003b;
-}
-
-.bg-chat {
-  background-color: #0275e0;
-}
-
-.breadcrumb-2 {
+.breadcrumb {
   font-size: 24px;
+  margin: 10px 0;
+  color: #3e3e44;
+  letter-spacing: 0.025em;
   text-transform: uppercase;
-  line-height: 29px;
-  margin: 50px 0 20px 0;
-  color: #3e3c6a;
   font-weight: bolder;
-  transition: 0.3s;
 }
 
 .container {
@@ -140,6 +79,7 @@
 
 .app-main {
   width: 100%;
+  transition: all 0.2s ease-in-out;
 }
 
 .app-container {
@@ -150,13 +90,14 @@
   width: min(1200px, 100%);
   padding: 15px;
   margin: 0 auto;
+  height: fit-content;
+  min-height: calc(100vh - 112px);
+  position: relative;
 }
 
 .menu-active {
   width: calc(100vw - 220px);
 }
-
-
 
 
 /* body.ant-scrolling-effect {

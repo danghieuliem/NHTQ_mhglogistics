@@ -9,7 +9,7 @@ import {
   OrderIDProductList,
   OrderOverView,
   OrderTransportList,
-  UserLayout
+  UserLayout,
 } from "~/components";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import { TNextPageWithLayout } from "~/types/layout";
@@ -59,34 +59,33 @@ const Index: TNextPageWithLayout = () => {
   return (
     <React.Fragment>
       <div className="titlePageUser">Chi tiết đơn hàng #{id}</div>
-      <div className="mb-4">
-        <div className="sm:grid sm:grid-cols-2 gap-4">
-          <div className="col-span-1">
-            <OrderOverView data={data?.Data} updatePaid={updatePaid} />
-          </div>
-          <div className="col-span-1">
-            <OrderIDDetail
-              data2={data?.Data?.Orders}
-              dataAll={data?.Data}
-              data={data?.Data?.FeeSupports}
-            />
-          </div>
+      <div className="sm:grid sm:grid-cols-2 gap-4 mb-4">
+        <div className="col-span-1 mb-4">
+          <OrderOverView data={data?.Data} updatePaid={updatePaid} />
         </div>
-        <OrderTransportList data={data?.Data?.SmallPackages} />
-        <OrderIDProductList data={data?.Data?.Orders} />
-        <OrderIDPaymentHistory data={data?.Data?.PayOrderHistories} />
-        {/* {data && (
+        <div className="col-span-1">
+          <OrderIDDetail
+            data2={data?.Data?.Orders}
+            dataAll={data?.Data}
+            data={data?.Data?.FeeSupports}
+          />
+        </div>
+      </div>
+      <OrderIDProductList data={data?.Data?.Orders} />
+      <OrderTransportList data={data?.Data?.SmallPackages} />
+      <OrderIDPaymentHistory data={data?.Data?.PayOrderHistories} />
+      {/* {data && (
           <MessageControlUser
             clientId={data.Data.UID}
             mainOrderId={+query?.id}
           />
         )} */}
-      </div>
     </React.Fragment>
   );
 };
 
 Index.displayName = SEOConfigs.oder.detail;
+Index.breadcrumb = "";
 Index.Layout = UserLayout;
 
 export default Index;

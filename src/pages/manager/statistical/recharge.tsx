@@ -5,23 +5,17 @@ import { useQuery } from "react-query";
 import { reportAdminSendUserWallet, reportWithdraw } from "~/api";
 import {
   Layout,
-  showToast,
   StatisticalRechargeChart,
   StatisticalRechargeFilter,
   StatisticalRechargeTable,
   StatisticalWithdrawTable,
-  toast,
+  showToast,
 } from "~/components";
 import { breadcrumb, defaultPagination } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
-import { selectUser, useAppSelector } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
-const styleBorder = `tableBox mb-5`;
-
 const Index: TNextPageWithLayout = () => {
-  const { user: userStore } = useAppSelector(selectUser);
-  if (!userStore) return null;
   const [username, setUsername] = useState<string>(null);
   const [bankId, setBankId] = useState<number>(null);
   const [fromDate, setFromDate] = useState<string>(null);
@@ -84,7 +78,6 @@ const Index: TNextPageWithLayout = () => {
             message: (error as any)?.response?.data?.ResultMessage,
             type: "error",
           }),
-        enabled: !!userStore,
       }
     );
 
@@ -124,7 +117,6 @@ const Index: TNextPageWithLayout = () => {
             message: (error as any)?.response?.data?.ResultMessage,
             type: "error",
           }),
-        enabled: !!userStore,
       }
     );
 
@@ -175,15 +167,17 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <div className="">
-      <div className={`${styleBorder} flex`}>
-        <StatisticalRechargeFilter handleFilter={handleFilter} />
-        <div className="w-[60rem] m-auto px-[30px]">
+      <div className="tableBox grid grid-cols-12 gap-4 mb-4">
+        <div className="col-span-3 h-fit">
+          <StatisticalRechargeFilter handleFilter={handleFilter} />
+        </div>
+        <div className="col-span-9">
           <StatisticalRechargeChart
             dataChart={{ totalRecharge, totalWithdraw }}
           />
         </div>
       </div>
-      <div className={`${styleBorder}`}>
+      <div className="mb-4">
         <StatisticalRechargeTable
           data={usertRechargeReportData?.Items}
           loading={isFetchingRecharge}
@@ -193,7 +187,7 @@ const Index: TNextPageWithLayout = () => {
         />
       </div>
 
-      <div className={`${styleBorder}`}>
+      <div className="mb-4">
         <StatisticalWithdrawTable
           data={userWithDrawReportData?.Items}
           loading={isFetchingWithdraw}

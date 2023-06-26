@@ -20,7 +20,7 @@ const Index: TNextPageWithLayout = () => {
 		refetchOnWindowFocus: false,
 	});
 
-	if (isError) return <Empty description={`Không tìm thấy nhân viên #${query?.id}`} />;
+	if (isError) return <Empty />;
 
 	return (
 		<div className="tableBox">

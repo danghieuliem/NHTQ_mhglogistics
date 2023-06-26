@@ -144,29 +144,20 @@ export const BanksForm: React.FC<TForm<TBank>> = ({
                 />
               </div>
               <div className="col-span-1">
-                <FormUpload
+                <FormSwitch
                   control={control}
-                  name="IMGQR"
-                  label="Hình ảnh mã QR"
-                  rules={{ required: "không bỏ trống hình ảnh" }}
+                  name="Active"
+                  label="Trạng thái"
+                  required={false}
                 />
               </div>
-            </div>
-            <div className="col-span-2">
-              <FormSwitch
-                control={control}
-                name="Active"
-                label="Trạng thái"
-                required={false}
-              />
             </div>
           </div>
         </FormCard.Body>
         <FormCard.Footer>
           <Button
-            showLoading
             title={btnAddTitle}
-            btnClass="!bg-main"
+            btnClass="!bg-main mr-2"
             onClick={handleSubmit(_onPress)}
           />
           <Button title="Hủy" btnClass="!bg-red" onClick={handleOnCancel} />

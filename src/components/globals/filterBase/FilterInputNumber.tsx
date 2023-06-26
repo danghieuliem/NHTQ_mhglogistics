@@ -38,12 +38,12 @@ export const FilterInputNumber: FC<TProps> = ({
 
 	return (
 		<div className="relative w-full">
-			<div className="text-[10px] py-[2px] uppercase font-bold">
+			<div className="text-[10px] py-[2px] text-label font-bold">
 				{label}
 			</div>
 			<NumberFormat
 				className={clsx(
-					'px-[11px] py-[4px] h-10 border border-[#ccc] w-full placeholder-[#c6c6c6] hover:border-orange transition duration-300 focus:shadow-input focus:border-orange outline-0',
+					'h-10 border border-[#d9d9d9] w-full !rounded-[4px] pl-2',
 					inputClassName
 				)}
 				id={id}

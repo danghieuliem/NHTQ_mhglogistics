@@ -18,31 +18,30 @@ export const ConfirmCompleteForm: React.FC<TProps> = ({
   if (!totalPrice) return null;
 
   return (
-    <div className="tableBox">
-      <div className="flex justify-between mb-4 ">
-        <h2 className="!mb-0 text-[#141046] font-semibold">Tổng tiền</h2>
-        <span className="font-bold text-orange text-[18px]">
-          {totalPrice && _format.getVND(totalPrice)}
+    <div className="mt-[30px] grid grid-cols-1 gap-2">
+      <div className="flex justify-end items-center">
+        <span className="!text-label text-[16px] font-bold uppercase leading-[initial]">Tổng tiền</span>
+        <span className="font-bold text-orange text-[16px] ml-4">
+          {totalPrice && _format.getVND(totalPrice, " ")}
         </span>
       </div>
       <FormCheckbox
         label="Tôi đồng ý với các điều khoản"
         control={control}
         name="IsAgreement"
+        checkBoxClassName="justify-end !text-[#6A6A6A]"
         // rules={{ required: 'Vui lòng xác nhận trước khi thanh toán' }}
       />
-      <div className="text-label my-4 text-[#fa8d14]">
-        Vui lòng xác nhận trước khi hoàn tất đơn hàng.
+      <div className="text-main !text-[16px] text-right">
+        Vui lòng xác nhận trước khi hoàn tất.
       </div>
       <div className="flex justify-end">
         <IconButton
-          btnClass="w-[120px] text-white py-2 rounded-xl bg-[#f8dfd5]"
+          btnClass="px-6 text-white py-3 rounded-[6px] hover:!bg-blue"
           showLoading
           onClick={onPress}
           title="Hoàn tất"
-          icon={
-            loadingPayment ? "fas fa-spinner fa-pulse" : "fas fa-check-circle"
-          }
+          icon={""}
           toolip={""}
           green
           disabled={loadingPayment}

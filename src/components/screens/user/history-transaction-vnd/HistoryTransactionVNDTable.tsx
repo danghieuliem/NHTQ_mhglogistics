@@ -94,19 +94,16 @@ export const HistoryTransactionVNDTable: React.FC<
           bordered: true,
           expandable: expandable,
           scroll: { y: 620 },
-          title: "Lịch sử giao dịch",
         }}
       />
-      <div className="mt-4 text-right">
-        <Pagination
-          total={filter?.TotalItems}
-          current={filter?.PageIndex}
-          pageSize={filter?.PageSize}
-          onChange={(page, pageSize) =>
-            handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-          }
-        />
-      </div>
+      <Pagination
+        total={filter?.TotalItems}
+        current={filter?.PageIndex}
+        pageSize={filter?.PageSize}
+        onChange={(page, pageSize) =>
+          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
+        }
+      />
     </>
   );
 };

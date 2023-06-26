@@ -2,6 +2,7 @@ import { Pagination } from "antd";
 import router, { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { mainOrder } from "~/api";
 import {
   Layout,
@@ -12,11 +13,13 @@ import {
 import { orderStatus } from "~/configs/appConfigs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import { useCatalogue } from "~/hooks/useCatalogue";
-import { useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-  const { current: newUser } = useAppSelector((state) => state.user);
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
   const { query } = useRouter();
   const [numberOfOrder, setNumberOfOrder] = useState(orderStatus);
   const [filter, setFilter] = useState({
@@ -34,11 +37,11 @@ const Index: TNextPageWithLayout = () => {
     PageIndex: 1,
     PageSize: 20,
     OrderBy: "Id desc",
-    UID: newUser?.UserId,
+    UID: userCurrentInfo?.Id,
     RoleID:
-      newUser?.UserGroupId === 8 || newUser?.UserGroupId === 6
+      userCurrentInfo?.UserGroupId === 8 || userCurrentInfo?.UserGroupId === 6
         ? 3
-        : newUser?.UserGroupId,
+        : userCurrentInfo?.UserGroupId,
   });
 
   useEffect(() => {
@@ -57,15 +60,16 @@ const Index: TNextPageWithLayout = () => {
       PageIndex: 1,
       PageSize: 20,
       OrderBy: "Id desc",
-      UID: newUser?.UserId,
-      RoleID: newUser?.UserGroupId === 8 ? 3 : newUser?.UserGroupId,
+      UID: userCurrentInfo?.Id,
+      RoleID:
+        userCurrentInfo?.UserGroupId === 8 ? 3 : userCurrentInfo?.UserGroupId,
     });
     setNumberOfOrder(orderStatus);
   }, [query?.q]);
 
   const handleFilter = (newFilter) => {
-    setFilter({ ...filter, ...newFilter });    
-  };  
+    setFilter({ ...filter, ...newFilter });
+  };
 
   const { data, isFetching, isLoading, refetch } = useQuery(
     ["orderList", { ...filter }],
@@ -86,14 +90,16 @@ const Index: TNextPageWithLayout = () => {
           type: "error",
         });
       },
+      keepPreviousData: true,
       refetchOnWindowFocus: true,
       refetchOnReconnect: true,
+      staleTime: 5000,
     }
   );
 
   const { userOrder, userSale } = useCatalogue({
-    userOrderEnabled: !!newUser,
-    userSaleEnabled: !!newUser,
+    userOrderEnabled: true,
+    userSaleEnabled: true,
   });
 
   const handleExportExcel = async () => {
@@ -115,21 +121,23 @@ const Index: TNextPageWithLayout = () => {
     [
       "number-of-order",
       {
-        UID: newUser?.UserId,
+        UID: userCurrentInfo?.Id,
         RoleID:
-          newUser?.UserGroupId === 8 || newUser?.UserGroupId === 6
+          userCurrentInfo?.UserGroupId === 8 ||
+          userCurrentInfo?.UserGroupId === 6
             ? 3
-            : newUser?.UserGroupId,
+            : userCurrentInfo?.UserGroupId,
         orderType: query?.q === "3" ? 3 : 1,
       },
     ],
     () =>
       mainOrder.getNumberOfOrder({
-        UID: newUser?.UserId,
+        UID: userCurrentInfo?.Id,
         RoleID:
-          newUser?.UserGroupId === 8 || newUser?.UserGroupId === 6
+          userCurrentInfo?.UserGroupId === 8 ||
+          userCurrentInfo?.UserGroupId === 6
             ? 3
-            : newUser?.UserGroupId,
+            : userCurrentInfo?.UserGroupId,
         orderType: query?.q === "3" ? 3 : 1,
       }),
     {
@@ -149,46 +157,40 @@ const Index: TNextPageWithLayout = () => {
           type: "error",
         });
       },
+      keepPreviousData: true,
+      staleTime: 5000,
     }
   );
 
   return (
     <Fragment>
-      <div className="breadcrumb-2">
+      <div className="breadcrumb">
         {query?.q === "3" ? "Đơn hàng mua hộ khác" : "Đơn hàng mua hộ"}
       </div>
-      <div id="special" className="">
-        <div className="mb-4">
-          <OrderListFilter
-            numberOfOrder={numberOfOrder}
-            handleFilter={handleFilter}
-            handleExportExcel={handleExportExcel}
-            newUser={newUser}
-          />
-        </div>
-        <div className="tableBox">
-          <OrderListTable
-            {...{
-              loading: isFetching,
-              data: data?.Items,
-              userOrder,
-              userSale,
-              RoleID: newUser?.UserGroupId,
-              refetch,
-            }}
-          />
-          <div className="mt-4 text-right">
-            <Pagination
-              total={filter?.TotalItems}
-              current={filter?.PageIndex}
-              pageSize={filter?.PageSize}
-              onChange={(page, pageSize) =>
-                handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-              }
-            />
-          </div>
-        </div>
-      </div>
+      <OrderListFilter
+        numberOfOrder={numberOfOrder}
+        handleFilter={handleFilter}
+        handleExportExcel={handleExportExcel}
+        newUser={userCurrentInfo}
+      />
+      <OrderListTable
+        {...{
+          loading: isFetching,
+          data: data?.Items,
+          userOrder,
+          userSale,
+          RoleID: userCurrentInfo?.UserGroupId,
+          refetch,
+        }}
+      />
+      <Pagination
+        total={filter?.TotalItems}
+        current={filter?.PageIndex}
+        pageSize={filter?.PageSize}
+        onChange={(page, pageSize) =>
+          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
+        }
+      />
     </Fragment>
   );
 };

@@ -1,4 +1,4 @@
-import { Modal, Tag } from "antd";
+import { Modal } from "antd";
 import { TableRowSelection } from "antd/lib/table/interface";
 import router from "next/router";
 import React, { useState } from "react";
@@ -14,6 +14,7 @@ import {
 import { ECreatedOrderStatusData, orderStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 
 export const UserAnotherOrderListTable: React.FC<
   TTable<TOrder> & { type; q; moneyOfOrders; handleFilter }
@@ -191,7 +192,10 @@ export const UserAnotherOrderListTable: React.FC<
       title: "Trạng thái",
       render: (status, record) => {
         const color = orderStatus.find((x) => x.id === status);
-        return <Tag color={color?.color}>{record?.StatusName}</Tag>;
+        // return <Tag color={color?.color}>{record?.StatusName}</Tag>;
+        return (
+          <TagStatus color={color?.color} statusName={record?.StatusName} />
+        );
       },
       width: 140,
     },
@@ -296,7 +300,7 @@ export const UserAnotherOrderListTable: React.FC<
                       }}
                       icon="fas fa-credit-card"
                       title="Thanh toán"
-                      btnBlue
+                      isButtonClassName="!bg-blue"
                       isButton={true}
                     />
                   )}
@@ -311,6 +315,7 @@ export const UserAnotherOrderListTable: React.FC<
                     })
                   }
                   icon="fas fa-trash"
+                  isButtonClassName="!bg-red !text-white"
                   title="Hủy đơn!"
                   btnYellow
                   isButton={true}
@@ -410,7 +415,7 @@ export const UserAnotherOrderListTable: React.FC<
                   }}
                   icon="fas fa-credit-card"
                   title="Thanh toán"
-                  btnBlue
+                  isButtonClassName="!bg-blue !text-white"
                   isButton={true}
                 />
               )}
@@ -424,7 +429,7 @@ export const UserAnotherOrderListTable: React.FC<
                   }
                   icon="fas fa-trash"
                   title="Hủy đơn!"
-                  btnYellow
+                  isButtonClassName="!bg-red !text-white"
                   isButton={true}
                 />
               )}
@@ -449,8 +454,8 @@ export const UserAnotherOrderListTable: React.FC<
     },
     onChange: (selectedRowKeys: React.Key[], selectedRows: TOrder[]) =>
       handleModal(selectedRows, undefined, "some"),
-    hideSelectAll: true,
-    columnWidth: 26,
+    // hideSelectAll: true,
+    // columnWidth: 26,
   };
 
   const expandable = {

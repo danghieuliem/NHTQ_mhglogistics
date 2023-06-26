@@ -1,6 +1,7 @@
 import router from "next/router";
 import { useState } from "react";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { user } from "~/api";
 import {
   EmployeeManagementFilter,
@@ -12,11 +13,13 @@ import {
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import { useCatalogue } from "~/hooks/useCatalogue";
-import { useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-  const { current: newUser } = useAppSelector((state) => state.user);
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
   const [modal, setModal] = useState(false);
 
   const [filter, setFilter] = useState({
@@ -25,7 +28,7 @@ const Index: TNextPageWithLayout = () => {
     PageSize: 20,
     TotalItems: null,
     UserName: null,
-    RoleID: newUser?.UserGroupId,
+    RoleID: userCurrentInfo?.UserGroupId,
     IsEmployee: 1,
   });
 
@@ -36,10 +39,10 @@ const Index: TNextPageWithLayout = () => {
   // useCatalogue scope
   // ===== BEGIN =====
   const { userGroup, userLevel, userOrder, userSale } = useCatalogue({
-    userGroupEnabled: !!newUser,
-    userLevelEnabled: !!newUser,
-    userOrderEnabled: !!newUser,
-    userSaleEnabled: !!newUser,
+    userGroupEnabled: true,
+    userLevelEnabled: true,
+    userOrderEnabled: true,
+    userSaleEnabled: true,
   });
   // ===== END =====
 
@@ -58,7 +61,6 @@ const Index: TNextPageWithLayout = () => {
       },
       onError: toast.error,
       refetchOnWindowFocus: false,
-      enabled: !!newUser,
     }
   );
   const userDataCatalog = userGroup?.map((item) => {
@@ -79,15 +81,13 @@ const Index: TNextPageWithLayout = () => {
   };
 
   return (
-    <div className="tableBox">
-      <div className="">
-        <EmployeeManagementFilter
-          handleFilter={(newFilter) => handleFilter(newFilter)}
-          userGroupCatalogue={userGroup?.filter((x) => x.Id !== 1)}
-          handleAddStaff={() => setModal(true)}
-          onExportExcel={_onExportExcel}
-        />
-      </div>
+    <>
+      <EmployeeManagementFilter
+        handleFilter={(newFilter) => handleFilter(newFilter)}
+        userGroupCatalogue={userGroup?.filter((x) => x.Id !== 1)}
+        handleAddStaff={() => setModal(true)}
+        onExportExcel={_onExportExcel}
+      />
       <EmployeeManagementTable
         {...{
           refetch: refetch,
@@ -96,7 +96,7 @@ const Index: TNextPageWithLayout = () => {
           userGroupCatalogue: userDataCatalog,
           filter,
           handleFilter,
-          UserGroupId: newUser?.UserGroupId,
+          UserGroupId: userCurrentInfo?.UserGroupId,
         }}
       />
       <EmployeeManagementForm
@@ -109,7 +109,7 @@ const Index: TNextPageWithLayout = () => {
           userSaleCatalogue: userSale,
         }}
       />
-    </div>
+    </>
   );
 };
 

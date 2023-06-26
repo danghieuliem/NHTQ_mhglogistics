@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { FilterInput } from '~/components';
 
 const inputProps = {
@@ -13,7 +13,7 @@ type TProps = {
 
 export const TariffBuyProFilter: React.FC<TProps> = ({ handleFilter }) => {
 	return (
-		<div className="max-w-[400px] pb-4">
+		<div className="w-[300px] ml-auto">
 			<FilterInput
 				{...{
 					...inputProps,

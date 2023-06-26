@@ -1,4 +1,4 @@
-import { Collapse, Drawer, Popover, Space, Tag } from "antd";
+import { Drawer, Popover, Space, Tag } from "antd";
 import React, { useRef, useState } from "react";
 import {
   ActionButton,
@@ -22,7 +22,7 @@ const inputProps = {
   label: "Nhập ID / mã vận đơn",
 };
 
-const filterBox = `py-2 font-bold uppercase text-[12px] rounded-[4px]
+const filterBox = `py-2 font-bold uppercase text-[12px] border-[#e8e8e8] rounded-[4px]
 flex items-center justify-center border shadow-lg 
 cursor-pointer hover:shadow-sm transition-all duration-500 hover:!bg-main hover:!text-white`;
 
@@ -36,7 +36,7 @@ type TProps = {
 
 const NumberOfOrderComp = ({ numberOfOrder }) => {
   return (
-    <div className="min-w-[300px]">
+    <div className="min-w-[300px] p-4">
       {numberOfOrder?.map((item, index) => (
         <div
           className="grid grid-cols-3 gap-2 py-1 my-1"
@@ -54,7 +54,7 @@ const NumberOfOrderComp = ({ numberOfOrder }) => {
 
 const MoneyOfOrdersComp = ({ moneyOfOrders }) => {
   return (
-    <div className="w-fit">
+    <div className="w-fit p-4">
       {moneyOfOrders?.map((item, index) => (
         <div
           className="grid grid-cols-2 md:grid-cols-3 gap-2 py-1 my-1"
@@ -113,7 +113,7 @@ export const UserDepositListFilter: React.FC<TProps> = ({
         icon="fas fa-filter"
         isButton
         onClick={() => setIsShow(!isShow)}
-        isButtonClassName="bg-red !text-white hover:bg-sec ml-2"
+        isButtonClassName="bg-main !text-white ml-2"
       />
       <Drawer
         title={
@@ -139,7 +139,7 @@ export const UserDepositListFilter: React.FC<TProps> = ({
           </Space>
         }
       >
-        <div className="p-4">
+        <div className="">
           <div className="grid grid-cols-1 gap-2">
             <div className="col-span-1 font-bold mb-2 text-[20px]">
               Lọc theo thuộc tính:{" "}

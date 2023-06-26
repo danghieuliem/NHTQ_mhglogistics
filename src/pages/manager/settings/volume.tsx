@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { feeVolume } from "~/api";
 import {
   Layout,
@@ -10,11 +11,13 @@ import {
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
-import { selectUser, useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import type { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-  const { user } = useAppSelector(selectUser);
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 
   const [modalAdd, setModalAdd] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
@@ -50,13 +53,14 @@ const Index: TNextPageWithLayout = () => {
         });
         return data?.Data?.Items;
       },
-      enabled: user?.UserGroupId === 1,
+      enabled: userCurrentInfo?.UserGroupId === 1,
+      refetchOnWindowFocus: false,
       onError: toast.error,
     }
   );
 
   return (
-    <div className="tableBox py-4">
+    <div>
       <VolumeFeeFilter
         handleFilter={(newFilter) =>
           handleFilter({ ...newFilter, PageIndex: 1 })

@@ -1,15 +1,17 @@
-import {useState} from "react";
-import {useQuery} from "react-query";
-import {warehouseFee} from "~/api/warehouse-fee";
-import {Layout, TariffChinaVietNamFilter, TariffChinaVietNamForm, TariffChinaVietNamTable, toast} from "~/components";
-import {breadcrumb} from "~/configs";
-import {SEOConfigs} from "~/configs/SEOConfigs";
-import {selectUser, useAppSelector} from "~/store";
-import type {TNextPageWithLayout} from "~/types/layout";
+import { useState } from "react";
+import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
+import { warehouseFee } from "~/api/warehouse-fee";
+import { Layout, TariffChinaVietNamFilter, TariffChinaVietNamForm, TariffChinaVietNamTable, toast } from "~/components";
+import { breadcrumb } from "~/configs";
+import { SEOConfigs } from "~/configs/SEOConfigs";
+import { RootState } from "~/store";
+import type { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-	const {user} = useAppSelector(selectUser);
-
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 	const [modalAdd, setModalAdd] = useState(false);
 	const [modalUpdate, setModalUpdate] = useState(false);
 	const [idTarget, setIdTarget] = useState(null);
@@ -27,7 +29,6 @@ const Index: TNextPageWithLayout = () => {
 
 	const handleFilter = (newFilter) => {
 		setFilter({...filter, ...newFilter});
-		return;
 	};
 
 	const {isFetching, data, isLoading, refetch} = useQuery(
@@ -35,6 +36,8 @@ const Index: TNextPageWithLayout = () => {
 		() => warehouseFee.getList(filter),
 		{
 			keepPreviousData: true,
+			refetchOnWindowFocus: false,
+			staleTime: 5000,
 			onSuccess: (data) => {
 				setFilter({
 					...filter,
@@ -44,13 +47,13 @@ const Index: TNextPageWithLayout = () => {
 				});
 				return data?.Data?.Items;
 			},
-			enabled: user?.UserGroupId === 1,
+			enabled: userCurrentInfo?.UserGroupId === 1,
 			onError: toast.error,
 		}
 	);
 
 	return (
-		<div className="tableBox py-4">
+		<div className="">
 			<TariffChinaVietNamFilter
 				handleFilter={(newFilter) => handleFilter({...newFilter, PageIndex: 1})}
 				handleAddStaff={() => setModalAdd(true)}

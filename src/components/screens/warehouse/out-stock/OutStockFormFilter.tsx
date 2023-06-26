@@ -52,7 +52,7 @@ export const OutStockFormFilter: React.FC<TProps> = ({
     );
 
     return (
-      <div className="w-full mb-10 p-4" ref={ref}>
+      <div className="w-full" ref={ref}>
         <div className="text-xs text-black">
           {_format.getVNDate(new Date())}
         </div>
