@@ -1799,6 +1799,7 @@ export const firstPageDirect = [
       "/manager/employee/bonus-order",
       "/manager/employee/bonus-deposit",
       "/manager/employee/bonus-payment",
+      "/manager/deposit/deposit-list/detail"
     ],
   },
   {
@@ -1889,37 +1890,45 @@ export const apiWithoutToken = [
   "/page/get-by-code",
 ];
 
+export const enum EPaymentStatus {
+  Pending = 1,
+  Paid = 2,
+  Cancel = 3,
+  Finished = 4,
+  Confirmed = 5
+}
+
 export const paymentStatus = [
   {
-    id: 1,
+    id: EPaymentStatus.Pending,
     name: "Chờ duyệt",
     col: 2,
     value: null,
     color: "darkred",
   },
   {
-    id: 2,
+    id: EPaymentStatus.Paid,
     name: "Đã thanh toán",
     col: 2,
     value: null,
     color: "#096dd9",
   },
   {
-    id: 3,
+    id: EPaymentStatus.Cancel,
     name: "Đã hủy",
     col: 2,
     value: null,
     color: "#000",
   },
   {
-    id: 4,
+    id: EPaymentStatus.Finished,
     name: "Đã hoàn thành",
     col: 2,
     value: null,
     color: "#008000",
   },
   {
-    id: 5,
+    id: EPaymentStatus.Confirmed,
     name: "Đã xác nhận",
     col: 2,
     value: null,
@@ -1985,6 +1994,21 @@ export const transportStatus = [
     color: "#008000",
   },
 ];
+
+
+export const enum EOrderStatus {
+  all = -1,
+  NoDeposit = 0,
+  WaitingForQuote = 100,
+  Cancel = 1,
+  Deposited = 2,
+  Purchased = 5,
+  InChinaWarehoue = 6,
+  InVietnamWarehoue = 7,
+  Paid = 9,
+  Finished = 10,
+  Complained = 11
+}
 
 export const orderStatus = [
   {

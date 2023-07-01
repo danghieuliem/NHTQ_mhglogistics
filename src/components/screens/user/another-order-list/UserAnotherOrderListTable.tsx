@@ -1,7 +1,7 @@
-import { Modal } from "antd";
+import { Divider, Modal, Popover } from "antd";
 import { TableRowSelection } from "antd/lib/table/interface";
 import router from "next/router";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 import { mainOrder, orderShopTemp } from "~/api";
@@ -11,10 +11,77 @@ import {
   UserAnotherOrderListFilter,
   showToast,
 } from "~/components";
-import { ECreatedOrderStatusData, orderStatus } from "~/configs/appConfigs";
+import {
+  ECreatedOrderStatusData,
+  EOrderStatus,
+  orderStatus,
+} from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+
+const PaymenComponent = ({ data }) => {
+
+  const paymentData = data?.filter(
+    (item) => item?.Status === EOrderStatus.InVietnamWarehoue
+  );
+
+  const noDepositData = data?.filter(
+    (item) => item?.Status === EOrderStatus.NoDeposit
+  );
+
+  return (
+    <div className="p-4 w-[400px] max-w-[80vw]">
+      {noDepositData?.length > 0 && (
+        <div className="flex items-center justify-between">
+          <span className="col-span-2 flex flex-col">
+            <span className="font-bold">Tổng tiền đặt cọc: </span>
+            <span className="text-lg text-main font-semibold">
+              {_format.getVND(
+                noDepositData?.reduce(
+                  (acc, cur) => acc + cur?.RemainingAmount,
+                  0
+                ) || 0
+              )}
+            </span>
+          </span>
+          <ActionButton
+            icon="!mr-0"
+            title="Đặt cọc"
+            isButton
+            isButtonClassName="bg-blue h-fit !text-white"
+          />
+        </div>
+      )}
+      {noDepositData?.length > 0 && paymentData.length > 0 && (
+        <Divider className="!my-2" />
+      )}
+      {paymentData.length > 0 && (
+        <>
+          <div className="flex items-center justify-between">
+            <span className="col-span-2 flex flex-col">
+              <span className="font-bold">Tổng tiền thanh toán: </span>
+              <span className="text-lg text-main font-semibold">
+                {_format.getVND(
+                  paymentData?.reduce(
+                    (prev, cur) => prev + cur?.AmountDeposit,
+                    0
+                  )
+                )}
+              </span>
+            </span>
+            <ActionButton
+              icon="!mr-0"
+              title="Thanh toán"
+              isButton
+              isButtonClassName="bg-blue h-fit !text-white"
+            />
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
 
 export const UserAnotherOrderListTable: React.FC<
   TTable<TOrder> & { type; q; moneyOfOrders; handleFilter }
@@ -30,6 +97,8 @@ export const UserAnotherOrderListTable: React.FC<
 }) => {
   const [delLoading, setDelLoading] = useState(false);
   const queryClient = useQueryClient();
+
+  const [selectedRowsList, setSelectedRowsList] = useState([]);
 
   const handleDeleteProd = async (id: number) => {
     try {
@@ -55,7 +124,7 @@ export const UserAnotherOrderListTable: React.FC<
     {
       dataIndex: "Id",
       title: "ID",
-      width: 40,
+      width: 60,
       responsive: ["lg"],
     },
     {
@@ -149,7 +218,7 @@ export const UserAnotherOrderListTable: React.FC<
           )}
           {record.DateTQ && (
             <p className="flex justify-between px-2">
-              <span>Đã về kho TQ:</span>
+              <span>Vê kho TQ:</span>
               <span>
                 {_format.getVNDate(record.DateTQ, "HH:mm")} -
                 {_format.getVNDate(record.DateTQ, "DD/MM/YYYY")}
@@ -158,7 +227,7 @@ export const UserAnotherOrderListTable: React.FC<
           )}
           {record.DateVN && (
             <p className="flex justify-between px-2">
-              <span>Đã về kho VN:</span>
+              <span>Vê kho VN:</span>
               <span>
                 {_format.getVNDate(record.DateVN, "HH:mm")} -
                 {_format.getVNDate(record.DateVN, "DD/MM/YYYY")}
@@ -213,41 +282,6 @@ export const UserAnotherOrderListTable: React.FC<
               }}
               className="justify-end flex-wrap"
             >
-              {Number(q) !== 3 && (
-                <ActionButton
-                  onClick={() =>
-                    Modal.confirm({
-                      title: "Xác nhận muốn mua lại đơn hàng này?",
-                      onOk: () => {
-                        const id = toast.loading("Đang thêm ...");
-                        orderShopTemp
-                          .addSame({ Id: record?.Id })
-                          .then((res) => {
-                            toast.update(id, {
-                              render:
-                                "Thêm đơn thành công, vui lòng kiểm tra giỏ hàng!",
-                              type: "success",
-                              autoClose: 1000,
-                              closeOnClick: true,
-                              isLoading: false,
-                            });
-                          })
-                          .catch((error) => {
-                            toast.update(id, {
-                              render: "Thêm đơn thất bại!",
-                              type: "error",
-                              isLoading: false,
-                            });
-                          });
-                      },
-                    })
-                  }
-                  isButton={true}
-                  icon="fas fa-cart-arrow-down"
-                  title="Mua lại đơn"
-                />
-              )}
-
               <ActionButton
                 onClick={() =>
                   router.push({
@@ -259,9 +293,9 @@ export const UserAnotherOrderListTable: React.FC<
                 }
                 isButton={true}
                 icon="far fa-info-square"
-                title="Chi tiết đơn"
+                title="Chi tiết"
               />
-              {record?.Status === ECreatedOrderStatusData.Finished && (
+              {record?.Status === EOrderStatus.Finished && (
                 <ActionButton
                   onClick={() =>
                     router.push({
@@ -279,7 +313,7 @@ export const UserAnotherOrderListTable: React.FC<
               )}
               {record.IsCheckNotiPrice && (
                 <>
-                  {record?.Status === ECreatedOrderStatusData.Undeposited && (
+                  {record?.Status === EOrderStatus.NoDeposit && (
                     <ActionButton
                       onClick={() => {
                         type.current = "deposit";
@@ -291,8 +325,7 @@ export const UserAnotherOrderListTable: React.FC<
                       isButton={true}
                     />
                   )}
-                  {record?.Status ===
-                    ECreatedOrderStatusData.ArrivedToVietNamWarehouse && (
+                  {record?.Status === EOrderStatus.InVietnamWarehoue && (
                     <ActionButton
                       onClick={() => {
                         type.current = "payment";
@@ -306,7 +339,7 @@ export const UserAnotherOrderListTable: React.FC<
                   )}
                 </>
               )}
-              {record?.Status === 0 && (
+              {record?.Status === EOrderStatus.NoDeposit && (
                 <ActionButton
                   onClick={() =>
                     Modal.confirm({
@@ -332,6 +365,20 @@ export const UserAnotherOrderListTable: React.FC<
               }}
               className="justify-end flex-wrap"
             >
+              <ActionButton
+                onClick={() =>
+                  router.push({
+                    pathname: "/user/order-list/detail",
+                    query: {
+                      id: record?.Id,
+                    },
+                  })
+                }
+                isButton={true}
+                icon="far fa-info-square"
+                title="Chi tiết"
+              />
+
               <ActionButton
                 isButton={true}
                 onClick={() =>
@@ -362,23 +409,9 @@ export const UserAnotherOrderListTable: React.FC<
                   })
                 }
                 icon="fas fa-cart-arrow-down"
-                title="Mua lại đơn"
+                title="Mua lại"
               />
-              <ActionButton
-                onClick={() =>
-                  router.push({
-                    pathname: "/user/order-list/detail",
-                    query: {
-                      id: record?.Id,
-                    },
-                  })
-                }
-                isButton={true}
-                icon="far fa-info-square"
-                title="Chi tiết đơn"
-              />
-
-              {record?.Status === ECreatedOrderStatusData.Finished && (
+              {record?.Status === EOrderStatus.Finished && (
                 <ActionButton
                   onClick={() =>
                     router.push({
@@ -394,7 +427,7 @@ export const UserAnotherOrderListTable: React.FC<
                   isButton={true}
                 />
               )}
-              {record?.Status === ECreatedOrderStatusData.Undeposited && (
+              {record?.Status === EOrderStatus.NoDeposit && (
                 <ActionButton
                   onClick={() => {
                     type.current = "deposit";
@@ -406,8 +439,7 @@ export const UserAnotherOrderListTable: React.FC<
                   isButton={true}
                 />
               )}
-              {record?.Status ===
-                ECreatedOrderStatusData.ArrivedToVietNamWarehouse && (
+              {record?.Status === EOrderStatus.InVietnamWarehoue && (
                 <ActionButton
                   onClick={() => {
                     type.current = "payment";
@@ -419,7 +451,7 @@ export const UserAnotherOrderListTable: React.FC<
                   isButton={true}
                 />
               )}
-              {record?.Status === ECreatedOrderStatusData.Undeposited && (
+              {record?.Status === EOrderStatus.NoDeposit && (
                 <ActionButton
                   onClick={() =>
                     Modal.confirm({
@@ -444,16 +476,17 @@ export const UserAnotherOrderListTable: React.FC<
   ];
 
   const rowSelection: TableRowSelection<TOrder> = {
-    selectedRowKeys,
+    // selectedRowKeys,
     getCheckboxProps: (record) => {
-      return record.Status ===
-        ECreatedOrderStatusData.ArrivedToVietNamWarehouse ||
-        record.Status === ECreatedOrderStatusData.Undeposited
+      return record.Status === EOrderStatus.InVietnamWarehoue ||
+        record.Status === EOrderStatus.NoDeposit
         ? { name: record.Id.toString(), disabled: false }
         : { name: record.Id.toString(), disabled: true, className: "!hidden" };
     },
-    onChange: (selectedRowKeys: React.Key[], selectedRows: TOrder[]) =>
-      handleModal(selectedRows, undefined, "some"),
+    onChange: (selectedRowKeys: React.Key[], selectedRows: TOrder[]) => {
+      setSelectedRowsList(selectedRows);
+      handleModal(selectedRows, undefined, "some");
+    },
     // hideSelectAll: true,
     // columnWidth: 26,
   };
@@ -554,7 +587,7 @@ export const UserAnotherOrderListTable: React.FC<
                 }
                 isButton={true}
                 icon="far fa-info-square"
-                title="Chi tiết đơn"
+                title="Chi tiết"
               />
             </div>
 
@@ -591,13 +624,13 @@ export const UserAnotherOrderListTable: React.FC<
                   }
                   isButton={true}
                   icon="fas fa-cart-arrow-down"
-                  title="Mua lại đơn"
+                  title="Mua lại"
                 />
               </div>
             )}
 
             {/* khiếu nại */}
-            {record?.Status === ECreatedOrderStatusData.Finished && (
+            {record?.Status === EOrderStatus.Finished && (
               <div className="extentable-button">
                 <ActionButton
                   onClick={() =>
@@ -620,7 +653,7 @@ export const UserAnotherOrderListTable: React.FC<
               <>
                 {record?.IsCheckNotiPrice && (
                   <>
-                    {record?.Status === ECreatedOrderStatusData.Undeposited && (
+                    {record?.Status === EOrderStatus.NoDeposit && (
                       <div className="extentable-button">
                         <ActionButton
                           onClick={() => {
@@ -634,8 +667,7 @@ export const UserAnotherOrderListTable: React.FC<
                         />
                       </div>
                     )}
-                    {record?.Status ===
-                      ECreatedOrderStatusData.ArrivedToVietNamWarehouse && (
+                    {record?.Status === EOrderStatus.InVietnamWarehoue && (
                       <div className="extentable-button">
                         <ActionButton
                           onClick={() => {
@@ -651,7 +683,7 @@ export const UserAnotherOrderListTable: React.FC<
                     )}
                   </>
                 )}
-                {record?.Status === 0 && (
+                {record?.Status === EOrderStatus.NoDeposit && (
                   <div className="extentable-button">
                     <ActionButton
                       onClick={() =>
@@ -670,7 +702,7 @@ export const UserAnotherOrderListTable: React.FC<
               </>
             ) : (
               <>
-                {record?.Status === ECreatedOrderStatusData.Undeposited && (
+                {record?.Status === EOrderStatus.NoDeposit && (
                   <div className="extentable-button">
                     <ActionButton
                       onClick={() => {
@@ -684,8 +716,7 @@ export const UserAnotherOrderListTable: React.FC<
                     />
                   </div>
                 )}
-                {record?.Status ===
-                  ECreatedOrderStatusData.ArrivedToVietNamWarehouse && (
+                {record?.Status === EOrderStatus.InVietnamWarehoue && (
                   <div className="extentable-button">
                     <ActionButton
                       onClick={() => {
@@ -699,7 +730,7 @@ export const UserAnotherOrderListTable: React.FC<
                     />
                   </div>
                 )}
-                {record?.Status === ECreatedOrderStatusData.Undeposited && (
+                {record?.Status === EOrderStatus.NoDeposit && (
                   <div className="extentable-button">
                     <ActionButton
                       onClick={() =>
@@ -731,38 +762,56 @@ export const UserAnotherOrderListTable: React.FC<
         bordered: true,
         rowSelection,
         loading,
-        title: q === "3" ? "Danh sách đơn mua hộ khác" : "Danh sách đơn mua hộ",
+        // title: q === "3" ? "Danh sách đơn mua hộ khác" : "Danh sách đơn mua hộ",
         expandable: expandable,
         scroll: { y: 640 },
         mediaWidth: 1200,
+        extraElmentClassName:
+          "flex items-center !justify-between !w-full flex-wrap",
         extraElment: (
-          <UserAnotherOrderListFilter
-            moneyOfOrders={moneyOfOrders}
-            numberOfOrder={orderStatus}
-            handleFilter={handleFilter}
-            handleDepositAll={() => {
-              type.current = "deposit";
-              handleModal(
-                (data as any)?.Items?.filter(
-                  (item) => item.Status === ECreatedOrderStatusData.Undeposited
-                ),
-                undefined,
-                "all"
-              );
-            }}
-            handlePaymentAll={() => {
-              type.current = "payment";
-              handleModal(
-                (data as any)?.Items?.filter(
-                  (item) =>
-                    item.Status ===
-                    ECreatedOrderStatusData.ArrivedToVietNamWarehouse
-                ),
-                undefined,
-                "all"
-              );
-            }}
-          />
+          <>
+            <Popover
+              trigger={"click"}
+              placement="bottomLeft"
+              content={<PaymenComponent data={selectedRowsList} />}
+            >
+              <ActionButton
+                isButton
+                isButtonClassName="bg-sec !text-white hover:!bg-main"
+                title="Đặt cọc/thanh toán"
+                icon="fad fa-money-check !mr-2"
+                disabled={selectedRowsList.length <= 0}
+              />
+            </Popover>
+            <UserAnotherOrderListFilter
+              moneyOfOrders={moneyOfOrders}
+              numberOfOrder={orderStatus}
+              handleFilter={handleFilter}
+              handleDepositAll={() => {
+                type.current = "deposit";
+                handleModal(
+                  (data as any)?.Items?.filter(
+                    (item) =>
+                      item.Status === ECreatedOrderStatusData.Undeposited
+                  ),
+                  undefined,
+                  "all"
+                );
+              }}
+              handlePaymentAll={() => {
+                type.current = "payment";
+                handleModal(
+                  (data as any)?.Items?.filter(
+                    (item) =>
+                      item.Status ===
+                      ECreatedOrderStatusData.ArrivedToVietNamWarehouse
+                  ),
+                  undefined,
+                  "all"
+                );
+              }}
+            />
+          </>
         ),
       }}
     />

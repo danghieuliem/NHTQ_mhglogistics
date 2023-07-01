@@ -1,7 +1,6 @@
 import { useQuery } from "react-query";
-import { catalogue } from "~/api";
+import { catalogue, user } from "~/api";
 import { permitObject } from "~/api/permit-object";
-import { toast } from "~/components";
 
 // thời gian sẽ api loại 1 lần // 5 là số phút + 6 * 10000 là 1 phút  =  5 phút
 const staleTime = 5 * 6 * 10000;
@@ -23,6 +22,7 @@ type TProps = {
   clientEnabled?: boolean;
   pageTypeEnabled?: boolean;
   bigPackageEnabled?: boolean;
+  allUserEnabled?: boolean;
 };
 
 export const useCatalogue = ({
@@ -39,6 +39,7 @@ export const useCatalogue = ({
   clientEnabled = false,
   pageTypeEnabled = false,
   bigPackageEnabled = false,
+  allUserEnabled = false,
 }: TProps) => {
   // const onError = toast.error;
   const userGroup = useQuery(
@@ -48,7 +49,26 @@ export const useCatalogue = ({
       staleTime,
       initialDataUpdatedAt,
       // onError,
-      enabled: userGroupEnabled,
+      enabled: userLevelEnabled,
+      // retry: false,
+    }
+  );
+
+  const allUser = useQuery(
+    ["all-user"],
+    async () =>
+      await user
+        .getList({
+          PageIndex: 1,
+          PageSize: 1000000,
+          OrderBy: "Id desc",
+        })
+        .then((res) => res?.Data),
+    {
+      staleTime,
+      initialDataUpdatedAt,
+      // onError,
+      enabled: allUserEnabled,
       // retry: false,
     }
   );
@@ -222,5 +242,6 @@ export const useCatalogue = ({
     client: client.data,
     pageType: pageType.data,
     bigPackage: bigPackage.data,
+    allUser: allUser?.data?.Items,
   } as const;
 };

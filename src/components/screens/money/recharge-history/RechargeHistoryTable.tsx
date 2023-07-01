@@ -1,11 +1,11 @@
-import { Pagination, Space, Tag } from "antd";
+import { Pagination, Space } from "antd";
 import React, { useRef, useState } from "react";
-import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import ReactToPrint, { PrintContextConsumer } from "react-to-print";
 import { adminSendUserWallet } from "~/api";
-import configHomeData from "~/api/config-home";
 import { ActionButton, DataTable, toast } from "~/components";
 import { moneyStatus } from "~/configs";
+import { RootState } from "~/store";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
@@ -24,17 +24,9 @@ export const RechargeHistoryTable: React.FC<
 > = ({ data, handleModal, loading, filter, handleFilter }) => {
   const [dataEx, setDataEx] = useState<TUserHistoryRechargeVND>(null);
   const componentRef = useRef<ReactToPrint>(null);
-  const { data: configData } = useQuery(
-    ["configData"],
-    () => configHomeData.get(),
-    {
-      onSuccess: (res) => {
-        return res?.Data;
-      },
-      retry: false,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-    }
+
+  const dataGlobal: TConfig = useSelector(
+    (state: RootState) => state.dataGlobal
   );
 
   const columns: TColumnsType<TUserHistoryRechargeVND> = [
@@ -43,7 +35,7 @@ export const RechargeHistoryTable: React.FC<
       title: "ID",
       width: 50,
       align: "right",
-      fixed: "left"
+      fixed: "left",
     },
     {
       dataIndex: "UserName",
@@ -81,7 +73,9 @@ export const RechargeHistoryTable: React.FC<
       title: "Trạng thái",
       render: (_, record) => {
         const color = moneyStatus.find((x) => x.id === _);
-        return <TagStatus color={color?.color} statusName={record.StatusName}/>
+        return (
+          <TagStatus color={color?.color} statusName={record.StatusName} />
+        );
       },
       width: 100,
     },
@@ -93,12 +87,15 @@ export const RechargeHistoryTable: React.FC<
       width: 160,
       render: (_, record) => (
         <Space>
-          <ActionButton
-            onClick={() => handleModal(record)}
-            icon="fad fa-edit"
-            title="Cập nhật"
-            isButton
-          />
+          {record?.Status === 1 && (
+            <ActionButton
+              onClick={() => handleModal(record)}
+              icon="fad fa-edit"
+              title="Cập nhật"
+              isButton
+              // disabled={record?.Status !== 1}
+            />
+          )}
           <ReactToPrint content={() => componentRef.current}>
             <PrintContextConsumer>
               {({ handlePrint }) => (
@@ -131,20 +128,20 @@ export const RechargeHistoryTable: React.FC<
         <div className="grid grid-cols-2 gap-4">
           <div className="col-span-1">
             <div className="text-xs text-black my-2 font-bold uppercase">
-              {configData?.Data?.CompanyLongName}
+              {dataGlobal?.CompanyLongName}
             </div>
             <div className="text-xs text-black">
               <span
                 dangerouslySetInnerHTML={{
-                  __html: configData?.Data?.Address,
+                  __html: dataGlobal?.Address,
                 }}
               ></span>
             </div>
             <div className="text-xs text-black">
-              Website: {configData?.Data?.WebsiteName}
+              Website: {dataGlobal?.WebsiteName}
             </div>
             <div className="text-xs text-black">
-              Điện thoại: {configData?.Data?.Hotline}
+              Điện thoại: {dataGlobal?.Hotline}
             </div>
           </div>
           <div className="col-span-1">
@@ -238,16 +235,14 @@ export const RechargeHistoryTable: React.FC<
           handleFilter,
         }}
       />
-      <div className="mt-4 text-right">
-        <Pagination
-          total={filter?.TotalItems}
-          current={filter?.PageIndex}
-          pageSize={filter?.PageSize}
-          onChange={(page, pageSize) =>
-            handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-          }
-        />
-      </div>
+      <Pagination
+        total={filter?.TotalItems}
+        current={filter?.PageIndex}
+        pageSize={filter?.PageSize}
+        onChange={(page, pageSize) =>
+          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
+        }
+      />
     </React.Fragment>
   );
 };

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import ReactToPrint, { PrintContextConsumer } from "react-to-print";
-import configHomeData from "~/api/config-home";
 import { FilterInput, IconButton } from "~/components";
+import { RootState } from "~/store";
 import { _format } from "~/utils";
 
 type TProps = {
@@ -29,17 +29,8 @@ export const OutStockFormFilter: React.FC<TProps> = ({
     });
   }, [dataAll]);
 
-  const { data: configData } = useQuery(
-    ["configData"],
-    () => configHomeData.get(),
-    {
-      onSuccess: (res) => {
-        return res?.Data;
-      },
-      retry: false,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-    }
+  const dataGlobal: TConfig = useSelector(
+    (state: RootState) => state.dataGlobal
   );
 
   const componentRef = useRef<ReactToPrint>(null);
@@ -59,20 +50,20 @@ export const OutStockFormFilter: React.FC<TProps> = ({
         <div className="grid grid-cols-2 gap-4">
           <div className="col-span-1">
             <div className="text-xs text-black my-2 font-bold uppercase">
-              {configData?.Data?.CompanyLongName}
+              {dataGlobal?.CompanyLongName}
             </div>
             <div className="text-xs text-black">
               <span
                 dangerouslySetInnerHTML={{
-                  __html: configData?.Data?.Address,
+                  __html: dataGlobal?.Address,
                 }}
               ></span>
             </div>
             <div className="text-xs text-black">
-              Website: {configData?.Data?.WebsiteName}
+              Website: {dataGlobal?.WebsiteName}
             </div>
             <div className="text-xs text-black">
-              Điện thoại: {configData?.Data?.Hotline}
+              Điện thoại: {dataGlobal?.Hotline}
             </div>
           </div>
           <div className="col-span-1">

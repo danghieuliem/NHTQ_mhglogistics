@@ -37,6 +37,7 @@ const Index: TNextPageWithLayout = () => {
     UID: userCurrentInfo?.Id,
     RoleID: userCurrentInfo?.UserGroupId,
     SalerID: null,
+    OrderBy: "Id desc"
   });
 
   const handleFilter = (newFilter) => {

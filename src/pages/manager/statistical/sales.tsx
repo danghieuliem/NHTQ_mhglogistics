@@ -181,8 +181,8 @@ const Index: TNextPageWithLayout = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 gap-4">
-      <div className="col-span-1">
+    <div className="grid grid-cols-12 gap-4">
+      <div className="tableBox col-span-8 h-fit">
         <SalesFilter
           handleFilter={handleFilter}
           type={type}
@@ -197,10 +197,10 @@ const Index: TNextPageWithLayout = () => {
         />
       </div>
 
-      <div className="col-span-1">
+      <div className="col-span-4">
         <SalesMoneyStatisticTable data={totalOverviewData?.Data} />
       </div>
-      <div className="col-span-1">
+      <div className="col-span-12">
         <SalesOrderStatisticTable
           pagination={orderPagination}
           handlePagination={setOrderPagination}

@@ -4,6 +4,7 @@ import router from "next/router";
 import { FC, ReactElement, useEffect } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
+import { user } from "~/api";
 import configHomeData from "~/api/config-home";
 import { setToken } from "~/api/instance";
 import {
@@ -14,6 +15,7 @@ import {
   updateGlobal,
   useAppDispatch,
   useAppSelector,
+  updateUser
 } from "~/store";
 
 const AuthLayoutProtector: FC<{ children: ReactElement[] | ReactElement }> = ({
@@ -29,6 +31,22 @@ const AuthLayoutProtector: FC<{ children: ReactElement[] | ReactElement }> = ({
     router.push("/");
     return null;
   }
+
+  useQuery({
+    queryKey: "clientData",
+    queryFn: () =>
+      user.getByID(userCurrentInfo.Id).then((res) => {
+        dispatch(
+          updateUser({
+            ...userCurrentInfo,
+            ...res?.Data,
+          })
+        );
+      }),
+    staleTime: 3000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: true,
+  });
 
   useQuery({
     queryKey: ["homeConfig"],

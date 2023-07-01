@@ -98,8 +98,7 @@ export const OrderProductItem: React.FC<TProps> = ({
             RoleID === 3 ||
             RoleID === 4 ||
             RoleID === 8 ||
-            RoleID === 6 ||
-            (RoleID === 7 && dataStatus !== 2)) && (
+            RoleID === 6 ) && (
             <div className="xl:block">
               <ActionButton
                 iconContainerClassName="border-none"
@@ -170,7 +169,6 @@ export const OrderProductItem: React.FC<TProps> = ({
                     RoleID === 1 ||
                     RoleID === 4 ||
                     RoleID === 3 ||
-                    (RoleID === 7 && dataStatus !== 2) ||
                     RoleID === 8 ||
                     RoleID === 6
                   )
@@ -195,7 +193,6 @@ export const OrderProductItem: React.FC<TProps> = ({
                       RoleID === 1 ||
                       RoleID === 3 ||
                       RoleID === 4 ||
-                      (RoleID === 7 && dataStatus !== 2) ||
                       RoleID === 8 ||
                       RoleID === 6
                     )

@@ -43,7 +43,7 @@ export const FilterInputNumber: FC<TProps> = ({
 			</div>
 			<NumberFormat
 				className={clsx(
-					'h-10 border border-[#d9d9d9] w-full !rounded-[4px] pl-2',
+					'h-10 border border-[#d9d9d9] w-full !rounded-[6px] pl-2',
 					inputClassName
 				)}
 				id={id}

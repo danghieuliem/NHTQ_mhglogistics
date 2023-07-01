@@ -1,36 +1,28 @@
 import { Card } from "antd";
 import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { user, withdraw } from "~/api";
+import { withdraw } from "~/api";
 import { FormInput, FormInputNumber, FormTextarea } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
-import { useAppSelector } from "~/store";
+import { RootState } from "~/store";
 
 export const WithDrawalVNDForm: FC = () => {
   const [loading, setLoading] = useState(false);
+
   const { handleSubmit, control, reset } = useForm<TWithDraw>({
     mode: "onBlur",
   });
-  const queryClient = useQueryClient();
-  const { current: newUser } = useAppSelector((state) => state.user);
 
-  const { data, isError, refetch } = useQuery(
-    ["clientData", newUser?.UserId],
-    () => user.getByID(newUser?.UserId),
-    {
-      onSuccess: (data) => data,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      retry: false,
-      enabled: !!newUser,
-    }
+  const queryClient = useQueryClient();
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
   );
 
   const mutationAdd = useMutation(withdraw.create, {
     onSuccess: () => {
-      refetch();
       queryClient.invalidateQueries("articleList");
       queryClient.invalidateQueries("clientData");
       queryClient.invalidateQueries("withdrawList");
@@ -60,7 +52,7 @@ export const WithDrawalVNDForm: FC = () => {
     mutationAdd.mutateAsync({
       ...data,
       Type: 2,
-      UID: newUser?.UserId,
+      UID: userCurrentInfo?.Id,
       Status: 1,
     });
   };
@@ -79,6 +71,7 @@ export const WithDrawalVNDForm: FC = () => {
             onClick={handleSubmit(_onPress)}
             showLoading
             toolip=""
+            disabled={loading}
             btnClass="bg-orange text-white ml-2"
           />
         </div>
@@ -96,8 +89,8 @@ export const WithDrawalVNDForm: FC = () => {
               required: "Vui lòng điền thông tin!",
               validate: {
                 check: (value) => {
-                  if (data?.Data?.Wallet === undefined) return true;
-                  if (value > data?.Data?.Wallet) {
+                  if (userCurrentInfo?.Wallet === undefined) return true;
+                  if (value > userCurrentInfo?.Wallet) {
                     return "Số dư không đủ";
                   } else {
                     return true;

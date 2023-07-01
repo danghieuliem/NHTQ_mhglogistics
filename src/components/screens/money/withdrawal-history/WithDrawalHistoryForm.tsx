@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 import { withdraw } from "~/api";
 import {
   Button,
@@ -11,7 +12,6 @@ import {
   FormTextarea,
   Modal,
 } from "~/components";
-import { toast } from "~/components/toast";
 import { EPaymentStatusData, paymentStatusData } from "~/configs";
 import { TForm } from "~/types/table";
 
@@ -31,27 +31,43 @@ export const WithDrawalHistoryForm: React.FC<TForm<TWithDraw>> = ({
       enabled: !!defaultValues?.Id,
       refetchOnWindowFocus: false,
       onSuccess: (data) => reset(data?.Data),
-      onError: toast.error,
     }
   );
 
   const queryClient = useQueryClient();
   const mutationUpdate = useMutation(withdraw.update, {
     onSuccess: (data) => {
-      toast.success("Cập nhật thông tin rút tiền thành công");
       queryClient.setQueryData(
         ["clientWithdrawData", defaultValues?.Id],
         data.Data
       );
       queryClient.invalidateQueries(["clientWithdrawData"]);
-      onCancel();
     },
-    onError: toast.error,
   });
 
   const _onPress = (data: TWithDraw) => {
+    onCancel();
+    const id = toast.loading("Đang xử lý ...");
+
     const { Updated, UpdatedBy, ...props } = data;
-    return mutationUpdate.mutateAsync(props);
+    mutationUpdate
+      .mutateAsync(props)
+      .then(() => {
+        toast.update(id, {
+          render: "Cập nhật thành công!",
+          type: "success",
+          autoClose: 1000,
+          isLoading: false,
+        });
+      })
+      .catch(() => {
+        toast.update(id, {
+          render: "Cập nhật thất bại!",
+          type: "error",
+          autoClose: 1000,
+          isLoading: false,
+        });
+      });
   };
 
   return (

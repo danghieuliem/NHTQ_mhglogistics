@@ -58,7 +58,7 @@ const OutStockPaymentTable: React.FC<TTable<TOutStockSession> & TProps> = ({
     {
       dataIndex: "action",
       title: "Thao tác",
-      align: "right",
+      fixed: "right",
       width: 120,
       render: (_, record) => (
         <Link
@@ -81,7 +81,7 @@ const OutStockPaymentTable: React.FC<TTable<TOutStockSession> & TProps> = ({
           bordered: true,
           // expandable: expandable,
           loading,
-          scroll: { y: 700 },
+          scroll: { y: 700, x: 1200 },
         }}
       />
       <Pagination

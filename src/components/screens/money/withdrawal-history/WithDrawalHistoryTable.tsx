@@ -1,12 +1,12 @@
-import { Pagination, Space } from "antd";
+import { Pagination } from "antd";
 import React, { useRef, useState } from "react";
-import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import ReactToPrint, { PrintContextConsumer } from "react-to-print";
 import { toast } from "react-toastify";
 import { withdraw } from "~/api";
-import configHomeData from "~/api/config-home";
 import { ActionButton, DataTable } from "~/components";
 import { moneyStatus } from "~/configs";
+import { RootState } from "~/store";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
@@ -24,17 +24,8 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
   const [dataEx, setDataEx] = useState<TWithDraw>(null);
   const componentRef = useRef<ReactToPrint>(null);
 
-  const { data: configData } = useQuery(
-    ["configData"],
-    () => configHomeData.get(),
-    {
-      onSuccess: (res) => {
-        return res?.Data;
-      },
-      retry: false,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-    }
+  const dataGlobal: TConfig = useSelector(
+    (state: RootState) => state.dataGlobal
   );
 
   const ComponentToPrint = React.forwardRef<{}, {}>((props, ref: any) => {
@@ -46,20 +37,20 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
         <div className="grid grid-cols-2 gap-4">
           <div className="col-span-1">
             <div className="text-xs text-black my-2 font-bold uppercase">
-              {configData?.Data?.CompanyLongName}
+              {dataGlobal?.CompanyLongName}
             </div>
             <div className="text-xs text-black">
               <span
                 dangerouslySetInnerHTML={{
-                  __html: configData?.Data?.Address,
+                  __html: dataGlobal?.Address,
                 }}
               ></span>
             </div>
             <div className="text-xs text-black">
-              Website: {configData?.Data?.WebsiteName}
+              Website: {dataGlobal?.WebsiteName}
             </div>
             <div className="text-xs text-black">
-              Điện thoại: {configData?.Data?.Hotline}
+              Điện thoại: {dataGlobal?.Hotline}
             </div>
           </div>
           <div className="col-span-1">
@@ -142,7 +133,7 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
       title: "ID",
       fixed: "left",
       width: 50,
-      align: "right"
+      align: "right",
     },
     {
       dataIndex: "UserName",
@@ -207,7 +198,9 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
       width: 140,
       render: (status, record) => {
         const color = moneyStatus.find((x) => x.id === status);
-        return <TagStatus color={color?.color} statusName={record.StatusName}/>
+        return (
+          <TagStatus color={color?.color} statusName={record.StatusName} />
+        );
       },
     },
     {
@@ -218,7 +211,7 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
       width: 140,
       render: (_, record) => (
         <div className="flex flex-wrap gap-2">
-          {record?.Status !== 3 && (
+          {record?.Status === 1 && (
             <ActionButton
               onClick={() => handleModal(record)}
               icon="fad fa-edit" // fas fa-sync fa-spin
@@ -261,17 +254,18 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
           data,
           bordered: true,
           loading,
-          scroll: {y: 700, x: 1200}
+          scroll: { y: 700, x: 1200 },
         }}
       />
-        <Pagination
-          total={filter?.TotalItems}
-          current={filter?.PageIndex}
-          pageSize={filter?.PageSize}
-          onChange={(page, pageSize) =>
-            handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-          }
-        />
-˝    </React.Fragment>
+      <Pagination
+        total={filter?.TotalItems}
+        current={filter?.PageIndex}
+        pageSize={filter?.PageSize}
+        onChange={(page, pageSize) =>
+          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
+        }
+      />
+      ˝{" "}
+    </React.Fragment>
   );
 };

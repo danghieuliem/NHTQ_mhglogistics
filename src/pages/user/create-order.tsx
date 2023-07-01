@@ -1,5 +1,6 @@
 import { Divider, Popover } from "antd";
 import router from "next/router";
+import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -19,6 +20,8 @@ import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
+  const [loading, setLoading] = useState(false);
+
   const userCurrentInfo: TUser = useSelector(
     (state: RootState) => state.userCurretnInfo
   );
@@ -41,7 +44,7 @@ const Index: TNextPageWithLayout = () => {
     },
   ];
 
-  const { control, reset, handleSubmit } = useForm<TUserCreateOrder>({
+  const { control, reset, handleSubmit, formState: {isSubmitting}} = useForm<TUserCreateOrder>({
     mode: "onBlur",
     defaultValues: {
       Products: defaultValuesProducts,
@@ -69,6 +72,7 @@ const Index: TNextPageWithLayout = () => {
   }, [warehouseTQ, warehouseVN, shippingTypeToWarehouse]);
 
   const _onPress = async (data: TUserCreateOrder) => {
+    setLoading(true);
     const id = toast.loading("Đang xử lý ...");
     mainOrder
       .addAnother({ ...data, UID: userCurrentInfo?.Id })
@@ -88,7 +92,8 @@ const Index: TNextPageWithLayout = () => {
           type: "error",
           autoClose: 10000,
         });
-      });
+      })
+      .finally(() => setLoading(false))
   };
 
   return (
@@ -186,6 +191,7 @@ const Index: TNextPageWithLayout = () => {
                   icon="fas fa-check-circle"
                   title="Tạo đơn"
                   isButton
+                  disabled={loading}
                   isButtonClassName="bg-main !text-white"
                 />
               </div>

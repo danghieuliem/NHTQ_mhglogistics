@@ -367,7 +367,7 @@ export const CheckWarehouseChinaForm = () => {
           }
         />
         {!!Object.keys(watchArray()).length &&
-          Object.keys(watchArray()).map((key) => (
+          Object.keys(watchArray()).reverse().map((key) => (
             <CheckWarehouseChinaTable
               data={watchArray(key)}
               name={key}

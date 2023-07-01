@@ -1,7 +1,6 @@
 import { Divider, Popover } from "antd";
 import router from "next/router";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { useSelector } from "react-redux";
@@ -10,9 +9,8 @@ import {
   ActionButton,
   CreateDepositSelect,
   CreateDepositTable,
-  IconButton,
   UserLayout,
-  toast,
+  toast
 } from "~/components";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
 import { useDeepEffect } from "~/hooks";
@@ -149,6 +147,7 @@ const Index: TNextPageWithLayout = () => {
                 <ActionButton
                   onClick={handleSubmit(_onPress)}
                   icon="fas fa-check-circle"
+                  disabled={loading}
                   title="Tạo đơn"
                   isButton
                   isButtonClassName="bg-main !text-white"

@@ -88,38 +88,38 @@ export const OutStockTable: React.FC<
         );
       },
     },
-    {
-      dataIndex: "IsPackged",
-      title: "Đơn hàng",
-      render: (_, record) => (
-        <div className="flex">
-          <div className="mx-1">
-            <p className="font-medium">KĐ</p>
-            {record.IsCheckProduct ? (
-              <i className="fas fa-check-circle text-xl text-success"></i>
-            ) : (
-              <i className="fas fa-times-circle text-xl text-warning"></i>
-            )}
-          </div>
-          <div className="mx-1">
-            <p className="font-medium">ĐG</p>
-            {record.IsPackged ? (
-              <i className="fas fa-check-circle text-xl text-success"></i>
-            ) : (
-              <i className="fas fa-times-circle text-xl text-warning"></i>
-            )}
-          </div>
-          <div className="mx-1">
-            <p className="font-medium">BH</p>
-            {record.IsInsurance ? (
-              <i className="fas fa-check-circle text-xl text-success"></i>
-            ) : (
-              <i className="fas fa-times-circle text-xl text-warning"></i>
-            )}
-          </div>
-        </div>
-      ),
-    },
+    // {
+    //   dataIndex: "IsPackged",
+    //   title: "Đơn hàng",
+    //   render: (_, record) => (
+    //     <div className="flex">
+    //       <div className="mx-1">
+    //         <p className="font-medium">KĐ</p>
+    //         {record.IsCheckProduct ? (
+    //           <i className="fas fa-check-circle text-xl text-success"></i>
+    //         ) : (
+    //           <i className="fas fa-times-circle text-xl text-warning"></i>
+    //         )}
+    //       </div>
+    //       <div className="mx-1">
+    //         <p className="font-medium">ĐG</p>
+    //         {record.IsPackged ? (
+    //           <i className="fas fa-check-circle text-xl text-success"></i>
+    //         ) : (
+    //           <i className="fas fa-times-circle text-xl text-warning"></i>
+    //         )}
+    //       </div>
+    //       <div className="mx-1">
+    //         <p className="font-medium">BH</p>
+    //         {record.IsInsurance ? (
+    //           <i className="fas fa-check-circle text-xl text-success"></i>
+    //         ) : (
+    //           <i className="fas fa-times-circle text-xl text-warning"></i>
+    //         )}
+    //       </div>
+    //     </div>
+    //   ),
+    // },
     {
       dataIndex: "OrderTransactionCode",
       title: "Mã vận đơn",

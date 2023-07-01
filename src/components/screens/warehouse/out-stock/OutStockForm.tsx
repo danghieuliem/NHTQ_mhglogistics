@@ -1,19 +1,20 @@
 import { Spin } from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useQuery } from "react-query";
 import { toast } from "react-toastify";
-import { smallPackage, user } from "~/api";
+import { smallPackage } from "~/api";
 import { FormSelect, IconButton } from "~/components";
+import { useCatalogue } from "~/hooks";
 import { OutStockTable } from "./OutStockTable";
 
 export const OutStockForm = () => {
   const [loading, setLoading] = useState(false);
   const [getForUserName, setGetForUserName] = useState(null);
 
-  const { control, handleSubmit, getValues, reset } = useForm<TWarehouseCN>({
-    mode: "onBlur",
-  });
+  const { control, handleSubmit, getValues, reset, watch } =
+    useForm<TWarehouseCN>({
+      mode: "onBlur",
+    });
 
   const [filter, setFilter] = useState({
     UID: null,
@@ -21,9 +22,12 @@ export const OutStockForm = () => {
     OrderType: null,
   });
 
-  useEffect(() => {
-    setGetForUserName(null);
+  const { allUser } = useCatalogue({
+    allUserEnabled: true,
+  });
 
+  useEffect(() => {
+    // setGetForUserName(null);
     if (getValues("UID")) {
       const id = toast.loading("Đang xử lý ...");
       smallPackage
@@ -48,29 +52,18 @@ export const OutStockForm = () => {
           });
         });
     }
-  }, [filter.UID, filter.OrderType]);
-
-  const { isFetching, data } = useQuery(["users"], () =>
-    user
-      .getList({
-        PageIndex: 1,
-        PageSize: 1000000,
-        OrderBy: "Id desc",
-      })
-      .then((res) => res.Data)
-  );
+  }, [filter]);
 
   return (
     <Spin spinning={loading}>
       <div className="tableBox grid grid-cols-2 gap-4">
-        <div className="md:col-span-2 xl:col-span-1 flex">
+        <div className="col-span-1 flex">
           <FormSelect
             control={control}
             name="UID"
             placeholder="Chọn UserName"
-            data={data?.Items}
-            label="Chọn khách hàng"
-            isLoading={isFetching}
+            data={allUser}
+            isLoading={loading}
             isClearable
             select={{ label: "UserName", value: "Id" }}
             defaultValue={{ UserName: "Chọn UserName", Id: 0 }}
@@ -78,54 +71,54 @@ export const OutStockForm = () => {
           />
         </div>
 
-        <div className="md:col-span-2 xl:col-span-1 flex items-end">
-          <IconButton
-            onClick={() => {
-              if (!getValues("UID")) {
-                toast.warn("Vui lòng chọn Username!");
-                return;
-              }
-              setFilter({
-                ...filter,
-                UID: getValues("UID"),
-                OrderType: 0,
-              });
-            }}
-            btnClass="!mr-4 ml-4"
-            icon="fas fa-hand-holding-box"
-            btnIconClass="!mr-2"
-            title="Lấy tất cả!"
-            toolip=""
-            blue
-          />
-          <IconButton
-            onClick={() =>
-              setFilter({
-                ...filter,
-                UID: getValues("UID"),
-                OrderType: 1,
-              })
-            }
-            icon="fas fa-hand-holding-box"
-            btnIconClass="!mr-2"
-            btnClass="!mr-4"
-            title="Lấy đơn mua hộ!"
-            toolip=""
-            green
-          />
-          <IconButton
-            onClick={() =>
-              setFilter({
-                ...filter,
-                UID: getValues("UID"),
-                OrderType: 2,
-              })
-            }
-            icon="fas fa-hand-holding-box"
-            btnIconClass="!mr-2"
-            title="Lấy đơn ký gửi!"
-            toolip=""
-          />
+        <div className="col-span-1 flex items-center">
+          {watch().UID && (
+            <>
+              <IconButton
+                onClick={() => {
+                  setFilter({
+                    ...filter,
+                    UID: getValues("UID"),
+                    OrderType: 0,
+                  });
+                }}
+                btnClass="!mr-2"
+                icon=""
+                btnIconClass="!mr-0"
+                title="Lấy tất cả"
+                toolip=""
+                blue
+              />
+              <IconButton
+                onClick={() =>
+                  setFilter({
+                    ...filter,
+                    UID: getValues("UID"),
+                    OrderType: 1,
+                  })
+                }
+                icon=""
+                btnClass="!mr-2"
+                btnIconClass="!mr-0"
+                title="Lấy đơn mua hộ"
+                toolip=""
+                green
+              />
+              <IconButton
+                onClick={() =>
+                  setFilter({
+                    ...filter,
+                    UID: getValues("UID"),
+                    OrderType: 2,
+                  })
+                }
+                btnIconClass="!mr-0"
+                icon=""
+                title="Lấy đơn ký gửi"
+                toolip=""
+              />
+            </>
+          )}
         </div>
       </div>
       {getForUserName && (

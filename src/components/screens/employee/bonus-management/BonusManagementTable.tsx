@@ -110,7 +110,7 @@ export const BonusManagementTable: React.FC<TTable<TBonus> & TProps> = ({
       key: "action",
       title: "Thao tác",
       align: "right",
-      width: 180,
+      width: (RoleID === 1 || RoleID === 8) ? 180 : 100,
       fixed: "right",
       render: (_, record) => {
         return (
@@ -146,7 +146,7 @@ export const BonusManagementTable: React.FC<TTable<TBonus> & TProps> = ({
               title="Chi tiết"
             />
             {record.Status === 1 &&
-              (RoleID === 1 || RoleID === 3 || RoleID === 8) && (
+              (RoleID === 1 || RoleID === 8) && (
                 <ActionButton
                   onClick={() =>
                     Modal.confirm({

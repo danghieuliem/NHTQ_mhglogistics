@@ -3,7 +3,6 @@ import { useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { priceChange } from "~/api";
-import configHomeData from "~/api/config-home";
 import {
   Layout,
   TariffPriceChangeForm,
@@ -20,6 +19,9 @@ import { _format } from "~/utils";
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
     (state: RootState) => state.userCurretnInfo
+  );
+  const dataGlobal: TConfig = useSelector(
+    (state: RootState) => state.dataGlobal
   );
 
   const [pagination, setPagination] =
@@ -44,7 +46,7 @@ const Index: TNextPageWithLayout = () => {
         setPagination({ ...pagination, total: data.TotalItem }),
       onError: toast.error,
       enabled: userCurrentInfo?.UserGroupId === 1,
-      refetchOnWindowFocus: false
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -55,17 +57,13 @@ const Index: TNextPageWithLayout = () => {
     setModal(!modal);
   };
 
-  const { data: configData } = useQuery(["configData"], () =>
-    configHomeData.get().then((res) => res?.Data)
-  );
-
   return (
     <>
       <div className="tableBox w-fit">
         <div className="text-right">
           <p className="font-bold">Giá tiền mặc định: </p>
           <span className="text-main font-semibold">
-            {_format.getVND(configData?.PricePayHelpDefault, " VNĐ")}
+            {_format.getVND(dataGlobal?.PricePayHelpDefault, " VNĐ")}
           </span>
         </div>
       </div>

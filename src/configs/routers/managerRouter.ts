@@ -39,10 +39,10 @@ export const managerRouter = [
         path: "/manager/employee/bonus-payment/",
         name: "Hoa hồng thanh toán hộ",
       },
-      {
-      	path: "manager/employee/decentralization-management",
-      	name: "Quản lý phân quyền",
-      },
+      // {
+      // 	path: "manager/employee/decentralization-management",
+      // 	name: "Quản lý phân quyền",
+      // },
     ],
   },
   {

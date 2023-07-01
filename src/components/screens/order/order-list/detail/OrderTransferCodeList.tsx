@@ -1,12 +1,13 @@
-import { Popconfirm, Space } from "antd";
+import { Space } from "antd";
 import router from "next/router";
-import React, { useEffect, useMemo, useRef } from "react";
-import { useFieldArray, useForm, useFormContext } from "react-hook-form";
+import React, { useMemo } from "react";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import { toast } from "react-toastify";
 import { smallPackage } from "~/api";
 import {
   ActionButton,
   DataTable,
+  FilterSelect,
   FormCheckbox,
   FormInput,
   FormInputNumber,
@@ -91,20 +92,9 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
             )
           }
           rules={{ required: "This field is required" }}
-          menuPortalTarget={document.querySelector("div.ant-table-wrapper")}
-          styles={{
-            menuPortal: (base) => {
-              return {
-                ...base,
-                top: (base?.["top"] as number) - 150,
-                left: (base?.["left"] as number) - 265,
-                // width: (base?.["width"] as number) + 60,
-              };
-            },
-          }}
         />
       ),
-      width: 200,
+      width: 180,
     },
     {
       dataIndex: "Weight",
@@ -191,6 +181,7 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
           rules={{ required: "This field is required" }}
         />
       ),
+      width: 180
     },
     {
       dataIndex: "Description",
@@ -212,11 +203,11 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
           hideError
         />
       ),
+      width: 120
     },
     {
       dataIndex: "action",
       title: "Thao tác",
-      fixed: "right",
       width: 80,
       render: (_, record, index) => {
         return (
@@ -292,14 +283,13 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
   return (
     <React.Fragment>
       <DataTable
-        columns={columns}
-        data={fields}
-        style="detailOrder"
-        bordered={false}
-        rowKey={"id" as any}
-        // className="!m-[0]"
-        scroll={{x: 1200, y: 400}}
-        // expandable={expandable}
+        {...{
+          columns: columns,
+          data: fields,
+          style: "detailOrder",
+          bordered: true,
+          rowKey: "id" as any,
+        }}
       />
       {(RoleID === 1 ||
         RoleID === 3 ||

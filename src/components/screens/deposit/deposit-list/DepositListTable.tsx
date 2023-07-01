@@ -1,9 +1,9 @@
 import { Modal, Pagination } from "antd";
 import Link from "next/link";
 import React from "react";
-import { useMutation } from "react-query";
+import { toast } from "react-toastify";
 import { transportationOrder } from "~/api";
-import { ActionButton, DataTable, FilterSelect, toast } from "~/components";
+import { ActionButton, DataTable, FilterSelect } from "~/components";
 import { transportStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
@@ -28,16 +28,26 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
   handleFilter,
   userSale,
 }) => {
-  const mutationUpdate = useMutation(transportationOrder.update, {
-    onSuccess: () => {
-      toast.success("Cập nhật ký gửi thành công");
-      refetch();
-    },
-    onError: toast.error,
-  });
-
   const _onPress = (data: TUserDeposit) => {
-    mutationUpdate.mutateAsync(data);
+    const id = toast.loading("Đang xử lý ...");
+    transportationOrder.update(data)
+      .then((res) => {
+        refetch();
+        toast.update(id, {
+          render: "Duyệt đơn thành công!",
+          isLoading: false,
+          type: "success",
+          autoClose: 1000,
+        });
+      })
+      .catch(() => {
+        toast.update(id, {
+          render: "Duyệt đơn thất bại!",
+          isLoading: false,
+          type: "error",
+          autoClose: 1000,
+        });
+      });
   };
 
   const columns: TColumnsType<TUserDeposit> = [
@@ -145,18 +155,6 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
                 });
             }}
             handleSearch={(val) => val}
-            menuPortalTarget={document.querySelector("div.ant-table-wrapper")}
-            styles={{
-              menuPortal: (base) => {
-                return {
-                  ...base,
-                  // left: (base?.["left"] as number) - 64,
-                  // top: (base?.["top"] as number) - 68,
-                  zIndex: 800,
-                  marginBottom: "10px",
-                };
-              },
-            }}
           />
         );
       },
@@ -186,7 +184,7 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
       render: (_, record) => {
         return (
           <div className="grid grid-cols-1 gap-2">
-            {record?.Status === 2 && (RoleID === 1 || RoleID === 3) && (
+            {record?.Status === 2 && (RoleID === 1 || RoleID === 3 || RoleID === 7) && (
               <ActionButton
                 onClick={() => Modal.confirm({
                   title: "Xác nhận duyệt đơn này?",

@@ -164,20 +164,6 @@ export const OrderListTable: React.FC<
                     });
                 }}
                 handleSearch={(val) => val}
-                menuPortalTarget={document.querySelector(
-                  "div.ant-table-wrapper"
-                )}
-                styles={{
-                  menuPortal: (base) => {
-                    return {
-                      ...base,
-                      // left: (base?.["left"] as number) - 64,
-                      // top: (base?.["top"] as number) - 68,
-                      zIndex: 800,
-                      marginBottom: "10px",
-                    };
-                  },
-                }}
               />
             )}
             {(RoleID === 1 ||
@@ -226,19 +212,6 @@ export const OrderListTable: React.FC<
                     });
                 }}
                 handleSearch={(val) => val}
-                menuPortalTarget={document.querySelector(
-                  "div.ant-table-wrapper"
-                )}
-                styles={{
-                  menuPortal: (base) => {
-                    return {
-                      ...base,
-                      // left: (base?.["left"] as number) - 64,
-                      // top: (base?.["top"] as number) - 68,
-                      zIndex: 800,
-                    };
-                  },
-                }}
               />
             )}
           </Fragment>

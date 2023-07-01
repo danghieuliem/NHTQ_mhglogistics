@@ -1,6 +1,5 @@
 import { Affix } from "antd";
 import clsx from "clsx";
-import { Link } from "rc-scroll-anim";
 import React, { FC } from "react";
 import { useFormContext } from "react-hook-form";
 import { useMediaQuery } from "react-responsive";
@@ -27,8 +26,8 @@ const nameContent =
   "w-2/4 py-1 text-sm font-bold text-[#3E3C6A] tracking-normal";
 const contentItem = "flex items-center";
 const contentValue = "w-2/4 py-1 text-sm font-medium text-black";
-const linkMenu = "cursor-pointer py-[2px] !text-main text-sm block";
-const linkMenuActive = "border-l-2 border-orange !text-black font-medium";
+// const linkMenu = "cursor-pointer py-[2px] !text-main text-sm block";
+// const linkMenuActive = "border-l-2 border-orange !text-black font-medium";
 
 const IsShouldAffix: React.FC<{}> = ({ children }) => {
   const isBigScreen = useMediaQuery({ query: "(min-width: 1280px)" });
@@ -238,7 +237,6 @@ const ComponentAffix: React.FC<TProps> = ({
         {(RoleID === 1 ||
           RoleID === 3 ||
           RoleID === 4 ||
-          RoleID === 7 ||
           RoleID === 8 ||
           RoleID === 6) && (
           <div className="flex flex-wrap items-center justify-center jus mt-3 pt-3 m-auto border-t border-[#edf1f7]">
@@ -249,76 +247,78 @@ const ComponentAffix: React.FC<TProps> = ({
               btnClass="!m-[4px] !bg-orange !text-white"
               showLoading
               toolip=""
-              disabled={
-                (data?.Status === 0 && RoleID === 4) ||
-                (RoleID === 7 && data?.Status === 2)
-              }
+              disabled={data?.Status === 0 && RoleID === 4}
             />
 
-            {!disabledPayment &&
-              (RoleID === 1 ||
-                RoleID === 3 ||
-                RoleID === 7 ||
-                RoleID === 8 ||
-                RoleID === 6) &&
-              data?.TotalOrderAmount !== data?.Deposit && (
-                <a
-                  style={{
-                    margin: "4px",
-                    pointerEvents:
-                      data?.TotalOrderAmount === data?.Deposit ? "none" : "all",
-                  }}
-                >
-                  <IconButton
-                    onClick={() => {
-                      const id = toast.loading("Đang xử lý ...");
-                      mainOrder
-                        .payment({
-                          Id: data?.Id,
-                          Note: undefined,
-                          PaymentMethod: 2,
-                          PaymentType: data?.Status === 0 ? 1 : 2,
-                          Amount:
-                            data?.Status === 0
-                              ? data?.AmountDeposit
-                              : data?.RemainingAmount,
-                        })
-                        .then(() => {
-                          toast.update(id, {
-                            render: `${
-                              data?.Status === 0
-                                ? "Đặt cọc thành công!"
-                                : "Thanh toán thành công!"
-                            }`,
-                            autoClose: 0,
-                            isLoading: false,
-                            type: "success",
-                          });
-                          refetch();
-                        })
-                        .catch((error) => {
-                          toast.update(id, {
-                            render: (error as any)?.response?.data
-                              ?.ResultMessage,
-                            autoClose: 0,
-                            isLoading: false,
-                            type: "error",
-                          });
-                        });
-                    }}
-                    icon="fas fa-credit-card"
-                    // title="Thanh toán"
-                    title={data?.Status === 0 ? "Đặt cọc" : "Thanh toán"}
-                    showLoading
-                    toolip=""
-                    blue
-                  />
-                </a>
-              )}
+            {data?.Status !== 100 && (
+              <>
+                {!disabledPayment &&
+                  (RoleID === 1 ||
+                    RoleID === 3 ||
+                    RoleID === 8 ||
+                    RoleID === 6) &&
+                  data?.TotalOrderAmount !== data?.Deposit && (
+                    <a
+                      style={{
+                        margin: "4px",
+                        pointerEvents:
+                          data?.TotalOrderAmount === data?.Deposit
+                            ? "none"
+                            : "all",
+                      }}
+                    >
+                      <IconButton
+                        onClick={() => {
+                          const id = toast.loading("Đang xử lý ...");
+                          mainOrder
+                            .payment({
+                              Id: data?.Id,
+                              Note: undefined,
+                              PaymentMethod: 2,
+                              PaymentType: data?.Status === 0 ? 1 : 2,
+                              Amount:
+                                data?.Status === 0
+                                  ? data?.AmountDeposit
+                                  : data?.RemainingAmount,
+                            })
+                            .then(() => {
+                              toast.update(id, {
+                                render: `${
+                                  data?.Status === 0
+                                    ? "Đặt cọc thành công!"
+                                    : "Thanh toán thành công!"
+                                }`,
+                                autoClose: 0,
+                                isLoading: false,
+                                type: "success",
+                              });
+                              refetch();
+                            })
+                            .catch((error) => {
+                              toast.update(id, {
+                                render: (error as any)?.response?.data
+                                  ?.ResultMessage,
+                                autoClose: 0,
+                                isLoading: false,
+                                type: "error",
+                              });
+                            });
+                        }}
+                        icon="fas fa-credit-card"
+                        // title="Thanh toán"
+                        title={data?.Status === 0 ? "Đặt cọc" : "Thanh toán"}
+                        showLoading
+                        toolip=""
+                        blue
+                      />
+                    </a>
+                  )}
+              </>
+            )}
           </div>
         )}
       </div>
-      <div className="tableBox xl:block hidden my-4 py-3">
+      {/* <div className="tableBox xl:block hidden my-4 py-3">
         <ul className="mb-0">
           <li>
             <Link
@@ -381,7 +381,7 @@ const ComponentAffix: React.FC<TProps> = ({
             </Link>
           </li>
         </ul>
-      </div>
+      </div> */}
 
       {/* <IconButton
         onClick={() =>

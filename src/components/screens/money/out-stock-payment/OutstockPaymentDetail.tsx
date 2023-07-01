@@ -1,12 +1,12 @@
 import { Divider, Spin, Table } from "antd";
 import React, { useRef } from "react";
-import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import ReactToPrint, { PrintContextConsumer } from "react-to-print";
 import { toast } from "react-toastify";
 import { outStockSession } from "~/api";
-import configHomeData from "~/api/config-home";
 import { DataTable, FilterInput, IconButton } from "~/components";
 import { smallPackageStatusData } from "~/configs";
+import { RootState } from "~/store";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
@@ -41,17 +41,8 @@ export const OutstockPaymentDetail: React.FC<
 > = ({ fetching, type, item, loading, handleUser, handleRefetch, user }) => {
   const componentRef = useRef<ReactToPrint>(null);
 
-  const { data: configData } = useQuery(
-    ["configData"],
-    () => configHomeData.get(),
-    {
-      onSuccess: (res) => {
-        return res?.Data;
-      },
-      retry: false,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-    }
+  const dataGlobal: TConfig = useSelector(
+    (state: RootState) => state.dataGlobal
   );
 
   const columns: TColumnsType<TOutStockSessionPackages> = [
@@ -203,22 +194,22 @@ export const OutstockPaymentDetail: React.FC<
           <div className="col-span-1">
             <div className="text-xs text-black my-2 font-bold uppercase">
               {/* NHAPHANGTQ.MONAMEDIA.NET */}
-              {configData?.Data?.CompanyLongName}
+              {dataGlobal?.CompanyLongName}
             </div>
             <div className="text-xs text-black">
               {/* Địa chỉ: 373/226 Lý Thường Kiệt, P8, Q. Tân Bình, TP. HCM */}
-              {/* {configData?.Data?.Address} */}
+              {/* {dataGlobal?.Address} */}
               <span
                 dangerouslySetInnerHTML={{
-                  __html: configData?.Data?.Address,
+                  __html: dataGlobal?.Address,
                 }}
               ></span>
             </div>
             <div className="text-xs text-black">
-              Website: {configData?.Data?.WebsiteName}
+              Website: {dataGlobal?.WebsiteName}
             </div>
             <div className="text-xs text-black">
-              Điện thoại: {configData?.Data?.Hotline}
+              Điện thoại: {dataGlobal?.Hotline}
             </div>
           </div>
           <div className="col-span-1">

@@ -8,7 +8,6 @@ import {
   ModalDelete,
   showToast,
   toast,
-  UserAnotherOrderListDrawer,
   UserAnotherOrderListTable,
   UserLayout,
 } from "~/components";
@@ -265,13 +264,6 @@ const Index: TNextPageWithLayout = () => {
             ? "Bạn có chắc muốn thanh toán tất cả đơn"
             : `Bạn có muốn thanh toán đơn #${items?.[0]?.Id}`
         }
-      />
-      <UserAnotherOrderListDrawer
-        visible={modal && depositType === "some"}
-        data={items}
-        onCancel={() => setModal(false)}
-        handleDeposit={mutationUpdateDeposit.mutateAsync}
-        handlePayment={mutationUpdatePayment.mutateAsync}
       />
     </React.Fragment>
   );

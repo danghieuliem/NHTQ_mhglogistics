@@ -1,10 +1,8 @@
 import { Modal } from "antd";
 import { useEffect, useRef, useState } from "react";
-import { useQuery } from "react-query";
-import configHomeData from "~/api/config-home";
-import styles from "./index.module.css";
-import { RootState } from "~/store";
 import { useSelector } from "react-redux";
+import { RootState } from "~/store";
+import styles from "./index.module.css";
 
 export const PopupNoti = () => {
   const notiShow = useRef(false);

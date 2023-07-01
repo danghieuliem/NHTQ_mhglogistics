@@ -376,3 +376,25 @@ li {
     font-size: 14px !important;
   }
 }
+
+div.order.ant-drawer-bottom.ant-drawer-open {
+  height: unset;
+}
+
+div.order .ant-drawer-mask {
+  background-color: transparent;
+}
+
+div.order .ant-drawer-content-wrapper {
+  height: auto !important;
+}
+
+div.order .ant-drawer-body {
+  background-color: #f4f5f6;
+  padding: 16px;
+  border-top: 1px solid rgb(247, 182, 162);
+}
+
+div.order.ant-drawer-bottom.ant-drawer-open .ant-drawer-content-wrapper {
+  box-shadow: none;
+}

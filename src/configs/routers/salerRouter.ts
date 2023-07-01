@@ -30,6 +30,11 @@ export const salerRouter = [
         path: "/manager/deposit/deposit-list/",
         name: "Đơn ký gửi",
       },
+      {
+        key: "PayHelp",
+        path: "/manager/order/request-payment/",
+        name: "Đơn thanh toán hộ",
+      },
     ],
   },
   {
@@ -61,7 +66,7 @@ export const salerRouter = [
   {
     path: "javascript:;",
     name: "Quản lý hoa hồng",
-    icon: "fas fa-envelope-open-dollar/",
+    icon: "fas fa-envelope-open-dollar",
     childrens: [
       {
         path: "/manager/employee/bonus-order/",

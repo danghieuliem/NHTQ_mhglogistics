@@ -269,7 +269,7 @@ export const CheckWarehouseVietNamForm = () => {
         mutationUpdate.isLoading
       }
     >
-      <div className="tableBox grid grid-cols-4 gap-4">
+      <div className="tableBox grid grid-cols-6 gap-4">
         <div className="col-span-2">
           <FormInput
             control={control}
@@ -287,7 +287,7 @@ export const CheckWarehouseVietNamForm = () => {
             onEnter={handleSubmit((data) => _onCreate(data))}
           />
         </div>
-        <div className="col-span-1 flex items-end">
+        <div className="col-span-1 flex items-center">
           <IconButton
             onClick={handleSubmit((data) => _onCreate(data))}
             icon="fas fa-barcode-read"

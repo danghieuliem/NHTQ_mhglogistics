@@ -2,6 +2,7 @@ import router, { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { complain, mainOrder } from "~/api";
 import {
@@ -10,16 +11,18 @@ import {
   FormTextarea,
   FormUpload,
   IconButton,
-  showToast,
   UserLayout,
+  showToast,
 } from "~/components";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
-import { useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
   const { query } = useRouter();
-  const { current: newUser } = useAppSelector((state) => state.user);
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
   const [loading, setLoading] = useState(false);
 
   const { data, isError, isLoading } = useQuery(
@@ -36,7 +39,7 @@ const Index: TNextPageWithLayout = () => {
     mode: "onBlur",
     defaultValues: {
       MainOrderId: Number(query?.id),
-      UID: newUser?.UserId,
+      UID: userCurrentInfo?.Id,
     },
   });
 

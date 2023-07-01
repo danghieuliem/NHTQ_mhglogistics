@@ -1,4 +1,4 @@
-import { Pagination, Tag } from "antd";
+import { Pagination, Tag, Tooltip } from "antd";
 import { useRouter } from "next/router";
 import React from "react";
 import { DataTable } from "~/components";
@@ -6,6 +6,7 @@ import { packageStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import Link from "next/link";
 type TProps = {
   filter;
   handleFilter: (newFilter) => void;
@@ -119,15 +120,42 @@ export const TransactionCodeManagementTable: React.FC<
     {
       dataIndex: "Id",
       title: "ID",
+      width: 50,
+      align: "center",
+      fixed: "left",
+      render: (_, record) => {
+        const getId = record?.MainOrderCode.split(": ");
+        const targetHerf =
+          record?.OrderType === 1
+            ? `/manager/order/order-list/detail/?id=${getId[1]}`
+            : `/manager/deposit/deposit-list/detail/?id=${getId[1]}`;
+        return (
+          <>
+            {
+              Number(getId[1]) !== 0 ?
+                <Link href={targetHerf}>
+                  <a target="_blank" className="font-semibold">
+                    <Tooltip title="Chi tiết đơn" placement="right">
+                      {_}
+                    </Tooltip>
+                  </a>
+                </Link>
+              : <>{_}</>
+            }
+          </>
+        );
+      },
     },
     {
       dataIndex: "UserName",
       title: "Username",
+      fixed: "left",
+      width: 120,
     },
     {
       dataIndex: "Code",
       title: "Bao hàng",
-      responsive: ["xl"],
+      width: 120,
     },
     {
       dataIndex: "OrderTransactionCode",
@@ -137,16 +165,18 @@ export const TransactionCodeManagementTable: React.FC<
     {
       dataIndex: "MainOrderCode",
       title: "Mã đơn hàng",
+      width: 180,
     },
     {
       dataIndex: "ProductType",
       title: "Loại hàng",
-      responsive: ["xl"],
+      width: 120,
     },
     {
       dataIndex: "Weight",
       title: "Cân nặng",
       align: "right",
+      width: 120,
       render: (_, record) => {
         return <>{_format.getVND(record?.Weight, "")}</>;
       },
@@ -155,15 +185,16 @@ export const TransactionCodeManagementTable: React.FC<
       dataIndex: "VolumePayment",
       title: "Số khối (m3)",
       align: "right",
+      width: 120,
       render: (_, record) => {
         return <>{_format.getVND(record?.VolumePayment, " ")}</>;
       },
-      width: 100,
     },
     {
       dataIndex: "Width",
       title: "D x R x C",
       align: "right",
+      width: 120,
       render: (_, record) => (
         <>{`${record.Length} x ${record.Width} x ${record.Height}`}</>
       ),
@@ -171,11 +202,12 @@ export const TransactionCodeManagementTable: React.FC<
     {
       dataIndex: "Description",
       title: "Ghi chú",
-      responsive: ["xl"],
+      width: 200,
     },
     {
       dataIndex: "Created",
       title: "Ngày tạo",
+      width: 200,
       render: (date) => {
         return (
           <>
@@ -183,7 +215,6 @@ export const TransactionCodeManagementTable: React.FC<
           </>
         );
       },
-      responsive: ["xl"],
     },
     {
       dataIndex: "Status",
@@ -271,7 +302,7 @@ export const TransactionCodeManagementTable: React.FC<
           expandable: expandable,
           mediaWidth: 1200,
           loading: loading,
-          scroll: { y: 700 },
+          scroll: { y: 700, x: 1200 },
           // title: "Danh sách mã vận đơn",
         }}
       />

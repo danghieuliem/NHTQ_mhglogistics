@@ -1,18 +1,11 @@
 import { Collapse } from "antd";
-import { useQuery } from "react-query";
-import { toast } from "react-toastify";
-import configHomeData from "~/api/config-home";
+import { useSelector } from "react-redux";
+import { RootState } from "~/store";
 
 export const RechargeContent = ({ newUser }) => {
-  const { data } = useQuery(["homeConfig"], () => configHomeData.get(), {
-    onSuccess: (res) => {
-      return res?.Data;
-    },
-    onError: toast.error,
-    retry: false,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-  });
+  const dataGlobal: TConfig = useSelector(
+    (state: RootState) => state.dataGlobal
+  );
 
   return (
     <>
@@ -44,7 +37,7 @@ export const RechargeContent = ({ newUser }) => {
                   <td className="p-2">
                     Phí khách hàng trả cho
                     <span className="font-bold uppercase mx-1">
-                      {data?.Data?.CompanyLongName}
+                      {dataGlobal?.CompanyLongName}
                     </span>
                     để tiến hành thu mua theo đơn hàng đã đặt.
                   </td>
@@ -67,7 +60,7 @@ export const RechargeContent = ({ newUser }) => {
                     <span className="font-bold text-blue">
                       - Đặt cọc trực tiếp tại địa chỉ:
                     </span>
-                    {[data?.Data.Address].map((address, index) => (
+                    {[dataGlobal.Address].map((address, index) => (
                       <div
                         className="font-bold"
                         dangerouslySetInnerHTML={{ __html: address }}
@@ -104,7 +97,7 @@ export const RechargeContent = ({ newUser }) => {
                       Để kết thúc quá trình đặt hàng, quý khách thanh toán một
                       khoản tiền đặt cọc trước cho{" "}
                       <div className="font-bold uppercase">
-                        {data?.Data?.CompanyLongName}
+                        {dataGlobal?.CompanyLongName}
                       </div>
                     </td>
                   </tr>
@@ -128,7 +121,7 @@ export const RechargeContent = ({ newUser }) => {
                     <td className="p-2">
                       Phí khách hàng trả cho{" "}
                       <span className="font-bold uppercase">
-                        {data?.Data?.CompanyLongName}
+                        {dataGlobal?.CompanyLongName}
                       </span>{" "}
                       để tiến hành thu mua theo đơn hàng đã đặt.
                     </td>
@@ -151,7 +144,7 @@ export const RechargeContent = ({ newUser }) => {
                       <span className="font-bold text-blue">
                         - Khách hàng có thể đặt cọc trực tiếp tại địa chỉ
                       </span>
-                      {[data?.Data.Address].map((address, index) => (
+                      {[dataGlobal.Address].map((address, index) => (
                         <div
                           className="font-bold"
                           dangerouslySetInnerHTML={{ __html: address }}

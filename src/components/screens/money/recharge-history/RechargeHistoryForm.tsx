@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 import { adminSendUserWallet } from "~/api";
 import {
   Button,
@@ -11,7 +12,6 @@ import {
   FormTextarea,
   Modal,
 } from "~/components";
-import { toast } from "~/components/toast";
 import { EPaymentStatusData, paymentStatusData } from "~/configs/appConfigs";
 import { useDeepEffect } from "~/hooks";
 import { TForm } from "~/types/table";
@@ -40,25 +40,42 @@ export const RechargeHistoryForm: React.FC<TForm<TUserHistoryRechargeVND>> = ({
   useDeepEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
+
   const queryClient = useQueryClient();
   const mutationUpdate = useMutation(adminSendUserWallet.update, {
     onSuccess: (data) => {
-      toast.success("Cập nhật nạp tiền thành công");
       queryClient.setQueryData(
         ["clientRechargeData", defaultValues?.Id],
         data.Data
       );
       queryClient.invalidateQueries(["clientRechargeData"]);
       queryClient.invalidateQueries(["clientData"]);
-      onCancel();
     },
-    onError: toast.error,
   });
 
   const _onPress = (data: TUserHistoryRechargeVND) => {
+    const id = toast.loading("Đang xử lý ...");
+    onCancel();
     // mutationUpdate.mutateAsync(data);
     const { Updated, UpdatedBy, ...props } = data;
-    return mutationUpdate.mutateAsync(props);
+    mutationUpdate
+      .mutateAsync(props)
+      .then(() => {
+        toast.update(id, {
+          render: "Cập nhật nạp tiền thành công!",
+          isLoading: false,
+          type: "success",
+          autoClose: 1000,
+        });
+      })
+      .catch(() => {
+        toast.update(id, {
+          render: "Đã xảy ra lỗi!",
+          isLoading: false,
+          type: "error",
+          autoClose: 1000,
+        });
+      });
   };
 
   return (
@@ -119,7 +136,7 @@ export const RechargeHistoryForm: React.FC<TForm<TUserHistoryRechargeVND>> = ({
                 label="Nội dung"
                 required={false}
                 placeholder=""
-								rows={2}
+                rows={2}
               />
             </div>
           </div>

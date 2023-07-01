@@ -90,7 +90,7 @@ export const UserAnotherOrderListFilter: React.FC<TProps> = ({
   const ToDate = useRef<string>(null);
 
   return (
-    <div className="flex w-fit ml-auto mb-1 flex-wrap">
+    <div className="flex w-fit ml-auto flex-wrap">
       <Popover
         trigger="click"
         placement="bottomRight"
@@ -100,7 +100,7 @@ export const UserAnotherOrderListFilter: React.FC<TProps> = ({
           title="Thông tin đơn hàng"
           icon=""
           isButton
-          isButtonClassName="bg-blue !text-white hover:bg-sec ml-2"
+          isButtonClassName="bg-blue !text-white hover:bg-sec mr-2"
         />
       </Popover>
       <Popover
@@ -112,7 +112,7 @@ export const UserAnotherOrderListFilter: React.FC<TProps> = ({
           title="Thông tin tiền hàng"
           icon=""
           isButton
-          isButtonClassName="bg-green !text-white hover:bg-sec ml-2"
+          isButtonClassName="bg-green !text-white hover:bg-sec mr-2"
         />
       </Popover>
       <ActionButton
@@ -120,7 +120,7 @@ export const UserAnotherOrderListFilter: React.FC<TProps> = ({
         icon="fas fa-filter"
         isButton
         onClick={() => setIsShow(!isShow)}
-        isButtonClassName="bg-main !text-white ml-2"
+        isButtonClassName="bg-main !text-white"
       />
       <Drawer
         title={<Tag color="text-white" className="!bg-sec">Bộ lọc nâng cao</Tag>}

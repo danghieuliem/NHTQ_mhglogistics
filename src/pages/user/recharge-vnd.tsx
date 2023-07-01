@@ -99,7 +99,7 @@ const Index: TNextPageWithLayout = () => {
     {
       keepPreviousData: true,
       staleTime: 3000,
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
       onSuccess: (data) => {
         setFilter({
           ...filter,

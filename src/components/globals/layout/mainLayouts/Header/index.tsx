@@ -153,8 +153,6 @@ const LeftInfoComponents = ({ userPage, userCurrentInfo }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-
-  console.log("firstPage: ", firstPage);
   return (
     <>
       {/* button direct */}

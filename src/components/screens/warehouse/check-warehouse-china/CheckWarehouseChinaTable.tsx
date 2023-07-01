@@ -6,17 +6,13 @@ import ReactToPrint, { useReactToPrint } from "react-to-print";
 import {
   ActionButton,
   DataTable,
-  FormInput,
   FormInputNumber,
   FormSelect,
-  FormTextarea,
+  FormTextarea
 } from "~/components";
-import {
-  ESmallPackageStatusData
-} from "~/configs/appConfigs";
+import { ESmallPackageStatusData } from "~/configs/appConfigs";
 import { TControl } from "~/types/field";
 import { TColumnsType, TTable } from "~/types/table";
-
 
 export const CheckWarehouseChinaTable: React.FC<
   TTable<TWarehouseCN> &
@@ -45,7 +41,6 @@ export const CheckWarehouseChinaTable: React.FC<
   handleAssign,
   onIsLost,
   type = "china",
-  
 }) => {
   const componentRef = useRef<ReactToPrint>(null);
   const handlePrint = useReactToPrint({
@@ -135,20 +130,27 @@ export const CheckWarehouseChinaTable: React.FC<
       render: (_, record, index) => {
         return (
           <div className="flex flex-col gap-1">
-            <div>
-              Số loại: <span className="font-bold">{_}</span>
-            </div>
+            {record?.OrderType === 2 ? (
+              <div>
+                Loại: <span className="font-bold">{record?.ProductType}</span>
+              </div>
+            ) : (
+              <div>
+                Số loại: <span className="font-bold">{_}</span>
+              </div>
+            )}
+
             <div>
               Số lượng:{" "}
               <span className="font-bold">{record?.TotalOrderQuantity}</span>
             </div>
-            <FormInput
+            {/* <FormInput
               control={control}
               name={`${name}.${index}.StaffNoteCheck` as any}
               label="Nv kho check"
               placeholder=""
               onEnter={handleSubmit((data) => onPress([data[name][index]]))}
-            />
+            /> */}
           </div>
         );
       },
@@ -240,22 +242,23 @@ export const CheckWarehouseChinaTable: React.FC<
           control={control}
           name={`${name}.${index}.Description` as any}
           placeholder=""
+          rows={3}
           onEnter={handleSubmit((data) => onPress([data[name][index]]))}
         />
       ),
     },
-    {
-      dataIndex: "UserNote",
-      title: "Khách ghi chú",
-      render: (_, __, index) => (
-        <FormTextarea
-          control={control}
-          name={`${name}.${index}.UserNote` as any}
-          placeholder=""
-          onEnter={handleSubmit((data) => onPress([data[name][index]]))}
-        />
-      ),
-    },
+    // {
+    //   dataIndex: "UserNote",
+    //   title: "Khách ghi chú",
+    //   render: (_, __, index) => (
+    //     <FormTextarea
+    //       control={control}
+    //       name={`${name}.${index}.UserNote` as any}
+    //       placeholder=""
+    //       onEnter={handleSubmit((data) => onPress([data[name][index]]))}
+    //     />
+    //   ),
+    // },
     // {
     //   dataIndex: "IMG",
     //   title: "Hình ảnh",
@@ -310,8 +313,6 @@ export const CheckWarehouseChinaTable: React.FC<
       fixed: "right",
     },
   ];
-
-  console.log(data);
 
   // của việt nam
   const columnsVN: TColumnsType<TWarehouseVN> = [
@@ -396,20 +397,26 @@ export const CheckWarehouseChinaTable: React.FC<
       render: (_, record, index) => {
         return (
           <div className="flex flex-col gap-1">
-            <div>
-              Số loại: <span className="font-bold">{_}</span>
-            </div>
+            {record?.OrderType === 2 ? (
+              <div>
+                Loại: <span className="font-bold">{record?.ProductType}</span>
+              </div>
+            ) : (
+              <div>
+                Số loại: <span className="font-bold">{_}</span>
+              </div>
+            )}
             <div>
               Số lượng:{" "}
               <span className="font-bold">{record?.TotalOrderQuantity}</span>
             </div>
-            <FormInput
+            {/* <FormInput
               control={control}
               name={`${name}.${index}.StaffNoteCheck` as any}
               label="Nv kho check"
               placeholder=""
               onEnter={handleSubmit((data) => onPress([data[name][index]]))}
-            />
+            /> */}
           </div>
         );
       },
@@ -468,7 +475,7 @@ export const CheckWarehouseChinaTable: React.FC<
       dataIndex: "BigPackageName",
       title: "Bao lớn",
       render: (_, record) => {
-        return <Input disabled value={_} />;
+        return <Input.TextArea disabled value={_} readOnly rows={2}/>;
       },
     },
     {
@@ -479,27 +486,27 @@ export const CheckWarehouseChinaTable: React.FC<
           control={control}
           name={`${name}.${index}.Description` as any}
           placeholder=""
+          rows={3}
           onEnter={handleSubmit((data) => onPress([data[name][index]]))}
         />
       ),
     },
-    {
-      dataIndex: "UserNote",
-      title: "Khách ghi chú",
-      render: (_, __, index) => (
-        <FormTextarea
-          control={control}
-          name={`${name}.${index}.UserNote` as any}
-          placeholder=""
-          onEnter={handleSubmit((data) => onPress([data[name][index]]))}
-        />
-      ),
-    },
+    // {
+    //   dataIndex: "UserNote",
+    //   title: "Khách ghi chú",
+    //   render: (_, __, index) => (
+    //     <FormTextarea
+    //       control={control}
+    //       name={`${name}.${index}.UserNote` as any}
+    //       placeholder=""
+    //       onEnter={handleSubmit((data) => onPress([data[name][index]]))}
+    //     />
+    //   ),
+    // },
     {
       dataIndex: "action",
       title: "Thao tác",
       align: "right",
-      width: 160,
       render: (_, record, index) => (
         <div className="flex flex-col gap-1">
           {record.Status <=
@@ -517,7 +524,7 @@ export const CheckWarehouseChinaTable: React.FC<
 						onClick={handleSubmit((data) => onIsLost(data[name]))}
 						title="Thất lạc"
 					/> */}
-          {(!record.MainOrderId) && (
+          {!record.MainOrderId && (
             <ActionButton
               icon="fas fa-plus"
               onClick={handleSubmit((data) => {
@@ -605,7 +612,6 @@ export const CheckWarehouseChinaTable: React.FC<
         {...{
           data,
           columns: type === "china" ? columns : columnsVN,
-          scroll: { x: 1200 },
         }}
       />
       <Divider />
