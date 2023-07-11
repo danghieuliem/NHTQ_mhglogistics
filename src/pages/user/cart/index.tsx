@@ -161,7 +161,7 @@ const Index: TNextPageWithLayout = () => {
       refetchOnWindowFocus: true,
       staleTime: 5000,
       keepPreviousData: true,
-      enabled: currentCart.length === 0,
+      // enabled: currentCart.length === 0,
     }
   );
 

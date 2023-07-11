@@ -1,5 +1,6 @@
-import { Divider, Image, Input } from "antd";
+import { Divider, Image, Input, Tooltip } from "antd";
 import clsx from "clsx";
+import Link from "next/link";
 import React, { useState } from "react";
 import { ActionButton, DataTable, IconButton } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
@@ -61,7 +62,12 @@ const MobileItem = ({ data, onHandleProduct, canUpdate }) => {
             <div className="col-span-3 text-[#6A6A6A] font-bold">
               {item?.TitleOrigin}
             </div>
-            <div className={clsx("col-span-1 flex flex-col gap-1", !canUpdate && "w-[120px] max-w-full")}>
+            <div
+              className={clsx(
+                "col-span-1 flex flex-col gap-1",
+                !canUpdate && "w-[120px] max-w-full"
+              )}
+            >
               <img
                 src={item?.ImageOrigin}
                 alt=""
@@ -157,14 +163,25 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
             <div className="col-span-1 flex items-start">
               <span className="mr-1 font-bold">{++index}</span>
               <Image
-                src={record?.ImageOrigin}
+                src={
+                  decodeURIComponent(record?.ImageOrigin) ||
+                  "/default/pro-empty.jpg"
+                }
                 width={80}
                 preview={false}
                 className="rounded-[6px]"
               />
             </div>
             <div className="col-span-3 text-black pl-1 flex flex-col gap-1">
-              <span className="text-[#6A6A6A]">{record?.TitleOrigin}</span>
+              <Link href={record?.LinkOrigin}>
+                <a target="_blank">
+                  <Tooltip title="Link sản phẩm">
+                    <span className="text-[#6A6A6A]">
+                      {record?.TitleOrigin}
+                    </span>
+                  </Tooltip>
+                </a>
+              </Link>
               <span className="flex items-start justify-between">
                 <span className="font-bold w-[100px] mr-2 leading-[inital]">
                   Thuộc tính:{" "}
