@@ -39,9 +39,9 @@ const TopContainer = ({
             checked={checked}
             className="mr-2"
           ></Checkbox>
-          <span className="text-[#fff] ml-2 ">
+          <span className="text-white ml-2 ">
             <span className="mr-2">Tên shop:</span>{" "}
-            <span className="text-lg">{cart?.ShopName}</span>
+            <span className="text-lg">{cart?.ShopName || cart?.ShopId}</span>
           </span>
         </Tooltip>
         <IconButton
