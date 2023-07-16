@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import { smallPackage } from "~/api";
-import { Button, FormCard, FormInput, Modal, showToast } from "~/components";
+import { Button, FormCard, FormInput, Modal } from "~/components";
 import { TForm } from "~/types/table";
 
 export const CheckWarehouseChinaNewCodeForm: React.FC<
@@ -32,19 +32,12 @@ export const CheckWarehouseChinaNewCodeForm: React.FC<
         handleData(res.Data, res.Data[0].UserName + res.Data[0].Phone);
         toast.success("Thêm mới kiện hàng thành công");
       } catch (error) {
-        showToast({
-          title: (error as any)?.response?.data?.ResultCode,
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       }
     },
-    onError: (error) =>
-      showToast({
-        title: (error as any)?.response?.data?.ResultCode,
-        message: (error as any)?.response?.data?.ResultMessage,
-        type: "error",
-      }),
+    onError: (error) => {
+      toast.error((error as any)?.response?.data?.ResultMessage);
+    },
   });
 
   const _onPress = (data: TWarehouseCN) => {

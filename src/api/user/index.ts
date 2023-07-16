@@ -15,7 +15,7 @@ type TFilterParams = {
 };
 
 const {globalCRUD, post, gGetPermissionDetail} = new BaseAPI<
-	TEmployee | TClient,
+	TEmployee | TClient | TUser,
 	TFilterParams
 >("user");
 

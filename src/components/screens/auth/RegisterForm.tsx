@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { authenticate, setToken, user as userAPI } from "~/api";
-import { Button, FormInput, showToast, toast } from "~/components";
+import { Button, FormInput, toast } from "~/components";
+import { config } from "~/configs";
 import { setRouter, updateUser, useAppDispatch } from "~/store";
 import { _format } from "~/utils";
 import { EUnique, checkUnique, createComplain } from "./method";
@@ -45,7 +46,7 @@ export const RegisterForm = ({ visible, setOpenModal }) => {
     {
       onSuccess: async (data) => {
         const token = data?.Data?.token;
-        Cookie.set("tokenNHTQ-demo", token);
+        Cookie.set(config.tokenName, token);
         setToken(token);
         toast.success("Đăng ký tài khoản thành công");
         const user: TUser = JSON.parse(
@@ -74,12 +75,7 @@ export const RegisterForm = ({ visible, setOpenModal }) => {
       },
       onError: (error) => {
         setLoading(false);
-        showToast({
-          title:
-            (error as any)?.response?.data?.ResultCode === 401 && "Lỗi server!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
     }
   );

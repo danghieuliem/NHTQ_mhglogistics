@@ -34,7 +34,7 @@ function countRequireInputValue(numberError: number, title: string) {
   );
 }
 const Index: TNextPageWithLayout = () => {
-  const dataGlobal: TConfig = useSelector((state: RootState) => state.dataGlobal);
+  // const dataGlobal: TConfig = useSelector((state: RootState) => state.dataGlobal);
   const dispatch = useDispatch();
 
   const userCurrentInfo: TUser = useSelector(

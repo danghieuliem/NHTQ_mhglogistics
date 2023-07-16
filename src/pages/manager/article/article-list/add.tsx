@@ -1,7 +1,5 @@
 import { Tabs } from "antd";
-import Link from "next/link";
-import router, { useRouter } from "next/router";
-import React from "react";
+import { useRouter } from "next/router";
 import { Control, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { Page } from "~/api";
@@ -10,11 +8,11 @@ import {
   ArticleSEOForm,
   IconButton,
   Layout,
-  ResizeImage,
   toast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
+import { useCatalogue } from "~/hooks";
 import { TNextPageWithLayout } from "~/types/layout";
 
 type TForm = Partial<TArticleList & TArticleSEO>;
@@ -24,6 +22,9 @@ const Index: TNextPageWithLayout = () => {
   const { control, handleSubmit } = useForm<TForm>({
     mode: "onBlur",
   });
+
+  const { pageType } = useCatalogue({ pageTypeEnabled: true });
+
 
   const mutationAdd = useMutation((data: any) => Page.create(data), {
     onSuccess: () => {
@@ -41,9 +42,6 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <>
-      <div className="tableBox mb-6">
-        <ResizeImage />
-      </div>
       <div className="tableBox">
         <Tabs
           tabBarExtraContent={
@@ -56,12 +54,12 @@ const Index: TNextPageWithLayout = () => {
                 btnClass="!mr-4"
                 toolip=""
               />
-              <IconButton
+              {/* <IconButton
                 icon="fas fa-undo-alt"
                 title="Trở về"
                 toolip=""
                 onClick={() => router.back()}
-              />
+              /> */}
             </div>
           }
         >
@@ -69,6 +67,8 @@ const Index: TNextPageWithLayout = () => {
             <ArticleListForm
               control={control as Control<TArticleList, object>}
               type="add"
+              pageType={pageType}
+
             />
           </Tabs.TabPane>
           <Tabs.TabPane key={"2"} tab="Cấu hình SEO">

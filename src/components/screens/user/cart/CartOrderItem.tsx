@@ -1,17 +1,17 @@
 import { Checkbox, Tooltip } from "antd";
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
-import { orderShopTemp, orderTemp } from "~/api";
+import { orderShopTemp } from "~/api";
+import { Button } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
-import { showToast, toast } from "~/components/toast";
+import { toast } from "~/components/toast";
 import { setSelectedShopIds, useAppDispatch } from "~/store";
 import { _format } from "~/utils";
 import { OrderTempItem } from "./OrderTempItem";
 import { CheckboxCustom } from "./block";
-import { Button } from "~/components";
 
 type TProps = {
   cart: TUserCartOrderShopTemp;
@@ -20,6 +20,7 @@ type TProps = {
   note: string;
   handleNote: (key: number, value: string) => void;
   refetchCart: () => void;
+  isFetching
 };
 
 const TopContainer = ({
@@ -59,6 +60,8 @@ const TopContainer = ({
   );
 };
 
+const TopContainerMemo = React.memo(TopContainer);
+
 export const CartOrderItem: React.FC<TProps> = ({
   cart,
   note,
@@ -66,6 +69,7 @@ export const CartOrderItem: React.FC<TProps> = ({
   toggleShopId,
   checked,
   refetchCart,
+  isFetching
 }) => {
   const [loading, setLoading] = useState(false);
   const [loadingPayment, setLoadingPayment] = useState(false);
@@ -99,22 +103,6 @@ export const CartOrderItem: React.FC<TProps> = ({
     },
   });
 
-  const mutationUpdateProduct = useMutation(orderTemp.updateField, {
-    onSuccess: (data, params) => {
-      toast.success("Cập nhật sản phẩm thành công");
-      refetchCart();
-    },
-    onError: toast.error,
-  });
-
-  const mutationDeleteProduct = useMutation(orderTemp.delete, {
-    onSuccess: (_, id) => {
-      toast.success("Xoá sản phẩm thành công");
-      refetchCart();
-    },
-    onError: toast.error,
-  });
-
   const onPayment = (isPush = false) => {
     localStorage.removeItem(`${cart.Id}`);
     setLoadingPayment(true);
@@ -145,33 +133,15 @@ export const CartOrderItem: React.FC<TProps> = ({
     onPayment();
   };
 
-  const onHandleProduct = async (
-    type: "update" | "delete",
-    data: { Id: number; Quantity: number; Brand?: string }
-  ) => {
-    try {
-      if (type === "update") {
-        await mutationUpdateProduct.mutateAsync(data);
-      } else {
-        await mutationDeleteProduct.mutateAsync(data.Id);
-      }
-    } catch (error) {
-      showToast({
-        title: (error as any)?.response?.data?.ResultCode,
-        message: (error as any)?.response?.data?.ResultMessage,
-        type: "error",
-      });
-    }
-  };
-
-  const onHandleShop = async (id: number) => {
+  const onHandleShop = useCallback(async (id: number) => {
     setLoading(true);
     mutationDeleteShop.mutateAsync(id);
-  };
+  }, [])
+
   return (
     <>
       <div className="col-span-12">
-        <TopContainer
+        <TopContainerMemo
           checked={checked}
           toggleShopId={toggleShopId}
           cart={cart}
@@ -183,32 +153,9 @@ export const CartOrderItem: React.FC<TProps> = ({
       <div className="col-span-12 md:col-span-9 lg:col-span-9 bg-[#FFF1E4]">
         <OrderTempItem
           data={cart?.OrderTemps}
-          onHandleProduct={onHandleProduct}
+          refetchCart={refetchCart}
+          // onHandleProduct={onHandleProduct}
         />
-        {/* {cart?.OrderTemps?.map((orderTempData, index) => (
-          <div key={orderTempData?.Id}>
-            <OrderTempItem
-              {...{
-                orderTempData,
-                index,
-                isLoading:
-                  mutationDeleteProduct.isLoading ||
-                  mutationUpdateProduct.isLoading,
-                deleteProduct: () =>
-                  onHandleProduct("delete", {
-                    Id: orderTempData?.Id,
-                    Quantity: 0,
-                  }),
-                updateProduct: (Quantity, Brand) =>
-                  onHandleProduct("update", {
-                    Id: orderTempData?.Id,
-                    Quantity,
-                    Brand,
-                  }),
-              }}
-            />
-          </div>
-        ))} */}
       </div>
       <div className="col-span-12 md:col-span-3 lg:col-span-3 bg-[#EBF4FE] p-1 lg:p-4">
         <div className="grid grid-cols-4 md:grid-cols-1 gap-4 lg:gap-6">
@@ -261,10 +208,11 @@ export const CartOrderItem: React.FC<TProps> = ({
           <div className="col-span-2 flex items-end justify-end md:justify-center md:block sm:col-span-1 text-center">
             <Button
               onClick={() => onPayment(true)}
-              // icon="mr-0"
+              // icon="!mr-0"
+              disabled={isFetching || loadingPayment}
               title="Tiếp tục đặt hàng"
-              btnClass="ml-2 !bg-blue !text-[12px] md:!text-[14px] !text-white sm:w-fit lg:w-[180px]"
-              loading={loadingPayment}
+              btnClass="ml-2 !text-[12px] md:!text-[14px] !text-white sm:w-fit lg:w-[180px]"
+              // loading={loadingPayment}
             />
           </div>
         </div>

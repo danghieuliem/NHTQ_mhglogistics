@@ -1,10 +1,10 @@
 import { Pagination } from "antd";
 import { useState } from "react";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 import { reportHistoryPayWallet } from "~/api";
 import {
   Layout,
-  showToast,
   TransactionChart,
   TransactionFilter,
   TransactionTable,
@@ -54,12 +54,8 @@ const Index: TNextPageWithLayout = () => {
             data?.Items[0]?.TotalRecivePaymentTransport,
         });
       },
-      onError: () => {
-        showToast({
-          title: "Lỗi!",
-          message: "Đường truyền kết nối server bị lỗi! Vui lòng thử lại!",
-          type: "error",
-        });
+      onError: (error) => {
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
     }
   );

@@ -14,7 +14,6 @@ import {
   FormSelect,
   Loading,
   UserLayout,
-  showToast,
 } from "~/components";
 import { breadcrumb, dataSearchProduct } from "~/configs";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
@@ -151,11 +150,7 @@ const Index: TNextPageWithLayout = () => {
         setCurrentCart(newCart);
       },
       onError: (error) => {
-        showToast({
-          title: (error as any)?.response?.data?.ResultCode,
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
       retry: false,
       refetchOnWindowFocus: true,
@@ -217,79 +212,6 @@ const Index: TNextPageWithLayout = () => {
           {/* <CartSteps current={1} /> */}
         </>
       )}
-
-      {/* {isFetching && isLoading ? (
-        <div className="pt-[120px]">
-          <Loading />
-        </div>
-      ) : (
-        <>
-          {currentCart.length <= 0 ? (
-            <Empty
-              description="Không tìm thấy sản phẩm nào trong giỏ hàng"
-              className="bg-[#fff] h-[300px] flex flex-col items-center justify-center"
-            />
-          ) : (
-            <div className="cartNewWrapper pb-[50px]">
-              <div className="flex gap-2 items-center justify-between mb-4">
-                <div className="flex gap-2">
-                  <div className="flex gap-2 items-center">
-                    <span className="cartNewWrapper-label">Tổng shop:</span>
-                    <span className="text-[20px] text-red font-bold">
-                      {_format.getVND(currentCart?.length, "")}
-                    </span>
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <span className="cartNewWrapper-label">Tổng sản phẩm:</span>
-                    <span className="text-[20px] text-red font-bold">
-                      {_format.getVND(
-                        currentCart.reduce(
-                          (cur, prev) => cur + (prev.OrderTemps?.length || 0),
-                          0
-                        ),
-                        ""
-                      )}
-                    </span>
-                  </div>
-                </div>
-                <div className="">
-                  <span className="cartNewWrapper-label">Tổng tiền:</span>
-                  <span className="text-[20px] text-red font-bold ml-2">
-                    {_format.getVND(
-                      currentCart?.reduce((acc, cur) => {
-                        return (acc = acc + cur?.PriceVND);
-                      }, 0),
-                      " đ"
-                    )}
-                  </span>
-                </div>
-              </div>
-              <div className="cartNewWrapper-orders pb">
-                <CartOrder
-                  currentCart={currentCart}
-                  note={note}
-                  setNote={setNote}
-                  toggleShopId={toggleShopId}
-                  chosenShopIds={chosenShopIds}
-                  refetchCart={refetchCart}
-                />
-              </div>
-              <div className="cartNewWrapper-amount">
-                <CardAmount
-                  isFetching={isFetching}
-                  currentCart={currentCart}
-                  allShopIds={chosenShopIds}
-                  chosenShopIds={chosenShopIds}
-                  toggleAllShopId={toggleAllShopId}
-                  // totalSelectPrice={totalSelectPrice}
-                  onPress={onPress}
-                  refetchCart={refetchCart}
-                />
-              </div>
-            </div>
-          )}
-        </>
-      )} */}
       {isLoadingData && (
         <div className="pt-[120px]">
           <Loading />
@@ -339,6 +261,7 @@ const Index: TNextPageWithLayout = () => {
               toggleShopId={toggleShopId}
               chosenShopIds={chosenShopIds}
               refetchCart={refetchCart}
+              isFetching={isFetching}
             />
           </div>
           <div className="cartNewWrapper-amount">

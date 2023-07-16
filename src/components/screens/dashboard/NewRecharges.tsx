@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 import { adminSendUserWallet } from "~/api";
-import { showToast } from "~/components";
 import { moneyStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
@@ -31,12 +31,9 @@ export const NewRecharges = React.memo(() => {
         })
         .then((data) => data?.Data?.Items),
     {
-      onError: (error) =>
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        }),
+      onError: (error) => {
+        toast.error((error as any)?.response?.data?.ResultMessage);
+      },
     }
   );
 

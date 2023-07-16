@@ -8,7 +8,6 @@ import {
   FormInputNumber,
   FormSwitch,
   Modal,
-  showToast,
   toast,
 } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
@@ -36,14 +35,7 @@ export const AddChildContentForm: React.FC<any> = ({ child, onCancel }) => {
       onCancel();
     },
     onError: (error) => {
-      showToast({
-        title:
-          (error as any)?.response?.data?.ResultCode === 500
-            ? "Lỗi server!"
-            : "Lỗi tạo menu con",
-        message: (error as any)?.response?.data?.ResultMessage,
-        type: "error",
-      });
+      toast.error((error as any)?.response?.data?.ResultMessage);
     },
   });
 

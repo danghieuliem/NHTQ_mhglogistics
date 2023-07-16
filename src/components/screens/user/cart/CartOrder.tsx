@@ -8,6 +8,7 @@ export const CartOrder = ({
   toggleShopId,
   chosenShopIds,
   refetchCart,
+  isFetching
 }) => {
   return (
     <>
@@ -19,6 +20,7 @@ export const CartOrder = ({
             handleNote={(key: number, value: string) =>
               setNote({ ...note, [key]: value })
             }
+            isFetching={isFetching}
             toggleShopId={toggleShopId}
             checked={chosenShopIds.includes(cart?.Id)}
             refetchCart={refetchCart}

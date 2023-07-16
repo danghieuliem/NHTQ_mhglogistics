@@ -1,10 +1,11 @@
 import Link from "next/link";
 import React from "react";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 import { transportationOrder } from "~/api";
 import { transportStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
-import { DataTable, showToast } from "../..";
+import { DataTable } from "../..";
 import TagStatus from "../status/TagStatus";
 
 export const NewDeliveryOrders = React.memo(() => {
@@ -29,12 +30,9 @@ export const NewDeliveryOrders = React.memo(() => {
         .then((res) => res?.Data?.Items),
     {
       keepPreviousData: true,
-      onError: (error) =>
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        }),
+      onError: (error) => {
+        toast.error((error as any)?.response?.data?.ResultMessage);
+      },
     }
   );
 

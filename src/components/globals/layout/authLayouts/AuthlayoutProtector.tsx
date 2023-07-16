@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { user } from "~/api";
 import configHomeData from "~/api/config-home";
 import { setToken } from "~/api/instance";
+import { config } from "~/configs";
 import {
   RootState,
   selectConnection,
@@ -22,7 +23,7 @@ const AuthLayoutProtector: FC<{ children: ReactElement[] | ReactElement }> = ({
   children,
 }) => {
   const dispatch = useAppDispatch();
-  const session = Cookies.get("tokenNHTQ-demo");
+  const session = Cookies.get(config.tokenName);
   const userCurrentInfo: TUser = useSelector(
     (state: RootState) => state.userCurretnInfo
   );

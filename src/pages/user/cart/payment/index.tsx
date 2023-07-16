@@ -3,12 +3,10 @@ import { useRouter } from "next/router";
 import React, { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueries, useQuery, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 import {
   orderShopTemp,
-  shipping,
-  user,
-  warehouseFrom,
-  warehouseTo,
+  user
 } from "~/api";
 import {
   ActionButton,
@@ -16,10 +14,9 @@ import {
   PaymentOrderInfo,
   ReceiveInfoForm,
   UserLayout,
-  toast,
 } from "~/components";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
-import { useDeepEffect } from "~/hooks";
+import { useCatalogue, useDeepEffect } from "~/hooks";
 import {
   deleteOrderShopTempById,
   useAppDispatch,
@@ -63,38 +60,11 @@ const Index: TNextPageWithLayout & React.FC<{}> = () => {
     }
   );
 
-  const { data: warehouseTQ } = useQuery(
-    ["warehouseFromData"],
-    () => warehouseFrom.getList().then((res) => res.Data.Items),
-    {
-      enabled: !!ids,
-      refetchOnWindowFocus: false,
-    }
-  );
-
-  const { data: warehouseVN } = useQuery(
-    ["warehouseToData"],
-    () => warehouseTo.getList().then((res) => res.Data.Items),
-    {
-      enabled: !!ids,
-      refetchOnWindowFocus: false,
-    }
-  );
-
-  const { data: shippingTypeToWarehouse } = useQuery(
-    ["shippingType"],
-    () =>
-      shipping
-        .getList({
-          PageSize: 9999,
-          PageIndex: 1,
-        })
-        .then((res) => res.Data.Items),
-    {
-      enabled: !!ids,
-      refetchOnWindowFocus: false,
-    }
-  );
+  const { warehouseTQ, warehouseVN, shippingTypeToWarehouse } = useCatalogue({
+    warehouseTQEnabled: true,
+    warehouseVNEnabled: true,
+    shippingTypeToWarehouseEnabled: true,
+  });
 
   const { control, handleSubmit, reset, getValues, setValue } =
     useForm<TUserPayment>({
@@ -152,6 +122,7 @@ const Index: TNextPageWithLayout & React.FC<{}> = () => {
   const mutationPayment = useMutation(orderShopTemp.payment);
 
   const onPress = async (data: TUserPayment) => {
+    const id = toast.loading("Đang xử lý ...");
     // setValue(
     //   "Address",
     //   `${getValuesAddress("address")}, ${getValuesAddress(
@@ -201,14 +172,25 @@ const Index: TNextPageWithLayout & React.FC<{}> = () => {
     mutationPayment
       .mutateAsync({ ...data, Address: getValues("Address") })
       .then(() => {
-        toast.success("Đặt hàng thành công!");
+        // toast.success("Đặt hàng thành công!");
         queryClient.invalidateQueries({ queryKey: "menuData" });
         router.push("/user/order-list");
         ids.map((id) => dispatch(deleteOrderShopTempById(id)));
-        setLoadingPayment(false);
+        // setLoadingPayment(false);
+        toast.update(id, {
+          render: "Đặt đơn thành công, đang vào giỏ hàng,",
+          type: "success",
+          autoClose: 1000,
+          isLoading: false,
+        });
       })
       .catch((error) => {
-        toast.error("Vui lòng thử lại!");
+        toast.update(id, {
+          render: (error as any)?.response?.data?.ResultMessage,
+          type: "error",
+          autoClose: 1000,
+          isLoading: false,
+        });
         setLoadingPayment(false);
       });
   };

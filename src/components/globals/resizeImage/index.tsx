@@ -57,11 +57,11 @@ export const ResizeImage: React.FC = () => {
     },
     itemRender: (originNode, file) => {
       return (
-        <div className="flex justify-between bg-[#e3e3e3] rounded-[6px] py-1 px-2 my-1">
+        <div className="flex justify-between items-center bg-[#e3e3e3] rounded-[6px] py-1 px-2 my-1">
           <span className="">{file?.name}</span>
           <span className="flex gap-1">
             <div
-              className="bg-[green] px-2 text-white rounded-[6px] cursor-pointer hover:bg-blue"
+              className="bg-[green] px-2 text-white rounded-[6px] cursor-pointer hover:bg-blue h-fit"
               onClick={(e) => {
                 (e.target as HTMLElement).style.pointerEvents = "none";
                 (e.target as HTMLElement).style.opacity = "0.5";
@@ -72,7 +72,7 @@ export const ResizeImage: React.FC = () => {
             </div>
             <div
               id={file.uid}
-              className="bg-main pointer-events-none opacity-[0.5] px-2 rounded-[6px] text-white cursor-pointer hover:bg-sec"
+              className="bg-main pointer-events-none opacity-[0.5] px-2 rounded-[6px] text-white cursor-pointer hover:bg-sec h-fit"
               onClick={() => handleCopyLink(file.uid)}
             >
               copy

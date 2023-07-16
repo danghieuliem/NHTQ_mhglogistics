@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 import { smallPackage, user } from "~/api";
-import { FormInput, FormSelect, showToast } from "~/components";
+import { FormInput, FormSelect } from "~/components";
 import { useDeepEffect } from "~/hooks";
 import { useCatalogue } from "~/hooks/useCatalogue";
 import { AddPackageCustomerTable } from "./AddPackageCustomerTable";
@@ -122,12 +122,9 @@ export const AddPackageCustomerForm = () => {
     onSuccess: () => {
       toast.success("Gán kiện thành công");
     },
-    onError: (error) =>
-      showToast({
-        title: (error as any)?.response?.data?.ResultCode,
-        message: (error as any)?.response?.data?.ResultMessage,
-        type: "error",
-      }),
+    onError: (error) => {
+      toast.error((error as any)?.response?.data?.ResultMessage);
+    },
   });
 
   const _onHide = (data: TWarehouseVN[]) => {

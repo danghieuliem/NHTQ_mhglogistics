@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import { smallPackage } from "~/api";
 import {
   Layout,
-  showToast,
   toast,
   TransactionCodeManagementFilter,
   TransactionCodeManagementTable,
@@ -61,11 +60,7 @@ const Index: TNextPageWithLayout = () => {
         router.push(`${res.Data}`);
       })
       .catch((error) => {
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       });
   };
 

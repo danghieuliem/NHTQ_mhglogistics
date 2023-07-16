@@ -70,7 +70,7 @@ const styleWrapIcon = `col-span-3 lg:col-span-3 text-sm text-[#000]`;
 const styleIcon = `text-[#ffa500] text-[18px]`;
 const styleValue = `col-span-3 lg:col-span-3 text-sm text-[#666565] font-semibold`;
 
-export const OrderIDDetail: React.FC<
+const OrderIDDetail: React.FC<
   TTable<TFeeSupports> & { dataAll; data2 }
 > = ({ data, dataAll, data2 }) => {
   const [renderMethods, setRenderMethods] = useState(templageMethods);
@@ -162,14 +162,18 @@ export const OrderIDDetail: React.FC<
           </div>
         </div>
       </Card>
-      <DataTable
-        {...{
-          columns,
-          data,
-          bordered: true,
-          title: "Danh sách phụ phí",
-        }}
-      />
+      <div>
+        <DataTable
+          {...{
+            columns,
+            data,
+            // bordered: true,
+            title: "Danh sách phụ phí",
+          }}
+        />
+      </div>
     </div>
   );
 };
+
+export const OrderIDDetailMemo = React.memo(OrderIDDetail)

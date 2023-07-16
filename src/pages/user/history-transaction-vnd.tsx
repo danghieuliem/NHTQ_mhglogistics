@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { historyPayWallet } from "~/api";
 import {
   HistoryTransactionVNDFilter,
   HistoryTransactionVNDTable,
   UserLayout,
-  showToast,
 } from "~/components";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
-import { RootState, useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 import { _format } from "~/utils";
 
@@ -49,11 +49,7 @@ const Index: TNextPageWithLayout = () => {
           PageSize: data?.PageSize,
         }),
       onError: (error) => {
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
     }
   );

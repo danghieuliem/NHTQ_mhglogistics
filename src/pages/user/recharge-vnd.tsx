@@ -10,7 +10,6 @@ import {
   ModalDelete,
   RechargeVNDForm,
   UserLayout,
-  showToast,
   toast,
 } from "~/components";
 import { RechargeContent } from "~/components/screens/user/recharge-vnd";
@@ -109,11 +108,7 @@ const Index: TNextPageWithLayout = () => {
         });
       },
       onError: (error) => {
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
     }
   );
@@ -135,11 +130,7 @@ const Index: TNextPageWithLayout = () => {
       toast.success("Huỷ yêu cầu thành công");
     },
     onError: (error) => {
-      showToast({
-        title: "Đã xảy ra lỗi!",
-        message: (error as any)?.response?.data?.ResultMessage,
-        type: "error",
-      });
+      toast.error((error as any)?.response?.data?.ResultMessage);
     },
   });
 

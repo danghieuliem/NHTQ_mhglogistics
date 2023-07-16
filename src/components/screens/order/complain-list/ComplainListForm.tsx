@@ -11,13 +11,11 @@ import {
   FormTextarea,
   FormUpload,
   Modal,
-  showToast,
   toast,
 } from "~/components";
 import { reportStatusData } from "~/configs/appConfigs";
 import { useDeepEffect } from "~/hooks";
 import { TForm } from "~/types/table";
-import { _format } from "~/utils";
 
 export const ComplainListForm: React.FC<TForm<TReport>> = ({
   onCancel,
@@ -76,11 +74,7 @@ export const ComplainListForm: React.FC<TForm<TReport>> = ({
       mutationUpdate.mutateAsync(dataOnPress);
       onCancel();
     } catch (error) {
-      showToast({
-        title: (error as any)?.response?.data?.ResultCode,
-        message: (error as any)?.response?.data?.ResultMessage,
-        type: "error",
-      });
+      toast.error((error as any)?.response?.data?.ResultMessage);
     }
   };
 

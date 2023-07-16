@@ -1,7 +1,7 @@
 import { Modal, Space, Tabs, Tag } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 import { shipping, warehouseFrom, warehouseTo } from "~/api";
 import {
@@ -17,7 +17,7 @@ import {
   Layout,
 } from "~/components";
 import TagStatus from "~/components/screens/status/TagStatus";
-import { breadcrumb } from "~/configs";
+import { breadcrumb, clientData } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import type { TNextPageWithLayout } from "~/types/layout";
 import { TColumnsType } from "~/types/table";
@@ -28,6 +28,8 @@ type TCreateMethods = {
 };
 
 const AddNewWareHouseForm = ({ onCancel, visible, refetchFrom, refetchTo }) => {
+  const queryClient = useQueryClient();
+
   const { control, handleSubmit, reset } = useForm<TCreateWareHouse>({
     defaultValues: {
       Name: "",
@@ -51,6 +53,7 @@ const AddNewWareHouseForm = ({ onCancel, visible, refetchFrom, refetchTo }) => {
       warehouseFrom
         .create(newData)
         .then(() => {
+          queryClient.invalidateQueries(["warehouseTQCatalogue"]);
           toast.update(id, {
             render: "Thêm kho thành công!",
             type: "success",
@@ -72,6 +75,7 @@ const AddNewWareHouseForm = ({ onCancel, visible, refetchFrom, refetchTo }) => {
       warehouseTo
         .create(newData)
         .then(() => {
+          queryClient.invalidateQueries(["warehouseVNCatalogue"]);
           toast.update(id, {
             render: "Thêm kho thành công!",
             type: "success",
@@ -155,6 +159,8 @@ const AddNewWareHouseForm = ({ onCancel, visible, refetchFrom, refetchTo }) => {
 };
 
 const AddNewMethod = ({ onCancel, visible, refetchMethod }) => {
+  const queryClient = useQueryClient();
+
   const { control, handleSubmit, reset } = useForm<TCreateMethods>({
     defaultValues: {
       Name: "",
@@ -166,6 +172,8 @@ const AddNewMethod = ({ onCancel, visible, refetchMethod }) => {
     const id = toast.loading("Đang xử lý ...");
     try {
       shipping.create(data).then(() => {
+        queryClient.invalidateQueries(["shippingTypeToWarehouseCatalogue"]);
+
         toast.update(id, {
           render: "Thêm phương thức thành công!",
           type: "success",
@@ -234,6 +242,8 @@ const EditComponent = ({
   refetchTo,
   refetchMethod,
 }) => {
+  const queryClient = useQueryClient();
+
   const { control, handleSubmit, reset } = useForm<TCreateWareHouse>({
     mode: "onBlur",
     defaultValues: defaultValues,
@@ -246,6 +256,8 @@ const EditComponent = ({
       shipping
         .update(data)
         .then(() => {
+          queryClient.invalidateQueries(["shippingTypeToWarehouseCatalogue"]);
+
           refetchMethod();
           toast.update(id, {
             render: "Cập nhật thành công!",
@@ -272,6 +284,7 @@ const EditComponent = ({
         .update(data)
         .then(() => {
           refetchFrom();
+          queryClient.invalidateQueries(["warehouseTQCatalogue"]);
           toast.update(id, {
             render: "Cập nhật thành công!",
             type: "success",
@@ -279,14 +292,16 @@ const EditComponent = ({
             autoClose: 1000,
           });
         })
-        .catch((error) =>
+        .catch((error) => {
+          queryClient.invalidateQueries(["warehouseVNCatalogue"]);
+
           toast.update(id, {
             render: "Cập nhật thất bại!",
             type: "error",
             isLoading: false,
             autoClose: 1000,
-          })
-        );
+          });
+        });
       onCancel();
       return;
     }

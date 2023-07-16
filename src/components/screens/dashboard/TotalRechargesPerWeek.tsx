@@ -9,10 +9,10 @@ import {
   Tooltip,
 } from "chart.js";
 import React from "react";
-import { Bar, Bubble, Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 import { dashboard } from "~/api";
-import { showToast } from "~/components/toast";
 
 ChartJS.register(
   CategoryScale,
@@ -35,7 +35,7 @@ const options = {
   scales: {
     xAxes: { grid: { display: false, drawBorder: true } },
     yAxes: {
-      grid: { display: true, borderDash: [1,1], drawBorder: false },
+      grid: { display: true, borderDash: [1, 1], drawBorder: false },
     },
   },
 };
@@ -55,12 +55,9 @@ export const TotalRechargesPerWeek = React.memo(() => {
     "get-item-in-week",
     () => dashboard.getItemInWeek(),
     {
-      onError: (error) =>
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        }),
+      onError: (error) => {
+        toast.error((error as any)?.response?.data?.ResultMessage);
+      },
       onSuccess: (res) => {
         let value = 0;
         res.Data.forEach((item) => {
@@ -85,7 +82,7 @@ export const TotalRechargesPerWeek = React.memo(() => {
   return (
     <div className="tableBox">
       <p className="titleTable !mb-4">Tổng tiền khách nạp trong tuần qua</p>
-      <Bar options={options} data={data} height={252} />
+      <Bar options={options} data={data} height={200} />
     </div>
   );
 });

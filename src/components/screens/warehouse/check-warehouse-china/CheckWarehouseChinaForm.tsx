@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { bigPackage, smallPackage } from "~/api";
 import { FormInput, FormSelect, HookWrapper, IconButton } from "~/components";
-import { showToast, toast } from "~/components/toast";
+import { toast } from "~/components/toast";
 import { ESmallPackageStatusData } from "~/configs/appConfigs";
 import { usePressKeyboard } from "~/hooks";
 import {
@@ -171,11 +171,7 @@ export const CheckWarehouseChinaForm = () => {
           toast.success("Cập nhật đơn kiện thành công");
         })
         .catch((error) => {
-          showToast({
-            title: "Lỗi!",
-            message: (error as any)?.response?.data?.ResultMessage,
-            type: "error",
-          });
+          toast.error((error as any)?.response?.data?.ResultMessage);
         });
     } else {
       toast.warning("Hiện tại chưa có mã kiện, vui lòng quét mã kiện trước");
@@ -367,20 +363,22 @@ export const CheckWarehouseChinaForm = () => {
           }
         />
         {!!Object.keys(watchArray()).length &&
-          Object.keys(watchArray()).reverse().map((key) => (
-            <CheckWarehouseChinaTable
-              data={watchArray(key)}
-              name={key}
-              key={key}
-              handleSubmit={handleSubmitArray}
-              onPress={_onPress}
-              onHide={_onHide}
-              control={controlArray}
-              onIsLost={null}
-              bigPackageList={bigPackages || []}
-              defaultIdBigPackageSelected={getValues("BigPackageId")}
-            />
-          ))}
+          Object.keys(watchArray())
+            .reverse()
+            .map((key) => (
+              <CheckWarehouseChinaTable
+                data={watchArray(key)}
+                name={key}
+                key={key}
+                handleSubmit={handleSubmitArray}
+                onPress={_onPress}
+                onHide={_onHide}
+                control={controlArray}
+                onIsLost={null}
+                bigPackageList={bigPackages || []}
+                defaultIdBigPackageSelected={getValues("BigPackageId")}
+              />
+            ))}
       </div>
     </Spin>
   );

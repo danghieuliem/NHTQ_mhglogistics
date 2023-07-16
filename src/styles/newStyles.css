@@ -398,3 +398,7 @@ div.order .ant-drawer-body {
 div.order.ant-drawer-bottom.ant-drawer-open .ant-drawer-content-wrapper {
   box-shadow: none;
 }
+
+.ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tbody > tr > td > .ant-table-expanded-row-fixed::after, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tbody > tr > td > .ant-table-expanded-row-fixed::after, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tbody > tr > td > .ant-table-expanded-row-fixed::after, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > tbody > tr > td > .ant-table-expanded-row-fixed::after {
+  display: none;
+}

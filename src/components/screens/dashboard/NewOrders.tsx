@@ -1,10 +1,11 @@
 import Link from "next/link";
 import React from "react";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 import { mainOrder } from "~/api";
 import { orderStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
-import { DataTable, showToast } from "../..";
+import { DataTable } from "../..";
 import TagStatus from "../status/TagStatus";
 
 export const NewOrders = React.memo(() => {
@@ -29,12 +30,9 @@ export const NewOrders = React.memo(() => {
         .then((res) => res.Data.Items),
     {
       keepPreviousData: true,
-      onError: (error) =>
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        }),
+      onError: (error) => {
+        toast.error((error as any)?.response?.data?.ResultMessage);
+      },
     }
   );
 
@@ -49,8 +47,8 @@ export const NewOrders = React.memo(() => {
               {_}
             </a>
           </Link>
-        )
-      }
+        );
+      },
     },
     {
       title: "Username",
@@ -59,7 +57,14 @@ export const NewOrders = React.memo(() => {
     {
       title: "Loại đơn hàng",
       dataIndex: "OrderTypeName",
-      render: (_) => <span className="font-bold" style={{color: _.includes("khác") ? "#009000" : "#1582F5"}}>{_}</span>
+      render: (_) => (
+        <span
+          className="font-bold"
+          style={{ color: _.includes("khác") ? "#009000" : "#1582F5" }}
+        >
+          {_}
+        </span>
+      ),
     },
     {
       title: "Trạng thái",

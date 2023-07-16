@@ -7,8 +7,7 @@ import {
   Layout,
   RequestPaymentDetailLeftForm,
   RequestPaymentDetailRightForm,
-  showToast,
-  toast,
+  toast
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -49,11 +48,7 @@ const Index: TNextPageWithLayout = () => {
         router.push("/manager/order/request-payment");
       })
       .catch((error) => {
-        showToast({
-          title: "Lỗi",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       });
   };
 

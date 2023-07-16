@@ -2,6 +2,9 @@ import { Divider, Image, Input, Tooltip } from "antd";
 import clsx from "clsx";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useMutation } from "react-query";
+import { toast } from "react-toastify";
+import { orderTemp } from "~/api";
 import { ActionButton, DataTable, IconButton } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
@@ -17,8 +20,41 @@ type TProps = {
   canUpdate?: boolean;
   isLoading?: boolean;
   data: TUserCartOrderTemp[];
+  refetchCart?: any;
 };
-const InputQuantity = ({ onHandleProduct, record, canUpdate }) => {
+
+const InputNote = ({ canUpdate, record, onHandleProduct, disabled}) => {
+  const [note, setNote] = useState(record?.Brand);
+
+  return (
+    <span className="">
+      {canUpdate ? (
+        <Input
+          size="small"
+          className="!w-[100%]"
+          value={note}
+          disabled={disabled}
+          onChange={(val) => {
+            setNote(val?.target?.value);
+          }}
+          onBlur={() => {
+            if (note !== record?.Brand) {
+              onHandleProduct("update", {
+                Id: record?.Id,
+                Brand: note,
+                Quantity: record?.Quantity,
+              });
+            }
+          }}
+        />
+      ) : (
+        <>{note}</>
+      )}
+    </span>
+  );
+};
+
+const InputQuantity = ({ onHandleProduct, record, canUpdate, disabled }) => {
   const [value, setValue] = useState(record?.Quantity);
 
   return (
@@ -27,6 +63,7 @@ const InputQuantity = ({ onHandleProduct, record, canUpdate }) => {
         <input
           value={value}
           placeholder=""
+          disabled={disabled}
           className="w-[60px] h-[28px] !rounded-[6px] border !border-[#c4c4c4] !text-center"
           onChange={(val) => {
             const valueTarget = Number(val.target.value);
@@ -35,10 +72,12 @@ const InputQuantity = ({ onHandleProduct, record, canUpdate }) => {
             }
           }}
           onBlur={() => {
-            onHandleProduct("update", {
-              Id: record?.Id,
-              Quantity: value,
-            });
+            if (record?.Quantity !== value) {
+              onHandleProduct("update", {
+                Id: record?.Id,
+                Quantity: value,
+              });
+            }
           }}
         />
       ) : (
@@ -48,7 +87,7 @@ const InputQuantity = ({ onHandleProduct, record, canUpdate }) => {
   );
 };
 
-const MobileItem = ({ data, onHandleProduct, canUpdate }) => {
+const MobileItem = ({ data, onHandleProduct, canUpdate, disabled}) => {
   return (
     <div className="flex flex-wrap gap-2 items-center justify-between">
       {data?.map((item, index) => (
@@ -110,6 +149,7 @@ const MobileItem = ({ data, onHandleProduct, canUpdate }) => {
                   canUpdate={canUpdate}
                   record={item}
                   onHandleProduct={onHandleProduct}
+                  disabled={disabled}
                 />
               </div>
               <div className="col-span-2 flex items-center justify-between">
@@ -125,17 +165,12 @@ const MobileItem = ({ data, onHandleProduct, canUpdate }) => {
               </div>
               <span className="col-span-2">
                 <span className="font-bold">Ghi chú: </span>
-                <span className="">
-                  {canUpdate ? (
-                    <Input
-                      size="small"
-                      className="!w-[100%]"
-                      value={item?.Brand}
-                    />
-                  ) : (
-                    <>{item?.Brand}</>
-                  )}
-                </span>
+                <InputNote
+                  canUpdate={canUpdate}
+                  record={item}
+                  disabled={disabled}
+                  onHandleProduct={onHandleProduct}
+                />
               </span>
             </div>
           </div>
@@ -148,9 +183,52 @@ const MobileItem = ({ data, onHandleProduct, canUpdate }) => {
 
 export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
   data,
-  onHandleProduct,
   canUpdate = true,
+  refetchCart,
 }) => {
+  const mutationUpdateProduct = useMutation(orderTemp.updateField);
+  const mutationDeleteProduct = useMutation(orderTemp.delete);
+  const [loading, setLoading] = useState(false);
+
+  const onHandleProduct = async (
+    type: "update" | "delete",
+    data: { Id: number; Quantity: number; Brand?: string }
+  ) => {
+    const id = toast.loading("Đang xử lý ...");
+    setLoading(true);
+    try {
+      if (type === "update") {
+        await mutationUpdateProduct.mutateAsync(data).then(() => {
+          toast.update(id, {
+            render: "Cập nhật sản phẩm thành công.",
+            type: "success",
+            isLoading: false,
+            autoClose: 1000,
+          });
+        });
+      } else {
+        await mutationDeleteProduct.mutateAsync(data.Id).then(() => {
+          toast.update(id, {
+            render: "Xoá sản phẩm thành công.",
+            type: "success",
+            isLoading: false,
+            autoClose: 1000,
+          });
+        });
+      }
+      refetchCart();
+    } catch (error) {
+      toast.update(id, {
+        render: (error as any)?.response?.data?.ResultMessage,
+        type: "error",
+        isLoading: false,
+        autoClose: 1000,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+  
   const columns: TColumnsType<TUserCartOrderTemp> = [
     {
       dataIndex: "Id",
@@ -195,17 +273,12 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
               </span>
               <span className="">
                 <span className="font-bold">Ghi chú: </span>
-                <span className="">
-                  {canUpdate ? (
-                    <Input
-                      size="small"
-                      className="!w-[100%]"
-                      value={record?.Brand}
-                    />
-                  ) : (
-                    <>{record?.Brand}</>
-                  )}
-                </span>
+                <InputNote
+                  canUpdate={canUpdate}
+                  record={record}
+                  onHandleProduct={onHandleProduct}
+                  disabled={loading}
+                />
               </span>
             </div>
           </div>
@@ -221,6 +294,7 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
           <InputQuantity
             record={record}
             onHandleProduct={onHandleProduct}
+            disabled={loading}
             canUpdate={canUpdate}
           />
         );
@@ -289,6 +363,7 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
                   record={record}
                   canUpdate={canUpdate}
                   onHandleProduct={onHandleProduct}
+                  disabled={loading}
                 />
               </span>
             </div>
@@ -351,6 +426,7 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
           data={data}
           onHandleProduct={onHandleProduct}
           canUpdate={canUpdate}
+          disabled={loading}
         />
       )}
     </>

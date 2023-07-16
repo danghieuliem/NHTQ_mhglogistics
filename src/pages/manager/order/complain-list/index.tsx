@@ -1,13 +1,13 @@
 import router from "next/router";
 import { useRef, useState } from "react";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 import { complain } from "~/api";
 import {
   ComplainListFilter,
   ComplainListForm,
   ComplainListTable,
   Layout,
-  showToast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -41,12 +41,8 @@ const Index: TNextPageWithLayout = () => {
           PageIndex: data?.PageIndex,
           PageSize: data?.PageSize,
         }),
-      onError: () => {
-        showToast({
-          title: "Lỗi!",
-          message: "Đường truyền kết nối server bị lỗi! Vui lòng thử lại!",
-          type: "error",
-        });
+      onError: (error) => {
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
       staleTime: 5000,
     }
@@ -66,11 +62,7 @@ const Index: TNextPageWithLayout = () => {
         router.push(res.Data);
       })
       .catch((error) => {
-        showToast({
-          title: "Lỗi!",
-          message: "Đường truyền kết nối server bị lỗi! Vui lòng thử lại!",
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       });
   };
 

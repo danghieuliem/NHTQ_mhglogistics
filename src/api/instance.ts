@@ -80,7 +80,7 @@ instance.interceptors.response.use(
       //   progress: undefined,
       //   theme: "colored",
       // });
-      Cookies.remove("tokenNHTQ-demo");
+      Cookies.remove(config.tokenName);
       router.push("/");
       // setTimeout(() => {
 

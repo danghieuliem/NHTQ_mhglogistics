@@ -37,11 +37,11 @@ export const ConfirmCompleteForm: React.FC<TProps> = ({
       </div>
       <div className="flex justify-end">
         <IconButton
-          btnClass="px-6 text-white py-3 rounded-[6px] hover:!bg-blue"
+          btnClass="px-6 text-white py-[10px] rounded-[4px] hover:!bg-blue"
           showLoading
           onClick={onPress}
           title="Hoàn tất"
-          icon={""}
+          icon={"!mr-0"}
           toolip={""}
           green
           disabled={loadingPayment}

@@ -5,7 +5,7 @@ import { formalPaymentData } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 
-export const OrderIDPaymentHistory: React.FC<TTable<TPayOrderHistory>> = ({
+const OrderIDPaymentHistory: React.FC<TTable<TPayOrderHistory>> = ({
   data,
 }) => {
   const columns: TColumnsType<TPayOrderHistory> = [
@@ -77,3 +77,5 @@ export const OrderIDPaymentHistory: React.FC<TTable<TPayOrderHistory>> = ({
     </div>
   );
 };
+
+export const OrderIDPaymentHistoryMemo = React.memo(OrderIDPaymentHistory);

@@ -1,16 +1,15 @@
-import router from "next/router";
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { user } from "~/api";
 import { FormDate, FormInput, FormInputNumber, FormSelect } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
-import { showToast, toast } from "~/components/toast";
+import { toast } from "~/components/toast";
 import { activeData, genderData } from "~/configs/appConfigs";
 import { useDeepEffect } from "~/hooks";
 
-import { Divider, Switch } from "antd";
-import { checkUnique, createComplain, EUnique } from "../../auth/method";
+import { Switch } from "antd";
+import { EUnique, checkUnique, createComplain } from "../../auth/method";
 
 type TProps = {
   defaultValues: TEmployee;
@@ -59,11 +58,7 @@ export const EmployeeManagementDetailForm: React.FC<TProps> = ({
       toast.success("Cập nhật nhân viên thành công");
     },
     onError: (error) => {
-      showToast({
-        title: (error as any)?.response?.data?.ResultCode === 401 && "Lỗi!",
-        message: (error as any)?.response?.data?.ResultMessage,
-        type: "error",
-      });
+      toast.error((error as any)?.response?.data?.ResultMessage);
     },
   });
 

@@ -12,7 +12,6 @@ import {
   FormUpload,
   IconButton,
   UserLayout,
-  showToast,
 } from "~/components";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
 import { RootState } from "~/store";
@@ -52,12 +51,9 @@ const Index: TNextPageWithLayout = () => {
       setLoading(false);
       router.back();
     },
-    onError: (error) =>
-      showToast({
-        title: (error as any)?.response?.data?.ResultCode,
-        message: (error as any)?.response?.data?.ResultMessage,
-        type: "error",
-      }),
+    onError: (error) => {
+      toast.error((error as any)?.response?.data?.ResultMessage);
+    },
   });
 
   const _onPress = async (data: TReport) => {
