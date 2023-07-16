@@ -8,7 +8,6 @@ import {
   EditArticleCategoryForm,
   IconButton,
   Layout,
-  ResizeImage,
   toast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
@@ -55,9 +54,6 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <>
-      <div className="tableBox mb-6">
-        <ResizeImage />
-      </div>
       <div className="tableBox">
         <Tabs
           tabBarExtraContent={
@@ -70,12 +66,12 @@ const Index: TNextPageWithLayout = () => {
                 btnClass="!mr-4"
                 toolip=""
               />
-              <IconButton
+              {/* <IconButton
                 title="Trở về"
                 icon="fas fa-undo-alt"
                 toolip=""
                 onClick={() => router.back()}
-              />
+              /> */}
             </div>
           }
         >

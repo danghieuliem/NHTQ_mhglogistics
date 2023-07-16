@@ -7,14 +7,14 @@ import React from "react";
 import { default as AvatarName } from "react-avatar";
 import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { getAllNewNotify } from "~/api";
-import { showToast } from "~/components";
-import { getLevelId } from "~/configs";
+import { config, getLevelId } from "~/configs";
 import {
   RootState,
   selectConnection,
   selectFirstPageDashboard,
-  useAppSelector
+  useAppSelector,
 } from "~/store";
 import { _format } from "~/utils";
 import Notification from "./box/Notification";
@@ -64,11 +64,7 @@ const NotificationBell = ({ userPage, userCurrentInfo }) => {
         }),
     {
       onError: (error) => {
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
       enabled: true,
       retry: false,
@@ -214,6 +210,7 @@ const LeftInfoComponents = ({ userPage, userCurrentInfo }) => {
               <a
                 className={clsx(styles.profileLink, styles.btnLogout)}
                 onClick={async () => {
+                  Cookies.remove(config.tokenName);
                   connection &&
                     (await connection.invoke(
                       "leave",
@@ -221,8 +218,7 @@ const LeftInfoComponents = ({ userPage, userCurrentInfo }) => {
                       userCurrentInfo.UserGroupId.toString()
                     ));
 
-                  Cookies.remove("tokenNHTQ-demo");
-                  router.push("/");
+                  // router.push("/");
                 }}
               >
                 <i className="fas fa-sign-out-alt"></i>
@@ -259,7 +255,7 @@ const LeftInfoComponents = ({ userPage, userCurrentInfo }) => {
   );
 };
 
-const NonRenderingChangeHover = React.memo(LeftInfoComponents)
+const NonRenderingChangeHover = React.memo(LeftInfoComponents);
 
 const Header: React.FC<TProps> = ({
   hover,
@@ -267,7 +263,9 @@ const Header: React.FC<TProps> = ({
   handleHover,
   userPage,
 }) => {
-  const dataGlobal: TConfig = useSelector((state: RootState) => state.dataGlobal);
+  const dataGlobal: TConfig = useSelector(
+    (state: RootState) => state.dataGlobal
+  );
   const userCurrentInfo: TUser = useSelector(
     (state: RootState) => state.userCurretnInfo
   );

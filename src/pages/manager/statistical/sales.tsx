@@ -10,7 +10,6 @@ import {
   SalesMoneyStatisticChart,
   SalesMoneyStatisticTable,
   SalesOrderStatisticTable,
-  showToast,
   toast,
 } from "~/components";
 import { breadcrumb, defaultPagination } from "~/configs";
@@ -120,11 +119,7 @@ const Index: TNextPageWithLayout = () => {
         setOrderPagination({ ...orderPagination, total: data?.TotalItem });
       },
       onError: (error) =>
-        showToast({
-          title: (error as any)?.response?.data?.ResultCode,
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        }),
+        toast.error((error as any)?.response?.data?.ResultMessage),
     }
   );
 
@@ -146,12 +141,8 @@ const Index: TNextPageWithLayout = () => {
         RoleID: userCurrentInfo?.UserGroupId,
       }),
     {
-      onError: () => {
-        showToast({
-          title: "Lỗi!",
-          message: "Đường truyền kết nối server bị lỗi! Vui lòng thử lại!",
-          type: "error",
-        });
+      onError: (error) => {
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
     }
   );

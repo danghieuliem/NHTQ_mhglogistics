@@ -30,17 +30,18 @@ cursor-pointer hover:shadow-sm transition-all duration-500 hover:!bg-main hover:
 
 type TProps = {
   handleFilter: (newFilter) => void;
-  handleDepositAll: TTable<TOrder>["handleModal"];
-  handlePaymentAll: TTable<TOrder>["handleModal"];
   numberOfOrder: any;
   moneyOfOrders: any;
 };
 
-const NumberOfOrderComp = ({ numberOfOrder }) => {
+const NumberOfOrderComp = ({ numberOfOrder, q }) => {
   return (
     <Card>
       <div className="min-w-[300px]">
-        {numberOfOrder?.map((item, index) => (
+        {(q !== "3"
+          ? numberOfOrder.filter((x) => x.id !== 100)
+          : numberOfOrder
+        )?.map((item, index) => (
           <div
             className="grid grid-cols-3 gap-2 py-1 my-1"
             key={`${item.name}-${index}`}
@@ -65,7 +66,9 @@ const MoneyOfOrdersComp = ({ moneyOfOrders }) => {
             className="grid grid-cols-2 md:grid-cols-3 gap-2 py-1 my-1"
             key={`${item.label}-${index}`}
           >
-            <div className="col-span-1 md:col-span-2 font-bold">{item.label}</div>
+            <div className="col-span-1 md:col-span-2 font-bold">
+              {item.label}
+            </div>
             <div className="col-span-1 text-main text-right font-bold">
               {_format.getVND(item.value)}
             </div>
@@ -94,7 +97,7 @@ export const UserAnotherOrderListFilter: React.FC<TProps> = ({
       <Popover
         trigger="click"
         placement="bottomRight"
-        content={<NumberOfOrderComp numberOfOrder={numberOfOrder} />}
+        content={<NumberOfOrderComp numberOfOrder={numberOfOrder} q={query?.id}/>}
       >
         <ActionButton
           title="Thông tin đơn hàng"
@@ -123,7 +126,11 @@ export const UserAnotherOrderListFilter: React.FC<TProps> = ({
         isButtonClassName="bg-main !text-white"
       />
       <Drawer
-        title={<Tag color="text-white" className="!bg-sec">Bộ lọc nâng cao</Tag>}
+        title={
+          <Tag color="text-white" className="!bg-sec">
+            Bộ lọc nâng cao
+          </Tag>
+        }
         placement="right"
         visible={isShow}
         closable={false}
@@ -217,9 +224,7 @@ export const UserAnotherOrderListFilter: React.FC<TProps> = ({
               )?.map((item) => (
                 <div
                   key={item?.name}
-                  className={`col-span-${
-                    item.col
-                  } ${filterBox} ${
+                  className={`col-span-${item.col} ${filterBox} ${
                     item?.id === Status.current ? "!bg-main !text-white" : ""
                   }`}
                   onClick={() => {

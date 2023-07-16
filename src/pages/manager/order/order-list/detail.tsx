@@ -20,8 +20,7 @@ import {
   OrderProductList,
   OrderSurChargeList,
   OrderTransferCodeList,
-  showToast,
-  toast
+  toast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -93,11 +92,7 @@ const Index: TNextPageWithLayout = () => {
       refetch();
     },
     onError: (error) => {
-      showToast({
-        title: "Đã xảy ra lỗi",
-        message: (error as any)?.response?.data?.ResultMessage,
-        type: "error",
-      });
+      toast.error((error as any)?.response?.data?.ResultMessage);
     },
   });
 
@@ -120,7 +115,7 @@ const Index: TNextPageWithLayout = () => {
   }
 
   if (isLoading) {
-    return <Finding />
+    return <Finding />;
   }
 
   {
@@ -133,143 +128,139 @@ const Index: TNextPageWithLayout = () => {
   }
 
   return (
-      <FormProvider {...form}>
-        <div className="grid grid-cols-10 gap-4"
-          style={{
-            opacity: isFetching ? "0.8" : "1",
-            pointerEvents: isFetching ? "none" : 'all'
-          }}
-        >
-          <div className="col-span-3 xl:col-span-2">
-            <div
-              style={{
-                position: "sticky",
-                top: "10px",
-              }}
-            >
-              <OrderDetail
-                active={active}
-                handleActive={(val) => setActive(val)}
-                handleUpdate={_onUpdate}
-                data={data?.Data}
-                loading={isFetching}
-                refetch={refetch}
-                RoleID={userCurrentInfo?.UserGroupId}
-              />
-            </div>
-          </div>
-          <div className="col-span-7 xl:col-span-8">
-            <Collapse
-              expandIconPosition="right"
-              expandIcon={({ isActive }) => (
-                <CaretRightOutlined rotate={isActive ? 90 : 0} />
-              )}
-              defaultActiveKey={["1", "2", "3", "4", "5", "6", "7"]}
-            >
-              <Panel
-                header={`Mã đơn hàng (${
-                  data?.Data?.MainOrderCodes?.length || 0
-                })`}
-                key="1"
-              >
-                <div
-                  id="order-code"
-                  className={clsx(className, active === 0 && "")}
-                >
-                  <OrderCode
-                    data={data?.Data}
-                    loading={isFetching}
-                    refetch={refetch}
-                    RoleID={userCurrentInfo?.UserGroupId}
-                  />
-                </div>
-              </Panel>
-              <Panel
-                header={`Mã vận đơn (${data?.Data?.SmallPackages.length || 0})`}
-                key="2"
-              >
-                <div
-                  id="transfer-code-list"
-                  className={clsx(className, "!py-0", active === 1 && "")}
-                >
-                  <OrderTransferCodeList
-                    data={data?.Data}
-                    loading={isFetching}
-                    handleUpdate={_onUpdate}
-                    RoleID={userCurrentInfo?.UserGroupId}
-                  />
-                </div>
-              </Panel>
-              <Panel
-                header={`Danh sách sản phẩm (${
-                  data?.Data?.Orders?.length || 0
-                })`}
-                key="3"
-              >
-                <div
-                  id="product-list"
-                  className={clsx(className, active === 2 && "")}
-                >
-                  <OrderProductList
-                    data={data?.Data}
-                    loading={isFetching}
-                    refetch={refetch}
-                    RoleID={userCurrentInfo?.UserGroupId}
-                  />
-                </div>
-              </Panel>
-              <Panel header="Chi phí đơn hàng" key="4">
-                <div
-                  id="surcharge-list"
-                  className={clsx(className, active === 3 && "")}
-                >
-                  <OrderSurChargeList
-                    data={data?.Data}
-                    loading={isFetching}
-                    handleUpdate={_onUpdate}
-                    RoleID={userCurrentInfo?.UserGroupId}
-                  />
-                  <OrderCost
-                    loading={isFetching}
-                    data={data?.Data}
-                    RoleID={userCurrentInfo?.UserGroupId}
-                  />
-                </div>
-              </Panel>
-              <Panel header="Nhân viên xử lý" key="5">
-                <div
-                  id="handling-staff"
-                  className={clsx(className, active === 5 && "")}
-                >
-                  <OrderHandlingStaff
-                    data={data?.Data}
-                    userSaleCatalogue={userSale}
-                    userOrderCatalogue={userOrder}
-                    loading={isFetching}
-                    RoleID={userCurrentInfo?.UserGroupId}
-                  />
-                </div>
-              </Panel>
-              <Panel header="Thông tin đặt hàng" key="6">
-                <div
-                  id="order-info"
-                  className={clsx(className, active === 6 && "")}
-                >
-                  <OrderInfo data={data?.Data} loading={isLoading} />
-                </div>
-              </Panel>
-              <Panel header="Lịch sử" key="7">
-                <div
-                  id="history"
-                  className={clsx(className, active === 7 && "")}
-                >
-                  <OrderHistory data={data?.Data} loading={isFetching} />
-                </div>
-              </Panel>
-            </Collapse>
+    <FormProvider {...form}>
+      <div
+        className="grid grid-cols-10 gap-4"
+        style={{
+          opacity: isFetching ? "0.8" : "1",
+          pointerEvents: isFetching ? "none" : "all",
+        }}
+      >
+        <div className="col-span-3 xl:col-span-2">
+          <div
+            style={{
+              position: "sticky",
+              top: "10px",
+            }}
+          >
+            <OrderDetail
+              active={active}
+              handleActive={(val) => setActive(val)}
+              handleUpdate={_onUpdate}
+              data={data?.Data}
+              loading={isFetching}
+              refetch={refetch}
+              RoleID={userCurrentInfo?.UserGroupId}
+            />
           </div>
         </div>
-      </FormProvider>
+        <div className="col-span-7 xl:col-span-8">
+          <Collapse
+            expandIconPosition="right"
+            expandIcon={({ isActive }) => (
+              <CaretRightOutlined rotate={isActive ? 90 : 0} />
+            )}
+            defaultActiveKey={["1", "2", "3", "4", "5", "6", "7"]}
+          >
+            <Panel
+              header={`Mã đơn hàng (${
+                data?.Data?.MainOrderCodes?.length || 0
+              })`}
+              key="1"
+            >
+              <div
+                id="order-code"
+                className={clsx(className, active === 0 && "")}
+              >
+                <OrderCode
+                  data={data?.Data}
+                  loading={isFetching}
+                  refetch={refetch}
+                  RoleID={userCurrentInfo?.UserGroupId}
+                />
+              </div>
+            </Panel>
+            <Panel
+              header={`Mã vận đơn (${data?.Data?.SmallPackages.length || 0})`}
+              key="2"
+            >
+              <div
+                id="transfer-code-list"
+                className={clsx(className, "!py-0", active === 1 && "")}
+              >
+                <OrderTransferCodeList
+                  data={data?.Data}
+                  loading={isFetching}
+                  handleUpdate={_onUpdate}
+                  RoleID={userCurrentInfo?.UserGroupId}
+                />
+              </div>
+            </Panel>
+            <Panel
+              header={`Danh sách sản phẩm (${data?.Data?.Orders?.length || 0})`}
+              key="3"
+            >
+              <div
+                id="product-list"
+                className={clsx(className, active === 2 && "")}
+              >
+                <OrderProductList
+                  data={data?.Data}
+                  loading={isFetching}
+                  refetch={refetch}
+                  RoleID={userCurrentInfo?.UserGroupId}
+                />
+              </div>
+            </Panel>
+            <Panel header="Chi phí đơn hàng" key="4">
+              <div
+                id="surcharge-list"
+                className={clsx(className, active === 3 && "")}
+              >
+                <OrderSurChargeList
+                  data={data?.Data}
+                  loading={isFetching}
+                  handleUpdate={_onUpdate}
+                  RoleID={userCurrentInfo?.UserGroupId}
+                />
+                <OrderCost
+                  loading={isFetching}
+                  data={data?.Data}
+                  RoleID={userCurrentInfo?.UserGroupId}
+                />
+              </div>
+            </Panel>
+            <Panel header="Nhân viên xử lý" key="5">
+              <div
+                id="handling-staff"
+                className={clsx(className, active === 5 && "")}
+              >
+                <OrderHandlingStaff
+                  data={data?.Data}
+                  userSaleCatalogue={userSale}
+                  userOrderCatalogue={userOrder}
+                  loading={isFetching}
+                  RoleID={userCurrentInfo?.UserGroupId}
+                />
+              </div>
+            </Panel>
+            <Panel header="Thông tin đặt hàng" key="6">
+              <div
+                id="order-info"
+                className={clsx(className, active === 6 && "")}
+              >
+                <OrderInfo data={data?.Data} loading={isLoading} />
+              </div>
+            </Panel>
+            <Panel header="Lịch sử" key="7">
+              <div id="history" className={clsx(className, active === 7 && "")}>
+                <OrderHistory data={data?.Data} loading={isFetching} />
+              </div>
+            </Panel>
+          </Collapse>
+        </div>
+      </div>
+    </FormProvider>
   );
 };
 

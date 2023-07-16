@@ -1,8 +1,9 @@
-import { Modal, Pagination, Tag } from "antd";
+import { Modal, Pagination } from "antd";
 import router from "next/router";
 import React from "react";
+import { toast } from "react-toastify";
 import { payHelp } from "~/api";
-import { ActionButton, DataTable, showToast } from "~/components";
+import { ActionButton, DataTable } from "~/components";
 import { EPaymentData, paymentStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
@@ -23,18 +24,10 @@ export const UserRequestListTable: React.FC<
   ) => {
     try {
       await payHelp.updatePayHelp({ id: targetData?.Id, status: type });
-      showToast({
-        title: "Thành công",
-        message: type === 2 ? "Thanh toán thành công!" : "Hủy thành công!",
-        type: "success",
-      });
+      toast.success(type === 2 ? "Thanh toán thành công!" : "Hủy thành công!");
       refetch();
     } catch (error) {
-      showToast({
-        title: "",
-        message: (error as any)?.response?.data?.ResultMessage,
-        type: "error",
-      });
+      toast.success((error as any)?.response?.data?.ResultMessage);
     }
   };
 
@@ -76,7 +69,9 @@ export const UserRequestListTable: React.FC<
       title: "Trạng thái",
       render: (status, record) => {
         const color = paymentStatus.find((x) => x.id === status);
-        return <TagStatus color={color?.color} statusName={record?.StatusName} />
+        return (
+          <TagStatus color={color?.color} statusName={record?.StatusName} />
+        );
       },
     },
     {

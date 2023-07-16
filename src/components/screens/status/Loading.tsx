@@ -12,5 +12,5 @@ export const Loading = () => {
     },
   };
 
-  return <Lottie options={defaultOptions} height={"auto"} width={150} />;
+  return <Lottie options={defaultOptions} height={"auto"} width={80} />;
 };

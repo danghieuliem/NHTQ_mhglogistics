@@ -1,4 +1,3 @@
-import router from "next/router";
 import {
   FormEditor,
   FormInput,
@@ -6,35 +5,30 @@ import {
   FormSwitch,
   FormTextarea,
   FormUpload,
-  IconButton,
+  ResizeImage,
 } from "~/components";
-import { useCatalogue } from "~/hooks/useCatalogue";
 import { TControl } from "~/types/field";
 
 type TProps = TControl<TArticleList> & {
   type: "add" | "edit";
   data?: any;
+  pageType?: any;
 };
 
-export const ArticleListForm: React.FC<TProps> = ({ control, type, data }) => {
-  const { pageType } = useCatalogue({ pageTypeEnabled: !!data });
+export const ArticleListForm: React.FC<TProps> = ({
+  control,
+  type,
+  data,
+  pageType,
+}) => {
+  // const { pageType } = useCatalogue({ pageTypeEnabled: !!data });
+
+  // console.log("pageType: ", pageType);
 
   return (
     <>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(12, 1fr)",
-          gap: "24px",
-          marginTop: 20,
-					padding: '0 20px'
-        }}
-      >
-        <div
-          style={{
-            gridColumn: "1/4",
-          }}
-        >
+      <div className="grid grid-cols-12 gap-4 p-2">
+        <div className="col-span-3">
           <div className="mb-4">
             <FormInput
               control={control}
@@ -112,12 +106,9 @@ export const ArticleListForm: React.FC<TProps> = ({ control, type, data }) => {
               </div>
             )}
           </div>
+          <ResizeImage />
         </div>
-        <div
-          style={{
-            gridColumn: "4/13",
-          }}
-        >
+        <div className="col-span-9 min-h-[700px]">
           <FormEditor
             control={control}
             label=""

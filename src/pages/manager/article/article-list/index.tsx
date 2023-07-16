@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 import { Page } from "~/api";
 import {
   ArticleFilterBase,
   ArticleListTable,
   IconButton,
   Layout,
-  showToast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -40,14 +40,10 @@ const Index: TNextPageWithLayout = () => {
           PageSize: data?.PageSize,
         }),
       onError: (error) => {
-        showToast({
-          title:
-            (error as any)?.response?.data?.ResultCodepin === 500 &&
-            "Lỗi server!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
+      refetchOnWindowFocus: true,
+      staleTime: 5000,
     }
   );
 

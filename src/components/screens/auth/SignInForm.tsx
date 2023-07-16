@@ -2,9 +2,10 @@ import { Card, Modal } from "antd";
 import Cookie from "js-cookie";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { authenticate, setToken, user as userAPI } from "~/api";
 import { Button, FormInput } from "~/components";
-import { showToast } from "~/components/toast";
+import { config } from "~/configs";
 import { setRouter, updateUser, useAppDispatch } from "~/store";
 import { _format } from "~/utils";
 
@@ -35,7 +36,7 @@ export const SignInForm = ({ visible, setOpenModal }) => {
       .login(data)
       .then((res) => {
         const token = res.Data.token;
-        Cookie.set("tokenNHTQ-demo", token);
+        Cookie.set(config.tokenName, token);
         setToken(token);
         const user: TUser = JSON.parse(
           _format.getJWTDecode(token)[
@@ -61,13 +62,10 @@ export const SignInForm = ({ visible, setOpenModal }) => {
           })
           .catch(() => console.log("error to fetching user by id!"));
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log((error as any)?.response?.data?.ResultMessage);
         resetField("password");
-        showToast({
-          title: "",
-          message: "Tên đăng nhập hoặc mật khẩu không chính xác",
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
         setLoading(false);
       });
   };
@@ -112,9 +110,7 @@ export const SignInForm = ({ visible, setOpenModal }) => {
                 rules={{
                   required: "Bạn chưa điền thông tin!",
                 }}
-                prefix={
-                  <i className="fas fa-user"></i>
-                }
+                prefix={<i className="fas fa-user"></i>}
               />
             </div>
             <div className="col-span-2">

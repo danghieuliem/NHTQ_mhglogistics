@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { transportationOrder } from "~/api";
-import { showToast, UserDepositListTable, UserLayout } from "~/components";
+import { UserDepositListTable, UserLayout } from "~/components";
 import { breadcrumb } from "~/configs";
 import { orderMoneyOfOrdersData, transportStatus } from "~/configs/appConfigs";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
-import { RootState, selectUser, useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 import { _format } from "~/utils";
 
@@ -57,11 +58,7 @@ const Index: TNextPageWithLayout = () => {
           PageSize: data?.PageSize,
         }),
       onError: (error) => {
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
       enabled: !!userCurrentInfo?.Id,
     }
@@ -95,11 +92,7 @@ const Index: TNextPageWithLayout = () => {
       setMoneyOfOrders(moneyOfOrders);
     },
     onError: (error) => {
-      showToast({
-        title: "Đã xảy ra lỗi!",
-        message: (error as any)?.response?.data?.ResultMessage,
-        type: "error",
-      });
+      toast.error((error as any)?.response?.data?.ResultMessage);
     },
     retry: false,
     enabled: !!userCurrentInfo?.Id,
@@ -123,17 +116,12 @@ const Index: TNextPageWithLayout = () => {
         });
       },
       onError: (error) => {
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
       retry: false,
       enabled: !!userCurrentInfo?.Id,
-      refetchOnWindowFocus: false
-    },
-
+      refetchOnWindowFocus: false,
+    }
   );
 
   return (

@@ -1,12 +1,33 @@
-import { InputNumber, Tooltip } from "antd";
+import { Drawer, Input, Tooltip } from "antd";
 import router from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { order } from "~/api";
-import { IconButton } from "~/components/globals/button/IconButton";
+import { ActionButton, IconButton } from "~/components";
+import { DataTable } from "~/components/globals/table";
+import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
+// import ReportContent from "./Report";
+import { useQueryClient } from "react-query";
 
-export const OrderIDProductList: React.FC<any> = ({ data }) => {
+type TPropsTable = {
+  Id: number;
+  ImageOrigin: string;
+  TitleOrigin: string;
+  Quantity: number;
+  UPriceBuy: number;
+  UPriceBuyVN: number;
+  Property: string;
+  Brand: string;
+  mainOrder: any;
+  StatusComplain: number;
+};
+
+export const OrderIDProductList: React.FC<any> = ({ data, mainOrder, refetch}) => {
+  const [visible, setVisible] = useState<TPropsTable>(null);
+  const [loading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
+
   const onExportExcel = async () => {
     try {
       const res = await order.exportExcel({
@@ -18,138 +39,221 @@ export const OrderIDProductList: React.FC<any> = ({ data }) => {
     }
   };
 
-  return (
-    <div className="tableBox mb-4">
-      <div className="flex justify-between items-end mb-4">
-        <div className="titleTable pb-0">Danh sách sản phẩm</div>
-        <IconButton
-          onClick={() => onExportExcel()}
-          title="Xuất"
-          icon="fas fa-file-export"
-          showLoading
-          toolip="Xuất thống kê"
-          green
-          btnClass="!"
-        />
-      </div>
-      <div className="orderProductItemWrapper">
-        {data?.map((item, index) => (
-          <div key={index} className="orderProductItem border border-main p-2 rounded-[]">
-            <div className="flex flex-wrap">
-              <div className="flex w-full items-center mb-5 justify-between px-3 borderBottom">
-                <Tooltip title="Link đến sản phẩm">
-                  <a
-                    href={item?.LinkOrigin}
-                    target="_blank"
-                    className="mainTitle"
-                  >
-                    {item?.TitleOrigin}
-                  </a>
-                </Tooltip>
-              </div>
-              <div className="orderProductTop flex w-5/12 items-center">
-                <div className="flex">
-                  <div className="self-stretch flex items-center">
-                    <div className="w-[20px] h-[20px] text-center text-orange">
-                      {item?.Id}
-                    </div>
-                  </div>
-                  <div className="w-[75px] h-[75px] border border-[#6969691a] ml-4 rounded-xl overflow-hidden">
-                    <a href={item?.LinkOrigin} target="_blank">
-                      <img
-                        src={
-                          item?.ImageOrigin ? item?.ImageOrigin : "/default/pro-empty.jpg"
-                        }
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                        }}
-                      />
-                    </a>
-                  </div>
-                </div>
-                <div className="ml-2">
-                  <div className="flex flex-wrap items-end">
-                    <span className="text-sm mr-4 text-[#484747] font-semibold">
-                      * Thuộc tính:
-                    </span>
-                    <span>{item?.Property}</span>
-                  </div>
-                  <div className="flex flex-wrap items-end">
-                    <span className="text-sm mr-4 text-[#484747] font-semibold">
-                      * Ghi chú:
-                    </span>
-                    <input
-                      type="text"
-                      className="border-b !rounded-none border-[#0000003a] text-[#000] bg-[transparent] max-w-[140px] outline-0"
-                      value={item?.Brand ?? ""}
-                      disabled={true}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="orderProductBottom flex w-7/12">
-                <div className="orderProductBottomPrice flex md:flex-col justify-between ml-2 w-1/4">
-                  <div className="text-sm mr-4 text-[#484747] font-semibold">
-                    Số lượng (cái)
-                  </div>
-                  <div className="text-sm text-center">
-                    <InputNumber
-                      size="middle"
-                      value={_format.getVND(item?.Quantity, "")}
-                      disabled={true}
-                    />
-                  </div>
-                </div>
-                <div className="orderProductBottomPrice flex md:flex-col justify-between ml-2 w-1/4">
-                  <div className="text-sm mr-4 text-[#484747] font-semibold">
-                    Đơn giá (¥)
-                  </div>
-                  <div className="text-orange">
-                    <div className="text-sm text-center">
-                      <InputNumber
-                        size="middle"
-                        value={_format.getVND(item?.UPriceBuy, "")}
-                        disabled={true}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="orderProductBottomPrice flex md:flex-col justify-between ml-2 w-1/4">
-                  <div className="text-sm mr-4 text-[#484747] font-semibold">
-                    Đơn giá (VNĐ)
-                  </div>
-                  <div className="text-orange">
-                    <div className="text-sm text-center">
-                      <InputNumber
-                        size="middle"
-                        value={_format.getVND(item?.UPriceBuyVN, "")}
-                        disabled={true}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="orderProductBottomPrice flex md:flex-col justify-between ml-2 w-1/4">
-                  <div className="text-sm mr-4 text-[#484747] font-semibold">
-                    Thành tiền (VNĐ)
-                  </div>
-                  <div className="text-sm text-center">
-                    <InputNumber
-                      size="middle"
-                      value={_format.getVND(
-                        item?.UPriceBuyVN * item?.Quantity,
-                        ""
-                      )}
-                      disabled={true}
-                      className="text-center"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+  const handleUpdateQuantity_Brand = (data: any) => {
+    setLoading(true);
+    const id = toast.loading("Đang xử lý ...");
+
+    order.update(data)
+      .then(res => {
+        refetch();
+        queryClient.invalidateQueries("orderList");
+        toast.update(id, {
+          type: "success",
+          render: data?.Brand ? "Cập nhật ghi chú thành công" : "Cập nhật số lượng thành công!",
+          autoClose: 1000,
+          isLoading: false
+        })
+      })
+      .catch(error => {
+        toast.update(id, {
+          type: "error",
+          render: (error as any)?.response?.data?.ResultMessage,
+          autoClose: 1000,
+          isLoading: false
+        })
+      })
+      .finally(() => setLoading(false))
+  }
+
+
+  const columns: TColumnsType<TPropsTable> = [
+    {
+      dataIndex: "Id",
+      title: "ID",
+      width: 40,
+      responsive: ["lg"],
+    },
+    {
+      dataIndex: "ImageOrigin",
+      title: "Ảnh",
+      align: "center",
+      render: (img) => {
+        return (
+          <div className="flex justify-center m-auto w-20 h-20">
+            <img
+              src={img ? img : "/default/pro-empty.jpg"}
+              alt="image"
+              width={75}
+              height={75}
+              style={{ borderRadius: "4px" }}
+            />
           </div>
-        ))}
-      </div>
-    </div>
+        );
+      },
+      width: 90,
+    },
+    {
+      dataIndex: "TitleOrigin",
+      title: "Thông tin",
+      width: 500,
+      render: (_, record) => {
+        // const [note, setNote] = useState(record?.Brand);
+        return (
+          <div className="flex flex-col gap-2">
+            <Tooltip title="Tên sản phẩm" className="font-semibold">
+              {record?.TitleOrigin}
+            </Tooltip>
+            <div>
+              <span className="font-semibold">Thuộc tính: </span>
+              <span>{record?.Property}</span>
+            </div>
+            <div>
+              <span className="font-semibold">Ghi chú: </span>
+              <span className="break-all">{record?.Brand}</span>
+            </div>
+            {/* <Input
+              className="!w-fit"
+              disabled={mainOrder?.DatHangId || loading || mainOrder?.Status !== 2}
+              prefix="Chi chú"
+              value={note}
+              onChange={(value) => {
+                const newNote = value?.target?.value;
+                setNote(newNote);
+              }}
+              onBlur={() => {
+                if (note !== record?.Brand) {
+                  handleUpdateQuantity_Brand({
+                    ...record,
+                    Brand: note
+                  })
+                }
+              }}
+            /> */}
+          </div>
+        );
+      },
+    },
+    {
+      dataIndex: "Quantity",
+      title: "Số lượng",
+      align: "right",
+      render: (_, record) => {
+        return <>{_format.getVND(_, " ")}</>
+        // const [quantity, setQuantity] = useState(_);
+        // return (
+        //   <div>
+        //     <input
+        //       disabled={mainOrder?.DatHangId || loading || mainOrder?.Status !== 2}
+        //       value={quantity}
+        //       placeholder=""
+        //       className="w-[60px] h-[28px] !rounded-[6px] border !border-[#c4c4c4] !text-center"
+        //       onChange={(val) => {
+        //         const valueTarget = Number(val.target.value);
+        //         if (!isNaN(valueTarget)) {
+        //           setQuantity(valueTarget);
+        //         }
+        //       }}
+        //       onBlur={() => {
+        //         if (quantity !== record?.Quantity) {
+        //           handleUpdateQuantity_Brand({
+        //             ...record,
+        //             Quantity: quantity
+        //           })
+        //         }
+        //       }}
+        //     />
+        //   </div>
+        // );
+      },
+    },
+    {
+      dataIndex: "UPriceBuy",
+      title: "Đơn giá (¥)",
+      align: "right",
+      render: (_, record) => {
+        return <div>{_format.getVND(_, "")}</div>;
+      },
+    },
+    {
+      dataIndex: "UPriceBuyVN",
+      title: "Đơn giá (VNĐ)",
+      align: "right",
+      render: (_, record) => {
+        return <div>{_format.getVND(_, "")}</div>;
+      },
+    },
+    {
+      dataIndex: "Quantity",
+      align: "right",
+      title: "Thành tiền (VNĐ)",
+      render: (_, record) => {
+        return (
+          <div>
+            {_format.getVND(record?.UPriceBuyVN * record?.Quantity, "")}
+          </div>
+        );
+      },
+    },
+    // {
+    //   dataIndex: "action",
+    //   title: "Thao tác",
+    //   render: (_, record) => {
+    //     return (
+    //       <div>
+    //         {record?.StatusComplain !== 1 &&
+    //           (mainOrder?.Orders?.Status === 13 ||
+    //             mainOrder?.Orders?.Status === 15) && (
+    //             <ActionButton
+    //               onClick={() => {
+    //                 setVisible(record);
+    //               }}
+    //               icon="fas fa-balance-scale-right"
+    //               title="Khiếu nại"
+    //               btnRed
+    //               isButton={true}
+    //               // disabled={status !== 14}
+    //             />
+    //           )}
+    //       </div>
+    //     );
+    //   },
+    // },
+  ];
+
+  return (
+    <>
+      <DataTable
+        {...{
+          columns,
+          data,
+          title: "Danh sách sản phẩm",
+          extraElment: (
+            <IconButton
+              onClick={() => onExportExcel()}
+              title="Xuất"
+              icon="fas fa-file-export"
+              showLoading
+              toolip="Xuất thống kê"
+              green
+              btnClass="!h-fit"
+            />
+          ),
+        }}
+      />
+      {/* <Drawer
+        title="Tạo khiếu nại mới"
+        placement="right"
+        width={"40vw"}
+        onClose={() => setVisible(null)}
+        visible={!!visible?.Id}
+        closable={false}
+        style={{ zIndex: "10000000" }}
+      >
+        <ReportContent
+          defaultValue={visible}
+          onCancel={() => setVisible(null)}
+        />
+      </Drawer> */}
+    </>
   );
 };

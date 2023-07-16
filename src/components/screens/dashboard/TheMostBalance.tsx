@@ -1,9 +1,10 @@
 import React from "react";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 import { user } from "~/api";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
-import { DataTable, showToast } from "../..";
+import { DataTable } from "../..";
 
 export const TheMostBalance = React.memo(() => {
   const { isFetching, data, isLoading } = useQuery(
@@ -27,12 +28,9 @@ export const TheMostBalance = React.memo(() => {
         .then((res) => res.Data.Items),
     {
       keepPreviousData: true,
-      onError: (error) =>
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        }),
+      onError: (error) => {
+        toast.error((error as any)?.response?.data?.ResultMessage);
+      },
     }
   );
 
@@ -44,7 +42,7 @@ export const TheMostBalance = React.memo(() => {
     {
       title: "Vip",
       dataIndex: "LevelName",
-      render: (_) => <span className="text-sec font-semibold">{_}</span>
+      render: (_) => <span className="text-sec font-semibold">{_}</span>,
     },
     {
       title: "Số dư hiện tại",
@@ -57,7 +55,7 @@ export const TheMostBalance = React.memo(() => {
       dataIndex: "SumAmount",
       align: "right",
       render: (SumAmount) => _format.getVND(SumAmount, ""),
-    }
+    },
   ];
 
   return (

@@ -8,7 +8,6 @@ import {
   PersonalRechargeFilter,
   WithDrawalHistoryForm,
   WithDrawalHistoryTable,
-  showToast,
   toast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
@@ -68,11 +67,7 @@ const Index: TNextPageWithLayout = () => {
         router.push(res.Data);
       })
       .catch((error) => {
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       });
   };
 

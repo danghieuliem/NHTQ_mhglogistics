@@ -140,14 +140,13 @@ export const useCatalogue = ({
     ["warehouseTQCatalogue"],
     async () =>
       await catalogue.getWarehouseTQ().then((res) => {
-        // console.log("chổ này nè : ", res);
         return res.Data;
       }),
     {
-      // staleTime,
-      // initialDataUpdatedAt,
+      staleTime,
+      initialDataUpdatedAt,
       // onError,
-      // enabled: warehouseTQEnabled,
+      enabled: warehouseTQEnabled,
       // retry: false,
     }
   );

@@ -3,6 +3,7 @@ export const config = {
   // DEVELOPMENT: '' || process.env.DEVELOPMENT,
   API_URL: "" || process.env.NEXT_PUBLIC_API_SERVER,
   ENV: process.env.NODE_ENV,
+  tokenName: "tokenNHTQ-demo"
 };
 
 export const regex = {
@@ -2012,14 +2013,14 @@ export const enum EOrderStatus {
 
 export const orderStatus = [
   {
-    id: -1,
+    id: EOrderStatus.all,
     name: "Tất cả đơn",
     col: 1,
     money: null,
     value: null,
   },
   {
-    id: 0,
+    id: EOrderStatus.NoDeposit,
     name: "Chưa đặt cọc",
     color: "#f00",
     col: 1,
@@ -2027,7 +2028,7 @@ export const orderStatus = [
     value: null,
   },
   {
-    id: 100,
+    id: EOrderStatus.WaitingForQuote,
     name: "Chờ báo giá",
     color: "purple",
     col: 1,
@@ -2035,7 +2036,7 @@ export const orderStatus = [
     value: null,
   },
   {
-    id: 1,
+    id: EOrderStatus.Cancel,
     name: "Hủy",
     color: "#000",
     col: 1,
@@ -2043,7 +2044,7 @@ export const orderStatus = [
     value: null,
   },
   {
-    id: 2,
+    id: EOrderStatus.Deposited,
     name: "Đã đặt cọc",
     color: "#ffa500",
     col: 1,
@@ -2051,7 +2052,7 @@ export const orderStatus = [
     value: null,
   },
   {
-    id: 5,
+    id: EOrderStatus.Purchased,
     name: "Đã mua hàng",
     color: "#008080",
     col: 1,
@@ -2059,7 +2060,7 @@ export const orderStatus = [
     value: null,
   },
   {
-    id: 6,
+    id: EOrderStatus.InChinaWarehoue,
     name: "Đã về kho TQ",
     color: "#f57c00",
     col: 1,
@@ -2067,7 +2068,7 @@ export const orderStatus = [
     value: null,
   },
   {
-    id: 7,
+    id: EOrderStatus.InVietnamWarehoue,
     name: "Đã về kho VN",
     color: "#c71585",
     col: 1,
@@ -2075,7 +2076,7 @@ export const orderStatus = [
     value: null,
   },
   {
-    id: 9,
+    id: EOrderStatus.Paid,
     name: "Đã thanh toán",
     color: "#096dd9",
     col: 1,
@@ -2083,7 +2084,7 @@ export const orderStatus = [
     value: null,
   },
   {
-    id: 10,
+    id: EOrderStatus.Finished,
     name: "Đã hoàn thành",
     color: "#008000",
     col: 1,
@@ -2091,7 +2092,7 @@ export const orderStatus = [
     value: null,
   },
   {
-    id: 11,
+    id: EOrderStatus.Complained,
     name: "Đã khiếu nại",
     color: "#601010",
     col: 1,

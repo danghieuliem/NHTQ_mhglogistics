@@ -2,9 +2,9 @@ import clsx from "clsx";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 import { dashboard } from "~/api";
 import { PurchasePercent, TotalRechargesPerWeek } from "~/components";
-import { showToast } from "~/components/toast";
 import { _format } from "~/utils";
 import { OrdersPerWeekChart } from "./OrderPerWeekChart";
 
@@ -106,11 +106,7 @@ export const OrdersPerWeek = React.memo(() => {
         return res.Data[0];
       },
       onError: (error) => {
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
       refetchOnWindowFocus: false,
       staleTime: 5000,
@@ -123,12 +119,9 @@ export const OrdersPerWeek = React.memo(() => {
     () => dashboard.getItemInWeek(),
     {
       onSuccess: (res) => res.Data,
-      onError: (error) =>
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        }),
+      onError: (error) => {
+        toast.error((error as any)?.response?.data?.ResultMessage);
+      },
       refetchOnWindowFocus: false,
       staleTime: 5000,
     }
@@ -151,13 +144,13 @@ export const OrdersPerWeek = React.memo(() => {
       </div>
 
       <div className="grid grid-cols-12 col-span-2 gap-4">
-        <div className="col-span-5">
+        <div className="col-span-6">
           <OrdersPerWeekChart dataChart={dataChart?.Data ?? []} />
         </div>
-        <div className="col-span-4">
+        <div className="col-span-6">
           <TotalRechargesPerWeek />
         </div>
-        <div className="col-span-3">
+        <div className="col-span-12">
           <PurchasePercent />
         </div>
       </div>

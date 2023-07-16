@@ -9,7 +9,6 @@ import {
   FormSwitch,
   IconButton,
   Modal,
-  showToast,
   toast,
 } from "~/components";
 
@@ -30,14 +29,7 @@ export const AddNewContentForm: React.FC<any> = ({ visible, onCancel }) => {
       onCancel();
     },
     onError: (error) => {
-      showToast({
-        title:
-          (error as any)?.response?.data?.ResultCode === 500
-            ? "Lỗi server!"
-            : "Lỗi tạo menu!",
-        message: (error as any)?.response?.data?.ResultMessage,
-        type: "error",
-      });
+      toast.error((error as any)?.response?.data?.ResultMessage);
     },
   });
 

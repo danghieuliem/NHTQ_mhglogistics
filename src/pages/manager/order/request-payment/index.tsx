@@ -6,7 +6,6 @@ import {
   Layout,
   RequestPaymentFilter,
   RequestPaymentTable,
-  showToast,
   toast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
@@ -50,7 +49,7 @@ const Index: TNextPageWithLayout = () => {
       },
       onError: toast.error,
       staleTime: 5000,
-      refetchOnWindowFocus: true
+      refetchOnWindowFocus: true,
     }
   );
 
@@ -61,11 +60,7 @@ const Index: TNextPageWithLayout = () => {
         router.push(`${res.Data}`);
       })
       .catch((error) => {
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       });
   };
 

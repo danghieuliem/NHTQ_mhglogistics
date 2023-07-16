@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { authenticate } from "~/api";
-import { Button, showToast } from "~/components";
+import { Button } from "~/components";
 import { FormInput } from "~/components/globals/formBase";
 
 export const ForgotPasswordForm = ({ visible, setOpenModal }) => {
@@ -34,31 +34,18 @@ export const ForgotPasswordForm = ({ visible, setOpenModal }) => {
           setLoading(false);
         })
         .catch((error) => {
-          showToast({
-            title: (error as any)?.response?.data?.ResultCode === 401 && "Lỗi!",
-            message: "Emall không tồn tại!",
-            type: "error",
-          });
+          toast.error((error as any)?.response?.data?.ResultMessage);
+
           setLoading(false);
         });
     } catch (error) {
       setLoading(false);
-      showToast({
-        title:
-          (error as any)?.response?.data?.ResultCode === 401 && "Lỗi server!",
-        message: (error as any)?.response?.data?.ResultMessage,
-        type: "error",
-      });
+      toast.error((error as any)?.response?.data?.ResultMessage);
     }
   };
 
   return (
-    <Modal
-      visible={visible}
-      footer={false}
-      closeIcon={false}
-      closable={false}
-    >
+    <Modal visible={visible} footer={false} closeIcon={false} closable={false}>
       <div className="authContainer">
         <Card
           className="!m-[-10px]"

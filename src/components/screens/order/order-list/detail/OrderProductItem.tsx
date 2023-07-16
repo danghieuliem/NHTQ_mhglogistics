@@ -1,4 +1,5 @@
 import { InputNumber, Tooltip } from "antd";
+import { isInteger } from "lodash";
 import React, { useState } from "react";
 import { ActionButton, toast } from "~/components";
 import { _format } from "~/utils";
@@ -47,10 +48,12 @@ export const OrderProductItem: React.FC<TProps> = ({
   }
 
   function handleQuantity(val: number) {
-    setChangeValue(true);
-    setQuantity(val);
-    const newTotal = priceVND * val;
-    setTotal(newTotal);
+    if (isInteger(val)) {
+      setChangeValue(true);
+      setQuantity(val > 0 ? val : 1);
+      const newTotal = priceVND * val;
+      setTotal(newTotal);
+    }
   }
 
   function handleChangePriceCNY(val: string) {

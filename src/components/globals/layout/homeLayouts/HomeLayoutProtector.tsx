@@ -4,11 +4,12 @@ import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 import { setToken } from "~/api";
 import configHomeData from "~/api/config-home";
+import { config } from "~/configs";
 import { logOut, setRouter, updateGlobal, useAppDispatch } from "~/store";
 import { _format } from "~/utils";
 
 export const HomeLayoutProtector: React.FC<{}> = ({ children }) => {
-  const session = Cookies.get("tokenNHTQ-demo");
+  const session = Cookies.get(config.tokenName);
   const dispatch = useAppDispatch();
   useQuery({
     queryKey: ["homeConfig"],

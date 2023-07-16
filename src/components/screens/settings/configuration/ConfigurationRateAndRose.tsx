@@ -33,19 +33,6 @@ export const ConfigurationRateAndRose: FC<TProps<TConfig3>> = ({
             <div className="mb-3">
               <FormInputNumber
                 control={control}
-                name="SalePayHelpPersent"
-                label="Hoa hồng mua hộ"
-                suffix=" %"
-                // required={false}
-                placeholder=""
-                rules={{
-                  required: "Không bỏ trống!",
-                }}
-              />
-            </div>
-            <div className="mb-3">
-              <FormInputNumber
-                control={control}
                 name="AgentCurrency"
                 label="Tỉ giá ký gửi"
                 // required={false}
@@ -58,6 +45,32 @@ export const ConfigurationRateAndRose: FC<TProps<TConfig3>> = ({
                 control={control}
                 name="PricePayHelpDefault"
                 label="Tỉ giá thanh toán hộ"
+                // required={false}
+                placeholder=""
+                rules={{
+                  required: "Không bỏ trống!",
+                }}
+              />
+            </div>
+            <div className="mb-3">
+              <FormInputNumber
+                control={control}
+                name="SalePayHelpPersent"
+                label="Hoa hồng thanh toán hộ"
+                suffix=" %"
+                // required={false}
+                placeholder=""
+                rules={{
+                  required: "Không bỏ trống!",
+                }}
+              />
+            </div>
+            <div className="mb-3">
+              <FormInputNumber
+                control={control}
+                name="SaleTranportationPersent"
+                label="Hoa hồng ký gửi"
+                suffix=" %"
                 // required={false}
                 placeholder=""
                 rules={{

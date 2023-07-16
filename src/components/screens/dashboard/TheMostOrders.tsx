@@ -1,8 +1,9 @@
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 import { user } from "~/api";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
-import { DataTable, showToast } from "../..";
+import { DataTable } from "../..";
 
 export const TheMostOrders = () => {
   const { isFetching, data, isLoading } = useQuery(
@@ -24,12 +25,9 @@ export const TheMostOrders = () => {
         .then((res) => res.Data.Items),
     {
       keepPreviousData: true,
-      onError: (error) =>
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        }),
+      onError: (error) => {
+        toast.error((error as any)?.response?.data?.ResultMessage);
+      },
     }
   );
 
@@ -47,26 +45,31 @@ export const TheMostOrders = () => {
       title: "Số dư (VNĐ)",
       dataIndex: "Wallet",
       align: "right",
-      render: (Wallet) => <span>{_format.getVND(Wallet, "")}</span>
+      render: (Wallet) => <span>{_format.getVND(Wallet, "")}</span>,
     },
     {
       title: "Mua hộ",
       dataIndex: "TotalMainOrder",
       align: "right",
-      render: (_, record) => <span>{_format.getVND(record?.TotalMainOrder, " ")}</span>
+      render: (_, record) => (
+        <span>{_format.getVND(record?.TotalMainOrder, " ")}</span>
+      ),
     },
     {
       title: "Ký gửi",
       dataIndex: "TotalTransportationOrder",
       align: "right",
-      render: (_, record) =>
+      render: (_, record) => (
         <span>{_format.getVND(record?.TotalTransportationOrder, " ")}</span>
+      ),
     },
     {
       title: "Thanh toán hộ",
       dataIndex: "TotalPayHelp",
       align: "right",
-      render: (_, record) => <span>{_format.getVND(record?.TotalPayHelp, " ")}</span>
+      render: (_, record) => (
+        <span>{_format.getVND(record?.TotalPayHelp, " ")}</span>
+      ),
     },
     // {
     //   title: "Tổng đơn",

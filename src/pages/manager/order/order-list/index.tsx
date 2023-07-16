@@ -3,13 +3,9 @@ import router, { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { mainOrder } from "~/api";
-import {
-  Layout,
-  OrderListFilter,
-  OrderListTable,
-  showToast,
-} from "~/components";
+import { Layout, OrderListFilter, OrderListTable } from "~/components";
 import { orderStatus } from "~/configs/appConfigs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import { useCatalogue } from "~/hooks/useCatalogue";
@@ -72,7 +68,20 @@ const Index: TNextPageWithLayout = () => {
   };
 
   const { data, isFetching, isLoading, refetch } = useQuery(
-    ["orderList", { ...filter }],
+    [
+      "orderList",
+      [
+        filter.TypeSearch,
+        filter.FromDate,
+        filter.ToDate,
+        filter.FromPrice,
+        filter.ToPrice,
+        filter.IsNotMainOrderCode,
+        filter.SearchContent,
+        filter.Status,
+        filter.UID,
+      ],
+    ],
     () => mainOrder.getList(filter).then((res) => res.Data),
     {
       onSuccess: (data) => {
@@ -83,12 +92,8 @@ const Index: TNextPageWithLayout = () => {
           PageSize: data?.PageSize,
         });
       },
-      onError: () => {
-        showToast({
-          title: "Lỗi!",
-          message: "Đường truyền kết nối server bị lỗi! Vui lòng thử lại!",
-          type: "error",
-        });
+      onError: (error) => {
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
       keepPreviousData: true,
       refetchOnWindowFocus: true,
@@ -109,11 +114,7 @@ const Index: TNextPageWithLayout = () => {
         router.push(res?.Data);
       })
       .catch((error) => {
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       });
   };
 
@@ -151,11 +152,7 @@ const Index: TNextPageWithLayout = () => {
         });
       },
       onError(error) {
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
       keepPreviousData: true,
       staleTime: 5000,

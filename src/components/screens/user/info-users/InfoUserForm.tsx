@@ -34,6 +34,8 @@ export const InfoUserForm: React.FC<any> = ({
     userSaleEnabled: true,
   });
 
+  console.log(warehouseTQ);
+
   const [changePass, setChangePass] = useState(false);
   const [showPass, setShowPass] = useState(false);
 
@@ -55,7 +57,7 @@ export const InfoUserForm: React.FC<any> = ({
       <div className="grid grid-cols-12 gap-4">
         <Card
           title="Thông tin cá nhân"
-          className="h-fit tableBox col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-5"
+          className="h-fit tableBox col-span-12 sm:col-span-6 md:col-span-4"
           headStyle={{ fontWeight: "bold" }}
         >
           <div className="grid grid-cols-2 gap-2 h-fit">
@@ -207,7 +209,7 @@ export const InfoUserForm: React.FC<any> = ({
 
         <Card
           title="Thông tin liên hệ"
-          className="h-fit tableBox col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-4"
+          className="h-fit tableBox col-span-12 sm:col-span-6 md:col-span-4"
           headStyle={{ fontWeight: "bold" }}
         >
           <div className="grid grid-cols-2 gap-2">
@@ -272,7 +274,7 @@ export const InfoUserForm: React.FC<any> = ({
 
         <Card
           title="Thông tin đơn hàng"
-          className="h-fit tableBox col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3"
+          className="h-fit tableBox col-span-12 sm:col-span-6 md:col-span-4"
           headStyle={{ fontWeight: "bold" }}
         >
           <div className="grid grid-cols-2 gap-2">

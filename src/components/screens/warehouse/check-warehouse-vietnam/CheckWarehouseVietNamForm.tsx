@@ -7,12 +7,12 @@ import { useMutation, useQueryClient } from "react-query";
 import { smallPackage } from "~/api";
 import { FormInput } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
-import { showToast, toast } from "~/components/toast";
+import { toast } from "~/components/toast";
 import {
-  controllerList,
   EOrderTypeStatusData,
   EPermission,
   ESmallPackageStatusData,
+  controllerList,
 } from "~/configs/appConfigs";
 import { usePressKeyboard } from "~/hooks";
 import { selectIsAcceptRoles, useAppSelector } from "~/store";
@@ -125,21 +125,13 @@ export const CheckWarehouseVietNamForm = () => {
       // }
 
       if (res.Data[0].Status === 4) {
-        showToast({
-          title: "Không thể quét mã này!",
-          message: "Đơn nãy đã hủy!",
-          type: "error",
-        });
+        toast.error("Đơn nãy đã hủy!");
         resetField("OrderTransactionCode");
         return;
       }
 
       if (res.Data[0].Status === 5) {
-        showToast({
-          title: "Không thể quét mã này!",
-          message: "Đơn nãy đã giao khách!",
-          type: "error",
-        });
+        toast.error("Đơn nãy đã giao khách!");
         resetField("OrderTransactionCode");
         return;
       }

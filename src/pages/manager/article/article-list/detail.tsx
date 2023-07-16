@@ -1,19 +1,18 @@
 import { Tabs } from "antd";
-import router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { Control, useForm } from "react-hook-form";
 import { useMutation, useQuery } from "react-query";
 import { Page } from "~/api";
 import {
   ArticleListForm,
   ArticleSEOForm,
-  FormUpload,
   IconButton,
   Layout,
-  ResizeImage,
-  toast,
+  toast
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
+import { useCatalogue } from "~/hooks";
 import { TNextPageWithLayout } from "~/types/layout";
 
 type TForm = Partial<TArticleList & TArticleSEO>;
@@ -23,6 +22,8 @@ const Index: TNextPageWithLayout = () => {
   const { control, handleSubmit, getValues, setValue, reset } = useForm<TForm>({
     mode: "onBlur",
   });
+
+  const { pageType } = useCatalogue({ pageTypeEnabled: true });
 
   const { data } = useQuery(
     ["articleList", +query?.id],
@@ -55,9 +56,6 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <>
-      <div className="tableBox mb-6">
-        <ResizeImage />
-      </div>
       <div className="tableBox">
         <Tabs
           tabBarExtraContent={
@@ -70,12 +68,12 @@ const Index: TNextPageWithLayout = () => {
                 btnClass="!mr-4"
                 toolip=""
               />
-              <IconButton
+              {/* <IconButton
                 title="Trở về"
                 icon="fas fa-undo-alt"
                 toolip=""
                 onClick={() => router.back()}
-              />
+              /> */}
             </div>
           }
         >
@@ -84,6 +82,7 @@ const Index: TNextPageWithLayout = () => {
               control={control as Control<TArticleList, object>}
               type="edit"
               data={data?.Data}
+              pageType={pageType}
             />
           </Tabs.TabPane>
           <Tabs.TabPane key={"2"} tab={"Cấu hình SEO"}>

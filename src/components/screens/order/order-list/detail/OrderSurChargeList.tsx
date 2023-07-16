@@ -8,7 +8,6 @@ import {
   DataTable,
   FormInput,
   FormInputNumber,
-  showToast,
 } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
 import { TColumnsType } from "~/types/table";
@@ -81,21 +80,22 @@ export const OrderSurChargeList: React.FC<TProps> = ({
               icon="fas fa-minus-circle"
               title="Xóa"
               onClick={() => {
+                const id = toast.loading("Đang xử lý ...");
                 const item: any = FeeSupports?.find(
                   (x: any) => x?.Id === record?.Id
                 );
                 if (!!item) {
-                  showToast({
-                    title: "Thông tin",
-                    message:
-                      "Đang thực hiện việc, vui lòng đợi trong giây lát...",
-                    type: "info",
-                  });
                   feeSupport
                     .delete(item.Id)
                     .then(() => {
                       remove(index);
                       toast.success("Xoá phụ phí thành công");
+                      toast.update(id, {
+                        render: "Xoá phụ phí thành công!",
+                        autoClose: 1000,
+                        isLoading: false,
+                        type: "success",
+                      });
                       handleSubmit(handleUpdate)();
                       // const newFeeSupports = FeeSupports.filter(itemx => itemx.Id !== item.Id)
 
@@ -106,13 +106,14 @@ export const OrderSurChargeList: React.FC<TProps> = ({
 
                       // mutationUpdate.mutateAsync(newData);
                     })
-                    .catch((error) =>
-                      showToast({
-                        title: (error as any)?.response?.data?.ResultCode,
-                        message: (error as any)?.response?.data?.ResultMessage,
+                    .catch((error) => {
+                      toast.update(id, {
+                        render: (error as any)?.response?.data?.ResultMessage,
+                        autoClose: 1000,
+                        isLoading: false,
                         type: "error",
-                      })
-                    );
+                      });
+                    });
                 } else {
                   remove(index);
                 }

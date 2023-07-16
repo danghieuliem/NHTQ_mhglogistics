@@ -1,5 +1,5 @@
 import React from "react";
-import { FormInput, FormEditor } from "~/components";
+import { FormEditor, FormInput, ResizeImage } from "~/components";
 import { FormSwitch } from "~/components/globals/formBase";
 import { TControl } from "~/types/field";
 
@@ -8,20 +8,8 @@ export const AddArticleCategoryForm: React.FC<
 > = ({ control }) => {
   return (
     <React.Fragment>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(12, 1fr)",
-          gap: "24px",
-          marginTop: 20,
-          padding: "0 20px",
-        }}
-      >
-        <div
-          style={{
-            gridColumn: "1/4",
-          }}
-        >
+      <div className="grid grid-cols-12 gap-4 p-2">
+        <div className="col-span-3">
           <div className="mb-4">
             <FormInput
               control={control}
@@ -36,13 +24,9 @@ export const AddArticleCategoryForm: React.FC<
           <div className="mb-4">
             <FormSwitch control={control} name="sideBar" label="Hiện sidebar" />
           </div>
+          <ResizeImage />
         </div>
-        <div
-          style={{
-            gridColumn: "4/13",
-						minHeight: 700
-          }}
-        >
+        <div className="col-span-9 min-h-[700px]">
           <FormEditor
             control={control}
             label=""

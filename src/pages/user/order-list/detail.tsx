@@ -4,12 +4,12 @@ import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { mainOrder } from "~/api";
 import {
-  OrderIDDetail,
-  OrderIDPaymentHistory,
+  OrderIDDetailMemo,
+  OrderIDPaymentHistoryMemo,
   OrderIDProductList,
-  OrderOverView,
-  OrderTransportList,
-  UserLayout,
+  OrderOverViewMemo,
+  OrderTransportListMemo,
+  UserLayout
 } from "~/components";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import { TNextPageWithLayout } from "~/types/layout";
@@ -61,10 +61,10 @@ const Index: TNextPageWithLayout = () => {
       <div className="titlePageUser">Chi tiết đơn hàng #{id}</div>
       <div className="sm:grid sm:grid-cols-2 gap-4 mb-4">
         <div className="col-span-1 mb-4">
-          <OrderOverView data={data?.Data} updatePaid={updatePaid} />
+          <OrderOverViewMemo data={data?.Data} updatePaid={updatePaid} />
         </div>
         <div className="col-span-1">
-          <OrderIDDetail
+          <OrderIDDetailMemo
             data2={data?.Data?.Orders}
             dataAll={data?.Data}
             data={data?.Data?.FeeSupports}
@@ -72,8 +72,8 @@ const Index: TNextPageWithLayout = () => {
         </div>
       </div>
       <OrderIDProductList data={data?.Data?.Orders} />
-      <OrderTransportList data={data?.Data?.SmallPackages} />
-      <OrderIDPaymentHistory data={data?.Data?.PayOrderHistories} />
+      <OrderTransportListMemo data={data?.Data?.SmallPackages} />
+      <OrderIDPaymentHistoryMemo data={data?.Data?.PayOrderHistories} />
       {/* {data && (
           <MessageControlUser
             clientId={data.Data.UID}

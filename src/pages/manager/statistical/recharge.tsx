@@ -2,6 +2,7 @@ import { TablePaginationConfig } from "antd";
 import router from "next/router";
 import { useState } from "react";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 import { reportAdminSendUserWallet, reportWithdraw } from "~/api";
 import {
   Layout,
@@ -9,7 +10,6 @@ import {
   StatisticalRechargeFilter,
   StatisticalRechargeTable,
   StatisticalWithdrawTable,
-  showToast,
 } from "~/components";
 import { breadcrumb, defaultPagination } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -73,11 +73,7 @@ const Index: TNextPageWithLayout = () => {
           setTotalRecharge(data?.Items[0]?.TotalAmount);
         },
         onError: (error) =>
-          showToast({
-            title: (error as any)?.response?.data?.ResultCode,
-            message: (error as any)?.response?.data?.ResultMessage,
-            type: "error",
-          }),
+          toast.error((error as any)?.response?.data?.ResultMessage),
       }
     );
 
@@ -112,11 +108,7 @@ const Index: TNextPageWithLayout = () => {
           setTotalWithdraw(data?.Items[0]?.TotalAmount);
         },
         onError: (error) =>
-          showToast({
-            title: (error as any)?.response?.data?.ResultCode,
-            message: (error as any)?.response?.data?.ResultMessage,
-            type: "error",
-          }),
+          toast.error((error as any)?.response?.data?.ResultMessage),
       }
     );
 
@@ -135,11 +127,7 @@ const Index: TNextPageWithLayout = () => {
         router.push(`${res.Data}`);
       })
       .catch((error) => {
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       });
   };
 
@@ -157,11 +145,7 @@ const Index: TNextPageWithLayout = () => {
         router.push(`${res.Data}`);
       })
       .catch((error) => {
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       });
   };
 
