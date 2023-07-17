@@ -1,5 +1,4 @@
 import React from "react";
-import { ResizeImage } from "~/components";
 import {
   FormEditor,
   FormInput,
@@ -12,8 +11,7 @@ export const EditArticleCategoryForm: React.FC<TControl<TArticleCategory>> = ({
 }) => {
   return (
     <React.Fragment>
-      <div className="grid grid-cols-12 gap-4 p-2" 
-      >
+      <div className="grid grid-cols-12 gap-4 p-2">
         <div className="col-span-3">
           <div className="mb-4">
             <FormInput
@@ -44,9 +42,8 @@ export const EditArticleCategoryForm: React.FC<TControl<TArticleCategory>> = ({
               label={"Hiển thị chuyên mục?"}
             />
           </div>
-          <ResizeImage />
         </div>
-        <div className="col-span-9 min-h-[700px]" >
+        <div className="col-span-9 min-h-[700px]">
           <FormEditor
             control={control}
             label=""

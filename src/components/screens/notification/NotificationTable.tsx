@@ -1,17 +1,21 @@
 import { Pagination, Tag } from "antd";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { getAllNewNotify } from "~/api";
 import { ActionButton } from "~/components/globals/button/ActionButton";
 import { DataTable } from "~/components/globals/table";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import NotificationFilter from "./NotificationFilter";
+import { toast } from "react-toastify";
+import TagStatus from "../status/TagStatus";
 
 type TProps = {
   data: any;
   isFetching?: boolean;
   handleFilter: (newFilter) => void;
   filter: any;
+  refetch: any;
 };
 
 export const NotificationTable: React.FC<TTable & TProps> = ({
@@ -19,12 +23,16 @@ export const NotificationTable: React.FC<TTable & TProps> = ({
   loading,
   handleFilter,
   filter,
+  refetch,
+  isFetching,
 }) => {
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
   const columns: TColumnsType<any> = [
     {
       dataIndex: "Id",
       title: "STT",
-      width: 50,
+      width: 30,
       render: (_, __, index) => ++index,
     },
     {
@@ -40,9 +48,7 @@ export const NotificationTable: React.FC<TTable & TProps> = ({
       width: 120,
       render: (_, data) => {
         return (
-          <Tag color={data.IsRead ? "blue" : "red"}>
-            {data.IsRead ? "Đã xem" : "Chưa xem"}
-          </Tag>
+          <TagStatus color={data.IsRead ? "blue" : "red"} statusName={data.IsRead ? "Đã xem" : "Chưa xem"}/>
         );
       },
     },
@@ -73,6 +79,7 @@ export const NotificationTable: React.FC<TTable & TProps> = ({
               <ActionButton
                 icon="far fa-info-square"
                 title="Xem chi tiết"
+                isButton
                 onClick={() => {
                   if (!data.IsRead) {
                     data.IsRead = true;
@@ -105,6 +112,20 @@ export const NotificationTable: React.FC<TTable & TProps> = ({
       </ul>
     ),
   };
+
+  const rowSelection = {
+    selectedRowKeys,
+    getCheckboxProps: (record) => {
+      return !record.IsRead
+        ? { name: record.Id.toString(), disabled: false }
+        : { name: record.Id.toString(), disabled: true, className: "!hidden" };
+    },
+    onChange: (selectedRowKeys: React.Key[], selectedRows: TOrder[]) => {
+      setSelectedRowKeys(selectedRowKeys);
+    },
+    // hideSelectAll: true,
+    // columnWidth: 26,
+  };
   return (
     <>
       <DataTable
@@ -117,6 +138,47 @@ export const NotificationTable: React.FC<TTable & TProps> = ({
           // onChange: handlePagination,
           expandable: expandable,
           scroll: { y: 700 },
+          rowSelection,
+          extraElmentClassName: "flex !w-full items-end justify-between",
+          extraElment: (
+            <>
+              <NotificationFilter
+                handleFilter={handleFilter}
+                isFetching={isFetching}
+              />
+              {selectedRowKeys.length > 0 && (
+                <ActionButton
+                  title="Đánh dấu đã đọc"
+                  icon="!mr-0"
+                  isButton
+                  isButtonClassName="h-fit bg-blue !text-white"
+                  onClick={() => {
+                    const id = toast.loading("Đang xử lý ...");
+                    getAllNewNotify
+                      .readNotify(selectedRowKeys)
+                      .then(() => {
+                        toast.update(id, {
+                          render: "Đã đọc thông báo!",
+                          isLoading: false,
+                          autoClose: 1000,
+                          type: "success",
+                        });
+                        setSelectedRowKeys([]);
+                        refetch();
+                      })
+                      .catch((error) => {
+                        toast.update(id, {
+                          render: (error as any)?.response?.data?.ResultMessage,
+                          isLoading: false,
+                          autoClose: 1000,
+                          type: "error",
+                        });
+                      });
+                  }}
+                />
+              )}
+            </>
+          ),
         }}
       />
       <div className="mt-4 text-right">

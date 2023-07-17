@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Control } from "react-hook-form";
-import { FormEditor, FormInput, ResizeImage } from "~/components";
+import { FormEditor, FormInput } from "~/components";
 
 type TProps<T extends object = object> = {
   control: Control<T, object>;
@@ -49,8 +49,6 @@ export const ConfigurationNotification: FC<TProps<TConfig4>> = ({
               // rules={{ required: 'Không bỏ trống nội dung Email liên hệ Popup' }}
             />
           </div>
-          <ResizeImage />
-
         </div>
         <div className="col-span-3 min-h-[600px]">
           <FormEditor

@@ -19,7 +19,7 @@ type TProps = {
   UserGroupId: number;
 };
 
-export const EmployeeManagementTable: FC<TTable<TEmployee> & TProps> = ({
+export const EmployeeManagementTable: FC<TTable<TEmployee | any> & TProps> = ({
   data,
   loading,
   filter,

@@ -3,7 +3,7 @@ import clsx from "clsx";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { default as AvatarName } from "react-avatar";
 import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
@@ -52,6 +52,13 @@ const Bars = ({ hover, onClick }) => {
 };
 
 const NotificationBell = ({ userPage, userCurrentInfo }) => {
+  const isLoadRef = useRef(true);
+
+  console.log("object");
+
+  const [totalNofi, setTotalNoti] = useState(0);
+  
+
   const { data: dataNewNotify } = useQuery(
     ["new-notification"],
     () =>
@@ -60,13 +67,19 @@ const NotificationBell = ({ userPage, userCurrentInfo }) => {
           OfEmployee: userPage ? false : true,
         })
         .then((res) => {
-          return res?.Data;
+          if (res?.Data > 100) {
+            setTotalNoti(res?.Data);
+            isLoadRef.current = true;
+          } else {
+            setTotalNoti(res?.Data);
+            isLoadRef.current = false;
+          }
         }),
     {
       onError: (error) => {
         toast.error((error as any)?.response?.data?.ResultMessage);
       },
-      enabled: true,
+      enabled: isLoadRef.current,
       retry: false,
     }
   );
@@ -113,17 +126,17 @@ const NotificationBell = ({ userPage, userCurrentInfo }) => {
             <div className={clsx(styles.block, styles.actionInfo, "!flex")}>
               <div
                 className={`text-[20px] text-black ${
-                  dataNewNotify > 0 && styles.bellIcon
+                  totalNofi > 0 && styles.bellIcon
                 }`}
               >
                 <i className="fal fa-bell"></i>
               </div>
-              {dataNewNotify > 0 && (
+              {totalNofi > 0 && (
                 <div
                   className={`text-[10px] items-center flex bg-red rounded-[8px] absolute px-[6px] top-[50%] left-[50%] translate-y-[-90%]`}
                 >
                   <span className="items-center flex text-[#fff]">
-                    {dataNewNotify > 100 ? "100+" : dataNewNotify}
+                    {totalNofi > 100 ? "100+" : totalNofi}
                   </span>
                 </div>
               )}
@@ -136,12 +149,14 @@ const NotificationBell = ({ userPage, userCurrentInfo }) => {
         type="vertical"
         className={clsx(
           "bg-main h-3",
-          dataNewNotify > 100 ? "!ml-6" : "ml-auto"
+          totalNofi > 100 ? "!ml-6" : "ml-auto"
         )}
       />
     </>
   );
 };
+
+const NotificationBellMemo = React.memo(NotificationBell)
 
 const LeftInfoComponents = ({ userPage, userCurrentInfo }) => {
   const firstPage = useAppSelector(selectFirstPageDashboard);
@@ -192,7 +207,7 @@ const LeftInfoComponents = ({ userPage, userCurrentInfo }) => {
       )}
 
       {/* Thông báo */}
-      <NotificationBell userPage={userPage} userCurrentInfo={userCurrentInfo} />
+      <NotificationBellMemo userPage={userPage} userCurrentInfo={userCurrentInfo} />
 
       {/* thông tin người dùng */}
       <Popover

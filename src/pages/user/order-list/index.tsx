@@ -1,6 +1,6 @@
 import { Pagination } from "antd";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -38,11 +38,11 @@ const Index: TNextPageWithLayout = () => {
   // const [modal, setModal] = useState(false);
   const [moneyOfOrders, setMoneyOfOrders] = useState(createdMoneyOfOrdersData);
 
-  const handleFilter = (newFilter) => {
+  const handleFilter = useCallback((newFilter) => {
     const newFilterSet = { ...newFilter };
     delete newFilterSet.TotalItems;
     setFilter({ ...filter, ...newFilterSet });
-  };
+  }, [])
 
   useEffect(() => {
     setFilter({
@@ -61,7 +61,15 @@ const Index: TNextPageWithLayout = () => {
   }, [query?.q, userCurrentInfo?.Id]);
 
   const { data, isFetching, refetch } = useQuery(
-    ["orderList", filter],
+    ["orderList", [
+      filter.ToDate,
+      filter.FromDate,
+      filter.OrderType,
+      filter.PageIndex,
+      filter.SearchContent,
+      filter.Status,
+      filter.UID
+    ]],
     () => mainOrder.getList(filter).then((res) => res.Data),
     {
       onSuccess: (data) =>
@@ -81,20 +89,6 @@ const Index: TNextPageWithLayout = () => {
       refetchOnWindowFocus: true,
     }
   );
-
-  // const handleModal = (
-  //   itemsSelected?: TOrder[],
-  //   currentModalType?: TModalType,
-  //   currentDepositType?: TDepositType
-  // ) => {
-  //   setItems(itemsSelected);
-  //   setDepositType(currentDepositType);
-  //   if (!!itemsSelected?.length) {
-  //     setModal(true);
-  //   } else {
-  //     setModal(false);
-  //   }
-  // };
 
   useQuery(
     ["main-order-amount", { OrderType: query?.q === "3" ? 3 : 1 }],
@@ -118,6 +112,7 @@ const Index: TNextPageWithLayout = () => {
         toast.error((error as any)?.response?.data?.ResultMessage);
       },
       enabled: !!userCurrentInfo?.Id,
+      staleTime: 5000,
     }
   );
 
@@ -145,6 +140,7 @@ const Index: TNextPageWithLayout = () => {
         toast.error((error as any)?.response?.data?.ResultMessage);
       },
       enabled: !!userCurrentInfo?.Id,
+      staleTime: 5000,
     }
   );
 

@@ -10,7 +10,7 @@ import { mainOrder, orderShopTemp } from "~/api";
 import {
   ActionButton,
   DataTable,
-  UserAnotherOrderListFilter,
+  UserAnotherOrderListFilterMemo
 } from "~/components";
 import { EOrderStatus, orderStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
@@ -18,14 +18,12 @@ import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
 
 const PaymenComponent = ({
-  data,
-  selectedRowsList,
   handleDeposit,
   handlePayment,
   selectedRowKeys,
 }) => {
-  const paymentData = data?.filter((item) => item?.Status === 10);
-  const noDepositData = data?.filter((item) => item?.Status === 0);
+  const paymentData = selectedRowKeys?.filter((item) => item?.Status === 10);
+  const noDepositData = selectedRowKeys?.filter((item) => item?.Status === 0);
   const [show, setShow] = useState(false);
   // const [loading, setLoading] = useState(false);
 
@@ -174,6 +172,7 @@ export const UserAnotherOrderListTable: React.FC<
       { Status: 2 }
     )
   );
+  
   const mutationUpdatePayment = useMutation((data: TOrder[]) =>
     mainOrder.updateOrder(
       data?.map((item) => item?.Id),
@@ -503,17 +502,14 @@ export const UserAnotherOrderListTable: React.FC<
   ];
 
   const rowSelection: TableRowSelection<TOrder> = {
-    selectedRowKeys,
+    selectedRowKeys: selectedRowKeys?.map(item => item.Id),
     getCheckboxProps: (record) => {
       return record.Status === 10 || record.Status === 0
         ? { name: record.Id.toString(), disabled: false }
         : { name: record.Id.toString(), disabled: true, className: "!hidden" };
     },
     onChange: (selectedRowKeys: React.Key[], selectedRows: TOrder[]) => {
-      // console.log("selectedRowKeys: ", selectedRowKeys);
-      // console.log("selectedRows: ", selectedRows);
-      setSelectedRowKeys(selectedRowKeys);
-      // handleModal(selectedRows, undefined, "some");
+      setSelectedRowKeys(selectedRows);
     },
     // hideSelectAll: true,
     // columnWidth: 26,
@@ -799,13 +795,11 @@ export const UserAnotherOrderListTable: React.FC<
         extraElment: (
           <>
             <PaymenComponentMemo
-              data={data}
               selectedRowKeys={selectedRowKeys}
               handleDeposit={handleDeposit}
               handlePayment={handlePayment}
-              selectedRowsList={setSelectedRowKeys}
             />
-            <UserAnotherOrderListFilter
+            <UserAnotherOrderListFilterMemo
               moneyOfOrders={moneyOfOrders}
               numberOfOrder={orderStatus}
               handleFilter={handleFilter}

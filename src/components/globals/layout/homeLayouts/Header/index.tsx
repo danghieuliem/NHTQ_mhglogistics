@@ -169,8 +169,6 @@ const Header = ({ dataMenu }) => {
     (state: RootState) => state.userCurretnInfo
   );
 
-  console.log(firstPage);
-
   // if (dataConfig) {
   //   socialList?.forEach((social) => (social.link = dataConfig[social.title]));
   // }

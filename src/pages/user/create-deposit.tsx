@@ -35,6 +35,21 @@ const Index: TNextPageWithLayout = () => {
   const { control, reset, handleSubmit, setValue } =
     useForm<TUserCreateDeposit>({
       mode: "onBlur",
+      defaultValues: {
+        smallPackages: [
+          {
+            Amount: 1,
+            Category: null,
+            IsCheckProduct: false,
+            IsPacked: false,
+            IsInsurance: false,
+            FeeShip: 0,
+          },
+        ],
+        ShippingTypeId: shippingTypeToWarehouse?.find(x => x.Id === userCurrentInfo?.ShippingType)?.Id,
+        WareHouseFromId: warehouseTQ?.find(x => x.Id === userCurrentInfo?.WarehouseFrom)?.Id,
+        WareHouseId: warehouseVN?.find(x => x.Id === userCurrentInfo?.WarehouseTo)?.Id,
+      }
     });
   const { fields, append, remove } = useFieldArray({
     control,
@@ -53,6 +68,9 @@ const Index: TNextPageWithLayout = () => {
           FeeShip: 0,
         },
       ],
+      ShippingTypeId: shippingTypeToWarehouse?.find(x => x.Id === userCurrentInfo?.ShippingType)?.Id,
+      WareHouseFromId: warehouseTQ?.find(x => x.Id === userCurrentInfo?.WarehouseFrom)?.Id,
+      WareHouseId: warehouseVN?.find(x => x.Id === userCurrentInfo?.WarehouseTo)?.Id,
     });
   }, [warehouseTQ, warehouseVN, shippingTypeToWarehouse]);
 
@@ -66,12 +84,16 @@ const Index: TNextPageWithLayout = () => {
           smallPackages: [
             {
               Amount: 1,
-              OrderTransactionCode: null,
               Category: null,
-              UserNote: null,
+              IsCheckProduct: false,
+              IsPacked: false,
+              IsInsurance: false,
               FeeShip: 0,
             },
           ],
+          ShippingTypeId: shippingTypeToWarehouse?.find(x => x.Id === userCurrentInfo?.ShippingType)?.Id,
+          WareHouseFromId: warehouseTQ?.find(x => x.Id === userCurrentInfo?.WarehouseFrom)?.Id,
+          WareHouseId: warehouseVN?.find(x => x.Id === userCurrentInfo?.WarehouseTo)?.Id,
         });
         queryClient.invalidateQueries({ queryKey: "menuData" });
         router.push("/user/deposit-list");
@@ -158,7 +180,7 @@ const Index: TNextPageWithLayout = () => {
         >
           <ActionButton
             icon="mr-0"
-            title="Tiêp tục"
+            title="Tiếp tục"
             isButton
             isButtonClassName="bg-sec !text-white"
           />

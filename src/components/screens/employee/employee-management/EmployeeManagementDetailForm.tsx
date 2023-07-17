@@ -12,7 +12,7 @@ import { Switch } from "antd";
 import { EUnique, checkUnique, createComplain } from "../../auth/method";
 
 type TProps = {
-  defaultValues: TEmployee;
+  defaultValues: TEmployee | any;
   userLevelCatalogue: TUserLevelCatalogue[];
   userGroupCatalogue: TUserGroupCatalogue[];
   userSaleCatalogue: TUserCatalogue[];

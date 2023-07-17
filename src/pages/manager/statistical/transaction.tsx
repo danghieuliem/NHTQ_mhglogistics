@@ -28,14 +28,17 @@ const Index: TNextPageWithLayout = () => {
   const handleFilter = (newFilter) => setFilter({ ...filter, ...newFilter });
 
   const { data, isFetching, isLoading } = useQuery(
-    ["clientTransactionReportData", filter],
+    [
+      "clientTransactionReportData",
+      [filter.PageIndex, filter.FromDate, filter.ToDate],
+    ],
     () => reportHistoryPayWallet.getList(filter).then((res) => res.Data),
     {
       onSuccess: (data) => {
         setFilter({
           ...filter,
           TotalItems: data?.TotalItem,
-          PageIndex: data?.PageIndex,
+          // PageIndex: data?.PageIndex,
           PageSize: data?.PageSize,
         });
         setChartData({
@@ -62,12 +65,14 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <div className="">
-      <TransactionFilter handleFilter={handleFilter} />
-      <div className="text-lg text-[#333]">
-        Tổng số tiền giao dịch:{" "}
-        <span className="font-bold text-main">
-          {_format.getVND(data?.Items[0]?.TotalAmount)}
-        </span>
+      <div className="flex  gap-4">
+        <TransactionFilter handleFilter={handleFilter} />
+        <div className="tableBox text-lg text-[#333] flex items-center gap-4 w-fit">
+          Tổng số tiền giao dịch:{" "}
+          <span className="font-bold text-main">
+            {_format.getVND(data?.Items[0]?.TotalAmount)}
+          </span>
+        </div>
       </div>
       <TransactionChart dataChart={chartData} />
       <div className="mt-6">

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import styles from "./index.module.css";
 
-
 export const HomeBanner = ({ data }) => {
   return (
     <div
@@ -58,6 +57,7 @@ export const HomeBanner = ({ data }) => {
           {/* <TrackingHome /> */}
         </div>
       </div>
+
       <img src="/default/banner_truck.png" className={styles.bannerTruck} />
     </div>
   );

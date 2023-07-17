@@ -106,7 +106,6 @@ export const ArticleListForm: React.FC<TProps> = ({
               </div>
             )}
           </div>
-          <ResizeImage />
         </div>
         <div className="col-span-9 min-h-[700px]">
           <FormEditor
