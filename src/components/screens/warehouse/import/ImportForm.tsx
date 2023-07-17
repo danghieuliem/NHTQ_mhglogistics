@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { bigPackage, smallPackage } from "~/api";
-import { FormSelect, FormUpload, showToast } from "~/components";
+import { FormSelect, FormUpload } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
 
 export const ImportForm = () => {
@@ -61,11 +61,7 @@ export const ImportForm = () => {
       })
       .catch((error) => {
         setLoadingImport(false);
-        showToast({
-          title: "Không thể import!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       });
   };
 

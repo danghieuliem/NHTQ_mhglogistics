@@ -44,15 +44,20 @@ const Index: TNextPageWithLayout = () => {
     },
   ];
 
+  const defaultValues = {
+    Products: defaultValuesProducts,
+    IsPacked: false,
+    IsCheckProduct: false,
+    IsInsurance: false,
+    IsFastDelivery: false,
+    ShippingType: shippingTypeToWarehouse?.find(x => x.Id === userCurrentInfo?.ShippingType)?.Id,
+    WarehouseTQ: warehouseTQ?.find(x => x.Id === userCurrentInfo?.WarehouseFrom)?.Id,
+    WarehouseVN: warehouseVN?.find(x => x.Id === userCurrentInfo?.WarehouseTo)?.Id,
+  }
+
   const { control, reset, handleSubmit, formState: {isSubmitting}} = useForm<TUserCreateOrder>({
     mode: "onBlur",
-    defaultValues: {
-      Products: defaultValuesProducts,
-      IsPacked: false,
-      IsCheckProduct: false,
-      IsInsurance: false,
-      IsFastDelivery: false,
-    },
+    defaultValues: defaultValues,
   });
 
   const { append, fields, remove } = useFieldArray({
@@ -62,13 +67,7 @@ const Index: TNextPageWithLayout = () => {
   });
 
   useDeepEffect(() => {
-    reset({
-      Products: defaultValuesProducts,
-      IsPacked: false,
-      IsCheckProduct: false,
-      IsInsurance: false,
-      IsFastDelivery: false,
-    });
+    reset(defaultValues);
   }, [warehouseTQ, warehouseVN, shippingTypeToWarehouse]);
 
   const _onPress = async (data: TUserCreateOrder) => {
@@ -200,7 +199,7 @@ const Index: TNextPageWithLayout = () => {
         >
           <ActionButton
             icon="mr-0"
-            title="Tiêp tục"
+            title="Tiếp tục"
             isButton
             isButtonClassName="bg-sec !text-white"
           />

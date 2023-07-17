@@ -22,6 +22,12 @@ type TUser = {
   Wallet?: number;
   LevelId?: number;
   Token: string;
+  ShippingType?: number;
+  WarehouseFrom?: number | string;
+  WarehouseTo?: number | string;
+  TotalOrderPrice?: number;
+  TotalPaidPrice?: number;
+  TotalUnPaidPrice?: number;
 };
 
 type TCreateOrder = {

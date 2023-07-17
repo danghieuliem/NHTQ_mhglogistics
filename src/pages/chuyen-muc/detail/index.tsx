@@ -2,15 +2,16 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { Page } from "~/api";
-import { HomeLayout, HomeSidebar, showToast } from "~/components";
+import { HomeLayout, HomeSidebar } from "~/components";
 import ContentItem from "~/components/globals/layout/homeLayouts/Card/ContentItem";
+import MetaTags from "~/components/globals/metaTag";
 import { SEOConfigs } from "~/configs/SEOConfigs";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 import styles from "./index.module.css";
-import { useSelector } from "react-redux";
-import { RootState } from "~/store";
-import MetaTags from "~/components/globals/metaTag";
 
 const Index: TNextPageWithLayout = () => {
   const router = useRouter();
@@ -31,11 +32,7 @@ const Index: TNextPageWithLayout = () => {
           setData(res?.Data);
         })
         .catch((error) => {
-          showToast({
-            title: "Bài viết không tồn tại!",
-            message: error?.response?.data?.message,
-            type: "error",
-          });
+          toast.error((error as any)?.response?.data?.ResultMessage);
         }),
     staleTime: 2000,
     enabled: !!targetCode,

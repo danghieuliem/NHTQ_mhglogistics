@@ -8,7 +8,6 @@ import {
   ArticleSEOForm,
   IconButton,
   Layout,
-  ResizeImage,
   toast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
@@ -35,9 +34,6 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <>
-      <div className="tableBox mb-6">
-        <ResizeImage />
-      </div>
       <div className="tableBox">
         <Tabs
           tabBarExtraContent={
@@ -50,12 +46,12 @@ const Index: TNextPageWithLayout = () => {
                 showLoading
                 toolip=""
               />
-              <IconButton
+              {/* <IconButton
                 icon="fas fa-undo-alt"
                 title="Trở về"
                 toolip=""
                 onClick={() => router.back()}
-              />
+              /> */}
             </div>
           }
         >

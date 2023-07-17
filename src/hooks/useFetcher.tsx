@@ -1,5 +1,5 @@
 import React from "react";
-import { showToast } from "~/components";
+import { toast } from "react-toastify";
 import { useDeepEffect } from ".";
 
 type TProps<T> = {
@@ -26,12 +26,8 @@ export const useFetcher = <T extends object = object>({
         setResponse(res?.Data);
         middleware && middleware();
         setData && setData(res?.Data);
-      } catch (err) {
-        showToast({
-          title: err?.response?.data?.ResultCode,
-          message: err?.response?.data?.ResultMessage,
-          type: "error",
-        });
+      } catch (error) {
+        toast.error((error as any)?.response?.data?.ResultMessage);
       } finally {
         setLoading(false);
       }

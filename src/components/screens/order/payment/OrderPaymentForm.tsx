@@ -5,13 +5,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { mainOrder } from "~/api";
-import {
-  FormSelect,
-  FormTextarea,
-  IconButton,
-  showToast,
-  toast,
-} from "~/components";
+import { FormSelect, FormTextarea, IconButton, toast } from "~/components";
 import {
   EFormalPaymentData,
   EPaymentTypeData,
@@ -55,11 +49,7 @@ export const OrderPaymentForm: React.FC<TProps> = ({
       refetch();
     },
     onError: (error) => {
-      showToast({
-        title: "Đã xảy ra lỗi!",
-        message: (error as any)?.response?.data?.ResultMessage,
-        type: "error",
-      });
+      toast.error((error as any)?.response?.data?.ResultMessage);
     },
   });
 

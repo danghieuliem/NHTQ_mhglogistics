@@ -1,6 +1,7 @@
 import router from "next/router";
 import { useRef, useState } from "react";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 import { adminSendUserWallet } from "~/api";
 import {
   Layout,
@@ -8,7 +9,6 @@ import {
   RechargeHistoryFilter,
   RechargeHistoryForm,
   RechargeHistoryTable,
-  showToast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -58,11 +58,7 @@ const Index: TNextPageWithLayout = () => {
         return data?.Items;
       },
       onError: (error) => {
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
     }
   );
@@ -74,11 +70,7 @@ const Index: TNextPageWithLayout = () => {
         router.push(res.Data);
       })
       .catch((error) => {
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       });
   };
 

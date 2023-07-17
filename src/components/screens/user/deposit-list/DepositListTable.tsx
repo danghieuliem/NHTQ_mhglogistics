@@ -1,4 +1,4 @@
-import { Modal, Pagination, Popover, Tabs, Tag } from "antd";
+import { Modal, Pagination, Popover, Tabs } from "antd";
 import "antd/dist/antd.css";
 import clsx from "clsx";
 import React from "react";
@@ -10,7 +10,6 @@ import {
   DataTable,
   FormInput,
   UserDepositListFilter,
-  showToast,
   toast,
 } from "~/components";
 import { EOrderStatusData, transportStatus } from "~/configs/appConfigs";
@@ -69,7 +68,10 @@ const DetailInfo = (record) => {
             </div>
             <div className={divStyle}>
               Trạng thái:{" "}
-              <TagStatus color={color?.color} statusName={record?.record?.StatusName}/>
+              <TagStatus
+                color={color?.color}
+                statusName={record?.record?.StatusName}
+              />
             </div>
             <div className={divStyle}>
               Phương thức vận chuyển:{" "}
@@ -202,7 +204,10 @@ const DetailInfo = (record) => {
               </div>
               <div className={divStyle}>
                 Trạng thái:{" "}
-                <TagStatus color={color?.color} statusName={record?.record?.StatusName}/>
+                <TagStatus
+                  color={color?.color}
+                  statusName={record?.record?.StatusName}
+                />
               </div>
               <div className={divStyle}>
                 Phương thức vận chuyển:{" "}
@@ -407,12 +412,9 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
                           queryClient.invalidateQueries("userDepositList");
                         })
                         .catch((error) => {
-                          showToast({
-                            title: "Đã xảy ra lỗi!",
-                            message: (error as any)?.response?.data
-                              ?.ResultMessage,
-                            type: "error",
-                          });
+                          toast.error(
+                            (error as any)?.response?.data?.ResultMessage
+                          );
                         }),
                   })
                 }
@@ -540,12 +542,9 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
                             queryClient.invalidateQueries("userDepositList");
                           })
                           .catch((error) => {
-                            showToast({
-                              title: "Đã xảy ra lỗi!",
-                              message: (error as any)?.response?.data
-                                ?.ResultMessage,
-                              type: "error",
-                            });
+                            toast.error(
+                              (error as any)?.response?.data?.ResultMessage
+                            );
                           }),
                     })
                   }

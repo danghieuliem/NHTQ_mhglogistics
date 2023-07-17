@@ -18,7 +18,7 @@ import { _format } from "~/utils";
 
 type TProps = {
   page: "china" | "vietnam";
-  userData: TEmployee;
+  userData: TEmployee | any;
   loading: boolean;
 };
 

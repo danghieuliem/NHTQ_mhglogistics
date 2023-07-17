@@ -10,7 +10,7 @@ import {
   RegisterForm,
   SignInForm,
 } from "~/components/screens/auth";
-import { socialList } from "~/configs";
+import { config, socialList } from "~/configs";
 import {
   RootState,
   logOut,
@@ -74,7 +74,7 @@ const UserControl = ({ user, setOpenModal, firstPage, connection }) => {
                         </span>
                       </Tooltip>
                       <Tooltip title="Cấp độ VIP của bạn">
-                        <span className="text-white bg-main py-1 px-2 leading-[initial] rounded-[4px] text-[10px] font-bold">
+                        <span className="text-white ml-4 bg-main py-1 px-2 leading-[initial] rounded-[4px] text-[10px] font-bold">
                           VIP {user?.LevelId}
                         </span>
                       </Tooltip>
@@ -103,7 +103,7 @@ const UserControl = ({ user, setOpenModal, firstPage, connection }) => {
                         user.UserId.toString(),
                         user.UserGroupId.toString()
                       );
-                    Cookies.remove("tokenNHTQ-demo");
+                    Cookies.remove(config.tokenName);
                     dispatch(logOut());
                   }}
                 >
@@ -162,11 +162,12 @@ const Header = ({ dataMenu }) => {
   const connection = useAppSelector(selectConnection);
   const [openModal, setOpenModal] = useState("");
 
-  const dataGlobal: TConfig = useSelector((state: RootState) => state.dataGlobal);
-  const userCurrentInfo: TUser = useSelector((state: RootState) => state.userCurretnInfo);
-
-
-  console.log(firstPage);
+  const dataGlobal: TConfig = useSelector(
+    (state: RootState) => state.dataGlobal
+  );
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 
   // if (dataConfig) {
   //   socialList?.forEach((social) => (social.link = dataConfig[social.title]));

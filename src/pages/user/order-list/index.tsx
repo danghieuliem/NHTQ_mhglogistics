@@ -1,21 +1,15 @@
 import { Pagination } from "antd";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useQuery, useQueryClient } from "react-query";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { mainOrder } from "~/api";
-import {
-  ModalDelete,
-  showToast,
-  toast,
-  UserAnotherOrderListTable,
-  UserLayout,
-} from "~/components";
+import { UserAnotherOrderListTable, UserLayout } from "~/components";
 import { createdMoneyOfOrdersData, orderStatus } from "~/configs/appConfigs";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
 import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
-import { TDepositType, TModalType } from "~/types/table";
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
@@ -40,13 +34,15 @@ const Index: TNextPageWithLayout = () => {
     OrderType: query?.q === "3" ? 3 : 1,
   });
 
-  const [depositType, setDepositType] = useState<TDepositType>("one");
-  const [modal, setModal] = useState(false);
+  // const [depositType, setDepositType] = useState<TDepositType>("one");
+  // const [modal, setModal] = useState(false);
   const [moneyOfOrders, setMoneyOfOrders] = useState(createdMoneyOfOrdersData);
 
-  const handleFilter = (newFilter) => {
-    setFilter({ ...filter, ...newFilter });
-  };
+  const handleFilter = useCallback((newFilter) => {
+    const newFilterSet = { ...newFilter };
+    delete newFilterSet.TotalItems;
+    setFilter({ ...filter, ...newFilterSet });
+  }, [])
 
   useEffect(() => {
     setFilter({
@@ -65,7 +61,15 @@ const Index: TNextPageWithLayout = () => {
   }, [query?.q, userCurrentInfo?.Id]);
 
   const { data, isFetching, refetch } = useQuery(
-    ["orderList", filter],
+    ["orderList", [
+      filter.ToDate,
+      filter.FromDate,
+      filter.OrderType,
+      filter.PageIndex,
+      filter.SearchContent,
+      filter.Status,
+      filter.UID
+    ]],
     () => mainOrder.getList(filter).then((res) => res.Data),
     {
       onSuccess: (data) =>
@@ -76,82 +80,15 @@ const Index: TNextPageWithLayout = () => {
           PageSize: data?.PageSize,
         }),
       onError: (error) => {
-        showToast({
-          title: "Đã xảy ra lôi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
       retry: true,
       enabled: !!userCurrentInfo?.Id,
+      keepPreviousData: true,
+      staleTime: 5000,
+      refetchOnWindowFocus: true,
     }
   );
-
-  const mutationUpdateDeposit = useMutation(
-    (data: TOrder[]) =>
-      mainOrder.updateOrder(
-        data?.map((item) => item.Id),
-        { Status: 2 }
-      ),
-    {
-      onSuccess: () => {
-        setModal(false);
-        queryClient.invalidateQueries("orderList");
-        queryClient.invalidateQueries("clientData");
-        queryClient.invalidateQueries({ queryKey: "menuData" });
-        toast.success("Đặt cọc thành công");
-      },
-      onError: (error) => {
-        setModal(false);
-        setItems([]);
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
-      },
-    }
-  );
-
-  const mutationUpdatePayment = useMutation(
-    (data: TOrder[]) =>
-      mainOrder.updateOrder(
-        data?.map((item) => item?.Id),
-        { Status: 7 }
-      ),
-    {
-      onSuccess: () => {
-        setModal(false);
-        queryClient.invalidateQueries("orderList");
-        queryClient.invalidateQueries("clientData");
-        queryClient.invalidateQueries({ queryKey: "menuData" });
-        toast.success("Thanh toán thành công");
-      },
-      onError: (error) => {
-        setModal(false);
-        showToast({
-          title: (error as any)?.response?.data?.ResultCode,
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
-        setItems([]);
-      },
-    }
-  );
-
-  const handleModal = (
-    itemsSelected?: TOrder[],
-    currentModalType?: TModalType,
-    currentDepositType?: TDepositType
-  ) => {
-    setItems(itemsSelected);
-    setDepositType(currentDepositType);
-    if (!!itemsSelected?.length) {
-      setModal(true);
-    } else {
-      setModal(false);
-    }
-  };
 
   useQuery(
     ["main-order-amount", { OrderType: query?.q === "3" ? 3 : 1 }],
@@ -172,13 +109,10 @@ const Index: TNextPageWithLayout = () => {
         setMoneyOfOrders(moneyOfOrders);
       },
       onError: (error) => {
-        showToast({
-          title: "Đã xảy ra lôi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
       enabled: !!userCurrentInfo?.Id,
+      staleTime: 5000,
     }
   );
 
@@ -203,13 +137,10 @@ const Index: TNextPageWithLayout = () => {
         });
       },
       onError(error) {
-        showToast({
-          title: "Đã xảy ra lôi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
       enabled: !!userCurrentInfo?.Id,
+      staleTime: 5000,
     }
   );
 
@@ -221,8 +152,7 @@ const Index: TNextPageWithLayout = () => {
           handleFilter,
           moneyOfOrders,
           loading: isFetching,
-          selectedRowKeys: items.map((item) => item.Id),
-          handleModal,
+          // handleModal,
           type,
           q: query?.q,
         }}
@@ -233,36 +163,6 @@ const Index: TNextPageWithLayout = () => {
         pageSize={filter?.PageSize}
         onChange={(page, pageSize) =>
           handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-        }
-      />
-      <ModalDelete
-        visible={modal && depositType !== "some" && type.current === "deposit"}
-        onConfirm={() => {
-          mutationUpdateDeposit.mutateAsync(items);
-          handleModal([]);
-        }}
-        onCancel={() => handleModal([])}
-        title={
-          depositType === "some"
-            ? "Bạn có chắc muốn đặt cọc những đơn đã chọn"
-            : depositType === "all"
-            ? "Bạn có chắc muốn đặt cọc tất cả đơn"
-            : `Bạn có muốn đặt cọc đơn #${items?.[0]?.Id}`
-        }
-      />
-      <ModalDelete
-        visible={modal && depositType !== "some" && type.current === "payment"}
-        onConfirm={() => {
-          mutationUpdatePayment.mutateAsync(items);
-          handleModal([]);
-        }}
-        onCancel={() => handleModal([])}
-        title={
-          depositType === "some"
-            ? "Bạn có chắc muốn thanh toán những đơn đã chọn"
-            : depositType === "all"
-            ? "Bạn có chắc muốn thanh toán tất cả đơn"
-            : `Bạn có muốn thanh toán đơn #${items?.[0]?.Id}`
         }
       />
     </React.Fragment>

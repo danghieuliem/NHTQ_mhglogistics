@@ -18,7 +18,7 @@ import {
 import { useDeepEffect } from '~/hooks';
 
 type TProps = {
-	userData: TEmployee;
+	userData: TEmployee | any;
 	loading: boolean;
 };
 

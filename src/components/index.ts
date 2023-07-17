@@ -145,3 +145,6 @@ export * from "./globals/transfer";
 
 // resize image
 export * from "./globals/resizeImage";
+
+
+// framer motion

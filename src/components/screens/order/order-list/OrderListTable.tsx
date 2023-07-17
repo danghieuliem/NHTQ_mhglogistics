@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { mainOrder } from "~/api";
 import { ActionButton, DataTable } from "~/components";
 import { FilterSelect } from "~/components/globals/filterBase";
-import { orderStatus } from "~/configs/appConfigs";
+import { EOrderStatus, orderStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
@@ -416,12 +416,8 @@ export const OrderListTable: React.FC<
             </a>
           </Link>
           {(RoleID === 1 || RoleID === 3) &&
-            record?.Status !== 101 &&
-            record?.Status !== 100 &&
-            record.Status !== 10 &&
-            record?.Status !== 9 &&
-            record?.Status !== 6 &&
-            record?.Status !== 1 && (
+            (record?.Status === EOrderStatus.InVietnamWarehoue ||
+              record?.Status === EOrderStatus.NoDeposit) && (
               <ActionButton
                 onClick={() =>
                   Modal.confirm({
@@ -465,10 +461,14 @@ export const OrderListTable: React.FC<
                   })
                 }
                 icon="!mr-0"
-                title={record?.Status === 0 ? "Đặt cọc" : "Thanh toán"}
+                title={
+                  record?.Status === EOrderStatus.NoDeposit
+                    ? "Đặt cọc"
+                    : "Thanh toán"
+                }
                 isButton
                 isButtonClassName={
-                  record?.Status === 0
+                  record?.Status === EOrderStatus.NoDeposit
                     ? "bg-[brown] !text-white"
                     : "bg-blue !text-white"
                 }

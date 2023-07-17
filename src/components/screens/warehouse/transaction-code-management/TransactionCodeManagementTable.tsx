@@ -205,6 +205,11 @@ export const TransactionCodeManagementTable: React.FC<
       width: 200,
     },
     {
+      dataIndex: "UserNote",
+      title: "Khách ghi chú",
+      width: 200,
+    },
+    {
       dataIndex: "Created",
       title: "Ngày tạo",
       width: 200,

@@ -11,20 +11,8 @@ export const EditArticleCategoryForm: React.FC<TControl<TArticleCategory>> = ({
 }) => {
   return (
     <React.Fragment>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(12, 1fr)",
-          gap: "24px",
-          marginTop: 20,
-          padding: "0 20px",
-        }}
-      >
-        <div
-          style={{
-            gridColumn: "1/4",
-          }}
-        >
+      <div className="grid grid-cols-12 gap-4 p-2">
+        <div className="col-span-3">
           <div className="mb-4">
             <FormInput
               control={control}
@@ -55,12 +43,7 @@ export const EditArticleCategoryForm: React.FC<TControl<TArticleCategory>> = ({
             />
           </div>
         </div>
-        <div
-          style={{
-            gridColumn: "4/13",
-						minHeight: '800px'
-          }}
-        >
+        <div className="col-span-9 min-h-[700px]">
           <FormEditor
             control={control}
             label=""

@@ -1,18 +1,15 @@
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 import { permitObject } from "~/api/permit-object";
-import { showToast } from "~/components";
 
 // thời gian sẽ api loại 1 lần // 5 là số phút + 6 * 10000 là 1 phút  =  5 phút
 const staleTime = 5 * 6 * 10000;
 // bắt đầu thực thi từ thời gian
 const initialDataUpdatedAt = new Date().getTime();
 // api error
-const onError = (error: any) =>
-  showToast({
-    title: (error as any)?.response?.data?.ResultCode,
-    message: (error as any)?.response?.data?.ResultMessage,
-    type: "error",
-  });
+const onError = (error: any) => {
+  toast.error((error as any)?.response?.data?.ResultMessage);
+};
 
 type TProps = {
   permitParams?: TPaginationParamsWithReactQuery;

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { payHelp } from "~/api";
-import { showToast, UserLayout, UserRequestListTable } from "~/components";
+import { UserLayout, UserRequestListTable } from "~/components";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
 import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
@@ -38,11 +39,7 @@ const Index: TNextPageWithLayout = () => {
           PageSize: data?.PageSize,
         }),
       onError: (error) => {
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
     }
   );
@@ -60,6 +57,6 @@ const Index: TNextPageWithLayout = () => {
 
 Index.displayName = SEOHomeConfigs.payFor.listRequest;
 Index.Layout = UserLayout;
-Index.breadcrumb = "Danh sách đơn thanh toán hộ"
+Index.breadcrumb = "Danh sách đơn thanh toán hộ";
 
 export default Index;

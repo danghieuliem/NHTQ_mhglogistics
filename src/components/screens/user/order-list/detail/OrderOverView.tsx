@@ -174,7 +174,7 @@ const styleWrapIcon = `text-sm text-[#000]`;
 const styleIcon = `mr-2 pt-[2px] text-[#ffa500] text-[18px]`;
 const styleValue = `text-sm text-[#666565] font-semibold`;
 
-export const OrderOverView: React.FC<TProps> = ({ data, updatePaid }) => {
+const OrderOverView: React.FC<TProps> = ({ data, updatePaid }) => {
   const [renderFee, setRenderFee] = useState(templateFee);
 
   useEffect(() => {
@@ -264,3 +264,6 @@ export const OrderOverView: React.FC<TProps> = ({ data, updatePaid }) => {
     </Card>
   );
 };
+
+
+export const OrderOverViewMemo = React.memo(OrderOverView);

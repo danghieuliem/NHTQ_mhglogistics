@@ -2,7 +2,7 @@ import router from "next/router";
 import React, { useState } from "react";
 import { useMutation } from "react-query";
 import { order } from "~/api";
-import { IconButton, showToast, toast } from "~/components";
+import { IconButton, toast } from "~/components";
 import { _format } from "~/utils";
 import { OrderProductItem } from "./OrderProductItem";
 
@@ -33,11 +33,7 @@ export const OrderProductList: React.FC<TProps> = ({
     },
     onError: (error) => {
       setLoadingUpdate(false);
-      showToast({
-        message: (error as any)?.response?.data?.ResultMessage,
-        type: "error",
-        title: "Lỗi",
-      });
+      toast.error((error as any)?.response?.data?.ResultMessage);
     },
   });
 
@@ -66,9 +62,12 @@ export const OrderProductList: React.FC<TProps> = ({
     <React.Fragment>
       <div className="flex justify-between items-center">
         <div className="flex flex-wrap gap-2">
-          <span className="font-bold">Tổng số lượng: <span className="text-red"> {totalQuantity}</span> </span>
           <span className="font-bold">
-            Tổng tiền sản phẩm: <span className="text-red">{_format.getVND(data?.PriceVND)}</span>
+            Tổng số lượng: <span className="text-red"> {totalQuantity}</span>{" "}
+          </span>
+          <span className="font-bold">
+            Tổng tiền sản phẩm:{" "}
+            <span className="text-red">{_format.getVND(data?.PriceVND)}</span>
           </span>
         </div>
         <div>

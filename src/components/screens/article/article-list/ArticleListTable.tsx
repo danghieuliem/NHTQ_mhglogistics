@@ -1,12 +1,11 @@
 import { Pagination, Space } from "antd";
-import router from "next/router";
+import Link from "next/link";
 import { FC } from "react";
 import { ActionButton, DataTable } from "~/components";
 import { useCatalogue } from "~/hooks/useCatalogue";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
-import Link from "next/link";
 type TProps = {
   filter: {
     TotalItems: number;
@@ -40,6 +39,7 @@ export const ArticleListTable: FC<TTable<TPage> & TProps> = ({
     {
       dataIndex: "PageTypeId",
       title: "Chuyên mục",
+      width: 120,
       render: (_, record) => {
         const Categories = pageType?.find((x) => x?.Id === record?.PageTypeId);
         return <span className="font-bold">{Categories?.Name}</span>;
@@ -53,6 +53,7 @@ export const ArticleListTable: FC<TTable<TPage> & TProps> = ({
     {
       dataIndex: "Active",
       title: "Trạng thái",
+      width: 100,
       render: (_, record) => (
         <TagStatus
           color={!record.Active ? "red" : "green"}
@@ -63,6 +64,7 @@ export const ArticleListTable: FC<TTable<TPage> & TProps> = ({
     {
       dataIndex: "SideBar",
       title: "Sibebar",
+      width: 100,
       render: (_, record) => (
         <TagStatus
           color={!record.SideBar ? "red" : "green"}
@@ -73,6 +75,7 @@ export const ArticleListTable: FC<TTable<TPage> & TProps> = ({
     {
       dataIndex: "Created",
       title: "Ngày tạo",
+      width: 200,
       render: (date) => _format.getVNDate(date),
     },
     {

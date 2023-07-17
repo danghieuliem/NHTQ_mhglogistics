@@ -18,7 +18,7 @@ type TProps = {
   handleFilter: (newFilter) => void;
 };
 
-export const ClientListTable: React.FC<TTable<TClient> & TProps> = ({
+export const ClientListTable: React.FC<TTable<TClient | any> & TProps> = ({
   data,
   filter,
   handleFilter,

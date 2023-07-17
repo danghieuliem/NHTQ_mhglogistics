@@ -9,7 +9,6 @@ import {
   ClientListTable,
   IconButton,
   Layout,
-  showToast,
   toast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
@@ -58,9 +57,16 @@ const Index: TNextPageWithLayout = () => {
   const { isFetching, data, isLoading, refetch } = useQuery(
     [
       "clientData",
-      {
-        ...filter,
-      },
+      [
+        filter.PageIndex,
+        filter.Id,
+        filter.UserName,
+        filter.Phone,
+        filter.SearchContent,
+        filter.SalerID,
+        filter.OrdererID,
+      ],
+      ,
     ],
     () => user.getList(filter).then((res) => res.Data),
     {
@@ -74,12 +80,9 @@ const Index: TNextPageWithLayout = () => {
         });
       },
       refetchOnWindowFocus: false,
-      onError: (error) =>
-        showToast({
-          title: (error as any)?.response?.data?.ResultCode,
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        }),
+      onError: (error) => {
+        toast.error((error as any)?.response?.data?.ResultMessage);
+      },
     }
   );
 

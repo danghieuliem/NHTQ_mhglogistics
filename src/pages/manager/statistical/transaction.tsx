@@ -1,10 +1,10 @@
 import { Pagination } from "antd";
 import { useState } from "react";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 import { reportHistoryPayWallet } from "~/api";
 import {
   Layout,
-  showToast,
   TransactionChart,
   TransactionFilter,
   TransactionTable,
@@ -28,14 +28,17 @@ const Index: TNextPageWithLayout = () => {
   const handleFilter = (newFilter) => setFilter({ ...filter, ...newFilter });
 
   const { data, isFetching, isLoading } = useQuery(
-    ["clientTransactionReportData", filter],
+    [
+      "clientTransactionReportData",
+      [filter.PageIndex, filter.FromDate, filter.ToDate],
+    ],
     () => reportHistoryPayWallet.getList(filter).then((res) => res.Data),
     {
       onSuccess: (data) => {
         setFilter({
           ...filter,
           TotalItems: data?.TotalItem,
-          PageIndex: data?.PageIndex,
+          // PageIndex: data?.PageIndex,
           PageSize: data?.PageSize,
         });
         setChartData({
@@ -54,24 +57,22 @@ const Index: TNextPageWithLayout = () => {
             data?.Items[0]?.TotalRecivePaymentTransport,
         });
       },
-      onError: () => {
-        showToast({
-          title: "Lỗi!",
-          message: "Đường truyền kết nối server bị lỗi! Vui lòng thử lại!",
-          type: "error",
-        });
+      onError: (error) => {
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
     }
   );
 
   return (
     <div className="">
-      <TransactionFilter handleFilter={handleFilter} />
-      <div className="text-lg text-[#333]">
-        Tổng số tiền giao dịch:{" "}
-        <span className="font-bold text-main">
-          {_format.getVND(data?.Items[0]?.TotalAmount)}
-        </span>
+      <div className="flex  gap-4">
+        <TransactionFilter handleFilter={handleFilter} />
+        <div className="tableBox text-lg text-[#333] flex items-center gap-4 w-fit">
+          Tổng số tiền giao dịch:{" "}
+          <span className="font-bold text-main">
+            {_format.getVND(data?.Items[0]?.TotalAmount)}
+          </span>
+        </div>
       </div>
       <TransactionChart dataChart={chartData} />
       <div className="mt-6">

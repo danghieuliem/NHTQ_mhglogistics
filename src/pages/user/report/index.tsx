@@ -2,11 +2,12 @@ import { TablePaginationConfig } from "antd";
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { complain } from "~/api";
-import { ReportListTable, showToast, UserLayout } from "~/components";
+import { ReportListTable, UserLayout } from "~/components";
 import { defaultPagination } from "~/configs/appConfigs";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
-import { RootState, useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
@@ -40,11 +41,7 @@ const Index: TNextPageWithLayout = () => {
       onSuccess: (data) =>
         setPagination({ ...pagination, total: data?.TotalItem }),
       onError: (error) => {
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
     }
   );
@@ -62,7 +59,7 @@ const Index: TNextPageWithLayout = () => {
 };
 
 Index.displayName = SEOHomeConfigs.complain;
-Index.breadcrumb = "Danh sách khiếu nại"
+Index.breadcrumb = "Danh sách khiếu nại";
 Index.Layout = UserLayout;
 
 export default Index;

@@ -1,11 +1,11 @@
 import { TablePaginationConfig } from "antd";
 import { useState } from "react";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 import { reportUser } from "~/api";
 import {
   Layout,
   NotFound,
-  showToast,
   SurplusChart,
   SurplusFilter,
   SurplusTable,
@@ -61,15 +61,11 @@ const Index: TNextPageWithLayout = () => {
           GreaterThan10M: data?.Items[0]?.GreaterThan10M,
         });
       },
-      onError: () => {
-        showToast({
-          title: "Lỗi!",
-          message: "Đường truyền kết nối server bị lỗi! Vui lòng thử lại!",
-          type: "error",
-        });
+      onError: (error) => {
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
-			keepPreviousData: true,
-			staleTime: 5000
+      keepPreviousData: true,
+      staleTime: 5000,
     }
   );
 

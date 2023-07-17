@@ -6,7 +6,6 @@ import {
   ClientTransactionHistoryFilter,
   ClientTransactionHistoryTable,
   Layout,
-  showToast,
   toast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
@@ -57,12 +56,9 @@ const Index: TNextPageWithLayout = () => {
           PageIndex: data?.PageIndex,
           PageSize: data?.PageSize,
         }),
-      onError: (error) =>
-        showToast({
-          title: (error as any)?.response?.data?.ResultCode,
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        }),
+      onError: (error) => {
+        toast.error((error as any)?.response?.data?.ResultMessage);
+      },
       enabled: !!query?.id && !!userData,
     }
   );

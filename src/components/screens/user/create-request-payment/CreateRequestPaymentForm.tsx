@@ -7,12 +7,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { payHelp } from "~/api";
-import {
-  FormInput,
-  FormInputNumber,
-  FormTextarea,
-  showToast,
-} from "~/components";
+import { FormInput, FormInputNumber, FormTextarea } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
 import { useDeepEffect } from "~/hooks";
 import { RootState } from "~/store";
@@ -109,11 +104,7 @@ export const CreateRequestPaymentForm = () => {
           setValue("TotalPriceVND", totalPrice * currency);
           setValue("Currency", currency);
         } catch (error) {
-          showToast({
-            title: (error as any)?.response?.data?.ResultCode,
-            message: (error as any)?.response?.data?.ResultMessage,
-            type: "error",
-          });
+          toast.error((error as any)?.response?.data?.ResultMessage);
         }
       }
     })();
@@ -130,12 +121,9 @@ export const CreateRequestPaymentForm = () => {
       Router.push("/user/request-list");
       setLoading(false);
     },
-    onError: (error) =>
-      showToast({
-        title: (error as any)?.response?.data?.ResultCode,
-        message: (error as any)?.response?.data?.ResultMessage,
-        type: "error",
-      }),
+    onError: (error) => {
+      toast.error((error as any)?.response?.data?.ResultMessage);
+    },
   });
 
   const _onPress = (data: TCreateRequestPaymentOrder) => {

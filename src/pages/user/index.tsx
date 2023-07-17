@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { mainOrder, payHelp, transportationOrder } from "~/api";
 import {
   UserAnotherOrder,
@@ -9,7 +10,6 @@ import {
   UserPayment,
   UserStatistic,
   UserTransfer,
-  showToast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
@@ -91,12 +91,7 @@ const Index: TNextPageWithLayout = () => {
         }),
     {
       onError: (error) => {
-        showToast({
-          // title: (error as any)?.response?.data?.ResultCode,
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
       enabled: !!userCurrentInfo?.Id,
       staleTime: 5000,
@@ -133,12 +128,7 @@ const Index: TNextPageWithLayout = () => {
         }),
     {
       onError: (error) => {
-        showToast({
-          // title: (error as any)?.response?.data?.ResultCode,
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
       enabled: !!userCurrentInfo?.Id,
       staleTime: 5000,
@@ -173,12 +163,7 @@ const Index: TNextPageWithLayout = () => {
         }),
     {
       onError: (error) => {
-        showToast({
-          // title: (error as any)?.response?.data?.ResultCode,
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
       staleTime: 5000,
       enabled: !!userCurrentInfo?.Id,
@@ -212,12 +197,7 @@ const Index: TNextPageWithLayout = () => {
         }),
     {
       onError: (error) => {
-        showToast({
-          // title: (error as any)?.response?.data?.ResultCode,
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
       enabled: !!userCurrentInfo?.Id,
       staleTime: 5000,

@@ -8,7 +8,7 @@ const blogList = [
   {
     id: 1,
     title: "Nhập hàng Trung Quốc",
-    code: "",
+    code: "nhap-hang-trung-quoc-ve-viet-nam",
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ const blogList = [
   {
     id: 4,
     title: "Đặt hàng Taobao",
-    code: "",
+    code: "dat-hang-taobao",
   },
 ];
 

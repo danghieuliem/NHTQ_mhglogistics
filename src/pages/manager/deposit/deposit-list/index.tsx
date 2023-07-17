@@ -2,13 +2,9 @@ import router from "next/router";
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { transportationOrder } from "~/api";
-import {
-  DepositListFilter,
-  DepositListTable,
-  Layout,
-  showToast,
-} from "~/components";
+import { DepositListFilter, DepositListTable, Layout } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import { transportStatus } from "~/configs/appConfigs";
@@ -37,7 +33,7 @@ const Index: TNextPageWithLayout = () => {
     UID: userCurrentInfo?.Id,
     RoleID: userCurrentInfo?.UserGroupId,
     SalerID: null,
-    OrderBy: "Id desc"
+    OrderBy: "Id desc",
   });
 
   const handleFilter = (newFilter) => {
@@ -45,7 +41,17 @@ const Index: TNextPageWithLayout = () => {
   };
 
   const { isFetching, data, isLoading, refetch } = useQuery(
-    ["depositList", { ...filter }],
+    [
+      "depositList",
+      [
+        filter.TypeSearch,
+        filter.FromDate,
+        filter.ToDate,
+        filter.SearchContent,
+        filter.Status,
+        filter.UID,
+      ],
+    ],
     () => transportationOrder.getList(filter).then((res) => res.Data),
     {
       onSuccess: (data) =>
@@ -56,11 +62,7 @@ const Index: TNextPageWithLayout = () => {
           PageSize: data?.PageSize,
         }),
       onError: (error) => {
-        showToast({
-          title: "Lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
       keepPreviousData: true,
       staleTime: 5000,
@@ -77,11 +79,7 @@ const Index: TNextPageWithLayout = () => {
         router.push(`${res.Data}`);
       })
       .catch((error) => {
-        showToast({
-          title: "Lỗi!",
-          message: "Đường truyền kết nối server bị lỗi! Vui lòng thử lại!",
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       });
   };
 
@@ -103,11 +101,7 @@ const Index: TNextPageWithLayout = () => {
         });
       },
       onError: (error) => {
-        showToast({
-          title: "Lỗi kết nối máy chủ!",
-          message: "Vui lòng tải lại trang!",
-          type: "error",
-        });
+        toast.error((error as any)?.response?.data?.ResultMessage);
       },
       retry: false,
       keepPreviousData: true,

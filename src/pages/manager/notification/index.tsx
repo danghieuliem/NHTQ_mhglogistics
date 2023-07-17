@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import { notification } from "~/api";
 import { Layout, toast } from "~/components";
-import NotificationFilter from "~/components/screens/notification/NotificationFilter";
 import NotificationTable from "~/components/screens/notification/NotificationTable";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
-import { useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = ({ connection }) => {
-  const userNew = useAppSelector((state) => state.user.current);
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 
   const [filter, setFilter] = useState({
     TotalItems: null,
@@ -19,19 +21,22 @@ const Index: TNextPageWithLayout = ({ connection }) => {
     FromDate: null,
     ToDate: null,
     OrderBy: "Id desc",
-    UID: userNew?.UserId,
+    UID: userCurrentInfo?.Id,
     OfEmployee: true,
     IsRead: 0,
   });
 
-  const { isFetching, data } = useQuery(
-    ["menuData", filter],
+  const { isFetching, data, refetch } = useQuery(
+    [
+      "menuData",
+      [filter.PageIndex, filter.ToDate, filter.FromDate, filter.UID],
+    ],
     () =>
       notification.getList(filter).then((res) => {
         setFilter({
           ...filter,
           TotalItems: res?.Data?.TotalItem,
-          PageIndex: res?.Data?.PageIndex,
+          // PageIndex: res?.Data?.PageIndex,
           PageSize: res?.Data?.PageSize,
         });
         if (data?.Items?.length <= 0) {
@@ -41,7 +46,9 @@ const Index: TNextPageWithLayout = ({ connection }) => {
       }),
     {
       retry: false,
-      enabled: !!userNew,
+      enabled: !!userCurrentInfo?.Id,
+      keepPreviousData: true,
+      staleTime: 10000,
       onError: toast.error,
     }
   );
@@ -59,24 +66,14 @@ const Index: TNextPageWithLayout = ({ connection }) => {
   };
 
   return (
-    <>
-      <div className="tableBox">
-        <div>
-          <NotificationFilter
-            handleFilter={handleFilter}
-            isFetching={isFetching}
-          />
-        </div>
-        <div className="mt-4">
-          <NotificationTable
-            data={data?.Items}
-            loading={isFetching}
-            handleFilter={handleFilter}
-            filter={filter}
-          />
-        </div>
-      </div>
-    </>
+    <NotificationTable
+      isFetching={isFetching}
+      refetch={refetch}
+      data={data?.Items}
+      loading={isFetching}
+      handleFilter={handleFilter}
+      filter={filter}
+    />
   );
 };
 

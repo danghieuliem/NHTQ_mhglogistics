@@ -4,13 +4,8 @@ import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { authenticate, setToken, user as userAPI } from "~/api";
 import configHomeData from "~/api/config-home";
-import {
-  setRouter,
-  setUser,
-  updateGlobal,
-  useAppDispatch,
-  updateUser,
-} from "~/store";
+import { config } from "~/configs";
+import { setRouter, updateGlobal, updateUser, useAppDispatch } from "~/store";
 import { _format } from "~/utils";
 
 const inputStyle = "border !rounded-none !outline-0 mx-2 p-2";
@@ -37,13 +32,10 @@ const Index = () => {
       .then((res) => {
         const session = res?.Data?.token;
         session && setToken(session);
-        Cookie.set("tokenNHTQ-demo", session);
+        Cookie.set(config.tokenName, session);
         try {
-          const token = res.Data.token;
-          Cookie.set("tokenNHTQ-demo", token);
-          setToken(token);
           const user: TUser = JSON.parse(
-            _format.getJWTDecode(token)[
+            _format.getJWTDecode(session)[
               "http://schemas.microsoft.com/ws/2008/06/identity/claims/userdata"
             ]
           );
@@ -57,7 +49,7 @@ const Index = () => {
                   Roles: [],
                   LastName: "",
                   FirstName: "",
-                  Token: token,
+                  Token: session,
                 })
               );
               dispatch(setRouter(user.UserGroupId));

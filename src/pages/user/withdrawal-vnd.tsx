@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import { withdraw } from "~/api";
 import {
   ModalDelete,
-  showToast,
   toast,
   UserLayout,
   WithDrawalVNDTable,
@@ -44,12 +43,9 @@ const Index: TNextPageWithLayout = () => {
       keepPreviousData: true,
       onSuccess: (data) =>
         setPagination({ ...pagination, total: data?.TotalItem }),
-      onError: (error) =>
-        showToast({
-          title: "Đã xảy ra lỗi!",
-          message: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
-        }),
+      onError: (error) => {
+        toast.error((error as any)?.response?.data?.ResultMessage);
+      },
     }
   );
 
@@ -67,12 +63,9 @@ const Index: TNextPageWithLayout = () => {
       refetch();
       toast.success("Yêu cầu hủy thành công!");
     },
-    onError: (error) =>
-      showToast({
-        title: "Đã xảy ra lỗi!",
-        message: (error as any)?.response?.data?.ResultMessage,
-        type: "error",
-      }),
+    onError: (error) => {
+      toast.error((error as any)?.response?.data?.ResultMessage);
+    },
   });
 
   return (

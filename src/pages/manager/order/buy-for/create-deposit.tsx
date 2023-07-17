@@ -161,7 +161,7 @@ const Index: TNextPageWithLayout = () => {
         >
           <ActionButton
             icon="mr-0"
-            title="Tiêp tục"
+            title="Tiếp tục"
             isButton
             isButtonClassName="bg-sec !text-white"
           />
