@@ -16,7 +16,7 @@ import { paymentStatusData } from "~/configs/appConfigs";
 import { useDeepEffect } from "~/hooks";
 
 type TProps = {
-  userData?: TEmployee;
+  userData?: TEmployee | any;
   bankData?: TBankCatalogue[];
   loading: boolean;
 };

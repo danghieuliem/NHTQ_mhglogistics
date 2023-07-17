@@ -2,7 +2,6 @@ import clsx from "clsx";
 import styles from "./index.module.css";
 
 export const HomeServices = ({ data }) => {
-  
   return (
     <div className={clsx(styles.servicesWrap)}>
       <div className="container">
@@ -13,6 +12,7 @@ export const HomeServices = ({ data }) => {
             dịch vụ
           </span>
         </h1>
+
         <div className={styles.innerContent}>
           {data?.map((item, index) => (
             <div className={styles.box} key={`${item?.Code}-${index}`}>

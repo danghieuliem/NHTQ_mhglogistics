@@ -17,7 +17,7 @@ import { useCatalogue, useDeepEffect } from "~/hooks";
 import { checkUnique, createComplain, EUnique } from "../../auth/method";
 
 type TProps = {
-  defaultValues: TClient;
+  defaultValues: TClient | any;
   userLevelCatalogue: TUserLevelCatalogue[];
   userGroupCatalogue: TUserGroupCatalogue[];
   userSaleCatalogue: TUserCatalogue[];

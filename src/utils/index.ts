@@ -119,7 +119,7 @@ class Format {
         suffix
       );
     }
-    return price + suffix;
+    return price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + suffix;
   };
 
   // format phần trăm

@@ -14,7 +14,6 @@ import {
   createdOrderStatusData,
   search2Data,
 } from "~/configs/appConfigs";
-import { TTable } from "~/types/table";
 import { _format } from "~/utils";
 
 const inputProps = {
@@ -79,7 +78,7 @@ const MoneyOfOrdersComp = ({ moneyOfOrders }) => {
   );
 };
 
-export const UserAnotherOrderListFilter: React.FC<TProps> = ({
+const UserAnotherOrderListFilter: React.FC<TProps> = ({
   handleFilter,
   numberOfOrder,
   moneyOfOrders,
@@ -251,3 +250,5 @@ export const UserAnotherOrderListFilter: React.FC<TProps> = ({
     </div>
   );
 };
+
+export const UserAnotherOrderListFilterMemo = React.memo(UserAnotherOrderListFilter)

@@ -1,5 +1,5 @@
 import React from "react";
-import { FormEditor, FormInput, ResizeImage } from "~/components";
+import { FormEditor, FormInput } from "~/components";
 import { FormSwitch } from "~/components/globals/formBase";
 import { TControl } from "~/types/field";
 
@@ -24,7 +24,6 @@ export const AddArticleCategoryForm: React.FC<
           <div className="mb-4">
             <FormSwitch control={control} name="sideBar" label="Hiện sidebar" />
           </div>
-          <ResizeImage />
         </div>
         <div className="col-span-9 min-h-[700px]">
           <FormEditor

@@ -215,8 +215,8 @@ export const PurchasePercent = () => {
   return (
     <div className="grid grid-cols-12 gap-4">
       <PercentOrderMemo />
-      {/* <PercentTransportMemo />
-      <PercentPaymentMemo /> */}
+      {/* <PercentTransportMemo /> */}
+      {/* <PercentPaymentMemo /> */}
     </div>
   );
 };

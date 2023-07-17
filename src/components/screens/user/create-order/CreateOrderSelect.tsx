@@ -51,14 +51,16 @@ export const CreateOrderSelect: FC<TProps> = ({
             placeholder="Phương thức"
             rules={{ required: "This field is required" }}
             select={{ label: "Name", value: "Id" }}
-            defaultValue={{
-              Name: shippingTypeToWarehouseCatalogue?.find(
-                (x) => x.Id === userCurrentInfo?.ShippingType
-              )?.Name,
-              Id: shippingTypeToWarehouseCatalogue?.find(
-                (x) => x.Id === userCurrentInfo?.ShippingType
-              )?.Id,
-            }}
+            defaultValue={
+              !userList && {
+                Name: shippingTypeToWarehouseCatalogue?.find(
+                  (x) => x.Id === userCurrentInfo?.ShippingType
+                )?.Name,
+                Id: shippingTypeToWarehouseCatalogue?.find(
+                  (x) => x.Id === userCurrentInfo?.ShippingType
+                )?.Id,
+              }
+            }
           />
         </div>
         <div className={infoContainer}>
@@ -70,14 +72,16 @@ export const CreateOrderSelect: FC<TProps> = ({
             placeholder="Kho Trung Quốc"
             rules={{ required: "This field is required" }}
             select={{ label: "Name", value: "Id" }}
-            defaultValue={{
-              Name: warehouseTQCatalogue?.find(
-                (x) => x.Id === userCurrentInfo?.WarehouseFrom
-              )?.Name,
-              Id: warehouseTQCatalogue?.find(
-                (x) => x.Id === userCurrentInfo?.WarehouseFrom
-              )?.Id,
-            }}
+            defaultValue={
+              !userList && {
+                Name: warehouseTQCatalogue?.find(
+                  (x) => x.Id === userCurrentInfo?.WarehouseFrom
+                )?.Name,
+                Id: warehouseTQCatalogue?.find(
+                  (x) => x.Id === userCurrentInfo?.WarehouseFrom
+                )?.Id,
+              }
+            }
           />
         </div>
         <div className={infoContainer}>
@@ -89,14 +93,16 @@ export const CreateOrderSelect: FC<TProps> = ({
             placeholder="Kho Việt Nam"
             rules={{ required: "This field is required" }}
             select={{ label: "Name", value: "Id" }}
-            defaultValue={{
-              Name: warehouseVNCatalogue?.find(
-                (x) => x.Id === userCurrentInfo?.WarehouseTo
-              )?.Name,
-              Id: warehouseVNCatalogue?.find(
-                (x) => x.Id === userCurrentInfo?.WarehouseTo
-              )?.Id,
-            }}
+            defaultValue={
+              !userList && {
+                Name: warehouseVNCatalogue?.find(
+                  (x) => x.Id === userCurrentInfo?.WarehouseTo
+                )?.Name,
+                Id: warehouseVNCatalogue?.find(
+                  (x) => x.Id === userCurrentInfo?.WarehouseTo
+                )?.Id,
+              }
+            }
           />
         </div>
       </div>

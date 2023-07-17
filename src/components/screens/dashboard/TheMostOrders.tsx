@@ -83,7 +83,7 @@ export const TheMostOrders = () => {
     <DataTable
       {...{
         columns,
-        data: data?.sort((a, b) => b?.TotalMainOrder - a?.TotalMainOrder),
+        data: data,
         loading: isFetching,
         title: "Khách hàng có đơn hàng nhiều nhất",
         // expandable: expandable,

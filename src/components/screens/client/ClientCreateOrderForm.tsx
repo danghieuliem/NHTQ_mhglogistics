@@ -17,7 +17,7 @@ import { useCatalogue, useDeepEffect, usePressKeyboard } from "~/hooks";
 import { TColumnsType } from "~/types/table";
 
 type TProps = {
-  userData?: TEmployee;
+  userData?: TEmployee | any;
 };
 
 export const ClientCreateOrderForm = ({ userData }: TProps) => {

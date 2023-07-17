@@ -11,7 +11,7 @@ type TProps = {
   handleFilter: (newFilter) => void;
 };
 
-export const PersonalRechargeTable: React.FC<TTable<TClient> & TProps> = ({
+export const PersonalRechargeTable: React.FC<TTable<TClient | any> & TProps> = ({
   data,
   loading,
   handleFilter,

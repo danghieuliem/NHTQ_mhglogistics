@@ -80,6 +80,7 @@ const Index: TNextPageWithLayout = () => {
         filter.SearchContent,
         filter.Status,
         filter.UID,
+        filter.PageIndex
       ],
     ],
     () => mainOrder.getList(filter).then((res) => res.Data),
@@ -88,7 +89,7 @@ const Index: TNextPageWithLayout = () => {
         setFilter({
           ...filter,
           TotalItems: data?.TotalItem,
-          PageIndex: data?.PageIndex,
+          // PageIndex: data?.PageIndex,
           PageSize: data?.PageSize,
         });
       },
