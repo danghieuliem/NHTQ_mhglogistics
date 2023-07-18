@@ -120,12 +120,12 @@ const PercentTransport = () => {
         // labels: dataLabels,
         backgroundColor: [
           "#000",
-          "magenta",
           "#008080",
           "#f57c00",
           "#c71585",
           "#096dd9",
           "#008000",
+          "magenta",
         ],
         data: dataChart,
         hoverOffset: 4,
@@ -133,17 +133,19 @@ const PercentTransport = () => {
     ],
   };
 
+  console.log(data);
+
   return (
     <div className="tableBox col-span-4">
       <p className="titleTable">Tỉ lệ đơn ký gửi</p>
       <div className="grid grid-cols-2 gap-1 mt-4 ">
         <TagStatus color="#000" statusName="Hủy" />
-        <TagStatus color="magenta" statusName="Chờ duyệt" />
         <TagStatus color="#008080" statusName="Đã duyệt" />
         <TagStatus color="#f57c00" statusName="Về kho TQ" />
         <TagStatus color="#c71585" statusName="Về kho VN" />
         <TagStatus color="#096dd9" statusName="Đã thanh toán" />
         <TagStatus color="#008000" statusName="Đã hoàn thành" />
+        <TagStatus color="magenta" statusName="Chờ duyệt" />
       </div>
       <Pie
         data={data}
@@ -163,9 +165,8 @@ const PercentPayment = () => {
     "get-payhelp-percent",
     () => dashboard.getPercentPayhelp(),
     {
-      onError: (error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
-      },
+      onError: (error) =>
+        toast.error((error as any)?.response?.data?.ResultMessage),
       onSuccess: (data) => {
         setDataChart(data.Data.map((i) => i.Amount));
         setDataLabels(data.Data.map((i) => i.Name));
@@ -180,7 +181,7 @@ const PercentPayment = () => {
     datasets: [
       {
         // labels: dataLabels,
-        backgroundColor: ["darkred", "#096dd9", "#000", "#008000", "#f57c00"],
+        backgroundColor: ["darkred", "#096dd9", "#000", "#f57c00", "#008000"],
         data: dataChart,
         hoverOffset: 4,
       },
@@ -191,11 +192,11 @@ const PercentPayment = () => {
     <div className="tableBox col-span-4">
       <p className="titleTable">Tỉ lệ đơn thanh toán hộ</p>
       <div className="grid grid-cols-2 gap-1 mt-4 ">
-        <TagStatus color="#000" statusName="Đã hủy" />
-        <TagStatus color="darkred" statusName="Chờ duyệt" />
+        <TagStatus color="darkred" statusName="Chưa thanh toán" />
         <TagStatus color="#096dd9" statusName="Đã thanh toán" />
-        <TagStatus color="#008000" statusName="Đã hoàn thành" />
+        <TagStatus color="#000" statusName="Đã hủy" />
         <TagStatus color="#f57c00" statusName="Đã xác nhận" />
+        <TagStatus color="#008000" statusName="Đã hoàn thành" />
       </div>
       <Pie
         data={data}
@@ -215,8 +216,8 @@ export const PurchasePercent = () => {
   return (
     <div className="grid grid-cols-12 gap-4">
       <PercentOrderMemo />
-      {/* <PercentTransportMemo /> */}
-      {/* <PercentPaymentMemo /> */}
+      <PercentTransportMemo />
+      <PercentPaymentMemo />
     </div>
   );
 };
