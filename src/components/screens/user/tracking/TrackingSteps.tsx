@@ -1,50 +1,104 @@
-import { Steps } from "antd";
+import clsx from "clsx";
 import React, { memo } from "react";
-
-const { Step } = Steps;
-
-const progessDot = (icon: string) => {
-  return <i className={icon}></i>;
-};
+import { _format } from "~/utils";
+import styles from "./index.module.css";
 
 type TProps = {
-  current?: number;
+  data?: any;
 };
 
-export const TrackingSteps: React.FC<TProps> = memo(({ current = 1 }) => {
-  const getWidthView = document.body.clientWidth;
+export const TrackingSteps: React.FC<TProps> = memo(({ data }) => {
+  console.log(data);
+  const renderDate = [
+    {
+      id: 1,
+      title: "Chưa về kho TQ",
+      date: data?.Created,
+      staff: data?.CreatedBy,
+      icon: "/icon/chua-ve-kho-TQ.png",
+      color: "#8098F9",
+    },
+    {
+      id: 2,
+      title: "Đã về kho TQ",
+      date: data?.DateInTQWarehouse,
+      icon: "/icon/da-ve-kho-TQ.png",
+      staff: data?.StaffTQWarehouse,
+      color: "#3538CD",
+    },
+    {
+      id: 3,
+      title: "Trong kho VN",
+      date: data?.DateInLasteWareHouse,
+      icon: "/icon/trong-kho-VN.png",
+      staff: data?.StaffVNWarehouse,
+      color: "#DC6803",
+    },
+    {
+      id: 5,
+      title: "Đã giao",
+      date: data?.DateOutWarehouse,
+      icon: "/icon/da-giao.png",
+      staff: data?.StaffVNOutWarehouse,
+      color: "#F63D68",
+    },
+  ];
+
+  // const getWidthView = document.body.clientWidth;
   //vertical - horizontal
+  // console.log(data?.Status);
+
+  /**
+   * Chưa về kho TQ: Created - CreatedBy
+   * Đã về kho TQ: DateInTQWarehouse - StaffTQWarehouse
+   * Trong kho VN: DateInLasteWareHouse -  StaffVNWarehouse
+   * Đã giao: DateOutWarehouse - StaffVNOutWarehouse
+   */
+
   return (
-    <div className={`mx-auto ${getWidthView <= 888 ? '' : 'py-8 px-8'}`}>
-      <div className="">
-        <Steps
-          
-          direction={getWidthView <= 888 ? 'vertical' : 'horizontal'}
-          className="tracking"
-          current={current}
-          labelPlacement="vertical"
-          status="wait"
+    <div className={clsx("flex flex-col", styles.trackingWrapper)}>
+      {renderDate?.map((item) => (
+        <div
+          className={clsx(
+            styles.box,
+            data?.Status >= item?.id && styles.boxActive
+          )}
+          key={clsx(item.date, item.id)}
         >
-          <Step
-            title="Đang lấy hàng"
-            progressDot={() => progessDot("fas fa-shopping-cart")}
-          />
-          <Step
-            title="Đã về kho TQ"
-            progressDot={() => progessDot("fas fa-warehouse-alt")}
-          />
-          {/* <Step title="Đang vận chuyển" progressDot={() => progessDot("fa fa-shipping-fast")} /> */}
-          <Step
-            title="Đã về kho VN"
-            progressDot={() => progessDot("fas fa-warehouse-alt")}
-          />
-          {/* <Step title="Đã thanh toán" progressDot={() => progessDot("fas fa-sack-dollar")} /> */}
-          <Step
-            title="Đã giao hàng"
-            progressDot={() => progessDot("fa fa-box-check")}
-          />
-        </Steps>
-      </div>
+          <div className={clsx(styles.icon)}>
+            <img src={item.icon} alt="" className={styles.img} />
+          </div>
+          <div className={styles.content}>
+            <div>
+              <div
+                className={styles.title}
+                style={{
+                  color:
+                    data?.Status >= item?.id ? item.color : "text-[#afafaf]",
+                }}
+              >
+                {item?.title}
+              </div>
+            </div>
+            <div className={styles.line}></div>
+            <div className="flex justify-start flex-col">
+              <div>
+                <span className="text-[12px]">Nhân viên xử lý: </span>
+                <span className="text-[14px] font-bold">
+                  {item?.staff || "--"}
+                </span>
+              </div>
+              <div>
+                <span className="text-[12px]">Thời gian: </span>
+                <span className="text-[12px] font-bold">
+                  {_format.getVNDate(item?.date)}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+      {/* <div className={styles.lineMain}></div> */}
     </div>
   );
 });
