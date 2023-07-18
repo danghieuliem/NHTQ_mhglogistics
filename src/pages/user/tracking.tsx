@@ -1,9 +1,8 @@
-import { Empty, Spin } from "antd";
-import React, { useEffect, useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { useState } from "react";
+import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { smallPackage } from "~/api";
-import { UserLayout } from "~/components";
+import { Empty, Loading, UserLayout } from "~/components";
 import {
   TrackingDetail,
   TrackingFilter,
@@ -13,46 +12,15 @@ import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = ({ connection }) => {
   const [TransactionCode, setTransactionCode] = useState<string>(null);
-  const handleFilter = (TransactionCode: string) =>
+  const handleFilter = (TransactionCode: string) => {
+		if (TransactionCode === "") {
+			toast.warn("Vui lòng nhập mã vận đơn!");
+			return;
+		}
     setTransactionCode(TransactionCode.trim());
+	}
 
-  // realtime
-  // ===== begin =====
-  const [loading, setLoading] = useState(false);
-  const queryClient = useQueryClient();
-
-  useEffect(() => {
-    let timeout = null;
-
-    if (connection) {
-      connection.on("change", async (mainOrders: TOrder[]) => {
-        if (!!mainOrders?.length) {
-          let item = null;
-          mainOrders.every((order) => {
-            item = order?.SmallPackages?.find(
-              (smallPackage) =>
-                smallPackage?.OrderTransactionCode === TransactionCode
-            );
-            if (item) return false;
-            return true;
-          });
-
-          if (item) {
-            setLoading(true);
-            await queryClient.setQueryData(["tracking", TransactionCode], {
-              Data: [item],
-            });
-            timeout = setTimeout(() => setLoading(false), 2000);
-          }
-        }
-      });
-    }
-
-    return () => clearTimeout(timeout);
-  }, [connection, TransactionCode]);
-  // ===== end =====
-
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, isFetching } = useQuery(
     ["tracking", TransactionCode],
     () => smallPackage.getByTransactionCode({ TransactionCode }),
     {
@@ -61,31 +29,30 @@ const Index: TNextPageWithLayout = ({ connection }) => {
       refetchOnWindowFocus: false,
       retry: false,
       refetchOnReconnect: false,
-      onError: (error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
-      },
     }
   );
 
   return (
-    <React.Fragment>
-      <Spin spinning={isLoading || loading}>
-        <div className="tableBox px-4 tracking">
-          <div className="max-w-[600px] my-3 mx-auto">
-            <TrackingFilter handleFilter={handleFilter} />
-          </div>
-          <div>
-            {TransactionCode === null ? (
-              <Empty description="Vui lòng nhập mã vận trước trước" />
-            ) : !TransactionCode.length || !data?.length ? (
-              <Empty description="Không tìm thấy mã vận đơn này" />
-            ) : (
-              <TrackingDetail data={data} />
-            )}
-          </div>
+    <div className="grid grid-cols-1 gap-4">
+      <div className="w-full xl:w-1/4">
+        <TrackingFilter handleFilter={handleFilter} />
+      </div>
+      <div className="">
+        <div>
+					{
+						isFetching && <Loading />
+					}
+					{
+						TransactionCode && data?.length > 0 && 
+            <TrackingDetail data={data} />
+
+					}
+					{
+						TransactionCode && (!data?.length) && <Empty />
+					}
         </div>
-      </Spin>
-    </React.Fragment>
+      </div>
+    </div>
   );
 };
 
