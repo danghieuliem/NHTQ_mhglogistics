@@ -37,7 +37,10 @@ const Index: TNextPageWithLayout = () => {
   };
 
   const { data, isFetching } = useQuery(
-    ["historyPayWallet", { ...filter }],
+    [
+      "historyPayWallet",
+      [filter.PageIndex, filter.FromDate, filter.ToDate, filter.Status],
+    ],
     () => historyPayWallet.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,

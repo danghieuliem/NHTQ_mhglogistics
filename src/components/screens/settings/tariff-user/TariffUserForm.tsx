@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { userLevel } from "~/api";
@@ -14,7 +14,7 @@ import { useAppSelector } from "~/store";
 import { TForm } from "~/types/table";
 import { _format } from "~/utils";
 
-export const TariffUserForm: FC<TForm<TTariffUser>> = ({
+const TariffUserForm: FC<TForm<TTariffUser>> = ({
   onCancel,
   defaultValues,
   visible,
@@ -23,8 +23,6 @@ export const TariffUserForm: FC<TForm<TTariffUser>> = ({
     defaultValues,
     mode: "onBlur",
   });
-
-  const userNew = useAppSelector((state) => state.user.current);
 
   useEffect(() => {
     reset(defaultValues);
@@ -52,6 +50,7 @@ export const TariffUserForm: FC<TForm<TTariffUser>> = ({
       onCancel();
     },
   });
+
   const _onPress = (data: TTariffUser) => {
     mutationUpdate.mutate({ ...data });
   };
@@ -179,3 +178,5 @@ export const TariffUserForm: FC<TForm<TTariffUser>> = ({
     </Modal>
   );
 };
+
+export const TariffUserFormMemo = React.memo(TariffUserForm)

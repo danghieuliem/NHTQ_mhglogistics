@@ -26,7 +26,9 @@ const Index: TNextPageWithLayout = () => {
   };
 
   const { isFetching, data, refetch } = useQuery(
-    ["requestList", { ...filter }],
+    ["requestList", [
+      filter.PageIndex,
+    ]],
     async () => await payHelp.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,

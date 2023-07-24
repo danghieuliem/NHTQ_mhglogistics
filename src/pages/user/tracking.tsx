@@ -39,9 +39,9 @@ const Index: TNextPageWithLayout = ({ connection }) => {
       </div>
       <div className="">
         <div>
-					{
+					{/* {
 						isFetching && <Loading />
-					}
+					} */}
 					{
 						TransactionCode && data?.length > 0 && 
             <TrackingDetail data={data} />

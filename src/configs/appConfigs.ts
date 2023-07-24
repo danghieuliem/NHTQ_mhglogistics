@@ -1340,18 +1340,22 @@ export const categoryPaymentData = [
   },
   {
     id: ECategoryPaymentData.Deposit,
+    color: "#f57c00",
     name: "Đặt cọc",
   },
   {
     id: ECategoryPaymentData.Paid,
+    color: "#c71585",
     name: "Thanh toán",
   },
   {
     id: ECategoryPaymentData.Recharge,
+    color: "#096dd9",
     name: "Cộng tiền",
   },
   {
     id: ECategoryPaymentData.Withdraw,
+    color: "#008000",
     name: "Trừ tiền",
   },
 ];
@@ -1620,42 +1624,52 @@ export const permissionsConstList = [
 export const getLevelId = [
   {
     LevelId: 0,
+    color: "#333",
     Name: "---",
   },
   {
     LevelId: 1,
+    color: "#C01048",
     Name: "VIP 0",
   },
   {
     LevelId: 2,
+    color: "#3E4784",
     Name: "VIP 1",
   },
   {
     LevelId: 3,
+    color: "#3538CD",
     Name: "VIP 2",
   },
   {
     LevelId: 4,
+    color: "#FDB022",
     Name: "VIP 3",
   },
   {
     LevelId: 5,
+    color: "#53389E",
     Name: "VIP 4",
   },
   {
     LevelId: 6,
+    color: "#9E77ED",
     Name: "VIP 5",
   },
   {
     LevelId: 7,
+    color: "#DC6803",
     Name: "VIP 6",
   },
   {
     LevelId: 8,
+    color: "#039855",
     Name: "VIP 7",
   },
   {
     LevelId: 9,
+    color: "#054F31",
     Name: "VIP 8",
   },
 ];

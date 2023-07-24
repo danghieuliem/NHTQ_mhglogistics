@@ -1,13 +1,13 @@
 import router from "next/router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { smallPackage } from "~/api";
 import {
-  toast,
-  TransactionCodeManagementFilter,
+  TransactionCodeManagementFilterMemo,
   TransactionCodeManagementTable,
   UserLayout,
+  toast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -33,12 +33,22 @@ const Index: TNextPageWithLayout = () => {
     UID: userCurrentInfo.Id,
   });
 
-  const handleFilter = (newFilter) => {
+  const handleFilter = useCallback((newFilter) => {
     setFilter({ ...filter, ...newFilter });
-  };
+  }, []);
 
   const { data, isFetching, isLoading } = useQuery(
-    ["smallPackageList", { ...filter }],
+    [
+      "smallPackageList",
+      [
+        filter.SearchContent,
+        filter.SearchType,
+        filter.Status,
+        filter.ToDate,
+        filter.FromDate,
+        filter.PageIndex,
+      ],
+    ],
     () => smallPackage.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,
@@ -53,7 +63,7 @@ const Index: TNextPageWithLayout = () => {
     }
   );
 
-  const handleExporTExcel = () => {
+  const handleExporTExcel = useCallback(() => {
     smallPackage
       .exportExcel({ ...filter, PageSize: 99999 })
       .then((res) => {
@@ -62,12 +72,12 @@ const Index: TNextPageWithLayout = () => {
       .catch((error) => {
         toast.error((error as any)?.response?.data?.ResultMessage);
       });
-  };
+  }, []);
 
   return (
     <>
       <div className="">
-        <TransactionCodeManagementFilter
+        <TransactionCodeManagementFilterMemo
           handleFilter={handleFilter}
           handleExporTExcel={handleExporTExcel}
         />

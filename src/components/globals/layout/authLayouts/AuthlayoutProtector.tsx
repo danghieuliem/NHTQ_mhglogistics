@@ -30,7 +30,7 @@ const AuthLayoutProtector: FC<{ children: ReactElement[] | ReactElement }> = ({
 
   if (!userCurrentInfo.Id || !session) {
     router.push("/");
-    return null;
+    // return null;
   }
 
   useQuery({

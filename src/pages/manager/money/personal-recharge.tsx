@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "react-query";
 import { user } from "~/api";
 import {
-	ClientListFilter,
+	ClientListFilterMemo,
 	Layout,
 	PersonalRechargeTable,
 	toast,
@@ -50,7 +50,7 @@ const Index: TNextPageWithLayout = () => {
   return (
     <>
       <div className="w-fit ml-auto">
-        <ClientListFilter handleFilter={handleFilter} isShow={false} />
+        <ClientListFilterMemo handleFilter={handleFilter} isShow={false} />
       </div>
       <PersonalRechargeTable
         data={data?.Items}

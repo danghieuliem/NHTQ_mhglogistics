@@ -1,7 +1,9 @@
 import { FC } from "react";
 import { ActionButton, DataTable } from "~/components";
+import { getLevelId } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
+import TagStatus from "../../status/TagStatus";
 
 export const TariffUserTable: FC<TTable<TTariffUser>> = ({
   handleModal,
@@ -16,7 +18,11 @@ export const TariffUserTable: FC<TTable<TTariffUser>> = ({
     },
     {
       dataIndex: "Name",
-      title: "Cấp người dùng",
+      title: "VIP",
+      render: (_, record) => {
+        const target = getLevelId?.find(x => x.LevelId === record?.Id)
+        return <TagStatus statusName={_} color={target.color} />
+      }
     },
     {
       dataIndex: "FeeBuyPro",

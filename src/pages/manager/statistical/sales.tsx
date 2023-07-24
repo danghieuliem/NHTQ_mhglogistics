@@ -94,7 +94,6 @@ const Index: TNextPageWithLayout = () => {
       "clientOrderReportData",
       {
         Current: orderPagination.current,
-        PageSize: orderPagination.pageSize,
         FromDate: fromDate,
         ToDate: toDate,
         UID: userCurrentInfo?.Id,

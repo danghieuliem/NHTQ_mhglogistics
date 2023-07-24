@@ -1,9 +1,9 @@
 import { TablePaginationConfig } from "antd";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { userLevel } from "~/api";
-import { Layout, TariffUserForm, TariffUserTable, toast } from "~/components";
+import { Layout, TariffUserFormMemo, TariffUserTable, toast } from "~/components";
 import { breadcrumb } from "~/configs";
 import { defaultPagination } from "~/configs/appConfigs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -20,7 +20,7 @@ const Index: TNextPageWithLayout = () => {
   const { isFetching, isError, error, data, isLoading } = useQuery(
     [
       "userLevelData",
-      { Current: pagination.current, PageSize: pagination.pageSize },
+      { Current: pagination.current},
     ],
     () =>
       userLevel
@@ -46,6 +46,8 @@ const Index: TNextPageWithLayout = () => {
     setModal(!modal);
   };
 
+  const handleCloseModal = useCallback(() => setModal(false), [])
+
   return (
     <>
       <TariffUserTable
@@ -57,9 +59,9 @@ const Index: TNextPageWithLayout = () => {
           handlePagination: (pagination) => setPagination(pagination),
         }}
       />
-      <TariffUserForm
+      <TariffUserFormMemo
         {...{
-          onCancel: () => setModal(false),
+          onCancel: handleCloseModal,
           defaultValues: item.current,
           visible: modal,
         }}

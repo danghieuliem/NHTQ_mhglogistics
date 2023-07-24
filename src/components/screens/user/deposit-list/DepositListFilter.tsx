@@ -70,7 +70,7 @@ const MoneyOfOrdersComp = ({ moneyOfOrders }) => {
   );
 };
 
-export const UserDepositListFilter: React.FC<TProps> = ({
+const UserDepositListFilter: React.FC<TProps> = ({
   handleFilter,
   numberOfOrder,
   moneyOfOrders,
@@ -81,6 +81,8 @@ export const UserDepositListFilter: React.FC<TProps> = ({
   const Status = useRef<EOrderStatusData>(-1);
   const FromDate = useRef<string>(null);
   const ToDate = useRef<string>(null);
+
+  console.log("tada");
 
   return (
     <div className="flex w-fit ml-auto mb-1 flex-wrap">
@@ -238,3 +240,5 @@ export const UserDepositListFilter: React.FC<TProps> = ({
     </div>
   );
 };
+
+export const UserDepositListFilterMemo = React.memo(UserDepositListFilter)

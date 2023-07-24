@@ -26,7 +26,7 @@ export const ConfigurationGeneral: FC<TProps<TConfig1>> = ({
           <FormInput
             control={control}
             label="Tên website"
-            placeholder="Nhập hàng Order Trung Minh Quang"
+            placeholder="Tên website"
             name="WebsiteName"
             required={false}
           />

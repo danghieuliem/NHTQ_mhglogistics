@@ -54,8 +54,6 @@ const Bars = ({ hover, onClick }) => {
 const NotificationBell = ({ userPage, userCurrentInfo }) => {
   const isLoadRef = useRef(true);
 
-  console.log("object");
-
   const [totalNofi, setTotalNoti] = useState(0);
   
 

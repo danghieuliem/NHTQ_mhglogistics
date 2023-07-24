@@ -16,9 +16,9 @@ const Index: TNextPageWithLayout = () => {
     (state: RootState) => state.userCurretnInfo
   );
   const { query } = useRouter();
-  const [items, setItems] = useState<TOrder[]>([]);
+  // const [items, setItems] = useState<TOrder[]>([]);
   const type = useRef<"deposit" | "payment">("deposit");
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   const [filter, setFilter] = useState({
     TypeSearch: null,
@@ -39,9 +39,7 @@ const Index: TNextPageWithLayout = () => {
   const [moneyOfOrders, setMoneyOfOrders] = useState(createdMoneyOfOrdersData);
 
   const handleFilter = useCallback((newFilter) => {
-    const newFilterSet = { ...newFilter };
-    delete newFilterSet.TotalItems;
-    setFilter({ ...filter, ...newFilterSet });
+    setFilter({ ...filter, ...newFilter });
   }, [])
 
   useEffect(() => {
@@ -68,7 +66,8 @@ const Index: TNextPageWithLayout = () => {
       filter.PageIndex,
       filter.SearchContent,
       filter.Status,
-      filter.UID
+      filter.UID,
+      filter.PageIndex
     ]],
     () => mainOrder.getList(filter).then((res) => res.Data),
     {

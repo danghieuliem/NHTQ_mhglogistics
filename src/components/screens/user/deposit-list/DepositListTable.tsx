@@ -9,8 +9,8 @@ import {
   ActionButton,
   DataTable,
   FormInput,
-  UserDepositListFilter,
-  toast,
+  UserDepositListFilterMemo,
+  toast
 } from "~/components";
 import { EOrderStatusData, transportStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
@@ -602,7 +602,7 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
           scroll: { y: 640 },
           title: "Danh sách",
           extraElment: (
-            <UserDepositListFilter
+            <UserDepositListFilterMemo
               numberOfOrder={transportStatus}
               moneyOfOrders={moneyOfOrders}
               handleFilter={handleFilter}
