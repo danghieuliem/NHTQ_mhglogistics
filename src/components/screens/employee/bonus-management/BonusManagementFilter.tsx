@@ -1,13 +1,7 @@
 import { Popover } from "antd";
-import { FC, useRef } from "react";
-import {
-  ActionButton,
-  FilterInput,
-  FilterRangeDate,
-  FilterSelect,
-} from "~/components";
+import React, { FC, useRef } from "react";
+import { FilterInput, FilterRangeDate, FilterSelect } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
-import { paymentData } from "~/configs/appConfigs";
 
 const usernameProps = {
   id: "username",
@@ -20,17 +14,20 @@ type TProps = {
   handleFilter: (newFilter) => void;
   onExportExcel: (data: any) => void;
   setIsModalOpen: () => void;
+  roleID?: number;
 };
 
-export const BonusManagementFilter: FC<TProps> = ({
+const BonusManagementFilter: FC<TProps> = ({
   handleFilter,
   onExportExcel,
   setIsModalOpen,
+  roleID,
 }) => {
   const SearchContent = useRef("");
   const Status = useRef<number>(0);
   const FromDate = useRef<string>(null);
   const ToDate = useRef<string>(null);
+  const RoleID = useRef<number>(null);
 
   return (
     <div className="">
@@ -41,7 +38,16 @@ export const BonusManagementFilter: FC<TProps> = ({
           <div className="grid grid-cols-2 gap-2 p-2">
             <div className="col-span-1">
               <FilterSelect
-                data={paymentData.slice(0, 3)}
+                data={[
+                  {
+                    id: 1,
+                    name: "Chưa thanh toán",
+                  },
+                  {
+                    id: 5,
+                    name: "Đã thanh toán",
+                  },
+                ]}
                 placeholder="Chọn trạng thái"
                 label="Trạng thái"
                 isClearable
@@ -66,7 +72,27 @@ export const BonusManagementFilter: FC<TProps> = ({
                 }}
               />
             </div>
-            <div className="col-span-1 flex items-end justify-end">
+            {(roleID === 1 || roleID === 3) && (
+              <div className="col-span-1">
+                <FilterSelect
+                  data={[
+                    {
+                      id: 4,
+                      name: "Đặt hàng",
+                    },
+                    {
+                      id: 7,
+                      name: "Kinh doanh",
+                    },
+                  ]}
+                  placeholder="Chọn phân quyền"
+                  label="Phân quyền"
+                  isClearable
+                  handleSearch={(val: number) => (RoleID.current = val)}
+                />
+              </div>
+            )}
+            <div className="col-span-2 flex items-end justify-end">
               <IconButton
                 onClick={() =>
                   handleFilter({
@@ -74,6 +100,7 @@ export const BonusManagementFilter: FC<TProps> = ({
                     FromDate: FromDate.current,
                     ToDate: ToDate.current,
                     Status: Status.current,
+                    RoleID: RoleID.current,
                     PageIndex: 1,
                   })
                 }
@@ -108,3 +135,5 @@ export const BonusManagementFilter: FC<TProps> = ({
     </div>
   );
 };
+
+export const BonusManagementFilterMemo = React.memo(BonusManagementFilter);

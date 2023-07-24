@@ -6,23 +6,21 @@ import { toast } from "react-toastify";
 import { user } from "~/api";
 import {
   Button,
-  FormAsyncSelect,
   FormCard,
   FormDate,
   FormInput,
-  FormRadio,
   FormSelect,
-  Modal,
+  Modal
 } from "~/components";
 import {
-  activeData,
   EActiveData,
   EGenderData,
+  activeData,
   genderData,
 } from "~/configs/appConfigs";
 import { TForm } from "~/types/table";
 import { _format } from "~/utils";
-import { checkUnique, createComplain, EUnique } from "../../auth/method";
+import { EUnique, checkUnique, createComplain } from "../../auth/method";
 
 type TProps = TForm<TEmployee> & {
   userLevelCatalogue: TUserLevelCatalogue[];
@@ -31,7 +29,7 @@ type TProps = TForm<TEmployee> & {
   userOrderCatalogue: TUserCatalogue[];
 };
 
-export const EmployeeManagementForm: FC<TProps> = ({
+const EmployeeManagementForm: FC<TProps> = ({
   onCancel,
   visible,
   userLevelCatalogue,
@@ -53,9 +51,7 @@ export const EmployeeManagementForm: FC<TProps> = ({
       reset({
         Gender: EGenderData.FEMALE,
         LevelId: userLevelCatalogue?.[0]?.Id,
-        UserGroupId: router.asPath.includes("admin-management")
-          ? userGroupCatalogue?.[0]?.Id
-          : userGroupCatalogue?.[1].Id,
+        UserGroupId: router.asPath.includes("admin-management") && 1,
         Status: EActiveData.Actived,
         IsAdmin: false,
         DatHangId: 0,
@@ -307,32 +303,29 @@ export const EmployeeManagementForm: FC<TProps> = ({
                   menuPlacement="bottom"
                 />
               </div>
-              <div className="col-span-1">
-                <FormSelect
-                  control={control}
-                  name="UserGroupId"
-                  data={
-                    router.asPath.includes("admin-management")
-                      ? userGroupCatalogue?.filter((x) => x.Id === 1)
-                      : userGroupCatalogue?.filter(
-                          (x) => x.Id !== 1 && x.Id !== 2
-                        )
-                  }
-                  select={{ label: "Description", value: "Id" }}
-                  defaultValue={
-                    router.asPath.includes("admin-management")
-                      ? userGroupCatalogue?.filter((x) => x.Id === 1)?.[0]
-                      : userGroupCatalogue?.filter(
-                          (x) => x.Id !== 1 && x.Id !== 2
-                        )?.[0]
-                  }
-                  label="Quyền hạn"
-                  placeholder=""
-                  required={false}
-                  menuPlacement="bottom"
-                  disabled={router.asPath.includes("admin-management")}
-                />
-              </div>
+              {!router.asPath.includes("admin-management") && (
+                <div className="col-span-1">
+                  <FormSelect
+                    control={control}
+                    name="UserGroupId"
+                    data={
+                      router.asPath.includes("admin-management")
+                        ? userGroupCatalogue?.filter((x) => x.Id === 1)
+                        : userGroupCatalogue?.filter(
+                            (x) => x.Id !== 1 && x.Id !== 2
+                          )
+                    }
+                    select={{ label: "Description", value: "Id" }}
+                    label="Quyền hạn"
+                    placeholder="Quyền hạn nhân viên"
+                    rules={{
+                      required: "Vui lòng chọn quyền hạn",
+                    }}
+                    menuPlacement="bottom"
+                    disabled={router.asPath.includes("admin-management")}
+                  />
+                </div>
+              )}
               <div className="col-span-1">
                 <FormSelect
                   control={control}
@@ -380,3 +373,5 @@ export const EmployeeManagementForm: FC<TProps> = ({
     </Modal>
   );
 };
+
+export const EmployeeManagementFormMemo = React.memo(EmployeeManagementForm);

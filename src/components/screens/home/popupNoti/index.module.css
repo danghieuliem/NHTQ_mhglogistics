@@ -1,16 +1,23 @@
+.homePopupNoti {
+  width: fit-content !important;
+}
+
 .popupNoti {
-  height: 50vh;
+  height: 60vh;
   width: 50vw;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  margin: -10px;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .head h1 {
   @apply bg-main;
   margin: 0;
   padding: 16px 20px;
-  font-size: 20px;
+  font-size: 16px;
   text-transform: uppercase;
   font-weight: 700;
   color: #fff;
@@ -49,11 +56,12 @@
 }
 
 .btn {
-  padding: 10px;
+  @apply shadow-md;
+  padding: 4px 10px;
+  border-radius: 4px;
   background: #ff0000ad;
   margin: 10px;
   color: #fff !important;
-  box-shadow: 0px 10px 10px 0px #00000047;
   transition: all 0.3s ease-in-out;
 }
 
@@ -72,11 +80,27 @@
 
 .contact {
   @apply bg-main;
-  text-align: end;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .contact a {
   padding: 10px;
   display: inline-block;
   color: #fff !important;
+}
+
+@media screen and (max-width: 1200px) {
+  .popupNoti {
+    width: 70vw !important;
+    height: 70vh !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .popupNoti {
+    width: 90vw !important;
+    height: 60vh !important;
+  }
 }

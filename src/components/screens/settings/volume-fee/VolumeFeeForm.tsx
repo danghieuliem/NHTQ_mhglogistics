@@ -1,8 +1,7 @@
-import { FC, useRef } from "react";
+import React, { FC, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { feeVolume, shipping, warehouseFrom, warehouseTo } from "~/api";
-import { warehouseFee } from "~/api/warehouse-fee";
+import { useMutation, useQueryClient } from "react-query";
+import { feeVolume } from "~/api";
 import {
   Button,
   FormCard,
@@ -12,7 +11,7 @@ import {
 } from "~/components";
 import { toast } from "~/components/toast";
 import { categoryData } from "~/configs/appConfigs";
-import { useDeepEffect } from "~/hooks";
+import { useCatalogue } from "~/hooks";
 import { TForm } from "~/types/table";
 import { _format } from "~/utils";
 
@@ -324,7 +323,10 @@ const Update = ({
   );
 };
 
-export const VolumeFeeForm: FC<
+const AddNewMemo = React.memo(AddNew);
+const UpdateMemo = React.memo(Update);
+
+const VolumeFeeForm: FC<
   TForm<TVolumeFee> & {
     refetch: () => void;
     type: string;
@@ -332,37 +334,11 @@ export const VolumeFeeForm: FC<
     defaultValues?: any;
   }
 > = ({ onCancel, defaultValues, visible, refetch, type, title, idTarget }) => {
-  const { data: wareHouse } = useQuery(["warehouseTo"], () =>
-    warehouseTo
-      .getList({
-        PageSize: 20,
-        PageIndex: 1,
-      })
-      .then((res) => res.Data.Items)
-  );
-
-  const { data: wareHouseFrom } = useQuery(["warehouseFrom"], () =>
-    warehouseFrom
-      .getList({
-        PageSize: 20,
-        PageIndex: 1,
-      })
-      .then((res) => res.Data.Items)
-  );
-
-  const { data: shippingType } = useQuery(
-    ["shippingType"],
-    () =>
-      shipping
-        .getList({
-          PageSize: 20,
-          PageIndex: 1,
-        })
-        .then((res) => res.Data.Items),
-    {
-      retry: false,
-    }
-  );
+  const { warehouseTQ, warehouseVN, shippingTypeToWarehouse } = useCatalogue({
+    warehouseTQEnabled: true,
+    warehouseVNEnabled: true,
+    shippingTypeToVNEnabled: true,
+  });
 
   return (
     <Modal visible={visible} onCancel={onCancel}>
@@ -373,18 +349,18 @@ export const VolumeFeeForm: FC<
           </div>
         </FormCard.Header>
         {type === "addNew" ? (
-          <AddNew
-            wareHouse={wareHouse}
-            wareHouseFrom={wareHouseFrom}
-            shippingType={shippingType}
+          <AddNewMemo
+            wareHouse={warehouseVN}
+            wareHouseFrom={warehouseTQ}
+            shippingType={shippingTypeToWarehouse}
             onCancel={onCancel}
           />
         ) : (
-          <Update
+          <UpdateMemo
             onCancel={onCancel}
-            wareHouse={wareHouse}
-            wareHouseFrom={wareHouseFrom}
-            shippingType={shippingType}
+            wareHouse={warehouseVN}
+            wareHouseFrom={warehouseTQ}
+            shippingType={shippingTypeToWarehouse}
             idTarget={idTarget}
             data={defaultValues}
           />
@@ -393,3 +369,5 @@ export const VolumeFeeForm: FC<
     </Modal>
   );
 };
+
+export const VolumeFeeFormMemo = React.memo(VolumeFeeForm);

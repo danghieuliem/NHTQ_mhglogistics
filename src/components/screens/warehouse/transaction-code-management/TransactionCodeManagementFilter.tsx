@@ -27,7 +27,7 @@ type TProps = {
   handleExporTExcel: () => void;
 };
 
-export const TransactionCodeManagementFilter: React.FC<TProps> = ({
+const TransactionCodeManagementFilter: React.FC<TProps> = ({
   handleFilter,
   handleExporTExcel,
 }) => {
@@ -128,3 +128,5 @@ export const TransactionCodeManagementFilter: React.FC<TProps> = ({
     </div>
   );
 };
+
+export const TransactionCodeManagementFilterMemo = React.memo(TransactionCodeManagementFilter)

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { feeVolume } from "~/api";
@@ -6,7 +6,7 @@ import {
   Layout,
   toast,
   VolumeFeeFilter,
-  VolumeFeeForm,
+  VolumeFeeFormMemo,
   VolumeFeeTable,
 } from "~/components";
 import { breadcrumb } from "~/configs";
@@ -40,7 +40,16 @@ const Index: TNextPageWithLayout = () => {
   };
 
   const { isFetching, data, isLoading, refetch } = useQuery(
-    ["feeVolumeData", { ...filter }],
+    [
+      "feeVolumeData",
+      [
+        filter.PageIndex,
+        filter.WarehouseFromId,
+        filter.WarehouseId,
+        filter.ShippingTypeToWareHouseId,
+        filter.IsHelpMoving,
+      ],
+    ],
     () => feeVolume.getList(filter),
     {
       keepPreviousData: true,
@@ -58,6 +67,9 @@ const Index: TNextPageWithLayout = () => {
       onError: toast.error,
     }
   );
+
+  const handleCloseUpdateModal = useCallback(() => setModalUpdate(false), []);
+  const handlCloseAddModal = useCallback(() => setModalAdd(false), []);
 
   return (
     <div>
@@ -79,10 +91,10 @@ const Index: TNextPageWithLayout = () => {
         refetch={refetch}
       />
 
-      <VolumeFeeForm
+      <VolumeFeeFormMemo
         {...{
           title: "Cập nhật phí thể tích TQ - VN",
-          onCancel: () => setModalUpdate(false),
+          onCancel: handleCloseUpdateModal,
           defaultValues: data?.Data?.Items,
           visible: modalUpdate,
           idTarget,
@@ -91,10 +103,10 @@ const Index: TNextPageWithLayout = () => {
         type={"update"}
       />
 
-      <VolumeFeeForm
+      <VolumeFeeFormMemo
         {...{
           title: "Thêm phí thể tích TQ - VN",
-          onCancel: () => setModalAdd(false),
+          onCancel: handlCloseAddModal,
           // defaultValues: {},
           visible: modalAdd,
         }}

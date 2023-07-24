@@ -1,11 +1,11 @@
 import router from "next/router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { user } from "~/api";
 import {
-  EmployeeManagementFilter,
-  EmployeeManagementForm,
+  EmployeeManagementFilterMemo,
+  EmployeeManagementFormMemo,
   EmployeeManagementTable,
   Layout,
   toast,
@@ -30,11 +30,12 @@ const Index: TNextPageWithLayout = () => {
     UserName: null,
     RoleID: userCurrentInfo?.UserGroupId,
     IsEmployee: 1,
+    UserGroupId: null
   });
 
-  const handleFilter = (newFilter) => {
+  const handleFilter = useCallback( (newFilter) => {
     setFilter({ ...filter, ...newFilter });
-  };
+  }, []);
 
   // useCatalogue scope
   // ===== BEGIN =====
@@ -47,7 +48,11 @@ const Index: TNextPageWithLayout = () => {
   // ===== END =====
 
   const { isFetching, data, refetch } = useQuery(
-    ["employeeData", { ...filter }],
+    ["employeeData", [
+      filter.PageIndex,
+      filter.UserGroupId,
+      filter.UserName
+    ]],
     () => user.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,
@@ -60,7 +65,8 @@ const Index: TNextPageWithLayout = () => {
         });
       },
       onError: toast.error,
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
+      staleTime: 5000,
     }
   );
   const userDataCatalog = userGroup?.map((item) => {
@@ -71,21 +77,24 @@ const Index: TNextPageWithLayout = () => {
     return userGroupData;
   });
 
-  const _onExportExcel = async () => {
+  const _onExportExcel = useCallback(async () => {
     try {
       const res = await user.exportExcel({ ...filter, PageSize: 99999 });
       router.push(`${res.Data}`);
     } catch (error) {
       toast.error(error);
     }
-  };
+  }, []);
+
+  const handleCloseModal = useCallback(() => setModal(false), []);
+  const handleOpenAddStaff = useCallback(() => setModal(true), [])
 
   return (
     <>
-      <EmployeeManagementFilter
-        handleFilter={(newFilter) => handleFilter(newFilter)}
+      <EmployeeManagementFilterMemo
+        handleFilter={handleFilter}
         userGroupCatalogue={userGroup?.filter((x) => x.Id !== 1)}
-        handleAddStaff={() => setModal(true)}
+        handleAddStaff={handleOpenAddStaff}
         onExportExcel={_onExportExcel}
       />
       <EmployeeManagementTable
@@ -99,10 +108,10 @@ const Index: TNextPageWithLayout = () => {
           UserGroupId: userCurrentInfo?.UserGroupId,
         }}
       />
-      <EmployeeManagementForm
+      <EmployeeManagementFormMemo
         {...{
           visible: modal,
-          onCancel: () => setModal(false),
+          onCancel: handleCloseModal,
           userLevelCatalogue: userLevel,
           userGroupCatalogue: userGroup,
           userOrderCatalogue: userOrder,

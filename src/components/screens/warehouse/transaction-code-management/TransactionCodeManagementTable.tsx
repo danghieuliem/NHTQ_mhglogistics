@@ -1,4 +1,4 @@
-import { Pagination, Tag, Tooltip } from "antd";
+import { Pagination, Tag } from "antd";
 import { useRouter } from "next/router";
 import React from "react";
 import { DataTable } from "~/components";
@@ -6,15 +6,24 @@ import { packageStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
-import Link from "next/link";
 type TProps = {
   filter;
   handleFilter: (newFilter) => void;
   handleExporTExcel;
+  isSelect?: any;
+  handleOnChangeKey?: any;
 };
 export const TransactionCodeManagementTable: React.FC<
   TTable<TSmallPackage> & TProps
-> = ({ data, loading, filter, handleFilter, handleExporTExcel }) => {
+> = ({
+  data,
+  loading,
+  filter,
+  handleFilter,
+  handleExporTExcel,
+  isSelect,
+  handleOnChangeKey,
+}) => {
   const router = useRouter();
 
   const columnsUser: TColumnsType<TSmallPackage> = [
@@ -22,13 +31,20 @@ export const TransactionCodeManagementTable: React.FC<
       dataIndex: "MainOrderCode",
       title: "Mã đơn hàng",
       render: (_, record) => {
-        return <Tag color={record?.OrderType === 1 ? "red" : "blue"}>{_}</Tag>;
+        return (
+          <TagStatus
+            color={record?.OrderType === 1 ? "red" : "blue"}
+            statusName={_}
+          />
+        );
       },
       responsive: ["xl"],
+      width: 120,
     },
     {
       dataIndex: "Created",
       title: "Ngày tạo",
+      width: 200,
       responsive: ["xl"],
       render: (date) => {
         return (
@@ -40,6 +56,7 @@ export const TransactionCodeManagementTable: React.FC<
     },
     {
       dataIndex: "Code",
+      width: 200,
       title: "Bao hàng",
       responsive: ["lg"],
       render: (_) => <>{_ === "" ? "--" : _}</>,
@@ -67,14 +84,14 @@ export const TransactionCodeManagementTable: React.FC<
         return <>{_format.getVND(_, " ")}</>;
       },
       responsive: ["md"],
-      width: 100,
+      width: 120,
     },
     {
       dataIndex: "VolumePayment",
       title: (
         <>
-          Số khối <br />
-          (m3)
+          Cân qui đổi <br />
+          (kg)
         </>
       ),
       responsive: ["md"],
@@ -82,7 +99,7 @@ export const TransactionCodeManagementTable: React.FC<
       render: (_, record) => {
         return <>{_format.getVND(_, " ")}</>;
       },
-      width: 100,
+      width: 120,
     },
     {
       dataIndex: "Width",
@@ -93,6 +110,7 @@ export const TransactionCodeManagementTable: React.FC<
       ),
       align: "right",
       responsive: ["lg"],
+      width: 200,
       render: (_, record) => (
         <>{`${record.Length} x ${record.Width} x ${record.Height}`}</>
       ),
@@ -112,7 +130,7 @@ export const TransactionCodeManagementTable: React.FC<
           <TagStatus color={color?.color} statusName={record?.StatusName} />
         );
       },
-      width: 140,
+      width: 200,
     },
   ];
 
@@ -121,35 +139,10 @@ export const TransactionCodeManagementTable: React.FC<
       dataIndex: "Id",
       title: "ID",
       width: 50,
-      align: "center",
-      fixed: "left",
-      render: (_, record) => {
-        const getId = record?.MainOrderCode.split(": ");
-        const targetHerf =
-          record?.OrderType === 1
-            ? `/manager/order/order-list/detail/?id=${getId[1]}`
-            : `/manager/deposit/deposit-list/detail/?id=${getId[1]}`;
-        return (
-          <>
-            {
-              Number(getId[1]) !== 0 ?
-                <Link href={targetHerf}>
-                  <a target="_blank" className="font-semibold">
-                    <Tooltip title="Chi tiết đơn" placement="right">
-                      {_}
-                    </Tooltip>
-                  </a>
-                </Link>
-              : <>{_}</>
-            }
-          </>
-        );
-      },
     },
     {
       dataIndex: "UserName",
       title: "Username",
-      fixed: "left",
       width: 120,
     },
     {
@@ -165,7 +158,7 @@ export const TransactionCodeManagementTable: React.FC<
     {
       dataIndex: "MainOrderCode",
       title: "Mã đơn hàng",
-      width: 180,
+      width: 120,
     },
     {
       dataIndex: "ProductType",
@@ -174,45 +167,39 @@ export const TransactionCodeManagementTable: React.FC<
     },
     {
       dataIndex: "Weight",
-      title: "Cân nặng",
+      title: "Cân nặng (kg)",
       align: "right",
-      width: 120,
       render: (_, record) => {
         return <>{_format.getVND(record?.Weight, "")}</>;
       },
+      width: 120,
     },
     {
       dataIndex: "VolumePayment",
-      title: "Số khối (m3)",
+      title: "Cân qui đổi (kg)",
       align: "right",
-      width: 120,
       render: (_, record) => {
         return <>{_format.getVND(record?.VolumePayment, " ")}</>;
       },
+      width: 120,
     },
     {
       dataIndex: "Width",
       title: "D x R x C",
       align: "right",
-      width: 120,
       render: (_, record) => (
         <>{`${record.Length} x ${record.Width} x ${record.Height}`}</>
       ),
+      width: 120,
     },
     {
       dataIndex: "Description",
       title: "Ghi chú",
-      width: 200,
-    },
-    {
-      dataIndex: "UserNote",
-      title: "Khách ghi chú",
-      width: 200,
+      width: 120,
     },
     {
       dataIndex: "Created",
       title: "Ngày tạo",
-      width: 200,
       render: (date) => {
         return (
           <>
@@ -220,6 +207,7 @@ export const TransactionCodeManagementTable: React.FC<
           </>
         );
       },
+      width: 220,
     },
     {
       dataIndex: "Status",
@@ -309,6 +297,13 @@ export const TransactionCodeManagementTable: React.FC<
           loading: loading,
           scroll: { y: 700, x: 1200 },
           // title: "Danh sách mã vận đơn",
+          rowSelection: isSelect
+            ? {
+                type: "checkbox",
+                onChange: (value) => handleOnChangeKey(value),
+                selectedRowKeys: isSelect,
+              }
+            : null,
         }}
       />
       <Pagination

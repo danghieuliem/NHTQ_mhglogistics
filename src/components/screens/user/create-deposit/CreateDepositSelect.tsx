@@ -53,7 +53,8 @@ export const CreateDepositSelect: FC<TProps> = ({
             rules={{ required: "This field is required" }}
             select={{ label: "Name", value: "Id" }}
             defaultValue={
-              !!user && {
+              !!user &&
+              !!userCurrentInfo?.ShippingType && {
                 Name: shippingTypeToWarehouseCatalogue?.find(
                   (x) => x.Id === userCurrentInfo?.ShippingType
                 )?.Name,
@@ -74,7 +75,8 @@ export const CreateDepositSelect: FC<TProps> = ({
             rules={{ required: "This field is required" }}
             select={{ label: "Name", value: "Id" }}
             defaultValue={
-              !!user && {
+              !!user &&
+              !!userCurrentInfo?.WarehouseFrom && {
                 Name: warehouseTQCatalogue?.find(
                   (x) => x.Id === userCurrentInfo?.WarehouseFrom
                 )?.Name,
@@ -95,7 +97,8 @@ export const CreateDepositSelect: FC<TProps> = ({
             rules={{ required: "This field is required" }}
             select={{ label: "Name", value: "Id" }}
             defaultValue={
-              !!user && {
+              !!user &&
+              !!userCurrentInfo?.WarehouseTo && {
                 Name: warehouseVNCatalogue?.find(
                   (x) => x.Id === userCurrentInfo?.WarehouseTo
                 )?.Name,

@@ -95,7 +95,7 @@ export const RequestPaymentTable: React.FC<
       key: "action",
       title: "Thao tác",
       fixed: "right",
-      width: 100,
+      width: 120,
       render: (_, record) => (
         <div className="grid grid-cols-1 gap-2">
           <Link

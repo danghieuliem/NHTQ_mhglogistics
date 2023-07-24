@@ -35,7 +35,17 @@ const Index: TNextPageWithLayout = () => {
   };
 
   const { isFetching, data, isLoading, refetch } = useQuery(
-    ["requestPaymentData", { ...filter }],
+    [
+      "requestPaymentData",
+      [
+        filter.SearchContent,
+        filter.FromDate,
+        filter.ToDate,
+        filter.Status,
+        filter.PageIndex,
+        filter.SalerId,
+      ],
+    ],
     () => payHelp.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,

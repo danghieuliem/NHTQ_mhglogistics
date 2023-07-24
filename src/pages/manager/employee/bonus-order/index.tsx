@@ -1,11 +1,11 @@
 import { Modal } from "antd";
 import router from "next/router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { staffIncome } from "~/api";
 import {
-  BonusManagementFilter,
+  BonusManagementFilterMemo,
   BonusManagementTable,
   Button,
   FormCard,
@@ -38,12 +38,27 @@ const Index: TNextPageWithLayout = () => {
     Type: 0,
   });
 
-  const handleFilter = (newFilter) => {
-    setFilter({ ...filter, ...newFilter });
-  };
+  const handleFilter = useCallback((newFilter) => {
+    const filterNew = { ...filter, ...newFilter };
+    if (filterNew?.RoleID !== 1 || filter?.RoleID !== 3) {
+      console.log("object");
+      delete filterNew.UID;
+    }
+    setFilter(filterNew);
+  }, []);
 
   const { isFetching, data, isLoading, refetch } = useQuery(
-    ["bonusList", { ...filter }],
+    [
+      "bonusList",
+      [
+        filter.PageIndex,
+        filter.SearchContent,
+        filter.ToDate,
+        filter.FromDate,
+        filter.Status,
+        filter.RoleID,
+      ],
+    ],
     () => staffIncome.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,
@@ -60,7 +75,7 @@ const Index: TNextPageWithLayout = () => {
     }
   );
 
-  const _onExportExcel = async () => {
+  const _onExportExcel = useCallback(async () => {
     try {
       const res = await staffIncome.exportExcel({
         ...filter,
@@ -72,7 +87,7 @@ const Index: TNextPageWithLayout = () => {
     } catch (error) {
       toast.error(error);
     }
-  };
+  }, []);
 
   const mutationPayment = useMutation(
     () => staffIncome.payment({ Type: 2, Id: 0 }),
@@ -105,6 +120,8 @@ const Index: TNextPageWithLayout = () => {
     await mutationPaymentOne.mutateAsync(Id);
   };
 
+  const handleOpenModal = useCallback(() => setIsModalOpen(true), []);
+
   return (
     <>
       <div className="flex items-end justify-between">
@@ -128,10 +145,11 @@ const Index: TNextPageWithLayout = () => {
         {(userCurrentInfo?.UserGroupId === 1 ||
           userCurrentInfo?.UserGroupId === 3 ||
           userCurrentInfo?.UserGroupId === 8) && (
-          <BonusManagementFilter
+          <BonusManagementFilterMemo
             handleFilter={handleFilter}
             onExportExcel={_onExportExcel}
-            setIsModalOpen={() => setIsModalOpen(true)}
+            setIsModalOpen={handleOpenModal}
+            roleID={userCurrentInfo?.UserGroupId}
           />
         )}
       </div>

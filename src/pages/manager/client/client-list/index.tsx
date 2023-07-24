@@ -1,15 +1,15 @@
 import router from "next/router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { user } from "~/api";
 import {
-  ClientListFilter,
-  ClientListForm,
+  ClientListFilterMemo,
+  ClientListFormMemo,
   ClientListTable,
   IconButton,
   Layout,
-  toast,
+  toast
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -40,9 +40,9 @@ const Index: TNextPageWithLayout = () => {
     OrdererID: null,
   });
 
-  const handleFilter = (newFilter) => {
+  const handleFilter = useCallback( (newFilter) => {
     setFilter({ ...filter, ...newFilter });
-  };
+  }, []);
 
   // useCatalogue scope
   // ===== BEGIN =====
@@ -86,7 +86,7 @@ const Index: TNextPageWithLayout = () => {
     }
   );
 
-  const _onExportExcel = async () => {
+  const _onExportExcel = useCallback(async () => {
     try {
       const res = await user.exportExcel({
         ...filter,
@@ -99,12 +99,14 @@ const Index: TNextPageWithLayout = () => {
     } catch (error) {
       toast.error(error);
     }
-  };
+  }, []);
+
+  const handleCloseModal = useCallback(() => setModal(false), [])
 
   return (
     <>
       <div className="w-fit ml-auto flex">
-        <ClientListFilter
+        <ClientListFilterMemo
           handleFilter={handleFilter}
           dathangList={userOrder}
           saleList={userSale}
@@ -140,9 +142,9 @@ const Index: TNextPageWithLayout = () => {
         saleList={userSale}
       />
 
-      <ClientListForm
+      <ClientListFormMemo
         {...{
-          onCancel: () => setModal(false),
+          onCancel: handleCloseModal,
           visible: modal,
           userGroupCatalogue: userGroup,
           userLevelCatalogue: userLevel,

@@ -1,11 +1,11 @@
 import { TablePaginationConfig, Tabs } from "antd";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { feeGoodsChecking } from "~/api";
 import {
   Layout,
-  TariffGoodsCheckingForm,
+  TariffGoodsCheckingFormMemo,
   TariffGoodsCheckingTable,
   toast,
 } from "~/components";
@@ -62,8 +62,16 @@ const Index: TNextPageWithLayout = () => {
     setModal(!modal);
   };
 
+  const handleCloseModal = useCallback(() => setModal(false), []);
+
   return (
-    <Tabs tabBarStyle={{width: "fit-content", background: "#fff", padding: "0 10px"}}>
+    <Tabs
+      tabBarStyle={{
+        width: "fit-content",
+        background: "#fff",
+        padding: "0 10px",
+      }}
+    >
       <TabPane tab={"Giá sản phẩm nhỏ hơn 10 ¥"} key="1">
         <TariffGoodsCheckingTable
           {...{
@@ -74,9 +82,9 @@ const Index: TNextPageWithLayout = () => {
             handlePagination: (pagination) => setPagination(pagination),
           }}
         />
-        <TariffGoodsCheckingForm
+        <TariffGoodsCheckingFormMemo
           {...{
-            onCancel: () => setModal(false),
+            onCancel: handleCloseModal,
             defaultValues: item.current,
             visible: modal,
           }}
@@ -93,9 +101,9 @@ const Index: TNextPageWithLayout = () => {
             handlePagination: (pagination) => setPagination(pagination),
           }}
         />
-        <TariffGoodsCheckingForm
+        <TariffGoodsCheckingFormMemo
           {...{
-            onCancel: () => setModal(false),
+            onCancel: handleCloseModal,
             defaultValues: item.current,
             visible: modal,
           }}

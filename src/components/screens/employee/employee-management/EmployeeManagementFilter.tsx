@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { useRouter } from "next/router";
-import { FC, useRef } from "react";
+import React, { FC, useRef } from "react";
 import { FilterInput, FilterSelect } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
 
@@ -11,7 +11,7 @@ type TProps = {
   onExportExcel?: (data: any) => void;
 };
 
-export const EmployeeManagementFilter: FC<TProps> = ({
+const EmployeeManagementFilter: FC<TProps> = ({
   handleFilter,
   handleAddStaff,
   userGroupCatalogue,
@@ -119,3 +119,5 @@ export const EmployeeManagementFilter: FC<TProps> = ({
     </>
   );
 };
+
+export const EmployeeManagementFilterMemo = React.memo(EmployeeManagementFilter)

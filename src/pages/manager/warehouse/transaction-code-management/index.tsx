@@ -6,7 +6,7 @@ import { smallPackage } from "~/api";
 import {
   Layout,
   toast,
-  TransactionCodeManagementFilter,
+  TransactionCodeManagementFilterMemo,
   TransactionCodeManagementTable,
 } from "~/components";
 import { breadcrumb } from "~/configs";
@@ -67,7 +67,7 @@ const Index: TNextPageWithLayout = () => {
   return (
     <>
       <div className="">
-        <TransactionCodeManagementFilter
+        <TransactionCodeManagementFilterMemo
           handleFilter={handleFilter}
           handleExporTExcel={handleExporTExcel}
         />

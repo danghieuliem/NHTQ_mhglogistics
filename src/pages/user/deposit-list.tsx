@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -16,9 +16,9 @@ const Index: TNextPageWithLayout = () => {
     (state: RootState) => state.userCurretnInfo
   );
 
-  useEffect(() => {
-    setFilter({ ...filter, UID: userCurrentInfo?.Id });
-  }, [userCurrentInfo?.Id]);
+  // useEffect(() => {
+  //   setFilter({ ...filter, UID: userCurrentInfo?.Id });
+  // }, [userCurrentInfo?.Id]);
 
   const [filter, setFilter] = useState({
     PageIndex: 1,
@@ -39,12 +39,22 @@ const Index: TNextPageWithLayout = () => {
   const [modal, setModal] = useState(false);
   const [moneyOfOrders, setMoneyOfOrders] = useState(orderMoneyOfOrdersData);
 
-  const handleFilter = (newFilter) => {
+  const handleFilter = useCallback((newFilter) => {
     setFilter({ ...filter, ...newFilter });
-  };
+  }, []);
 
   const { isFetching, data } = useQuery(
-    ["userDepositList", { ...filter }],
+    [
+      "userDepositList",
+      [
+        filter.PageIndex,
+        filter.TypeSearch,
+        filter.Status,
+        filter.FromDate,
+        filter.ToDate,
+        filter.SearchContent,
+      ],
+    ],
     () => transportationOrder.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,
