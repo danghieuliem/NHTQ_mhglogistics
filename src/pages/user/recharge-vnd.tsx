@@ -93,7 +93,7 @@ const Index: TNextPageWithLayout = () => {
   };
 
   const { isFetching, data } = useQuery(
-    ["rechargeVNDList", { ...filter }],
+    ["rechargeVNDList", [filter.PageIndex]],
     () => adminSendUserWallet.getList({ ...filter }).then((res) => res.Data),
     {
       keepPreviousData: true,

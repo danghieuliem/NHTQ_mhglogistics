@@ -1,4 +1,5 @@
-import { Modal, Space, Tabs, Tag } from "antd";
+import { Modal, Space, Tabs } from "antd";
+import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useQuery, useQueryClient } from "react-query";
@@ -10,14 +11,13 @@ import {
   DataTable,
   FormCard,
   FormInput,
-  FormRadio,
   FormSelect,
   FormSwitch,
   IconButton,
-  Layout,
+  Layout
 } from "~/components";
 import TagStatus from "~/components/screens/status/TagStatus";
-import { breadcrumb, clientData } from "~/configs";
+import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import type { TNextPageWithLayout } from "~/types/layout";
 import { TColumnsType } from "~/types/table";
@@ -414,6 +414,10 @@ const EditComponent = ({
   );
 };
 
+const AddNewWareHouseFormMemo = React.memo(AddNewWareHouseForm) 
+const AddNewMethodMemo = React.memo(AddNewMethod)
+const EditComponentMemo = React.memo(EditComponent)
+
 const Index: TNextPageWithLayout = () => {
   const [modalWarehouse, setModalWarehouse] = useState(false);
   const [modalMethod, setModalMethod] = useState(false);
@@ -658,7 +662,7 @@ const Index: TNextPageWithLayout = () => {
         </Tabs.TabPane>
       </Tabs>
       {modalWarehouse && (
-        <AddNewWareHouseForm
+        <AddNewWareHouseFormMemo
           onCancel={() => setModalWarehouse(false)}
           visible={modalWarehouse}
           refetchFrom={refetchFrom}
@@ -666,14 +670,14 @@ const Index: TNextPageWithLayout = () => {
         />
       )}
       {modalMethod && (
-        <AddNewMethod
+        <AddNewMethodMemo
           onCancel={() => setModalMethod(false)}
           visible={modalMethod}
           refetchMethod={refetchMethod}
         />
       )}
       {item.current && (
-        <EditComponent
+        <EditComponentMemo
           onCancel={() => {
             item.current = null;
             setModalEdit(false);

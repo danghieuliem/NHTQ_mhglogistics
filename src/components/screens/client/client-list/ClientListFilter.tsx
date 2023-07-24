@@ -1,5 +1,5 @@
 import { Popover } from "antd";
-import { FC, useRef } from "react";
+import React, { FC, useRef } from "react";
 import { FilterInput, FilterSelect, IconButton } from "~/components";
 
 type TProps = {
@@ -10,7 +10,7 @@ type TProps = {
   roleID?: number;
 };
 
-export const ClientListFilter: FC<TProps> = ({
+const ClientListFilter: FC<TProps> = ({
   handleFilter,
   dathangList,
   saleList,
@@ -114,3 +114,5 @@ export const ClientListFilter: FC<TProps> = ({
     </Popover>
   );
 };
+
+export const ClientListFilterMemo = React.memo(ClientListFilter)

@@ -25,7 +25,6 @@ export const HomeLayoutProtector: React.FC<{}> = ({ children }) => {
   useEffect(() => {
     if (!session) {
       dispatch(logOut());
-      
     }
 
     const dispatchUser = async () => {

@@ -5,7 +5,7 @@ import { useMutation, useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { staffIncome } from "~/api";
 import {
-  BonusManagementFilter,
+  BonusManagementFilterMemo,
   BonusManagementTable,
   Button,
   FormCard,
@@ -126,7 +126,7 @@ const Index: TNextPageWithLayout = () => {
 
         {(userCurrentInfo?.UserGroupId === 1 ||
           userCurrentInfo?.UserGroupId === 3) && (
-          <BonusManagementFilter
+          <BonusManagementFilterMemo
             handleFilter={handleFilter}
             onExportExcel={_onExportExcel}
             setIsModalOpen={() => setIsModalOpen(true)}

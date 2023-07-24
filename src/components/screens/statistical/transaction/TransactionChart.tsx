@@ -1,13 +1,11 @@
-import React from "react";
-
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
   Title,
   Tooltip,
-  Legend,
 } from "chart.js";
 
 ChartJS.register(
@@ -20,7 +18,6 @@ ChartJS.register(
 );
 
 import { Bar } from "react-chartjs-2";
-import TagStatus from "../../status/TagStatus";
 
 const options = {
   responsive: true,
@@ -170,8 +167,8 @@ const TransactionChart = ({ dataChart }) => {
           ))}
         </div>
       </div>
-      <div className="col-span-9 tableBox">
-        <Bar height={60} width={"100%"} data={data} options={options} />
+      <div className="col-span-9 tableBox flex items-center">
+        <Bar height={30} width={"100%"} data={data} options={options} />
       </div>
     </div>
   );

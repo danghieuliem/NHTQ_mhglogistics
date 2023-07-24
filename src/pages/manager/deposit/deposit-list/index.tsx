@@ -50,6 +50,8 @@ const Index: TNextPageWithLayout = () => {
         filter.SearchContent,
         filter.Status,
         filter.UID,
+        filter.PageIndex,
+        filter.SalerID
       ],
     ],
     () => transportationOrder.getList(filter).then((res) => res.Data),

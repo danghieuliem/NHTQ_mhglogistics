@@ -10,7 +10,7 @@ import {
   CreateDepositSelect,
   CreateDepositTable,
   Layout,
-  toast
+  toast,
 } from "~/components";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
 import { useDeepEffect } from "~/hooks";
@@ -40,6 +40,27 @@ const Index: TNextPageWithLayout = () => {
     shippingTypeToWarehouseEnabled: true,
   });
 
+  const defaultValues = {
+    smallPackages: [
+      {
+        Amount: 1,
+        Category: null,
+        IsCheckProduct: false,
+        IsPacked: false,
+        IsInsurance: false,
+        FeeShip: 0,
+      },
+    ],
+    ShippingType: shippingTypeToWarehouse?.find(
+      (x) => x.Id === userCurrentInfo?.ShippingType
+    )?.Id,
+    WarehouseTQ: warehouseTQ?.find(
+      (x) => x.Id === userCurrentInfo?.WarehouseFrom
+    )?.Id,
+    WarehouseVN: warehouseVN?.find((x) => x.Id === userCurrentInfo?.WarehouseTo)
+      ?.Id,
+  };
+
   const { control, reset, handleSubmit, setValue } =
     useForm<TUserCreateDeposit>({
       mode: "onBlur",
@@ -50,19 +71,9 @@ const Index: TNextPageWithLayout = () => {
     name: "smallPackages",
     keyName: "Id",
   });
+
   useDeepEffect(() => {
-    reset({
-      smallPackages: [
-        {
-          Amount: 1,
-          Category: null,
-          IsCheckProduct: false,
-          IsPacked: false,
-          IsInsurance: false,
-          FeeShip: 0,
-        },
-      ],
-    });
+    reset(defaultValues);
   }, [warehouseTQ, warehouseVN, shippingTypeToWarehouse]);
 
   const mutationAdd = useMutation(
@@ -70,20 +81,7 @@ const Index: TNextPageWithLayout = () => {
     {
       onSuccess: () => {
         toast.success("Tạo đơn hàng ký gửi thành công");
-        reset({
-          WareHouseFromId: warehouseTQ?.[0]?.Id,
-          WareHouseId: warehouseVN?.[0]?.Id,
-          ShippingTypeId: shippingTypeToWarehouse?.[0]?.Id,
-          smallPackages: [
-            {
-              Amount: 1,
-              OrderTransactionCode: null,
-              Category: null,
-              UserNote: null,
-              FeeShip: 0,
-            },
-          ],
-        });
+        reset(defaultValues);
         router.push("/manager/deposit/deposit-list");
       },
       onError: toast.error,

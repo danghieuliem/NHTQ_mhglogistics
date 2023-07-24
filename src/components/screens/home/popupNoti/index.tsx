@@ -1,43 +1,43 @@
 import { Modal } from "antd";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "~/store";
 import styles from "./index.module.css";
 
 export const PopupNoti = () => {
-  const notiShow = useRef(false);
-  const [openModal, setOpenModal] = useState(notiShow.current);
+  // const notiShow = useRef(false);
   const dataGlobal: any = useSelector((state: RootState) => state.dataGlobal);
+  const showNoti = JSON.parse(localStorage.getItem("showNoti"));
+
+  const [openModal, setOpenModal] = useState(() => {
+    console.log(showNoti);
+    if (showNoti) return showNoti;
+
+    if (showNoti === undefined || showNoti === null) {
+      console.log(dataGlobal?.NotiPopupTitle);
+      return !!dataGlobal?.NotiPopupTitle;
+    }
+  });
 
   useEffect(() => {
-    if (dataGlobal) {
-      const showNoti = JSON.parse(localStorage.getItem("showNoti"));
-
-      if (
-        dataGlobal?.NotiPopupTitle &&
-        showNoti !== undefined &&
-        showNoti !== false
-      ) {
-        localStorage.setItem("showNoti", JSON.stringify(true));
-        setOpenModal(true);
-      }
-
-      if (!dataGlobal?.NotiPopupTitle) {
-        localStorage.setItem("showNoti", JSON.stringify(false));
-        setOpenModal(false);
-      } else {
-        localStorage.setItem("showNoti", JSON.stringify(true));
-        setOpenModal(true);
-      }
+    if (showNoti) {
+      setOpenModal(showNoti);
+      return;
     }
-  }, [dataGlobal]);
+
+    if (showNoti === undefined || showNoti === null) {
+      console.log(dataGlobal?.NotiPopupTitle);
+      setOpenModal(!!dataGlobal?.NotiPopupTitle);
+    }
+  }, [dataGlobal?.NotiPopupTitle]);
 
   return (
     <Modal
       visible={openModal}
       closeIcon={false}
+      closable={false}
       footer={false}
-      className="homePopupNoti"
+      className={styles.homePopupNoti}
     >
       <div className={styles.popupNoti}>
         <div className={styles.head}>
@@ -46,7 +46,7 @@ export const PopupNoti = () => {
         <div className={styles.content}>
           <h3>{dataGlobal?.NotiPopupTitle}</h3>
           <div
-          dangerouslySetInnerHTML={{ __html: dataGlobal?.NotiPopup }}
+            dangerouslySetInnerHTML={{ __html: dataGlobal?.NotiPopup }}
           ></div>
         </div>
         <div className={styles.foot}>
@@ -55,7 +55,6 @@ export const PopupNoti = () => {
             onClick={() => {
               setOpenModal(!openModal);
               localStorage.setItem("showNoti", JSON.stringify(false));
-              notiShow.current = false;
             }}
           >
             Đóng và không hiện lại
@@ -71,7 +70,7 @@ export const PopupNoti = () => {
           <a href={`mailto:${dataGlobal?.NotiPopupEmail}`}>
             {dataGlobal?.NotiPopupEmail || dataGlobal?.EmailContact}
           </a>
-          <span className="text-white">||</span>
+          <span className="text-white hidden sm:block">||</span>
           <a href={`tel:${dataGlobal?.Hotline}`}>{dataGlobal?.Hotline}</a>
         </div>
       </div>

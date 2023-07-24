@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { feeGoodsChecking } from '~/api/fee-check-product';
@@ -13,7 +13,7 @@ import {
 import { TForm } from '~/types/table';
 import { _format } from '~/utils';
 
-export const TariffGoodsCheckingForm: FC<TForm<TTariffGoodsChecking>> = ({
+const TariffGoodsCheckingForm: FC<TForm<TTariffGoodsChecking>> = ({
 	onCancel,
 	defaultValues,
 	visible
@@ -138,3 +138,5 @@ export const TariffGoodsCheckingForm: FC<TForm<TTariffGoodsChecking>> = ({
 		</Modal>
 	);
 };
+
+export const TariffGoodsCheckingFormMemo = React.memo(TariffGoodsCheckingForm)

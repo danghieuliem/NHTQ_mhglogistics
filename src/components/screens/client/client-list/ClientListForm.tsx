@@ -29,7 +29,7 @@ type TProps = TForm<TEmployee> & {
   userOrderCatalogue: TUserCatalogue[];
 };
 
-export const ClientListForm: FC<TProps> = ({
+const ClientListForm: FC<TProps> = ({
   onCancel,
   visible,
   userLevelCatalogue,
@@ -350,3 +350,5 @@ export const ClientListForm: FC<TProps> = ({
     </Modal>
   );
 };
+
+export const ClientListFormMemo = React.memo(ClientListForm)

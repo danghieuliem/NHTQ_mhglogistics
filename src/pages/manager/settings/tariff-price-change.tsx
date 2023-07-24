@@ -1,11 +1,11 @@
 import { TablePaginationConfig } from "antd";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { priceChange } from "~/api";
 import {
   Layout,
-  TariffPriceChangeForm,
+  TariffPriceChangeFormMemo,
   TariffPriceChangeTable,
   toast,
 } from "~/components";
@@ -46,7 +46,8 @@ const Index: TNextPageWithLayout = () => {
         setPagination({ ...pagination, total: data.TotalItem }),
       onError: toast.error,
       enabled: userCurrentInfo?.UserGroupId === 1,
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
+      staleTime: 5000,
     }
   );
 
@@ -56,6 +57,8 @@ const Index: TNextPageWithLayout = () => {
     item.current = itemSelected;
     setModal(!modal);
   };
+
+  const handleCloseModal = useCallback(() => setModal(false), [])
 
   return (
     <>
@@ -77,9 +80,9 @@ const Index: TNextPageWithLayout = () => {
           handlePagination: (pagination) => setPagination(pagination),
         }}
       />
-      <TariffPriceChangeForm
+      <TariffPriceChangeFormMemo
         {...{
-          onCancel: () => setModal(false),
+          onCancel: handleCloseModal,
           defaultValues: item.current,
           visible: modal,
         }}

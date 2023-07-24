@@ -1,14 +1,14 @@
 import router from "next/router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { user } from "~/api";
 import {
-  EmployeeManagementFilter,
-  EmployeeManagementForm,
+  EmployeeManagementFilterMemo,
+  EmployeeManagementFormMemo,
   EmployeeManagementTable,
   Layout,
-  toast,
+  toast
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -47,7 +47,7 @@ const Index: TNextPageWithLayout = () => {
   // ===== END =====
 
   const { isFetching, data, refetch } = useQuery(
-    ["employeeData", filter],
+    ["employeeData", [filter.PageIndex, filter.UserName]],
     () => user.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,
@@ -60,7 +60,8 @@ const Index: TNextPageWithLayout = () => {
         });
       },
       onError: toast.error,
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
+      staleTime: 5000
     }
   );
 
@@ -86,9 +87,11 @@ const Index: TNextPageWithLayout = () => {
     }
   };
 
+  const handleCloseModal = useCallback(() => setModal(false), [])
+
   return (
     <>
-      <EmployeeManagementFilter
+      <EmployeeManagementFilterMemo
         handleFilter={(newFilter) => handleFilter(newFilter)}
         userGroupCatalogue={userGroup}
         handleAddStaff={() => setModal(true)}
@@ -105,10 +108,10 @@ const Index: TNextPageWithLayout = () => {
           UserGroupId: userCurrentInfo?.UserGroupId,
         }}
       />
-      <EmployeeManagementForm
+      <EmployeeManagementFormMemo
         {...{
           visible: modal,
-          onCancel: () => setModal(false),
+          onCancel: handleCloseModal,
           userLevelCatalogue: userLevel,
           userGroupCatalogue: userGroup,
           userOrderCatalogue: userOrder,

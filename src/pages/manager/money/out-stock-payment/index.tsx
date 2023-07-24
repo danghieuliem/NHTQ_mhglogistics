@@ -32,7 +32,13 @@ const Index: TNextPageWithLayout = () => {
     isFetching,
     isError,
   } = useQuery(
-    ["clientWithdrawData", { ...filter }],
+    ["clientWithdrawData", [
+      filter.SearchContent,
+      filter.Status,
+      filter.FromDate,
+      filter.ToDate,
+      filter.PageIndex
+    ]],
     () => outStockSession.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,
