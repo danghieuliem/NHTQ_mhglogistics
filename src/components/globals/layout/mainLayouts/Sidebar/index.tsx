@@ -22,7 +22,12 @@ function NavList({ menuActive }) {
             <a
               className={clsx(
                 styles.liMenuItem,
-                router?.asPath === meuChild?.path && styles.liMenuItemActive
+                (!router?.asPath.includes(
+                  "manager/order/order-list/"
+                )
+                  ? router?.asPath.includes(meuChild?.path)
+                  : router?.asPath === meuChild?.path)  &&
+                  styles.liMenuItemActive
               )}
               onClick={() => router.push(meuChild?.path)}
             >
@@ -81,6 +86,8 @@ const Sidebar: FC<TProps> = ({ handleHover, hover, tabbar, userPage }) => {
       });
     }
   }, [router, menuActive?.name]);
+
+  console.log(menuActive);
 
   return (
     <nav className={clsx(styles.navWrapper, hover && styles.navWrapperOpen)}>
@@ -145,10 +152,10 @@ const Sidebar: FC<TProps> = ({ handleHover, hover, tabbar, userPage }) => {
                   key={clsx(menu?.icon, index)}
                   className={clsx(
                     styles.icon,
-                    menuActive?.name === menu?.name &&
+                    menuActive?.name.includes(menu?.name) &&
                       hover &&
                       styles.iconActive,
-                    menuActive?.name === menu?.name &&
+                    menuActive?.name.includes(menu?.name) &&
                       !hover &&
                       styles.iconActiveHover
                   )}
@@ -185,7 +192,11 @@ const Sidebar: FC<TProps> = ({ handleHover, hover, tabbar, userPage }) => {
                         <a
                           className={clsx(
                             styles.PopoverliMenuItem,
-                            router?.asPath === meuChild?.path &&
+                            (!router?.asPath.includes(
+                              "manager/order/order-list/"
+                            )
+                              ? router?.asPath.includes(meuChild?.path)
+                              : router?.asPath === meuChild?.path) &&
                               styles.PopoverliMenuItemActive
                           )}
                         >

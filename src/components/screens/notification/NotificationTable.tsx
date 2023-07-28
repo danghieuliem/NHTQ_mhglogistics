@@ -1,14 +1,14 @@
-import { Pagination, Tag } from "antd";
+import { Pagination } from "antd";
 import Link from "next/link";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import { getAllNewNotify } from "~/api";
 import { ActionButton } from "~/components/globals/button/ActionButton";
 import { DataTable } from "~/components/globals/table";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
-import NotificationFilter from "./NotificationFilter";
-import { toast } from "react-toastify";
 import TagStatus from "../status/TagStatus";
+import NotificationFilter from "./NotificationFilter";
 
 type TProps = {
   data: any;
