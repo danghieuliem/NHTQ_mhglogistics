@@ -1,7 +1,7 @@
 import { Card, Modal } from "antd";
 // import {signIn} from "next-auth/react";
 import Cookie from "js-cookie";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { authenticate, setToken, user as userAPI } from "~/api";
@@ -11,7 +11,7 @@ import { setRouter, updateUser, useAppDispatch } from "~/store";
 import { _format } from "~/utils";
 import { EUnique, checkUnique, createComplain } from "./method";
 
-export const RegisterForm = ({ visible, setOpenModal }) => {
+const RegisterForm = ({ visible, setOpenModal }) => {
   const dispatch = useAppDispatch();
 
   const { handleSubmit, control, watch, reset } = useForm<TUserRegister>({
@@ -319,3 +319,5 @@ export const RegisterForm = ({ visible, setOpenModal }) => {
     </Modal>
   );
 };
+
+export const RegisterFormMemo = React.memo(RegisterForm)

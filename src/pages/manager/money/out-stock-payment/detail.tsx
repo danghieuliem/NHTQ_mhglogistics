@@ -4,7 +4,6 @@ import { useQuery } from "react-query";
 import { outStockSession } from "~/api";
 import { Empty, Layout, OutstockPaymentDetail, toast } from "~/components";
 import { breadcrumb } from "~/configs";
-import { SEOConfigs } from "~/configs/SEOConfigs";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
@@ -44,7 +43,7 @@ const Index: TNextPageWithLayout = () => {
   );
 };
 
-Index.displayName = SEOConfigs.moneyManagement.detailPayExport;
+Index.displayName = "Chi tiết phiên xuất kho";
 Index.breadcrumb = breadcrumb.money.outstockPayment.detail;
 Index.Layout = Layout;
 

@@ -19,7 +19,9 @@ import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-  const dataGlobal: TConfig = useSelector((state: RootState) => state.dataGlobal);
+  const dataGlobal: TConfig = useSelector(
+    (state: RootState) => state.dataGlobal
+  );
 
   const { data: dataService } = useQuery({
     queryKey: ["dataService"],
@@ -68,8 +70,11 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <>
-      <Head><title>{dataGlobal?.WebsiteName}</title></Head>
+      <Head>
+        <title>{dataGlobal?.WebsiteName}</title>
+      </Head>
       <MetaTags dataConfig={dataGlobal} />
+
       <div className="homeindex">
         <div className="col-span-2">
           <HomeBanner data={dataGlobal} />

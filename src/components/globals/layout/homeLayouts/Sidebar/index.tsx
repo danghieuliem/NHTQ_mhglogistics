@@ -7,7 +7,10 @@ import styles from "./index.module.css";
 const NewsItem = ({ item }) => {
   return (
     <Link href={`/chuyen-muc/detail/?code=${item?.Code}`}>
-      <a target={"_blank"}>
+      <a
+        target={"_blank"}
+        onClick={() => localStorage.setItem("PageTypeId", item?.PageTypeId)}
+      >
         <div className={styles.NewsItemBox}>
           <div
             className={styles.img}
@@ -32,7 +35,6 @@ const NewsItem = ({ item }) => {
 };
 
 export const HomeSidebar = () => {
-
   const { data: news } = useQuery<any>({
     queryKey: ["menuHome"],
     queryFn: () =>

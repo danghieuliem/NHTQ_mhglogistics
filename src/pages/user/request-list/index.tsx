@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -19,20 +19,27 @@ const Index: TNextPageWithLayout = () => {
     TotalItems: null,
     OrderBy: "Id desc",
     UID: userCurrentInfo?.Id,
+    Status: null,
+    FromDate: null,
+    ToDate: null
   });
 
-  const handleFilter = (newFilter) => {
+  const handleFilter = useCallback((newFilter) => {
     setFilter({ ...filter, ...newFilter });
-  };
+  }, []);
 
   const { isFetching, data, refetch } = useQuery(
     ["requestList", [
       filter.PageIndex,
+      filter.Status,
+      filter.FromDate,
+      filter.ToDate
     ]],
     async () => await payHelp.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,
-      refetchOnWindowFocus: false,
+      staleTime: 5000,
+      // refetchOnWindowFocus: false,
       onSuccess: (data) =>
         setFilter({
           ...filter,

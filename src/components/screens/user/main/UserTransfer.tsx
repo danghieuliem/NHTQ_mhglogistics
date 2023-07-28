@@ -1,17 +1,19 @@
-import { Modal, Space, Tabs, Tag } from "antd";
+import { Modal, Popover, Tabs } from "antd";
 import clsx from "clsx";
+import React from "react";
 import { ActionButton, DataTable } from "~/components";
 import { transportStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
 
+// ffefe0
+
 const DetailInfo = (record) => {
   const divStyle = `flex justify-between items-center border-b border-[#e4e4e4] py-1`;
   const detailBox = `grid grid-cols-2 gap-7`;
   const title = `text-[18px] font-bold`;
   const color = transportStatus.find((x) => x.id === record?.record?.Status);
-
   return (
     <>
       {window.innerWidth >= 768 ? (
@@ -50,7 +52,10 @@ const DetailInfo = (record) => {
             </div>
             <div className={divStyle}>
               Trạng thái:{" "}
-              <Tag color={color?.color}>{record?.record?.StatusName}</Tag>
+              <TagStatus
+                color={color?.color}
+                statusName={record?.record?.StatusName}
+              />
             </div>
             <div className={divStyle}>
               Phương thức vận chuyển:{" "}
@@ -61,7 +66,7 @@ const DetailInfo = (record) => {
             <div className={`${divStyle} flex-col items-baseline`}>
               Ghi chú nhân viên:{" "}
               <textarea
-                className="w-full border border-[#e4e4e4] px-3 py-2"
+                className="w-full border border-[#e4e4e4] px-3 py-2 bg-white"
                 readOnly
                 disabled
                 value={record?.record?.StaffNote ?? "--"}
@@ -70,7 +75,7 @@ const DetailInfo = (record) => {
             <div className={`${divStyle} flex-col items-baseline`}>
               Ghi chú khách hàng (hủy nếu có):{" "}
               <textarea
-                className="w-full border border-[#e4e4e4] px-3 py-2"
+                className="w-full border border-[#e4e4e4] px-3 py-2 bg-white"
                 readOnly
                 disabled
                 value={
@@ -183,7 +188,10 @@ const DetailInfo = (record) => {
               </div>
               <div className={divStyle}>
                 Trạng thái:{" "}
-                <Tag color={color?.color}>{record?.record?.StatusName}</Tag>
+                <TagStatus
+                  color={color?.color}
+                  statusName={record?.record?.StatusName}
+                />
               </div>
               <div className={divStyle}>
                 Phương thức vận chuyển:{" "}
@@ -194,7 +202,7 @@ const DetailInfo = (record) => {
               <div className={`${divStyle} flex-col items-baseline`}>
                 Ghi chú nhân viên:{" "}
                 <textarea
-                  className="w-full border border-[#e4e4e4] px-3 py-2"
+                  className="w-full border border-[#e4e4e4] px-3 py-2 bg-white"
                   readOnly
                   disabled
                   value={record?.record?.StaffNote ?? "--"}
@@ -203,7 +211,7 @@ const DetailInfo = (record) => {
               <div className={`${divStyle} flex-col items-baseline`}>
                 Ghi chú khách hàng (hủy nếu có):{" "}
                 <textarea
-                  className="w-full border border-[#e4e4e4] px-3 py-2"
+                  className="w-full border border-[#e4e4e4] px-3 py-2 bg-white"
                   readOnly
                   disabled
                   value={
@@ -286,6 +294,8 @@ const DetailInfo = (record) => {
   );
 };
 
+const DetailInfoMemo = React.memo(DetailInfo);
+
 export const UserTransfer = ({ data, isFetching }) => {
   const columns: TColumnsType<TNewDeliveryOrders> = [
     {
@@ -331,23 +341,22 @@ export const UserTransfer = ({ data, isFetching }) => {
       responsive: ["lg"],
       align: "right",
       render: (_, record) => (
-        <Space>
+        <Popover
+          trigger={"click"}
+          placement="leftBottom"
+          content={
+            <div className="p-4 !bg-[#fab34a85] rounded-md">
+              <DetailInfoMemo record={record} />
+            </div>
+          }
+        >
           <ActionButton
-            onClick={() =>
-              Modal.info({
-                title: (
-                  <div className="text-[18px] font-bold">
-                    Thông tin chi tiết đơn #{record?.Id}
-                  </div>
-                ),
-                content: <DetailInfo record={record} />,
-              })
-            }
-            icon="fas fa-info-square mr-1"
-            title="Chi tiết đơn"
+            icon="fas fa-info-square"
+            title="Chi tiết"
+            iconContainerClassName="iconRed"
             isButton={true}
           />
-        </Space>
+        </Popover>
       ),
     },
   ];
@@ -410,7 +419,7 @@ export const UserTransfer = ({ data, isFetching }) => {
         bordered: true,
         title: "Đơn hàng ký gửi",
         expandable: expandable,
-        bgHeaderType: "depositTable"
+        bgHeaderType: "depositTable",
       }}
     />
   );

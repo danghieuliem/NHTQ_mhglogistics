@@ -82,8 +82,6 @@ const UserDepositListFilter: React.FC<TProps> = ({
   const FromDate = useRef<string>(null);
   const ToDate = useRef<string>(null);
 
-  console.log("tada");
-
   return (
     <div className="flex w-fit ml-auto mb-1 flex-wrap">
       <Popover
@@ -241,4 +239,4 @@ const UserDepositListFilter: React.FC<TProps> = ({
   );
 };
 
-export const UserDepositListFilterMemo = React.memo(UserDepositListFilter)
+export const UserDepositListFilterMemo = React.memo(UserDepositListFilter);

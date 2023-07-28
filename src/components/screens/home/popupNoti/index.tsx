@@ -10,11 +10,9 @@ export const PopupNoti = () => {
   const showNoti = JSON.parse(localStorage.getItem("showNoti"));
 
   const [openModal, setOpenModal] = useState(() => {
-    console.log(showNoti);
     if (showNoti) return showNoti;
 
     if (showNoti === undefined || showNoti === null) {
-      console.log(dataGlobal?.NotiPopupTitle);
       return !!dataGlobal?.NotiPopupTitle;
     }
   });
@@ -26,7 +24,6 @@ export const PopupNoti = () => {
     }
 
     if (showNoti === undefined || showNoti === null) {
-      console.log(dataGlobal?.NotiPopupTitle);
       setOpenModal(!!dataGlobal?.NotiPopupTitle);
     }
   }, [dataGlobal?.NotiPopupTitle]);

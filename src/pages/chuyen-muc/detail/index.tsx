@@ -16,7 +16,7 @@ import styles from "./index.module.css";
 const Index: TNextPageWithLayout = () => {
   const router = useRouter();
   const dataGlobal: any = useSelector((state: RootState) => state.dataGlobal);
-
+  
   const [Data, setData] = useState({
     Title: "",
     SideBar: null,
@@ -34,7 +34,7 @@ const Index: TNextPageWithLayout = () => {
         .catch((error) => {
           toast.error((error as any)?.response?.data?.ResultMessage);
         }),
-    staleTime: 2000,
+    // staleTime: 2000,
     enabled: !!targetCode,
   });
 

@@ -1,12 +1,12 @@
 import { Card, Modal } from "antd";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { authenticate } from "~/api";
 import { Button } from "~/components";
 import { FormInput } from "~/components/globals/formBase";
 
-export const ForgotPasswordForm = ({ visible, setOpenModal }) => {
+const ForgotPasswordForm = ({ visible, setOpenModal }) => {
   const { handleSubmit, control, getValues, reset } = useForm<{
     Email: string;
   }>({
@@ -103,3 +103,5 @@ export const ForgotPasswordForm = ({ visible, setOpenModal }) => {
     </Modal>
   );
 };
+
+export const ForgotPasswordFormMemo = React.memo(ForgotPasswordForm)

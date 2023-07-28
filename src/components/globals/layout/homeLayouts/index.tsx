@@ -1,8 +1,6 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
 import { menu } from "~/api";
-import { RootState } from "~/store";
 import { ButtonBackTop } from "../../button/ButtonBackTop";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -24,9 +22,9 @@ export const HomeLayout: React.FC<{}> = ({ children }) => {
         })
         .then((res) => res?.Data?.Items),
     {
-      staleTime: 5000,
+      staleTime: 1000,
       refetchOnMount: false,
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
     }
   );
 

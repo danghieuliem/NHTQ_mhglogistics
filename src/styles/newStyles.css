@@ -402,3 +402,20 @@ div.order.ant-drawer-bottom.ant-drawer-open .ant-drawer-content-wrapper {
 .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tbody > tr > td > .ant-table-expanded-row-fixed::after, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tbody > tr > td > .ant-table-expanded-row-fixed::after, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tbody > tr > td > .ant-table-expanded-row-fixed::after, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > tbody > tr > td > .ant-table-expanded-row-fixed::after {
   display: none;
 }
+
+.table-preview {
+  @apply border-collapse w-full;
+}
+
+.table-preview tr th {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  text-align: center;
+}
+
+.table-preview tr td {
+  padding: 8px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-top-width: 0;
+}

@@ -1,9 +1,15 @@
 import { Modal, Pagination } from "antd";
 import router from "next/router";
-import React from "react";
+import React, { useRef } from "react";
 import { toast } from "react-toastify";
 import { payHelp } from "~/api";
-import { ActionButton, DataTable } from "~/components";
+import {
+  ActionButton,
+  DataTable,
+  FilterRangeDate,
+  FilterSelect,
+  IconButton,
+} from "~/components";
 import { EPaymentData, paymentStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
@@ -14,6 +20,57 @@ type TProps = {
   handleFilter: (newFilter) => void;
   refetch: () => void;
 };
+
+const UserRequestListFilter = ({ handleFilter }) => {
+  const Status = useRef<number>(-1);
+  const FromDate = useRef<string>(null);
+  const ToDate = useRef<string>(null);
+
+  return (
+    <div className="grid grid-cols-5 gap-4">
+      <div className="col-span-2">
+        <FilterSelect
+          data={paymentStatus}
+          placeholder={"Trạng thái"}
+          label="Trạng thái"
+          select={{ label: "name", value: "id" }}
+          handleSearch={(val: number) => {
+            Status.current = val;
+          }}
+          isClearable
+        />
+      </div>
+      <div className="col-span-2">
+        <FilterRangeDate
+          placeholder="Từ ngày / đến ngày"
+          format="DD/MM/YYYY"
+          handleDate={(val: string[]) => {
+            FromDate.current = val[0];
+            ToDate.current = val[1];
+          }}
+        />
+      </div>
+      <div className="col-span-1 flex items-end">
+        <IconButton
+          onClick={() => {
+            handleFilter({
+              Status: Status.current,
+              FromDate: FromDate.current,
+              ToDate: ToDate.current,
+              PageIndex: 1,
+            });
+          }}
+          icon="far fa-search"
+          title="Tìm kiếm"
+          showLoading
+          toolip=""
+        />
+      </div>
+    </div>
+  );
+};
+
+const UserRequestListFilterMemo = React.memo(UserRequestListFilter);
 
 export const UserRequestListTable: React.FC<
   TTable<TRequestPaymentOrder> & TProps
@@ -96,21 +153,19 @@ export const UserRequestListTable: React.FC<
                   isButton={true}
                 />
               ))}
-            {record.Status !== EPaymentData.Finished &&
-              record.Status !== EPaymentData.Paid &&
-              record.Status !== EPaymentData.Canceled && (
-                <ActionButton
-                  onClick={() => {
-                    Modal.confirm({
-                      title: <b>Hủy yêu cầu thanh toán này!</b>,
-                      onOk: () => handleAction(record, 3),
-                    });
-                  }}
-                  icon="fas fa-trash"
-                  title="Hủy yêu cầu"
-                  isButton={true}
-                />
-              )}
+            {record.Status === EPaymentData.Unpaid && (
+              <ActionButton
+                onClick={() => {
+                  Modal.confirm({
+                    title: <b>Hủy yêu cầu thanh toán này!</b>,
+                    onOk: () => handleAction(record, 3),
+                  });
+                }}
+                icon="fas fa-trash"
+                title="Hủy yêu cầu"
+                isButton={true}
+              />
+            )}
             <ActionButton
               onClick={() =>
                 router.push({
@@ -215,6 +270,10 @@ export const UserRequestListTable: React.FC<
           data,
           expandable: expandable,
           scroll: { y: 700 },
+          extraElmentClassName: "!w-1/2 ml-auto",
+          extraElment: (
+            <UserRequestListFilterMemo handleFilter={handleFilter} />
+          ),
         }}
       />
       <Pagination

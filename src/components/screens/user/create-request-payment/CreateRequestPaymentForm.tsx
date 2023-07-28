@@ -12,8 +12,6 @@ import { IconButton } from "~/components/globals/button/IconButton";
 import { useDeepEffect } from "~/hooks";
 import { RootState } from "~/store";
 
-const boxContent = "col-span-1 p-4";
-
 export const CreateRequestPaymentForm = () => {
   const userCurrentInfo: TUser = useSelector(
     (state: RootState) => state.userCurretnInfo

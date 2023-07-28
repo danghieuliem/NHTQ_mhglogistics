@@ -23,7 +23,7 @@ const NewsItemSwiper = ({ item, name }) => {
   return (
     <div className={styles.NewsItemBox}>
       <Link href={`/bai-viet/${item?.Code}`}>
-        <a target={"_blank"}>
+        <a target={"_blank"} onClick={() => localStorage.setItem("PageTypeId", item?.PageTypeId)}>
           <div className={styles.newsTop}>
             <div className={styles.NewsItemImg}>
               <div
@@ -56,10 +56,12 @@ const NewsItemSwiper = ({ item, name }) => {
 };
 
 const NewsItem = ({ item, name }) => {
+  console.log(item);
   return (
     <div className={styles.NewsItemBoxVertical}>
       <Link href={`/chuyen-muc/detail/?code=${item?.Code}`}>
-        <a target={"_blank"}>
+        <a target={"_blank"}
+        >
           <div
             className={styles.imgVertical}
             style={{
