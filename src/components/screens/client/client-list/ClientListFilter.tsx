@@ -43,7 +43,7 @@ const ClientListFilter: FC<TProps> = ({
               placeholder="Nhập số điện"
               id="phone"
               name="phone"
-              label="phone"
+              label="Số điện thoại"
               handleSearch={(val) => (Phone.current = val.trim())}
             />
           </div>
@@ -78,7 +78,7 @@ const ClientListFilter: FC<TProps> = ({
               placeholder="Nhập email"
               id="mail"
               name="mail"
-              label="mail"
+              label="Email"
               handleSearch={(val) => (SearchContent.current = val.trim())}
             />
           </div>

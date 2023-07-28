@@ -2,13 +2,13 @@ import { Avatar as AvatarAntd, Card, Image, Popover, Tooltip } from "antd";
 import clsx from "clsx";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { default as AvatarName } from "react-avatar";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  ForgotPasswordForm,
-  RegisterForm,
-  SignInForm,
+  ForgotPasswordFormMemo,
+  RegisterFormMemo,
+  SignInFormMemo,
 } from "~/components/screens/auth";
 import { config, socialList } from "~/configs";
 import {
@@ -173,6 +173,8 @@ const Header = ({ dataMenu }) => {
   //   socialList?.forEach((social) => (social.link = dataConfig[social.title]));
   // }
 
+  const handleSetTarget = useCallback((target) => setOpenModal(target), []);
+
   return (
     <>
       <header className={`${styles.fixed} `}>
@@ -282,16 +284,16 @@ const Header = ({ dataMenu }) => {
         </div>
       </header>
 
-      <SignInForm
-        setOpenModal={(target) => setOpenModal(target)}
+      <SignInFormMemo
+        setOpenModal={handleSetTarget}
         visible={openModal === "signIn" ? true : false}
       />
-      <RegisterForm
-        setOpenModal={(target) => setOpenModal(target)}
+      <RegisterFormMemo
+        setOpenModal={handleSetTarget}
         visible={openModal === "register" ? true : false}
       />
-      <ForgotPasswordForm
-        setOpenModal={(target) => setOpenModal(target)}
+      <ForgotPasswordFormMemo
+        setOpenModal={handleSetTarget}
         visible={openModal === "forgetPassword" ? true : false}
       />
     </>

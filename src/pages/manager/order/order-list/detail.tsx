@@ -9,7 +9,6 @@ import { useSelector } from "react-redux";
 import { mainOrder } from "~/api";
 import {
   Empty,
-  Finding,
   Layout,
   OrderCode,
   OrderCost,
@@ -114,9 +113,9 @@ const Index: TNextPageWithLayout = () => {
     return <Empty />;
   }
 
-  if (isLoading) {
-    return <Finding />;
-  }
+  // if (isLoading) {
+  //   return <Finding />;
+  // }
 
   {
     /* {data && (

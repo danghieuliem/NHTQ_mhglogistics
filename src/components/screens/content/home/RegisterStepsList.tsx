@@ -1,10 +1,10 @@
-import { Tag, Image } from "antd";
+import { Image } from "antd";
 import React, { useRef, useState } from "react";
 import { ActionButton, DataTable } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
-import { RegisterStepsForm } from "./RegisterStepsForm";
 import TagStatus from "../../status/TagStatus";
+import { RegisterStepsForm } from "./RegisterStepsForm";
 
 export const RegisterStepsList: React.FC<
   TTable<TStep> & { refetchRegisterSteps }

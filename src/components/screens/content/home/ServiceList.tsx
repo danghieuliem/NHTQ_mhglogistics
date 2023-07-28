@@ -13,13 +13,14 @@ export const ServiceList: React.FC<TTable<TService> & { refetchService }> = ({
       dataIndex: "Id",
       title: "Vị trí",
       render: (_, __, index) => ++index,
-      width: 50,
+      width: 60,
       align: "right",
     },
     {
       dataIndex: "IMG",
       align: "center",
       title: "Hình ảnh",
+      width: 80,
       render: (_, record) => (
         <img
           src={record.IMG}
@@ -32,9 +33,11 @@ export const ServiceList: React.FC<TTable<TService> & { refetchService }> = ({
     {
       dataIndex: "Name",
       title: "Tên dịch vụ",
+      width: 300
     },
     {
       dataIndex: "Active",
+      width: 100,
       title: "Trạng thái",
       render: (_, record) => (
         <TagStatus
@@ -52,6 +55,7 @@ export const ServiceList: React.FC<TTable<TService> & { refetchService }> = ({
       dataIndex: "action",
       align: "right",
       title: "Thao tác",
+      width: 100,
       render: (_, record) => (
         <ActionButton
           icon="fas fa-edit text-sec"
@@ -75,6 +79,7 @@ export const ServiceList: React.FC<TTable<TService> & { refetchService }> = ({
         {...{
           columns,
           data,
+          scroll: {x: 600, y: 500},
           title: "Danh sách dịch vụ",
         }}
       />

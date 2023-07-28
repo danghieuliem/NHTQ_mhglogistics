@@ -186,19 +186,16 @@ export const OutstockPaymentDetail: React.FC<
 
   const ComponentToPrint = React.forwardRef<{}, {}>((props, ref: any) => {
     return (
-      <div className="w-full mb-10 p-4" ref={ref}>
+      <div className="w-full p-4" ref={ref}>
         <div className="text-xs text-black">
           {_format.getVNDate(new Date())}
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="col-span-1">
             <div className="text-xs text-black my-2 font-bold uppercase">
-              {/* NHAPHANGTQ.MONAMEDIA.NET */}
               {dataGlobal?.CompanyLongName}
             </div>
             <div className="text-xs text-black">
-              {/* Địa chỉ: 373/226 Lý Thường Kiệt, P8, Q. Tân Bình, TP. HCM */}
-              {/* {dataGlobal?.Address} */}
               <span
                 dangerouslySetInnerHTML={{
                   __html: dataGlobal?.Address,
@@ -411,6 +408,7 @@ export const OutstockPaymentDetail: React.FC<
           bordered: true,
           summary: !loading ? summary : undefined,
           // expandable: expandable,
+          scroll: {x: 1200, y: 600}
         }}
       />
     </Spin>

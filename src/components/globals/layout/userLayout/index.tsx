@@ -8,7 +8,6 @@ type TProps = {
 
 export const UserLayout: React.FC<TProps>  = ({ children , breadcrumb}) => {
 
-  console.log("userlayout");
   return (
     <Layout userPage={true} breadcrumb={breadcrumb}>
       {children}

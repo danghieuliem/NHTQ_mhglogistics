@@ -1,13 +1,13 @@
-import { Popconfirm, Space, Tag, Tooltip } from "antd";
-import React, { useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
-import { menu } from "~/api";
+import { Popconfirm, Space, Tooltip } from "antd";
+import React, { useCallback, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { menu, pageType } from "~/api";
 import {
   ActionButton,
-  AddChildContentForm,
-  AddNewContentForm,
+  AddChildContentFormMemo,
+  AddNewContentFormMemo,
   DataTable,
-  EditContentForm,
+  EditContentFormMemo,
   toast,
 } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
@@ -39,10 +39,12 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
       dataIndex: "Position",
       title: "Vị trí",
       render: (_, __, index) => ++index,
+      width: 80,
     },
     {
       dataIndex: "Name",
       title: "Tên menu",
+      width: 120,
     },
     {
       dataIndex: "Active",
@@ -53,6 +55,7 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
           statusName={record?.Active ? "Hiện" : "Ẩn"}
         />
       ),
+      width: 120,
     },
     {
       dataIndex: "action",
@@ -86,8 +89,36 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
           </Popconfirm>
         </div>
       ),
+      width: 120,
     },
   ];
+
+  const { data: categogyList, isFetching } = useQuery(
+    [
+      "pageType",
+      {
+        PageIndex: 1,
+        PageSize: 1000,
+        OrderBy: "Id desc",
+      },
+    ],
+    () =>
+      pageType
+        .getList({
+          PageIndex: 1,
+          PageSize: 1000,
+          OrderBy: "Id desc",
+        })
+        .then((res) => {
+          return res?.Data;
+        }),
+    {
+      onSuccess: (data) => data?.Items,
+      onError: toast.error,
+    }
+  );
+
+  const handleCloseEditModal = useCallback(() => setEdit(0), []);
 
   return (
     <React.Fragment>
@@ -97,6 +128,7 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
           columns,
           isExpand: true,
           title: "Danh sách menu",
+          scroll: { x: 100, y: 400 },
           extraElment: (
             <IconButton
               onClick={() => setAddNewModal(true)}
@@ -141,19 +173,17 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
                     {/* <Tooltip title="Vị trí menu" className="mr-4">
 												{item?.Position}
 											</Tooltip> */}
-                    <Tooltip title="Trạng thái">
-                      <Tag
-                        color={item?.Active ? "green" : "red"}
-                        className="mr-4"
-                      >
-                        {item?.Active ? "Hiện" : "Ẩn"}
-                      </Tag>
-                    </Tooltip>
                     <Tooltip
                       title="Tên menu con"
-                      className="ml-1 text-[12px] text-[#6b6f82]"
+                      className="ml-1 text-[14px] text-[#6b6f82]"
                     >
                       {item?.Name}
+                    </Tooltip>
+                    <Tooltip title="Trạng thái">
+                      <TagStatus
+                        color={item?.Active ? "green" : "red"}
+                        statusName={item?.Active ? "Hiện" : "Ẩn"}
+                      />
                     </Tooltip>
                     {/* <Tooltip title="Trạng thái">
 												<Tag color={item?.Active ? "green" : "red"}>{item?.Active ? "Hiện" : "Ẩn"}</Tag>
@@ -163,7 +193,10 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
                     <div>
                       <ActionButton
                         icon="fas fa-edit"
-                        onClick={() => setEdit(item?.Id)}
+                        onClick={() => {
+                          console.log("item: ", item);
+                          setEdit(item)
+                        }}
                         title="Chỉnh sửa nội dung"
                       />
                     </div>
@@ -190,13 +223,21 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
           },
         }}
       />
-
-      <AddNewContentForm
+      <AddNewContentFormMemo
         visible={addNewModal}
         onCancel={() => setAddNewModal(false)}
+        categogyList={categogyList?.Items}
       />
-      <EditContentForm edit={edit} onCancel={() => setEdit(0)} />
-      <AddChildContentForm child={child} onCancel={() => setChild(0)} />
+      <EditContentFormMemo
+        edit={data?.find((x) => x.Id === edit) || edit}
+        onCancel={handleCloseEditModal}
+        categogyList={categogyList?.Items}
+      />
+      <AddChildContentFormMemo
+        child={child}
+        categogyList={categogyList?.Items}
+        onCancel={() => setChild(0)}
+      />
     </React.Fragment>
   );
 };

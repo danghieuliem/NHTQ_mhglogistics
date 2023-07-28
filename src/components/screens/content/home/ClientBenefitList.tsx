@@ -13,12 +13,13 @@ export const ClientBenefitList: React.FC<
       dataIndex: "Id",
       title: "Vị trí",
       render: (_, __, index) => ++index,
-      width: 50,
+      width: 60,
     },
     {
       dataIndex: "IMG",
       align: "center",
       title: "Ảnh",
+      width: 70,
       render: (_, record) => {
         return (
           <Image
@@ -32,10 +33,12 @@ export const ClientBenefitList: React.FC<
     {
       dataIndex: "Name",
       title: "Tên quyền lợi",
+      width: 260
     },
     {
       dataIndex: "Active",
       title: "Trạng thái",
+      width: 120,
       render: (_, record) => (
         <TagStatus
           color={record?.Active ? "green" : "red"}
@@ -45,6 +48,7 @@ export const ClientBenefitList: React.FC<
     },
     {
       dataIndex: "ItemTypeName",
+      width: 220,
       title: "Loại",
       sorter: (a, b) => a?.ItemType - b?.ItemType,
       render(value, record, index) {
@@ -62,6 +66,7 @@ export const ClientBenefitList: React.FC<
       dataIndex: "action",
       align: "right",
       title: "Thao tác",
+      width: 100,
       render: (_, record) => (
         <ActionButton
           icon="fas fa-edit text-sec"
@@ -84,6 +89,7 @@ export const ClientBenefitList: React.FC<
       <DataTable
         {...{
           columns,
+          scroll: {x: 600, y: 400},
           data,
           title: "Danh sách quyền lợi/cam kết",
         }}

@@ -9,7 +9,7 @@ import {
   HomeBreadcrumb,
   HomeCard,
   HomeLayout,
-  HomeSidebar
+  HomeSidebar,
 } from "~/components";
 import ContentItem from "~/components/globals/layout/homeLayouts/Card/ContentItem";
 import MetaTags from "~/components/globals/metaTag";
@@ -29,23 +29,27 @@ const Index: TNextPageWithLayout = () => {
   useQuery({
     queryKey: ["articals", targetCode],
     queryFn: () =>
-      pageType.getByCode(targetCode)
+      pageType
+        .getByCode(targetCode)
         .then((res) => {
           setData(res?.Data);
         })
         .catch((error) => {
           toast.error((error as any)?.response?.data?.ResultMessage);
         }),
-    staleTime: 2000,
     enabled: !!targetCode,
+    refetchOnWindowFocus: false,
   });
 
   return (
     <>
       <Head>
-        <title>{Data?.Title && (Data?.Title !== " ") ? Data?.Title : Data?.Name}</title>
+        <title>
+          {Data?.Title && Data?.Title !== " " ? Data?.Title : Data?.Name}
+        </title>
       </Head>
       <MetaTags data={Data} dataConfig={dataGlobal} />
+
       <div className={styles.chuyenMuc}>
         <div className="container">
           <div className={styles.inner}>
