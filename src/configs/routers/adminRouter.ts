@@ -6,7 +6,19 @@ export const adminRouter = [
     childrens: [
       {
         path: "/dashboard/",
-        name: "Tổng quan",
+        name: "Dashboard",
+      },
+      {
+        path: "/manager/client/contact/",
+        name: "Danh sách liên hệ",
+      },
+      {
+        path: "/manager/notification/",
+        name: "Danh sách thông báo",
+      },
+      {
+        path: "/manager/order/complain-list/",
+        name: "Danh sách khiếu nại",
       },
     ],
   },
@@ -73,10 +85,6 @@ export const adminRouter = [
       {
         path: "/manager/client/client-list/",
         name: "Danh sách khách hàng",
-      },
-      {
-        path: "/manager/client/contact/",
-        name: "Danh sách liên hệ",
       },
       {
         path: "/manager/employee/bonus-order/",
@@ -254,17 +262,6 @@ export const adminRouter = [
       {
         path: "/manager/article/article-list/",
         name: "Danh sách bài viết",
-      },
-    ],
-  },
-  {
-    path: "/manager/order/complain-list",
-    name: "Khiếu nại",
-    icon: "fas fa-info-square",
-    childrens: [
-      {
-        path: "/manager/order/complain-list/",
-        name: "Khiếu nại",
       },
     ],
   },

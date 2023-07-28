@@ -7,34 +7,8 @@ import { getAllNewNotify, notification } from "~/api";
 import styles from "./index.module.css";
 
 import { Loading } from "~/components/screens/status/Loading";
+import { NotificationList } from "~/configs";
 import { _format } from "~/utils";
-
-const templateTabs = [
-  {
-    tab: "Tất cả",
-    key: 4,
-    color: "sec",
-  },
-  {
-    tab: "Tài chính",
-    key: 1,
-    color: "green",
-  },
-  {
-    tab: "Đơn hàng",
-    key: 2,
-    color: "blue",
-  },
-  // {
-  //   tab: "Giỏ hàng",
-  //   key: 5,
-  // },
-  {
-    tab: "Khiếu nại",
-    key: 3,
-    color: "red",
-  },
-];
 
 const NotiItem = ({ item }) => {
   const queryClient = useQueryClient();
@@ -68,7 +42,6 @@ const Notification = ({ userPage, UID }) => {
   const [list, setList] = useState([]);
   const totalItems = useRef(0);
   const TypeFilter = useRef(4);
-
 
   const [filter, setFilter] = useState({
     Type: TypeFilter.current,
@@ -104,7 +77,7 @@ const Notification = ({ userPage, UID }) => {
   return (
     <div className={styles.notiList}>
       <div className={styles.notiHead}>
-        {templateTabs?.map((tm) => {
+        {NotificationList?.map((tm) => {
           const bgColor = `bg-${tm?.color}`;
           const textColor = `text-${tm?.color}`;
           return (
