@@ -2183,3 +2183,31 @@ export const moneyStatus = [
     color: "#000",
   },
 ];
+
+
+export const NotificationList = [
+  {
+    tab: "Tất cả",
+    key: 4,
+    color: "sec",
+  },
+  {
+    tab: "Tài chính",
+    key: 1,
+    color: "green",
+  },
+  {
+    tab: "Đơn hàng",
+    key: 2,
+    color: "blue",
+  },
+  // {
+  //   tab: "Giỏ hàng",
+  //   key: 5,
+  // },
+  {
+    tab: "Khiếu nại",
+    key: 3,
+    color: "red",
+  },
+];

@@ -106,6 +106,10 @@ export const userRouter = [
         path: "/user/transaction-code-management/",
         name: "Quản lý mã vận đơn",
       },
+      {
+        path: "/user/notification/",
+        name: "Danh sách thông báo",
+      },
     ],
   },
 ];
