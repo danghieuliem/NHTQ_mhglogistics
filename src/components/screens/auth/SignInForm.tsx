@@ -1,6 +1,6 @@
 import { Card, Modal } from "antd";
 import Cookie from "js-cookie";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { authenticate, setToken, user as userAPI } from "~/api";
@@ -9,7 +9,7 @@ import { config } from "~/configs";
 import { setRouter, updateUser, useAppDispatch } from "~/store";
 import { _format } from "~/utils";
 
-export const SignInForm = ({ visible, setOpenModal }) => {
+const SignInForm = ({ visible, setOpenModal }) => {
   const dispatch = useAppDispatch();
 
   const { handleSubmit, control, reset, resetField } = useForm<TLogin>({
@@ -149,3 +149,5 @@ export const SignInForm = ({ visible, setOpenModal }) => {
     </Modal>
   );
 };
+
+export const SignInFormMemo = React.memo(SignInForm);

@@ -1,5 +1,6 @@
 import { Button, Drawer, Dropdown, Grid, Image, Menu } from "antd";
 import "antd/dist/antd.css";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.css";
@@ -30,13 +31,18 @@ const handleSetMenu = (dataMenu) => {
   return newDataMenu;
 };
 
-const Navbar = ({ dataConfig, dataMenu }) => {
+type TProps = {
+  dataConfig?: any;
+  dataMenu;
+};
+
+const Navbar = ({ dataConfig, dataMenu }: TProps) => {
   const { sm, md, lg } = useBreakpoint();
   const router = useRouter();
-  const getCode = router?.asPath.trim().split("/");
-  const targetCode = router?.query?.code?.toString().trim();
-  // const [activeMenu, setActiveMenu] = useState(targetCode || "");
 
+  const [activeMenu, setActiveMenu] = useState(
+    Number(localStorage.getItem("PageTypeId"))
+  );
   const [visible, setVisible] = useState(false);
   const [newMenu, setNewMenu] = useState(handleSetMenu(dataMenu));
 
@@ -45,9 +51,6 @@ const Navbar = ({ dataConfig, dataMenu }) => {
     setNewMenu(handleSetMenu(dataMenu));
   }, [dataMenu]);
 
-  useEffect(() => {
-    // setActiveMenu(targetCode);
-  }, [router?.query?.code]);
 
   return (
     <React.Fragment>
@@ -55,16 +58,18 @@ const Navbar = ({ dataConfig, dataMenu }) => {
         <ul className={styles.MenuList}>
           <li
             key={"trang-chu"}
-            className={`${targetCode === undefined && styles.activeMenuStyle}`}
+            className={`${router?.asPath === "/" && !activeMenu && styles.activeMenuStyle}`}
             onClick={() => {
-              router.push("/");
+              localStorage.setItem("PageTypeId", "0");
             }}
           >
-            <a>Trang chủ</a>
+            <Link href={"/"}>
+              <a target="_blank">Trang chủ</a>
+            </Link>
             {
               <span
                 className={`${styles.activeLine} ${
-                  targetCode === undefined ? "block" : "hidden"
+                  router?.asPath === "/" && !activeMenu ? "block" : "hidden"
                 }`}
               ></span>
             }
@@ -75,21 +80,27 @@ const Navbar = ({ dataConfig, dataMenu }) => {
                 <li
                   key={item?.Name}
                   className={`${
-                    targetCode === item?.Code && styles.activeMenuStyle
+                    (router?.asPath !== "/" && activeMenu === item?.PageTypeId) && styles.activeMenuStyle
                   }`}
-                  onClick={() => {
-                    // router.push(`/chuyen-muc/${item?.Link}`);
-                    router.push({
-                      pathname: "/chuyen-muc",
-                      query: { code: item?.Link },
-                    });
-                  }}
+                  onClick={() =>
+                    localStorage.setItem("PageTypeId", item?.PageTypeId)
+                  }
                 >
-                  <a>{item?.Name}</a>
+                  <Link
+                    href={
+                      item?.Link.includes("http")
+                        ? item?.Link
+                        : `/chuyen-muc/?code=${item?.Link}`
+                    }
+                  >
+                    <a target="_blank">
+                      {item?.Name}
+                    </a>
+                  </Link>
                   {
                     <span
                       className={`${styles.activeLine} ${`${
-                        targetCode === item?.Code ? "block" : "hidden"
+                        (router?.asPath !== "/" && activeMenu === item?.PageTypeId) ? "block" : "hidden"
                       }`}`}
                     ></span>
                   }
@@ -103,13 +114,8 @@ const Navbar = ({ dataConfig, dataMenu }) => {
                       <Menu.Item key={child?.Id}>
                         <a
                           onClick={() => {
-                            // console.log(child);
-                            // router.push(`/bai-viet/${child?.Link}`);
-                            // console.log(child);
-                            router.push({
-                              pathname: "/chuyen-muc/detail",
-                              query: { code: child?.Link },
-                            });
+                            console.log(child);
+                            // localStorage.setItem("PageTypeId", child?.Id);
                           }}
                         >
                           {child?.Name}
@@ -123,24 +129,21 @@ const Navbar = ({ dataConfig, dataMenu }) => {
                 <li
                   key={item?.Name}
                   className={`${
-                    targetCode === item?.Code && styles.activeMenuStyle
+                    activeMenu === item?.PageTypeId && styles.activeMenuStyle
                   }`}
                   onClick={() => {
-                    router.push({
-                      pathname: "/chuyen-muc",
-                      query: { code: item?.Code },
-                    });
+                    console.log(item);
                     // router.push(`/chuyen-muc/${item?.Code}`);
                   }}
                 >
-                  <a>{item?.Name}</a>
-                  {
+                  <a>{item?.Name} ---</a>
+                  {/* {
                     <span
                       className={`${styles.activeLine} ${`${
                         targetCode === item?.Code ? "block" : "hidden"
                       }`}`}
                     ></span>
-                  }
+                  } */}
                 </li>
               </Dropdown>
             );
@@ -171,7 +174,7 @@ const Navbar = ({ dataConfig, dataMenu }) => {
             <Menu.Item
               key={"Trang chủ"}
               eventKey={"Trang chủ"}
-              className={`${targetCode === "" && styles.activeMenuStyle}`}
+              // className={`${targetCode === "" && styles.activeMenuStyle}`}
               onClick={() => {
                 router.push("/");
               }}
@@ -182,9 +185,9 @@ const Navbar = ({ dataConfig, dataMenu }) => {
               <Menu.Item
                 eventKey={item?.Name}
                 key={item?.Name}
-                className={`${
-                  targetCode === item?.Name && styles.activeMenuStyle
-                }`}
+                // className={`${
+                //   targetCode === item?.Name && styles.activeMenuStyle
+                // }`}
                 onClick={() => {
                   router.push({
                     pathname: "/chuyen-muc",

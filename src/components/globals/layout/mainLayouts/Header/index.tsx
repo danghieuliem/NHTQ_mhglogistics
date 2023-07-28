@@ -2,11 +2,10 @@ import { Avatar as AvatarAntd, Card, Divider, Image, Popover } from "antd";
 import clsx from "clsx";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 import { default as AvatarName } from "react-avatar";
 import { useQuery } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getAllNewNotify } from "~/api";
 import { config, getLevelId } from "~/configs";
@@ -119,7 +118,7 @@ const NotificationBell = ({ userPage, userCurrentInfo }) => {
           </Card>
         }
       >
-        <button className="relative">
+        <button className="relative mr-2">
           <div className={clsx(styles.item, "col-span-1 cursor-pointer flex")}>
             <div className={clsx(styles.block, styles.actionInfo, "!flex")}>
               <div
@@ -159,8 +158,8 @@ const NotificationBellMemo = React.memo(NotificationBell)
 const LeftInfoComponents = ({ userPage, userCurrentInfo }) => {
   const firstPage = useAppSelector(selectFirstPageDashboard);
   const connection = useAppSelector(selectConnection);
-  const router = useRouter();
-  const dispatch = useDispatch();
+  // const router = useRouter();
+  // const dispatch = useDispatch();
 
   return (
     <>

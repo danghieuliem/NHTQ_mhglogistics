@@ -166,6 +166,7 @@ export const OutStockFormTableDetail: React.FC<
         columns: columns,
         loading: loading,
         summary: !!data?.length ? summary : undefined,
+        scroll: {x: 1200, y: 600}
       }}
     />
   );

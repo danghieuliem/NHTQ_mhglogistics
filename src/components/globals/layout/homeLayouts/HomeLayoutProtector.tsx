@@ -10,6 +10,8 @@ import { _format } from "~/utils";
 
 export const HomeLayoutProtector: React.FC<{}> = ({ children }) => {
   const session = Cookies.get(config.tokenName);
+  // const dataGlobal: any = useSelector((state: RootState) => state.dataGlobal);
+
   const dispatch = useAppDispatch();
   useQuery({
     queryKey: ["homeConfig"],
