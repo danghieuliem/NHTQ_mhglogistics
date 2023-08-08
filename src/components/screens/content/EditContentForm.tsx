@@ -156,8 +156,6 @@ const EditContentForm: React.FC<any> = ({ edit, onCancel, categogyList }) => {
     },
   });
 
-  console.log("edit: ", edit);
-
   const queryClient = useQueryClient();
 
   useEffect(() => {

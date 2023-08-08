@@ -194,7 +194,6 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
                       <ActionButton
                         icon="fas fa-edit"
                         onClick={() => {
-                          console.log("item: ", item);
                           setEdit(item)
                         }}
                         title="Chỉnh sửa nội dung"
