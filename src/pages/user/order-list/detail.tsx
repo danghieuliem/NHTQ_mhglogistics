@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { mainOrder } from "~/api";
 import {
+  DataTable,
   OrderIDDetailMemo,
   OrderIDPaymentHistoryMemo,
   OrderIDProductList,
@@ -13,6 +14,17 @@ import {
 } from "~/components";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import { TNextPageWithLayout } from "~/types/layout";
+import { TColumnsType } from "~/types/table";
+import { _format } from "~/utils";
+
+type TFeeSupports = {
+  Id?: number;
+  MainOrderId?: number;
+  SupportName?: string;
+  Updated?: Date;
+  UpdatedBy?: string;
+  SupportInfoVND?: number;
+};
 
 const Index: TNextPageWithLayout = () => {
   const { id } = router.query;
@@ -56,9 +68,41 @@ const Index: TNextPageWithLayout = () => {
       });
   };
 
+  const columns: TColumnsType<TFeeSupports> = [
+    {
+      dataIndex: "Id",
+      render: (value, record, index) => <>{++index}</>,
+      title: "STT",
+      responsive: ["lg"],
+    },
+    {
+      dataIndex: "SupportName",
+      title: "Tên phụ phí",
+    },
+    {
+      title: "Số tiền (VNĐ)",
+      dataIndex: "SupportInfoVND",
+      render: (_, record) => {
+        return <>{_format.getVND(record?.SupportInfoVND)}</>;
+      },
+    },
+  ];
+
   return (
     <React.Fragment>
       <div className="titlePageUser">Chi tiết đơn hàng #{id}</div>
+      <OrderIDProductList data={data?.Data?.Orders} />
+      <OrderTransportListMemo data={data?.Data?.SmallPackages} />
+      <div className="mb-4">
+        <DataTable
+          {...{
+            columns,
+            data: data?.Data?.FeeSupports,
+            // bordered: true,
+            title: "Danh sách phụ phí",
+          }}
+        />
+      </div>
       <div className="sm:grid sm:grid-cols-2 gap-4 mb-4">
         <div className="col-span-1 mb-4">
           <OrderOverViewMemo data={data?.Data} updatePaid={updatePaid} />
@@ -67,12 +111,9 @@ const Index: TNextPageWithLayout = () => {
           <OrderIDDetailMemo
             data2={data?.Data?.Orders}
             dataAll={data?.Data}
-            data={data?.Data?.FeeSupports}
           />
         </div>
       </div>
-      <OrderIDProductList data={data?.Data?.Orders} />
-      <OrderTransportListMemo data={data?.Data?.SmallPackages} />
       <OrderIDPaymentHistoryMemo data={data?.Data?.PayOrderHistories} />
       {/* {data && (
           <MessageControlUser

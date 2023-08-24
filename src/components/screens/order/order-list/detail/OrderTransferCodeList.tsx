@@ -258,7 +258,7 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
               }}
             />
             {/* <ActionButton
-              icon="fas fa-plus"
+              icon="fas fa-plus-circle"
               title="Thêm"
               disabled={!(RoleID === 1 || RoleID === 3 || RoleID === 4)}
               onClick={handleSubmit(handleUpdate)}
@@ -301,7 +301,7 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
             <IconButton
               title="Tạo"
               btnClass="!mr-4"
-              icon="fas fa-plus"
+              icon="fas fa-plus-circle"
               onClick={() => {
                 append({
                   Status: ESmallPackageStatusData.New,

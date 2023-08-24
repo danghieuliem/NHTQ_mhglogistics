@@ -133,8 +133,6 @@ const PercentTransport = () => {
     ],
   };
 
-  console.log(data);
-
   return (
     <div className="tableBox col-span-4">
       <p className="titleTable">Tỉ lệ đơn ký gửi</p>

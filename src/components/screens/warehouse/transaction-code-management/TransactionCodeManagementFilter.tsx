@@ -39,65 +39,50 @@ const TransactionCodeManagementFilter: React.FC<TProps> = ({
   const ToDate = useRef<string>(null);
 
   return (
-    <div className="flex w-fit ml-auto mb-1 flex-wrap justify-end">
-      <ActionButton
-        onClick={() => handleExporTExcel()}
-        icon="fas fa-file-export !mr-2"
-        isButton
-        isButtonClassName="bg-green !text-white mr-2"
-        title="Xuất thống kê"
-      />
+    <div className="flex justify-between">
       <Popover
         trigger={"click"}
-        placement="topRight"
+        placement="topLeft"
         content={
-          <div className="grid grid-cols-4 gap-2 p-2">
-            <div className="col-span-4 md:col-span-2">
-              <FilterSelect
-                data={
-                  router.asPath.includes("user")
-                    ? searchSmallPackageStatusData.slice(0, 3)
-                    : searchSmallPackageStatusData
-                }
-                placeholder="Chọn tìm kiếm theo"
-                label="Tìm kiếm theo"
-                isClearable
-                handleSearch={(val: ESearchSmallPackageStatusData) =>
-                  (SearchType.current = val)
-                }
-              />
-            </div>
-            <div className="col-span-4 md:col-span-2">
-              <FilterInput
-                {...inputProps}
-                handleSearch={(val: string) =>
-                  (SearchContent.current = val.trim())
-                }
-              />
-            </div>
-            <div className="col-span-4 md:col-span-2">
-              <FilterSelect
-                data={smallPackageStatusData}
-                placeholder="Chọn trạng thái"
-                label="Trạng thái"
-                isClearable
-                handleSearch={(val: ESmallPackageStatusData) =>
-                  (Status.current = val)
-                }
-                closeMenuOnSelect={false}
-              />
-            </div>
-            <div className="col-span-4 md:col-span-2">
-              <FilterRangeDate
-                handleDate={(val: string[]) => {
-                  FromDate.current = val[0];
-                  ToDate.current = val[1];
-                }}
-                placeholder="Chọn từ ngày / đến ngày"
-                format="DD/MM/YYYY"
-              />
-            </div>
-            <div className="col-span-4 flex justify-end">
+          <div className="grid grid-cols-1 gap-2 p-2">
+            <FilterSelect
+              data={
+                router.asPath.includes("user")
+                  ? searchSmallPackageStatusData.slice(0, 3)
+                  : searchSmallPackageStatusData
+              }
+              placeholder="Chọn tìm kiếm theo"
+              label="Tìm kiếm theo"
+              isClearable
+              handleSearch={(val: ESearchSmallPackageStatusData) =>
+                (SearchType.current = val)
+              }
+            />
+            <FilterInput
+              {...inputProps}
+              handleSearch={(val: string) =>
+                (SearchContent.current = val.trim())
+              }
+            />
+            <FilterSelect
+              data={smallPackageStatusData}
+              placeholder="Chọn trạng thái"
+              label="Trạng thái"
+              isClearable
+              handleSearch={(val: ESmallPackageStatusData) =>
+                (Status.current = val)
+              }
+              closeMenuOnSelect={false}
+            />
+            <FilterRangeDate
+              handleDate={(val: string[]) => {
+                FromDate.current = val[0];
+                ToDate.current = val[1];
+              }}
+              placeholder="Chọn từ ngày / đến ngày"
+              format="DD/MM/YYYY"
+            />
+            <div className="col-span-full ml-auto">
               <IconButton
                 onClick={() =>
                   handleFilter({
@@ -109,8 +94,8 @@ const TransactionCodeManagementFilter: React.FC<TProps> = ({
                     PageIndex: 1,
                   })
                 }
-                icon="fas fa-filter"
-                title="Lọc"
+                icon="!mr-0"
+                title="Tìm kiếm"
                 btnIconClass=""
                 toolip="Lọc"
               />
@@ -120,13 +105,22 @@ const TransactionCodeManagementFilter: React.FC<TProps> = ({
       >
         <ActionButton
           isButton
-          icon=""
+          icon="fas fa-filter"
           title="Bộ lọc"
           isButtonClassName="bg-main !text-white "
         />
       </Popover>
+      <ActionButton
+        onClick={() => handleExporTExcel()}
+        icon="fas fa-file-export !mr-2"
+        isButton
+        isButtonClassName="bg-green !text-white mr-2"
+        title="Xuất"
+      />
     </div>
   );
 };
 
-export const TransactionCodeManagementFilterMemo = React.memo(TransactionCodeManagementFilter)
+export const TransactionCodeManagementFilterMemo = React.memo(
+  TransactionCodeManagementFilter
+);

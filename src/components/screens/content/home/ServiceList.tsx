@@ -3,6 +3,7 @@ import { ActionButton, DataTable } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
 import TagStatus from "../../status/TagStatus";
 import { ServiceForm } from "./ServiceForm";
+import { Image } from "antd";
 
 export const ServiceList: React.FC<TTable<TService> & { refetchService }> = ({
   data,
@@ -22,18 +23,16 @@ export const ServiceList: React.FC<TTable<TService> & { refetchService }> = ({
       title: "Hình ảnh",
       width: 80,
       render: (_, record) => (
-        <img
-          src={record.IMG}
-          width={30}
-          height={30}
-          style={{ margin: "auto" }}
+        <Image
+          src={record?.IMG ? record.IMG : "/default/pro-empty.jpg"}
+          className="!h-[30px] !w-[30px]"
         />
       ),
     },
     {
       dataIndex: "Name",
       title: "Tên dịch vụ",
-      width: 300
+      width: 280,
     },
     {
       dataIndex: "Active",
@@ -61,6 +60,7 @@ export const ServiceList: React.FC<TTable<TService> & { refetchService }> = ({
           icon="fas fa-edit text-sec"
           onClick={() => handleModal(record)}
           title="Cập nhật"
+          isButton
         />
       ),
     },
@@ -79,7 +79,6 @@ export const ServiceList: React.FC<TTable<TService> & { refetchService }> = ({
         {...{
           columns,
           data,
-          scroll: {x: 600, y: 500},
           title: "Danh sách dịch vụ",
         }}
       />

@@ -151,11 +151,11 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <div className="">
-      <div className="tableBox grid grid-cols-12 gap-4 mb-4">
-        <div className="col-span-3 h-fit">
+      <div className="grid grid-cols-12 gap-4 mb-4">
+        <div className="tableBox col-span-3 h-fit">
           <StatisticalRechargeFilter handleFilter={handleFilter} />
         </div>
-        <div className="col-span-9">
+        <div className="tableBox col-span-9">
           <StatisticalRechargeChart
             dataChart={{ totalRecharge, totalWithdraw }}
           />

@@ -104,7 +104,7 @@ export const TariffChinaVietNamTable: FC<TTable<TTariffTQVN> & TProps> = ({
                   },
                 })
               }
-              icon="fas fa-trash"
+              icon="fas fa-trash !text-red"
               title="Xóa"
             />
           </>

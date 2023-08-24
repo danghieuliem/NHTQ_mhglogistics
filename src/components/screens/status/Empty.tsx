@@ -12,8 +12,6 @@ export const Empty = () => {
     },
   };
 
-  console.log("hello");
-
   return (
     <div className={"w-full h-full p-[20%]"}>
       <Lottie options={defaultOptions} width={"200px"} />

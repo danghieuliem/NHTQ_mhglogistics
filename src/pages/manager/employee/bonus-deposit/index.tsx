@@ -43,7 +43,16 @@ const Index: TNextPageWithLayout = () => {
   };
 
   const { isFetching, data, isLoading, refetch } = useQuery(
-    ["bonusList", { ...filter }],
+    [
+      "bonusList",
+      [
+        filter.PageIndex,
+        filter.SearchContent,
+        filter.FromDate,
+        filter.ToDate,
+        filter.Status,
+      ],
+    ],
     () => staffIncome.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,

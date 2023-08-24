@@ -374,6 +374,8 @@ type TUserPayment = {
   ShippingType: number;
   WarehouseFrom: number;
   WarehouseTo: number;
+  WarehouseTQ: number;
+  WarehouseVN: number;
 };
 
 type TUserHistoryTransactionVND = Omit<

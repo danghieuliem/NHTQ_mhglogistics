@@ -3,11 +3,11 @@ import { useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useSelector } from "react-redux";
 import { bank } from "~/api/bank";
-import { BanksForm, BanksTable, IconButton, Layout, toast } from "~/components";
+import { ActionButton, BanksForm, BanksTable, Layout, toast } from "~/components";
 import { breadcrumb } from "~/configs";
 import { defaultPagination } from "~/configs/appConfigs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
-import { RootState, selectUser, useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 import { TModalType } from "~/types/table";
 
@@ -69,12 +69,12 @@ const Index: TNextPageWithLayout = () => {
     <>
       <div>
 				<div className="w-fit ml-auto">
-					<IconButton
+					<ActionButton
 						onClick={() => handleModal()}
-						icon="far fa-plus"
+						icon="fas fa-plus-circle"
 						title="Thêm ngân hàng"
-						showLoading
-						toolip=""
+            isButton
+            isButtonClassName="bg-green !text-white"
 					/>
 				</div>
         <BanksTable
@@ -89,13 +89,6 @@ const Index: TNextPageWithLayout = () => {
           }}
         />
       </div>
-      {/* <ModalDelete
-				{...{
-					id: item.current?.Id,
-					visible: modal && type.current === 'delete',
-					onCancel: () => setModal(false)
-				}}
-			/> */}
       <BanksForm
         {...{
           onCancel: () => setModal(false),

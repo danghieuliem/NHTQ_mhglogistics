@@ -38,7 +38,7 @@ const Index: TNextPageWithLayout = () => {
   }, []);
 
   const { isFetching, data, isLoading, refetch } = useQuery(
-    ["warehouseFeeData", { ...filter }],
+    ["warehouseFeeData", [filter.WarehouseFromId, filter.WarehouseId, filter.IsHelpMoving, filter.ShippingTypeToWareHouseId]],
     () => warehouseFee.getList(filter),
     {
       keepPreviousData: true,

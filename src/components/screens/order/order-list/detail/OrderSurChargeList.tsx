@@ -139,7 +139,7 @@ export const OrderSurChargeList: React.FC<TProps> = ({
           RoleID === 8 ||
           RoleID === 6) && (
           <IconButton
-            icon="fas fa-plus"
+            icon="fas fa-plus-circle"
             title="Tạo"
             onClick={() =>
               append({

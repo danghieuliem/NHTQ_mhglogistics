@@ -99,7 +99,7 @@ const EmployeeManagementFilter: FC<TProps> = ({
             <IconButton
               onClick={handleAddStaff}
               title="Thêm"
-              icon="fas fa-plus"
+              icon="fas fa-plus-circle"
               showLoading
               toolip="Thêm nhân viên"
               green

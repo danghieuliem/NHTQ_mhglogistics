@@ -61,7 +61,7 @@ const Index: TNextPageWithLayout = () => {
     <React.Fragment>
       <div className="flex flex-col flex-wrap justify-between md:flex-row mb-2 mt-6">
         <div className="flex flex-wrap w-full md:w-fit gap-2">
-          <div className="cardTopTable !py-2 w-full md:w-fit">
+          <div className="cardTopTable shadow-md !py-2 w-full md:w-fit">
             <div className="text-right sm:ml-4">
               <p className="font-bold">Tổng tiền đã nạp: </p>
               <span className="text-main font-bold text-md">
@@ -70,7 +70,7 @@ const Index: TNextPageWithLayout = () => {
             </div>
           </div>
 
-          <div className="cardTopTable !py-2 w-full md:w-fit">
+          <div className="cardTopTable shadow-md !py-2 w-full md:w-fit">
             <div className="text-right sm:ml-4">
               <p className="font-bold">Số dư hiện tại: </p>
               <span className="text-main font-bold text-md">

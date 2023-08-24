@@ -140,8 +140,8 @@ const Index: TNextPageWithLayout = () => {
               FeeShip: null,
             })
           }
-          title="Thêm kiện"
-          icon="far fa-plus"
+          title="Thêm"
+          icon="fas fa-plus-circle-circle"
           isButton
           isButtonClassName="bg-green !text-white mr-2"
         />
@@ -179,10 +179,10 @@ const Index: TNextPageWithLayout = () => {
           }
         >
           <ActionButton
-            icon="mr-0"
+            icon="fas fa-hand-point-right"
             title="Tiếp tục"
             isButton
-            isButtonClassName="bg-sec !text-white"
+            isButtonClassName="bg-blue !text-white"
           />
         </Popover>
       </div>

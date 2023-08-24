@@ -24,40 +24,23 @@ export const RechargeHistoryFilter: React.FC<TProps> = ({
   handleExportExcel,
 }) => {
   const SearchContent = useRef<string>(null);
-  const Status = useRef<number>(null);
   const FromDate = useRef<string>(null);
   const ToDate = useRef<string>(null);
 
   return (
-    <div className="flex items-center justify-end">
-      <Popover
-        trigger={"click"}
-        placement="bottomLeft"
-        content={
-          <div className="grid grid-cols-1 gap-2 p-4 w-[300px]">
-            <div className="col-span-1">
+    <div className="flex justify-between items-end">
+      <div className="flex gap-2 items-end">
+        <Popover
+          trigger={"click"}
+          placement="bottomLeft"
+          content={
+            <div className="grid grid-cols-1 gap-2 p-2">
               <FilterInput
                 {...usernameProps}
                 handleSearch={(val: string) =>
                   (SearchContent.current = val.trim())
                 }
               />
-            </div>
-
-            <div className="col-span-1">
-              <FilterSelect
-                data={[
-                  { id: 1, name: "Chờ duyệt" },
-                  { id: 2, name: "Đã duyệt" },
-                  { id: 3, name: "Hủy" },
-                ]}
-                isClearable
-                placeholder="Chọn trạng thái"
-                label="Trạng thái đã thanh toán/chưa thanh toán"
-                handleSearch={(val: number) => (Status.current = val)}
-              />
-            </div>
-            <div className="col-span-1">
               <FilterRangeDate
                 placeholder="Từ ngày/đến ngày"
                 handleDate={(val: string[]) => {
@@ -66,35 +49,52 @@ export const RechargeHistoryFilter: React.FC<TProps> = ({
                 }}
                 format="DD/MM/YYYY"
               />
+              <div className="col-span-1 text-right">
+                <IconButton
+                  onClick={() =>
+                    handleFilter({
+                      SearchContent: SearchContent.current,
+                      FromDate: FromDate.current,
+                      ToDate: ToDate.current,
+                      PageIndex: 1,
+                    })
+                  }
+                  icon="mr-0"
+                  btnIconClass=""
+                  title="Tìm kiếm"
+                  showLoading
+                  toolip=""
+                />
+              </div>
             </div>
-            <div className="col-span-1 text-right">
-              <IconButton
-                onClick={() =>
-                  handleFilter({
-                    SearchContent: SearchContent.current,
-                    Status: Status.current,
-                    FromDate: FromDate.current,
-                    ToDate: ToDate.current,
-                    PageIndex: 1,
-                  })
-                }
-                icon="mr-0"
-                btnIconClass=""
-                title="Lọc"
-                showLoading
-                toolip="Lọc"
-              />
-            </div>
-          </div>
-        }
-      >
-        <ActionButton
-          icon="fas fa-filter"
-          title="Lọc"
-          isButton
-          isButtonClassName="bg-main !text-white mr-2"
-        />
-      </Popover>
+          }
+        >
+          <ActionButton
+            icon="fas fa-filter"
+            title="Bộ lọc"
+            isButton
+            isButtonClassName="bg-main !text-white mr-2"
+          />
+        </Popover>
+        <div className="w-[200px]">
+          <FilterSelect
+            data={[
+              { id: 1, name: "Chờ duyệt" },
+              { id: 2, name: "Đã duyệt" },
+              { id: 3, name: "Hủy" },
+            ]}
+            isClearable
+            placeholder="Chọn trạng thái"
+            label="Trạng thái"
+            handleSearch={(val) => {
+              handleFilter({
+                Status: val,
+                PageIndex: 1,
+              });
+            }}
+          />
+        </div>
+      </div>
       <ActionButton
         onClick={() => handleExportExcel()}
         icon="fas fa-file-export"

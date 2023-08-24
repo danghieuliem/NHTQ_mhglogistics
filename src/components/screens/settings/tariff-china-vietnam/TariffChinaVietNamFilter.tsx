@@ -63,12 +63,12 @@ export const TariffChinaVietNamFilter: FC<TProps> = (props) => {
   );
 
   return (
-    <div className="w-fit ml-auto">
+    <div className="flex justify-between">
       <Popover
         placement="bottomLeft"
         trigger={"click"}
         content={
-          <div className="grid grid-cols-2 gap-4 !p-4">
+          <div className="w-fit  grid grid-cols-2 gap-4 !p-4">
             <div className="col-span-1">
               <FormSelect
                 isClearable={true}
@@ -117,13 +117,12 @@ export const TariffChinaVietNamFilter: FC<TProps> = (props) => {
                 required={false}
               />
             </div>
-            <div className="col-span-1">
+            <div className="col-span-2 flex justify-end">
               <IconButton
                 onClick={handleSubmit(_onFilter)}
-                icon="fas fa-filter"
-                title="Lọc"
+                icon="!mr-0"
+                title="Tìm kiếm"
                 showLoading
-                btnClass="mr-2"
                 toolip="Lọc"
               />
             </div>
@@ -141,7 +140,7 @@ export const TariffChinaVietNamFilter: FC<TProps> = (props) => {
       <IconButton
         onClick={props.handleAddStaff}
         title="Thêm"
-        icon="fas fa-plus"
+        icon="fas fa-plus-circle"
         showLoading
         toolip="Thêm phí TQ-VN"
         green

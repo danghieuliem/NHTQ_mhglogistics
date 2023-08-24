@@ -1,30 +1,16 @@
-import { Checkbox, Divider, Tooltip } from "antd";
-import { FormSelect } from "~/components";
+import { Checkbox, Tooltip } from "antd";
 import { TControl } from "~/types/field";
 import { _format } from "~/utils";
 import { OrderTempItem } from "../OrderTempItem";
 
 type TProps = TControl<TUserPayment> & {
   orderShopTempData: TUserCartOrderShopTemp;
-  warehouseTQ?: TBaseReponseParams[];
-  warehouseVN?: TBaseReponseParams[];
-  shippingTypeToWarehouse?: TBaseReponseParams[];
-  userPayment: any;
-  index: number;
 };
 
-export const PaymentOrderInfo: React.FC<TProps> = ({
-  orderShopTempData,
-  index,
-  control,
-  userPayment,
-  warehouseTQ,
-  warehouseVN,
-  shippingTypeToWarehouse,
-}) => {
+export const PaymentOrderInfo: React.FC<TProps> = ({ orderShopTempData }) => {
   return (
-    <div className="grid grid-cols-4 gap-4">
-      <div className="col-span-4">
+    <div className="grid grid-cols-12 gap-4">
+      <div className="col-span-12 md:col-span-9">
         <div className="uppercase font-bold w-full bg-main text-white mb-[-5px] py-2 px-2 rounded-[4px]">
           <Tooltip title="Tên cửa hàng!">
             Tên shop: {orderShopTempData?.ShopName}
@@ -34,70 +20,40 @@ export const PaymentOrderInfo: React.FC<TProps> = ({
       </div>
 
       {/* phí */}
-      <div className="col-span-4 md:col-span-2">
-        <div className="bg-[#FFF1E4] rounded-[6px]">
-          <div className="p-3">
-            <div className="text-sm flex justify-between w-full pb-1">
-              <p className="text-black font-bold">Tổng đơn</p>
-              <span className="text-orange font-bold">
-                {_format.getVND(orderShopTempData?.TotalPriceVND)}
-              </span>
-            </div>
-            <div className="text-sm flex justify-between w-full pb-1">
-              <p className="text-black font-bold">Tổng tiền hàng</p>
-              <span className="text-blue font-bold">
-                {_format.getVND(orderShopTempData?.PriceVND)}
-              </span>
-            </div>
-            <div className="text-sm flex justify-between w-full pb-1">
-              <p className="text-black font-bold">Phí mua hàng</p>
-              <span className="text-[#f14f04] font-bold">
-                {orderShopTempData?.FeeBuyPro > 0
-                  ? _format.getVND(orderShopTempData?.FeeBuyPro)
-                  : "Chờ cập nhật"}
-              </span>
-            </div>
-            <div className="text-sm flex justify-between w-full pb-1">
-              <p className="text-[#626262]">Phí ship TQ</p>
-              <span>Chờ cập nhật</span>
-            </div>
-            <div className="text-sm flex justify-between w-full pb-1">
-              <p className="text-[#626262]">Phí vận chuyển TQ-VN</p>
-              <span className="text-[#626262]">Chờ cập nhật</span>
-            </div>
-            <div className="text-sm flex justify-between w-full pb-1">
-              <p className="text-[#626262]">Phí kiểm đếm</p>
+      <div className="col-span-12 md:col-span-3 h-fit">
+        <div className="bg-[#FFF1E4] rounded-[6px] p-3 mb-4">
+          <div className="text-sm flex justify-between w-full pb-1">
+            <p className="text-black font-bold">Tổng đơn</p>
+            <span className="text-orange font-bold">
+              {_format.getVND(orderShopTempData?.TotalPriceVND)}
+            </span>
+          </div>
+          <div className="text-sm flex justify-between w-full pb-1">
+            <p className="text-black ">Tổng tiền hàng</p>
+            <span className="">
+              {_format.getVND(orderShopTempData?.PriceVND)}
+            </span>
+          </div>
+          <div className="text-sm flex justify-between w-full pb-1">
+            <p className="text-black ">Phí mua hàng</p>
+            <span className="">
+              {orderShopTempData?.FeeBuyPro > 0
+                ? _format.getVND(orderShopTempData?.FeeBuyPro)
+                : "Chờ cập nhật"}
+            </span>
+          </div>
+        </div>
+        <div className="bg-[#FFF1E4] rounded-[6px] p-3">
+          <div className="grid grid-cols-1 col-span-2 h-fit">
+            <div className="col-span-1 flex justify-between">
               <span>
-                {orderShopTempData?.IsCheckProduct
-                  ? orderShopTempData?.IsCheckProductPrice > 0
-                    ? _format.getVND(orderShopTempData?.IsCheckProductPrice)
-                    : "Chờ cập nhật"
-                  : "Không yêu cầu"}
+                <Checkbox
+                  disabled
+                  checked={orderShopTempData?.IsFastDelivery}
+                ></Checkbox>
+                <span className="ml-2">Giao tận nhà</span>
               </span>
-            </div>
-            <div className="text-sm flex justify-between w-full pb-1">
-              <p className="text-[#626262]">Phí đóng gỗ</p>
-              <span>
-                {orderShopTempData?.IsPacked
-                  ? orderShopTempData?.IsPackedPrice > 0
-                    ? _format.getVND(orderShopTempData?.IsPackedPrice)
-                    : "Chờ cập nhật"
-                  : "Không yêu cầu"}
-              </span>
-            </div>
-            <div className="text-sm flex justify-between w-full pb-1">
-              <p className="text-[#626262]">Phí bảo hiểm</p>
-              <span>
-                {orderShopTempData?.IsInsurance
-                  ? orderShopTempData?.InsuranceMoney > 0
-                    ? _format.getVND(orderShopTempData?.InsuranceMoney)
-                    : "Chờ cập nhật"
-                  : "Không yêu cầu"}
-              </span>
-            </div>
-            <div className="text-sm flex justify-between w-full pb-1">
-              <p className="text-[#626262]">Phí giao hàng</p>
-              <span>
+              <span className="font-semibold">
                 {orderShopTempData?.IsFastDelivery
                   ? orderShopTempData?.IsFastDeliveryPrice > 0
                     ? _format.getVND(orderShopTempData?.IsFastDeliveryPrice)
@@ -105,117 +61,53 @@ export const PaymentOrderInfo: React.FC<TProps> = ({
                   : "Không yêu cầu"}
               </span>
             </div>
-          </div>
-        </div>
-      </div>
-      <div className="col-span-4 md:col-span-2">
-        <div className="bg-[#fff] p-3 rounded-[6px]">
-          <div className="grid grid-cols-2 col-span-2 h-fit">
-            <Checkbox
-              className="transfer col-span-1"
-              disabled
-              checked={orderShopTempData?.IsFastDelivery}
-            >
-              Giao tận nhà
-            </Checkbox>
-            <Checkbox
-              className="transfer col-span-1"
-              disabled
-              checked={orderShopTempData?.IsCheckProduct}
-            >
-              Kiểm hàng
-            </Checkbox>
-            <Checkbox
-              className="transfer col-span-1 !ml-0"
-              disabled
-              checked={orderShopTempData?.IsPacked}
-            >
-              Đóng gỗ
-            </Checkbox>
-            <Checkbox
-              className="transfer col-span-1"
-              disabled
-              checked={orderShopTempData?.IsInsurance}
-            >
-              Bảo hiểm
-            </Checkbox>
-          </div>
-          <Divider className="!my-[15px]" />
-          <div className="grid grid-cols-2 gap-4">
-            <div className="col-span-1">
-              <FormSelect
-                data={warehouseTQ}
-                select={{ label: "Name", value: "Id" }}
-                name={`ShopPayments.${index}.WarehouseTQ`}
-                label="Kho Trung Quốc"
-                defaultValue={warehouseTQ?.find(
-                  (x) => x.Id === Number(userPayment?.Data?.WarehouseFrom)
-                )}
-                placeholder="Kho TQ"
-                control={control}
-                required={
-                  !warehouseTQ?.find(
-                    (x) => x.Id === Number(userPayment?.Data?.WarehouseFrom)
-                  )
-                }
-                rules={
-                  !warehouseTQ?.find(
-                    (x) => x.Id === Number(userPayment?.Data?.WarehouseFrom)
-                  )
-                    ? { required: "Vui lòng chọn Kho TQ" }
-                    : { required: false }
-                }
-              />
+            <div className="col-span-1 flex justify-between">
+              <span>
+                <Checkbox
+                  disabled
+                  checked={orderShopTempData?.IsCheckProduct}
+                ></Checkbox>
+                <span className="ml-2">Kiểm hàng</span>
+              </span>
+              <span className="font-semibold">
+                {orderShopTempData?.IsCheckProduct
+                  ? orderShopTempData?.IsCheckProductPrice > 0
+                    ? _format.getVND(orderShopTempData?.IsCheckProductPrice)
+                    : "Chờ cập nhật"
+                  : "Không yêu cầu"}
+              </span>
             </div>
-            <div className="col-span-1">
-              <FormSelect
-                data={warehouseVN}
-                select={{ label: "Name", value: "Id" }}
-                name={`ShopPayments.${index}.WarehouseVN`}
-                label="Kho Việt Nam"
-                placeholder="Kho VN"
-                defaultValue={warehouseVN?.find(
-                  (x) => x.Id === Number(userPayment?.Data?.WarehouseTo)
-                )}
-                control={control}
-                required={
-                  !warehouseVN?.find(
-                    (x) => x.Id === Number(userPayment?.Data?.WarehouseTo)
-                  )
-                }
-                rules={
-                  !warehouseVN?.find(
-                    (x) => x.Id === Number(userPayment?.Data?.WarehouseTo)
-                  )
-                    ? { required: "Vui lòng chọn kho VN" }
-                    : { required: false }
-                }
-              />
+            <div className="col-span-1 flex justify-between">
+              <span>
+                <Checkbox
+                  disabled
+                  checked={orderShopTempData?.IsPacked}
+                ></Checkbox>
+                <span className="ml-2">Đóng gỗ</span>
+              </span>
+              <span className="font-semibold">
+                {orderShopTempData?.IsPacked
+                  ? orderShopTempData?.IsPackedPrice > 0
+                    ? _format.getVND(orderShopTempData?.IsPackedPrice)
+                    : "Chờ cập nhật"
+                  : "Không yêu cầu"}
+              </span>
             </div>
-            <div className="col-span-2">
-              <FormSelect
-                data={shippingTypeToWarehouse}
-                select={{ label: "Name", value: "Id" }}
-                name={`ShopPayments.${index}.ShippingType`}
-                label="Phương thức vận chuyển"
-                placeholder="Phương thức vận chuyển"
-                defaultValue={shippingTypeToWarehouse?.find(
-                  (x) => x.Id === Number(userPayment?.Data?.ShippingType)
-                )}
-                control={control}
-                required={
-                  !shippingTypeToWarehouse?.find(
-                    (x) => x.Id === Number(userPayment?.Data?.ShippingType)
-                  )
-                }
-                rules={
-                  !shippingTypeToWarehouse?.find(
-                    (x) => x.Id === Number(userPayment?.Data?.ShippingType)
-                  )
-                    ? { required: "Vui lòng chọn PTVC" }
-                    : { required: false }
-                }
-              />
+            <div className="col-span-1 flex justify-between">
+              <span>
+                <Checkbox
+                  disabled
+                  checked={orderShopTempData?.IsInsurance}
+                ></Checkbox>
+                <span className="ml-2">Bảo hiểm</span>
+              </span>
+              <span className="font-semibold">
+                {orderShopTempData?.IsInsurance
+                  ? orderShopTempData?.InsuranceMoney > 0
+                    ? _format.getVND(orderShopTempData?.InsuranceMoney)
+                    : "Chờ cập nhật"
+                  : "Không yêu cầu"}
+              </span>
             </div>
           </div>
         </div>

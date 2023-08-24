@@ -31,6 +31,8 @@ export const NewRecharges = React.memo(() => {
         })
         .then((data) => data?.Data?.Items),
     {
+      staleTime: 10000,
+      keepPreviousData: true,
       onError: (error) => {
         toast.error((error as any)?.response?.data?.ResultMessage);
       },

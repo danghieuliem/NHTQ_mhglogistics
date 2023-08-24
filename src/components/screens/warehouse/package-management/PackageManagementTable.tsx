@@ -7,6 +7,7 @@ import { bigPackageStatusData } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import Link from "next/link";
 type TProps = {
   filter;
   handleFilter: (newFilter) => void;
@@ -33,7 +34,17 @@ export const PackageManagementTable: React.FC<TTable<TPackage> & TProps> = ({
       dataIndex: "Id",
       title: "ID",
       width: 50,
-      fixed: "left"
+      fixed: "left",
+      render: (_) => {
+        return (
+          <Link
+            passHref
+            href={`/manager/warehouse/package-management/detail/?id=${_}`}
+          >
+            <a target="_blank">{_}</a>
+          </Link>
+        );
+      },
     },
     {
       dataIndex: "Created",
@@ -44,62 +55,66 @@ export const PackageManagementTable: React.FC<TTable<TPackage> & TProps> = ({
     {
       dataIndex: "Code",
       title: "Mã bao hàng",
-      width: 120
+      width: 120,
     },
     {
       dataIndex: "Total",
       title: "Tổng kiện",
       align: "right",
       width: 100,
-      render: (_) => <>{_format.getVND(_, " ")}</>
+      render: (_) => <>{_format.getVND(_, " ")}</>,
     },
     {
       dataIndex: "Weight",
-      title: "Cân nặng kg",
+      title: "Cân nặng (Kg)",
       align: "right",
       width: 100,
-      render: (_) => <>{_format.getVND(_, " ")}</>
+      render: (_) => <>{_format.getVND(_, " ")}</>,
     },
     {
       dataIndex: "Volume",
-      title: "Khối m3",
+      title: "Khối (m3)",
       align: "right",
       width: 100,
-      render: (_) => <>{_format.getVND(_, " ")}</>
+      render: (_) => <>{_format.getVND(_, " ")}</>,
     },
     {
       dataIndex: "Status",
       title: "Trạng thái",
       width: 180,
       render: (status, record) => (
-        <TagStatus color={bigPackageStatusData.find((x) => x.id === status)?.color} statusName={record.StatusName}/>
+        <TagStatus
+          color={bigPackageStatusData.find((x) => x.id === status)?.color}
+          statusName={record.StatusName}
+        />
       ),
     },
     {
       dataIndex: "action",
       title: "Thao tác",
-      width: 180,
+      width: 100,
       fixed: "right",
       render: (_, record) => (
         <div className="flex flex-wrap gap-2">
-          <ActionButton
-            onClick={() =>
-              router.push({
-                pathname: "/manager/warehouse/package-management/detail",
-                query: { id: record?.Id },
-              })
-            }
-            icon="fas fa-sack"
-            title="Chi tiết"
-            isButton
-          />
+          <Link
+            passHref
+            href={`/manager/warehouse/package-management/detail/?id=${record?.Id}`}
+          >
+            <a target="_blank">
+              <ActionButton
+                icon="fas fa-info-square"
+                title="Chi tiết"
+                isButton
+              />
+            </a>
+          </Link>
 
           <ActionButton
             onClick={() => {
               toast.info("Đang xử lý, vui lòng chờ ...");
               return _onExportExcel(record.Id);
             }}
-            icon="fad fa-download"
+            icon="fas fa-download"
             title="Xuất excel"
             isButton
           />
@@ -107,8 +122,6 @@ export const PackageManagementTable: React.FC<TTable<TPackage> & TProps> = ({
       ),
     },
   ];
-
-
 
   return (
     <>
@@ -119,7 +132,7 @@ export const PackageManagementTable: React.FC<TTable<TPackage> & TProps> = ({
           data,
           bordered: true,
           // expandable: expandable,
-          scroll: {y: 700, x: 1200}
+          scroll: { y: 700, x: 1200 },
         }}
       />
       <div className="mt-4 text-right">

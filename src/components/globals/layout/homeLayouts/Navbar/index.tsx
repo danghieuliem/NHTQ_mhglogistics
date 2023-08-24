@@ -51,6 +51,12 @@ const Navbar = ({ dataConfig, dataMenu }: TProps) => {
     setNewMenu(handleSetMenu(dataMenu));
   }, [dataMenu]);
 
+  useEffect(() => {
+    if (Number(localStorage.getItem("PageTypeId"))) {
+      setActiveMenu(Number(localStorage.getItem("PageTypeId")))
+    }
+  }, [localStorage.getItem("PageTypeId")])
+
 
   return (
     <React.Fragment>
@@ -58,18 +64,19 @@ const Navbar = ({ dataConfig, dataMenu }: TProps) => {
         <ul className={styles.MenuList}>
           <li
             key={"trang-chu"}
-            className={`${router?.asPath === "/" && !activeMenu && styles.activeMenuStyle}`}
+            className={`${
+              router?.asPath === "/" && styles.activeMenuStyle
+            }`}
             onClick={() => {
               localStorage.setItem("PageTypeId", "0");
+              router.push("/");
             }}
           >
-            <Link href={"/"}>
-              <a target="_blank">Trang chủ</a>
-            </Link>
+            <a>Trang chủ</a>
             {
               <span
                 className={`${styles.activeLine} ${
-                  router?.asPath === "/" && !activeMenu ? "block" : "hidden"
+                  router?.asPath === "/" ? "block" : "hidden"
                 }`}
               ></span>
             }
@@ -80,27 +87,26 @@ const Navbar = ({ dataConfig, dataMenu }: TProps) => {
                 <li
                   key={item?.Name}
                   className={`${
-                    (router?.asPath !== "/" && activeMenu === item?.PageTypeId) && styles.activeMenuStyle
+                    router?.asPath !== "/" &&
+                    activeMenu === item?.PageTypeId &&
+                    styles.activeMenuStyle
                   }`}
-                  onClick={() =>
-                    localStorage.setItem("PageTypeId", item?.PageTypeId)
-                  }
+                  onClick={() => {
+                    localStorage.setItem("PageTypeId", item?.PageTypeId);
+                    router.push({
+                      pathname: "/chuyen-muc/",
+                      query: `code=${item?.Link}`,
+                    });
+                  }}
                 >
-                  <Link
-                    href={
-                      item?.Link.includes("http")
-                        ? item?.Link
-                        : `/chuyen-muc/?code=${item?.Link}`
-                    }
-                  >
-                    <a target="_blank">
-                      {item?.Name}
-                    </a>
-                  </Link>
+                  <a>{item?.Name}</a>
                   {
                     <span
                       className={`${styles.activeLine} ${`${
-                        (router?.asPath !== "/" && activeMenu === item?.PageTypeId) ? "block" : "hidden"
+                        router?.asPath !== "/" &&
+                        activeMenu === item?.PageTypeId
+                          ? "block"
+                          : "hidden"
                       }`}`}
                     ></span>
                   }
@@ -114,8 +120,10 @@ const Navbar = ({ dataConfig, dataMenu }: TProps) => {
                       <Menu.Item key={child?.Id}>
                         <a
                           onClick={() => {
-                            console.log(child);
-                            // localStorage.setItem("PageTypeId", child?.Id);
+                            // router.push({
+                            //   pathname: `/chuyen-muc/detail/?code=${}`
+                            // })
+                            localStorage.setItem("PageTypeId", child?.Id);
                           }}
                         >
                           {child?.Name}
@@ -132,7 +140,10 @@ const Navbar = ({ dataConfig, dataMenu }: TProps) => {
                     activeMenu === item?.PageTypeId && styles.activeMenuStyle
                   }`}
                   onClick={() => {
-                    console.log(item);
+                    router.push({
+                      pathname: "/chuyen-muc/",
+                      query: `code=${item?.Link}`,
+                    });
                     // router.push(`/chuyen-muc/${item?.Code}`);
                   }}
                 >

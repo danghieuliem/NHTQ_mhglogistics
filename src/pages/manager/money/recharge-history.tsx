@@ -45,7 +45,16 @@ const Index: TNextPageWithLayout = () => {
     isFetching,
     isError,
   } = useQuery(
-    ["clientRechargeData", { ...filter }],
+    [
+      "clientRechargeData",
+      [
+        filter.PageIndex,
+        filter.SearchContent,
+        filter.Status,
+        filter.FromDate,
+        filter.ToDate,
+      ],
+    ],
     () => adminSendUserWallet.getList(filter).then((res) => res.Data),
     {
       onSuccess: (data) => {

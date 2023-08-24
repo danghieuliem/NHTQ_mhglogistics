@@ -1,4 +1,4 @@
-import { Popover, Tag } from "antd";
+import { Popover } from "antd";
 import clsx from "clsx";
 import React from "react";
 import { ActionButton, DataTable, WithDrawalVNDForm } from "~/components";
@@ -60,6 +60,7 @@ export const WithDrawalVNDTable: React.FC<TTable<TWithDraw>> = ({
               icon="far fa-trash-alt"
               title="Huỷ"
               isButton={true}
+              isButtonClassName="bg-red !text-white"
             />
           )
         );
@@ -123,7 +124,7 @@ export const WithDrawalVNDTable: React.FC<TTable<TWithDraw>> = ({
         expandable: expandable,
         mediaWidth: 1200,
         scroll: { y: 660 },
-        title: "Danh sách yêu cầu",
+        title: " ",
         extraElment: (
           <div>
             <Popover
@@ -133,10 +134,10 @@ export const WithDrawalVNDTable: React.FC<TTable<TWithDraw>> = ({
             >
               <div>
                 <ActionButton
-                  icon=""
+                  icon="fas fa-plus-circle-circle"
                   isButton
-                  isButtonClassName="bg-main !text-white hover:!bg-red"
-                  title="Tạo yêu cầu rút"
+                  isButtonClassName="bg-green !text-white hover:!bg-red"
+                  title="Tạo"
                 />
               </div>
             </Popover>

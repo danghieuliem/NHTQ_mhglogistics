@@ -1,5 +1,4 @@
 import { Card } from "antd";
-import router from "next/router";
 import React, { useEffect, useState } from "react";
 import { IconButton } from "~/components";
 import TagStatus from "~/components/screens/status/TagStatus";
@@ -195,8 +194,39 @@ const OrderOverView: React.FC<TProps> = ({ data, updatePaid }) => {
     setRenderFee(newFee);
   }, [data]);
 
+
+
   return (
-    <Card title="Tổng quan đơn hàng">
+    <Card
+      title="Tổng quan đơn hàng"
+      extra={
+        <div className="flex justify-between items-center my-[-10px]">
+          <span className="ant-card-head-title font-medium text-[16px]">Tổng quan đơn hàng</span>
+          <div className="flex justify-between">
+            {data?.Status === 0 && (
+              <IconButton
+                onClick={() => updatePaid("deposit")}
+                title="Đặt cọc"
+                icon="fas fa-hand-holding-usd"
+                showLoading
+                toolip="Đặt cọc"
+                btnClass="!bg-green"
+              />
+            )}
+            {data?.Status === 7 && (
+              <IconButton
+                onClick={() => updatePaid("payment")}
+                title="Thanh toán"
+                icon="fas fa-money-check-edit-alt"
+                showLoading
+                toolip="Thanh toán"
+                btnClass="!bg-blue"
+              />
+            )}
+          </div>
+        </div>
+      }
+    >
       <div className={styleLi}>
         <div className={styleWrapIcon}>
           <i className={`far fa-calendar-minus ${styleIcon}`}></i>
@@ -235,35 +265,8 @@ const OrderOverView: React.FC<TProps> = ({ data, updatePaid }) => {
           </div>
         </div>
       ))}
-      <div className="flex justify-between mt-4">
-        <IconButton
-          onClick={() => router.back()}
-          title="Trở về"
-          icon="fas fa-undo-alt"
-          showLoading
-        />
-        {data?.Status === 0 && (
-          <IconButton
-            onClick={() => updatePaid("deposit")}
-            title="Đặt cọc"
-            icon="fas fa-hand-holding-usd"
-            showLoading
-            toolip="Đặt cọc đơn này"
-          />
-        )}
-        {data?.Status === 7 && (
-          <IconButton
-            onClick={() => updatePaid("payment")}
-            title="Thanh toán"
-            icon="fas fa-money-check-edit-alt"
-            showLoading
-            toolip="Thanh toán đơn này"
-          />
-        )}
-      </div>
     </Card>
   );
 };
-
 
 export const OrderOverViewMemo = React.memo(OrderOverView);

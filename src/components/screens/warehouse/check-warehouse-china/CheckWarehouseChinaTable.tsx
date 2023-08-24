@@ -526,7 +526,7 @@ export const CheckWarehouseChinaTable: React.FC<
 					/> */}
           {!record.MainOrderId && (
             <ActionButton
-              icon="fas fa-plus"
+              icon="fas fa-plus-circle"
               onClick={handleSubmit((data) => {
                 handleAssign(data[name][index], "assign1");
               })}
@@ -536,7 +536,7 @@ export const CheckWarehouseChinaTable: React.FC<
             />
           )}
           {/* <ActionButton
-            icon="fas fa-plus"
+            icon="fas fa-plus-circle"
             onClick={handleSubmit((data) =>
               handleAssign(data[name][index], "assign2")
             )}

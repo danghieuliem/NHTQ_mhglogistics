@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useQuery } from "react-query";
 import { user } from "~/api";
 import {
-	ClientListFilterMemo,
-	Layout,
-	PersonalRechargeTable,
-	toast,
+  ClientListFilterMemo,
+  Layout,
+  PersonalRechargeTable,
+  toast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -31,7 +31,17 @@ const Index: TNextPageWithLayout = () => {
   };
 
   const { isFetching, data } = useQuery(
-    ["clientData", { ...filter }],
+    [
+      "clientData",
+      [
+        filter.PageIndex,
+        filter.UserName,
+        filter.Phone,
+        filter.SearchContent,
+        filter.SalerID,
+        filter.OrdererID,
+      ],
+    ],
     () => user.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,
@@ -43,15 +53,13 @@ const Index: TNextPageWithLayout = () => {
           PageSize: data?.PageSize,
         }),
       onError: toast.error,
-			staleTime: 5000
+      staleTime: 5000,
     }
   );
 
   return (
     <>
-      <div className="w-fit ml-auto">
-        <ClientListFilterMemo handleFilter={handleFilter} isShow={false} />
-      </div>
+      <ClientListFilterMemo handleFilter={handleFilter} isShow={false} />
       <PersonalRechargeTable
         data={data?.Items}
         filter={filter}

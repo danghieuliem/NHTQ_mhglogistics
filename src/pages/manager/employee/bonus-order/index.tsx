@@ -41,7 +41,6 @@ const Index: TNextPageWithLayout = () => {
   const handleFilter = useCallback((newFilter) => {
     const filterNew = { ...filter, ...newFilter };
     if (filterNew?.RoleID !== 1 || filter?.RoleID !== 3) {
-      console.log("object");
       delete filterNew.UID;
     }
     setFilter(filterNew);

@@ -12,7 +12,7 @@ const BoxItem = ({ value, path, label, icon, color, bgColor }) => {
   return (
     <Link href={`${path}`}>
       <a
-        className={clsx("p-2 lg:p-4 rounded-[6px] hover:!shadow-md transition-all")}
+        className={clsx("p-2 lg:p-4 rounded-[6px] shadow-md hover:!shadow-none transition-all")}
         style={{ background: `${bgColor}` }}
       >
         <div className={titleContain}>

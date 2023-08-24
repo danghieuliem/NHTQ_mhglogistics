@@ -63,28 +63,26 @@ export const PersonalRechargeTable: React.FC<TTable<TClient | any> & TProps> = (
       dataIndex: "action",
       title: "Thao tác",
       align: "right",
-      width: 220,
+      width: 120,
       fixed: "right",
       render: (_, record) => (
-        <div className="flex w-fit m-auto">
-          <Link href={`/manager/money/vietnam-recharge/?id=${record?.Id}`}>
+        <div className="flex flex-wrap gap-1">
+          <Link href={`/manager/money/vietnam-recharge/?id=${record?.Id}`} passHref>
             <a target="_blank">
               <ActionButton
-                icon="fas fa-badge-dollar mr-1"
+                icon="fas fa-badge-dollar"
                 title="Nạp tiền"
-                iconContainerClassName="iconYellow !my-0"
-                btnYellow
                 isButton
+                isButtonClassName="bg-blue !text-white"
               />
             </a>
           </Link>
-          <Link href={`/manager/money/vietnam-withdrawal/?id=${record?.Id}`}>
+          <Link href={`/manager/money/vietnam-withdrawal/?id=${record?.Id}`} passHref>
             <a target="_blank">
               <ActionButton
                 icon="fas fa-wallet"
                 title="Rút tiền"
-                iconContainerClassName="iconBlue"
-                btnBlue
+                isButtonClassName="bg-green !text-white"
                 isButton
               />
             </a>

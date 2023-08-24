@@ -286,7 +286,7 @@ export const ClientCreateOrderForm = ({ userData }: TProps) => {
               })
             }
             btnClass={""}
-            icon="far fa-plus"
+            icon="fas fa-plus-circle"
             showLoading
             toolip=""
           />

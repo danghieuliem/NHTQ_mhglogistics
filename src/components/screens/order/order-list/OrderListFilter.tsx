@@ -65,7 +65,7 @@ export const OrderListFilter: FC<TProps> = ({
   const [isShow, setIsShow] = useState(false);
 
   return (
-    <div className="w-fit ml-auto">
+    <div className="flex justify-between">
       <Drawer
         title={
           <Tag color="text-white" className="!bg-sec">

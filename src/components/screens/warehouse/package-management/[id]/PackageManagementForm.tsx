@@ -86,13 +86,6 @@ export const PackageManagementForm: React.FC<TProps> = ({ data, loading }) => {
           btnClass="!mr-2"
           toolip=""
         />
-        <IconButton
-          icon="fas fa-undo"
-          title="Trở về"
-          toolip=""
-          yellow
-          onClick={() => router.back()}
-        />
       </div>
     </div>
   );

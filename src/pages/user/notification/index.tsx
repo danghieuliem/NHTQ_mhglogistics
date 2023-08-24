@@ -3,7 +3,6 @@ import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { notification } from "~/api";
 import { UserLayout, toast } from "~/components";
-import NotificationFilter from "~/components/screens/notification/NotificationFilter";
 import NotificationTable from "~/components/screens/notification/NotificationTable";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
