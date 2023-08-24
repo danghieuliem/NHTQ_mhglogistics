@@ -1,4 +1,5 @@
 import { Modal, Pagination } from "antd";
+import Link from "next/link";
 import router from "next/router";
 import React, { useRef } from "react";
 import { toast } from "react-toastify";
@@ -94,6 +95,13 @@ export const UserRequestListTable: React.FC<
       title: "ID",
       width: 90,
       // responsive: ["lg"],
+      render: (_) => {
+        return (
+          <Link passHref href={`/user/request-list/detail/?id=${_}`}>
+            <a target="_blank">{_}</a>
+          </Link>
+        );
+      },
     },
     {
       dataIndex: "Created",
@@ -138,7 +146,16 @@ export const UserRequestListTable: React.FC<
       responsive: ["lg"],
       render: (_, record) => {
         return (
-          <div>
+          <div className="flex gap-1 flex-wrap">
+            <Link passHref href={`/user/request-list/detail/?id=${record?.Id}`}>
+              <a target="_blank" rel="noopener noreferrer">
+                <ActionButton
+                  icon="fas fa-info-square"
+                  title="Chi tiết"
+                  isButton={true}
+                />
+              </a>
+            </Link>
             {record?.Status === EPaymentData.Unpaid ||
               (record?.Status === EPaymentData.Confirmed && (
                 <ActionButton
@@ -151,6 +168,7 @@ export const UserRequestListTable: React.FC<
                   icon="fas fa-dollar-sign"
                   title="Thanh toán"
                   isButton={true}
+                  isButtonClassName="bg-blue !text-white"
                 />
               ))}
             {record.Status === EPaymentData.Unpaid && (
@@ -162,21 +180,11 @@ export const UserRequestListTable: React.FC<
                   });
                 }}
                 icon="fas fa-trash"
-                title="Hủy yêu cầu"
+                title="Hủy"
                 isButton={true}
+                isButtonClassName="bg-red !text-white"
               />
             )}
-            <ActionButton
-              onClick={() =>
-                router.push({
-                  pathname: "/user/request-list/detail",
-                  query: { id: record?.Id },
-                })
-              }
-              icon="far fa-info-square"
-              title="Chi tiết đơn"
-              isButton={true}
-            />
           </div>
         );
       },

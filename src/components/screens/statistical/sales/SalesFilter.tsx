@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
-import { FilterRangeDate } from "~/components";
-import { IconButton } from "~/components/globals/button/IconButton";
+import { ActionButton, FilterRangeDate } from "~/components";
 
 type TProps = {
   handleFilter: (fromDate: string, toDate: string) => void;
@@ -19,7 +18,7 @@ export const SalesFilter: React.FC<TProps> = ({
   const toDate = useRef<string>(null);
 
   return (
-    <div className="flex items-end mb-4">
+    <div className="flex items-end mb-4 gap-2">
       <FilterRangeDate
         format="DD/MM/YYYY"
         placeholder="Từ ngày/đến ngày"
@@ -28,25 +27,23 @@ export const SalesFilter: React.FC<TProps> = ({
           toDate.current = val[1];
         }}
       />
-      <IconButton
+      <ActionButton
         title="Thống kê theo ngày lọc"
-        btnIconClass="!mr-2"
-        icon="far fa-info-square"
+        icon="fas fa-info-square"
         onClick={() => {
           handleFilter(fromDate.current, toDate.current);
           resetPagination();
         }}
-        btnClass={"!mx-4"}
-        showLoading
-        toolip=""
+        isButton
+        isButtonClassName="bg-green !text-white"
+        
       />
-      <IconButton
+      <ActionButton
         onClick={handleType}
-        icon="far fa-info-square"
-        btnIconClass="!mr-2"
+        icon="fas fa-info-square"
         title={type === "detail" ? "Xem biểu đồ tổng" : "Xem biểu đồ chi tiết"}
-        showLoading
-        toolip=""
+        isButton
+        isButtonClassName="bg-sec !text-white"
       />
     </div>
   );

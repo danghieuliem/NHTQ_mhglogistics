@@ -30,7 +30,8 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
 }) => {
   const _onPress = (data: TUserDeposit) => {
     const id = toast.loading("Đang xử lý ...");
-    transportationOrder.update(data)
+    transportationOrder
+      .update(data)
       .then((res) => {
         refetch();
         toast.update(id, {
@@ -57,6 +58,13 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
       width: 50,
       align: "right",
       fixed: "left",
+      render: (_) => {
+        return (
+          <Link href={`/manager/deposit/deposit-list/detail/?id=${_}`}>
+            <a target="_blank">{_}</a>
+          </Link>
+        );
+      },
     },
     {
       dataIndex: "OrderTransactionCode",
@@ -183,31 +191,33 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
       fixed: "right",
       render: (_, record) => {
         return (
-          <div className="grid grid-cols-1 gap-2">
-            {record?.Status === 2 && (RoleID === 1 || RoleID === 3 || RoleID === 7) && (
-              <ActionButton
-                onClick={() => Modal.confirm({
-                  title: "Xác nhận duyệt đơn này?",
-                  onOk: () => _onPress({ ...record, Status: 3 })
-                })}
-                icon="!mr-0"
-                title="Duyệt đơn"
-                isButton
-                isButtonClassName="bg-blue !text-white"
-              />
-            )}
+          <div className="flex flex-wrap gap-1">
             <Link
               href={`/manager/deposit/deposit-list/detail/?id=${record.Id}`}
             >
               <a target="_blank">
                 <ActionButton
-                  icon="!mr-0"
+                  icon="fas fa-info-square"
                   title="Chi tiết"
                   isButton
-                  isButtonClassName="bg-main !text-white"
                 />
               </a>
             </Link>
+            {record?.Status === 2 &&
+              (RoleID === 1 || RoleID === 3 || RoleID === 7) && (
+                <ActionButton
+                  onClick={() =>
+                    Modal.confirm({
+                      title: "Xác nhận duyệt đơn này?",
+                      onOk: () => _onPress({ ...record, Status: 3 }),
+                    })
+                  }
+                  icon="fas fa-check-circle"
+                  title="Duyệt"
+                  isButton
+                  isButtonClassName="bg-blue !text-white"
+                />
+              )}
           </div>
         );
       },

@@ -21,8 +21,8 @@ const Index: TNextPageWithLayout = () => {
     PageIndex: 1,
     OrderBy: "Id desc",
     Status: 5,
-    fromDate: null,
-    toDate: null,
+    FromDate: null,
+    ToDate: null,
   });
 
   const handleFilter = (newFilter) => {
@@ -32,7 +32,10 @@ const Index: TNextPageWithLayout = () => {
   const [chartData, setChartData] = useState<Record<string, number>>(null);
 
   const { data, isFetching } = useQuery(
-    ["clientPurchaseReportData", { ...filter }],
+    [
+      "clientPurchaseReportData",
+      [filter.PageIndex, filter.FromDate, filter.ToDate],
+    ],
     () => reportMainOrder.getList(filter).then((res) => res.Data),
     {
       onSuccess: (data) => {
@@ -74,7 +77,7 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <div className="grid grid-cols-1 gap-4">
-      <div className="col-span-1">
+      <div className="tableBox col-span-1">
         <PurchaseProfiltFilter handleFilter={handleFilter} />
         <PurchaseProfitChart dataChart={chartData} />
       </div>

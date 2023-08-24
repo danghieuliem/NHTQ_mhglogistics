@@ -289,6 +289,7 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
       dataIndex: "Quantity",
       title: "Số lượng",
       align: "center",
+      width: 100,
       render: (_, record, index) => {
         return (
           <InputQuantity
@@ -304,32 +305,34 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
     {
       dataIndex: "PriceOrigin",
       align: "center",
-      title: <>Đơn giá</>,
+      title: <>Đơn giá (¥/VNĐ)</>,
+      width: 160,
       render: (_, record) => {
-        return <>{_format.getVND(_, " ¥")}</>;
+        return <>{_format.getVND(_, "")} / {_format.getVND(record?.UPriceBuyVN, "")}</>;
       },
       responsive: canUpdate ? ["lg"] : ["md"],
     },
-    {
-      dataIndex: "UPriceBuyVN",
-      align: "center",
-      title: <>Đơn giá</>,
-      render: (_) => _format.getVND(_, " đ"),
-      responsive: canUpdate ? ["lg"] : ["md"],
-    },
+    // {
+    //   dataIndex: "UPriceBuyVN",
+    //   align: "center",
+    //   title: <>Đơn giá</>,
+    //   render: (_) => _format.getVND(_, " đ"),
+    //   responsive: canUpdate ? ["lg"] : ["md"],
+    // },
 
     {
       dataIndex: "EPriceBuyVN",
       title: "Thành tiền",
       align: "center",
+      width: 120,
       render: (_) => _format.getVND(_, " đ"),
       responsive: canUpdate ? ["lg"] : ["md"],
     },
     {
       dataIndex: "action",
-      title: "",
+      title: "Thao tác",
       align: "right",
-      width: 30,
+      width: 100,
       render: (_, record) => {
         return (
           <IconButton

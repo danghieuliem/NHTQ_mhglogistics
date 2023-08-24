@@ -189,7 +189,7 @@ export const ApiPermissionsTable = ({ allApis, isLoadingAllApis }) => {
 			<div className="px-4 bg-label text-white flex items-center">
 				<IconButton
 					title={'Cập nhật'}
-					icon={'fas fa-plus '}
+					icon={'fas fa-plus-circle '}
 					toolip={'Thêm chức năng'}
 					btnClass="iconGreen ml-4 my-3"
 					green

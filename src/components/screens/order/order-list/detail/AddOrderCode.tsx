@@ -48,7 +48,7 @@ export const AddOrderCode: React.FC<TProps> = ({ add, statusData, roleID }) => {
         title="Thêm"
         showLoading
         onClick={handleSubmit(_onPress)}
-        icon="fas fa-plus"
+        icon="fas fa-plus-circle"
         btnClass="ml-4"
         toolip={"Thêm"}
         disabled={roleID === 4 && statusData === 0}

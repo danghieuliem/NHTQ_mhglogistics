@@ -4,10 +4,7 @@ import React, { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueries, useQuery, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
-import {
-  orderShopTemp,
-  user
-} from "~/api";
+import { orderShopTemp, user } from "~/api";
 import {
   ActionButton,
   ConfirmCompleteForm,
@@ -70,17 +67,17 @@ const Index: TNextPageWithLayout & React.FC<{}> = () => {
     useForm<TUserPayment>({
       mode: "onBlur",
       defaultValues: {
+        ShippingType: shippingTypeToWarehouse?.find(
+          (x) => x.Id === Number(userPayment?.Data?.ShippingType)
+        )?.Id,
+        WarehouseTQ: warehouseTQ?.find(
+          (x) => x.Id === Number(userPayment?.Data?.WarehouseFrom)
+        )?.Id,
+        WarehouseVN: warehouseVN?.find(
+          (x) => x.Id === Number(userPayment?.Data?.WarehouseTo)
+        )?.Id,
         ShopPayments: orderShopTempsData.map((data) => ({
           ShopId: data?.Id,
-          // ShippingType: shippingTypeToWarehouse?.find(
-          //   (x) => x.Id === Number(userPayment?.Data?.ShippingType)
-          // )?.Id,
-          // WarehouseTQ: warehouseTQ?.find(
-          //   (x) => x.Id === Number(userPayment?.Data?.WarehouseFrom)
-          // )?.Id,
-          // WarehouseVN: warehouseVN?.find(
-          //   (x) => x.Id === Number(userPayment?.Data?.WarehouseTo)
-          // )?.Id,
         })),
       },
     });
@@ -96,87 +93,75 @@ const Index: TNextPageWithLayout & React.FC<{}> = () => {
       const { FullName, Address, Email, Phone } = orderShopTempsData?.[0];
       reset({
         ReceiverFullName: FullName,
-        ReceiverAddress: Address,
+        ReceiverAddress: "helo",
         ReceiverEmail: Email,
         ReceiverPhone: Phone,
         FullName: FullName,
         Address: Address,
         Email: Email,
         Phone: Phone,
+        ShippingType: shippingTypeToWarehouse?.find(
+          (x) => x.Id === Number(userPayment?.Data?.ShippingType)
+        )?.Id,
+        WarehouseTQ: warehouseTQ?.find(
+          (x) => x.Id === Number(userPayment?.Data?.WarehouseFrom)
+        )?.Id,
+        WarehouseVN: warehouseVN?.find(
+          (x) => x.Id === Number(userPayment?.Data?.WarehouseTo)
+        )?.Id,
         ShopPayments: orderShopTempsData.map((data) => ({
           ShopId: data?.Id,
-          // ShippingType: shippingTypeToWarehouse?.find(
-          //   (x) => x.Id === Number(userPayment?.Data?.ShippingType)
-          // )?.Id,
-          // WarehouseTQ: warehouseTQ?.find(
-          //   (x) => x.Id === Number(userPayment?.Data?.WarehouseFrom)
-          // )?.Id,
-          // WarehouseVN: warehouseVN?.find(
-          //   (x) => x.Id === Number(userPayment?.Data?.WarehouseTo)
-          // )?.Id,
         })),
       });
     }
-  }, [[shippingTypeToWarehouse, warehouseTQ, warehouseVN, orderShopTempsData]]);
+  }, [
+    [
+      shippingTypeToWarehouse,
+      warehouseTQ,
+      warehouseVN,
+      orderShopTempsData,
+      userPayment,
+    ],
+  ]);
 
   const mutationPayment = useMutation(orderShopTemp.payment);
 
   const onPress = async (data: TUserPayment) => {
     const id = toast.loading("Đang xử lý ...");
-    // setValue(
-    //   "Address",
-    //   `${getValuesAddress("address")}, ${getValuesAddress(
-    //     "city"
-    //   )}, ${getValuesAddress("districts")}`
-    // );
 
     if (!data?.IsAgreement) {
       toast.warning("Vui lòng xác nhận trước khi thanh toán");
       return;
     }
 
-    // if (
-    //   getValuesAddress("address") === null ||
-    //   getValuesAddress("city") === null ||
-    //   getValuesAddress("districts") === null
-    // ) {
-    //   toast.warning("Vui lòng chọn địa chỉ nhân hàng!");
-    //   return;
-    // }
-
     const shopPayments = getValues("ShopPayments");
 
     for (let i in shopPayments) {
-      if (getValues("ShopPayments")[i].WarehouseTQ === undefined) {
-        setValue(
-          `ShopPayments.${Number(i)}.WarehouseTQ`,
-          Number(userPayment?.Data?.WarehouseFrom)
-        );
-      }
-      if (getValues("ShopPayments")[i].WarehouseVN === undefined) {
-        setValue(
-          `ShopPayments.${Number(i)}.WarehouseVN`,
-          Number(userPayment?.Data?.WarehouseTo)
-        );
-      }
-      if (getValues("ShopPayments")[i].ShippingType === undefined) {
-        setValue(
-          `ShopPayments.${Number(i)}.ShippingType`,
-          Number(userPayment?.Data?.ShippingType)
-        );
-      }
+      setValue(
+        `ShopPayments.${Number(i)}.WarehouseTQ`,
+        Number(getValues("WarehouseTQ"))
+      );
+      setValue(
+        `ShopPayments.${Number(i)}.WarehouseVN`,
+        Number(getValues("WarehouseVN"))
+      );
+      setValue(
+        `ShopPayments.${Number(i)}.ShippingType`,
+        Number(getValues("ShippingType"))
+      );
     }
 
-    setLoadingPayment(true);
+    // setLoadingPayment(true);
+    delete data.WarehouseTQ;
+    delete data.ShippingType;
+    delete data.WarehouseVN;
 
     mutationPayment
       .mutateAsync({ ...data, Address: getValues("Address") })
       .then(() => {
-        // toast.success("Đặt hàng thành công!");
         queryClient.invalidateQueries({ queryKey: "menuData" });
         router.push("/user/order-list");
         ids.map((id) => dispatch(deleteOrderShopTempById(id)));
-        // setLoadingPayment(false);
         toast.update(id, {
           render: "Đặt đơn thành công, đang vào giỏ hàng,",
           type: "success",
@@ -206,31 +191,36 @@ const Index: TNextPageWithLayout & React.FC<{}> = () => {
       {!!ids.length && !!orderShopTempsData?.[0] && (
         <React.Fragment>
           <div className="grid grid-cols-12 gap-4">
-            <div className="col-span-12 lg:col-span-9 grid grid-cols-1 gap-4">
+            <div className="col-span-12 grid grid-cols-1 gap-4 h-fit">
               {orderShopTempsData.map((orderShopTempData, index) => (
                 <Fragment key={`${index}-${orderShopTempData?.Id}`}>
-                  <PaymentOrderInfo
-                    {...{
-                      index,
-                      orderShopTempData,
-                      warehouseVN,
-                      shippingTypeToWarehouse,
-                      warehouseTQ,
-                      userPayment,
-                      control,
-                    }}
-                  />
-                  <Divider />
+                  <PaymentOrderInfo orderShopTempData={orderShopTempData} />
+                  <Divider className="!my-[2px]" />
                 </Fragment>
               ))}
             </div>
-            {window.innerWidth >= 1024 ? (
+
+            <div className="col-span-12">
+              <ConfirmCompleteForm
+                totalPrice={Number(totalPrice)}
+                control={control}
+                loadingPayment={loadingPayment}
+                onPress={handleSubmit(onPress)}
+                warehouseVN={warehouseVN}
+                shippingTypeToWarehouse={shippingTypeToWarehouse}
+                warehouseTQ={warehouseTQ}
+                userPayment={userPayment}
+              />
+            </div>
+            {/* {window.innerWidth >= 1024 ? (
               <div className="col-span-3">
-                {/* <WareHouseInfo /> */}
                 <div className="sticky top-4">
-                  {/* <StaticUserForm control={control} /> */}
                   <ReceiveInfoForm
                     control={control}
+                    warehouseVN={warehouseVN}
+                    shippingTypeToWarehouse={shippingTypeToWarehouse}
+                    warehouseTQ={warehouseTQ}
+                    userPayment={userPayment}
                     // addressControl={addressControl}
                     // getValuesAddress={getValuesAddress}
                     // addressWatch={addressWatch}
@@ -250,7 +240,13 @@ const Index: TNextPageWithLayout & React.FC<{}> = () => {
                   placement="bottomLeft"
                   content={
                     <div className="p-4">
-                      <ReceiveInfoForm control={control} />
+                      <ReceiveInfoForm
+                        control={control}
+                        warehouseVN={warehouseVN}
+                        shippingTypeToWarehouse={shippingTypeToWarehouse}
+                        warehouseTQ={warehouseTQ}
+                        userPayment={userPayment}
+                      />
                       <ConfirmCompleteForm
                         totalPrice={Number(totalPrice)}
                         control={control}
@@ -268,7 +264,7 @@ const Index: TNextPageWithLayout & React.FC<{}> = () => {
                   />
                 </Popover>
               </div>
-            )}
+            )} */}
           </div>
         </React.Fragment>
       )}

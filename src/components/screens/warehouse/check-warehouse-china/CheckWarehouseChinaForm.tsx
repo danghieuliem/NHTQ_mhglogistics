@@ -238,7 +238,7 @@ export const CheckWarehouseChinaForm = () => {
                 >
                   <IconButton
                     onClick={() => setModalPackage(true)}
-                    icon="fas fa-plus"
+                    icon="fas fa-plus-circle"
                     title="Tạo mới"
                     toolip=""
                     btnClass="h-fit w-fit"
@@ -330,7 +330,7 @@ export const CheckWarehouseChinaForm = () => {
                   ]}
                 >
                   <IconButton
-                    icon="far fa-plus"
+                    icon="fas fa-plus-circle"
                     title="Thêm mã kiện (Ctrl + M)"
                     onClick={() => setModalCode(true)}
                     toolip=""

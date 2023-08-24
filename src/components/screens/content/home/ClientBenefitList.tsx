@@ -24,8 +24,7 @@ export const ClientBenefitList: React.FC<
         return (
           <Image
             src={record?.IMG ? record.IMG : "/default/pro-empty.jpg"}
-            preview={false}
-            className="!h-[50px] !w-[50px]"
+            className="!h-[30px] !w-[30px]"
           />
         );
       },
@@ -72,6 +71,7 @@ export const ClientBenefitList: React.FC<
           icon="fas fa-edit text-sec"
           onClick={() => handleModal(record)}
           title="Cập nhật"
+          isButton
         />
       ),
     },
@@ -89,7 +89,6 @@ export const ClientBenefitList: React.FC<
       <DataTable
         {...{
           columns,
-          scroll: {x: 600, y: 400},
           data,
           title: "Danh sách quyền lợi/cam kết",
         }}

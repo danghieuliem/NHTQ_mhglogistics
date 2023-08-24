@@ -1,4 +1,5 @@
-import { Pagination } from "antd";
+import { Divider, Pagination } from "antd";
+import TextArea from "antd/lib/input/TextArea";
 import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import ReactToPrint, { PrintContextConsumer } from "react-to-print";
@@ -137,65 +138,80 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
     },
     {
       dataIndex: "UserName",
-      title: () => (
-        <div>
-          Người <br /> thực hiện GD
-        </div>
-      ),
+      title: "Thông tin tạo GD",
+      width: 230,
+      render: (_, record) => {
+        return (
+          <div>
+            <div className="flex justify-between mb-1">
+              <span className="font-semibold">Thực hiện GD:</span>
+              <span>{record?.UserName}</span>
+            </div>
+            <div className="flex justify-between mb-1">
+              <TextArea rows={2} disabled value={record?.Note} />
+            </div>
+          </div>
+        );
+      },
     },
     {
       dataIndex: "Beneficiary",
-      title: "Người nhận",
-    },
-    {
-      dataIndex: "BankNumber",
-      title: "STK khách",
-      align: "right",
-    },
-    {
-      dataIndex: "BankAddress",
-      title: "Ngân hàng",
-    },
-    {
-      dataIndex: "Amount",
-      title: "Số tiền rút (VNĐ)",
-      align: "right",
-      render: (money) => _format.getVND(money, " "),
-      width: 140,
-    },
-    {
-      dataIndex: "Note",
-      title: "Nội dung rút tiền",
-      width: 140,
+      title: "Thông tin nhận GD",
+      width: 230,
+      render: (_, record) => {
+        return (
+          <div>
+            <div className="flex justify-between mb-1 text-red">
+              <span className="font-semibold">Số tiền (VNĐ):</span>
+              <span>{_format.getVND(record?.Amount, " ")}</span>
+            </div>
+            <Divider className="!my-1" />
+            <div className="flex justify-between mb-1">
+              <span className="font-semibold">Người nhận:</span>
+              <span>{record?.Beneficiary || "--"}</span>
+            </div>
+            <div className="flex justify-between mb-1">
+              <span className="font-semibold">Số TK:</span>
+              <span>{record?.BankNumber || "--"}</span>
+            </div>
+            <div className="flex justify-between mb-1">
+              <span className="font-semibold">Ngân hàng:</span>
+              <span>{record?.BankAddress || "--"}</span>
+            </div>
+          </div>
+        );
+      },
     },
     {
       dataIndex: "Created",
-      title: "Ngày nạp",
+      title: "Ngày rút",
+      width: 200,
       render: (_, record) => {
         return (
-          <>
+          <div>
             <div> {_format.getVNDate(record.Created)}</div>
             <div> {record.CreatedBy ?? "--"}</div>
-          </>
+          </div>
         );
       },
     },
     {
       dataIndex: "Updated",
       title: "Ngày duyệt",
+      width: 200,
       render: (_, record) => {
         return (
-          <>
+          <div>
             <div> {_format.getVNDate(record.Updated)}</div>
             <div> {record.UpdatedBy}</div>
-          </>
+          </div>
         );
       },
     },
     {
       dataIndex: "Status",
       title: "Trạng thái",
-      width: 140,
+      width: 120,
       render: (status, record) => {
         const color = moneyStatus.find((x) => x.id === status);
         return (
@@ -208,7 +224,7 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
       key: "action",
       title: "Thao tác",
       fixed: "right",
-      width: 140,
+      width: 90,
       render: (_, record) => (
         <div className="flex flex-wrap gap-2">
           {record?.Status === 1 && (
@@ -217,27 +233,31 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
               icon="fad fa-edit" // fas fa-sync fa-spin
               title="Cập nhật"
               isButton
+              isButtonClassName="bg-blue !text-white"
             />
           )}
 
-          <ReactToPrint content={() => componentRef.current}>
-            <PrintContextConsumer>
-              {({ handlePrint }) => (
-                <ActionButton
-                  onClick={() => {
-                    toast.info("Đang xử lý. Chờ xíu nhé ...");
-                    withdraw.getByID(record.Id).then((res) => {
-                      setDataEx(res.Data);
-                      handlePrint();
-                    });
-                  }}
-                  icon="fad fa-print"
-                  title="In phiếu"
-                  isButton
-                />
-              )}
-            </PrintContextConsumer>
-          </ReactToPrint>
+          {record?.Status === 2 && (
+            <ReactToPrint content={() => componentRef.current}>
+              <PrintContextConsumer>
+                {({ handlePrint }) => (
+                  <ActionButton
+                    onClick={() => {
+                      toast.info("Đang xử lý. Chờ xíu nhé ...");
+                      withdraw.getByID(record.Id).then((res) => {
+                        setDataEx(res.Data);
+                        handlePrint();
+                      });
+                    }}
+                    icon="fas fa-print"
+                    title="In phiếu"
+                    isButton
+                    isButtonClassName="bg-green !text-white"
+                  />
+                )}
+              </PrintContextConsumer>
+            </ReactToPrint>
+          )}
         </div>
       ),
     },

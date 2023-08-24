@@ -38,6 +38,13 @@ export const OrderListTable: React.FC<
       fixed: "left",
       align: "right",
       width: 70,
+      render: (_) => {
+        return (
+          <Link href={`/manager/order/order-list/detail/?id=${_}`}>
+            <a target="_blank">{_}</a>
+          </Link>
+        );
+      },
     },
     {
       dataIndex: "UserName",
@@ -402,16 +409,15 @@ export const OrderListTable: React.FC<
       key: "action",
       title: "Thao tác",
       align: "right",
-      width: 120,
+      width: 140,
       render: (_, record) => (
-        <div className="grid grid-cols-1 gap-2">
+        <div className="flex flex-wrap gap-1">
           <Link href={`/manager/order/order-list/detail/?id=${record?.Id}`}>
             <a target="_blank">
               <ActionButton
-                icon="!mr-0"
+                icon="fas fa-info-square"
                 title="Chi tiết"
                 isButton
-                isButtonClassName="bg-main !text-white"
               />
             </a>
           </Link>
@@ -460,7 +466,7 @@ export const OrderListTable: React.FC<
                     },
                   })
                 }
-                icon="!mr-0"
+                icon={record?.Status === EOrderStatus.NoDeposit ? "far fa-dollar-sign" : "fas fa-credit-card"}
                 title={
                   record?.Status === EOrderStatus.NoDeposit
                     ? "Đặt cọc"
@@ -469,7 +475,7 @@ export const OrderListTable: React.FC<
                 isButton
                 isButtonClassName={
                   record?.Status === EOrderStatus.NoDeposit
-                    ? "bg-[brown] !text-white"
+                    ? "bg-green !text-white"
                     : "bg-blue !text-white"
                 }
               />

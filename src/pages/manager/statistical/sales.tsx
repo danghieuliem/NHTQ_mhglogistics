@@ -172,7 +172,7 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <div className="grid grid-cols-12 gap-4">
-      <div className="tableBox col-span-8 h-fit">
+      <div className="tableBox col-span-8">
         <SalesFilter
           handleFilter={handleFilter}
           type={type}

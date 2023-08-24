@@ -143,34 +143,29 @@ const Index: TNextPageWithLayout = () => {
     );
 
   return (
-    <div className="grid grid-cols-1 gap-4">
-      <div className="col-span-1 grid grid-cols-12 gap-4">
-        <div className="col-span-4">
-          <ContentMenuList data={dataMenu?.Items} />
-        </div>
-        <div className="col-span-8">
-          <RegisterStepsList
-            data={dataRegisterSteps?.Items}
-            refetchRegisterSteps={refetchRegisterSteps}
-          />
-        </div>
+    <div className="grid grid-cols-12 gap-4">
+      <div className="col-span-4">
+        <ContentMenuList data={dataMenu?.Items} />
       </div>
-      <div className="col-span-1 grid grid-cols-12 gap-4">
-        <div className="col-span-5">
-          <ServiceList
-            data={dataService?.Items}
-            refetchService={refetchService}
-          />
-        </div>
-        <div className="col-span-7">
-          <ClientBenefitList
-            data={datacustomerBenefits?.Items}
-            refetchcustomerBenefits={refetchcustomerBenefits}
-          />
-        </div>
+      <div className="col-span-8">
+        <RegisterStepsList
+          data={dataRegisterSteps?.Items}
+          refetchRegisterSteps={refetchRegisterSteps}
+        />
       </div>
-
-      <div className="col-span-1">
+      <div className="col-span-12">
+        <ServiceList
+          data={dataService?.Items}
+          refetchService={refetchService}
+        />
+      </div>
+      <div className="col-span-12">
+        <ClientBenefitList
+          data={datacustomerBenefits?.Items}
+          refetchcustomerBenefits={refetchcustomerBenefits}
+        />
+      </div>
+      <div className="col-span-12">
         <ClientComentList
           data={dataCustomerComment?.Items}
           refetchcustomerComment={refetchcustomerComment}

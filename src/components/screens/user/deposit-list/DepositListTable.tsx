@@ -10,7 +10,7 @@ import {
   DataTable,
   FormInput,
   UserDepositListFilterMemo,
-  toast
+  toast,
 } from "~/components";
 import { EOrderStatusData, transportStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
@@ -29,7 +29,6 @@ const DetailInfo = (record) => {
   const detailBox = `grid grid-cols-2 gap-7`;
   const title = `text-[18px] font-bold`;
   const color = transportStatus.find((x) => x.id === record?.record?.Status);
-
   return (
     <>
       {window.innerWidth >= 768 ? (
@@ -310,6 +309,8 @@ const DetailInfo = (record) => {
   );
 };
 
+const DetailInfoMemo = React.memo(DetailInfo)
+
 export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
   data,
   loading,
@@ -393,7 +394,23 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
       fixed: "right",
       render: (_, record) => {
         return (
-          <div>
+          <div className="flex gap-1 flex-wrap">
+            <Popover
+              trigger={"click"}
+              placement="leftBottom"
+              content={
+                <div className="p-4 !bg-[#fdfdfd36] rounded-md border border-main">
+                  <DetailInfoMemo record={record} />
+                </div>
+              }
+            >
+              <ActionButton
+                icon="fas fa-info-square"
+                title="Chi tiết"
+                iconContainerClassName="iconRed"
+                isButton={true}
+              />
+            </Popover>
             {record.Status === EOrderStatusData.ArrivedToVietNamWarehouse && (
               <ActionButton
                 onClick={() =>
@@ -420,7 +437,7 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
                 }
                 icon="fas fa-money-check"
                 title="Thanh toán"
-                iconContainerClassName="iconRed"
+                isButtonClassName="bg-blue !text-white"
                 isButton={true}
               />
             )}
@@ -445,27 +462,11 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
                   })
                 }
                 icon="far fa-trash-alt"
-                title="Hủy đơn"
-                iconContainerClassName="iconRed"
+                title="Hủy"
+                isButtonClassName="bg-red !text-white"
                 isButton={true}
               />
             )}
-            <Popover
-              trigger={"click"}
-              placement="leftBottom"
-              content={
-                <div className="p-4 !bg-[#f5851f36] rounded-md">
-                  <DetailInfo record={record} />
-                </div>
-              }
-            >
-              <ActionButton
-                icon="fas fa-info-square"
-                title="Chi tiết đơn"
-                iconContainerClassName="iconRed"
-                isButton={true}
-              />
-            </Popover>
           </div>
         );
       },
@@ -600,7 +601,7 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
           bordered: true,
           expandable: expandable,
           scroll: { y: 640 },
-          title: "Danh sách",
+          title: " ",
           extraElment: (
             <UserDepositListFilterMemo
               numberOfOrder={transportStatus}

@@ -1,10 +1,9 @@
-import { Popover } from "antd";
 import React, { useRef } from "react";
-import { ActionButton, FilterRangeDate, FilterSelect } from "~/components";
+import { FilterRangeDate, FilterSelect } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
 import {
-  categoryPaymentData,
   ECategoryPaymentData,
+  categoryPaymentData,
 } from "~/configs/appConfigs";
 
 type TProps = {
@@ -46,9 +45,9 @@ export const HistoryTransactionVNDFilter: React.FC<TProps> = ({
         <IconButton
           onClick={() =>
             handleFilter({
-              fromDate: FromDate.current,
-              toDate: ToDate.current,
-              status: Status.current,
+              FromDate: FromDate.current,
+              ToDate: ToDate.current,
+              Status: Status.current,
             })
           }
           btnClass="!mr-2"

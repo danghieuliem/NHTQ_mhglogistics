@@ -616,7 +616,7 @@ const Index: TNextPageWithLayout = () => {
             <IconButton
               onClick={() => setModalWarehouse(!modalWarehouse)}
               title="Thêm kho"
-              icon="fas fa-plus"
+              icon="fas fa-plus-circle"
               showLoading
               btnClass="!mr-4"
               toolip="Thêm Kho"
@@ -625,7 +625,7 @@ const Index: TNextPageWithLayout = () => {
             <IconButton
               onClick={() => setModalMethod(!modalMethod)}
               title="Thêm phương thức"
-              icon="fas fa-plus"
+              icon="fas fa-plus-circle"
               showLoading
               toolip="Thêm Kho"
               green

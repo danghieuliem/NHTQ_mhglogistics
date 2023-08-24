@@ -33,7 +33,7 @@ export const RequestPaymentFilter: FC<TProps> = ({
   const SalerId = useRef<number>(null);
 
   return (
-    <div className="w-fit ml-auto">
+    <div className="flex justify-between">
       <Popover
         trigger={"click"}
         placement="bottomLeft"
@@ -89,7 +89,7 @@ export const RequestPaymentFilter: FC<TProps> = ({
                   })
                 }
                 icon="mr-0"
-                title="Lọc"
+                title="Tìm kiếm"
                 showLoading
                 toolip="Lọc"
               />

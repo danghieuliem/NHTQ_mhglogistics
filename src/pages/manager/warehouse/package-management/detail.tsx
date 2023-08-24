@@ -1,16 +1,14 @@
-import { Divider } from "antd";
 import { useRouter } from "next/router";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { bigPackage } from "~/api";
 import {
   Empty,
   Layout,
   PackageManagementForm,
-  PackageManagementFormDetail,
   PackageManagementFormFilter,
   PackageManagementFormTable,
-  toast,
+  toast
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";

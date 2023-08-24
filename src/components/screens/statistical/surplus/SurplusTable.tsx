@@ -1,7 +1,7 @@
-import { Tag } from "antd";
-import Link from "next/link";
+import { Popover } from "antd";
+import { useRouter } from "next/router";
 import React from "react";
-import { ActionButton, DataTable } from "~/components";
+import { ActionButton, DataTable, Menu } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
@@ -11,33 +11,53 @@ export const SurplusTable: React.FC<TTable<TStatisticalSurplus>> = ({
   handlePagination,
   pagination,
 }) => {
+  const router = useRouter();
+
   const columns: TColumnsType<TStatisticalSurplus> = [
     {
       dataIndex: "Id",
       title: "ID",
       width: 70,
-      fixed: "left",
       align: "right"
     },
     {
       dataIndex: "UserName",
-      key: "UserName",
-      title: "Username",
+      title: "Khách hàng",
+      width: 200,
+      render: (_, record) => {
+        return (
+          <div className="flex flex-col gap-[4px]">
+            <div className="font-bold">
+              <i className="fas fa-user mr-2"></i>
+              {record?.UserName}
+            </div>
+            <div className="font-bold text-main text-xs">
+              <i className="fas fa-coins mr-2"></i>
+              {_format.getVND(record?.Wallet, " ")}
+            </div>
+            <div className="font-bold text-sec">
+              {record?.UserGroupName}
+            </div>
+          </div>
+        )
+      }
+    },
+    {
+      dataIndex: "SalerUserName",
+      key: "SalerUserName",
+      title: "NV kinh doanh",
+      render: (record) => (
+        <>{record?.SalerUserName ? record?.SalerUserName : "--"}</>
+      ),
       width: 120,
-      fixed: "left",
     },
     {
-      dataIndex: "UserGroupName",
-      key: "UserGroupName",
-      title: "Quyền hạn",
-      width: 150,
-    },
-    {
-      dataIndex: "Wallet",
-      key: "Wallet",
-      title: "Số dư (VNĐ)",
-      align: "right",
-      render: (money) => _format.getVND(money, " "),
+      dataIndex: "OrdererUserName",
+      key: "OrdererUserName",
+      title: "NV đặt hàng",
+      render: (record) => (
+        <>{record?.OrdererUserName ? record?.OrdererUserName : "--"}</>
+      ),
       width: 120,
     },
     {
@@ -63,58 +83,74 @@ export const SurplusTable: React.FC<TTable<TStatisticalSurplus>> = ({
       width: 120,
     },
     {
-      dataIndex: "SalerUserName",
-      key: "SalerUserName",
-      title: "NV kinh doanh",
-      render: (record) => (
-        <>{record?.SalerUserName ? record?.SalerUserName : "--"}</>
-      ),
-      width: 120,
-    },
-    {
-      dataIndex: "OrdererUserName",
-      key: "OrdererUserName",
-      title: "NV đặt hàng",
-      render: (record) => (
-        <>{record?.OrdererUserName ? record?.OrdererUserName : "--"}</>
-      ),
-      width: 120,
-    },
-    {
       dataIndex: "action",
       key: "action",
       title: "Thao tác",
       align: "right",
-      width: 200,
+      width: 90,
       fixed: "right",
       render: (_, record) => (
-        <div className="flex flex-wrap gap-1">
-          <Link href={`/manager/client/client-list/detail/?id=${record?.Id}`}>
-            <a target="_blank">
-              <ActionButton icon="mr-0" title="Cập nhật" isButton />
-            </a>
-          </Link>
-
-          <Link href={`/manager/money/vietnam-recharge/?id=${record?.Id}`}>
-            <a target="_blank">
-              <ActionButton
-                icon="mr-0"
-                title="Nạp tiền"
-                isButton
-              />
-            </a>
-          </Link>
-
-          <Link href={`/manager/client/transaction-history/?id=${record?.Id}`}>
-            <a target="_blank">
-              <ActionButton
-                icon="mr-0"
-                title="Lịch sử"
-                isButton
-              />
-            </a>
-          </Link>
-        </div>
+        <Popover
+        placement="left"
+        content={
+          <Menu
+            data={[
+              {
+                title: "Cập nhật",
+                onClick: () => {
+                  router.push({
+                    pathname: "/manager/client/client-list/detail",
+                    query: { id: record?.Id },
+                  });
+                },
+                target: "_blank",
+                className: "font-bold",
+              },
+              {
+                title: "Nạp tiền",
+                target: "_blank",
+                isHidden: true,
+                className: "font-bold",
+                onClick: () => {
+                  router.push({
+                    pathname: "/manager/money/vietnam-recharge",
+                    query: { id: record?.Id },
+                  });
+                },
+              },
+              {
+                title: "Rút tiền",
+                className: "font-bold",
+                isHidden: true,
+                onClick: () => {
+                  router.push({
+                    pathname: "/manager/money/vietnam-withdrawal",
+                    query: { id: record?.Id },
+                  });
+                },
+              },
+              {
+                title: "Lịch sử giao dịch",
+                className: "font-bold",
+                target: "_blank",
+                isHidden: true,
+                onClick: () => {
+                  router.push({
+                    pathname: "/manager/client/transaction-history",
+                    query: { id: record?.Id },
+                  });
+                },
+              },
+            ]}
+          />
+        }
+      >
+        <ActionButton
+          icon="fas fa-info-square"
+          title="Thao tác"
+          isButton
+        />
+      </Popover>
       ),
       // width: 200,
     },

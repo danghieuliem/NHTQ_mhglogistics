@@ -26,62 +26,52 @@ const ClientListFilter: FC<TProps> = ({
   return (
     <Popover
       trigger={"click"}
-      placement="leftBottom"
+      placement="bottomLeft"
       content={
-        <div className="p-4 grid grid-cols-2 gap-2">
-          <div className="col-span-1">
-            <FilterInput
-              placeholder="Nhập Username"
-              id="UserName"
-              name="UserName"
-              label="Username"
-              handleSearch={(val) => (UserName.current = val.trim())}
-            />
-          </div>
-          <div className="col-span-1">
-            <FilterInput
-              placeholder="Nhập số điện"
-              id="phone"
-              name="phone"
-              label="Số điện thoại"
-              handleSearch={(val) => (Phone.current = val.trim())}
-            />
-          </div>
+        <div className="p-2 grid grid-cols-1 gap-2">
+          <FilterInput
+            placeholder="Nhập Username"
+            id="UserName"
+            name="UserName"
+            label="Username"
+            handleSearch={(val) => (UserName.current = val.trim())}
+          />
+          <FilterInput
+            placeholder="Nhập số điện"
+            id="phone"
+            name="phone"
+            label="Số điện thoại"
+            handleSearch={(val) => (Phone.current = val.trim())}
+          />
+          <FilterInput
+            placeholder="Nhập email"
+            id="mail"
+            name="mail"
+            label="Email"
+            handleSearch={(val) => (SearchContent.current = val.trim())}
+          />
           {isShow && (
             <>
               {roleID !== 7 && (
-                <div className="col-span-1">
-                  <FilterSelect
-                    placeholder="Nhân viên"
-                    label="Nhân viên kinh doanh"
-                    data={saleList}
-                    select={{ label: "UserName", value: "Id" }}
-                    handleSearch={(val) => (SalerID.current = val)}
-                    isClearable={true}
-                  />
-                </div>
-              )}
-              <div className="col-span-1">
                 <FilterSelect
                   placeholder="Nhân viên"
-                  label="Nhân viên đặt hàng"
-                  data={dathangList}
+                  label="Nhân viên kinh doanh"
+                  data={saleList}
                   select={{ label: "UserName", value: "Id" }}
-                  handleSearch={(val) => (OrdererID.current = val)}
+                  handleSearch={(val) => (SalerID.current = val)}
                   isClearable={true}
                 />
-              </div>
+              )}
+              <FilterSelect
+                placeholder="Nhân viên"
+                label="Nhân viên đặt hàng"
+                data={dathangList}
+                select={{ label: "UserName", value: "Id" }}
+                handleSearch={(val) => (OrdererID.current = val)}
+                isClearable={true}
+              />
             </>
           )}
-          <div className="col-span-1">
-            <FilterInput
-              placeholder="Nhập email"
-              id="mail"
-              name="mail"
-              label="Email"
-              handleSearch={(val) => (SearchContent.current = val.trim())}
-            />
-          </div>
           <div className="col-span-1 flex items-end justify-end">
             <IconButton
               onClick={() => {
@@ -94,8 +84,8 @@ const ClientListFilter: FC<TProps> = ({
                   PageIndex: 1,
                 });
               }}
-              icon="fas fa-filter"
-              title="Lọc"
+              icon="!mr-0"
+              title="Tìm kiếm"
               btnClass=""
               showLoading
               toolip=""
@@ -115,4 +105,4 @@ const ClientListFilter: FC<TProps> = ({
   );
 };
 
-export const ClientListFilterMemo = React.memo(ClientListFilter)
+export const ClientListFilterMemo = React.memo(ClientListFilter);

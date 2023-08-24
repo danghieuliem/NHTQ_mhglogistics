@@ -30,6 +30,7 @@ export const NewOrders = React.memo(() => {
         .then((res) => res.Data.Items),
     {
       keepPreviousData: true,
+      staleTime: 10000,
       onError: (error) => {
         toast.error((error as any)?.response?.data?.ResultMessage);
       },

@@ -6,6 +6,7 @@ import { transportStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import Link from "next/link";
 
 // ffefe0
 

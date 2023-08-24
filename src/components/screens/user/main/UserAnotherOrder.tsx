@@ -5,12 +5,20 @@ import { orderStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import Link from "next/link";
 
 export const UserAnotherOrder = ({ data }) => {
   const columns: TColumnsType<TNewOrders> = [
     {
       title: "ID",
       dataIndex: "Id",
+      render: (_) => {
+        return (
+          <Link href={`/user/order-list/detail/?id=${_}`} passHref>
+            <a target="_blank">{_}</a>
+          </Link>
+        );
+      },
     },
     {
       title: "Ngày đặt",
@@ -55,17 +63,15 @@ export const UserAnotherOrder = ({ data }) => {
       responsive: ["lg"],
       render: (_, record) => (
         <Space>
-          <ActionButton
-            icon={"fas fa-info-square mr-1"}
-            title={"Chi tiết đơn"}
-            onClick={() => {
-              router.push({
-                pathname: "/user/order-list/detail",
-                query: { id: record?.Id },
-              });
-            }}
-            isButton={true}
-          />
+          <Link href={`/user/order-list/detail/?id=${record?.Id}`} passHref>
+            <a target="_blank" rel="noopener noreferrer">
+              <ActionButton
+                icon={"fas fa-info-square"}
+                title={"Chi tiết"}
+                isButton={true}
+              />
+            </a>
+          </Link>
         </Space>
       ),
       // width: 140,
@@ -123,7 +129,7 @@ export const UserAnotherOrder = ({ data }) => {
         bordered: true,
         title: "Đơn hàng mua hàng hộ khác",
         expandable: expandable,
-        bgHeaderType: "anotherTable"
+        bgHeaderType: "anotherTable",
       }}
     />
   );

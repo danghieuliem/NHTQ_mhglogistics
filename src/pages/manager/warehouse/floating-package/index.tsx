@@ -31,7 +31,7 @@ const Index: TNextPageWithLayout = () => {
   };
 
   const { data, isFetching, refetch, isLoading } = useQuery(
-    ["smallPackageList", { ...filter }],
+    ["smallPackageList", [filter.SearchContent, filter.PageIndex]],
     () => smallPackage.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,

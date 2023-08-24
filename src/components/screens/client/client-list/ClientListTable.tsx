@@ -1,5 +1,4 @@
-import { Dropdown, Pagination, Popover, Space, Tag } from "antd";
-import Link from "next/link";
+import { Pagination, Popover } from "antd";
 import router from "next/router";
 import React from "react";
 import { ActionButton, DataTable, Menu } from "~/components";
@@ -263,7 +262,7 @@ export const ClientListTable: React.FC<TTable<TClient | any> & TProps> = ({
             }
           >
             <ActionButton
-              icon="!mr-0"
+              icon="fas fa-info-square"
               title="Thao tác"
               disabled={RoleID !== 1 && RoleID !== 3}
               isButton

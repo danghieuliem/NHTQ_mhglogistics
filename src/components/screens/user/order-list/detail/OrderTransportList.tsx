@@ -113,7 +113,7 @@ export const OrderTransportList: React.FC<TTable<TSmallPackage>> = ({
   };
 
   return (
-    <div className="mt-4">
+    <div className="my-4">
       <DataTable
         {...{
           columns,

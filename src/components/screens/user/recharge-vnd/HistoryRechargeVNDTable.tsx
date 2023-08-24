@@ -1,4 +1,4 @@
-import { Tag, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import clsx from "clsx";
 import React from "react";
 import { ActionButton, DataTable } from "~/components";
@@ -57,7 +57,6 @@ export const HistoryRechargeVNDTable: React.FC<
       dataIndex: "Status",
       render: (status) => {
         const color = rechargeStatusData[status - 1];
-
         return <TagStatus color={color?.color} statusName={color?.name} />;
       },
       width: 140,
@@ -70,9 +69,10 @@ export const HistoryRechargeVNDTable: React.FC<
         record?.Status === ERechargeStatusData.Pending && (
           <ActionButton
             onClick={() => handleModal(record)}
-            icon="far fa-trash-alt"
+            icon="!mr-0"
             title="Xóa"
             isButton={true}
+            isButtonClassName="bg-red !text-white"
           />
         ),
       responsive: ["md"],
@@ -135,7 +135,7 @@ export const HistoryRechargeVNDTable: React.FC<
         extraElment:
           window.innerWidth >= 860 ? (
             <Tooltip title="Tổng tiền đã nạp">
-              <div className="bg-red font-bold text-[#fff] py-1 px-4 rounded-[4px]">
+              <div className="bg-blue font-bold text-[#fff] py-1 px-4 rounded-[4px] shadow-md">
                 {_format.getVND(data?.[0]?.TotalAmount)}
               </div>
             </Tooltip>

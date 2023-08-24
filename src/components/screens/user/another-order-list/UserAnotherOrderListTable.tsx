@@ -10,20 +10,20 @@ import { mainOrder, orderShopTemp } from "~/api";
 import {
   ActionButton,
   DataTable,
-  UserAnotherOrderListFilterMemo
+  UserAnotherOrderListFilterMemo,
 } from "~/components";
 import { EOrderStatus, orderStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
 
-const PaymenComponent = ({
-  handleDeposit,
-  handlePayment,
-  selectedRowKeys,
-}) => {
-  const paymentData = selectedRowKeys?.filter((item) => item?.Status === 10);
-  const noDepositData = selectedRowKeys?.filter((item) => item?.Status === 0);
+const PaymenComponent = ({ handleDeposit, handlePayment, selectedRowKeys }) => {
+  const paymentData = selectedRowKeys?.filter(
+    (item) => item?.Status === EOrderStatus.InVietnamWarehoue
+  );
+  const noDepositData = selectedRowKeys?.filter(
+    (item) => item?.Status === EOrderStatus.NoDeposit
+  );
   const [show, setShow] = useState(false);
   // const [loading, setLoading] = useState(false);
 
@@ -172,7 +172,7 @@ export const UserAnotherOrderListTable: React.FC<
       { Status: 2 }
     )
   );
-  
+
   const mutationUpdatePayment = useMutation((data: TOrder[]) =>
     mainOrder.updateOrder(
       data?.map((item) => item?.Id),
@@ -243,6 +243,13 @@ export const UserAnotherOrderListTable: React.FC<
       title: "ID",
       width: 60,
       responsive: ["lg"],
+      render: (_) => {
+        return (
+          <Link href={`/user/order-list/detail/?id=${_}`}>
+            <a target="_blank">{_}</a>
+          </Link>
+        );
+      },
     },
     {
       dataIndex: "ImageOrigin",
@@ -425,12 +432,12 @@ export const UserAnotherOrderListTable: React.FC<
       align: "right",
       render: (_, record) => {
         return (
-          <div className="flex gap-1 flex-col">
+          <div className="flex gap-1 flex-wrap">
             <Link href={`/user/order-list/detail/?id=${record?.Id}`}>
               <a target="_blank">
                 <ActionButton
                   isButton={true}
-                  icon="far fa-info-square"
+                  icon="fas fa-info-square"
                   title="Chi tiết"
                 />
               </a>
@@ -445,7 +452,8 @@ export const UserAnotherOrderListTable: React.FC<
                 }
                 isButton={true}
                 icon="fas fa-cart-arrow-down"
-                title="Mua lại đơn"
+                title="Mua lại"
+                isButtonClassName=""
               />
             )}
             {record?.Status === EOrderStatus.NoDeposit && (
@@ -458,8 +466,8 @@ export const UserAnotherOrderListTable: React.FC<
                 }
                 icon="far fa-dollar-sign"
                 title="Đặt cọc"
-                btnYellow
                 isButton={true}
+                isButtonClassName="bg-green !text-white"
               />
             )}
             {record?.Status === EOrderStatus.InVietnamWarehoue && (
@@ -486,12 +494,33 @@ export const UserAnotherOrderListTable: React.FC<
                 }
                 icon="fas fa-trash"
                 isButtonClassName="!bg-red !text-white"
-                title="Hủy đơn!"
+                title="Hủy"
                 btnYellow
                 isButton={true}
               />
             )}
-            {/* record.IsCheckNotiPrice */}
+            {record?.Status === EOrderStatus.Finished && (
+              <ActionButton
+                onClick={() =>
+                  Modal.confirm({
+                    title: "Tạo khiếu nại?",
+                    onOk: () => {
+                      router.push({
+                        pathname: "/user/report/detail",
+                        query: {
+                          id: record?.Id,
+                        },
+                      });
+                    },
+                  })
+                }
+                icon="fas fa-balance-scale-right"
+                title="Khiếu nại"
+                btnRed
+                isButton={true}
+                isButtonClassName="bg-red !text-white"
+              />
+            )}
           </div>
         );
       },
@@ -502,9 +531,10 @@ export const UserAnotherOrderListTable: React.FC<
   ];
 
   const rowSelection: TableRowSelection<TOrder> = {
-    selectedRowKeys: selectedRowKeys?.map(item => item.Id),
+    selectedRowKeys: selectedRowKeys?.map((item) => item.Id),
     getCheckboxProps: (record) => {
-      return record.Status === 10 || record.Status === 0
+      return record.Status === EOrderStatus.NoDeposit ||
+        record.Status === EOrderStatus.InVietnamWarehoue
         ? { name: record.Id.toString(), disabled: false }
         : { name: record.Id.toString(), disabled: true, className: "!hidden" };
     },

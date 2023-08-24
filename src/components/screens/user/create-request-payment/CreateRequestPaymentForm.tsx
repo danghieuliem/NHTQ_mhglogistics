@@ -150,8 +150,8 @@ export const CreateRequestPaymentForm = () => {
             <IconButton
               onClick={() => handleBill("add")}
               btnClass=""
-              icon="far fa-plus"
-              title="Thêm yêu cầu"
+              icon="fas fa-plus-circle-circle"
+              title="Thêm"
               showLoading
               toolip=""
               green
@@ -237,9 +237,9 @@ export const CreateRequestPaymentForm = () => {
         <div className="absolute bottom-[10px] right-[10px]">
           <IconButton
             onClick={handleSubmit(_onPress)}
-            btnClass="mt-4 !bg-orange !text-white"
+            btnClass="mt-4 !bg-blue !text-white"
             icon={loading ? "fas fa-sync fa-spin" : "fas fa-check-circle"}
-            title="Gửi yêu cầu"
+            title="Tạo"
             showLoading
             toolip=""
           />

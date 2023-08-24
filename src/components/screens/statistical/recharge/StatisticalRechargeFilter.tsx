@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { FilterInput, FilterRangeDate, FilterSelect } from "~/components";
+import { ActionButton, FilterInput, FilterRangeDate, FilterSelect } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
 import { useCatalogue } from "~/hooks/useCatalogue";
 
@@ -23,41 +23,35 @@ export const StatisticalRechargeFilter: React.FC<TProps> = ({
 
   return (
     <div className="grid grid-cols-1 gap-2">
-      <div className="col-span-1">
-        <FilterInput
-          id="username"
-          name="username"
-          placeholder="Nhập username"
-          label="Username"
-          handleSearch={(val: string) => {
-            username.current = val;
-          }}
-        />
-      </div>
-      <div className="col-span-1">
-        <FilterSelect
-          isClearable={true}
-          data={bank}
-          label="Ngân hàng"
-          placeholder="Chọn ngân hàng"
-          select={{ label: "BankInfo", value: "Id" }}
-          handleSearch={(val: number) => {
-            bankId.current = val;
-          }}
-        />
-      </div>
-      <div className="col-span-1">
-        <FilterRangeDate
-          handleDate={(val: string[]) => {
-            fromDate.current = val[0];
-            toDate.current = val[1];
-          }}
-          placeholder="Từ ngày/đến ngày"
-          format="DD/MM/YYYY"
-        />
-      </div>
+      <FilterInput
+        id="username"
+        name="username"
+        placeholder="Nhập username"
+        label="Username"
+        handleSearch={(val: string) => {
+          username.current = val;
+        }}
+      />
+      <FilterSelect
+        isClearable={true}
+        data={bank}
+        label="Ngân hàng"
+        placeholder="Chọn ngân hàng"
+        select={{ label: "BankInfo", value: "Id" }}
+        handleSearch={(val: number) => {
+          bankId.current = val;
+        }}
+      />
+      <FilterRangeDate
+        handleDate={(val: string[]) => {
+          fromDate.current = val[0];
+          toDate.current = val[1];
+        }}
+        placeholder="Từ ngày/đến ngày"
+        format="DD/MM/YYYY"
+      />
       <div className="col-span-1 flex items-end justify-end mt-4">
-        <IconButton
+        <ActionButton
           onClick={() =>
             handleFilter(
               username.current,
@@ -68,7 +62,8 @@ export const StatisticalRechargeFilter: React.FC<TProps> = ({
           }
           icon="fas fa-filter"
           title="Lọc"
-          showLoading
+          isButton
+          isButtonClassName="bg-green !text-white"
         />
       </div>
     </div>

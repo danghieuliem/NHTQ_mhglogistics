@@ -80,11 +80,13 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
       title: "Ngày tạo",
       render: (date) => date && _format.getVNDate(date),
       responsive: ["xl"],
+      width: 200
     },
     {
       dataIndex: "action",
       align: "right",
-      width: 180,
+      width: 140,
+      fixed: "right",
       title: "Thao tác",
       render: (_, record) => (
         <Space>
@@ -95,13 +97,13 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
 						title="Cập nhật"
 					/> */}
           <ActionButton
-            icon="fas fa-plus"
+            icon="fas fa-plus-circle"
             onClick={() => handleAssign(record, "assign1")}
-            title="Gán kiện mua hộ"
+            title="Gán mua hộ"
             isButton
           />
           {/* <ActionButton
-            icon="fas fa-plus"
+            icon="fas fa-plus-circle"
             onClick={() => handleAssign(record, "assign2")}
             title="Gán đơn cho khách ký gửi"
           /> */}
@@ -143,6 +145,7 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
             loading,
             bordered: true,
             expandable: expandable,
+            scroll: {y: 700}
           }}
         />
       </div>

@@ -13,7 +13,7 @@ type TProps = {
 
 export const TariffBuyProFilter: React.FC<TProps> = ({ handleFilter }) => {
 	return (
-		<div className="w-[300px] ml-auto">
+		<div className="max-w-[300px]">
 			<FilterInput
 				{...{
 					...inputProps,

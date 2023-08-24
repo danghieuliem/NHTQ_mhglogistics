@@ -30,7 +30,16 @@ const Index: TNextPageWithLayout = () => {
   };
 
   const { isFetching, data, refetch } = useQuery(
-    ["reportList", { ...filter }],
+    [
+      "reportList",
+      [
+        filter.SearchContent,
+        filter.FromDate,
+        filter.ToDate,
+        filter.Status,
+        filter.PageIndex,
+      ],
+    ],
     () => complain.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,

@@ -23,8 +23,7 @@ export const ClientComentList: React.FC<
         return (
           <Image
             src={record?.IMG ? record.IMG : "/default/pro-empty.jpg"}
-            preview={false}
-            className="!h-[50px] !w-[50px]"
+            className="!h-[60px] !w-[60px]"
           />
         );
       },

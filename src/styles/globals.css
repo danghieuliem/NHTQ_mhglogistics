@@ -41,12 +41,11 @@ p {
 }
 
 .breadcrumb {
-  font-size: 24px;
+  font-size: 20px;
   margin: 10px 0;
   color: #3e3e44;
-  letter-spacing: 0.025em;
   text-transform: uppercase;
-  font-weight: bolder;
+  font-weight: bold;
 }
 
 .container {

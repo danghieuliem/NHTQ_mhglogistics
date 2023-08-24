@@ -30,6 +30,8 @@ const Index: TNextPageWithLayout = () => {
     PageSize: 20,
     PageIndex: 1,
     TotalItems: null,
+    FromDate: null,
+    ToDate: null,
   });
 
   const handleFilter = (newFilter) => {
@@ -41,7 +43,16 @@ const Index: TNextPageWithLayout = () => {
     isFetching,
     isError,
   } = useQuery(
-    ["clientWithdrawData", { ...filter }],
+    [
+      "clientWithdrawData",
+      [
+        filter.SearchContent,
+        filter.PageIndex,
+        filter.Status,
+        filter.FromDate,
+        filter.ToDate,
+      ],
+    ],
     () => withdraw.getList(filter).then((res) => res.Data),
     {
       onSuccess: (data) =>

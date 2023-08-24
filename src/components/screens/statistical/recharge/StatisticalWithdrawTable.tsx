@@ -1,6 +1,4 @@
-import React from "react";
-import { DataTable } from "~/components";
-import { IconButton } from "~/components/globals/button/IconButton";
+import { ActionButton, DataTable } from "~/components";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
@@ -17,7 +15,6 @@ export const StatisticalWithdrawTable = ({
       dataIndex: "Id",
       title: "ID",
       width: 70,
-      fixed: "left",
     },
     {
       dataIndex: "CreatedBy",
@@ -36,12 +33,14 @@ export const StatisticalWithdrawTable = ({
     {
       dataIndex: "Created",
       title: "Ngày tạo",
+      width: 200,
       render: (date) => _format.getVNDate(date),
     },
     {
       dataIndex: "Status",
       title: "Trạng thái",
       fixed: "right",
+      width: 100,
       render: () => <TagStatus color="green" statusName="Thành công" />,
     },
   ];
@@ -59,12 +58,12 @@ export const StatisticalWithdrawTable = ({
         onChange: handlePagination,
         scroll: { y: 600, x: 1200 },
         extraElment: (
-          <IconButton
+          <ActionButton
             onClick={() => handleExportExcelWithDraw()}
-            title="Xuất thống kê"
             icon="fas fa-file-export"
-            btnIconClass="!mr-2"
-            showLoading
+            title="Xuất"
+            isButton
+            isButtonClassName="bg-green !text-white"
           />
         ),
       }}

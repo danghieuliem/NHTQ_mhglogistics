@@ -59,7 +59,7 @@ export const RequestPaymentTable: React.FC<
       title: "Tổng tiền (VNĐ)",
       align: "right",
       render: (money) => _format.getVND(money, " "),
-      width: 120,
+      width: 140,
     },
     {
       dataIndex: "Currency",
@@ -103,10 +103,9 @@ export const RequestPaymentTable: React.FC<
           >
             <a target="_blank">
               <ActionButton
-                icon="!mr-0"
+                icon="fas fa-info-square"
                 title="Chi tiết"
                 isButton
-                isButtonClassName="bg-main !text-white"
               />
             </a>
           </Link>
@@ -134,8 +133,8 @@ export const RequestPaymentTable: React.FC<
                     });
                   });
               }}
-              icon="mr-0"
-              title="Duyệt đơn"
+              icon="fas fa-check-circle"
+              title="Duyệt"
               isButton
               isButtonClassName="bg-blue !text-white"
             />

@@ -1,36 +1,35 @@
-import React, { useRef } from "react";
+import React from "react";
 import { FilterSelect } from "~/components";
-import { IconButton } from "~/components/globals/button/IconButton";
 import { typeOfUserData } from "~/configs/appConfigs";
+import { _format } from "~/utils";
 
 type TProps = {
   handleFilter: (typeOfUser: number) => void;
+  totalWallet: number;
 };
 
-export const SurplusFilter: React.FC<TProps> = ({ handleFilter }) => {
-  const typeOfUser = useRef<number>(null);
-
+export const SurplusFilter: React.FC<TProps> = ({
+  handleFilter,
+  totalWallet,
+}) => {
   return (
-    <div className="flex items-end">
-      <div className="max-w-md w-full mb-4 lg:mb-0">
+    <div className="flex items-center justify-between">
+      <div className="w-[300px]">
         <FilterSelect
           data={typeOfUserData}
+          isClearable
           placeholder="Chọn loại user"
           label="Loại user"
           handleSearch={(val: number) => {
-            typeOfUser.current = val;
+            console.log(val);
+            handleFilter(val);
           }}
         />
       </div>
-      <IconButton
-        onClick={() => handleFilter(typeOfUser.current)}
-        btnClass="ml-4"
-        btnIconClass="!mr-2"
-        icon="fas fa-filter"
-        title="Lọc"
-        showLoading
-        toolip="Lọc kết quả"
-      />
+      <div className="text-lg py-4">
+        <span className="text-base">Tổng số dư:</span>
+        <span className="text-main font-bold"> {_format.getVND(totalWallet)}</span>
+      </div>
     </div>
   );
 };

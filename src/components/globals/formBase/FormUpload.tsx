@@ -141,7 +141,7 @@ export const FormUpload = <TFieldValues extends FieldValues = FieldValues>({
 							className="object-cover"
 						/>
 					) : (
-						children ?? <i className={clsx("far fa-plus", "text-xl")}></i>
+						children ?? <i className={clsx("fas fa-plus-circle", "text-xl")}></i>
 					)}
 				</Upload>
 				<ErrorMessage

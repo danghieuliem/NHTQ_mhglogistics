@@ -114,7 +114,7 @@ const Index: TNextPageWithLayout = () => {
         />
         <IconButton
           onClick={() => setModal(true)}
-          icon="fas fa-plus"
+          icon="fas fa-plus-circle"
           title="Thêm "
           btnClass="mr-2 btnGreen"
           showLoading

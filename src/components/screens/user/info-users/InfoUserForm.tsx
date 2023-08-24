@@ -48,7 +48,7 @@ export const InfoUserForm: React.FC<any> = ({
         <IconButton
           onClick={handleSubmit(onPress)}
           btnClass="!bg-main hover:!bg-sec shadow-lg"
-          icon={"fas fa-check"}
+          icon={"fas fa-check-circle"}
           btnIconClass="!mr-2"
           title="Cập nhật"
           disabled={loading}

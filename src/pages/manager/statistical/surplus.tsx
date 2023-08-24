@@ -72,12 +72,12 @@ const Index: TNextPageWithLayout = () => {
   if (isError) return <NotFound />;
   return (
     <div className="">
-      <div>
-        <SurplusFilter handleFilter={handleFilter} />
-        <SurplusChart
-          dataChart={dataChart}
+      <div className="tableBox">
+        <SurplusFilter
+          handleFilter={handleFilter}
           totalWallet={userSurplusData?.Items[0]?.TotalWallet}
         />
+        <SurplusChart dataChart={dataChart} />
       </div>
       <SurplusTable
         {...{
