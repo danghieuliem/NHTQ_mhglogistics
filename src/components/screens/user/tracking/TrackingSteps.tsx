@@ -8,7 +8,6 @@ type TProps = {
 };
 
 export const TrackingSteps: React.FC<TProps> = memo(({ data }) => {
-  console.log(data);
   const renderDate = [
     {
       id: 1,

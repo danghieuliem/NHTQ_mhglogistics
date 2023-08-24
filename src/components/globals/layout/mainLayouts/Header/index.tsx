@@ -20,7 +20,6 @@ import Notification from "./box/Notification";
 import styles from "./index.module.css";
 
 type TProps = {
-  handleTabbar: (bool: boolean) => void;
   hover: boolean;
   handleHover: (bool: boolean) => void;
   userPage?: boolean;
@@ -271,7 +270,6 @@ const NonRenderingChangeHover = React.memo(LeftInfoComponents);
 
 const Header: React.FC<TProps> = ({
   hover,
-  handleTabbar,
   handleHover,
   userPage,
 }) => {
@@ -292,7 +290,7 @@ const Header: React.FC<TProps> = ({
   // }, [connectionId]);
 
   return (
-    <header className={clsx(styles.header)}>
+    <header className={clsx(styles.header, !userPage && "shadow-md" )}>
       <div
         className={clsx(
           userPage ? styles.innerHeaderUser : styles.innerHeaderManager

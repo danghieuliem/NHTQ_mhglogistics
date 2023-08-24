@@ -272,7 +272,7 @@ export const ClientListTable: React.FC<TTable<TClient | any> & TProps> = ({
         </>
       ),
       fixed: "right",
-      width: 100,
+      width: 120,
     },
   ];
 

@@ -1814,7 +1814,9 @@ export const firstPageDirect = [
       "/manager/employee/bonus-order",
       "/manager/employee/bonus-deposit",
       "/manager/employee/bonus-payment",
-      "/manager/deposit/deposit-list/detail"
+      "/manager/deposit/deposit-list/detail",
+      "/manager/order/request-payment/",
+      "/manager/order/request-payment/detail/",
     ],
   },
   {

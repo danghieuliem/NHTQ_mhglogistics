@@ -12,8 +12,8 @@ module.exports = {
   theme: {
     colors: {
       main: "#FF7A00",
-      sec: "#1F1F67",
-      // sec: "#1582F5",
+      // sec: "#1F1F67",
+      sec: "#2686ed",
       label: "#3E3E44",
       warning: "#F44336",
       warningBold: "#f14f04",

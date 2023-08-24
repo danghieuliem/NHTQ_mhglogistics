@@ -109,7 +109,7 @@ export const ReportListTable: React.FC<TTable<TReport>> = ({
         data,
         loading,
         expandable,
-        bordered: false,
+        // bordered: false,
         pagination,
         onChange: handlePagination,
         scroll: { y: 660 },

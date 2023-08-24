@@ -1,0 +1,34 @@
+.extWrapper {
+  position: fixed;
+  bottom: 40px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.toolsExt {
+  color: aliceblue;
+}
+
+.toolsExt .icon {
+  @apply shadow-md bg-main;
+  border-radius: 4px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px 0 #00000042;
+  margin-top: 10px;
+  transition: all 0.3s ease-in-out;
+  /* background-color: #fff; */
+}
+
+.toolsExt .icon:hover {
+  /* background-color: #296973; */
+}
+
+@media screen and (max-width: 1024px) {
+  .extWrapper {
+    display: none;
+  }
+}
