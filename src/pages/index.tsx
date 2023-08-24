@@ -1,11 +1,16 @@
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import {
   HomeLayout
 } from "~/components";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
+  const router = useRouter();
+  useEffect(() => {
+    window.location.reload()
+  }, [router?.asPath])
 
-  window.location.reload();
   // const dataGlobal: TConfig = useSelector(
   //   (state: RootState) => state.dataGlobal
   // );

@@ -18,6 +18,7 @@ import {
 import { _format } from "~/utils";
 import Notification from "./box/Notification";
 import styles from "./index.module.css";
+import { useRouter } from "next/router";
 
 type TProps = {
   hover: boolean;
@@ -157,7 +158,7 @@ const NotificationBellMemo = React.memo(NotificationBell)
 const LeftInfoComponents = ({ userPage, userCurrentInfo }) => {
   const firstPage = useAppSelector(selectFirstPageDashboard);
   const connection = useAppSelector(selectConnection);
-  // const router = useRouter();
+  const router = useRouter();
   // const dispatch = useDispatch();
 
   return (
@@ -229,7 +230,7 @@ const LeftInfoComponents = ({ userPage, userCurrentInfo }) => {
                       userCurrentInfo.UserGroupId.toString()
                     ));
 
-                  // router.push("/");
+                  router.push("/authen/login/");
                 }}
               >
                 <i className="fas fa-sign-out-alt"></i>
@@ -279,15 +280,6 @@ const Header: React.FC<TProps> = ({
   const userCurrentInfo: TUser = useSelector(
     (state: RootState) => state.userCurretnInfo
   );
-
-  // const connectionId = connection?.connectionId;
-
-  // useEffect(() => {
-  //   if (!connectionId) return;
-  //   connection.on("send-notification", (noti) => {
-  //     return dataList.unshift(noti);
-  //   });
-  // }, [connectionId]);
 
   return (
     <header className={clsx(styles.header, !userPage && "shadow-md" )}>

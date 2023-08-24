@@ -5,11 +5,6 @@ import Link from "next/link";
 import React, { useCallback, useState } from "react";
 import { default as AvatarName } from "react-avatar";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  ForgotPasswordFormMemo,
-  RegisterFormMemo,
-  SignInFormMemo,
-} from "~/components/screens/auth";
 import { config, socialList } from "~/configs";
 import {
   RootState,
@@ -284,7 +279,7 @@ const Header = ({ dataMenu }) => {
         </div>
       </header>
 
-      <SignInFormMemo
+      {/* <SignInFormMemo
         setOpenModal={handleSetTarget}
         visible={openModal === "signIn" ? true : false}
       />
@@ -295,7 +290,7 @@ const Header = ({ dataMenu }) => {
       <ForgotPasswordFormMemo
         setOpenModal={handleSetTarget}
         visible={openModal === "forgetPassword" ? true : false}
-      />
+      /> */}
     </>
   );
 };
