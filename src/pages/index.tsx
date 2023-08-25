@@ -1,8 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import {
-  HomeLayout
-} from "~/components";
+import BlankLayout from "~/components/globals/layout/blankLayouts";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
@@ -19,7 +17,7 @@ const Index: TNextPageWithLayout = () => {
   //   queryKey: ["dataService"],
   //   queryFn: () =>
   //     service
-  //       .getList({
+  //       .getList({∏
   //         PageIndex: 1,
   //         PageSize: 20,
   //         OrderBy: "Id desc",
@@ -87,6 +85,6 @@ const Index: TNextPageWithLayout = () => {
 };
 
 // Index.displayName = SEOConfigs.homePage;
-Index.Layout = HomeLayout;
+Index.Layout = BlankLayout;
 
 export default Index;

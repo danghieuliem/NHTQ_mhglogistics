@@ -130,10 +130,6 @@ export const userRouter = [
             Label: "Quản lý kiện",
             Path: "/user/transaction-code-management/",
           },
-          {
-            Path: "/user/notification/",
-            Label: "Danh sách thông báo",
-          },
         ],
       },
     ],

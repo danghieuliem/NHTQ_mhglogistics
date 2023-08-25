@@ -217,7 +217,7 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
                         cancelText="No"
                       >
                         <ActionButton
-                          icon="fas fa-trash-alt"
+                          icon="fas fa-trash-alt !text-red"
                           title="Delete"
                           iconContainerClassName="iconGreen"
                         />

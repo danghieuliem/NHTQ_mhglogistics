@@ -1,13 +1,12 @@
+import { Divider } from "antd";
+import Link from "next/link";
+import { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
+import { ForgotPasswordForm, RegisterFormMemo, SignInForm } from "~/components";
 import BlankLayout from "~/components/globals/layout/blankLayouts";
 import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 import styles from "./index.module.css";
-import { Divider } from "antd";
-import { ForgotPasswordForm, RegisterFormMemo, SignInForm } from "~/components";
-import { useCallback, useState } from "react";
-import { HomeLayoutProtector } from "~/components/globals/layout/homeLayouts/HomeLayoutProtector";
-import Link from "next/link";
 
 const Index: TNextPageWithLayout = () => {
   const dataGlobal: TConfig = useSelector(

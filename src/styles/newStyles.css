@@ -113,11 +113,9 @@ li {
 /* ANT PAGINATION */
 .ant-pagination {
   /* @apply shadow-md bg-white; */
-  width: fit-content;
-  padding: 4px !important;
+  padding: 12px !important;
   margin-left: auto !important;
-  margin-top: 10px !important;
-  border-radius: 0 0 6px 6px !important;
+  margin-top: 0px !important;
 }
 .ant-pagination-prev.ant-pagination-disabled:focus-visible
   .ant-pagination-item-link,
@@ -150,6 +148,12 @@ li {
 .ant-pagination-next .ant-pagination-item-link,
 .ant-pagination-prev .ant-pagination-item-link {
   border: none !important;
+  background-color: #c3c3c366 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  color: #2686ed !important;
+  border-radius: 4px !important;
 }
 
 .ant-pagination-item-active {

@@ -86,7 +86,7 @@ const Sidebar: FC<TProps> = ({ userPage, hover }) => {
                       key={clsx(child?.Path, "-item")}
                       passHref
                     >
-                      <a target="_blank">
+                      <a>
                         {/* <i className={child?.Icon}></i> */}
                         <span>{child?.Label}</span>
                       </a>
@@ -118,7 +118,7 @@ const Sidebar: FC<TProps> = ({ userPage, hover }) => {
                         )}
                       >
                         <Link href={item.Path}>
-                          <a target="_blank">
+                          <a>
                             {/* <i className="fal fa-long-arrow-alt-right"></i> */}
                             <i className="fas fa-dot-circle"></i>
                             <span>{item?.Label}</span>
