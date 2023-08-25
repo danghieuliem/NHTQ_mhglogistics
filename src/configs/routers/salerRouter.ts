@@ -1,84 +1,92 @@
 export const salerRouter = [
   {
-    name: "Nhân viên - khách hàng",
-    path: "/manager/client/client-list/",
-    icon: "fas fa-users",
-    childrens: [
+    Title: "TÀI KHOẢN",
+    Icon: "fas fa-users",
+    Children: [
       {
-        path: "/manager/client/client-list/",
-        name: "Danh sách khách hàng",
+        Label: "Danh sách khách hàng",
+        Icon: "fas fa-address-card",
+        Path: "/manager/client/client-list/",
+      },
+      {
+        Label: "Quản lý hoa hồng",
+        Icon: "fas fa-users-cog",
+        Path: "javascript:;",
+        SubChildren: [
+          {
+            Path: "/manager/employee/bonus-order/",
+            Label: "HH mua hộ",
+            Icon: "fas fa-money-check-alt",
+          },
+          {
+            Icon: "",
+            Path: "/manager/employee/bonus-deposit/",
+            Label: "HH ký gửi",
+          },
+          {
+            Icon: "",
+            Path: "/manager/employee/bonus-payment/",
+            Label: "HH thanh toán hộ",
+          },
+        ],
       },
     ],
   },
   {
-    name: "Danh sách đơn hàng",
-    path: "javascript:;",
-    icon: "fas fa-cubes",
-    childrens: [
+    Title: "ĐƠN HÀNG",
+    Icon: "fas fa-box-full",
+    Children: [
       {
-        key: "MainOrder",
-        path: "/manager/order/order-list/",
-        name: "Đơn mua hộ",
+        Label: "Đơn hàng",
+        Icon: "fas fa-box-full",
+        Path: "javascript:;",
+        SubChildren: [
+          {
+            // key: "MainOrder",
+            Path: "/manager/order/order-list/",
+            Label: "ĐH mua hộ",
+            Icon: "",
+          },
+          {
+            // key: "MainOrderAnother",
+            Path: "/manager/order/order-list/?q=3",
+            Label: "ĐH mua hộ khác",
+            Icon: "",
+          },
+          {
+            // key: "TransportationOrder",
+            Path: "/manager/deposit/deposit-list/",
+            Label: "ĐH ký gửi",
+            Icon: "",
+          },
+          {
+            // key: "PayHelp",
+            Icon: "",
+            Path: "/manager/order/request-payment/",
+            Label: "ĐH thanh toán hộ",
+          },
+        ],
       },
       {
-        key: "MainOrderAnother",
-        path: "/manager/order/order-list?q=3",
-        name: "Đơn mua hộ khác",
+        Icon: "",
+        Path: "/manager/order/buy-for/create-order/",
+        Label: "Tạo đơn mua hộ khác",
       },
       {
-        key: "TransportationOrder",
-        path: "/manager/deposit/deposit-list/",
-        name: "Đơn ký gửi",
-      },
-      {
-        key: "PayHelp",
-        path: "/manager/order/request-payment/",
-        name: "Đơn thanh toán hộ",
-      },
-    ],
-  },
-  {
-    path: "javascript:;",
-    name: "Lên đơn hộ",
-    icon: "far fa-person-carry",
-    childrens: [
-      {
-        path: "/manager/order/buy-for/create-order/",
-        name: "Tạo đơn mua hộ khác",
-      },
-      {
-        path: "/manager/order/buy-for/create-deposit/",
-        name: "Tạo đơn ký gửi",
-      },
-    ],
-  },
-  {
-    path: "/manager/statistical/sales/",
-    name: "Doanh thu",
-    icon: "fas fa-sack-dollar",
-    childrens: [
-      {
-        path: "/manager/statistical/sales/",
-        name: "Doanh thu",
+        Icon: "",
+        Path: "/manager/order/buy-for/create-deposit/",
+        Label: "Tạo đơn ký gửi",
       },
     ],
   },
   {
-    path: "javascript:;",
-    name: "Quản lý hoa hồng",
-    icon: "fas fa-envelope-open-dollar",
-    childrens: [
+    Title: "NGHIỆP VỤ KẾ TOÁN",
+    Icon: "fas fa-funnel-dollar",
+    Children: [
       {
-        path: "/manager/employee/bonus-order/",
-        name: "Hoa hồng mua hộ",
-      },
-      {
-        path: "/manager/employee/bonus-deposit/",
-        name: "Hoa hồng ký gửi",
-      },
-      {
-        path: "/manager/employee/bonus-payment/",
-        name: "Hoa hồng thanh toán hộ",
+        Icon: "",
+        Path: "/manager/statistical/sales/",
+        Label: "Doanh thu",
       },
     ],
   },

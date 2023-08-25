@@ -80,6 +80,7 @@ const MyApp = ({
                 type="image/png"
                 href="/default/default_favicon.png"
               />
+              <meta http-equiv="Pragma" content="no-cache" />
               <title>
                 {!loading ? Component?.displayName : "Đang chuyển hướng..."}
               </title>

@@ -1,0 +1,88 @@
+.loginPage {
+  background-image: url('/default/login-bg.png');
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  transform: scale(1.01);
+  background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.img {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  transform: translateY(20%)
+}
+
+.loginWrapper {
+  @apply shadow-2xl p-4;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  height: fit-content;
+  width: 34vw;
+  position: fixed;
+  background: #fff;
+  padding: 24px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  border-radius: 4px;
+}
+
+.loginLogo {
+  width: 16rem;
+}
+
+.loginText h1 {
+  @apply text-main;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
+
+.loginContact {
+  @apply bg-sec shadow-md px-4 py-2;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.infoWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.infoLabel {
+  @apply text-white;
+}
+
+.infoValue {
+  @apply text-white;
+}
+
+@media screen and (max-width: 768px) {
+  .loginWrapper {
+    top: 50%;
+    width: 88vw;
+    max-height: 80vh;
+    z-index: 2;
+  }
+
+  .img {
+    transform: translateY(0);
+  }
+}

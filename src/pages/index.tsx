@@ -1,76 +1,66 @@
-import Head from "next/head";
-import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
-import { customerBenefits, service, step } from "~/api";
-import {
-  HomeBanner,
-  HomeBenefit,
-  HomeInfoContact,
-  HomeLayout,
-  HomeRegister,
-  HomeServices,
-  HomeTracking,
-  News,
-} from "~/components";
-import MetaTags from "~/components/globals/metaTag";
-import { Customer } from "~/components/screens/home/customer";
-import { PopupNoti } from "~/components/screens/home/popupNoti";
-import { RootState } from "~/store";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import BlankLayout from "~/components/globals/layout/blankLayouts";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-  const dataGlobal: TConfig = useSelector(
-    (state: RootState) => state.dataGlobal
-  );
+  const router = useRouter();
+  useEffect(() => {
+    window.location.reload()
+  }, [router?.asPath])
 
-  const { data: dataService } = useQuery({
-    queryKey: ["dataService"],
-    queryFn: () =>
-      service
-        .getList({
-          PageIndex: 1,
-          PageSize: 20,
-          OrderBy: "Id desc",
-          Active: true,
-        })
-        .then((res) => res?.Data?.Items),
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-  });
+  // const dataGlobal: TConfig = useSelector(
+  //   (state: RootState) => state.dataGlobal
+  // );
 
-  const { data: dataRegisterSteps } = useQuery({
-    queryKey: ["dataRegisterSteps"],
-    queryFn: () =>
-      step
-        .getList({
-          PageIndex: 1,
-          PageSize: 20,
-          OrderBy: "Id desc",
-          Active: true,
-        })
-        .then((res) => res?.Data?.Items),
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-  });
+  // const { data: dataService } = useQuery({
+  //   queryKey: ["dataService"],
+  //   queryFn: () =>
+  //     service
+  //       .getList({∏
+  //         PageIndex: 1,
+  //         PageSize: 20,
+  //         OrderBy: "Id desc",
+  //         Active: true,
+  //       })
+  //       .then((res) => res?.Data?.Items),
+  //   refetchOnMount: false,
+  //   refetchOnWindowFocus: false,
+  // });
 
-  const { data: dataBenefits } = useQuery({
-    queryKey: ["dataBenefits"],
-    queryFn: () =>
-      customerBenefits
-        .getList({
-          PageIndex: 1,
-          PageSize: 20,
-          OrderBy: "Id",
-          Active: true,
-        })
-        .then((res) => res?.Data?.Items),
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-  });
+  // const { data: dataRegisterSteps } = useQuery({
+  //   queryKey: ["dataRegisterSteps"],
+  //   queryFn: () =>
+  //     step
+  //       .getList({
+  //         PageIndex: 1,
+  //         PageSize: 20,
+  //         OrderBy: "Id desc",
+  //         Active: true,
+  //       })
+  //       .then((res) => res?.Data?.Items),
+  //   refetchOnMount: false,
+  //   refetchOnWindowFocus: false,
+  // });
+
+  // const { data: dataBenefits } = useQuery({
+  //   queryKey: ["dataBenefits"],
+  //   queryFn: () =>
+  //     customerBenefits
+  //       .getList({
+  //         PageIndex: 1,
+  //         PageSize: 20,
+  //         OrderBy: "Id",
+  //         Active: true,
+  //       })
+  //       .then((res) => res?.Data?.Items),
+  //   refetchOnMount: false,
+  //   refetchOnWindowFocus: false,
+  // });
 
   return (
     <>
-      <Head>
+      {/* <Head>
         <title>{dataGlobal?.WebsiteName}</title>
       </Head>
       <MetaTags dataConfig={dataGlobal} />
@@ -89,12 +79,12 @@ const Index: TNextPageWithLayout = () => {
           <HomeInfoContact data={dataGlobal} />
           <PopupNoti />
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
 
 // Index.displayName = SEOConfigs.homePage;
-Index.Layout = HomeLayout;
+Index.Layout = BlankLayout;
 
 export default Index;

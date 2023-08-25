@@ -1,40 +1,35 @@
 export const ordererRouter = [
   {
-    path: "javascript:;",
-    name: "Đơn hàng",
-    icon: "fas fa-cubes",
-    childrens: [
+    Title: "ĐƠN HÀNG",
+    Icon: "fas fa-box-full",
+    Children: [
       {
-        key: "MainOrder",
-        path: "/manager/order/order-list/",
-        name: "Đơn mua hộ",
+        // key: "MainOrder",
+        Path: "/manager/order/order-list/",
+        Label: "ĐH mua hộ",
+        Icon: "",
       },
       {
-        key: "MainOrderAnother",
-        path: "/manager/order/order-list?q=3",
-        name: "Đơn mua hộ khác",
+        // key: "MainOrderAnother",
+        Path: "/manager/order/order-list/?q=3",
+        Label: "ĐH mua hộ khác",
+        Icon: "",
       },
-    ],
-  },
-  {
-    name: "Thống kê",
-    path: "/manager/statistical/sales/",
-    icon: "fas fa-sack-dollar",
-    childrens: [
       {
-        path: "/manager/statistical/sales/",
-        name: "Doanh thu",
+        Path: "/manager/employee/bonus-order/",
+        Label: "Hoa hồng",
+        Icon: "fas fa-money-check-alt",
       },
     ],
   },
   {
-    name: "Hoa hồng cá nhân",
-    icon: "far fa-computer-classic",
-    path: "/manager/employee/bonus-order/",
-    childrens: [
+    Title: "NGHIỆP VỤ KẾ TOÁN",
+    Icon: "fas fa-funnel-dollar",
+    Children: [
       {
-        path: "/manager/employee/bonus-order/",
-        name: "Quản lý hoa hồng",
+        Icon: "",
+        Path: "/manager/statistical/sales/",
+        Label: "Doanh thu",
       },
     ],
   },

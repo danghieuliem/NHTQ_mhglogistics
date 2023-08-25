@@ -38,9 +38,9 @@ const Index: TNextPageWithLayout = ({ connection }) => {
           // PageIndex: res?.Data?.PageIndex,
           PageSize: res?.Data?.PageSize,
         });
-        if (data?.Items?.length <= 0) {
-          toast.info("Không có thông báo trong khoảng thời gian này!");
-        }
+        // if (data?.Items?.length <= 0) {
+        //   toast.info("Không có thông báo trong khoảng thời gian này!");
+        // }
         return res?.Data;
       }),
     {

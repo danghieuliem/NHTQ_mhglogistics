@@ -1,4 +1,4 @@
-import { Card, Popover } from "antd";
+import { Popover } from "antd";
 import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -8,92 +8,126 @@ import styles from "./index.module.css";
 
 export const MenuHorizontal: FC<{}> = ({}) => {
   const router = useRouter();
-  const renderMenuRouter = userRouter;
-  const [menuActive, setMenuActive] = useState(renderMenuRouter[0]);
+  const renderMenuRouter: any = userRouter;
+
+  const [activekey, setActiveKey] = useState([]);
+
+  const [activeRouter, setActiveRouter] = useState([""]);
+
+  const handleActiveKey = (name: string) => {
+    const indexKey = activekey.indexOf(name);
+
+    if (indexKey === -1) {
+      setActiveKey([...activekey, name]);
+    } else {
+      activekey.splice(indexKey, 1);
+      setActiveKey([...activekey]);
+    }
+  };
 
   useEffect(() => {
-    const pathWindow = router.asPath;
+    setActiveRouter([router?.asPath]);
+    setActiveKey([]);
+
     for (let i in renderMenuRouter) {
-      renderMenuRouter[i].childrens?.forEach((child) => {
-        if (pathWindow.match(child.path)) {
-          setMenuActive(renderMenuRouter[i]);
+      for (let x in renderMenuRouter[i].Children) {
+        if (renderMenuRouter[i].Children[x]?.SubChildren) {
+          for (let z in renderMenuRouter[i].Children[x]?.SubChildren) {
+            if (
+              router?.asPath.match(
+                renderMenuRouter[i].Children[x]?.SubChildren[z].Path
+              )
+            ) {
+              console.log(renderMenuRouter[i].Children[x]?.Label);
+              setActiveKey([renderMenuRouter[i].Children[x]?.Label]);
+              break;
+            }
+          }
         }
-      });
+      }
     }
-  }, [router, menuActive?.name]);
+  }, [router.asPath]);
 
   return (
     <>
       <div className={clsx(styles.navigation)}>
         <div className="component-container">
           <nav className={styles.userNav}>
-            {userRouter.map((menu, index) =>
-              menu?.childrens.length === 1 ? (
-                <div
-                  key={clsx(menu?.icon, index, menu?.name)}
-                  className={clsx(
-                    styles.inner,
-                    menuActive?.name === menu?.name && styles.innerActive
-                  )}
-                  onClick={() => router.push(menu?.path)}
-                >
-                  <div className={styles.name}>{menu?.name}</div>
-                </div>
-              ) : (
-                <Popover
-                  placement="bottomLeft"
-                  key={clsx(menu?.icon, index, menu?.name, "popover-key")}
-                  className="!border-none"
-                  content={
-                    <div className="bg-main rounded-[6px] p-2" key={clsx('popover-key-content-', menu?.name)}>
-                      {menu?.childrens.map((menuChild) => (
-                        <ul
-                          key={clsx(menuChild?.name, menu?.path)}
-                          className={clsx(styles.ulMenuList)}
-                        >
-                          <li>
-                            <Link href={menuChild?.path}>
-                              <a
-                                className={clsx(
-                                  styles.PopoverliMenuItem,
-                                  router?.asPath === menuChild?.path &&
-                                    styles.PopoverliMenuItemActive
-                                )}
-                              >
-                                {menuChild?.name}
-                              </a>
-                            </Link>
-                          </li>
-                        </ul>
-                      ))}
-                    </div>
-                  }
-                >
-                  <div
-                    className={clsx(
-                      styles.inner,
-                      menuActive?.name === menu?.name && styles.innerActive
-                    )}
-                    onClick={() => router.push(menu?.path)}
-                  >
-                    <div
-                      key={clsx(menu?.icon, index, menu?.name)}
-                      className={styles.name}
-                    >
-                      {menu?.name}
-                    </div>
-                    {menu?.childrens.length > 1 && (
-                      <i
+            {renderMenuRouter?.map((menuParent) => (
+              <div key={menuParent?.Title}>
+                {menuParent?.Children.map((child) => {
+                  if (!child?.SubChildren) {
+                    return (
+                      <div
+                        key={clsx(child?.Path, "-item")}
                         className={clsx(
-                          styles.dropdown,
-                          "fas fa-chevron-square-down"
+                          styles.liItem,
+                          activeRouter[0] === child?.Path && styles.liItemActive
                         )}
-                      ></i>
-                    )}
-                  </div>
-                </Popover>
-              )
-            )}
+                      >
+                        <Link
+                          href={child.Path}
+                          key={clsx(child?.Path, "-item")}
+                          passHref
+                        >
+                          <a>
+                            <span>{child?.Label}</span>
+                          </a>
+                        </Link>
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <Popover
+                        trigger={"hover"}
+                        key={clsx(child?.Path, "-item")}
+                        content={() => (
+                          <div className={styles.subMenu}>
+                            {child?.SubChildren.map((item) => {
+                              return (
+                                <div
+                                  className={clsx(
+                                    styles.subMenu,
+                                    activeRouter[0] === item?.Path &&
+                                      styles.subMenuActive
+                                  )}
+                                  key={clsx(item?.Label, "-subItem")}
+                                >
+                                  <Link href={item.Path}>
+                                    <a>
+                                      <span>{item?.Label}</span>
+                                    </a>
+                                  </Link>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      >
+                        <div
+                          className={clsx(
+                            styles.liItem,
+                            activekey[0]?.match(child?.Label) &&
+                              styles.liItemActive
+                          )}
+                        >
+                          <a>
+                            {/* <i className={child?.Icon}></i> */}
+                            <span>{child?.Label}</span>
+                            <i
+                              className={clsx(
+                                styles.dropdownIcon,
+                                "fas fa-chevron-square-down"
+                              )}
+                            ></i>
+                          </a>
+                        </div>
+                      </Popover>
+                    );
+                  }
+                })}
+              </div>
+            ))}
           </nav>
         </div>
       </div>

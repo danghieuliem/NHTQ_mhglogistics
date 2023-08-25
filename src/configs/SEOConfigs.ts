@@ -52,7 +52,7 @@ export const SEOConfigs = {
     detailPackageManagement: "Quản lý bao hàng chi tiết",
   },
   moneyManagement: {
-    personalRecharge: "quản lý nạp tiền cá nhân",
+    personalRecharge: "Quản lý nạp tiền cá nhân",
     historyRechargeVN: "Lịch sử nạp tiền",
     historyWithdrawVN: "Lịch sử rút tiền",
     historyRechargeTQ: "Lịch sử nạp tệ",

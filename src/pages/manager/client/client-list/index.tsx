@@ -4,12 +4,13 @@ import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { user } from "~/api";
 import {
+  ActionButton,
   ClientListFilterMemo,
   ClientListFormMemo,
   ClientListTable,
   IconButton,
   Layout,
-  toast
+  toast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -40,7 +41,7 @@ const Index: TNextPageWithLayout = () => {
     OrdererID: null,
   });
 
-  const handleFilter = useCallback( (newFilter) => {
+  const handleFilter = useCallback((newFilter) => {
     setFilter({ ...filter, ...newFilter });
   }, []);
 
@@ -101,34 +102,35 @@ const Index: TNextPageWithLayout = () => {
     }
   }, []);
 
-  const handleCloseModal = useCallback(() => setModal(false), [])
+  const handleCloseModal = useCallback(() => setModal(false), []);
 
   return (
     <>
-      <div className="w-fit ml-auto flex">
-        <ClientListFilterMemo
-          handleFilter={handleFilter}
-          dathangList={userOrder}
-          saleList={userSale}
-          roleID={userCurrentInfo?.UserGroupId}
-        />
-        <IconButton
-          onClick={() => setModal(true)}
-          icon="fas fa-plus-circle"
-          title="Thêm "
-          btnClass="mr-2 btnGreen"
-          showLoading
-          toolip="Thêm khách hàng"
-          green
-        />
-        <IconButton
-          onClick={() => _onExportExcel()}
-          icon="fas fa-file-export "
-          title="Xuất"
-          showLoading
-          toolip="Xuất Thống Kê"
-          blue
-        />
+      <div className="flex justify-between">
+        <div>
+          <ClientListFilterMemo
+            handleFilter={handleFilter}
+            dathangList={userOrder}
+            saleList={userSale}
+            roleID={userCurrentInfo?.UserGroupId}
+          />
+        </div>
+        <div className="flex gap-2">
+          <ActionButton
+            onClick={() => setModal(true)}
+            icon="fas fa-plus-circle"
+            isButton
+            isButtonClassName="bg-green !text-white"
+            title="Thêm"
+          />
+          <ActionButton
+            onClick={() => _onExportExcel()}
+            icon="fas fa-file-export "
+            isButton
+            isButtonClassName="bg-blue !text-white"
+            title="Xuất"
+          />
+        </div>
       </div>
 
       <ClientListTable

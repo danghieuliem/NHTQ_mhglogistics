@@ -1,4 +1,3 @@
-import { Pagination } from "antd";
 import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import ReactToPrint, { PrintContextConsumer } from "react-to-print";
@@ -260,16 +259,28 @@ export const RechargeHistoryTable: React.FC<
           scroll: { y: 700, x: 1200 },
           filter,
           handleFilter,
+          pagination: {
+            pageSize: filter.PageSize,
+            total: filter.TotalItems,
+            current: filter.PageIndex,
+          },
+          onChange: (page, pageSize) => {
+            handleFilter({
+              ...filter,
+              PageIndex: page.current,
+              PageSize: page.pageSize
+            });
+          },
         }}
       />
-      <Pagination
+      {/* <Pagination
         total={filter?.TotalItems}
         current={filter?.PageIndex}
         pageSize={filter?.PageSize}
         onChange={(page, pageSize) =>
           handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
         }
-      />
+      /> */}
     </React.Fragment>
   );
 };

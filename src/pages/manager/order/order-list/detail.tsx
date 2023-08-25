@@ -24,7 +24,7 @@ import {
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import { useCatalogue } from "~/hooks";
-import { RootState, selectConnection, useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const className = "TabPanel";
@@ -39,8 +39,7 @@ const Index: TNextPageWithLayout = () => {
   const router = useRouter();
   const orderId = Number(router.query.id);
   const [active, setActive] = React.useState(0);
-  const connection = useAppSelector(selectConnection);
-  const connectionId = connection?.connectionId;
+
 
   const { userSale, userOrder } = useCatalogue({
     userSaleEnabled: true,
@@ -50,22 +49,6 @@ const Index: TNextPageWithLayout = () => {
   const form = useForm<TOrder>({
     mode: "onBlur",
   });
-
-  // useEffect(() => {
-  //   if (!connectionId) return;
-  //   let timeout = null;
-  //   connection.on("change", (mainOrders: TOrder[]) => {
-  //     if (!!mainOrders?.length) {
-  //       const item = mainOrders.some((order) => {
-  //         return order.Id === +query?.id;
-  //       });
-  //       if (item) {
-  //         form.reset(mainOrder[0]);
-  //       }
-  //     }
-  //   });
-  //   return () => clearTimeout(timeout);
-  // }, [connectionId]);
 
   const { data, isError, isLoading, isFetching, refetch } = useQuery(
     ["order-list", orderId],

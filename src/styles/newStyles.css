@@ -46,7 +46,7 @@ li {
 /* ANT BUTTON */
 .ant-btn {
   @apply !shadow-lg !text-white hover:!bg-sec hover:!text-white;
-  border-radius: 6px !important;
+  border-radius: 4px !important;
   border: none !important;
   padding: 8px 14px !important;
   height: fit-content !important;
@@ -63,7 +63,7 @@ li {
 /* ANT INPUT */
 .ant-input,
 .ant-input-affix-wrapper {
-  border-radius: 6px !important;
+  border-radius: 4px !important;
   padding: 8px 12px !important;
 }
 
@@ -113,11 +113,9 @@ li {
 /* ANT PAGINATION */
 .ant-pagination {
   /* @apply shadow-md bg-white; */
-  width: fit-content;
-  padding: 4px !important;
+  padding: 12px !important;
   margin-left: auto !important;
-  margin-top: 10px !important;
-  border-radius: 0 0 6px 6px !important;
+  margin-top: 0px !important;
 }
 .ant-pagination-prev.ant-pagination-disabled:focus-visible
   .ant-pagination-item-link,
@@ -129,7 +127,7 @@ li {
 }
 
 .ant-select:not(.ant-select-customize-input) .ant-select-selector {
-  border-radius: 5px !important;
+  border-radius: 4px !important;
   background-color: #edf1f7 !important;
   border: none !important;
 }
@@ -139,7 +137,7 @@ li {
 }
 
 .ant-pagination-item {
-  border-radius: 5px !important;
+  border-radius: 4px !important;
   background-color: #edf1f7 !important;
   border: none !important;
   /* color: #3e3c6a !important; */
@@ -150,6 +148,12 @@ li {
 .ant-pagination-next .ant-pagination-item-link,
 .ant-pagination-prev .ant-pagination-item-link {
   border: none !important;
+  background-color: #c3c3c366 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  color: #2686ed !important;
+  border-radius: 4px !important;
 }
 
 .ant-pagination-item-active {
@@ -179,7 +183,7 @@ li {
 .orderProductItem {
   @apply bg-[#fff] py-4 px-4;
   border: 1px solid #20206766;
-  border-radius: 8px;
+  border-radius: 4px;
   transition: all 0.3s ease-in-out;
 }
 
@@ -275,7 +279,7 @@ li {
 
 .ant-collapse > .ant-collapse-item > .ant-collapse-header {
   @apply bg-main;
-  border-radius: 6px 6px 0 0;
+  border-radius: 4px 4px 0 0;
   color: #fff !important;
   font-size: 14px;
   font-weight: bold;
@@ -295,7 +299,7 @@ li {
   .ant-table-thead
   tr
   th:first-child {
-  border-top-left-radius: 10px !important;
+  border-top-left-radius: 4px !important;
 }
 
 .ant-table-wrapper
@@ -305,17 +309,17 @@ li {
   .ant-table-thead
   tr
   th:last-child {
-  border-top-right-radius: 10px;
+  border-top-right-radius: 4px;
 }
 
 .ant-table {
-  border-radius: 10px 10px 0 0 !important;
+  border-radius: 4px 4px 0 0 !important;
   background-color: red;
 }
 
 .ant-table-content {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 }
 
 .ant-table.ant-table-bordered
@@ -330,15 +334,15 @@ li {
 }
 
 .ant-table-container table > thead > tr:first-child th:first-child {
-  border-top-left-radius: 10px !important;
+  border-top-left-radius: 4px !important;
 }
 
 .ant-table-container table > thead > tr:first-child th:last-child {
-  border-top-right-radius: 10px !important;
+  border-top-right-radius: 4px !important;
 }
 
 .ant-table-header {
-  border-radius: 10px 10px 0 0 !important;
+  border-radius: 4px 4px 0 0 !important;
 }
 
 .upload-avatar {
@@ -459,4 +463,59 @@ div.order.ant-drawer-bottom.ant-drawer-open .ant-drawer-content-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+
+/* Menu nav */
+.nav-subMenu .ant-menu-submenu-title,
+.nav-subMenu .ant-menu-item.ant-menu-item-only-child {
+  @apply text-label;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px !important;
+  height: fit-content !important;
+  line-height: initial !important;
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-subMenu .ant-menu-submenu-arrow {
+  /* @apply text-sec; */
+  font-size: 20px;
+}
+
+.nav-subMenu .ant-menu-item.ant-menu-item-only-child {
+  padding-left: 20px !important;
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  @apply !bg-main text-white;
+}
+
+.ant-menu-vertical .ant-menu-item::after,
+.ant-menu-vertical-left .ant-menu-item::after,
+.ant-menu-vertical-right .ant-menu-item::after,
+.ant-menu-inline .ant-menu-item::after {
+  @apply !border-sec;
+}
+
+.ant-menu-light .ant-menu-item:hover,
+.ant-menu-light .ant-menu-item-active,
+.ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open,
+.ant-menu-light .ant-menu-submenu-title:hover {
+  @apply !text-white bg-main;
+}
+
+.ant-menu-submenu:hover
+  > .ant-menu-submenu-title
+  > .ant-menu-submenu-expand-icon,
+.ant-menu-submenu:hover > .ant-menu-submenu-title > .ant-menu-submenu-arrow {
+  @apply !text-white;
+}
+
+.ant-menu-vertical .ant-menu-item::after,
+.ant-menu-vertical-left .ant-menu-item::after,
+.ant-menu-vertical-right .ant-menu-item::after,
+.ant-menu-inline .ant-menu-item::after {
+  display: none;
 }
