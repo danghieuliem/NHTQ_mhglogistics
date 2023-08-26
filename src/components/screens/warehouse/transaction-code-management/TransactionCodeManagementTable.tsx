@@ -1,4 +1,4 @@
-import { Pagination } from "antd";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { DataTable } from "~/components";
@@ -6,7 +6,6 @@ import { packageStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
-import Link from "next/link";
 type TProps = {
   filter;
   handleFilter: (newFilter) => void;
@@ -136,8 +135,18 @@ export const TransactionCodeManagementTable: React.FC<
             {__.OrderType === 3 ? (
               <span>{_}</span>
             ) : (
-              <Link href={__.OrderType === 2 ? `/manager/deposit/deposit-list/detail/?id=${__?.TransportationOrderId}` : `/manager/order/order-list/detail/?id=${__?.MainOrderId}`}>
-                <a target="_blank">{__.OrderType === 2 ? __.TransportationOrderId : __?.MainOrderId}</a>
+              <Link
+                href={
+                  __.OrderType === 2
+                    ? `/manager/deposit/deposit-list/detail/?id=${__?.TransportationOrderId}`
+                    : `/manager/order/order-list/detail/?id=${__?.MainOrderId}`
+                }
+              >
+                <a target="_blank">
+                  {__.OrderType === 2
+                    ? __.TransportationOrderId
+                    : __?.MainOrderId}
+                </a>
               </Link>
             )}
           </>
@@ -150,8 +159,20 @@ export const TransactionCodeManagementTable: React.FC<
       render: (_, record) => {
         return (
           <TagStatus
-            color={record?.OrderType === 3 ? "red" : record?.OrderType === 2 ? "green" : "blue"}
-            statusName={record?.OrderType === 3 ? "Trôi nổi" : record?.OrderType === 2 ? "Ký gửi" : "Mua hộ"}
+            color={
+              record?.OrderType === 3
+                ? "red"
+                : record?.OrderType === 2
+                ? "green"
+                : "blue"
+            }
+            statusName={
+              record?.OrderType === 3
+                ? "Trôi nổi"
+                : record?.OrderType === 2
+                ? "Ký gửi"
+                : "Mua hộ"
+            }
           />
         );
       },
@@ -324,15 +345,19 @@ export const TransactionCodeManagementTable: React.FC<
                 selectedRowKeys: isSelect,
               }
             : null,
+          pagination: {
+            current: filter.PageIndex,
+            total: filter.TotalItems,
+            pageSize: filter.PageSize,
+          },
+          onChange: (page, pageSize) => {
+            handleFilter({
+              ...filter,
+              PageIndex: page.current,
+              PageSize: page.pageSize,
+            });
+          },
         }}
-      />
-      <Pagination
-        total={filter?.TotalItems}
-        current={filter?.PageIndex}
-        pageSize={filter?.PageSize}
-        onChange={(page, pageSize) =>
-          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-        }
       />
     </>
   );

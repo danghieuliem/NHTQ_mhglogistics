@@ -1,5 +1,6 @@
 import { Popover } from "antd";
 import { FC, useRef } from "react";
+import { ActionButton } from "~/components/globals/button/ActionButton";
 import { IconButton } from "~/components/globals/button/IconButton";
 import {
   FilterInput,
@@ -97,21 +98,19 @@ export const RequestPaymentFilter: FC<TProps> = ({
           </div>
         }
       >
-        <IconButton
+        <ActionButton
           icon="fas fa-filter"
-          btnClass="!mr-2"
           title="Bộ lọc"
-          showLoading
+          isButton
+          isButtonClassName="bg-main !text-white"
         />
       </Popover>
-      <IconButton
+      <ActionButton
         onClick={() => handleExporTExcel()}
-        btnClass=""
         icon={"fas fa-file-export"}
         title="Xuất"
-        showLoading
-        toolip="Xuất thống kê"
-        green
+        isButton
+        isButtonClassName="bg-green !text-white"
       />
     </div>
   );

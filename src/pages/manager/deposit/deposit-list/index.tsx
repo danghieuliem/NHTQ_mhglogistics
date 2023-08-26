@@ -1,5 +1,5 @@
 import router from "next/router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -51,7 +51,7 @@ const Index: TNextPageWithLayout = () => {
         filter.Status,
         filter.UID,
         filter.PageIndex,
-        filter.SalerID
+        filter.SalerID,
       ],
     ],
     () => transportationOrder.getList(filter).then((res) => res.Data),
@@ -71,19 +71,48 @@ const Index: TNextPageWithLayout = () => {
     }
   );
 
-  const handleExporTExcel = async () => {
-    transportationOrder
-      .exportExcel({
+  const handleExporTExcel = useCallback(async () => {
+    const id = toast.loading("Đang xử lý ...");
+    let newFilter = { ...filter };
+
+    if (
+      filter.TypeSearch ||
+      filter.FromDate ||
+      filter.ToDate ||
+      filter.SearchContent ||
+      filter.Status ||
+      filter.SalerID
+    ) {
+      newFilter = {
         ...filter,
-        PageSize: 99999,
-      })
-      .then((res) => {
-        router.push(`${res.Data}`);
-      })
-      .catch((error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+        PageSize: 9999,
+      };
+    }
+    try {
+      const res = await transportationOrder.exportExcel(newFilter);
+      router.push(`${res.Data}`);
+    } catch (error) {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "error",
+        render: (error as any)?.response?.data?.ResultMessage,
       });
-  };
+    } finally {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "default",
+      });
+    }
+  }, [
+    filter.TypeSearch,
+    filter.FromDate,
+    filter.ToDate,
+    filter.SearchContent,
+    filter.Status,
+    filter.SalerID,
+  ]);
 
   useQuery(
     ["deposit-infor-list"],

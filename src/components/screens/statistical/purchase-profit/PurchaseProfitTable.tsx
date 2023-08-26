@@ -4,8 +4,12 @@ import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 
 const PurchaseProfitTable: FC<
-  TTable<TStatisticalPurchaseProfit> & { handleExportExcel: () => void }
-> = ({ data, pagination, handlePagination, loading, handleExportExcel }) => {
+  TTable<TStatisticalPurchaseProfit> & {
+    handleExportExcel: () => void;
+    filter;
+    handleFilter: (newFilter) => void;
+  }
+> = ({ data, filter, handleFilter, loading, handleExportExcel }) => {
   const columns: TColumnsType<TStatisticalPurchaseProfit> = [
     {
       dataIndex: "Id",
@@ -120,8 +124,6 @@ const PurchaseProfitTable: FC<
         columns,
         data,
         bordered: true,
-        pagination,
-        onChange: handlePagination,
         // expandable: expandable,
         loading,
         scroll: { y: 700, x: 1200 },
@@ -135,6 +137,18 @@ const PurchaseProfitTable: FC<
             isButtonClassName="bg-green !text-white"
           />
         ),
+        pagination: {
+          current: filter.PageIndex,
+          total: filter.TotalItems,
+          pageSize: filter.PageSize,
+        },
+        onChange: (page, pageSize) => {
+          handleFilter({
+            ...filter,
+            PageIndex: page.current,
+            PageSize: page.pageSize,
+          });
+        },
       }}
     />
   );

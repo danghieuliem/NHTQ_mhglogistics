@@ -12,19 +12,21 @@ interface TProps {
   newUser;
   bank;
   TotalAmount;
+  filter;
+  handleFilter
 }
 
 export const HistoryRechargeVNDTable: React.FC<
   TTable<TUserHistoryRechargeVND> & TProps
 > = ({
   data,
-  pagination,
-  handlePagination,
   loading,
   handleModal,
   newUser,
   bank,
   TotalAmount,
+  filter,
+  handleFilter
 }) => {
   const columns: TColumnsType<TUserHistoryRechargeVND> = [
     {
@@ -126,8 +128,18 @@ export const HistoryRechargeVNDTable: React.FC<
       {...{
         columns,
         data,
-        pagination,
-        onChange: handlePagination,
+        pagination: {
+          current: filter.PageIndex,
+          total: filter.TotalItems,
+          pageSize: filter.PageSize,
+        },
+        onChange: (page, pageSize) => {
+          handleFilter({
+            ...filter,
+            PageIndex: page.current,
+            PageSize: page.pageSize,
+          });
+        },
         loading,
         expandable: expandable,
         scroll: { y: 600 },

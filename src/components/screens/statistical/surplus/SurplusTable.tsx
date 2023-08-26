@@ -13,8 +13,6 @@ export const SurplusTable: React.FC<TTable<TStatisticalSurplus>> = ({
 }) => {
   const router = useRouter();
 
-  console.log(pagination);
-
   const columns: TColumnsType<TStatisticalSurplus> = [
     {
       dataIndex: "Id",

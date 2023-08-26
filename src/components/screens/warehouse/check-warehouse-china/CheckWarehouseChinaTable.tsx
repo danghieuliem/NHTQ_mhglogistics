@@ -2,7 +2,7 @@ import { Divider, Input } from "antd";
 import JsBarcode from "jsbarcode";
 import Link from "next/link";
 import React, { useRef } from "react";
-import ReactToPrint, { useReactToPrint } from "react-to-print";
+import ReactToPrint, { PrintContextConsumer, useReactToPrint } from "react-to-print";
 import {
   ActionButton,
   DataTable,
@@ -23,7 +23,9 @@ export const CheckWarehouseChinaTable: React.FC<
       onHide: (key: string, item: TWarehouseCN | TWarehouseCN[]) => void;
       handleAssign?: (
         data?: TWarehouseVN,
-        type?: "assign1" | "assign2"
+        type?: "assign1" | "assign2",
+        name?: string,
+        record?: any
       ) => void;
       onIsLost: (item?: any) => void;
       bigPackageList?: TPackage[];
@@ -507,42 +509,52 @@ export const CheckWarehouseChinaTable: React.FC<
       dataIndex: "action",
       title: "Thao tác",
       align: "right",
+      width: 160,
       render: (_, record, index) => (
         <div className="flex flex-col gap-1">
-          {record.Status <=
-            ESmallPackageStatusData.ArrivedToVietNamWarehouse && (
-            <ActionButton
-              icon="fas fa-sync-alt"
-              onClick={handleSubmit((data) => onPress([data[name][index]]))}
-              title="Cập nhật"
-              isButton
-              // isButtonClassName="bg-main !text-white"
-            />
-          )}
+          <ActionButton
+            icon="fas fa-sync-alt"
+            onClick={handleSubmit((data) => onPress([data[name][index]]))}
+            title="Cập nhật"
+            isButton
+            // isButtonClassName="bg-main !text-white"
+          />
           {/* <ActionButton
 						icon="fas fa-map-marker-alt-slash"
 						onClick={handleSubmit((data) => onIsLost(data[name]))}
 						title="Thất lạc"
 					/> */}
-          {!record.MainOrderId && (
+          {!record.MainOrderId && !record?.TransportationOrderId && (
             <ActionButton
-              icon="fas fa-plus-circle"
-              onClick={handleSubmit((data) => {
-                handleAssign(data[name][index], "assign1");
-              })}
+              icon="fas fa-plus"
+              // onClick={handleSubmit((data) => {
+              //   handleAssign(data[name][index], "assign1", name, record);
+              // })}
+
+              onClick={() => {
+                onHide(name, record);
+                handleAssign(record, "assign1", name, record);
+              }}
               title="Mua hộ"
               isButton
               // isButtonClassName="bg-green !text-white"
             />
           )}
+          {!record?.MainOrderCodeId && !record?.TransportationOrderId && (
+            <ActionButton
+              icon="fas fa-plus"
+              onClick={() => {
+                onHide(name, record);
+                handleAssign(record, "assign2", name, record);
+              }}
+              // onClick={handleSubmit((data) =>
+              //   handleAssign(data[name][index], "assign2")
+              // )}
+              isButton
+              title="Ký gửi"
+            />
+          )}
           {/* <ActionButton
-            icon="fas fa-plus-circle"
-            onClick={handleSubmit((data) =>
-              handleAssign(data[name][index], "assign2")
-            )}
-            title="Gán đơn cho khách ký gửi"
-          /> */}
-          <ActionButton
             icon="fas fa-barcode-read"
             onClick={() => {
               JsBarcode("#barcode", record?.OrderTransactionCode, {
@@ -553,8 +565,26 @@ export const CheckWarehouseChinaTable: React.FC<
             }}
             title="In barcode"
             isButton
-            // isButtonClassName="bg-blue !text-white"
-          />
+          /> */}
+          <ReactToPrint content={() => componentRef.current}>
+            <PrintContextConsumer>
+              {({ handlePrint }) => (
+                <ActionButton
+                  icon="fas fa-barcode-read"
+                  onClick={() => {
+                    // setDataPrint(record);
+                    // JsBarcode("#barcode", record?.OrderTransactionCode, {
+                    //   displayValue: true,
+                    //   fontSize: 20,
+                    //   width: 6,
+                    // });
+                  }}
+                  title="In barcode"
+                  isButton
+                />
+              )}
+            </PrintContextConsumer>
+          </ReactToPrint>
           <ActionButton
             icon="fas fa-eye-slash"
             onClick={() => onHide(name, record)}

@@ -1,5 +1,3 @@
-import { Pagination } from "antd";
-import { isNumber } from "lodash";
 import React from "react";
 import { DataTable } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
@@ -37,7 +35,7 @@ export const HistoryTransactionVNDTable: React.FC<
       render: (_, record) => {
         return (
           <>{`${record?.Amount > 0 ? (record?.Type === 1 ? "-" : "+") : ""} ${
-            isNumber(record?.Amount) && _format.getVND(record?.Amount, " ")
+            (record?.Amount) && _format.getVND(record?.Amount, " ")
           }`}</>
         );
       },
@@ -94,15 +92,19 @@ export const HistoryTransactionVNDTable: React.FC<
           bordered: true,
           expandable: expandable,
           scroll: { y: 620 },
+          pagination: {
+            current: filter.PageIndex,
+            total: filter.TotalItems,
+            pageSize: filter.PageSize,
+          },
+          onChange: (page, pageSize) => {
+            handleFilter({
+              ...filter,
+              PageIndex: page.current,
+              PageSize: page.pageSize,
+            });
+          },
         }}
-      />
-      <Pagination
-        total={filter?.TotalItems}
-        current={filter?.PageIndex}
-        pageSize={filter?.PageSize}
-        onChange={(page, pageSize) =>
-          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-        }
       />
     </>
   );

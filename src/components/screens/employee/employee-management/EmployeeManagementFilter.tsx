@@ -1,14 +1,14 @@
 import clsx from "clsx";
 import { useRouter } from "next/router";
 import React, { FC, useRef } from "react";
-import { FilterInput, FilterSelect } from "~/components";
+import { ActionButton, FilterInput, FilterSelect } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
 
 type TProps = {
   handleFilter: (newFilter: {}) => void;
   userGroupCatalogue: TUserGroupCatalogue[];
   handleAddStaff: () => void;
-  onExportExcel?: (data: any) => void;
+  onExportExcel?: () => void;
 };
 
 const EmployeeManagementFilter: FC<TProps> = ({
@@ -95,23 +95,20 @@ const EmployeeManagementFilter: FC<TProps> = ({
               toolip="Lọc"
             />
           )}
-          <div className="">
-            <IconButton
+          <div className="flex gap-2 items-center">
+            <ActionButton
               onClick={handleAddStaff}
               title="Thêm"
               icon="fas fa-plus-circle"
-              showLoading
-              toolip="Thêm nhân viên"
-              green
-              btnClass="mr-2"
+              isButton
+              isButtonClassName="bg-green !text-white"
             />
-            <IconButton
-              onClick={(data) => onExportExcel(data)}
+            <ActionButton
+              onClick={onExportExcel}
               title="Xuất"
               icon="fas fa-file-export"
-              showLoading
-              toolip="Xuất thống kê"
-              blue
+              isButton
+              isButtonClassName="bg-blue !text-white"
             />
           </div>
         </div>

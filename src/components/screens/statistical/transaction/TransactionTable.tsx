@@ -3,12 +3,9 @@ import { DataTable } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 
-const TransactionTable: FC<TTable<TStatisticalTransaction>> = ({
-  data,
-  pagination,
-  handlePagination,
-  loading,
-}) => {
+const TransactionTable: FC<
+  TTable<TStatisticalTransaction> & { filter; handleFilter }
+> = ({ data, loading, filter, handleFilter }) => {
   const columns: TColumnsType<TStatisticalTransaction> = [
     {
       dataIndex: "Id",
@@ -76,11 +73,21 @@ const TransactionTable: FC<TTable<TStatisticalTransaction>> = ({
         columns,
         data,
         bordered: true,
-        pagination,
-        onChange: handlePagination,
         expandable: expandable,
         loading,
         scroll: { y: 700, x: 1200 },
+        pagination: {
+          current: filter.PageIndex,
+          total: filter.TotalItems,
+          pageSize: filter.PageSize,
+        },
+        onChange: (page, pageSize) => {
+          handleFilter({
+            ...filter,
+            PageIndex: page.current,
+            PageSize: page.pageSize,
+          });
+        },
       }}
     />
   );

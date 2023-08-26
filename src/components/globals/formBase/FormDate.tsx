@@ -52,7 +52,7 @@ export const FormDate = <TFieldValues extends FieldValues = FieldValues>({
           fieldState: { error },
           formState: { errors },
         }) => (
-          <div className="w-full !rounded-[50px]">
+          <div className="w-full !rounded-[4px]">
             <DatePicker
               value={value && moment(new Date(value), format)}
               format={format}
@@ -60,7 +60,7 @@ export const FormDate = <TFieldValues extends FieldValues = FieldValues>({
                 onChange(!!date ? moment(date).format() : date);
               }}
               picker={picker}
-              style={{ height: 40, width: "100%", borderRadius: '8px'}}
+              style={{ height: 40, width: "100%", borderRadius: '4px'}}
               placeholder={placeholder}
               {...newField}
               className={clsx({ "!border-warning ": !_.isEmpty(error) })}

@@ -13,7 +13,7 @@ type TProps = {
 
 export const MissingPackageFilter: React.FC<TProps> = ({ handleFilter }) => {
   return (
-    <div className="max-w-[500px]">
+    <div className="max-w-[200px]">
       <FilterInput
         {...codeProps}
         inputClassName="barcode"

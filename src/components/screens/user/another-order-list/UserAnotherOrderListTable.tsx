@@ -112,9 +112,10 @@ export const UserAnotherOrderListTable: React.FC<
     type;
     q;
     moneyOfOrders;
-    handleFilter;
+    filter;
+    handleFilter
   }
-> = ({ data, loading, handleModal, type, q, moneyOfOrders, handleFilter }) => {
+> = ({ data, loading, handleModal, type, q, moneyOfOrders, filter,handleFilter }) => {
   const [delLoading, setDelLoading] = useState(false);
   const queryClient = useQueryClient();
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -813,7 +814,7 @@ export const UserAnotherOrderListTable: React.FC<
       {...{
         columns,
         data,
-        bordered: true,
+        // bordered: true,
         rowSelection,
         loading,
         // title: q === "3" ? "Danh sách đơn mua hộ khác" : "Danh sách đơn mua hộ",
@@ -836,6 +837,18 @@ export const UserAnotherOrderListTable: React.FC<
             />
           </>
         ),
+        pagination: {
+          current: filter.PageIndex,
+          total: filter.TotalItems,
+          pageSize: filter.PageSize,
+        },
+        onChange: (page, pageSize) => {
+          handleFilter({
+            ...filter,
+            PageIndex: page.current,
+            PageSize: page.pageSize,
+          });
+        },
       }}
     />
   );

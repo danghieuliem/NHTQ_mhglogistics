@@ -102,7 +102,7 @@ export const FormInputNumber = <
               }}
               {...newField}
               className={clsx(
-                "!rounded-[8px] px-[11px] py-[4px] text-[rgba(0,0,0,.85)] h-10  border border-[#dedede] w-full placeholder-[#c6c6c6] hover:border-orange transition duration-300 focus:shadow-input focus:border-orange outline-0",
+                "!rounded-[4px] px-[11px] py-[4px] text-[rgba(0,0,0,.85)] h-10  border border-[#dedede] w-full placeholder-[#c6c6c6] hover:border-orange transition duration-300 focus:shadow-input focus:border-orange outline-0",
                 inputClassName,
                 disabled &&
                   "cursor-not-allowed border-[#dedede] bg-[#f5f5f5] hover:border-[#d9d9d9]",

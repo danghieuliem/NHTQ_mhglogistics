@@ -1,4 +1,3 @@
-import { Pagination } from "antd";
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
@@ -77,18 +76,10 @@ const Index: TNextPageWithLayout = () => {
       <TransactionChart dataChart={chartData} />
       <div className="mt-6">
         <TransactionTable
-          {...{
-            data: data?.Items,
-            loading: isFetching,
-          }}
-        />
-        <Pagination
-          total={filter?.TotalItems}
-          current={filter?.PageIndex}
-          pageSize={filter?.PageSize}
-          onChange={(page, pageSize) =>
-            handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-          }
+          data={data?.Items}
+          loading={isFetching}
+          handleFilter={handleFilter}
+          filter={filter}
         />
       </div>
     </div>

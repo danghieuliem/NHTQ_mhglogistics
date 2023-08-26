@@ -1,4 +1,4 @@
-import { Modal, Pagination, Popover, Tabs } from "antd";
+import { Modal, Popover, Tabs } from "antd";
 import "antd/dist/antd.css";
 import clsx from "clsx";
 import React from "react";
@@ -610,15 +610,19 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
               isSelectSomeItems={!!ids.length}
             />
           ),
+          pagination: {
+            current: filter.PageIndex,
+            total: filter.TotalItems,
+            pageSize: filter.PageSize,
+          },
+          onChange: (page, pageSize) => {
+            handleFilter({
+              ...filter,
+              PageIndex: page.current,
+              PageSize: page.pageSize,
+            });
+          },
         }}
-      />
-      <Pagination
-        total={filter?.TotalItems}
-        current={filter?.PageIndex}
-        pageSize={filter?.PageSize}
-        onChange={(page, pageSize) =>
-          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-        }
       />
     </>
   );

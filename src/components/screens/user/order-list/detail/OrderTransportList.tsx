@@ -1,7 +1,7 @@
 import router from "next/router";
 import React from "react";
 import { smallPackage } from "~/api";
-import { DataTable, IconButton, toast } from "~/components";
+import { ActionButton, DataTable, IconButton, toast } from "~/components";
 import TagStatus from "~/components/screens/status/TagStatus";
 import { transportStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
@@ -122,14 +122,12 @@ export const OrderTransportList: React.FC<TTable<TSmallPackage>> = ({
           expandable: expandable,
           title: "Danh sách mã vận đơn",
           extraElment: (
-            <IconButton
+            <ActionButton
               onClick={() => onExportExcel()}
               title="Xuất"
               icon="fas fa-file-export"
-              showLoading
-              toolip="Xuất thống kê"
-              green
-              btnClass="!h-fit"
+              isButton
+              isButtonClassName="bg-green !text-white"                
             />
           ),
         }}

@@ -159,15 +159,9 @@ const Index: TNextPageWithLayout = () => {
           newUser: userCurrentInfo,
           bank,
           TotalAmount: data?.Items[0]?.TotalAmount,
+          filter,
+          handleFilter
         }}
-      />
-      <Pagination
-        total={filter?.TotalItems}
-        current={filter?.PageIndex}
-        pageSize={filter?.PageSize}
-        onChange={(page, pageSize) =>
-          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-        }
       />
       <ModalDelete
         id={item.current?.Id}

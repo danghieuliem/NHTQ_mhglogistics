@@ -14,7 +14,7 @@ type TProps = {
 
 export const PackageManagementFilter: React.FC<TProps> = ({ handleFilter }) => {
 	return (
-		<div className="max-w-[400px]">
+		<div className="max-w-[200px]">
 			<FilterInput
 				{...{
 					...inputProps,

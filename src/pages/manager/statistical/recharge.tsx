@@ -1,6 +1,6 @@
 import { TablePaginationConfig } from "antd";
 import router from "next/router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { reportAdminSendUserWallet, reportWithdraw } from "~/api";
@@ -112,42 +112,80 @@ const Index: TNextPageWithLayout = () => {
       }
     );
 
-  const handleExportExcelRecharge = () => {
-    reportAdminSendUserWallet
-      .exportExcel({
-        PageIndex: rechargePagination.current,
-        PageSize: 99999,
-        OrderBy: "Id desc",
-        FromDate: fromDate,
-        ToDate: toDate,
-        SearchContent: username,
-        BankId: bankId,
-      })
-      .then((res) => {
-        router.push(`${res.Data}`);
-      })
-      .catch((error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
-      });
-  };
+  const handleExportExcelRecharge = useCallback(async () => {
+    const id = toast.loading("Đang xử lý ...");
+    let newFilter = {
+      PageIndex: rechargePagination.current,
+      PageSize: 20,
+      FromDate: fromDate,
+      ToDate: toDate,
+      SearchContent: username,
+      BankId: bankId,
+    };
 
-  const handleExportExcelWithDraw = () => {
-    reportWithdraw
-      .exportExcel({
-        PageIndex: withdrawPagination.current,
-        PageSize: 99999,
-        OrderBy: "Id desc",
-        FromDate: fromDate,
-        ToDate: toDate,
-        SearchContent: username,
-      })
-      .then((res) => {
-        router.push(`${res.Data}`);
-      })
-      .catch((error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+    if (fromDate || toDate || username || bankId) {
+      newFilter = {
+        ...newFilter,
+        PageSize: 9999,
+      };
+    }
+
+    try {
+      const res = await reportAdminSendUserWallet.exportExcel(newFilter);
+      router.push(`${res.Data}`);
+    } catch (error) {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "error",
+        render: (error as any)?.response?.data?.ResultMessage,
       });
-  };
+    } finally {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "default",
+      });
+    }
+  }, [fromDate, toDate, username, bankId]);
+
+  const handleExportExcelWithDraw = useCallback(async () => {
+    const id = toast.loading("Đang xử lý ...");
+    let newFilter = {
+      PageIndex: rechargePagination.current,
+      PageSize: 20,
+      FromDate: fromDate,
+      ToDate: toDate,
+      SearchContent: username,
+      BankId: bankId,
+    };
+
+    if (fromDate || toDate || username || bankId) {
+      newFilter = {
+        ...newFilter,
+        PageSize: 9999,
+      };
+    }
+
+    try {
+      const res = await reportWithdraw.exportExcel(newFilter);
+      router.push(`${res.Data}`);
+    } catch (error) {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "error",
+        render: (error as any)?.response?.data?.ResultMessage,
+      });
+    } finally {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "default",
+      });
+    }
+  }, [fromDate, toDate, username, bankId]);
+
 
   return (
     <div className="">

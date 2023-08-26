@@ -113,7 +113,7 @@ export const RechargeHistoryTable: React.FC<
           {record?.Status === 1 && (
             <ActionButton
               onClick={() => handleModal(record)}
-              icon="fad fa-edit"
+              icon="fas fa-edit"
               title="Cập nhật"
               isButton
               isButtonClassName="bg-blue !text-white"
@@ -132,7 +132,7 @@ export const RechargeHistoryTable: React.FC<
                       });
                     }}
                     isButton
-                    icon="fad fa-print"
+                    icon="fas fa-print"
                     title="In phiếu"
                     isButtonClassName="bg-green !text-white"
                   />
@@ -273,14 +273,6 @@ export const RechargeHistoryTable: React.FC<
           },
         }}
       />
-      {/* <Pagination
-        total={filter?.TotalItems}
-        current={filter?.PageIndex}
-        pageSize={filter?.PageSize}
-        onChange={(page, pageSize) =>
-          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-        }
-      /> */}
     </React.Fragment>
   );
 };

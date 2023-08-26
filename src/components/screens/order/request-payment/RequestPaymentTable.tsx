@@ -1,4 +1,3 @@
-import { Pagination } from "antd";
 import Link from "next/link";
 import React from "react";
 import { toast } from "react-toastify";
@@ -153,15 +152,15 @@ export const RequestPaymentTable: React.FC<
           data,
           bordered: true,
           scroll: { x: 1200, y: 700 },
+          pagination: {current: filter.PageIndex, total: filter.TotalItems, pageSize: filter.PageSize },
+          onChange: (page, pageSize) => {
+            handleFilter({
+              ...filter,
+              PageIndex: page.current,
+              PageSize: page.pageSize
+            });
+          },
         }}
-      />
-      <Pagination
-        total={filter?.TotalItems}
-        current={filter?.PageIndex}
-        pageSize={filter?.PageSize}
-        onChange={(page, pageSize) =>
-          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-        }
       />
     </>
   );

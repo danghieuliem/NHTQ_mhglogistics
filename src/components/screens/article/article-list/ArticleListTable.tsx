@@ -105,17 +105,21 @@ export const ArticleListTable: FC<TTable<TPage> & TProps> = ({
           bordered: true,
           // expandable: expandable,
           loading,
-          scroll: {y: 700, x: 1200}
+          scroll: {y: 700, x: 1200},
+          pagination: {
+            current: filter.PageIndex,
+            total: filter.TotalItems,
+            pageSize: filter.PageSize,
+          },
+          onChange: (page, pageSize) => {
+            handleFilter({
+              ...filter,
+              PageIndex: page.current,
+              PageSize: page.pageSize,
+            });
+          },
         }}
       />
-        <Pagination
-          total={filter?.TotalItems}
-          current={filter?.PageIndex}
-          pageSize={filter?.PageSize}
-          onChange={(page, pageSize) =>
-            handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-          }
-        />
     </>
   );
 };

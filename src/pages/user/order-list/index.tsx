@@ -1,4 +1,3 @@
-import { Pagination } from "antd";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
@@ -154,16 +153,17 @@ const Index: TNextPageWithLayout = () => {
           // handleModal,
           type,
           q: query?.q,
+          filter,
         }}
       />
-      <Pagination
+      {/* <Pagination
         total={filter?.TotalItems}
         current={filter?.PageIndex}
         pageSize={filter?.PageSize}
         onChange={(page, pageSize) =>
           handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
         }
-      />
+      /> */}
     </React.Fragment>
   );
 };
