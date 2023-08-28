@@ -1,4 +1,3 @@
-import { Tag } from "antd";
 import React from "react";
 import { DataTable } from "~/components";
 import { reportStatus } from "~/configs/appConfigs";

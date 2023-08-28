@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { authenticate, setToken, user as userAPI } from "~/api";
-import { Button, FormInput } from "~/components";
+import { Button, FormSelect } from "~/components";
 import { showToast } from "~/components/toast";
 import { config } from "~/configs";
 import { setRouter, updateUser, useAppDispatch } from "~/store";
@@ -12,33 +12,34 @@ import { _format } from "~/utils";
 const aLink =
   "cursor-pointer text-main hover:text-sec transition-all duration-300";
 
-export const SignInForm = ({ handleOpen }) => {
+export const TrialForm = ({ handleOpen }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-
-  const { handleSubmit, control, reset, resetField } = useForm<TLogin>({
+  const { handleSubmit, control, reset, resetField } = useForm<{
+    Key: string;
+    ID: number;
+  }>({
     mode: "onBlur",
     defaultValues: {
-      userName: "",
-      password: "",
+      Key: "medi4",
+      ID: null,
     },
   });
 
   useEffect(() => {
     reset({
-      userName: "",
-      password: "",
+      Key: "medi4",
+      ID: 0,
     });
   }, []);
 
   const [loading, setLoading] = useState(false);
-  const [showP, setShowP] = useState(false);
 
-  const _onPress = (data: TLogin) => {
+  const _onPress = (data: { Key: string; ID: number }) => {
     setLoading(true);
     authenticate
-      .login(data)
+      .loginDemon(data)
       .then((res) => {
         const token = res.Data.token;
         Cookie.set(config.tokenName, token);
@@ -63,13 +64,12 @@ export const SignInForm = ({ handleOpen }) => {
               })
             );
             setLoading(false);
-            router.push('/user/');
+            router.push("/user/");
             dispatch(setRouter(user.UserGroupId));
           })
           .catch(() => console.log("error to fetching user by id!"));
       })
       .catch(() => {
-        resetField("password");
         showToast({
           title: "",
           message: "Tên đăng nhập hoặc mật khẩu không chính xác",
@@ -83,41 +83,51 @@ export const SignInForm = ({ handleOpen }) => {
     <div className="authContainer">
       <form onSubmit={handleSubmit(_onPress)}>
         <div className="col-span-2">
-          <FormInput
-            disabled={loading}
+          <FormSelect
+            name="ID"
             control={control}
-            name="userName"
-            homeType="login"
-            label="Tài khoản"
+            label="Vui lòng chọn phân quyền"
             placeholder="Nhập tài khoản"
             rules={{
               required: "Bạn chưa điền thông tin!",
             }}
-            prefix={<i className="fas fa-user"></i>}
-          />
-        </div>
-        <div className="col-span-2">
-          <FormInput
-            disabled={loading}
-            control={control}
-            name="password"
-            label="Mật khẩu"
-            allowClear={false}
-            prefix={<i className="fas fa-lock"></i>}
-            suffix={
-              <i
-                onClick={() => setShowP(!showP)}
-                className={!showP ? "fas fa-eye-slash" : "fas fa-eye"}
-              ></i>
-            }
-            homeType="login"
-            type={!showP ? "password" : "text"}
-            placeholder="Nhập mật khẩu"
-            rules={{
-              required: "Bạn chưa điền thông tin!",
+            data={[
+              {
+                name: "Nhân viên Admin",
+                id: 1,
+              },
+              {
+                name: "Nhân viên quản lý",
+                id: 107,
+              },
+              {
+                name: "Nhân viên đặt hàng",
+                id: 39,
+              },
+              {
+                name: "Nhân viên kho VN",
+                id: 43,
+              },
+              {
+                name: "Nhân viên kho TQ",
+                id: 42,
+              },
+              {
+                name: "Nhân viên kế toán",
+                id: 41,
+              },
+              {
+                name: "Nhân viên bán hàng",
+                id: 40,
+              },
+            ]}
+            select={{
+              label: "name",
+              value: "id",
             }}
           />
         </div>
+
         <div className="col-span-2">
           <Button
             loading={loading}
@@ -127,7 +137,6 @@ export const SignInForm = ({ handleOpen }) => {
           />
         </div>
       </form>
-
       <div className="py-4 flex justify-between">
         <span className={aLink} onClick={() => handleOpen("register")}>
           Đăng ký

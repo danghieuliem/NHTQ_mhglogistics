@@ -1,4 +1,4 @@
-import { Drawer, Tag } from "antd";
+import { Popover } from "antd";
 import React, { useRef, useState } from "react";
 import {
   ActionButton,
@@ -21,7 +21,7 @@ const codeProps = {
   id: "code",
 };
 
-const filterBox = `py-2 font-bold uppercase text-[12px] rounded-[4px]
+const filterBox = `py-[9px] px-1 leading-[initial] font-bold uppercase text-[12px] rounded-[4px]
 flex items-center justify-center border border-[#e8e8e8] shadow-lg 
 cursor-pointer hover:shadow-sm transition-all duration-500 hover:!bg-main hover:!text-white`;
 
@@ -48,35 +48,13 @@ export const DepositListFilter: React.FC<TProps> = ({
   const [isShow, setIsShow] = useState(false);
 
   return (
-    <div className="flex justify-between">
-      <Drawer
-        title={
-          <Tag color="text-white" className="!bg-sec">
-            Bộ lọc nâng cao
-          </Tag>
-        }
-        placement="right"
-        visible={isShow}
-        closable={false}
-        closeIcon={false}
-        onClose={() => setIsShow(!isShow)}
-        extra={
-          <IconButton
-            onClick={() => setIsShow(!isShow)}
-            title=""
-            icon="far fa-times !mr-0"
-            btnClass="!bg-red"
-            showLoading
-            toolip=""
-          />
-        }
-      >
-        <>
-          <div className="grid grid-cols-2 gap-2">
-            <div className="col-span-2 font-bold mb-2 text-[20px]">
-              Lọc theo thuộc tính:{" "}
-            </div>
-            <div className="col-span-2">
+    <div className="flex justify-between flex-wrap items-end gap-4">
+      <div className="flex items-end gap-2">
+        <Popover
+          trigger={"click"}
+          placement="bottomLeft"
+          content={
+            <div className="grid grid-cols-2 gap-4 p-4">
               <FilterSelect
                 data={[
                   ...search3Data.slice(0, 1),
@@ -88,16 +66,14 @@ export const DepositListFilter: React.FC<TProps> = ({
                 placeholder="Chọn tìm kiếm theo"
                 handleSearch={(val: ESearch3Data) => (TypeSearch.current = val)}
               />
-            </div>
-            <div className="col-span-2">
+
               <FilterInput
                 {...codeProps}
                 handleSearch={(val: string) =>
                   (SearchContent.current = val.trim())
                 }
               />
-            </div>
-            <div className="col-span-2">
+
               <FilterRangeDate
                 format="DD/MM/YYYY"
                 placeholder="Từ ngày / đến ngày"
@@ -106,8 +82,6 @@ export const DepositListFilter: React.FC<TProps> = ({
                   ToDate.current = val[1];
                 }}
               />
-            </div>
-            <div className="col-span-1">
               <FilterSelect
                 isClearable
                 data={[...orderStatusData.slice(0, 7)]}
@@ -115,8 +89,6 @@ export const DepositListFilter: React.FC<TProps> = ({
                 label="Trạng thái"
                 handleSearch={(val: EOrderStatusData) => (Status.current = val)}
               />
-            </div>
-            <div className="col-span-1">
               <FilterSelect
                 isClearable
                 data={userSale}
@@ -125,74 +97,70 @@ export const DepositListFilter: React.FC<TProps> = ({
                 select={{ label: "UserName", value: "Id" }}
                 handleSearch={(val: number) => (SalerID.current = val)}
               />
-            </div>
-            <div className="col-span-2 flex justify-end items-end">
-              <IconButton
-                onClick={() =>
-                  handleFilter({
-                    TypeSearch: TypeSearch.current,
-                    SearchContent: SearchContent.current,
-                    FromDate: FromDate.current,
-                    ToDate: ToDate.current,
-                    Status: Status.current,
-                    SalerID: SalerID.current,
-                    PageIndex: 1,
-                  })
-                }
-                title="Tìm kiếm"
-                icon="mr-0"
-                showLoading
-                btnClass="!bg-sec hover:!bg-main"
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-2 mt-10">
-            <div className="col-span-2 font-bold mb-2 text-[20px]">
-              Lọc nhanh trạng thái:{" "}
-            </div>
-            <div className="col-span-2 grid grid-cols-2 gap-2">
-              {numberOfOrder?.map((item) => (
-                <div
-                  key={item?.name}
-                  className={`col-span-${item.col} ${filterBox} ${filterBox} ${
-                    item?.id === Status.current ? "!bg-main !text-white" : ""
-                  }`}
-                  onClick={() => {
-                    Status.current = item.id;
-                    setIsShow(!isShow);
+              <div className="col-span-2 flex justify-end items-end">
+                <IconButton
+                  onClick={() =>
                     handleFilter({
-                      TypeSearch: null,
-                      SearchContent: null,
-                      FromDate: null,
-                      ToDate: null,
+                      TypeSearch: TypeSearch.current,
+                      SearchContent: SearchContent.current,
+                      FromDate: FromDate.current,
+                      ToDate: ToDate.current,
                       Status: Status.current,
+                      SalerID: SalerID.current,
                       PageIndex: 1,
-                    });
-                  }}
-                >
-                  <div className="mx-1">{item.name}</div>
-                  <div className="mx-1">({item.value})</div>
-                </div>
-              ))}
+                    })
+                  }
+                  title="Tìm kiếm"
+                  icon="mr-0"
+                  showLoading
+                  btnClass="!bg-sec hover:!bg-main"
+                />
+              </div>
             </div>
-          </div>
-        </>
-      </Drawer>
+          }
+        >
+          <ActionButton
+            onClick={() => setIsShow(!isShow)}
+            icon="fas fa-filter"
+            title="Bộ lọc"
+            isButton
+            isButtonClassName="bg-main !text-white"
+          />
+        </Popover>
+        <ActionButton
+          onClick={() => handleExporTExcel()}
+          icon="fas fa-file-export"
+          title="Xuất"
+          isButton
+          isButtonClassName="bg-green !text-white"
+        />
+      </div>
 
-      <ActionButton
-        onClick={() => setIsShow(!isShow)}
-        icon="fas fa-filter"
-        title="Bộ lọc"
-        isButton
-        isButtonClassName="bg-main !text-white"
-      />
-      <ActionButton
-        onClick={() => handleExporTExcel()}
-        icon="fas fa-file-export"
-        title="Xuất"
-        isButton
-        isButtonClassName="bg-green !text-white"
-      />
+      <div className="flex items-end flex-wrap gap-2">
+        {numberOfOrder?.map((item) => (
+          <div
+            key={item?.name}
+            className={`col-span-${item.col} ${filterBox} ${filterBox} ${
+              item?.id === Status.current ? "!bg-sec !text-white" : ""
+            }`}
+            onClick={() => {
+              Status.current = item.id;
+              setIsShow(!isShow);
+              handleFilter({
+                TypeSearch: null,
+                SearchContent: null,
+                FromDate: null,
+                ToDate: null,
+                Status: Status.current,
+                PageIndex: 1,
+              });
+            }}
+          >
+            <div className="mx-1">{item.name}</div>
+            <div className="mx-1">({item.value})</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

@@ -3,7 +3,13 @@ import { useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useSelector } from "react-redux";
 import { bank } from "~/api/bank";
-import { ActionButton, BanksForm, BanksTable, Layout, toast } from "~/components";
+import {
+  ActionButton,
+  BanksForm,
+  BanksTable,
+  Layout,
+  toast,
+} from "~/components";
 import { breadcrumb } from "~/configs";
 import { defaultPagination } from "~/configs/appConfigs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -37,7 +43,7 @@ const Index: TNextPageWithLayout = () => {
         setPagination({ ...pagination, total: data?.TotalItem }),
       onError: toast.error,
       enabled: userCurrentInfo?.UserGroupId === 1,
-      refetchOnWindowFocus: false
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -56,6 +62,7 @@ const Index: TNextPageWithLayout = () => {
   const [modal, setModal] = useState(false);
   const type = useRef<TModalType>("add");
   const item = useRef<TBank>();
+
   const handleModal = (
     itemSelected?: TBank,
     typeSelected: TModalType = "add"
@@ -68,15 +75,15 @@ const Index: TNextPageWithLayout = () => {
   return (
     <>
       <div>
-				<div className="w-fit ml-auto">
-					<ActionButton
-						onClick={() => handleModal()}
-						icon="fas fa-plus-circle"
-						title="Thêm"
+        <div className="w-fit ml-auto">
+          <ActionButton
+            onClick={() => handleModal()}
+            icon="fas fa-plus-circle"
+            title="Thêm"
             isButton
             isButtonClassName="bg-green !text-white"
-					/>
-				</div>
+          />
+        </div>
         <BanksTable
           {...{
             loading: isFetching || mutationDelete.isLoading,
@@ -93,6 +100,7 @@ const Index: TNextPageWithLayout = () => {
         {...{
           onCancel: () => setModal(false),
           defaultValues: item.current,
+          type: type.current,
           visible: modal && type.current !== "delete",
           title: type.current === "add" && "Thêm ngân hàng",
           btnAddTitle: type.current === "add" ? "Thêm mới" : "Cập nhật",

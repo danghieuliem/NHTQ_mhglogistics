@@ -20,7 +20,7 @@ export const BankCard = ({ item, setSelectedBank, selectedBank }) => {
       }}
     >
       <span className="flex items-center relative justify-evenly">
-        <span className="block w-[26%] rounded-md overflow-hidden">
+        <span className="block w-[30%] rounded-[2px] py-3 overflow-hidden bg-white">
           <img src={item?.IMG ?? "/default/pro-empty.jpg"} alt="" />
         </span>
         <span className="flex flex-col">

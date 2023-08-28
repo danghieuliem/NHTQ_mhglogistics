@@ -85,9 +85,9 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
     {
       dataIndex: "action",
       align: "right",
-      width: 140,
+      width: 190,
       fixed: "right",
-      title: "Thao tác",
+      title: "Gán kiện",
       render: (_, record) => (
         <Space>
           {/* <ActionButton
@@ -99,14 +99,17 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
           <ActionButton
             icon="fas fa-plus-circle"
             onClick={() => handleAssign(record, "assign1")}
-            title="Gán mua hộ"
+            title="Mua hộ"
             isButton
+            isButtonClassName="bg-blue !text-white"
           />
-          {/* <ActionButton
+          <ActionButton
             icon="fas fa-plus-circle"
             onClick={() => handleAssign(record, "assign2")}
-            title="Gán đơn cho khách ký gửi"
-          /> */}
+            title="Ký gửi"
+            isButton
+            isButtonClassName="bg-green !text-white"
+          />
         </Space>
       ),
     },

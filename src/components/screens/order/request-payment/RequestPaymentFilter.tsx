@@ -40,45 +40,37 @@ export const RequestPaymentFilter: FC<TProps> = ({
         placement="bottomLeft"
         content={
           <div className="grid grid-cols-2 gap-2 p-2">
-            <div className="col-span-1">
-              <FilterInput
-                {...usernameProps}
-                handleSearch={(val: string) =>
-                  (SearchContent.current = val.trim())
-                }
-              />
-            </div>
-            <div className="col-span-1">
-              <FilterRangeDate
-                placeholder="Từ ngày / đến ngày"
-                format="DD/MM/YYYY"
-                handleDate={(val: string[]) => {
-                  FromDate.current = val[0];
-                  ToDate.current = val[1];
-                }}
-              />
-            </div>
-            <div className="col-span-1">
-              <FilterSelect
-                data={paymentData}
-                label="Trạng thái"
-                isClearable
-                placeholder="Chọn trạng thái"
-                handleSearch={(val: number) => (Status.current = val)}
-              />
-            </div>
-            <div className="col-span-1">
-              <FilterSelect
-                data={userSale}
-                label="Nhân viên kinh doanh"
-                isClearable
-                select={{ label: "UserName", value: "Id" }}
-                placeholder="Nhân viên kinh doanh"
-                handleSearch={(val: number) => (SalerId.current = val)}
-              />
-            </div>
-            <div className="col-span-2 flex justify-end">
-              <IconButton
+            <FilterInput
+              {...usernameProps}
+              handleSearch={(val: string) =>
+                (SearchContent.current = val.trim())
+              }
+            />
+            <FilterRangeDate
+              placeholder="Từ ngày / đến ngày"
+              format="DD/MM/YYYY"
+              handleDate={(val: string[]) => {
+                FromDate.current = val[0];
+                ToDate.current = val[1];
+              }}
+            />
+            <FilterSelect
+              data={paymentData}
+              label="Trạng thái"
+              isClearable
+              placeholder="Chọn trạng thái"
+              handleSearch={(val: number) => (Status.current = val)}
+            />
+            <FilterSelect
+              data={userSale}
+              label="Nhân viên kinh doanh"
+              isClearable
+              select={{ label: "UserName", value: "Id" }}
+              placeholder="Nhân viên kinh doanh"
+              handleSearch={(val: number) => (SalerId.current = val)}
+            />
+            <div className="col-span-full ml-auto">
+              <ActionButton
                 onClick={() =>
                   handleFilter({
                     SearchContent: SearchContent.current,
@@ -91,8 +83,8 @@ export const RequestPaymentFilter: FC<TProps> = ({
                 }
                 icon="mr-0"
                 title="Tìm kiếm"
-                showLoading
-                toolip="Lọc"
+                isButton
+                isButtonClassName="bg-sec !text-white"
               />
             </div>
           </div>

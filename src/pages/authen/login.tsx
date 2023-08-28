@@ -2,11 +2,17 @@ import { Divider } from "antd";
 import Link from "next/link";
 import { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
-import { ForgotPasswordForm, RegisterFormMemo, SignInForm } from "~/components";
+import {
+  Button,
+  ForgotPasswordForm,
+  RegisterFormMemo,
+  SignInForm,
+} from "~/components";
 import BlankLayout from "~/components/globals/layout/blankLayouts";
 import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 import styles from "./index.module.css";
+import { TrialForm } from "~/components/screens/auth/Trial";
 
 const Index: TNextPageWithLayout = () => {
   const dataGlobal: TConfig = useSelector(
@@ -36,9 +42,20 @@ const Index: TNextPageWithLayout = () => {
             {isOpen === "register" && <h1>Đăng ký tài khoản</h1>}
 
             {isOpen === "forgetPass" && <h1>Tìm lại mật khẩu</h1>}
+
+            {isOpen === "trial" && <h1>Tìm lại mật khẩu</h1>}
           </div>
         </div>
-        {isOpen === "login" && <SignInForm handleOpen={handleSetOpen} />}
+        {isOpen === "login" && (
+          <>
+            <SignInForm handleOpen={handleSetOpen} />
+            <Button
+              onClick={() => setIsOpen("trial")}
+              title="Dùng thử"
+              btnClass="!bg-green"
+            />
+          </>
+        )}
 
         {isOpen === "register" && (
           <RegisterFormMemo handleOpen={handleSetOpen} />
@@ -47,6 +64,8 @@ const Index: TNextPageWithLayout = () => {
         {isOpen === "forgetPass" && (
           <ForgotPasswordForm handleOpen={handleSetOpen} />
         )}
+
+        {isOpen === "trial" && <TrialForm handleOpen={handleSetOpen} />}
 
         <div className={styles.loginContact}>
           <div className={styles.infoWrapper}>

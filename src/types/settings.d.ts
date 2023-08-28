@@ -162,6 +162,8 @@ type TBank = TBaseReponseParams & {
   Branch: string;
   IMG: string;
   IMGQR: string;
+  Type?: string;
+  BankId: number
 };
 
 type TSettingNotification = {

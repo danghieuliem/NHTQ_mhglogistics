@@ -601,7 +601,7 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
           bordered: true,
           expandable: expandable,
           scroll: { y: 640 },
-          title: " ",
+          extraElmentClassName: '!w-full',          
           extraElment: (
             <UserDepositListFilterMemo
               numberOfOrder={transportStatus}
