@@ -123,7 +123,7 @@ export const RechargeVNDForm: React.FC<TProps> = ({
                 icon="fas fa-qrcode mr-4"
                 title="Mã QR"
                 isButtonClassName="bg-main !text-white"
-                disabled={!selectedBank?.IMGQR}
+                disabled={!selectedBank?.BankName}
               />
             </Popover>
           </div>

@@ -1,4 +1,5 @@
-import React from "react";
+import { Image } from "antd";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { bank } from "~/api/bank";
@@ -6,28 +7,50 @@ import {
   Button,
   FormCard,
   FormInput,
+  FormSelect,
   FormSwitch,
-  FormUpload,
-  Modal,
+  Modal
 } from "~/components";
 import { toast } from "~/components/toast";
+import { useCatalogue } from "~/hooks";
 import { TForm } from "~/types/table";
 import { _format } from "~/utils";
 
-export const BanksForm: React.FC<TForm<TBank>> = ({
+export const BanksForm: React.FC<TForm<TBank> & { type?: string }> = ({
   onCancel,
   defaultValues,
   visible,
   btnAddTitle,
   title,
+  type,
 }) => {
-  const { handleSubmit, reset, control } = useForm<TBank>();
+  const { handleSubmit, reset, control, watch } = useForm<TBank>({
+    mode: "onBlur",
+  });
+  const [bankSelectId, setBankSelectId] = useState({});
+
+  const { vietQRbankList } = useCatalogue({
+    bankVietQREnabled: type === "add",
+  });
 
   React.useEffect(() => {
     if (visible) {
-      reset(!defaultValues ? {} : defaultValues);
+      reset(!defaultValues ? {Active: true} : defaultValues);
     }
   }, [visible]);
+
+  React.useEffect(() => {
+    if (!bankSelectId && type !== "add") return;
+    
+    const bankTarget = vietQRbankList?.find(x => x.id === bankSelectId);
+
+    reset({
+      BankName: bankTarget?.shortName,
+      IMG: bankTarget?.logo,
+      Active: true
+      // IMGQR: bankTarget?.logo,
+    })
+  }, [bankSelectId])
 
   // fetch get item by id
   const { isFetching, data } = useQuery(
@@ -75,6 +98,7 @@ export const BanksForm: React.FC<TForm<TBank>> = ({
       return mutationUpdate.mutateAsync({ ...dataOnPress });
     } else {
       // add method
+      delete dataOnPress?.BankId;
       return mutationAdd.mutateAsync({ ...dataOnPress });
     }
   };
@@ -97,61 +121,72 @@ export const BanksForm: React.FC<TForm<TBank>> = ({
           </div>
         </FormCard.Header>
         <FormCard.Body>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="col-span-1">
-              <FormInput
-                control={control}
-                name="BankName"
-                label="Tên ngân hàng"
-                placeholder="Tên ngân hàng"
-                rules={{ required: "Không bỏ trống tên ngân hàng" }}
-              />
-            </div>
-            <div className="col-span-1">
-              <FormInput
-                control={control}
-                name="Name"
-                label="Chi nhánh"
-                placeholder="Chi nhánh"
-                rules={{ required: "không bỏ trống tên chi nhánh" }}
-              />
-            </div>
-            <div className="col-span-1">
-              <FormInput
-                control={control}
-                name="Branch"
-                label="Chủ tài khoản "
-                placeholder="Chủ tài khoản "
-                rules={{ required: "không bỏ trống chủ tài khoản" }}
-              />
-            </div>
-            <div className="col-span-1">
-              <FormInput
-                control={control}
-                name="BankNumber"
-                label="Số tài khoản"
-                placeholder="Số tài khoản"
-                rules={{ required: "không bỏ trống số dư tài khoản" }}
-              />
-            </div>
-            <div className="col-span-2 grid grid-cols-2">
-              <div className="col-span-1">
-                <FormUpload
+          <div className="grid grid-cols-2 gap-2">
+
+            {type === "add" && (
+              <div className="col-span-full">
+                <FormSelect
+                  control={control}
+                  name="BankId"
+                  placeholder="Vui lòng chọn ngân hàng"
+                  data={vietQRbankList}
+                  label="Chọn ngân hàng"
+                  select={{
+                    label: "longName",
+                    value: "id"
+                  }}
+                  callback={(val) => {
+                    setBankSelectId(val);
+                  }}
+                />
+              </div>
+            )}
+            <FormInput
+              control={control}
+              name="BankName"
+              label="Tên ngân hàng"
+              required={false}
+              disabled={true}
+              placeholder="Tên ngân hàng"
+            />
+            <FormInput
+              control={control}
+              name="Name"
+              label="Chi nhánh"
+              rules={{required: "Vui lòng điền Chi nhánh"}}
+              
+              placeholder="Chi nhánh"
+            />
+            <FormInput
+              control={control}
+              name="Branch"
+              label="Chủ tài khoản "
+              rules={{required: "Vui lòng điền Chủ tài khoản"}}
+              
+              placeholder="Chủ tài khoản "
+            />
+            <FormInput
+              control={control}
+              name="BankNumber"
+              label="Số tài khoản"
+              rules={{required: "Vui lòng điền Số tài khoản"}}
+              
+              placeholder="Số tài khoản"
+            />
+
+            {/* <FormUpload
                   control={control}
                   name="IMG"
                   label="Hình ảnh ngân hàng"
                   rules={{ required: "không bỏ trống hình ảnh" }}
-                />
-              </div>
-              <div className="col-span-1">
-                <FormSwitch
-                  control={control}
-                  name="Active"
-                  label="Trạng thái"
-                  required={false}
-                />
-              </div>
-            </div>
+                /> */}
+            <FormSwitch
+              control={control}
+              name="Active"
+              label="Trạng thái"
+              required={false}
+            />
+            <Image src={watch().IMG} width={"300px"} />
           </div>
         </FormCard.Body>
         <FormCard.Footer>

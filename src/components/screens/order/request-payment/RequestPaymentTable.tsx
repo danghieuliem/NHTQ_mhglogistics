@@ -7,6 +7,7 @@ import { paymentStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import { Modal } from "antd";
 
 type TProps = {
   filter;
@@ -110,28 +111,33 @@ export const RequestPaymentTable: React.FC<
           </Link>
           {record?.Status === 1 && (
             <ActionButton
-              onClick={() => {
-                const id = toast.loading("Đang xử lý ...");
-                payHelp
-                  .confirm(record?.Id)
-                  .then(() => {
-                    toast.update(id, {
-                      render: "Duyệt thành công!",
-                      type: "success",
-                      isLoading: false,
-                      autoClose: 0,
-                    });
-                    refetch();
-                  })
-                  .catch((error) => {
-                    toast.update(id, {
-                      render: (error as any)?.response?.data?.ResultMessage,
-                      type: "success",
-                      isLoading: false,
-                      autoClose: 0,
-                    });
-                  });
-              }}
+              onClick={() =>
+                Modal.confirm({
+                  title: "Xác nhận duyệt đơn này?",
+                  onOk: () => {
+                    const id = toast.loading("Đang xử lý ...");
+                    payHelp
+                      .confirm(record?.Id)
+                      .then(() => {
+                        toast.update(id, {
+                          render: "Duyệt thành công!",
+                          type: "success",
+                          isLoading: false,
+                          autoClose: 0,
+                        });
+                        refetch();
+                      })
+                      .catch((error) => {
+                        toast.update(id, {
+                          render: (error as any)?.response?.data?.ResultMessage,
+                          type: "success",
+                          isLoading: false,
+                          autoClose: 0,
+                        });
+                      });
+                  },
+                })
+              }
               icon="fas fa-check-circle"
               title="Duyệt"
               isButton
@@ -152,12 +158,16 @@ export const RequestPaymentTable: React.FC<
           data,
           bordered: true,
           scroll: { x: 1200, y: 700 },
-          pagination: {current: filter.PageIndex, total: filter.TotalItems, pageSize: filter.PageSize },
+          pagination: {
+            current: filter.PageIndex,
+            total: filter.TotalItems,
+            pageSize: filter.PageSize,
+          },
           onChange: (page, pageSize) => {
             handleFilter({
               ...filter,
               PageIndex: page.current,
-              PageSize: page.pageSize
+              PageSize: page.pageSize,
             });
           },
         }}

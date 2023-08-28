@@ -23,6 +23,7 @@ type TProps = {
   pageTypeEnabled?: boolean;
   bigPackageEnabled?: boolean;
   allUserEnabled?: boolean;
+  bankVietQREnabled?: boolean
 };
 
 export const useCatalogue = ({
@@ -40,7 +41,28 @@ export const useCatalogue = ({
   pageTypeEnabled = false,
   bigPackageEnabled = false,
   allUserEnabled = false,
+  bankVietQREnabled = false
 }: TProps) => {
+
+  const vietQRbankList = useQuery(
+    ['vietQRBankList'],
+    async () => await fetch('https://api.vietqr.io/v2/banks').then(res => res.json())
+    .then(data => {
+      const newData = [...data.data].map(item => ({
+        ...item,
+        longName: `${item?.shortName} - ${item?.name}`
+      }))
+      return newData
+    }),
+    {
+      enabled: bankVietQREnabled,
+      // staleTime: 5000,
+      initialDataUpdatedAt,
+      refetchOnWindowFocus: false,
+      retry: false
+    }
+  )
+
   // const onError = toast.error;
   const userGroup = useQuery(
     ["userGroupCatalogue"],
@@ -242,5 +264,6 @@ export const useCatalogue = ({
     pageType: pageType.data,
     bigPackage: bigPackage.data,
     allUser: allUser?.data?.Items,
+    vietQRbankList: vietQRbankList?.data
   } as const;
 };

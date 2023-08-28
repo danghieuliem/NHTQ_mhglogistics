@@ -3,6 +3,7 @@ import { useMutation, useQuery } from "react-query";
 import { smallPackage } from "~/api";
 import {
   CheckWarehouseVietNamAssign1,
+  CheckWarehouseVietNamAssign2,
   FloatingPackageTable,
   Layout,
   MissingPackageFilter,
@@ -48,7 +49,7 @@ const Index: TNextPageWithLayout = () => {
 
   const mutationUpdate = useMutation(smallPackage.update, {
     onSuccess: () => {
-      toast.success("Cập nhật đơn kiện thành công");
+      toast.success("Cập nhật kiện thành công");
       refetch();
     },
     onError: () => {
@@ -108,7 +109,7 @@ const Index: TNextPageWithLayout = () => {
           onPress={_onPress}
         />
       </div>
-      {/* <div>
+      <div>
 				<CheckWarehouseVietNamAssign2
 					item={item.current}
 					visible={modalAssign2 && modalType.current === "assign2"}
@@ -118,7 +119,7 @@ const Index: TNextPageWithLayout = () => {
 					}}
 					onPress={_onPress}
 				/>
-			</div> */}
+			</div>
     </>
   );
 };

@@ -10,7 +10,7 @@ import { mainOrder, orderShopTemp } from "~/api";
 import {
   ActionButton,
   DataTable,
-  UserAnotherOrderListFilterMemo,
+  UserAnotherOrderListFilterMemo
 } from "~/components";
 import { EOrderStatus, orderStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
@@ -31,7 +31,7 @@ const PaymenComponent = ({ handleDeposit, handlePayment, selectedRowKeys }) => {
     <>
       <ActionButton
         isButton
-        isButtonClassName="bg-sec !text-white hover:!bg-main"
+        isButtonClassName="bg-sec !text-white hover:!bg-main absolute left-0 left-0"
         title="Đặt cọc/thanh toán"
         icon="fad fa-money-check !mr-2"
         disabled={selectedRowKeys.length <= 0}
@@ -113,9 +113,18 @@ export const UserAnotherOrderListTable: React.FC<
     q;
     moneyOfOrders;
     filter;
-    handleFilter
+    handleFilter;
   }
-> = ({ data, loading, handleModal, type, q, moneyOfOrders, filter,handleFilter }) => {
+> = ({
+  data,
+  loading,
+  handleModal,
+  type,
+  q,
+  moneyOfOrders,
+  filter,
+  handleFilter,
+}) => {
   const [delLoading, setDelLoading] = useState(false);
   const queryClient = useQueryClient();
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -810,46 +819,48 @@ export const UserAnotherOrderListTable: React.FC<
   };
 
   return (
-    <DataTable
-      {...{
-        columns,
-        data,
-        // bordered: true,
-        rowSelection,
-        loading,
-        // title: q === "3" ? "Danh sách đơn mua hộ khác" : "Danh sách đơn mua hộ",
-        expandable: expandable,
-        scroll: { y: 640 },
-        mediaWidth: 1200,
-        extraElmentClassName:
-          "flex items-center !justify-between !w-full flex-wrap",
-        extraElment: (
-          <>
-            <PaymenComponentMemo
-              selectedRowKeys={selectedRowKeys}
-              handleDeposit={handleDeposit}
-              handlePayment={handlePayment}
-            />
-            <UserAnotherOrderListFilterMemo
-              moneyOfOrders={moneyOfOrders}
-              numberOfOrder={orderStatus}
-              handleFilter={handleFilter}
-            />
-          </>
-        ),
-        pagination: {
-          current: filter.PageIndex,
-          total: filter.TotalItems,
-          pageSize: filter.PageSize,
-        },
-        onChange: (page, pageSize) => {
-          handleFilter({
-            ...filter,
-            PageIndex: page.current,
-            PageSize: page.pageSize,
-          });
-        },
-      }}
-    />
+    <div>
+      <DataTable
+        {...{
+          columns,
+          data,
+          // bordered: true,
+          rowSelection,
+          loading,
+          // title: q === "3" ? "Danh sách đơn mua hộ khác" : "Danh sách đơn mua hộ",
+          expandable: expandable,
+          scroll: { y: 640 },
+          mediaWidth: 1200,
+          extraElmentClassName:
+            "flex items-center !justify-between !w-full flex-wrap flex-col gap-2 relative",
+          extraElment: (
+            <>
+              <PaymenComponentMemo
+                selectedRowKeys={selectedRowKeys}
+                handleDeposit={handleDeposit}
+                handlePayment={handlePayment}
+              />
+              <UserAnotherOrderListFilterMemo
+                moneyOfOrders={moneyOfOrders}
+                numberOfOrder={orderStatus}
+                handleFilter={handleFilter}
+              />
+            </>
+          ),
+          pagination: {
+            current: filter.PageIndex,
+            total: filter.TotalItems,
+            pageSize: filter.PageSize,
+          },
+          onChange: (page, pageSize) => {
+            handleFilter({
+              ...filter,
+              PageIndex: page.current,
+              PageSize: page.pageSize,
+            });
+          },
+        }}
+      />
+    </div>
   );
 };

@@ -2,12 +2,13 @@ import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import ReactToPrint, { PrintContextConsumer } from "react-to-print";
 import { adminSendUserWallet } from "~/api";
-import { ActionButton, DataTable, toast } from "~/components";
+import { ActionButton, DataTable } from "~/components";
 import { moneyStatus } from "~/configs";
 import { RootState } from "~/store";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import { toast } from "react-toastify";
 
 type TProps = {
   filter: {
@@ -125,11 +126,24 @@ export const RechargeHistoryTable: React.FC<
                 {({ handlePrint }) => (
                   <ActionButton
                     onClick={() => {
-                      toast.info("Đang xử lý. Chờ xíu nhé ...");
+                      const id = toast.loading("Đang xử lý. Chờ xíu nhé ...");
                       adminSendUserWallet.getByID(record.Id).then((res) => {
                         setDataEx(res?.Data);
                         handlePrint();
-                      });
+                        toast.update(id, {
+                          render: "",
+                          isLoading: false,
+                          autoClose: 100,
+                          type: "success"
+                        })
+                      }).catch(error => {
+                        toast.update(id, {
+                          render: "Vui lòng thử lại",
+                          isLoading: false,
+                          autoClose: 3000,
+                          type: "error"
+                        })
+                      })
                     }}
                     isButton
                     icon="fas fa-print"

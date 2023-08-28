@@ -349,7 +349,7 @@ export const createdDataNumberOfOrder = [
     key: "AllOrders",
     col: 1,
     value: null,
-    label: "Tất cả đơn",
+    label: "Tất cả",
     bgColor: "#fff",
     textColor: "#333",
   },
@@ -360,7 +360,7 @@ export const createdDataNumberOfOrder = [
     value: null,
     bgColor: "#000",
     textColor: "#fff",
-    label: "Đơn đã hủy",
+    label: "Đơn hủy",
   },
   {
     id: ECreatedOrderStatusData.Undeposited,
@@ -2030,14 +2030,14 @@ export const enum EOrderStatus {
 export const orderStatus = [
   {
     id: EOrderStatus.all,
-    name: "Tất cả đơn",
+    name: "Tất cả",
     col: 1,
     money: null,
     value: null,
   },
   {
     id: EOrderStatus.NoDeposit,
-    name: "Chưa đặt cọc",
+    name: "Chưa cọc",
     color: "#f00",
     col: 1,
     money: null,
@@ -2077,7 +2077,7 @@ export const orderStatus = [
   },
   {
     id: EOrderStatus.InChinaWarehoue,
-    name: "Đã về kho TQ",
+    name: "Về kho TQ",
     color: "#f57c00",
     col: 1,
     money: null,
@@ -2085,7 +2085,7 @@ export const orderStatus = [
   },
   {
     id: EOrderStatus.InVietnamWarehoue,
-    name: "Đã về kho VN",
+    name: "Về kho VN",
     color: "#c71585",
     col: 1,
     money: null,

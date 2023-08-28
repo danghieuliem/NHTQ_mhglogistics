@@ -55,7 +55,7 @@ p {
 }
 
 .component-container {
-  width: min(1200px, 100%);
+  width: min(1400px, 100%);
   margin: 0 auto;
   padding: 0 15px;
 }
@@ -86,7 +86,7 @@ p {
 }
 
 .app-main-inner {
-  width: min(1200px, 100%);
+  width: min(1400px, 100%);
   padding: 15px;
   margin: 0 auto;
   height: fit-content;
