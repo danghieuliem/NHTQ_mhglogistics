@@ -1,6 +1,7 @@
 import { Drawer, Tag } from "antd";
 import React, { useRef, useState } from "react";
 import {
+  ActionButton,
   FilterInput,
   FilterRangeDate,
   FilterSelect,
@@ -138,7 +139,7 @@ export const DepositListFilter: React.FC<TProps> = ({
                     PageIndex: 1,
                   })
                 }
-                title="Lọc"
+                title="Tìm kiếm"
                 icon="mr-0"
                 showLoading
                 btnClass="!bg-sec hover:!bg-main"
@@ -178,20 +179,19 @@ export const DepositListFilter: React.FC<TProps> = ({
         </>
       </Drawer>
 
-      <IconButton
+      <ActionButton
         onClick={() => setIsShow(!isShow)}
         icon="fas fa-filter"
         title="Bộ lọc"
-        showLoading
-        btnClass="mr-2"
+        isButton
+        isButtonClassName="bg-main !text-white"
       />
-      <IconButton
+      <ActionButton
         onClick={() => handleExporTExcel()}
         icon="fas fa-file-export"
         title="Xuất"
-        showLoading
-        toolip="Xuất Thống Kê"
-        green
+        isButton
+        isButtonClassName="bg-green !text-white"
       />
     </div>
   );

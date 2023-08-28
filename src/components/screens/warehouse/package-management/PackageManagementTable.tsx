@@ -1,4 +1,4 @@
-import { Pagination } from "antd";
+import Link from "next/link";
 import router from "next/router";
 import React from "react";
 import { bigPackage } from "~/api";
@@ -7,7 +7,6 @@ import { bigPackageStatusData } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
-import Link from "next/link";
 type TProps = {
   filter;
   handleFilter: (newFilter) => void;
@@ -133,18 +132,16 @@ export const PackageManagementTable: React.FC<TTable<TPackage> & TProps> = ({
           bordered: true,
           // expandable: expandable,
           scroll: { y: 700, x: 1200 },
+          pagination: {current: filter.PageIndex, total: filter.TotalItems, pageSize: filter.PageSize },
+          onChange: (page, pageSize) => {
+            handleFilter({
+              ...filter,
+              PageIndex: page.current,
+              PageSize: page.pageSize
+            });
+          },
         }}
       />
-      <div className="mt-4 text-right">
-        <Pagination
-          total={filter?.TotalItems}
-          current={filter?.PageIndex}
-          pageSize={filter?.PageSize}
-          onChange={(page, pageSize) =>
-            handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-          }
-        />
-      </div>
     </>
   );
 };

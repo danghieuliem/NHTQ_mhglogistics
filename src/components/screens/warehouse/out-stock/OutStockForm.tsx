@@ -43,9 +43,7 @@ export const OutStockForm = () => {
         })
         .catch((error) => {
           toast.update(id, {
-            render:
-              (error as any)?.response?.data?.ResultCode === 401 &&
-              "Không thể lấy danh sách!",
+            render: (error as any)?.response?.data?.ResultMessage,
             type: "error",
             isLoading: false,
             autoClose: 1000,

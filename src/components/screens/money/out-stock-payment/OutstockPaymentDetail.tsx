@@ -10,6 +10,7 @@ import { RootState } from "~/store";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import Link from "next/link";
 
 const fullNameProps = {
   placeholder: "Nhập họ tên người nhận",
@@ -47,18 +48,52 @@ export const OutstockPaymentDetail: React.FC<
 
   const columns: TColumnsType<TOutStockSessionPackages> = [
     {
-      dataIndex: "Id",
-      title: "STT",
-      render: (_, __, index) => ++index,
+      dataIndex: "MainOrderID",
+      title: "ID đơn",
+      width: 100,
+      render: (_, record) => {
+        return (
+          <Link
+            href={
+              Number(record?.MainOrderID)
+                ? `http://localhost:3000/manager/order/order-list/detail/?id=${Number(
+                    record?.MainOrderID
+                  )}`
+                : `http://localhost:3000/manager/deposit/deposit-list/detail/?id=${Number(
+                    record?.TransportationID
+                  )}`
+            }
+            passHref
+          >
+            <a target="_blank">
+              {Number(record?.MainOrderID)
+                ? record?.MainOrderID
+                : record?.TransportationID}
+            </a>
+          </Link>
+        );
+      },
     },
     {
-      dataIndex: "MainOrderID",
-      title: "ID đơn hàng",
+      dataIndex: "SmallPackage",
+      title: "Loại đơn hàng",
+      render(_, record, ___) {
+        // return <div>{record?.SmallPackage?.MainOrderCode.split(":")[0]}</div>;
+        return (
+          <TagStatus
+            color={record?.SmallPackage?.OrderType === 3 ? "red" : "green"}
+            statusName={
+              record?.SmallPackage?.OrderType === 3 ? "Trôi nổi" : "Ký gửi"
+            }
+          />
+        );
+      },
+      width: 120,
     },
     {
       dataIndex: "SmallPackage",
       title: "Mã kiện",
-      align: "right",
+      width: 200,      
       render: (smallPackage: TSmallPackage) =>
         smallPackage?.OrderTransactionCode,
     },
@@ -66,6 +101,7 @@ export const OutstockPaymentDetail: React.FC<
       dataIndex: "SmallPackage",
       title: "Cân nặng (kg)",
       align: "right",
+      width: 120,
       render: (smallPackage: TSmallPackage) =>
         _format.getVND(smallPackage?.PayableWeight, ""),
     },
@@ -73,12 +109,14 @@ export const OutstockPaymentDetail: React.FC<
       dataIndex: "SmallPackage",
       title: "Số khối (m3)",
       align: "right",
+      width: 120,
       render: (smallPackage: TSmallPackage) =>
         _format.getVND(smallPackage?.VolumePayment, ""),
     },
     {
       dataIndex: "SmallPackage",
       title: "Trạng thái kiện",
+      width: 200,
       render: (smallPackage: TSmallPackage) => (
         <TagStatus
           color={
@@ -92,6 +130,7 @@ export const OutstockPaymentDetail: React.FC<
     {
       dataIndex: "IsPayment",
       title: "Trạng thái thanh toán",
+      width: 200,
       render: (isPayment: boolean) => (
         <TagStatus
           color={isPayment ? "#1965e0" : "#f52525"}
@@ -114,6 +153,17 @@ export const OutstockPaymentDetail: React.FC<
       <React.Fragment>
         <Table.Summary.Row>
           <Table.Summary.Cell index={0} colSpan={7}>
+            <b>Tổng số khối</b>
+          </Table.Summary.Cell>
+          <Table.Summary.Cell index={1} colSpan={1} align="right">
+            {item?.OutStockSessionPackages?.reduce(
+              (prev, cur) => prev + cur?.SmallPackage?.VolumePayment,
+              0
+            ).toFixed(5) + " m3"}
+          </Table.Summary.Cell>
+        </Table.Summary.Row>
+        <Table.Summary.Row>
+          <Table.Summary.Cell index={0} colSpan={7}>
             <b>Tổng cân nặng</b>
           </Table.Summary.Cell>
           <Table.Summary.Cell index={1} align="right">
@@ -124,17 +174,6 @@ export const OutstockPaymentDetail: React.FC<
               ),
               " Kg"
             ) || "0 Kg"}
-          </Table.Summary.Cell>
-        </Table.Summary.Row>
-        <Table.Summary.Row>
-          <Table.Summary.Cell index={0} colSpan={7}>
-            <b>Tổng số khối</b>
-          </Table.Summary.Cell>
-          <Table.Summary.Cell index={1} colSpan={1} align="right">
-            {item?.OutStockSessionPackages?.reduce(
-              (prev, cur) => prev + cur?.SmallPackage?.VolumePayment,
-              0
-            ).toFixed(5) + " m3"}
           </Table.Summary.Cell>
         </Table.Summary.Row>
         <Table.Summary.Row>
@@ -310,7 +349,7 @@ export const OutstockPaymentDetail: React.FC<
       <div className="hidden">
         <ComponentToPrint ref={componentRef} />
       </div>
-      <div className="tableBox w-fit py-4 mb-4">
+      {/* <div className="tableBox w-fit py-4 mb-4">
         <div className="flex items-center">
           <div className="IconFilter text-blue bg-[#e7f6fa]">
             <i className="far fa-poll text-[28px]"></i>
@@ -322,9 +361,9 @@ export const OutstockPaymentDetail: React.FC<
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
 
-      <div className="flex justify-between items-end ">
+      <div className="flex justify-between items-end mb-4">
         <div className="flex">
           <div className="">
             <FilterInput
@@ -397,10 +436,9 @@ export const OutstockPaymentDetail: React.FC<
           )}
         </div>
       </div>
-      <Divider />
-      <div className="tex-center inline-block text-sm text-[#ed5b00] font-bold">
+      {/* <div className="tex-center inline-block text-sm text-[#ed5b00] font-bold">
         <span> Phiếu xuất kho #{item?.Id}</span>
-      </div>
+      </div> */}
       <DataTable
         {...{
           columns,
@@ -408,7 +446,8 @@ export const OutstockPaymentDetail: React.FC<
           bordered: true,
           summary: !loading ? summary : undefined,
           // expandable: expandable,
-          scroll: {x: 1200, y: 600}
+          scroll: { x: 1200, y: 600 },
+          title: `Phiếu xuất kho #${item?.Id}`
         }}
       />
     </Spin>

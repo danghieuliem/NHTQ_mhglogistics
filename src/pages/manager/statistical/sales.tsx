@@ -1,8 +1,9 @@
 import { TablePaginationConfig } from "antd";
 import router from "next/router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { reportMainOrder } from "~/api";
 import {
   Layout,
@@ -10,7 +11,6 @@ import {
   SalesMoneyStatisticChart,
   SalesMoneyStatisticTable,
   SalesOrderStatisticTable,
-  toast,
 } from "~/components";
 import { breadcrumb, defaultPagination } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -158,17 +158,41 @@ const Index: TNextPageWithLayout = () => {
   //   }
   // };
 
-  const handleExportExcelOrder = async () => {
+  const handleExportExcelOrder = useCallback(async () => {
+    const id = toast.loading("Đang xử lý ...");
+    let newFilter = {
+      PageSize: 20,
+      PageIndex: 1,
+      FromDate: fromDate,
+      ToDate: toDate,
+      UID: userCurrentInfo?.Id,
+      RoleID: userCurrentInfo?.UserGroupId,
+    };
+
+    if (fromDate || toDate) {
+      newFilter = {
+        ...newFilter,
+        PageSize: 9999,
+      };
+    }
     try {
-      const res = await reportMainOrder.export({
-        UID: userCurrentInfo?.Id,
-        RoleID: userCurrentInfo?.UserGroupId,
-      });
+      const res = await reportMainOrder.export(newFilter);
       router.push(`${res.Data}`);
     } catch (error) {
-      toast.error(error);
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 3000,
+        type: "error",
+        render: (error as any)?.response?.data?.ResultMessage
+      });
+    }  finally {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "default",
+      });
     }
-  };
+  }, [fromDate, toDate]);
 
   return (
     <div className="grid grid-cols-12 gap-4">

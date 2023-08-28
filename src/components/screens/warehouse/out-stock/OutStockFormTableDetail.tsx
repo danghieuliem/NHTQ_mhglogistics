@@ -5,6 +5,7 @@ import { DataTable } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import Link from "next/link";
 
 export const OutStockFormTableDetail: React.FC<
   TTable<TOutStockSessionPackages> & { totalMustPay; dataAll }
@@ -13,23 +14,57 @@ export const OutStockFormTableDetail: React.FC<
     {
       dataIndex: "MainOrderID",
       title: "ID đơn",
+      width: 100,
+      render: (_, record) => {
+        return (
+          <Link
+            href={
+              Number(record?.MainOrderID)
+                ? `http://localhost:3000/manager/order/order-list/detail/?id=${Number(
+                    record?.MainOrderID
+                  )}`
+                : `http://localhost:3000/manager/deposit/deposit-list/detail/?id=${Number(
+                    record?.TransportationID
+                  )}`
+            }
+            passHref
+          >
+            <a target="_blank">
+              {Number(record?.MainOrderID)
+                ? record?.MainOrderID
+                : record?.TransportationID}
+            </a>
+          </Link>
+        );
+      },
     },
     {
       dataIndex: "SmallPackage",
       title: "Loại đơn hàng",
       render(_, record, ___) {
-        return <div>{record?.SmallPackage?.MainOrderCode.split(":")[0]}</div>;
+        // return <div>{record?.SmallPackage?.MainOrderCode.split(":")[0]}</div>;
+        return (
+          <TagStatus
+            color={record?.SmallPackage?.OrderType === 3 ? "red" : "green"}
+            statusName={
+              record?.SmallPackage?.OrderType === 3 ? "Trôi nổi" : "Ký gửi"
+            }
+          />
+        );
       },
+      width: 120,
     },
     {
       dataIndex: "SmallPackage",
       title: "Mã kiện",
       render: (record) => record.OrderTransactionCode,
+      width: 200,
     },
     {
       dataIndex: "SmallPackage",
       title: "Cân nặng (kg)",
       align: "right",
+      width: 120,
       render: (smallpackage: TSmallPackage) =>
         smallpackage.Weight && _format.getVND(smallpackage.Weight, ""),
     },
@@ -37,6 +72,7 @@ export const OutStockFormTableDetail: React.FC<
       dataIndex: "SmallPackage",
       title: "Số khối (m3)",
       align: "right",
+      width: 120,
       render: (smallpackage: TSmallPackage) =>
         smallpackage.VolumePayment &&
         _format.getVND(smallpackage.VolumePayment, ""),
@@ -44,8 +80,8 @@ export const OutStockFormTableDetail: React.FC<
     {
       dataIndex: "SmallPackage",
       align: "right",
-      width: 105,
-      title: () => <React.Fragment>Kích thước (D x R x C)</React.Fragment>,
+      width: 200,
+      title: "Kích thước (D x R x C)",
       render: (_, record, index) => {
         return `${record.SmallPackage.Length ?? 0} x ${
           record.SmallPackage.Width ?? 0
@@ -106,22 +142,6 @@ export const OutStockFormTableDetail: React.FC<
       <>
         <Table.Summary.Row>
           <Table.Summary.Cell index={0} colSpan={7}>
-            <b>Tổng cân nặng</b>
-          </Table.Summary.Cell>
-          <Table.Summary.Cell index={1} colSpan={1} align="right">
-            <Text type="danger">
-              {_format.getVND(
-                data.reduce(
-                  (prev, cur) => prev + cur?.SmallPackage?.PayableWeight,
-                  0
-                ),
-                " KG"
-              ) || "0 KG"}
-            </Text>
-          </Table.Summary.Cell>
-        </Table.Summary.Row>
-        <Table.Summary.Row>
-          <Table.Summary.Cell index={0} colSpan={7}>
             <b>Tổng số khối</b>
           </Table.Summary.Cell>
           <Table.Summary.Cell index={1} colSpan={1} align="right">
@@ -132,6 +152,22 @@ export const OutStockFormTableDetail: React.FC<
                   0
                 ),
                 " m3"
+              ) || "0 KG"}
+            </Text>
+          </Table.Summary.Cell>
+        </Table.Summary.Row>
+        <Table.Summary.Row>
+          <Table.Summary.Cell index={0} colSpan={7}>
+            <b>Tổng cân nặng</b>
+          </Table.Summary.Cell>
+          <Table.Summary.Cell index={1} colSpan={1} align="right">
+            <Text type="danger">
+              {_format.getVND(
+                data.reduce(
+                  (prev, cur) => prev + cur?.SmallPackage?.PayableWeight,
+                  0
+                ),
+                " KG"
               ) || "0 KG"}
             </Text>
           </Table.Summary.Cell>
@@ -166,7 +202,7 @@ export const OutStockFormTableDetail: React.FC<
         columns: columns,
         loading: loading,
         summary: !!data?.length ? summary : undefined,
-        scroll: {x: 1200, y: 600}
+        scroll: { x: 1200, y: 600 },
       }}
     />
   );

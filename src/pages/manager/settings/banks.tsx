@@ -72,7 +72,7 @@ const Index: TNextPageWithLayout = () => {
 					<ActionButton
 						onClick={() => handleModal()}
 						icon="fas fa-plus-circle"
-						title="Thêm ngân hàng"
+						title="Thêm"
             isButton
             isButtonClassName="bg-green !text-white"
 					/>

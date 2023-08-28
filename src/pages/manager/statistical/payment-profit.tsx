@@ -64,17 +64,9 @@ const Index: TNextPageWithLayout = () => {
       </div>
       <div className="mt-10">
         <PaymentProfitTable
-          {...{
-            data: data?.Items,
-          }}
-        />
-        <Pagination
-          total={filter?.TotalItems}
-          current={filter?.PageIndex}
-          pageSize={filter?.PageSize}
-          onChange={(page, pageSize) =>
-            handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-          }
+            data={data?.Items}
+            filter={filter}
+            handleFilter={handleFilter}
         />
       </div>
     </div>

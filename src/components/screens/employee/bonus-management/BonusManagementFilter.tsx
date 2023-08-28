@@ -1,7 +1,11 @@
 import { Popover } from "antd";
 import React, { FC, useRef } from "react";
-import { FilterInput, FilterRangeDate, FilterSelect } from "~/components";
-import { IconButton } from "~/components/globals/button/IconButton";
+import {
+  ActionButton,
+  FilterInput,
+  FilterRangeDate,
+  FilterSelect,
+} from "~/components";
 
 const usernameProps = {
   id: "username",
@@ -12,7 +16,7 @@ const usernameProps = {
 
 type TProps = {
   handleFilter: (newFilter) => void;
-  onExportExcel: (data: any) => void;
+  onExportExcel: () => void;
   setIsModalOpen: () => void;
   roleID?: number;
 };
@@ -30,7 +34,7 @@ const BonusManagementFilter: FC<TProps> = ({
   const RoleID = useRef<number>(null);
 
   return (
-    <div className="">
+    <div className="flex gap-2">
       <Popover
         trigger={"click"}
         placement="bottomLeft"
@@ -93,7 +97,7 @@ const BonusManagementFilter: FC<TProps> = ({
               </div>
             )}
             <div className="col-span-2 flex items-end justify-end">
-              <IconButton
+              <ActionButton
                 onClick={() =>
                   handleFilter({
                     SearchContent: SearchContent.current,
@@ -104,33 +108,36 @@ const BonusManagementFilter: FC<TProps> = ({
                     PageIndex: 1,
                   })
                 }
-                icon="fas fa-filter"
-                title="Lọc"
-                toolip="Lọc"
+                icon="!mr-0"
+                title="Tìm kiếm"
+                isButton
+                isButtonClassName="bg-main !text-white"
               />
             </div>
           </div>
         }
       >
-        <IconButton icon="fas fa-filter" title="Bộ lọc" />
+        <ActionButton
+          icon="fas fa-filter"
+          title="Bộ lọc"
+          isButton
+          isButtonClassName="bg-main !text-white"
+        />
       </Popover>
 
-      <IconButton
+      <ActionButton
         onClick={setIsModalOpen}
         icon="fas fa-credit-card"
         title="Thanh toán tất cả"
-        showLoading
-        toolip="Thanh toán tất cả"
-        blue
-        btnClass="!mx-2"
+        isButton
+        isButtonClassName="bg-blue !text-white"
       />
-      <IconButton
-        onClick={(data) => onExportExcel(data)}
+      <ActionButton
+        onClick={onExportExcel}
         title="Xuất"
         icon="fas fa-file-export"
-        showLoading
-        toolip="Xuất thống kê"
-        green
+        isButton
+        isButtonClassName="bg-green !text-white"
       />
     </div>
   );

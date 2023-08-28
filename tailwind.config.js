@@ -1,3 +1,4 @@
+const colors = require("tailwindcss/colors")
 const defaultTheme = require("tailwindcss/defaultTheme");
 const plugin = require("tailwindcss/plugin");
 
@@ -20,7 +21,10 @@ module.exports = {
       success: "#388E3C",
       ["important-pending"]: "#D32F2F",
       active: "#f14f04",
-      orange: "#f14f04",
+      orange:{
+        ...colors.orange,
+        DEFAULT: "#f14f04"
+      } ,
       pending: "#f57c00",
       gray: "#e6e6e6",
       purple: "#a0f",

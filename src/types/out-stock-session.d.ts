@@ -13,6 +13,7 @@ type TOutStockSessionPackages = Omit<
   OrderTransactionCode: number;
   OrderRemaining: number;
   MainOrderID: string;
+  TransportationID: string
 };
 
 type TOutStockSession = Omit<

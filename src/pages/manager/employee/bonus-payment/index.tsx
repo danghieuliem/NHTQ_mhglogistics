@@ -1,6 +1,6 @@
 import { Modal } from "antd";
 import router from "next/router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { staffIncome } from "~/api";
@@ -14,9 +14,10 @@ import {
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
-import { RootState, useAppSelector } from "~/store";
+import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 import { _format } from "~/utils";
+import { toast as toastR } from "react-toastify";
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
@@ -69,19 +70,34 @@ const Index: TNextPageWithLayout = () => {
     }
   );
 
-  const _onExportExcel = async () => {
-    try {
-      const res = await staffIncome.exportExcel({
+  const _onExportExcel = useCallback(async () => {
+    const id = toastR.loading("Đang xử lý ...");
+    let newFilter = { ...filter };
+
+    if (
+      filter.FromDate ||
+      filter.ToDate ||
+      filter.SearchContent ||
+      filter.Status
+    ) {
+      newFilter = {
         ...filter,
-        PageSize: 99999,
-        RoleID: userCurrentInfo?.UserGroupId,
-        UID: userCurrentInfo?.Id,
-      });
+        PageSize: 9999,
+      };
+    }
+    try {
+      const res = await staffIncome.exportExcel(newFilter);
       router.push(`${res.Data}`);
     } catch (error) {
       toast.error(error);
+    } finally {
+      toastR.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "default",
+      });
     }
-  };
+  }, [filter.FromDate, filter.ToDate, filter.SearchContent, filter.Status]);
 
   const mutationPayment = useMutation(
     () => staffIncome.payment({ Type: 2, Id: 2 }),

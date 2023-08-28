@@ -2,6 +2,7 @@ import router from "next/router";
 import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { user } from "~/api";
 import {
   ActionButton,
@@ -10,7 +11,6 @@ import {
   ClientListTable,
   IconButton,
   Layout,
-  toast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -88,19 +88,40 @@ const Index: TNextPageWithLayout = () => {
   );
 
   const _onExportExcel = useCallback(async () => {
-    try {
-      const res = await user.exportExcel({
+    const id = toast.loading("Đang xử lý ...");
+    let newFilter = { ...filter };
+
+    if (
+      filter.OrdererID ||
+      filter.Phone ||
+      filter.SalerID ||
+      filter.SearchContent ||
+      filter.UserName
+    ) {
+      newFilter = {
         ...filter,
-        UID: userCurrentInfo.Id,
-        RoleID: userCurrentInfo.UserGroupId,
-        UserGroupId: 2,
-        PageSize: 99999,
-      });
+        PageSize: 9999,
+      };
+    }
+    try {
+      const res = await user.exportExcel(newFilter);
       router.push(`${res.Data}`);
     } catch (error) {
       toast.error(error);
+    } finally {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "default",
+      });
     }
-  }, []);
+  }, [
+    filter.OrdererID,
+    filter.Phone,
+    filter.SalerID,
+    filter.SearchContent,
+    filter.UserName,
+  ]);
 
   const handleCloseModal = useCallback(() => setModal(false), []);
 

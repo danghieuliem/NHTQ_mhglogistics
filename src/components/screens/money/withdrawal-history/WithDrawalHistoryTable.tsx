@@ -224,7 +224,7 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
       key: "action",
       title: "Thao tác",
       fixed: "right",
-      width: 90,
+      width: 100,
       render: (_, record) => (
         <div className="flex flex-wrap gap-2">
           {record?.Status === 1 && (
@@ -275,17 +275,20 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
           bordered: true,
           loading,
           scroll: { y: 700, x: 1200 },
+          pagination: {
+            current: filter.PageIndex,
+            total: filter.TotalItems,
+            pageSize: filter.PageSize,
+          },
+          onChange: (page, pageSize) => {
+            handleFilter({
+              ...filter,
+              PageIndex: page.current,
+              PageSize: page.pageSize,
+            });
+          },
         }}
       />
-      <Pagination
-        total={filter?.TotalItems}
-        current={filter?.PageIndex}
-        pageSize={filter?.PageSize}
-        onChange={(page, pageSize) =>
-          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-        }
-      />
-      ˝{" "}
     </React.Fragment>
   );
 };

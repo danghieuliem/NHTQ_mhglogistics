@@ -1,11 +1,11 @@
 import router from "next/router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { smallPackage } from "~/api";
 import {
   Layout,
-  toast,
   TransactionCodeManagementFilterMemo,
   TransactionCodeManagementTable,
 } from "~/components";
@@ -63,25 +63,53 @@ const Index: TNextPageWithLayout = () => {
     }
   );
 
-  const handleExporTExcel = () => {
-    smallPackage
-      .exportExcel({ ...filter, PageSize: 99999 })
-      .then((res) => {
-        router.push(`${res.Data}`);
-      })
-      .catch((error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+  const handleExporTExcel = useCallback(async () => {
+    const id = toast.loading("Đang xử lý ...");
+    let newFilter = { ...filter };
+
+    if (
+      filter.SearchContent ||
+      filter.SearchType ||
+      filter.Status ||
+      filter.FromDate ||
+      filter.ToDate
+    ) {
+      newFilter = {
+        ...filter,
+        PageSize: 9999,
+      };
+    }
+    try {
+      const res = await smallPackage.exportExcel(newFilter);
+      router.push(`${res.Data}`);
+    } catch (error) {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "error",
+        render: (error as any)?.response?.data?.ResultMessage,
       });
-  };
+    } finally {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "default",
+      });
+    }
+  }, [
+    filter.SearchContent,
+    filter.SearchType,
+    filter.Status,
+    filter.FromDate,
+    filter.ToDate,
+  ]);
 
   return (
     <>
-      <div className="">
-        <TransactionCodeManagementFilterMemo
-          handleFilter={handleFilter}
-          handleExporTExcel={handleExporTExcel}
-        />
-      </div>
+      <TransactionCodeManagementFilterMemo
+        handleFilter={handleFilter}
+        handleExporTExcel={handleExporTExcel}
+      />
       <TransactionCodeManagementTable
         handleExporTExcel={handleExporTExcel}
         data={data?.Items}

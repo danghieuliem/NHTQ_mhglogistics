@@ -18,8 +18,19 @@ export const OrderListTable: React.FC<
     userSale: TUserCatalogue[];
     RoleID: number;
     refetch: () => void;
+    filter: any;
+    handleFilter: (newFilter) => void;
   }
-> = ({ data, loading, userOrder, userSale, RoleID, refetch }) => {
+> = ({
+  data,
+  loading,
+  userOrder,
+  userSale,
+  RoleID,
+  refetch,
+  filter,
+  handleFilter,
+}) => {
   // update
   const queryClient = useQueryClient();
   const mutationUpdate = useMutation(
@@ -466,7 +477,11 @@ export const OrderListTable: React.FC<
                     },
                   })
                 }
-                icon={record?.Status === EOrderStatus.NoDeposit ? "far fa-dollar-sign" : "fas fa-credit-card"}
+                icon={
+                  record?.Status === EOrderStatus.NoDeposit
+                    ? "far fa-dollar-sign"
+                    : "fas fa-credit-card"
+                }
                 title={
                   record?.Status === EOrderStatus.NoDeposit
                     ? "Đặt cọc"
@@ -494,6 +509,18 @@ export const OrderListTable: React.FC<
         data,
         bordered: true,
         scroll: { y: 700, x: 1200 },
+        pagination: {
+          current: filter.PageIndex,
+          total: filter.TotalItems,
+          pageSize: filter.PageSize,
+        },
+        onChange: (page, pageSize) => {
+          handleFilter({
+            ...filter,
+            PageIndex: page.current,
+            PageSize: page.pageSize,
+          });
+        },
       }}
     />
   );

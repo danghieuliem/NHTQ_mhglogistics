@@ -150,7 +150,7 @@ class Format {
       padding: "0px 12px",
       paddingRight: 0,
       minHeight: 40,
-      borderRadius: 6,
+      borderRadius: 4,
       // boxShadow: state.isFocused ? '0 0 0 2px rgba(246,67,2,.2)' : 'unset'
     }),
     menu: (base) => {

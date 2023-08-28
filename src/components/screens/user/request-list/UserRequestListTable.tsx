@@ -1,4 +1,4 @@
-import { Modal, Pagination } from "antd";
+import { Modal } from "antd";
 import Link from "next/link";
 import router from "next/router";
 import React, { useRef } from "react";
@@ -282,15 +282,19 @@ export const UserRequestListTable: React.FC<
           extraElment: (
             <UserRequestListFilterMemo handleFilter={handleFilter} />
           ),
+          pagination: {
+            current: filter.PageIndex,
+            total: filter.TotalItems,
+            pageSize: filter.PageSize,
+          },
+          onChange: (page, pageSize) => {
+            handleFilter({
+              ...filter,
+              PageIndex: page.current,
+              PageSize: page.pageSize,
+            });
+          },
         }}
-      />
-      <Pagination
-        total={filter?.TotalItems}
-        current={filter?.PageIndex}
-        pageSize={filter?.PageSize}
-        onChange={(page, pageSize) =>
-          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-        }
       />
     </>
   );

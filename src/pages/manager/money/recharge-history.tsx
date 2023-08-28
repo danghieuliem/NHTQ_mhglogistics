@@ -1,5 +1,5 @@
 import router from "next/router";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { adminSendUserWallet } from "~/api";
@@ -72,16 +72,40 @@ const Index: TNextPageWithLayout = () => {
     }
   );
 
-  const handleExportExcel = () => {
-    adminSendUserWallet
-      .exportExcel({ ...filter, PageSize: 99999 })
-      .then((res) => {
-        router.push(res.Data);
-      })
-      .catch((error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+  const handleExportExcel = useCallback(async () => {
+    const id = toast.loading("Đang xử lý ...");
+    let newFilter = { ...filter };
+
+    if (
+      filter.SearchContent ||
+      filter.Status ||
+      filter.FromDate ||
+      filter.ToDate
+    ) {
+      newFilter = {
+        ...filter,
+        PageSize: 9999,
+      };
+    }
+
+    try {
+      const res = await adminSendUserWallet.exportExcel(newFilter);
+      router.push(`${res.Data}`);
+    } catch (error) {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "error",
+        render: (error as any)?.response?.data?.ResultMessage,
       });
-  };
+    } finally {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "default",
+      });
+    }
+  }, [filter.SearchContent, filter.Status, filter.FromDate, filter.ToDate]);
 
   if (isError) return <NotFound />;
 

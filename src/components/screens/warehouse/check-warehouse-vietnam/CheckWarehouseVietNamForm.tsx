@@ -7,7 +7,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { smallPackage } from "~/api";
 import { FormInput } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
-import { toast } from "~/components/toast";
+import { showToast, toast } from "~/components/toast";
 import {
   EOrderTypeStatusData,
   EPermission,
@@ -34,6 +34,8 @@ export const CheckWarehouseVietNamForm = () => {
     },
   });
   const { confirm }: any = Modal;
+
+  const nameRef = useRef(null);
 
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState(false);
@@ -82,7 +84,8 @@ export const CheckWarehouseVietNamForm = () => {
                 content: "Mã này đã scan rồi, bạn có muốn tạo thêm kiện?",
                 onOk() {
                   mutationAddOrderTransactionCode.mutateAsync({
-                    OrderTransactionCode: newData[0].OrderTransactionCode,
+                    OrderTransactionCode:
+                      newData[0].OrderTransactionCode.trim(),
                     IsWarehouseVN: true,
                   });
                 },
@@ -178,7 +181,16 @@ export const CheckWarehouseVietNamForm = () => {
           data.forEach((d) => {
             d.VolumePayment = (d.Height * d.Width * d.Length) / 1000000;
           });
-          await mutationUpdate.mutateAsync(data);
+
+          // if (data[0]?.OrderType === 3) {
+          //   const key: string = nameRef.current.name;
+          //   // _onHide(nameRef.current.name, nameRef.current.record)
+          // }
+
+          await mutationUpdate.mutateAsync(data).then(() => {
+            _onCreate(nameRef.current.record);
+          });
+
           setModalAssign1(false);
           setModalAssign2(false);
         } catch (error) {}
@@ -194,6 +206,7 @@ export const CheckWarehouseVietNamForm = () => {
     } else {
       let currentListOfKey = watchArray(key);
       currentListOfKey = currentListOfKey.filter((x) => x.Id !== item.Id);
+
       if (!currentListOfKey.length) {
         unregisterArray(key);
       } else {
@@ -214,13 +227,21 @@ export const CheckWarehouseVietNamForm = () => {
 
   const handleAssign = (
     data?: TWarehouseVN,
-    type: "assign1" | "assign2" = "assign1"
+    type: "assign1" | "assign2" = "assign1",
+    name?: string,
+    record?: any
   ) => {
     if (data) {
       item.current = data;
     } else {
       item.current = undefined;
     }
+
+    nameRef.current = {
+      name: name,
+      record: record,
+    };
+
     if (type === "assign1") {
       modalType.current = "assign1";
       setModalAssign1(true);
@@ -261,7 +282,7 @@ export const CheckWarehouseVietNamForm = () => {
         mutationUpdate.isLoading
       }
     >
-      <div className="tableBox grid grid-cols-6 gap-4">
+      <div className="tableBox grid grid-cols-4 gap-4">
         <div className="col-span-2">
           <FormInput
             control={control}
@@ -279,7 +300,7 @@ export const CheckWarehouseVietNamForm = () => {
             onEnter={handleSubmit((data) => _onCreate(data))}
           />
         </div>
-        <div className="col-span-1 flex items-center">
+        <div className="col-span-1 flex items-end">
           <IconButton
             onClick={handleSubmit((data) => _onCreate(data))}
             icon="fas fa-barcode-read"

@@ -157,12 +157,16 @@ li {
 }
 
 .ant-pagination-item-active {
-  @apply !bg-sec !text-white !border-none;
+  @apply !bg-main !text-white !border-none;
   border-radius: 4px !important;
 }
 
 .ant-pagination-item-active a {
   color: #fff !important;
+}
+
+.ant-pagination-prev, .ant-pagination-jump-prev, .ant-pagination-jump-next {
+  margin-right: 0  !important;
 }
 
 /* ANT TABLE */
@@ -518,4 +522,8 @@ div.order.ant-drawer-bottom.ant-drawer-open .ant-drawer-content-wrapper {
 .ant-menu-vertical-right .ant-menu-item::after,
 .ant-menu-inline .ant-menu-item::after {
   display: none;
+}
+
+.ant-upload-list-picture .ant-upload-list-item, .ant-upload-list-picture-card .ant-upload-list-item {
+  border-radius: 4px !important;
 }

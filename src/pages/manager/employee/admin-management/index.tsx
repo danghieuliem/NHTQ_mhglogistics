@@ -2,13 +2,13 @@ import router from "next/router";
 import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { user } from "~/api";
 import {
   EmployeeManagementFilterMemo,
   EmployeeManagementFormMemo,
   EmployeeManagementTable,
   Layout,
-  toast
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -61,7 +61,7 @@ const Index: TNextPageWithLayout = () => {
       },
       onError: toast.error,
       refetchOnWindowFocus: true,
-      staleTime: 5000
+      staleTime: 5000,
     }
   );
 
@@ -73,21 +73,32 @@ const Index: TNextPageWithLayout = () => {
     return userGroupData;
   });
 
-  const _onExportExcel = async () => {
+  const _onExportExcel = useCallback(async () => {
+    const id = toast.loading("Đang xử lý ...");
+
+    let newFilter = { ...filter };
+
+    if (filter.UserName) {
+      newFilter = {
+        ...filter,
+        PageSize: 9999,
+      };
+    }
     try {
-      const res = await user.exportExcel({
-        RoleID: userCurrentInfo?.UserGroupId,
-        UID: userCurrentInfo?.Id,
-        IsEmployee: 1,
-        PageSize: 99999,
-      });
+      const res = await user.exportExcel(newFilter);
       router.push(`${res.Data}`);
     } catch (error) {
       toast.error(error);
+    } finally {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "default"
+      })
     }
-  };
+  }, [filter.UserName]);
 
-  const handleCloseModal = useCallback(() => setModal(false), [])
+  const handleCloseModal = useCallback(() => setModal(false), []);
 
   return (
     <>

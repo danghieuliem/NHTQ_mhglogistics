@@ -1,7 +1,7 @@
 import { Drawer, Tag } from "antd";
 import { useRouter } from "next/router";
 import { FC, useRef, useState } from "react";
-import { FilterCheckbox, FilterInput, FilterSelect } from "~/components";
+import { ActionButton, FilterCheckbox, FilterInput, FilterSelect } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
 import {
   FilterInputNumber,
@@ -170,7 +170,7 @@ export const OrderListFilter: FC<TProps> = ({
                   });
                 }}
                 icon="mr-0"
-                title="Lọc"
+                title="Tìm kiếm"
                 btnClass="bg-sec hover:!bg-main"
                 showLoading
               />
@@ -215,20 +215,19 @@ export const OrderListFilter: FC<TProps> = ({
         </>
       </Drawer>
 
-      <IconButton
+      <ActionButton
         onClick={() => setIsShow(!isShow)}
         icon="fas fa-filter"
         title="Bộ lọc"
-        showLoading
-        btnClass="mr-2"
+        isButton
+        isButtonClassName="bg-main !text-white"
       />
-      <IconButton
+      <ActionButton
         onClick={() => handleExportExcel()}
         icon="fas fa-file-export"
         title="Xuất"
-        showLoading
-        toolip="Xuất thống kê"
-        green
+        isButton
+        isButtonClassName="bg-green !text-white"
       />
     </div>
   );

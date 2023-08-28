@@ -66,7 +66,9 @@ const Sidebar: FC<TProps> = ({ userPage, hover }) => {
       {renderMenuRouter?.map((menuParent, index) => (
         <div key={menuParent?.Title} className={styles.menuWrapper}>
           <div className={styles.mainTitle}>
-            <span className="mr-2"><i className={menuParent?.Icon}></i></span>
+            <span className="mr-2">
+              <i className={menuParent?.Icon}></i>
+            </span>
             <span>{menuParent?.Title}</span>
           </div>
           <Menu mode="inline" openKeys={activekey} selectedKeys={activeRouter}>
@@ -113,8 +115,11 @@ const Sidebar: FC<TProps> = ({ userPage, hover }) => {
                         key={item?.Label}
                         className={clsx(
                           styles.subLabel,
-                          activeRouter[0].match(item?.Path) &&
-                            styles.subLabelActive
+                          !router.asPath.match("/order/order-list/")
+                            ? activeRouter[0].match(item?.Path) &&
+                                styles.subLabelActive
+                            : activeRouter[0] === item?.Path &&
+                                styles.subLabelActive
                         )}
                       >
                         <Link href={item.Path}>
@@ -122,7 +127,6 @@ const Sidebar: FC<TProps> = ({ userPage, hover }) => {
                             {/* <i className="fal fa-long-arrow-alt-right"></i> */}
                             <i className="fas fa-dot-circle"></i>
                             <span>{item?.Label}</span>
-                            <br />
                           </a>
                         </Link>
                       </Menu.Item>

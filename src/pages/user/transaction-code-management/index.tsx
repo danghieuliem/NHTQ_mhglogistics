@@ -2,12 +2,12 @@ import router from "next/router";
 import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { smallPackage } from "~/api";
 import {
   TransactionCodeManagementFilterMemo,
   TransactionCodeManagementTable,
   UserLayout,
-  toast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -63,16 +63,47 @@ const Index: TNextPageWithLayout = () => {
     }
   );
 
-  const handleExporTExcel = useCallback(() => {
-    smallPackage
-      .exportExcel({ ...filter, PageSize: 99999 })
-      .then((res) => {
-        router.push(`${res.Data}`);
-      })
-      .catch((error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+  const handleExporTExcel = useCallback(async () => {
+    const id = toast.loading("Đang xử lý ...");
+    let newFilter = { ...filter };
+
+    if (
+      filter.SearchContent ||
+      filter.SearchType ||
+      filter.Status ||
+      filter.ToDate ||
+      filter.FromDate
+    ) {
+      newFilter = {
+        ...filter,
+        PageSize: 99999,
+      };
+    }
+
+    try {
+      const res = await smallPackage.exportExcel(newFilter);
+      router.push(`${res.Data}`);
+    } catch (error) {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 3000,
+        type: "error",
+        render: (error as any)?.response?.data?.ResultMessage,
       });
-  }, []);
+    } finally {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "default",
+      });
+    }
+  }, [
+    filter.SearchContent,
+    filter.SearchType,
+    filter.Status,
+    filter.ToDate,
+    filter.FromDate,
+  ]);
 
   return (
     <>

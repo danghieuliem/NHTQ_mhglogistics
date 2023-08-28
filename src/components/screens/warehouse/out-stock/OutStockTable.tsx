@@ -168,9 +168,9 @@ export const OutStockTable: React.FC<
           query: { id: res?.Data?.Id },
         });
         toast.update(id, {
-          // render: "Chọn đơn hàng thành công, đang chuyển tr",
+          render: "Chọn đơn hàng thành công, đang chuyển trang ...",
           autoClose: 1000,
-          // type: "success",
+          type: "success",
           isLoading: false,
         });
       })

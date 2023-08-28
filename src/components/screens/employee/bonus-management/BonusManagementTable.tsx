@@ -1,4 +1,4 @@
-import { Modal, Pagination } from "antd";
+import { Modal } from "antd";
 import router from "next/router";
 import React from "react";
 import { ActionButton, DataTable, toast } from "~/components";
@@ -203,15 +203,15 @@ export const BonusManagementTable: React.FC<TTable<TBonus> & TProps> = ({
           data,
           bordered: true,
           scroll: { y: 700, x: 1200 },
+          pagination: {current: filter.PageIndex, total: filter.TotalItems, pageSize: filter.PageSize },
+          onChange: (page, pageSize) => {
+            handleFilter({
+              ...filter,
+              PageIndex: page.current,
+              PageSize: page.pageSize
+            });
+          },
         }}
-      />
-      <Pagination
-        total={filter?.TotalItems}
-        current={filter?.PageIndex}
-        pageSize={filter?.PageSize}
-        onChange={(page, pageSize) =>
-          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-        }
       />
     </>
   );
