@@ -8,7 +8,7 @@ import {
   PackageManagementForm,
   PackageManagementFormFilter,
   PackageManagementFormTable,
-  toast
+  toast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -57,6 +57,8 @@ const Index: TNextPageWithLayout = () => {
           <PackageManagementFormFilter
             handleFilter={handleFilter}
             loading={isLoading}
+            data={data?.Data}
+            refetch={refetch}
           />
         </div>
         <PackageManagementFormTable
@@ -65,6 +67,7 @@ const Index: TNextPageWithLayout = () => {
           )}
           loading={isLoading}
           handleModal={handleModal}
+          refetch={refetch}
         />
       </div>
       {/* <PackageManagementFormDetail

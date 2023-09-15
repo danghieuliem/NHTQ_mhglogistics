@@ -54,7 +54,7 @@ const Index: TNextPageWithLayout = () => {
               : "Thanh toán thành công!",
           isLoading: false,
           type: "success",
-          autoClose: 1000,
+          autoClose: 500,
         });
         refetch();
       })

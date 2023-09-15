@@ -1501,20 +1501,20 @@ export enum ERechargeStatusData {
   Cancel = 3,
 }
 
-export const complainStatus = [
-  {
-    id: ERechargeStatusData.Pending,
-    color: "yellow",
-  },
-  {
-    id: ERechargeStatusData.Approved,
-    color: "#EFF5EC",
-  },
-  {
-    id: ERechargeStatusData.Cancel,
-    color: "#E54C36",
-  },
-];
+// export const complainStatus = [
+//   {
+//     id: ERechargeStatusData.Pending,
+//     color: "yellow",
+//   },
+//   {
+//     id: ERechargeStatusData.Approved,
+//     color: "#EFF5EC",
+//   },
+//   {
+//     id: ERechargeStatusData.Cancel,
+//     color: "#E54C36",
+//   },
+// ];
 
 export const rechargeStatusData = [
   {
@@ -1907,266 +1907,266 @@ export const apiWithoutToken = [
   "/page/get-by-code",
 ];
 
-export const enum EPaymentStatus {
-  Pending = 1,
-  Paid = 2,
-  Cancel = 3,
-  Finished = 4,
-  Confirmed = 5
-}
+// export const enum EPaymentStatus {
+//   Pending = 1,
+//   Paid = 2,
+//   Cancel = 3,
+//   Finished = 4,
+//   Confirmed = 5
+// }
 
-export const paymentStatus = [
-  {
-    id: EPaymentStatus.Pending,
-    name: "Chờ duyệt",
-    col: 2,
-    value: null,
-    color: "darkred",
-  },
-  {
-    id: EPaymentStatus.Paid,
-    name: "Đã thanh toán",
-    col: 2,
-    value: null,
-    color: "#096dd9",
-  },
-  {
-    id: EPaymentStatus.Cancel,
-    name: "Đã hủy",
-    col: 2,
-    value: null,
-    color: "#000",
-  },
-  {
-    id: EPaymentStatus.Finished,
-    name: "Đã hoàn thành",
-    col: 2,
-    value: null,
-    color: "#008000",
-  },
-  {
-    id: EPaymentStatus.Confirmed,
-    name: "Đã xác nhận",
-    col: 2,
-    value: null,
-    color: "#f57c00",
-  },
-];
+// export const paymentStatus = [
+//   {
+//     id: EPaymentStatus.Pending,
+//     name: "Chờ duyệt",
+//     col: 2,
+//     value: null,
+//     color: "darkred",
+//   },
+//   {
+//     id: EPaymentStatus.Paid,
+//     name: "Đã thanh toán",
+//     col: 2,
+//     value: null,
+//     color: "#096dd9",
+//   },
+//   {
+//     id: EPaymentStatus.Cancel,
+//     name: "Đã hủy",
+//     col: 2,
+//     value: null,
+//     color: "#000",
+//   },
+//   {
+//     id: EPaymentStatus.Finished,
+//     name: "Đã hoàn thành",
+//     col: 2,
+//     value: null,
+//     color: "#008000",
+//   },
+//   {
+//     id: EPaymentStatus.Confirmed,
+//     name: "Đã xác nhận",
+//     col: 2,
+//     value: null,
+//     color: "#f57c00",
+//   },
+// ];
 
-export const transportStatus = [
-  {
-    id: -1,
-    name: "Tất cả",
-    col: 1,
-    value: null,
-    color: "#000",
-  },
-  {
-    id: 1,
-    name: "Hủy",
-    col: 1,
-    value: null,
-    color: "#000",
-  },
-  {
-    id: 2,
-    name: "Chờ duyệt",
-    col: 1,
-    value: null,
-    color: "magenta",
-  },
-  {
-    id: 3,
-    name: "Đã duyệt",
-    col: 1,
-    value: null,
-    color: "#008080",
-  },
-  {
-    id: 4,
-    name: "Về kho TQ",
-    col: 1,
-    value: null,
-    color: "#f57c00",
-  },
-  {
-    id: 5,
-    name: "Về kho VN",
-    col: 1,
-    value: null,
-    color: "#c71585",
-  },
-  {
-    id: 6,
-    name: "Đã thanh toán",
-    col: 1,
-    value: null,
-    color: "#096dd9",
-  },
-  {
-    id: 7,
-    name: "Đã hoàn thành",
-    col: 1,
-    value: null,
-    color: "#008000",
-  },
-];
+// export const transportStatus = [
+//   {
+//     id: -1,
+//     name: "Tất cả",
+//     col: 1,
+//     value: null,
+//     color: "#000",
+//   },
+//   {
+//     id: 1,
+//     name: "Hủy",
+//     col: 1,
+//     value: null,
+//     color: "#000",
+//   },
+//   {
+//     id: 2,
+//     name: "Chờ duyệt",
+//     col: 1,
+//     value: null,
+//     color: "magenta",
+//   },
+//   {
+//     id: 3,
+//     name: "Đã duyệt",
+//     col: 1,
+//     value: null,
+//     color: "#008080",
+//   },
+//   {
+//     id: 4,
+//     name: "Về kho TQ",
+//     col: 1,
+//     value: null,
+//     color: "#f57c00",
+//   },
+//   {
+//     id: 5,
+//     name: "Về kho VN",
+//     col: 1,
+//     value: null,
+//     color: "#c71585",
+//   },
+//   {
+//     id: 6,
+//     name: "Đã thanh toán",
+//     col: 1,
+//     value: null,
+//     color: "#096dd9",
+//   },
+//   {
+//     id: 7,
+//     name: "Đã hoàn thành",
+//     col: 1,
+//     value: null,
+//     color: "#008000",
+//   },
+// ];
 
 
-export const enum EOrderStatus {
-  all = -1,
-  NoDeposit = 0,
-  WaitingForQuote = 100,
-  Cancel = 1,
-  Deposited = 2,
-  Purchased = 5,
-  InChinaWarehoue = 6,
-  InVietnamWarehoue = 7,
-  Paid = 9,
-  Finished = 10,
-  Complained = 11
-}
+// export const enum EOrderStatus {
+//   all = -1,
+//   NoDeposit = 0,
+//   WaitingForQuote = 100,
+//   Cancel = 1,
+//   Deposited = 2,
+//   Purchased = 5,
+//   InChinaWarehoue = 6,
+//   InVietnamWarehoue = 7,
+//   Paid = 9,
+//   Finished = 10,
+//   Complained = 11
+// }
 
-export const orderStatus = [
-  {
-    id: EOrderStatus.all,
-    name: "Tất cả",
-    col: 1,
-    money: null,
-    value: null,
-  },
-  {
-    id: EOrderStatus.NoDeposit,
-    name: "Chưa cọc",
-    color: "#f00",
-    col: 1,
-    money: null,
-    value: null,
-  },
-  {
-    id: EOrderStatus.WaitingForQuote,
-    name: "Chờ báo giá",
-    color: "purple",
-    col: 1,
-    money: null,
-    value: null,
-  },
-  {
-    id: EOrderStatus.Cancel,
-    name: "Hủy",
-    color: "#000",
-    col: 1,
-    money: null,
-    value: null,
-  },
-  {
-    id: EOrderStatus.Deposited,
-    name: "Đã đặt cọc",
-    color: "#ffa500",
-    col: 1,
-    money: null,
-    value: null,
-  },
-  {
-    id: EOrderStatus.Purchased,
-    name: "Đã mua hàng",
-    color: "#008080",
-    col: 1,
-    money: null,
-    value: null,
-  },
-  {
-    id: EOrderStatus.InChinaWarehoue,
-    name: "Về kho TQ",
-    color: "#f57c00",
-    col: 1,
-    money: null,
-    value: null,
-  },
-  {
-    id: EOrderStatus.InVietnamWarehoue,
-    name: "Về kho VN",
-    color: "#c71585",
-    col: 1,
-    money: null,
-    value: null,
-  },
-  {
-    id: EOrderStatus.Paid,
-    name: "Đã thanh toán",
-    color: "#096dd9",
-    col: 1,
-    money: null,
-    value: null,
-  },
-  {
-    id: EOrderStatus.Finished,
-    name: "Đã hoàn thành",
-    color: "#008000",
-    col: 1,
-    money: null,
-    value: null,
-  },
-  {
-    id: EOrderStatus.Complained,
-    name: "Đã khiếu nại",
-    color: "#601010",
-    col: 1,
-    money: null,
-    value: null,
-  },
-];
+// export const orderStatus = [
+//   {
+//     id: EOrderStatus.all,
+//     name: "Tất cả",
+//     col: 1,
+//     money: null,
+//     value: null,
+//   },
+//   {
+//     id: EOrderStatus.NoDeposit,
+//     name: "Chưa cọc",
+//     color: "#f00",
+//     col: 1,
+//     money: null,
+//     value: null,
+//   },
+//   {
+//     id: EOrderStatus.WaitingForQuote,
+//     name: "Chờ báo giá",
+//     color: "purple",
+//     col: 1,
+//     money: null,
+//     value: null,
+//   },
+//   {
+//     id: EOrderStatus.Cancel,
+//     name: "Hủy",
+//     color: "#000",
+//     col: 1,
+//     money: null,
+//     value: null,
+//   },
+//   {
+//     id: EOrderStatus.Deposited,
+//     name: "Đã đặt cọc",
+//     color: "#ffa500",
+//     col: 1,
+//     money: null,
+//     value: null,
+//   },
+//   {
+//     id: EOrderStatus.Purchased,
+//     name: "Đã mua hàng",
+//     color: "#008080",
+//     col: 1,
+//     money: null,
+//     value: null,
+//   },
+//   {
+//     id: EOrderStatus.InChinaWarehoue,
+//     name: "Về kho TQ",
+//     color: "#f57c00",
+//     col: 1,
+//     money: null,
+//     value: null,
+//   },
+//   {
+//     id: EOrderStatus.InVietnamWarehoue,
+//     name: "Về kho VN",
+//     color: "#c71585",
+//     col: 1,
+//     money: null,
+//     value: null,
+//   },
+//   {
+//     id: EOrderStatus.Paid,
+//     name: "Đã thanh toán",
+//     color: "#096dd9",
+//     col: 1,
+//     money: null,
+//     value: null,
+//   },
+//   {
+//     id: EOrderStatus.Finished,
+//     name: "Đã hoàn thành",
+//     color: "#008000",
+//     col: 1,
+//     money: null,
+//     value: null,
+//   },
+//   {
+//     id: EOrderStatus.Complained,
+//     name: "Đã khiếu nại",
+//     color: "#601010",
+//     col: 1,
+//     money: null,
+//     value: null,
+//   },
+// ];
 
-export const packageStatus = [
-  {
-    id: 0,
-    name: "Đã hủy",
-    color: "#000",
-  },
-  {
-    id: 1,
-    name: "Mới đặt",
-    color: "blue",
-  },
-  {
-    id: 2,
-    name: "Đã về kho TQ",
-    color: "#f57c00",
-  },
-  {
-    id: 3,
-    name: "Đã về kho VN",
-    color: "#c71585",
-  },
-  {
-    id: 5,
-    name: "Đã giao",
-    color: "#008000",
-  },
-];
+// export const packageStatus = [
+//   {
+//     id: 0,
+//     name: "Đã hủy",
+//     color: "#000",
+//   },
+//   {
+//     id: 1,
+//     name: "Mới đặt",
+//     color: "blue",
+//   },
+//   {
+//     id: 2,
+//     name: "Đã về kho TQ",
+//     color: "#f57c00",
+//   },
+//   {
+//     id: 3,
+//     name: "Đã về kho VN",
+//     color: "#c71585",
+//   },
+//   {
+//     id: 5,
+//     name: "Đã giao",
+//     color: "#008000",
+//   },
+// ];
 
-export const reportStatus = [
-  {
-    id: 0,
-    name: "Đã hủy",
-    color: "#000",
-  },
-  {
-    id: 1,
-    name: "Chưa duyệt",
-    color: "red",
-  },
-  {
-    id: 2,
-    name: "Đang xử lý",
-    color: "#008080",
-  },
-  {
-    id: 3,
-    name: "Đã xử lý",
-    color: "#008000",
-  },
-];
+// export const reportStatus = [
+//   {
+//     id: 0,
+//     name: "Đã hủy",
+//     color: "#000",
+//   },
+//   {
+//     id: 1,
+//     name: "Chưa duyệt",
+//     color: "red",
+//   },
+//   {
+//     id: 2,
+//     name: "Đang xử lý",
+//     color: "#008080",
+//   },
+//   {
+//     id: 3,
+//     name: "Đã xử lý",
+//     color: "#008000",
+//   },
+// ];
 
 export const moneyStatus = [
   {

@@ -4,8 +4,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { FC, useEffect, useState } from "react";
 import { userRouter } from "~/configs/routers";
-import { selectRouter, useAppSelector } from "~/store";
+import { RootState, selectRouter, useAppSelector } from "~/store";
 import styles from "./index.module.css";
+import { useQuery } from "react-query";
+import { mainOrder } from "~/api";
+import { useSelector } from "react-redux";
 const { SubMenu } = Menu;
 
 export type TProps = {
@@ -17,6 +20,9 @@ export type TProps = {
 const Sidebar: FC<TProps> = ({ userPage, hover }) => {
   let menuRouter = useAppSelector(selectRouter);
   const router = useRouter();
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurretnInfo
+  );
 
   let renderMenuRouter = userPage ? userRouter : menuRouter;
 
@@ -27,6 +33,7 @@ const Sidebar: FC<TProps> = ({ userPage, hover }) => {
   const [activekey, setActiveKey] = useState([]);
 
   const [activeRouter, setActiveRouter] = useState([""]);
+  const [obj, setObj] = useState({});
 
   const handleActiveKey = (name: string) => {
     const indexKey = activekey.indexOf(name);
@@ -37,6 +44,32 @@ const Sidebar: FC<TProps> = ({ userPage, hover }) => {
       setActiveKey([...activekey]);
     }
   };
+
+  useQuery(
+    ["count-order"],
+    () =>
+      mainOrder
+        .getCountOrder({
+          UID: userCurrentInfo?.UserId,
+          RoleID:
+            userCurrentInfo?.UserGroupId === 8 ||
+            userCurrentInfo?.UserGroupId === 6
+              ? 3
+              : userCurrentInfo?.UserGroupId,
+        })
+        .then((res) => {
+          let data = res?.Data;
+          let obj = {};
+          data?.forEach((item) => {
+            obj[item.Key] = item.Value;
+          });
+          setObj(obj);
+        }),
+    {
+      enabled: [1, 3, 4, 6, 7, 8].includes(userCurrentInfo?.UserGroupId),
+      retry: false,
+    }
+  );
 
   useEffect(() => {
     setActiveRouter([router?.asPath]);
@@ -126,7 +159,10 @@ const Sidebar: FC<TProps> = ({ userPage, hover }) => {
                           <a>
                             {/* <i className="fal fa-long-arrow-alt-right"></i> */}
                             <i className="fas fa-dot-circle"></i>
-                            <span>{item?.Label}</span>
+                            <span>
+                              {item?.Label}{" "}
+                              <span>{item?.Key && `(${obj[item.Key]})`}</span>
+                            </span>
                           </a>
                         </Link>
                       </Menu.Item>

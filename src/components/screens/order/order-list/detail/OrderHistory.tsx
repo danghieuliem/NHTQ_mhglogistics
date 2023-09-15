@@ -1,4 +1,6 @@
 import React from "react";
+import { useQuery } from "react-query";
+import { historyOrderChange } from "~/api";
 import { DataTable } from "~/components/globals/table";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
@@ -9,6 +11,23 @@ type TProps = {
 };
 
 export const OrderHistory: React.FC<TProps> = ({ data, loading }) => {
+
+  const {data:  HistoryOrderChanges} = useQuery(
+    ['history-order'],
+    () => historyOrderChange.getList({
+      MainOrderId: data?.Id,
+      PageIndex: 1,
+      PageSize: 999999,
+      OrderBy: "Id desc"
+    })
+    .then(res => res?.Data?.Items),
+    {
+      enabled: !!data?.Id,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false
+    }
+  );
+
   const paymentHistoryColumns: TColumnsType<TPayOrderHistory> = [
     {
       dataIndex: "Created",
@@ -112,7 +131,7 @@ export const OrderHistory: React.FC<TProps> = ({ data, loading }) => {
       <DataTable
         title="Lịch sử thay đổi"
         columns={changeHistoryColumns}
-        data={data?.HistoryOrderChanges}
+        data={(HistoryOrderChanges as any)}
         style="detailOrder"
         scroll={{y: 600, x: 1200}}
         className="mb-4"

@@ -124,26 +124,30 @@ export const adminRouter = [
         Path: "javascript:;",
         SubChildren: [
           {
-            // key: "MainOrder",
+            Key: "MainOrder",
             Path: "/manager/order/order-list/",
             Label: "ĐH mua hộ",
             Icon: "",
+            Value: 0,
           },
           {
-            // key: "MainOrderAnother",
+            Key: "MainOrderAnother",
             Path: "/manager/order/order-list/?q=3",
             Label: "ĐH mua hộ khác",
             Icon: "",
+            Value: 0,
           },
           {
-            // key: "TransportationOrder",
+            Key: "TransportationOrder",
             Path: "/manager/deposit/deposit-list/",
             Label: "ĐH ký gửi",
             Icon: "",
+            Value: 0,
           },
           {
-            // key: "PayHelp",
+            Key: "PayHelp",
             Icon: "",
+            Value: 0,
             Path: "/manager/order/request-payment/",
             Label: "ĐH thanh toán hộ",
           },
@@ -179,6 +183,11 @@ export const adminRouter = [
         Icon: "fas fa-hand-holding-medical",
         Label: "Gán kiện ký gửi",
       },
+      {
+        Path: "/manager/tracking",
+        Icon: "fas fa-search",
+        Label: "Tracking",
+      },
       // {
       //   Label: "Mã vận đơn",
       //   Icon: "fas fa-warehouse-alt",
@@ -211,6 +220,16 @@ export const adminRouter = [
             Icon: "",
             Label: "Import kho TQ",
           },
+          {
+            Path: "/manager/warehouse/export/check-export-china/",
+            Icon: "",
+            Label: "Xuất kho TQ",
+          },
+          {
+            Path: "/manager/warehouse/export/ImportComingVN",
+            Icon: "",
+            Label: "Import xuất kho TQ",
+          },
         ],
       },
       {
@@ -223,11 +242,16 @@ export const adminRouter = [
             Icon: "",
             Label: "Kiểm kho VN",
           },
-          // {
-          //   Path: "/manager/warehouse/import/ImportComingVN",
-          //   Icon: "",
-          //   Label: "Import về VN",
-          // },
+          {
+            Path: "/manager/warehouse/out-stock/",
+            Icon: "",
+            Label: "Xuất kho",
+          },
+          {
+            Path: "/manager/money/out-stock-payment/",
+            Icon: "",
+            Label: "Thanh toán xuất kho",
+          },
         ],
       },
       // {
@@ -247,23 +271,23 @@ export const adminRouter = [
       //     },
       //   ],
       // },
-      {
-        Label: "Xuất kho",
-        Icon: "fas fa-file-export",
-        Path: "javascript:;",
-        SubChildren: [
-          {
-            Path: "/manager/warehouse/out-stock/",
-            Icon: "",
-            Label: "Xuất kho",
-          },
-          {
-            Path: "/manager/money/out-stock-payment/",
-            Icon: "",
-            Label: "Thanh toán xuất kho",
-          },
-        ],
-      },
+      // {
+      //   Label: "Xuất kho",
+      //   Icon: "fas fa-file-export",
+      //   Path: "javascript:;",
+      //   SubChildren: [
+      //     {
+      //       Path: "/manager/warehouse/out-stock/",
+      //       Icon: "",
+      //       Label: "Xuất kho",
+      //     },
+      //     {
+      //       Path: "/manager/money/out-stock-payment/",
+      //       Icon: "",
+      //       Label: "Thanh toán xuất kho",
+      //     },
+      //   ],
+      // },
       {
         Label: "Quản lý kiện hàng",
         Icon: "fas fa-list-ul",

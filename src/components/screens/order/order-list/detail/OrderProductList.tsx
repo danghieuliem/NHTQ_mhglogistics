@@ -1,6 +1,6 @@
 import router from "next/router";
 import React, { useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { order } from "~/api";
 import { IconButton, toast } from "~/components";
 import { _format } from "~/utils";
@@ -24,10 +24,12 @@ export const OrderProductList: React.FC<TProps> = ({
     (accumulator, currentValue) => Number(accumulator + currentValue.Quantity),
     0
   );
+  const queryClient = useQueryClient();
 
   const mutationUpdate = useMutation(order.update, {
     onSuccess: () => {
       toast.success("Cập nhật sản phẩm thành công");
+      queryClient.invalidateQueries("history-order");
       refetch();
       setLoadingUpdate(false);
     },

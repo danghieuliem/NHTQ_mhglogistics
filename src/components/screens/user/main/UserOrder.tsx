@@ -51,10 +51,10 @@ export const UserOrder = ({ data, isFetching }) => {
     {
       title: "Trạng thái",
       dataIndex: "Status",
-      render: (status, record) => {
+      render: (status) => {
         const color = orderStatus.find((x) => x.id === status);
         return (
-          <TagStatus color={color?.color} statusName={record?.StatusName} />
+          <TagStatus color={color?.color} statusName={color?.name} />
         );
       },
     },

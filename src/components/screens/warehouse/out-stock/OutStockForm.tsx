@@ -37,7 +37,7 @@ export const OutStockForm = () => {
             render: "Lấy thông tin thành công!",
             type: "success",
             isLoading: false,
-            autoClose: 1000,
+            autoClose: 500,
           });
           setGetForUserName(res?.Data);
         })

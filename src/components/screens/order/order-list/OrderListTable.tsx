@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { mainOrder } from "~/api";
 import { ActionButton, DataTable } from "~/components";
 import { FilterSelect } from "~/components/globals/filterBase";
-import { EOrderStatus, orderStatus } from "~/configs/appConfigs";
+import { EOrderStatus, orderStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
@@ -168,7 +168,7 @@ export const OrderListTable: React.FC<
                       toast.update(id, {
                         render: "Cập nhật thành công",
                         isLoading: false,
-                        autoClose: 0,
+                        autoClose: 500,
                         type: "success",
                       });
                     })
@@ -176,7 +176,7 @@ export const OrderListTable: React.FC<
                       toast.update(id, {
                         render: (error as any)?.response?.data?.ResultMessage,
                         isLoading: false,
-                        autoClose: 0,
+                        autoClose: 1000,
                         type: "error",
                       });
                     });
@@ -216,7 +216,7 @@ export const OrderListTable: React.FC<
                       toast.update(id, {
                         render: "Cập nhật thành công",
                         isLoading: false,
-                        autoClose: 0,
+                        autoClose: 500,
                         type: "success",
                       });
                     })
@@ -224,7 +224,7 @@ export const OrderListTable: React.FC<
                       toast.update(id, {
                         render: (error as any)?.response?.data?.ResultMessage,
                         isLoading: false,
-                        autoClose: 0,
+                        autoClose: 1000,
                         type: "error",
                       });
                     });
@@ -275,133 +275,166 @@ export const OrderListTable: React.FC<
     {
       dataIndex: "DepositDate",
       title: "TimeLine",
-      render: (_, record) => {
-        return (
-          <div className="text-left">
-            {record.Created && (
-              <p
-                className={clsx(
-                  !record.DepositDate &&
-                    !record.DateBuy &&
-                    !record.DateTQ &&
-                    !record.DateVN &&
-                    !record.PayDate &&
-                    !record.CompleteDate &&
-                    " text-warning ",
-                  "flex justify-between px-2"
-                )}
-              >
-                <span>Lên đơn:</span>
-                <span>
-                  {_format.getVNDate(record.Created, "HH:mm")} -
-                  {_format.getVNDate(record.Created, "DD/MM/YYYY")}
-                </span>
-              </p>
-            )}
-            {record.DepositDate && (
-              <p
-                className={clsx(
-                  !record.DateBuy &&
-                    !record.DateTQ &&
-                    !record.DateVN &&
-                    !record.PayDate &&
-                    !record.CompleteDate &&
-                    " text-warning ",
-                  "flex justify-between px-2"
-                )}
-              >
-                <span>Đặt cọc:</span>
-                <span>
-                  {_format.getVNDate(record.DepositDate, "HH:mm")} -
-                  {_format.getVNDate(record.DepositDate, "DD/MM/YYYY")}
-                </span>
-              </p>
-            )}
-            {record.DateBuy && (
-              <p
-                className={clsx(
-                  !record.DateTQ &&
-                    !record.DateVN &&
-                    !record.PayDate &&
-                    !record.CompleteDate &&
-                    " text-warning ",
-                  "flex justify-between px-2"
-                )}
-              >
-                <span>Đặt hàng:</span>
-                <span>
-                  {_format.getVNDate(record.DateBuy, "HH:mm")} -
-                  {_format.getVNDate(record.DateBuy, "DD/MM/YYYY")}
-                </span>
-              </p>
-            )}
-            {record.DateTQ && (
-              <p
-                className={clsx(
-                  !record.DateVN &&
-                    !record.PayDate &&
-                    !record.CompleteDate &&
-                    " text-warning ",
-                  "flex justify-between px-2"
-                )}
-              >
-                <span>Đã về kho TQ:</span>
-                <span>
-                  {_format.getVNDate(record.DateTQ, "HH:mm")} -
-                  {_format.getVNDate(record.DateTQ, "DD/MM/YYYY")}
-                </span>
-              </p>
-            )}
-            {record.DateVN && (
-              <p
-                className={clsx(
-                  !record.PayDate && !record.CompleteDate && "text-warning",
-                  "flex justify-between px-2 "
-                )}
-              >
-                <span>Đã về kho VN:</span>
-                <span>
-                  {_format.getVNDate(record.DateVN, "HH:mm")} -
-                  {_format.getVNDate(record.DateVN, "DD/MM/YYYY")}
-                </span>
-              </p>
-            )}
-            {record.PayDate && (
-              <p
-                className={clsx(
-                  !record.CompleteDate && "text-warning ",
-                  "flex justify-between px-2"
-                )}
-              >
-                <span>Thanh toán:</span>
-                <span>
-                  {_format.getVNDate(record.PayDate, "HH:mm")} -
-                  {_format.getVNDate(record.PayDate, "DD/MM/YYYY")}
-                </span>
-              </p>
-            )}
-            {record.CompleteDate && (
-              <p className=" text-warning flex justify-between px-2">
-                <span>Hoàn thành:</span>
-                <span>
-                  {_format.getVNDate(record.CompleteDate, "HH:mm")} -
-                  {_format.getVNDate(record.CompleteDate, "DD/MM/YYYY")}
-                </span>
-              </p>
-            )}
-            {record.CancelDate && (
-              <p className="text-warning font-bold flex justify-between px-2">
-                <span>Huỷ:</span>
-                <span>
-                  {_format.getVNDate(record.CancelDate, "HH:mm")} -
-                  {_format.getVNDate(record.CancelDate, "DD/MM/YYYY")}
-                </span>
-              </p>
-            )}
-          </div>
-        );
-        // }
-      },
+      render: (_, record) => (
+        <React.Fragment>
+          {record.Created && (
+            <p
+              className={clsx(
+                (record?.Status === EOrderStatus.ChoBaoGia ||
+                  record?.Status === EOrderStatus.DonMoi) &&
+                  "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Đơn mới: </span>
+              <span>
+                {_format.getVNDate(record.Created, "HH:mm")} -
+                {_format.getVNDate(record.Created, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.DepositDate && (
+            <p
+              className={clsx(
+                record?.Status === EOrderStatus.DaCoc && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Đặt cọc:</span>
+              <span>
+                {_format.getVNDate(record.DepositDate, "HH:mm")} -
+                {_format.getVNDate(record.DepositDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.DateBuy && (
+            <p
+              className={clsx(
+                record?.Status === EOrderStatus.DaMuaHang && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Đã mua hàng:</span>
+              <span>
+                {_format.getVNDate(record.DateBuy, "HH:mm")} -
+                {_format.getVNDate(record.DateBuy, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.DateSendGoods && (
+            <p
+              className={clsx(
+                record?.Status === EOrderStatus.ShopPhatHang && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Shop phát hàng:</span>
+              <span>
+                {_format.getVNDate(record.DateSendGoods, "HH:mm")} -
+                {_format.getVNDate(record.DateSendGoods, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.DateTQ && (
+            <p
+              className={clsx(
+                record?.Status === EOrderStatus.VeTQ && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Vê kho TQ:</span>
+              <span>
+                {_format.getVNDate(record.DateTQ, "HH:mm")} -
+                {_format.getVNDate(record.DateTQ, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.DateComingVN && (
+            <p
+              className={clsx(
+                record?.Status === EOrderStatus.DangVeVN && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Đang về VN:</span>
+              <span>
+                {_format.getVNDate(record.DateComingVN, "HH:mm")} -
+                {_format.getVNDate(record.DateComingVN, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.DateVN && (
+            <p
+              className={clsx(
+                record?.Status === EOrderStatus.VeVN && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Vê kho VN:</span>
+              <span>
+                {_format.getVNDate(record.DateVN, "HH:mm")} -
+                {_format.getVNDate(record.DateVN, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.PayDate && (
+            <p
+              className={clsx(
+                record?.Status === EOrderStatus.DaThanhToan && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Thanh toán:</span>
+              <span>
+                {_format.getVNDate(record.PayDate, "HH:mm")} -
+                {_format.getVNDate(record.PayDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.CompleteDate && (
+            <p
+              className={clsx(
+                record?.Status === EOrderStatus.HoanThanh && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Hoàn thành:</span>
+              <span>
+                {_format.getVNDate(record.CompleteDate, "HH:mm")} -
+                {_format.getVNDate(record.CompleteDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.ComplainDate && (
+            <p
+              className={clsx(
+                record?.Status === EOrderStatus.KhieuNai && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Khiếu nại:</span>
+              <span>
+                {_format.getVNDate(record.ComplainDate, "HH:mm")} -
+                {_format.getVNDate(record.ComplainDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.CancelDate && (
+            <p
+              className={clsx(
+                record?.Status === EOrderStatus.DonHuy && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Đơn huỷ:</span>
+              <span>
+                {_format.getVNDate(record.CancelDate, "HH:mm")} -
+                {_format.getVNDate(record.CancelDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+        </React.Fragment>
+      ),
       width: 280,
     },
     {
@@ -410,7 +443,7 @@ export const OrderListTable: React.FC<
       render: (status, record) => {
         const color = orderStatus.find((x) => x.id === status);
         return (
-          <TagStatus color={color?.color} statusName={record?.StatusName} />
+          <TagStatus color={color?.color} statusName={color?.name} />
         );
       },
       width: 120,
@@ -433,8 +466,8 @@ export const OrderListTable: React.FC<
             </a>
           </Link>
           {(RoleID === 1 || RoleID === 3) &&
-            (record?.Status === EOrderStatus.InVietnamWarehoue ||
-              record?.Status === EOrderStatus.NoDeposit) && (
+            (record?.Status === EOrderStatus.VeVN ||
+              record?.Status === EOrderStatus.DonMoi) && (
               <ActionButton
                 onClick={() =>
                   Modal.confirm({
@@ -460,7 +493,7 @@ export const OrderListTable: React.FC<
                                 ? "Đặt cọc thành công!"
                                 : "Thanh toán thành công!"
                             }`,
-                            autoClose: 0,
+                            autoClose: 500,
                             isLoading: false,
                             type: "success",
                           });
@@ -469,7 +502,7 @@ export const OrderListTable: React.FC<
                           toast.update(id, {
                             render: (error as any)?.response?.data
                               ?.ResultMessage,
-                            autoClose: 0,
+                            autoClose: 1000,
                             isLoading: false,
                             type: "error",
                           });
@@ -478,18 +511,18 @@ export const OrderListTable: React.FC<
                   })
                 }
                 icon={
-                  record?.Status === EOrderStatus.NoDeposit
+                  record?.Status === EOrderStatus.DonMoi
                     ? "far fa-dollar-sign"
                     : "fas fa-credit-card"
                 }
                 title={
-                  record?.Status === EOrderStatus.NoDeposit
+                  record?.Status === EOrderStatus.DonMoi
                     ? "Đặt cọc"
                     : "Thanh toán"
                 }
                 isButton
                 isButtonClassName={
-                  record?.Status === EOrderStatus.NoDeposit
+                  record?.Status === EOrderStatus.DonMoi
                     ? "bg-green !text-white"
                     : "bg-blue !text-white"
                 }

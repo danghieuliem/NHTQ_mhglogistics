@@ -8,11 +8,11 @@ import {
   FilterSelect,
 } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
+import { transportationStatus } from "~/configs";
 import {
   EOrderStatusData,
   ESearchData,
-  orderStatusData,
-  searchData,
+  searchData
 } from "~/configs/appConfigs";
 import { _format } from "~/utils";
 
@@ -36,6 +36,7 @@ type TProps = {
 };
 
 const NumberOfOrderComp = ({ numberOfOrder }) => {
+  console.log(numberOfOrder);
   return (
     <div className="min-w-[300px] p-4">
       {numberOfOrder?.map((item, index) => (
@@ -54,6 +55,7 @@ const NumberOfOrderComp = ({ numberOfOrder }) => {
 };
 
 const MoneyOfOrdersComp = ({ moneyOfOrders }) => {
+  
   return (
     <div className="w-fit p-4">
       {moneyOfOrders?.map((item, index) => (
@@ -133,10 +135,10 @@ const UserDepositListFilter: React.FC<TProps> = ({
                 }}
               />
               <FilterSelect
-                data={orderStatusData}
+                data={transportationStatus}
                 placeholder="Chọn trạng thái"
                 label="Trạng thái"
-                handleSearch={(val: EOrderStatusData) => {
+                handleSearch={(val: number) => {
                   Status.current = val;
                 }}
               />
@@ -180,9 +182,9 @@ const UserDepositListFilter: React.FC<TProps> = ({
         </Popover>
       </div>
 
-      <div className="flex gap-2 justify-between flex-wrap">
+      <div className="flex gap-2 items-end justify-end flex-wrap">
         {numberOfOrder?.map((item) => {
-          const len = (1 / numberOfOrder?.length) * 100;
+          // const len = (1 / numberOfOrder?.length) * 100;
           return (
             <div
               key={item?.name}
@@ -191,9 +193,9 @@ const UserDepositListFilter: React.FC<TProps> = ({
                 item?.id === Status.current ? "!bg-sec !text-white" : "",
                 filterBox,
               )}
-              style={{
-                width: `calc(${len}% - 8px)`
-              }}
+              // style={{
+              //   width: `calc(${len}% - 6px)`
+              // }}
               onClick={() => {
                 Status.current = item.id;
                 setIsShow(!isShow);

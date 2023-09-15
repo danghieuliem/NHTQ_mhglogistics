@@ -3,10 +3,10 @@ import React from "react";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { mainOrder } from "~/api";
-import { orderStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
 import { DataTable } from "../..";
 import TagStatus from "../status/TagStatus";
+import { orderStatus } from "~/configs";
 
 export const NewOrders = React.memo(() => {
   const { data, isFetching, isLoading } = useQuery(
@@ -72,7 +72,7 @@ export const NewOrders = React.memo(() => {
       dataIndex: "Status",
       render: (status, _) => {
         const color = orderStatus.find((x) => x.id === status);
-        return <TagStatus color={color?.color} statusName={_.StatusName} />;
+        return <TagStatus color={color?.color} statusName={color.name} />;
       },
     },
   ];

@@ -1,6 +1,6 @@
 import { Card } from "antd";
 import React from "react";
-import { packageStatus } from "~/configs/appConfigs";
+import { smallPackageStatus } from "~/configs";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
 import { TrackingSteps } from "./TrackingSteps";
@@ -18,10 +18,10 @@ export const TrackingDetail: React.FC<TProps> = ({ data }) => {
         extra={
           <TagStatus
             color={
-              packageStatus?.find((x) => x.id === data?.[0]?.Status)?.color
+              smallPackageStatus?.find((x) => x.id === data?.[0]?.Status)?.color
             }
             statusName={
-              packageStatus?.find((x) => x.id === data?.[0]?.Status)?.name
+              smallPackageStatus?.find((x) => x.id === data?.[0]?.Status)?.name
             }
           />
         }

@@ -92,7 +92,7 @@ export const OrderSurChargeList: React.FC<TProps> = ({
                       toast.success("Xoá phụ phí thành công");
                       toast.update(id, {
                         render: "Xoá phụ phí thành công!",
-                        autoClose: 1000,
+                        autoClose: 500,
                         isLoading: false,
                         type: "success",
                       });

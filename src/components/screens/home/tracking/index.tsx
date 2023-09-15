@@ -63,7 +63,7 @@ export const HomeTracking = () => {
           render: "Tìm thấy đơn hàng",
           type: "success",
           isLoading: false,
-          autoClose: 0,
+          autoClose: 500,
         });
         setModal(true);
       })
@@ -72,7 +72,7 @@ export const HomeTracking = () => {
           render: (error as any)?.response?.data?.ResultMessage,
           isLoading: false,
           type: "error",
-          autoClose: 0,
+          autoClose: 1000,
         });
       });
   };

@@ -205,7 +205,7 @@ const AddChildContentForm: React.FC<any> = ({ child, onCancel, categogyList }) =
           render: "Tạo menu mới thành công",
           type: "success",
           isLoading: false,
-          autoClose: 1000,
+          autoClose: 500,
         });
       })
       .catch((error) => {

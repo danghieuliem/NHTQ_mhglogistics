@@ -9,6 +9,7 @@ export const RequestPaymentDetailRightForm: React.FC<TControl<TRequestPaymentOrd
 	loading,
 	setValue,
 }) => {
+
 	return (
 		<React.Fragment>
 			<div className="tableBox mb-4">

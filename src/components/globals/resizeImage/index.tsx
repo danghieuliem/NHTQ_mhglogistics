@@ -19,7 +19,7 @@ const handleUpdload = async (file) => {
         render: "Up thành công! Copy link bên dưới!",
         isLoading: false,
         type: "success",
-        autoClose: 1000,
+        autoClose: 500,
       });
       const target = document.querySelector(`#${file.uid}`);
       target.setAttribute(

@@ -7,11 +7,11 @@ import {
   FilterRangeDate,
   FilterSelect,
 } from "~/components";
+import { EOrderStatus, orderStatus } from "~/configs";
 import {
   ECreatedOrderStatusData,
   ESearchData,
-  createdOrderStatusData,
-  search2Data,
+  search2Data
 } from "~/configs/appConfigs";
 import { _format } from "~/utils";
 
@@ -129,7 +129,7 @@ const UserAnotherOrderListFilter: React.FC<TProps> = ({
         />
         <Popover
           trigger={"click"}
-          placement="bottomLeft"
+          placement="bottomRight"
           content={
             <div className="grid grid-cols-1 gap-4 p-4">
               <div className="col-span-1">
@@ -153,12 +153,16 @@ const UserAnotherOrderListFilter: React.FC<TProps> = ({
               <div className="col-span-1">
                 <FilterSelect
                   isClearable={true}
-                  data={createdOrderStatusData}
+                  data={
+                    query?.q !== "3"
+                      ? orderStatus.filter(
+                          (x) => x.id !== EOrderStatus.ChoBaoGia
+                        )
+                      : orderStatus
+                  }
                   placeholder="Chọn trạng thái"
                   label="Trạng thái"
-                  handleSearch={(val: ECreatedOrderStatusData) =>
-                    (Status.current = val)
-                  }
+                  handleSearch={(val: number) => (Status.current = val)}
                 />
               </div>
               <div className="col-span-1">
@@ -198,18 +202,19 @@ const UserAnotherOrderListFilter: React.FC<TProps> = ({
             icon="fas fa-filter"
             isButton
             isButtonClassName="bg-main !text-white"
-          />{" "}
+          />
         </Popover>
       </div>
       <div className="flex items-end flex-wrap gap-2 w-full">
         {(query?.q !== "3"
-          ? numberOfOrder.filter((x) => x.id !== 100)
+          ? numberOfOrder.filter((x) => x.id !== EOrderStatus.ChoBaoGia)
           : numberOfOrder
         )?.map((item) => {
           const len =
             (1 /
               (query?.q !== "3"
-                ? numberOfOrder?.filter((x) => x.id !== 100).length
+                ? numberOfOrder?.filter((x) => x.id !== EOrderStatus.ChoBaoGia)
+                    .length
                 : numberOfOrder?.length)) *
             100;
           return (

@@ -2,7 +2,7 @@ import { Skeleton } from "antd";
 import React from "react";
 import { IconButton } from "~/components/globals/button/IconButton";
 import { FormSelect } from "~/components/globals/formBase";
-import { paymentStatus } from "~/configs/appConfigs";
+import { payHelpStatus } from "~/configs";
 import { TControl } from "~/types/field";
 import { _format } from "~/utils";
 
@@ -140,13 +140,13 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
                 name="Status"
                 label="Trạng thái"
                 defaultValue={{
-                  id: paymentStatus?.find((x) => x?.id === getValues("Status"))
+                  id: payHelpStatus?.find((x) => x?.id === getValues("Status"))
                     ?.id,
-                  name: paymentStatus?.find((x) => x?.id === getValues("Status"))
+                  name: payHelpStatus?.find((x) => x?.id === getValues("Status"))
                     ?.name,
                 }}
                 placeholder=""
-                data={paymentStatus}
+                data={payHelpStatus}
                 rules={{ required: "This field is required" }}
               />
             </Skeleton>

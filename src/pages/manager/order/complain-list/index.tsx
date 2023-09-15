@@ -5,9 +5,9 @@ import { toast } from "react-toastify";
 import { complain } from "~/api";
 import {
   ComplainListFilter,
-  ComplainListForm,
+  ComplainListFormMemo,
   ComplainListTable,
-  Layout,
+  Layout
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -114,7 +114,7 @@ const Index: TNextPageWithLayout = () => {
         loading={isFetching}
         handleModal={handleModal}
       />
-      <ComplainListForm
+      <ComplainListFormMemo
         onCancel={() => setModal(false)}
         visible={modal}
         defaultValues={item.current}

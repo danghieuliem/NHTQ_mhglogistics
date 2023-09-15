@@ -7,11 +7,11 @@ import { useMutation, useQueryClient } from "react-query";
 import { smallPackage } from "~/api";
 import { FormInput } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
-import { showToast, toast } from "~/components/toast";
+import { toast } from "~/components/toast";
+import { ESmallPackage } from "~/configs";
 import {
   EOrderTypeStatusData,
   EPermission,
-  ESmallPackageStatusData,
   controllerList,
 } from "~/configs/appConfigs";
 import { usePressKeyboard } from "~/hooks";
@@ -26,7 +26,7 @@ type TForm = {
   [key: string]: TWarehouseVN[];
 };
 
-export const CheckWarehouseVietNamForm = () => {
+export const CheckWarehouseVietNamForm = ({type}) => {
   const { handleSubmit, control, reset, resetField } = useForm<TWarehouseVN>({
     mode: "onBlur",
     defaultValues: {
@@ -79,17 +79,22 @@ export const CheckWarehouseVietNamForm = () => {
             if (newData[0].OrderType === EOrderTypeStatusData.Transper) {
               toast.warning("Bạn đã quét đơn hàng ký gửi này rồi");
             } else if (newData[0].OrderType === EOrderTypeStatusData.Buy) {
-              confirm({
-                title: "Thông báo!",
-                content: "Mã này đã scan rồi, bạn có muốn tạo thêm kiện?",
-                onOk() {
-                  mutationAddOrderTransactionCode.mutateAsync({
-                    OrderTransactionCode:
-                      newData[0].OrderTransactionCode.trim(),
-                    IsWarehouseVN: true,
-                  });
-                },
-              });
+              console.log("object");
+              if (type === "toWarehouseVN") {
+                confirm({
+                  title: "Thông báo!",
+                  content: "Mã này đã scan rồi, bạn có muốn tạo thêm kiện?",
+                  onOk() {
+                    mutationAddOrderTransactionCode.mutateAsync({
+                      OrderTransactionCode:
+                        newData[0].OrderTransactionCode.trim(),
+                      IsWarehouseVN: true,
+                    });
+                  },
+                });
+              } else {
+                toast.warning("Vui lòng quét kiện này tại kho TQ trươc!")
+              }
             }
           }
         } else {
@@ -127,25 +132,26 @@ export const CheckWarehouseVietNamForm = () => {
       //   return;
       // }
 
-      if (res.Data[0].Status === 4) {
+      if (res.Data[0].Status === ESmallPackage.DaHuy) {
         toast.error("Đơn nãy đã hủy!");
         resetField("OrderTransactionCode");
         return;
       }
 
-      if (res.Data[0].Status === 5) {
+      if (res.Data[0].Status === ESmallPackage.DaGiao) {
         toast.error("Đơn nãy đã giao khách!");
         resetField("OrderTransactionCode");
         return;
       }
+
 
       let key = res.Data[0].UserName + res.Data[0].Phone;
       handleData(
         res.Data.map((item) => ({
           ...item,
           Status:
-            item.Status <= ESmallPackageStatusData.ArrivedToVietNamWarehouse
-              ? ESmallPackageStatusData.ArrivedToVietNamWarehouse
+            item.Status <= ESmallPackage.VeKhoVN
+              ? type === "toWarehouseVN" ? ESmallPackage.VeKhoVN : ESmallPackage.XuatKhoTQ
               : item.Status,
         })),
         key

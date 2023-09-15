@@ -1,13 +1,13 @@
-import { Affix } from "antd";
+import { Affix, Modal } from "antd";
 import clsx from "clsx";
 import React, { FC } from "react";
 import { useFormContext } from "react-hook-form";
 import { useMediaQuery } from "react-responsive";
 import { toast } from "react-toastify";
 import { mainOrder } from "~/api";
-import { FormSelect } from "~/components";
+import { ActionButton, FormSelect } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
-import { orderStatus } from "~/configs/appConfigs";
+import { EOrderStatus, orderStatus } from "~/configs";
 import { useCatalogue } from "~/hooks/useCatalogue";
 import { _format } from "~/utils";
 
@@ -80,39 +80,43 @@ const ComponentAffix: React.FC<TProps> = ({
       <div className="tableBox">
         <div className="grid grid-cols-2 gap-4">
           <div className="col-span-2">
-            {!data?.IsCheckNotiPrice && data?.OrderType === 3 && (
+            {data?.Status === EOrderStatus.ChoBaoGia && (
               <div className={clsx(contentItem)}>
                 <div className={clsx(nameContent)}>Báo giá: </div>
                 <div className={clsx(contentValue)}>
                   <IconButton
-                    onClick={async () => {
-                      await mainOrder
-                        .updateNotiPrice({
-                          ...data,
-                          IsCheckNotiPrice: true,
-                        })
-                        .then(() => {
-                          toast.success("Đã báo giá cho khách!");
-                          refetch();
-                        });
-                    }}
+                    onClick={async () =>
+                      Modal.confirm({
+                        title: "Xác nhận báo giá đơn này?",
+                        onOk: () => {
+                          mainOrder
+                            .updateNotiPrice({
+                              ...data,
+                              IsCheckNotiPrice: true,
+                              Status: EOrderStatus.DonMoi,
+                            })
+                            .then(() => {
+                              toast.success("Đã báo giá cho khách!");
+                              refetch();
+                            });
+                        },
+                      })
+                    }
                     title="Báo giá"
-                    icon="far fa-credit-card"
-                    btnClass="mr-4 mb-4 lg:mb-0"
-                    btnIconClass="mr-4"
+                    icon="fas fa-credit-card"
                     showLoading
                     toolip="Click để báo giá cho khách"
                     yellow
-                    disabled={
-                      data?.IsCheckNotiPrice ||
-                      !(
-                        RoleID === 1 ||
-                        RoleID === 3 ||
-                        RoleID === 4 ||
-                        RoleID === 7 ||
-                        RoleID === 8 ||
-                        RoleID === 6
-                      )
+                    disabled={[5].includes(RoleID)
+                      // data?.IsCheckNotiPrice ||
+                      // !(
+                      //   RoleID === 1 ||
+                      //   RoleID === 3 ||
+                      //   RoleID === 4 ||
+                      //   RoleID === 7 ||
+                      //   RoleID === 8 ||
+                      //   RoleID === 6
+                      // )
                     }
                   />
                 </div>
@@ -240,17 +244,17 @@ const ComponentAffix: React.FC<TProps> = ({
           RoleID === 8 ||
           RoleID === 6) && (
           <div className="flex flex-wrap items-center justify-center jus mt-3 pt-3 m-auto border-t border-[#edf1f7]">
-            <IconButton
+            <ActionButton
               onClick={handleSubmit(handleUpdate)}
               icon="fas fa-pencil"
               title="Cập nhật"
-              btnClass="!m-[4px] !bg-orange !text-white"
-              showLoading
-              toolip=""
               disabled={data?.Status === 0 && RoleID === 4}
+              isButton
+              isButtonClassName="bg-green !text-white"
             />
 
-            {data?.Status !== 100 && (
+            {(data?.Status === EOrderStatus.VeVN ||
+              data?.Status === EOrderStatus.DonMoi) && (
               <>
                 {!disabledPayment &&
                   (RoleID === 1 ||
@@ -267,49 +271,60 @@ const ComponentAffix: React.FC<TProps> = ({
                             : "all",
                       }}
                     >
-                      <IconButton
-                        onClick={() => {
-                          const id = toast.loading("Đang xử lý ...");
-                          mainOrder
-                            .payment({
-                              Id: data?.Id,
-                              Note: undefined,
-                              PaymentMethod: 2,
-                              PaymentType: data?.Status === 0 ? 1 : 2,
-                              Amount:
-                                data?.Status === 0
-                                  ? data?.AmountDeposit
-                                  : data?.RemainingAmount,
-                            })
-                            .then(() => {
-                              toast.update(id, {
-                                render: `${
-                                  data?.Status === 0
-                                    ? "Đặt cọc thành công!"
-                                    : "Thanh toán thành công!"
-                                }`,
-                                autoClose: 0,
-                                isLoading: false,
-                                type: "success",
-                              });
-                              refetch();
-                            })
-                            .catch((error) => {
-                              toast.update(id, {
-                                render: (error as any)?.response?.data
-                                  ?.ResultMessage,
-                                autoClose: 0,
-                                isLoading: false,
-                                type: "error",
-                              });
-                            });
-                        }}
+                      <ActionButton
+                        onClick={() =>
+                          Modal.confirm({
+                            title:
+                              data?.Status === 0
+                                ? "Đặt cọc đơn này?"
+                                : "Thanh toán đơn này?",
+                            onOk: () => {
+                              const id = toast.loading("Đang xử lý ...");
+                              mainOrder
+                                .payment({
+                                  Id: data?.Id,
+                                  Note: undefined,
+                                  PaymentMethod: 2,
+                                  PaymentType: data?.Status === 0 ? 1 : 2,
+                                  Amount:
+                                    data?.Status === 0
+                                      ? data?.AmountDeposit
+                                      : data?.RemainingAmount,
+                                })
+                                .then(() => {
+                                  toast.update(id, {
+                                    render: `${
+                                      data?.Status === 0
+                                        ? "Đặt cọc thành công!"
+                                        : "Thanh toán thành công!"
+                                    }`,
+                                    autoClose: 500,
+                                    isLoading: false,
+                                    type: "success",
+                                  });
+                                  refetch();
+                                })
+                                .catch((error) => {
+                                  toast.update(id, {
+                                    render: (error as any)?.response?.data
+                                      ?.ResultMessage,
+                                    autoClose: 1000,
+                                    isLoading: false,
+                                    type: "error",
+                                  });
+                                });
+                            },
+                          })
+                        }
                         icon="fas fa-credit-card"
                         // title="Thanh toán"
-                        title={data?.Status === 0 ? "Đặt cọc" : "Thanh toán"}
-                        showLoading
-                        toolip=""
-                        blue
+                        title={
+                          data?.Status === EOrderStatus.DonMoi
+                            ? "Đặt cọc"
+                            : "Thanh toán"
+                        }
+                        isButton
+                        isButtonClassName="bg-blue !text-white"
                       />
                     </a>
                   )}

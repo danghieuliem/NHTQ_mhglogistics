@@ -134,7 +134,7 @@ export const WithDrawalVNDTable: React.FC<TTable<TWithDraw>> = ({
             >
               <div>
                 <ActionButton
-                  icon="fas fa-plus-circle-circle"
+                  icon="fas fa-plus-circle"
                   isButton
                   isButtonClassName="bg-green !text-white hover:!bg-red"
                   title="Tạo"

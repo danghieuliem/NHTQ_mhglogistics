@@ -13,3 +13,4 @@ export * from "./FormTextarea";
 export * from "./FormRangeDate";
 export * from "./FormUpload";
 export * from "./FormAsyncSelect";
+export * from "./FormUploadMultiple"

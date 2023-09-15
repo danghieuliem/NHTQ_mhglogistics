@@ -8,11 +8,9 @@ import {
   FilterSelect,
 } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
+import { smallPackageStatus } from "~/configs";
 import {
-  ESearchSmallPackageStatusData,
-  ESmallPackageStatusData,
-  searchSmallPackageStatusData,
-  smallPackageStatusData,
+  searchSmallPackageStatusData
 } from "~/configs/appConfigs";
 
 const inputProps = {
@@ -32,9 +30,9 @@ const TransactionCodeManagementFilter: React.FC<TProps> = ({
   handleExporTExcel,
 }) => {
   const router = useRouter();
-  const SearchType = useRef<ESearchSmallPackageStatusData>(null);
+  const SearchType = useRef<number>(null);
   const SearchContent = useRef<string>(null);
-  const Status = useRef<ESmallPackageStatusData>(null);
+  const Status = useRef<number>(null);
   const FromDate = useRef<string>(null);
   const ToDate = useRef<string>(null);
 
@@ -55,7 +53,7 @@ const TransactionCodeManagementFilter: React.FC<TProps> = ({
                 placeholder="Chọn tìm kiếm theo"
                 label="Tìm kiếm theo"
                 isClearable
-                handleSearch={(val: ESearchSmallPackageStatusData) =>
+                handleSearch={(val: number) =>
                   (SearchType.current = val)
                 }
               />
@@ -103,11 +101,11 @@ const TransactionCodeManagementFilter: React.FC<TProps> = ({
         </Popover>
         <div className="w-[200px]">
           <FilterSelect
-            data={smallPackageStatusData}
+            data={smallPackageStatus}
             placeholder="Chọn trạng thái"
             label="Trạng thái"
             isClearable
-            handleSearch={(val: ESmallPackageStatusData) => {
+            handleSearch={(val: number) => {
               handleFilter({
                 SearchType: SearchType.current,
                 SearchContent: SearchContent.current,

@@ -1,7 +1,7 @@
 import { Checkbox, Tag } from "antd";
 import React from "react";
 import { DataTable } from "~/components";
-import { transportStatus } from "~/configs/appConfigs";
+import { transportationStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 
@@ -78,7 +78,7 @@ export const DepositDetail: React.FC<TTable<TUserDeposit>> = ({ data }) => {
       dataIndex: "Status",
       title: "Trạng thái",
       render: (status, _) => {
-        const color = transportStatus.find((x) => x.id === status);
+        const color = transportationStatus.find((x) => x.id === status);
         return (
           <Tag color={color?.color} key={status}>
             {_?.StatusName}

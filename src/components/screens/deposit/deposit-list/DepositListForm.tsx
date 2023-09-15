@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 import { transportationOrder } from "~/api";
 import {
+  DepositListHistory,
   FormCheckbox,
   FormInput,
   FormInputNumber,
@@ -11,7 +12,7 @@ import {
   FormTextarea,
   IconButton,
 } from "~/components";
-import { orderStatusData, transportStatus } from "~/configs/appConfigs";
+import { ETransportationOrder, transportationStatus } from "~/configs";
 import { useDeepEffect } from "~/hooks";
 import { useCatalogue } from "~/hooks/useCatalogue";
 import TagStatus from "../../status/TagStatus";
@@ -52,11 +53,12 @@ export const DepositListForm: React.FC<TProps> = ({
     mutationUpdate
       .mutateAsync(data)
       .then(() => {
+        queryClient.invalidateQueries("notifications-transportation");
         toast.update(id, {
           isLoading: false,
           render: "Cập nhật thành công!",
           type: "success",
-          autoClose: 0,
+          autoClose: 500,
         });
         refetch();
         setDisabled(false);
@@ -66,7 +68,7 @@ export const DepositListForm: React.FC<TProps> = ({
           render: (error as any)?.response?.data?.ResultMessage,
           isLoading: false,
           type: "error",
-          autoClose: 0,
+          autoClose: 1000,
         });
         setDisabled(false);
       });
@@ -149,14 +151,18 @@ export const DepositListForm: React.FC<TProps> = ({
           <FormSelect
             control={control}
             name="Status"
-            data={orderStatusData.slice(1)}
+            // data={defaultValues.Status !== ETransportationOrder.Huy ? [
+            //   ...transportationStatus.slice(1, 2),
+            //   ...transportationStatus.filter(
+            //     (x) => x.id >= defaultValues?.Status
+            //   ),
+            // ] : []}
+            data={transportationStatus}
             placeholder=""
             label="Trạng thái"
-            defaultValue={
-              defaultValues?.Status &&
-              defaultValues.StatusName && {
+            defaultValue={{
                 id: defaultValues?.Status,
-                name: orderStatusData.find(
+                name: transportationStatus.find(
                   (x) => x.id === defaultValues?.Status
                 )?.name,
               }
@@ -242,16 +248,21 @@ export const DepositListForm: React.FC<TProps> = ({
         )}
       </div>
 
-      <div className="col-span-8 tableBox">
-        <div className="grid grid-cols-2 gap-4">
+      <div className="col-span-8">
+        <div className="grid grid-cols-2 gap-4 tableBox mb-4">
           <div className="col-span-2 text-base font-bold py-2 uppercase border-b border-main flex justify-between mb-2">
             Chi tiết đơn hàng #{defaultValues?.Id}
             <span>
               <TagStatus
-                statusName={defaultValues?.StatusName}
+                statusName={
+                  transportationStatus.find(
+                    (x) => x.id === defaultValues?.Status
+                  )?.name
+                }
                 color={
-                  transportStatus.find((x) => x.id === defaultValues?.Status)
-                    ?.color
+                  transportationStatus.find(
+                    (x) => x.id === defaultValues?.Status
+                  )?.color
                 }
               />
             </span>
@@ -455,6 +466,9 @@ export const DepositListForm: React.FC<TProps> = ({
               toolip=""
             />
           </div> */}
+        </div>
+        <div className="tableBox">
+          <DepositListHistory/>
         </div>
       </div>
     </div>

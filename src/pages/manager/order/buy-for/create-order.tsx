@@ -79,14 +79,14 @@ const Index: TNextPageWithLayout = () => {
           render: "Tạo đơn thành công!",
           type: "success",
           isLoading: false,
-          autoClose: 1000,
+          autoClose: 500,
         });
         router.push("/manager/order/order-list?q=3");
       })
       .catch((error) => {
         toast.update(id, {
           render: "Tạo đơn thất bại!",
-          type: "success",
+          type: "error",
           isLoading: false,
           autoClose: 1000,
         });

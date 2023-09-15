@@ -7,11 +7,11 @@ import {
   FilterSelect,
   IconButton,
 } from "~/components";
+import { transportationStatus } from "~/configs";
 import {
   EOrderStatusData,
   ESearch3Data,
-  orderStatusData,
-  search3Data,
+  search3Data
 } from "~/configs/appConfigs";
 
 const codeProps = {
@@ -84,10 +84,10 @@ export const DepositListFilter: React.FC<TProps> = ({
               />
               <FilterSelect
                 isClearable
-                data={[...orderStatusData.slice(0, 7)]}
+                data={transportationStatus}
                 placeholder="Chọn trạng thái"
                 label="Trạng thái"
-                handleSearch={(val: EOrderStatusData) => (Status.current = val)}
+                handleSearch={(val: number) => (Status.current = val)}
               />
               <FilterSelect
                 isClearable

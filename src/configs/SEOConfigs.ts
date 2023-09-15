@@ -40,8 +40,10 @@ export const SEOConfigs = {
     detailRequest: "Chi tiết yêu cầu",
   },
   checkWarehouseTQ: "Kiểm hàng kho TQ",
+  checkExportWarehouseTQ: "Xuất kho TQ",
   checkWarehouseVN: "Kiểm hàng kho VN",
   importWarehouseTQ: "Nhập kho TQ",
+  importWarehouseVN: "Nhập kho VN",
   assignPro: "Gán kiện cho khách",
   export: "Xuất kho",
   parcelManagement: {

@@ -141,7 +141,7 @@ const Index: TNextPageWithLayout = () => {
             })
           }
           title="Thêm"
-          icon="fas fa-plus-circle-circle"
+          icon="fas fa-plus-circle"
           isButton
           isButtonClassName="bg-green !text-white mr-2"
         />

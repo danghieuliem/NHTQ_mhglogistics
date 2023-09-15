@@ -48,7 +48,7 @@ const Index: TNextPageWithLayout = () => {
       toast.update(id, {
         render: "Cập nhật thành công",
         isLoading: false,
-        autoClose: 1000,
+        autoClose: 500,
         type: "success",
       });
       dispatch(updateUser({ ...data }));

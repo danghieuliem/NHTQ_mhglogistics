@@ -3,7 +3,8 @@ import { FC, useRef } from "react";
 import { ActionButton, FilterInput, FilterSelect } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
 import { FilterRangeDate } from "~/components/globals/filterBase";
-import { EReportStatusData, reportStatusData } from "~/configs/appConfigs";
+import { complainStatus } from "~/configs";
+import { EReportStatusData } from "~/configs/appConfigs";
 
 const usernameProps = {
   id: "username",
@@ -83,8 +84,8 @@ export const ComplainListFilter: FC<TProps> = ({
           <FilterSelect
             placeholder="Chọn trạng thái"
             label="Trạng thái"
-            data={reportStatusData}
-            handleSearch={(val: EReportStatusData) => {
+            data={complainStatus}
+            handleSearch={(val: number) => {
               handleFilter({
                 SearchContent: SearchContent.current,
                 FromDate: FromDate.current,

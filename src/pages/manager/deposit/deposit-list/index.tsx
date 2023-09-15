@@ -7,7 +7,7 @@ import { transportationOrder } from "~/api";
 import { DepositListFilter, DepositListTable, Layout } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
-import { transportStatus } from "~/configs/appConfigs";
+import { transportationStatus } from "~/configs";
 import { useCatalogue } from "~/hooks";
 import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
@@ -114,7 +114,7 @@ const Index: TNextPageWithLayout = () => {
     filter.SalerID,
   ]);
 
-  useQuery(
+  const {refetch: countRefetch} = useQuery(
     ["deposit-infor-list"],
     () =>
       transportationOrder.getAmountInfo({
@@ -125,7 +125,7 @@ const Index: TNextPageWithLayout = () => {
       onSuccess: (res) => {
         const data = res.Data;
         data?.forEach((x) => {
-          const target = transportStatus.find((i) => i.id === x?.Status);
+          const target = transportationStatus.find((i) => i.id === x?.Status);
           if (target) {
             target.value = x?.Quantity;
           }
@@ -144,7 +144,7 @@ const Index: TNextPageWithLayout = () => {
     <div className="">
       <DepositListFilter
         userSale={userSale}
-        numberOfOrder={transportStatus}
+        numberOfOrder={transportationStatus}
         handleFilter={(newFilter) => handleFilter(newFilter)}
         handleExporTExcel={handleExporTExcel}
       />
@@ -156,6 +156,7 @@ const Index: TNextPageWithLayout = () => {
         filter={filter}
         handleFilter={handleFilter}
         RoleID={userCurrentInfo?.UserGroupId}
+        countRefetch={countRefetch}
       />
     </div>
   );

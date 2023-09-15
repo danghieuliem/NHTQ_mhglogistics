@@ -71,7 +71,7 @@ export const NewRecharges = React.memo(() => {
       dataIndex: "Status",
       render: (status, _) => {
         const color = moneyStatus.find((x) => x.id === status);
-        return <TagStatus color={color?.color} statusName={_.StatusName} />;
+        return <TagStatus color={color?.color} statusName={color.name} />;
       },
     },
   ];

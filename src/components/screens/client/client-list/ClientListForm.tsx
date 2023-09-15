@@ -77,7 +77,7 @@ const ClientListForm: FC<TProps> = ({
         toast.update(id, {
           render: "Thêm khách hàng thành công",
           type: "success",
-          autoClose: 2000,
+          autoClose: 500,
           isLoading: false,
         });
       })

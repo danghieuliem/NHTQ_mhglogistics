@@ -80,7 +80,7 @@ const Index: TNextPageWithLayout = () => {
           render: "Tạo đơn thành công!",
           isLoading: false,
           type: "success",
-          autoClose: 10000,
+          autoClose: 500,
         });
         router.push("/user/order-list?q=3");
       })
@@ -112,7 +112,7 @@ const Index: TNextPageWithLayout = () => {
               QuantityProduct: null,
             })
           }
-          icon="fas fa-plus-circle-circle"
+          icon="fas fa-plus-circle"
           isButton
           isButtonClassName="bg-green !text-white mr-2"
         />

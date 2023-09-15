@@ -79,7 +79,7 @@ export const ClientListDetailForm: React.FC<TProps> = ({
       if (data?.PasswordAgain !== data?.PasswordNew) {
         toast.update(id, {
           render: "Mật khẩu nhập lại sai!",
-          autoClose: 0,
+          autoClose: 1000,
           type: "error",
           isLoading: false,
         });
@@ -99,7 +99,7 @@ export const ClientListDetailForm: React.FC<TProps> = ({
       .then(() => {
         toast.update(id, {
           render: "Cập nhật thành công!",
-          autoClose: 0,
+          autoClose: 500,
           type: "success",
           isLoading: false,
         });
@@ -107,7 +107,7 @@ export const ClientListDetailForm: React.FC<TProps> = ({
       .catch((error) => {
         toast.update(id, {
           render: (error as any)?.response?.data?.ResultMessage,
-          autoClose: 0,
+          autoClose: 1000,
           type: "error",
           isLoading: false,
         });

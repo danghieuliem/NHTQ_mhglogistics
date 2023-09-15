@@ -56,7 +56,7 @@ export const WithDrawalHistoryForm: React.FC<TForm<TWithDraw>> = ({
         toast.update(id, {
           render: "Cập nhật thành công!",
           type: "success",
-          autoClose: 1000,
+          autoClose: 500,
           isLoading: false,
         });
       })

@@ -1,13 +1,19 @@
 import React from "react";
+import { useMutation } from "react-query";
+import { toast } from "react-toastify";
+import { smallPackage } from "~/api";
+import { ActionButton } from "~/components";
 import { DataTable } from "~/components/globals/table";
 import TagStatus from "~/components/screens/status/TagStatus";
-import { smallPackageStatusData } from "~/configs/appConfigs";
+import { smallPackageStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 
 export const PackageManagementFormTable: React.FC<
-  TTable<TSmallPackage>
-> & {} = ({ data, handleModal, loading }) => {
+  TTable<TSmallPackage> & { refetch }
+> = ({ data, handleModal, loading, refetch }) => {
+  const mutationUpdate = useMutation(smallPackage.update);
+
   const columns: TColumnsType<TSmallPackage> = [
     {
       dataIndex: "Id",
@@ -63,11 +69,47 @@ export const PackageManagementFormTable: React.FC<
       title: "Trạng thái",
       render: (status) => (
         <TagStatus
-          color={smallPackageStatusData.find((x) => x.id === status).color}
-          statusName={smallPackageStatusData.find((x) => x.id === status).name}
+          color={smallPackageStatus.find((x) => x.id === status)?.color}
+          statusName={smallPackageStatus.find((x) => x.id === status)?.name}
         />
       ),
       responsive: ["xl"],
+    },
+    {
+      dataIndex: "action",
+      title: "Thao tác",
+      width: 90,
+      render: (_, record) => {
+        return (
+          <ActionButton
+            title="Xoá mã"
+            icon="fas fa-trash-alt !text-red"
+            onClick={() => {
+              const id = toast.loading("Đang xử lý ...");
+
+              mutationUpdate
+                .mutateAsync([{ ...record, BigPackageId: 0 }])
+                .then(() => {
+                  toast.update(id, {
+                    render: "Gán vào bao thành công!",
+                    type: "success",
+                    autoClose: 500,
+                    isLoading: false,
+                  });
+                  refetch();
+                })
+                .catch((error) => {
+                  toast.update(id, {
+                    render: (error as any)?.response?.data?.ResultMessage,
+                    type: "error",
+                    autoClose: 1000,
+                    isLoading: false,
+                  });
+                });
+            }}
+          />
+        );
+      },
     },
     // {
     // 	dataIndex: 'action',

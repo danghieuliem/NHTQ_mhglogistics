@@ -99,6 +99,16 @@ type TUserDeposit = Omit<
   VolumePayment: number;
   FeePerVolume: number;
   SalerID: number;
+
+  CreateDate: Date;
+  ConfirmDate: Date;
+  TQDate: Date;
+  ComingVNDate: Date;
+  VNDate: Date;
+  PaidDate: Date;
+  CompleteDate: Date;
+  CancelDate: Date;
+  ComplainDate: Date;
 };
 
 type TUserDepositBillingInfo = {

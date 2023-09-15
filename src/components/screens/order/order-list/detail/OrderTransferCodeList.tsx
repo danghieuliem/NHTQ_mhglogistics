@@ -7,17 +7,13 @@ import { smallPackage } from "~/api";
 import {
   ActionButton,
   DataTable,
-  FilterSelect,
   FormCheckbox,
   FormInput,
   FormInputNumber,
   FormSelect,
-  IconButton,
+  IconButton
 } from "~/components";
-import {
-  ESmallPackageStatusData,
-  smallPackageStatusData,
-} from "~/configs/appConfigs";
+import { smallPackageStatus, ESmallPackage } from "~/configs";
 import { TColumnsType } from "~/types/table";
 
 type TProps = {
@@ -162,10 +158,10 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
         <FormSelect
           control={control}
           name={`SmallPackages.${index}.Status` as const}
-          data={smallPackageStatusData}
+          data={smallPackageStatus}
           defaultValue={
             fields[index]?.Status &&
-            smallPackageStatusData.find((x) => x.id === fields[index]?.Status)
+            smallPackageStatus.find((x) => x.id === fields[index]?.Status)
           }
           disabled={
             !(
@@ -181,7 +177,7 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
           rules={{ required: "This field is required" }}
         />
       ),
-      width: 180
+      width: 180,
     },
     {
       dataIndex: "Description",
@@ -203,7 +199,7 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
           hideError
         />
       ),
-      width: 120
+      width: 120,
     },
     {
       dataIndex: "action",
@@ -239,7 +235,7 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
                       toast.update(id, {
                         render: "Xoá mã vận đơn thành công",
                         isLoading: false,
-                        autoClose: 0,
+                        autoClose: 500,
                         type: "success",
                       });
                       handleSubmit(handleUpdate)();
@@ -248,7 +244,7 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
                       toast.update(id, {
                         render: "Đã xảy ra lỗi!",
                         isLoading: false,
-                        autoClose: 0,
+                        autoClose: 1000,
                         type: "error",
                       });
                     });
@@ -304,7 +300,7 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
               icon="fas fa-plus-circle"
               onClick={() => {
                 append({
-                  Status: ESmallPackageStatusData.New,
+                  Status: ESmallPackage.MoiTao,
                   MainOrderCodeId: data?.MainOrderCodes?.[0]?.Id,
                   MainOrderId: data?.Id,
                   Weight: 0,

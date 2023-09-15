@@ -1,9 +1,10 @@
-import { Popconfirm } from "antd";
+import { Modal } from "antd";
 import React from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
+import { useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 import { mainOrderCode } from "~/api";
 import { ActionButton, FormInput } from "~/components";
-import { toast } from "~/components/toast";
 import { AddOrderCode } from "./AddOrderCode";
 
 type TProps = {
@@ -21,7 +22,7 @@ export const OrderCode: React.FC<TProps> = ({
   RoleID,
 }) => {
   const { control, getValues } = useFormContext<TOrder>();
-
+  const queryClient = useQueryClient();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "MainOrderCodes",
@@ -43,33 +44,44 @@ export const OrderCode: React.FC<TProps> = ({
               RoleID === 4 ||
               RoleID === 8 ||
               RoleID === 6) && (
-              <Popconfirm
-                placement="topLeft"
-                title="Bạn có muốn xoá mã đơn hàng này?"
-                onConfirm={() => {
-                  toast.info(
-                    "Đang thực hiện việc xoá, vui lòng đợi trong giây lát..."
-                  );
-                  mainOrderCode
-                    .delete(field.Id)
-                    .then(() => {
-                      remove(index);
-                      toast.success("Xoá mã vận đơn thành công");
-                      refetch();
-                    })
-                    .catch(toast.error);
-                }}
-                okText="Yes"
-                cancelText="No"
-              >
-                <ActionButton
-                  title="Xoá"
-                  icon="fas fa-trash-alt"
-                  isButton
-                  isButtonClassName="bg-red !text-white ml-4"
-                  disabled={RoleID === 4 && data?.Status === 0}
-                />
-              </Popconfirm>
+              <ActionButton
+                title="Xoá"
+                icon="fas fa-trash-alt"
+                isButton
+                isButtonClassName="bg-red !text-white ml-4"
+                disabled={RoleID === 4 && data?.Status === 0}
+                onClick={() =>
+                  Modal.confirm({
+                    title: "Bạn có muốn xoá mã đơn hàng này?",
+                    onOk: () => {
+                      const id = toast.loading("Đang xử lý ...");
+                      mainOrderCode
+                        .delete(field.Id)
+                        .then(() => {
+                          remove(index);
+                          queryClient.invalidateQueries("history-order");
+                          toast.update(id, {
+                            render: "Xoá mã vận đơn thành công!",
+                            type: "error",
+                            isLoading: false,
+                            autoClose: 1000,
+                          });
+                          toast.success("Xoá mã vận đơn thành công");
+                          refetch();
+                        })
+                        .catch((error) => {
+                          toast.update(id, {
+                            render: (error as any)?.response?.data
+                              ?.ResultMessage,
+                            autoClose: 1000,
+                            type: "error",
+                            isLoading: false,
+                          });
+                        });
+                    },
+                  })
+                }
+              />
             )}
           </div>
         );
@@ -88,7 +100,10 @@ export const OrderCode: React.FC<TProps> = ({
             ) {
               await mainOrderCode
                 .create({ MainOrderId: data?.Id, Code })
-                .then((res) => append(res?.Data))
+                .then((res) => {
+                  append(res?.Data);
+                  queryClient.invalidateQueries("history-order");
+                })
                 .catch(toast.error);
             } else {
               toast.warning("Đã trùng mã đơn hàng");

@@ -40,6 +40,8 @@ const Index: TNextPageWithLayout = () => {
     payHelp.update(data)
   );
 
+  console.log(data);
+
   const _onPress = (data: TRequestPaymentOrder) => {
     mutationUpdate
       .mutateAsync(data)

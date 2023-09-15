@@ -243,20 +243,6 @@ export const OrderIDProductList: React.FC<any> = ({
           ),
         }}
       />
-      {/* <Drawer
-        title="Tạo khiếu nại mới"
-        placement="right"
-        width={"40vw"}
-        onClose={() => setVisible(null)}
-        visible={!!visible?.Id}
-        closable={false}
-        style={{ zIndex: "10000000" }}
-      >
-        <ReportContent
-          defaultValue={visible}
-          onCancel={() => setVisible(null)}
-        />
-      </Drawer> */}
     </>
   );
 };
