@@ -8,7 +8,6 @@ type TProps = {
 };
 
 export const TrackingSteps: React.FC<TProps> = memo(({ data }) => {
-  console.log(data);
   const renderDate = [
     {
       id: 1,
@@ -16,7 +15,7 @@ export const TrackingSteps: React.FC<TProps> = memo(({ data }) => {
       date: data?.Created,
       staff: data?.CreatedBy,
       icon: "/icon/chua-ve-kho-TQ.png",
-      color: "#8098F9",
+      color: "#f00",
     },
     {
       id: 2,
@@ -24,15 +23,23 @@ export const TrackingSteps: React.FC<TProps> = memo(({ data }) => {
       date: data?.DateInTQWarehouse,
       icon: "/icon/da-ve-kho-TQ.png",
       staff: data?.StaffTQWarehouse,
-      color: "#3538CD",
+      color: "#f57c00",
     },
     {
       id: 3,
+      title: "Xuất kho TQ",
+      date: data?.DateOutTQ,
+      icon: "/icon/da-ve-kho-TQ.png",
+      staff: data?.StaffOutTQ,
+      color: "#53389E",
+    },
+    {
+      id: 4,
       title: "Trong kho VN",
       date: data?.DateInLasteWareHouse,
       icon: "/icon/trong-kho-VN.png",
       staff: data?.StaffVNWarehouse,
-      color: "#DC6803",
+      color: "#c71585",
     },
     {
       id: 5,
@@ -40,20 +47,9 @@ export const TrackingSteps: React.FC<TProps> = memo(({ data }) => {
       date: data?.DateOutWarehouse,
       icon: "/icon/da-giao.png",
       staff: data?.StaffVNOutWarehouse,
-      color: "#F63D68",
+      color: "#008000",
     },
   ];
-
-  // const getWidthView = document.body.clientWidth;
-  //vertical - horizontal
-  // console.log(data?.Status);
-
-  /**
-   * Chưa về kho TQ: Created - CreatedBy
-   * Đã về kho TQ: DateInTQWarehouse - StaffTQWarehouse
-   * Trong kho VN: DateInLasteWareHouse -  StaffVNWarehouse
-   * Đã giao: DateOutWarehouse - StaffVNOutWarehouse
-   */
 
   return (
     <div className={clsx("flex flex-col", styles.trackingWrapper)}>
@@ -65,7 +61,11 @@ export const TrackingSteps: React.FC<TProps> = memo(({ data }) => {
           )}
           key={clsx(item.date, item.id)}
         >
-          <div className={clsx(styles.icon)}>
+          <div className={clsx(styles.icon)}
+            style={{
+              background: data?.Status >= item?.id ? item.color : "#afafaf"
+            }}
+          >
             <img src={item.icon} alt="" className={styles.img} />
           </div>
           <div className={styles.content}>

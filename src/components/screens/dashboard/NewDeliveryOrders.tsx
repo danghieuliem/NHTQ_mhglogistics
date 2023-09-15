@@ -3,10 +3,10 @@ import React from "react";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { transportationOrder } from "~/api";
-import { transportStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
 import { DataTable } from "../..";
 import TagStatus from "../status/TagStatus";
+import { transportationStatus } from "~/configs";
 
 export const NewDeliveryOrders = React.memo(() => {
   const { isFetching, data, isLoading } = useQuery(
@@ -30,6 +30,7 @@ export const NewDeliveryOrders = React.memo(() => {
         .then((res) => res?.Data?.Items),
     {
       keepPreviousData: true,
+      staleTime: 10000,
       onError: (error) => {
         toast.error((error as any)?.response?.data?.ResultMessage);
       },
@@ -60,8 +61,8 @@ export const NewDeliveryOrders = React.memo(() => {
       title: "Trạng thái",
       dataIndex: "Status",
       render: (status, _) => {
-        const color = transportStatus.find((x) => x.id === status);
-        return <TagStatus color={color?.color} statusName={_.StatusName} />;
+        const color = transportationStatus.find((x) => x.id === status);
+        return <TagStatus color={color?.color} statusName={color?.name} />;
       },
     },
   ];

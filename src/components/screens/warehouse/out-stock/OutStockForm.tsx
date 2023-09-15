@@ -37,15 +37,13 @@ export const OutStockForm = () => {
             render: "Lấy thông tin thành công!",
             type: "success",
             isLoading: false,
-            autoClose: 1000,
+            autoClose: 500,
           });
           setGetForUserName(res?.Data);
         })
         .catch((error) => {
           toast.update(id, {
-            render:
-              (error as any)?.response?.data?.ResultCode === 401 &&
-              "Không thể lấy danh sách!",
+            render: (error as any)?.response?.data?.ResultMessage,
             type: "error",
             isLoading: false,
             autoClose: 1000,

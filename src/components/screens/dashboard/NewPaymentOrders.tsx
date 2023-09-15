@@ -3,7 +3,7 @@ import React from "react";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { payHelp } from "~/api";
-import { paymentStatus } from "~/configs";
+import { payHelpStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
 import { DataTable } from "../..";
@@ -31,6 +31,7 @@ export const NewPaymentOrders = React.memo(() => {
         .then((res) => res.Data.Items),
     {
       keepPreviousData: true,
+      staleTime: 10000,
       onError: (error) => {
         toast.error((error as any)?.response?.data?.ResultMessage);
       },
@@ -69,8 +70,8 @@ export const NewPaymentOrders = React.memo(() => {
       title: "Trạng thái",
       dataIndex: "Status",
       render: (status, _) => {
-        const color = paymentStatus.find((x) => x.id === status);
-        return <TagStatus color={color?.color} statusName={_.StatusName} />;
+        const color = payHelpStatus.find((x) => x.id === status);
+        return <TagStatus color={color?.color} statusName={color.name} />;
       },
     },
   ];

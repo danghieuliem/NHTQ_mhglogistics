@@ -7,7 +7,7 @@ export const BankCard = ({ item, setSelectedBank, selectedBank }) => {
       key={item?.Id}
       className={clsx(
         "col-span-1 py-2 rounded-[4px] cursor-pointer transition-all duration-300",
-        item?.Id === selectedBank?.Id && "shadow-xl bg-green text-white"
+        item?.Id === selectedBank?.Id && "shadow-xl bg-sec text-white"
       )}
       onClick={() => {
         setSelectedBank(item);
@@ -20,7 +20,7 @@ export const BankCard = ({ item, setSelectedBank, selectedBank }) => {
       }}
     >
       <span className="flex items-center relative justify-evenly">
-        <span className="block w-[26%] rounded-md overflow-hidden">
+        <span className="block w-[30%] rounded-[2px] py-3 overflow-hidden bg-white">
           <img src={item?.IMG ?? "/default/pro-empty.jpg"} alt="" />
         </span>
         <span className="flex flex-col">

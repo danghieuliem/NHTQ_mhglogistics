@@ -1,12 +1,12 @@
-import { Pagination } from "antd";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { mainOrder } from "~/api";
 import { UserAnotherOrderListTable, UserLayout } from "~/components";
-import { createdMoneyOfOrdersData, orderStatus } from "~/configs/appConfigs";
+import { orderStatus } from "~/configs";
+import { createdMoneyOfOrdersData } from "~/configs/appConfigs";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
 import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
@@ -112,6 +112,8 @@ const Index: TNextPageWithLayout = () => {
       },
       enabled: !!userCurrentInfo?.Id,
       staleTime: 5000,
+      keepPreviousData: true,
+      refetchOnWindowFocus: true,
     }
   );
 
@@ -139,7 +141,9 @@ const Index: TNextPageWithLayout = () => {
         toast.error((error as any)?.response?.data?.ResultMessage);
       },
       enabled: !!userCurrentInfo?.Id,
+      keepPreviousData: true,
       staleTime: 5000,
+      refetchOnWindowFocus: true,
     }
   );
 
@@ -154,16 +158,17 @@ const Index: TNextPageWithLayout = () => {
           // handleModal,
           type,
           q: query?.q,
+          filter,
         }}
       />
-      <Pagination
+      {/* <Pagination
         total={filter?.TotalItems}
         current={filter?.PageIndex}
         pageSize={filter?.PageSize}
         onChange={(page, pageSize) =>
           handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
         }
-      />
+      /> */}
     </React.Fragment>
   );
 };

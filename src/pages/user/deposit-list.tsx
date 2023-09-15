@@ -4,8 +4,8 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { transportationOrder } from "~/api";
 import { UserDepositListTable, UserLayout } from "~/components";
-import { breadcrumb } from "~/configs";
-import { orderMoneyOfOrdersData, transportStatus } from "~/configs/appConfigs";
+import { breadcrumb, transportationStatus } from "~/configs";
+import { orderMoneyOfOrdersData } from "~/configs/appConfigs";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
 import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
@@ -58,7 +58,7 @@ const Index: TNextPageWithLayout = () => {
     () => transportationOrder.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
       staleTime: 5000,
       onSuccess: (data) =>
         setFilter({
@@ -106,7 +106,7 @@ const Index: TNextPageWithLayout = () => {
     },
     retry: false,
     enabled: !!userCurrentInfo?.Id,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
   });
 
   useQuery(
@@ -119,7 +119,7 @@ const Index: TNextPageWithLayout = () => {
       onSuccess: (res) => {
         const data = res.Data;
         data?.forEach((x) => {
-          const target = transportStatus.find((i) => i.id === x?.Status);
+          const target = transportationStatus.find((i) => i.id === x?.Status);
           if (target) {
             target.value = x?.Quantity;
           }
@@ -130,7 +130,7 @@ const Index: TNextPageWithLayout = () => {
       },
       retry: false,
       enabled: !!userCurrentInfo?.Id,
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
     }
   );
 

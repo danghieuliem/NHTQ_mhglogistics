@@ -39,7 +39,7 @@ export const ServiceForm: React.FC<TForm<TService> & { refetchService }> = ({
           render: "Cập nhật thành công!",
           type: "success",
           isLoading: false,
-          autoClose: 1000,
+          autoClose: 500,
         });
       })
       .catch((error) => {

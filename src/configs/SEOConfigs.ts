@@ -40,8 +40,10 @@ export const SEOConfigs = {
     detailRequest: "Chi tiết yêu cầu",
   },
   checkWarehouseTQ: "Kiểm hàng kho TQ",
+  checkExportWarehouseTQ: "Xuất kho TQ",
   checkWarehouseVN: "Kiểm hàng kho VN",
   importWarehouseTQ: "Nhập kho TQ",
+  importWarehouseVN: "Nhập kho VN",
   assignPro: "Gán kiện cho khách",
   export: "Xuất kho",
   parcelManagement: {
@@ -52,7 +54,7 @@ export const SEOConfigs = {
     detailPackageManagement: "Quản lý bao hàng chi tiết",
   },
   moneyManagement: {
-    personalRecharge: "quản lý nạp tiền cá nhân",
+    personalRecharge: "Quản lý nạp tiền cá nhân",
     historyRechargeVN: "Lịch sử nạp tiền",
     historyWithdrawVN: "Lịch sử rút tiền",
     historyRechargeTQ: "Lịch sử nạp tệ",

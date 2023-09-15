@@ -1,31 +1,36 @@
-import { Card, Modal } from "antd";
 import Cookie from "js-cookie";
-import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 import { authenticate, setToken, user as userAPI } from "~/api";
 import { Button, FormInput } from "~/components";
+import { showToast } from "~/components/toast";
 import { config } from "~/configs";
 import { setRouter, updateUser, useAppDispatch } from "~/store";
 import { _format } from "~/utils";
 
-const SignInForm = ({ visible, setOpenModal }) => {
+const aLink =
+  "cursor-pointer text-main hover:text-sec transition-all duration-300";
+
+export const SignInForm = ({ handleOpen }) => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
+
 
   const { handleSubmit, control, reset, resetField } = useForm<TLogin>({
     mode: "onBlur",
     defaultValues: {
-      userName: "monachecker",
-      password: "mona@123",
+      userName: "",
+      password: "",
     },
   });
 
   useEffect(() => {
     reset({
-      userName: "monachecker",
-      password: "mona@123",
+      userName: "",
+      password: "",
     });
-  }, [visible]);
+  }, []);
 
   const [loading, setLoading] = useState(false);
   const [showP, setShowP] = useState(false);
@@ -46,9 +51,10 @@ const SignInForm = ({ visible, setOpenModal }) => {
         userAPI
           .getByID(user?.UserId)
           .then((res) => {
+            const newData: any = res?.Data;
             dispatch(
               updateUser({
-                ...res?.Data,
+                ...newData,
                 IsConfirmOTP: false,
                 Roles: [],
                 LastName: "",
@@ -56,98 +62,80 @@ const SignInForm = ({ visible, setOpenModal }) => {
                 Token: token,
               })
             );
-            setOpenModal("");
             setLoading(false);
+            router.push('/user/');
             dispatch(setRouter(user.UserGroupId));
           })
           .catch(() => console.log("error to fetching user by id!"));
       })
-      .catch((error) => {
-        console.log((error as any)?.response?.data?.ResultMessage);
+      .catch(() => {
         resetField("password");
-        toast.error((error as any)?.response?.data?.ResultMessage);
+        showToast({
+          title: "",
+          message: "Tên đăng nhập hoặc mật khẩu không chính xác",
+          type: "error",
+        });
         setLoading(false);
       });
   };
 
   return (
-    <Modal visible={visible} footer={false} closeIcon={true} closable={false}>
-      <div className="authContainer">
-        <Card
-          className="!m-[-10px]"
-          extra={
-            <div className="flex items-center justify-between">
-              <p className="heading !pb-0">Đăng nhập</p>
-              <span
-                className="cursor-pointer"
-                onClick={() => setOpenModal(false)}
-              >
-                <i className="fas fa-times text-[#adadad] hover:text-red text-[20px]"></i>
-              </span>
-            </div>
-          }
-          actions={[
-            <div className="link" onClick={() => setOpenModal("register")}>
-              <a className="!mt-0 !inline-block">Đăng ký</a>
-            </div>,
-            <div
-              className="link"
-              onClick={() => setOpenModal("forgetPassword")}
-            >
-              <a className="!mt-0 !inline-block">Quên mật khẩu?</a>
-            </div>,
-          ]}
-        >
-          <form onSubmit={handleSubmit(_onPress)}>
-            <div className="col-span-2">
-              <FormInput
-                disabled={loading}
-                control={control}
-                name="userName"
-                homeType="login"
-                label="Tài khoản"
-                placeholder="Nhập tài khoản"
-                rules={{
-                  required: "Bạn chưa điền thông tin!",
-                }}
-                prefix={<i className="fas fa-user"></i>}
-              />
-            </div>
-            <div className="col-span-2">
-              <FormInput
-                disabled={loading}
-                control={control}
-                name="password"
-                label="Mật khẩu"
-                allowClear={false}
-                prefix={<i className="fas fa-lock"></i>}
-                suffix={
-                  <i
-                    onClick={() => setShowP(!showP)}
-                    className={!showP ? "fas fa-eye-slash" : "fas fa-eye"}
-                  ></i>
-                }
-                homeType="login"
-                type={!showP ? "password" : "text"}
-                placeholder="Nhập mật khẩu"
-                rules={{
-                  required: "Bạn chưa điền thông tin!",
-                }}
-              />
-            </div>
-            <div className="col-span-2">
-              <Button
-                loading={loading}
-                title="Đăng nhập"
-                btnClass="w-full"
-                htmlType="submit"
-              />
-            </div>
-          </form>
-        </Card>
+    <div className="authContainer">
+      <form onSubmit={handleSubmit(_onPress)}>
+        <div className="col-span-2">
+          <FormInput
+            disabled={loading}
+            control={control}
+            name="userName"
+            homeType="login"
+            label="Tài khoản"
+            placeholder="Nhập tài khoản"
+            rules={{
+              required: "Bạn chưa điền thông tin!",
+            }}
+            prefix={<i className="fas fa-user"></i>}
+          />
+        </div>
+        <div className="col-span-2">
+          <FormInput
+            disabled={loading}
+            control={control}
+            name="password"
+            label="Mật khẩu"
+            allowClear={false}
+            prefix={<i className="fas fa-lock"></i>}
+            suffix={
+              <i
+                onClick={() => setShowP(!showP)}
+                className={!showP ? "fas fa-eye-slash" : "fas fa-eye"}
+              ></i>
+            }
+            homeType="login"
+            type={!showP ? "password" : "text"}
+            placeholder="Nhập mật khẩu"
+            rules={{
+              required: "Bạn chưa điền thông tin!",
+            }}
+          />
+        </div>
+        <div className="col-span-2">
+          <Button
+            loading={loading}
+            title="Đăng nhập"
+            btnClass="w-full"
+            htmlType="submit"
+          />
+        </div>
+      </form>
+
+      <div className="py-4 flex justify-between">
+        <span className={aLink} onClick={() => handleOpen("register")}>
+          Đăng ký
+        </span>
+        <span className={aLink} onClick={() => handleOpen("forgetPass")}>
+          Quên mật khẩu?
+        </span>
       </div>
-    </Modal>
+    </div>
   );
 };
-
-export const SignInFormMemo = React.memo(SignInForm);

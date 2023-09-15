@@ -1,7 +1,6 @@
-import router from "next/router";
 import { useQuery } from "react-query";
 import { pageType } from "~/api";
-import { ArticleCategoryTable, IconButton, Layout, toast } from "~/components";
+import { ArticleCategoryTable, Layout, toast } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import { TNextPageWithLayout } from "~/types/layout";

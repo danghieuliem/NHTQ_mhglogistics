@@ -1,4 +1,3 @@
-import { Pagination } from "antd";
 import Link from "next/link";
 import React from "react";
 import { ActionButton, DataTable } from "~/components";
@@ -11,12 +10,9 @@ type TProps = {
   handleFilter: (newFilter) => void;
 };
 
-export const PersonalRechargeTable: React.FC<TTable<TClient | any> & TProps> = ({
-  data,
-  loading,
-  handleFilter,
-  filter,
-}) => {
+export const PersonalRechargeTable: React.FC<
+  TTable<TClient | any> & TProps
+> = ({ data, loading, handleFilter, filter }) => {
   const columns: TColumnsType<TClient> = [
     {
       dataIndex: "Id",
@@ -63,28 +59,32 @@ export const PersonalRechargeTable: React.FC<TTable<TClient | any> & TProps> = (
       dataIndex: "action",
       title: "Thao tác",
       align: "right",
-      width: 220,
+      width: 120,
       fixed: "right",
       render: (_, record) => (
-        <div className="flex w-fit m-auto">
-          <Link href={`/manager/money/vietnam-recharge/?id=${record?.Id}`}>
+        <div className="flex flex-wrap gap-1">
+          <Link
+            href={`/manager/money/vietnam-recharge/?id=${record?.Id}`}
+            passHref
+          >
             <a target="_blank">
               <ActionButton
-                icon="fas fa-badge-dollar mr-1"
+                icon="fas fa-badge-dollar"
                 title="Nạp tiền"
-                iconContainerClassName="iconYellow !my-0"
-                btnYellow
                 isButton
+                isButtonClassName="bg-green !text-white"
               />
             </a>
           </Link>
-          <Link href={`/manager/money/vietnam-withdrawal/?id=${record?.Id}`}>
+          <Link
+            href={`/manager/money/vietnam-withdrawal/?id=${record?.Id}`}
+            passHref
+          >
             <a target="_blank">
               <ActionButton
                 icon="fas fa-wallet"
                 title="Rút tiền"
-                iconContainerClassName="iconBlue"
-                btnBlue
+                isButtonClassName="bg-orange-900 !text-white"
                 isButton
               />
             </a>
@@ -104,18 +104,20 @@ export const PersonalRechargeTable: React.FC<TTable<TClient | any> & TProps> = (
           // expandable: expandable,
           loading: loading,
           scroll: { y: 700, x: 1200 },
+          pagination: {
+            current: filter.PageIndex,
+            total: filter.TotalItems,
+            pageSize: filter.PageSize,
+          },
+          onChange: (page, pageSize) => {
+            handleFilter({
+              ...filter,
+              PageIndex: page.current,
+              PageSize: page.pageSize,
+            });
+          },
         }}
       />
-      <div className="mt-4 text-right">
-        <Pagination
-          total={filter?.TotalItems}
-          current={filter?.PageIndex}
-          pageSize={filter?.PageSize}
-          onChange={(page, pageSize) =>
-            handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-          }
-        />
-      </div>
     </>
   );
 };

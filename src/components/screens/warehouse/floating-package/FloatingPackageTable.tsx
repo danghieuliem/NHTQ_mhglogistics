@@ -1,9 +1,9 @@
-import { Pagination, Space } from "antd";
+import { Space } from "antd";
 import React from "react";
 import { ActionButton, DataTable } from "~/components";
 import {
-  packageStatus
-} from "~/configs/appConfigs";
+  smallPackageStatus
+} from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
@@ -65,8 +65,8 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
       title: "Trạng thái kiện",
       render: (status, record) => (
         <TagStatus
-          color={packageStatus.find((x) => x.id === record.Status)?.color}
-          statusName={record.StatusName}
+          color={smallPackageStatus.find((x) => x.id === record.Status)?.color}
+          statusName={smallPackageStatus.find((x) => x.id === record.Status)?.name}
         />
       ),
     },
@@ -80,12 +80,14 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
       title: "Ngày tạo",
       render: (date) => date && _format.getVNDate(date),
       responsive: ["xl"],
+      width: 200
     },
     {
       dataIndex: "action",
       align: "right",
-      width: 180,
-      title: "Thao tác",
+      width: 190,
+      fixed: "right",
+      title: "Gán kiện",
       render: (_, record) => (
         <Space>
           {/* <ActionButton
@@ -95,16 +97,19 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
 						title="Cập nhật"
 					/> */}
           <ActionButton
-            icon="fas fa-plus"
+            icon="fas fa-plus-circle"
             onClick={() => handleAssign(record, "assign1")}
-            title="Gán kiện mua hộ"
+            title="Mua hộ"
             isButton
+            isButtonClassName="bg-blue !text-white"
           />
-          {/* <ActionButton
-            icon="fas fa-plus"
+          <ActionButton
+            icon="fas fa-plus-circle"
             onClick={() => handleAssign(record, "assign2")}
-            title="Gán đơn cho khách ký gửi"
-          /> */}
+            title="Ký gửi"
+            isButton
+            isButtonClassName="bg-green !text-white"
+          />
         </Space>
       ),
     },
@@ -143,17 +148,16 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
             loading,
             bordered: true,
             expandable: expandable,
+            scroll: {y: 700},
+            pagination: {current: filter.PageIndex, total: filter.TotalItems, pageSize: filter.PageSize },
+            onChange: (page, pageSize) => {
+              handleFilter({
+                ...filter,
+                PageIndex: page.current,
+                PageSize: page.pageSize
+              });
+            },
           }}
-        />
-      </div>
-      <div className="mt-4 text-right">
-        <Pagination
-          total={filter?.TotalItems}
-          current={filter?.PageIndex}
-          pageSize={filter?.PageSize}
-          onChange={(page, pageSize) =>
-            handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-          }
         />
       </div>
     </>

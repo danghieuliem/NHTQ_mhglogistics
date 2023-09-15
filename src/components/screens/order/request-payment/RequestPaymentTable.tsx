@@ -1,13 +1,14 @@
-import { Pagination } from "antd";
 import Link from "next/link";
 import React from "react";
 import { toast } from "react-toastify";
 import { payHelp } from "~/api";
 import { ActionButton, DataTable } from "~/components";
-import { paymentStatus } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import { Modal } from "antd";
+import { EPayHelp, payHelpStatus } from "~/configs";
+import clsx from "clsx";
 
 type TProps = {
   filter;
@@ -59,7 +60,7 @@ export const RequestPaymentTable: React.FC<
       title: "Tổng tiền (VNĐ)",
       align: "right",
       render: (money) => _format.getVND(money, " "),
-      width: 120,
+      width: 140,
     },
     {
       dataIndex: "Currency",
@@ -76,19 +77,90 @@ export const RequestPaymentTable: React.FC<
     {
       dataIndex: "Status",
       title: "Trạng thái",
-      render: (status, record) => {
-        const color = paymentStatus?.find((x) => x.id === status);
-        return (
-          <TagStatus color={color?.color} statusName={record?.StatusName} />
-        );
+      render: (status) => {
+        const color = payHelpStatus?.find((x) => x.id === status);
+        return <TagStatus color={color?.color} statusName={color?.name} />;
       },
       width: 120,
     },
     {
       dataIndex: "Created",
-      title: "Ngày tạo",
-      render: (date) => _format.getVNDate(date),
-      width: 200,
+      title: "TimeLine",
+      render: (_, record) => (
+        <React.Fragment>
+          {record.Created && (
+            <p
+              className={clsx(
+                record?.Status === EPayHelp.ChoDuyet && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Đơn mới: </span>
+              <span>
+                {_format.getVNDate(record.Created, "HH:mm")} -
+                {_format.getVNDate(record.Created, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.ConfirmDate && (
+            <p
+              className={clsx(
+                record?.Status === EPayHelp.DaDuyet && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Đã duyệt:</span>
+              <span>
+                {_format.getVNDate(record.ConfirmDate, "HH:mm")} -
+                {_format.getVNDate(record.ConfirmDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.PaidDate && (
+            <p
+              className={clsx(
+                record?.Status === EPayHelp.DaThanhToan && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Thanh toán:</span>
+              <span>
+                {_format.getVNDate(record.PaidDate, "HH:mm")} -
+                {_format.getVNDate(record.PaidDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.CompleteDate && (
+            <p
+              className={clsx(
+                record?.Status === EPayHelp.DaHoanThanh && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Hoàn thành:</span>
+              <span>
+                {_format.getVNDate(record.CompleteDate, "HH:mm")} -
+                {_format.getVNDate(record.CompleteDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.CancelDate && (
+            <p
+              className={clsx(
+                record?.Status === EPayHelp.DonHuy && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Huỷ đơn:</span>
+              <span>
+                {_format.getVNDate(record.CancelDate, "HH:mm")} -
+                {_format.getVNDate(record.CancelDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+        </React.Fragment>
+      ),
+      width: 280,
     },
     {
       dataIndex: "action",
@@ -103,39 +175,43 @@ export const RequestPaymentTable: React.FC<
           >
             <a target="_blank">
               <ActionButton
-                icon="!mr-0"
+                icon="fas fa-info-square"
                 title="Chi tiết"
                 isButton
-                isButtonClassName="bg-main !text-white"
               />
             </a>
           </Link>
-          {record?.Status === 1 && (
+          {record?.Status === EPayHelp.ChoDuyet && (
             <ActionButton
-              onClick={() => {
-                const id = toast.loading("Đang xử lý ...");
-                payHelp
-                  .confirm(record?.Id)
-                  .then(() => {
-                    toast.update(id, {
-                      render: "Duyệt thành công!",
-                      type: "success",
-                      isLoading: false,
-                      autoClose: 0,
-                    });
-                    refetch();
-                  })
-                  .catch((error) => {
-                    toast.update(id, {
-                      render: (error as any)?.response?.data?.ResultMessage,
-                      type: "success",
-                      isLoading: false,
-                      autoClose: 0,
-                    });
-                  });
-              }}
-              icon="mr-0"
-              title="Duyệt đơn"
+              onClick={() =>
+                Modal.confirm({
+                  title: "Xác nhận duyệt đơn này?",
+                  onOk: () => {
+                    const id = toast.loading("Đang xử lý ...");
+                    payHelp
+                      .confirm(record?.Id)
+                      .then(() => {
+                        toast.update(id, {
+                          render: "Duyệt thành công!",
+                          type: "success",
+                          isLoading: false,
+                          autoClose: 500,
+                        });
+                        refetch();
+                      })
+                      .catch((error) => {
+                        toast.update(id, {
+                          render: (error as any)?.response?.data?.ResultMessage,
+                          type: "error",
+                          isLoading: false,
+                          autoClose: 1000,
+                        });
+                      });
+                  },
+                })
+              }
+              icon="fas fa-check-circle"
+              title="Duyệt"
               isButton
               isButtonClassName="bg-blue !text-white"
             />
@@ -154,15 +230,19 @@ export const RequestPaymentTable: React.FC<
           data,
           bordered: true,
           scroll: { x: 1200, y: 700 },
+          pagination: {
+            current: filter.PageIndex,
+            total: filter.TotalItems,
+            pageSize: filter.PageSize,
+          },
+          onChange: (page, pageSize) => {
+            handleFilter({
+              ...filter,
+              PageIndex: page.current,
+              PageSize: page.pageSize,
+            });
+          },
         }}
-      />
-      <Pagination
-        total={filter?.TotalItems}
-        current={filter?.PageIndex}
-        pageSize={filter?.PageSize}
-        onChange={(page, pageSize) =>
-          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-        }
       />
     </>
   );

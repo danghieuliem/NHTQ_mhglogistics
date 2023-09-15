@@ -1,12 +1,24 @@
 .navWrapper {
-  @apply shadow-xl;
-  width: 50px;
+  @apply shadow-lg bg-[#fff];
+  width: 0px;
   display: flex;
+  flex-direction: column;
   transition: all 0.2s ease-in-out;
-  overflow: hidden;
+  overflow: hidden auto;
+  transform: translateX(-100%);
+  /* width: 260px; */
+  z-index: 99;
+}
+
+.menuWrapper {
+  /* @apply border-b-2 border-sec; */
+  padding: 6px 0 !important;
+  /* padding-top: 10px !important; */
 }
 
 .navWrapperOpen {
+  padding: 10px;
+  transform: translateX(0%);
   width: 260px;
 }
 
@@ -23,10 +35,76 @@
   opacity: 1;
 }
 
-.navIcon {
+/* NEW CSS */
+
+.mainTitle {
+  @apply text-main;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.childLabel {
+  @apply text-sec;
+  font-size: 14px;
+  padding: 6px !important;
+  height: fit-content !important;
+  font-weight: 500;
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
+}
+
+.childLabel i {
+  /* @apply text-sec; */
+  margin-right: 10px;
+}
+
+.childLabel span {
+  line-height: initial !important;
+}
+
+.subMenuLabel i,
+.subLabel i {
+  margin-right: 10px;
+  font-size: 10px
+}
+
+.childLabel a,
+.subLabel a {
+  @apply !text-label;
+}
+
+.childLabel:hover a,
+.subLabel:hover a{
+  @apply !text-white;
+}
+
+.subLabelActive,
+.childLabelActive {
+  @apply bg-main;
+}
+
+.subLabelActive a,
+.childLabelActive a {
+  @apply !text-white;
+}
+
+@media screen and (max-width: 1200px) {
+  
+  .navWrapper {
+    position: fixed;
+    z-index: 999;
+    overflow-y: auto;
+    height: 100vh;
+  }
+}
+
+
+/* OLD CSS */
+
+/* .navIcon {
   @apply bg-main;
   top: 0;
-  width: 50px;
+  width: 40px;
   height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
@@ -35,7 +113,7 @@
   flex-direction: column;
   transition: all 0.3s ease-in-out;
   padding-top: 15px;
-  padding-left: 4px;
+  padding-left: 2px;
 }
 
 .icon {
@@ -43,7 +121,7 @@
   padding: 10px 0;
   margin-bottom: 6px;
   position: relative;
-  
+
   cursor: pointer;
 }
 
@@ -72,17 +150,12 @@
   transform: scale(1.6);
 }
 
-.iconActiveHover {
-  /* @apply shadow-lg bg-white; */
-  /* border-radius: 10px 0 0 10px; */
-}
 
 .iconActiveHover i {
   @apply text-sec;
   transform: scale(1.6);
 }
 
-/* .icon:hover::after, */
 .iconActive::after {
   width: 100%;
 }
@@ -91,7 +164,6 @@
   @apply text-main;
 }
 
-/* .icon:hover .iconBorder, */
 .iconActive .iconBorder {
   @apply bg-white;
   right: 0px;
@@ -131,7 +203,7 @@
 
 .navListContent {
   @apply bg-white;
-  width: calc(100% - 50px);
+  width: calc(100% - 40px);
   position: relative;
   padding-top: 10px;
 }
@@ -148,7 +220,6 @@
 .liMenuItemActive,
 .liMenuItem:hover {
   @apply bg-main text-white font-bold;
-
 }
 
 .PopoverliMenuItem {
@@ -212,4 +283,4 @@
   @apply text-sec;
   font-size: 12px;
   font-weight: bold;
-}
+} */

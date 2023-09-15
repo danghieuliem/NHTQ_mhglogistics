@@ -20,8 +20,8 @@ const Index: TNextPageWithLayout = () => {
     PageIndex: 1,
     OrderBy: "Id desc",
     Status: 5,
-    fromDate: null,
-    toDate: null,
+    FromDate: null,
+    ToDate: null,
   });
 
   const handleFilter = (newFilter) => {
@@ -31,7 +31,10 @@ const Index: TNextPageWithLayout = () => {
   const [chartData, setChartData] = useState<Record<string, number>>(null);
 
   const { data, isFetching: isFetchingWithdraw } = useQuery(
-    ["clientPurchaseReportData", { ...filter }],
+    [
+      "clientPurchaseReportData",
+      [filter.PageIndex, filter.FromDate, filter.ToDate],
+    ],
     () => reportPayHelp.getList({ ...filter }).then((res) => res.Data),
     {
       onSuccess: (data) => {
@@ -55,21 +58,15 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <div>
-      <PaymentProfitFilter handleFilter={handleFilter} />
-      <PaymentProfitChart dataChart={chartData} />
+      <div className="tableBox">
+        <PaymentProfitFilter handleFilter={handleFilter} />
+        <PaymentProfitChart dataChart={chartData} />
+      </div>
       <div className="mt-10">
         <PaymentProfitTable
-          {...{
-            data: data?.Items,
-          }}
-        />
-        <Pagination
-          total={filter?.TotalItems}
-          current={filter?.PageIndex}
-          pageSize={filter?.PageSize}
-          onChange={(page, pageSize) =>
-            handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-          }
+            data={data?.Items}
+            filter={filter}
+            handleFilter={handleFilter}
         />
       </div>
     </div>

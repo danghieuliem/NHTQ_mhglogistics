@@ -1,11 +1,15 @@
 import { FC } from "react";
-import { DataTable, IconButton } from "~/components";
+import { ActionButton, DataTable, IconButton } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 
 const PurchaseProfitTable: FC<
-  TTable<TStatisticalPurchaseProfit> & { handleExportExcel: () => void }
-> = ({ data, pagination, handlePagination, loading, handleExportExcel }) => {
+  TTable<TStatisticalPurchaseProfit> & {
+    handleExportExcel: () => void;
+    filter;
+    handleFilter: (newFilter) => void;
+  }
+> = ({ data, filter, handleFilter, loading, handleExportExcel }) => {
   const columns: TColumnsType<TStatisticalPurchaseProfit> = [
     {
       dataIndex: "Id",
@@ -13,7 +17,6 @@ const PurchaseProfitTable: FC<
       fixed: "left",
       align: "right",
       width: 100,
-
     },
     {
       dataIndex: "UserName",
@@ -121,22 +124,31 @@ const PurchaseProfitTable: FC<
         columns,
         data,
         bordered: true,
-        pagination,
-        onChange: handlePagination,
         // expandable: expandable,
         loading,
         scroll: { y: 700, x: 1200 },
+        extraElmentClassName: "ml-auto",
         extraElment: (
-          <div>
-            <IconButton
-              onClick={handleExportExcel}
-              icon="fas fa-file-export"
-              title="Xuất thống kê"
-              showLoading
-              btnClass="mb-4"
-            />
-          </div>
+          <ActionButton
+            onClick={handleExportExcel}
+            icon="fas fa-file-export"
+            title="Xuất"
+            isButton
+            isButtonClassName="bg-green !text-white"
+          />
         ),
+        pagination: {
+          current: filter.PageIndex,
+          total: filter.TotalItems,
+          pageSize: filter.PageSize,
+        },
+        onChange: (page, pageSize) => {
+          handleFilter({
+            ...filter,
+            PageIndex: page.current,
+            PageSize: page.pageSize,
+          });
+        },
       }}
     />
   );

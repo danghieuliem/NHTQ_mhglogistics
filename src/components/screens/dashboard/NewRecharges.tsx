@@ -31,6 +31,8 @@ export const NewRecharges = React.memo(() => {
         })
         .then((data) => data?.Data?.Items),
     {
+      staleTime: 10000,
+      keepPreviousData: true,
       onError: (error) => {
         toast.error((error as any)?.response?.data?.ResultMessage);
       },
@@ -69,7 +71,7 @@ export const NewRecharges = React.memo(() => {
       dataIndex: "Status",
       render: (status, _) => {
         const color = moneyStatus.find((x) => x.id === status);
-        return <TagStatus color={color?.color} statusName={_.StatusName} />;
+        return <TagStatus color={color?.color} statusName={color.name} />;
       },
     },
   ];

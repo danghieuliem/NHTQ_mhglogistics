@@ -3,7 +3,7 @@ import { Grid } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
-import Link from "next/link";
+import { useRouter } from "next/router";
 import { Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/grid";
@@ -20,75 +20,83 @@ type TProps = {
 };
 
 const NewsItemSwiper = ({ item, name }) => {
+  const router = useRouter();
+
   return (
     <div className={styles.NewsItemBox}>
-      <Link href={`/bai-viet/${item?.Code}`}>
-        <a target={"_blank"} onClick={() => localStorage.setItem("PageTypeId", item?.PageTypeId)}>
-          <div className={styles.newsTop}>
-            <div className={styles.NewsItemImg}>
-              <div
-                className={styles.img}
-                style={{
-                  background: item?.IMG
-                    ? `url(${
-                        item?.IMG?.includes(" ")
-                          ? item?.IMG.replaceAll(" ", "%20")
-                          : item.IMG
-                      })`
-                    : "url(/default/pro-empty.jpg)",
-                }}
-              ></div>
-            </div>
-            <span>
-              <h6>{name}</h6>
-            </span>
+      <a
+        onClick={() => {
+          localStorage.setItem("PageTypeId", item?.PageTypeId);
+          router.push(`/bai-viet/${item?.Code}`);
+        }}
+      >
+        <div className={styles.newsTop}>
+          <div className={styles.NewsItemImg}>
+            <div
+              className={styles.img}
+              style={{
+                background: item?.IMG
+                  ? `url(${
+                      item?.IMG?.includes(" ")
+                        ? item?.IMG.replaceAll(" ", "%20")
+                        : item.IMG
+                    })`
+                  : "url(/default/pro-empty.jpg)",
+              }}
+            ></div>
           </div>
-          <div className={styles.datetime}>
-            <span>{_format.getShortVNDate(item?.Created)}</span>
-            <span className={styles.dateTimeDot}></span>
-            <span>{item?.CreatedBy}</span>
-          </div>
-          <p>{item?.Summary}</p>
-        </a>
-      </Link>
+          <span>
+            <h6>{name}</h6>
+          </span>
+        </div>
+        <div className={styles.datetime}>
+          <span>{_format.getShortVNDate(item?.Created)}</span>
+          <span className={styles.dateTimeDot}></span>
+          <span>{item?.CreatedBy}</span>
+        </div>
+        <p>{item?.Summary}</p>
+      </a>
     </div>
   );
 };
 
 const NewsItem = ({ item, name }) => {
-  console.log(item);
-  return (
-    <div className={styles.NewsItemBoxVertical}>
-      <Link href={`/chuyen-muc/detail/?code=${item?.Code}`}>
-        <a target={"_blank"}
-        >
-          <div
-            className={styles.imgVertical}
-            style={{
-              background: item?.IMG
-                ? `url(${
-                    item?.IMG?.includes(" ")
-                      ? item?.IMG.replaceAll(" ", "%20")
-                      : item.IMG
-                  })`
-                : "url(/default/pro-empty.jpg)",
-            }}
-          ></div>
-          <div className={styles.infoVertical}>
-            <HomeBreadcrumb currentRoute={item} name={name} />
+  const router = useRouter();
 
-            <div className={styles.inforWrapperVertical}>
-              <span className={styles.datetimeVertical}>
-                <span>{_format.getShortVNDate(item?.Created)}</span>
-                <span className={styles.dateTimeDotVertical}></span>
-                <span>{item?.CreatedBy}</span>
-              </span>
-              <span className={styles.titleVertical}>{item?.Title}</span>
-            </div>
-            <p className={styles.summaryVertical}>{item?.Summary}</p>
+  return (
+    <div
+      className={styles.NewsItemBoxVertical}
+      onClick={() => {
+        router.push(`/chuyen-muc/detail/?code=${item?.Code}`);
+      }}
+    >
+      <a>
+        <div
+          className={styles.imgVertical}
+          style={{
+            background: item?.IMG
+              ? `url(${
+                  item?.IMG?.includes(" ")
+                    ? item?.IMG.replaceAll(" ", "%20")
+                    : item.IMG
+                })`
+              : "url(/default/pro-empty.jpg)",
+          }}
+        ></div>
+        <div className={styles.infoVertical}>
+          <HomeBreadcrumb currentRoute={item} name={name} />
+
+          <div className={styles.inforWrapperVertical}>
+            <span className={styles.datetimeVertical}>
+              <span>{_format.getShortVNDate(item?.Created)}</span>
+              <span className={styles.dateTimeDotVertical}></span>
+              <span>{item?.CreatedBy}</span>
+            </span>
+            <span className={styles.titleVertical}>{item?.Title}</span>
           </div>
-        </a>
-      </Link>
+          <p className={styles.summaryVertical}>{item?.Summary}</p>
+        </div>
+      </a>
     </div>
   );
 };

@@ -204,7 +204,7 @@ const AddNewContentForm: React.FC<any> = ({ edit, onCancel, categogyList, visibl
           render: "Tạo menu mới thành công",
           type: "success",
           isLoading: false,
-          autoClose: 1000,
+          autoClose: 500,
         });
       })
       .catch((error) => {

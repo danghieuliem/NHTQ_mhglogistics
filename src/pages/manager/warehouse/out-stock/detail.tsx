@@ -5,6 +5,7 @@ const Index: TNextPageWithLayout = () => {
 	return <OutStockFormDetail />;
 };
 
+Index.displayName = "Chi tiết xuất kho";
 Index.breadcrumb = "Chi tiết phiên xuất kho";
 Index.Layout = Layout;
 

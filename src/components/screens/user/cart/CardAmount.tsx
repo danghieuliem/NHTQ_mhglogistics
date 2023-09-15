@@ -78,7 +78,7 @@ export const CardAmount = ({
                         render: "Xoá giỏ hàng ",
                         type: "success",
                         isLoading: false,
-                        autoClose: 1000,
+                        autoClose: 500,
                       });
                       setdisabledDel(false);
                     }

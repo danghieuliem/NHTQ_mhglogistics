@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { smallPackage } from "~/api";
-import { Empty, Loading, UserLayout } from "~/components";
+import { Empty, UserLayout } from "~/components";
 import {
   TrackingDetail,
   TrackingFilter,

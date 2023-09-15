@@ -1,4 +1,5 @@
-import { Drawer, Popover, Space, Tag } from "antd";
+import { Popover } from "antd";
+import clsx from "clsx";
 import React, { useRef, useState } from "react";
 import {
   ActionButton,
@@ -7,11 +8,11 @@ import {
   FilterSelect,
 } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
+import { transportationStatus } from "~/configs";
 import {
   EOrderStatusData,
   ESearchData,
-  orderStatusData,
-  searchData,
+  searchData
 } from "~/configs/appConfigs";
 import { _format } from "~/utils";
 
@@ -22,7 +23,7 @@ const inputProps = {
   label: "Nhập ID / mã vận đơn",
 };
 
-const filterBox = `py-2 font-bold uppercase text-[12px] border-[#e8e8e8] rounded-[4px]
+const filterBox = `py-2 px-2 leading-[initial] font-bold uppercase text-[12px] border-[#e8e8e8] rounded-[4px]
 flex items-center justify-center border shadow-lg 
 cursor-pointer hover:shadow-sm transition-all duration-500 hover:!bg-main hover:!text-white`;
 
@@ -35,6 +36,7 @@ type TProps = {
 };
 
 const NumberOfOrderComp = ({ numberOfOrder }) => {
+  console.log(numberOfOrder);
   return (
     <div className="min-w-[300px] p-4">
       {numberOfOrder?.map((item, index) => (
@@ -53,6 +55,7 @@ const NumberOfOrderComp = ({ numberOfOrder }) => {
 };
 
 const MoneyOfOrdersComp = ({ moneyOfOrders }) => {
+  
   return (
     <div className="w-fit p-4">
       {moneyOfOrders?.map((item, index) => (
@@ -83,68 +86,39 @@ const UserDepositListFilter: React.FC<TProps> = ({
   const ToDate = useRef<string>(null);
 
   return (
-    <div className="flex w-fit ml-auto mb-1 flex-wrap">
-      <Popover
-        trigger="click"
-        placement="bottomRight"
-        content={<NumberOfOrderComp numberOfOrder={numberOfOrder} />}
-      >
-        <ActionButton
-          title="Thông tin đơn hàng"
-          icon=""
-          isButton
-          isButtonClassName="bg-blue !text-white hover:bg-sec ml-2"
-        />
-      </Popover>
-      <Popover
-        trigger={"click"}
-        placement="bottomRight"
-        content={<MoneyOfOrdersComp moneyOfOrders={moneyOfOrders} />}
-      >
-        <ActionButton
-          title="Thông tin tiền hàng"
-          icon=""
-          isButton
-          isButtonClassName="bg-green !text-white hover:bg-sec ml-2"
-        />
-      </Popover>
-      <ActionButton
-        title="Bộ lọc"
-        icon="fas fa-filter"
-        isButton
-        onClick={() => setIsShow(!isShow)}
-        isButtonClassName="bg-main !text-white ml-2"
-      />
-      <Drawer
-        title={
-          <Tag color="text-white" className="!bg-main shadow-lg">
-            Bộ lọc nâng cao
-          </Tag>
-        }
-        placement="right"
-        visible={isShow}
-        closable={false}
-        closeIcon={false}
-        onClose={() => setIsShow(!isShow)}
-        extra={
-          <Space>
-            <IconButton
-              onClick={() => setIsShow(!isShow)}
-              title=""
-              icon="far fa-times mr-0"
-              btnClass="bg-red"
-              showLoading
-              toolip=""
+    <div className="flex flex-col gap-2 w-full justify-between">
+      <div className="flex flex-wrap gap-2 items-end justify-between">
+        <div className="flex flex-wrap gap-2">
+          <Popover
+            trigger="click"
+            placement="bottomRight"
+            content={<NumberOfOrderComp numberOfOrder={numberOfOrder} />}
+          >
+            <ActionButton
+              title="Thông tin đơn hàng"
+              icon=""
+              isButton
+              isButtonClassName="bg-blue !text-white hover:bg-sec"
             />
-          </Space>
-        }
-      >
-        <div className="">
-          <div className="grid grid-cols-1 gap-2">
-            <div className="col-span-1 font-bold mb-2 text-[20px]">
-              Lọc theo thuộc tính:{" "}
-            </div>
-            <div className="col-span-1 sm:mb-0 mb-4">
+          </Popover>
+          <Popover
+            trigger={"click"}
+            placement="bottomRight"
+            content={<MoneyOfOrdersComp moneyOfOrders={moneyOfOrders} />}
+          >
+            <ActionButton
+              title="Thông tin tiền hàng"
+              icon=""
+              isButton
+              isButtonClassName="bg-green !text-white hover:bg-sec"
+            />
+          </Popover>
+        </div>
+        <Popover
+          trigger={"click"}
+          placement="bottomLeft"
+          content={
+            <div className="grid grid-cols-1 gap-4 p-4">
               <FilterSelect
                 data={searchData.slice(0, 3)}
                 label="Tìm kiếm theo"
@@ -153,8 +127,6 @@ const UserDepositListFilter: React.FC<TProps> = ({
                   TypeSearch.current = val;
                 }}
               />
-            </div>
-            <div className="col-span-1">
               <FilterInput
                 {...{
                   ...inputProps,
@@ -162,18 +134,14 @@ const UserDepositListFilter: React.FC<TProps> = ({
                     (SearchContent.current = val.trim()),
                 }}
               />
-            </div>
-            <div className="col-span-1">
               <FilterSelect
-                data={orderStatusData}
+                data={transportationStatus}
                 placeholder="Chọn trạng thái"
                 label="Trạng thái"
-                handleSearch={(val: EOrderStatusData) => {
+                handleSearch={(val: number) => {
                   Status.current = val;
                 }}
               />
-            </div>
-            <div className="col-span-1">
               <FilterRangeDate
                 placeholder="Từ ngày / đến ngày"
                 format="DD/MM/YYYY"
@@ -182,40 +150,9 @@ const UserDepositListFilter: React.FC<TProps> = ({
                   ToDate.current = val[1];
                 }}
               />
-            </div>
-            <div className="col-span-1 ml-auto mt-2">
-              <IconButton
-                onClick={() => {
-                  setIsShow(!isShow);
-                  handleFilter({
-                    TypeSearch: TypeSearch.current,
-                    SearchContent: SearchContent.current,
-                    Status: Status.current,
-                    FromDate: FromDate.current,
-                    ToDate: ToDate.current,
-                    PageIndex: 1,
-                  });
-                }}
-                icon="far fa-search"
-                title="Tìm kiếm"
-                showLoading
-                toolip=""
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-2 mt-10">
-            <div className="col-span-2 font-bold mb-2 text-[20px]">
-              Lọc nhanh trạng thái:{" "}
-            </div>
-            <div className="col-span-2 grid grid-cols-2 gap-2">
-              {numberOfOrder?.map((item) => (
-                <div
-                  key={item?.name}
-                  className={`col-span-${item.col} ${filterBox} ${
-                    item?.id === Status.current ? "!bg-main !text-white" : ""
-                  }`}
+              <div className="col-span-1 ml-auto">
+                <IconButton
                   onClick={() => {
-                    Status.current = item.id;
                     setIsShow(!isShow);
                     handleFilter({
                       TypeSearch: TypeSearch.current,
@@ -226,15 +163,58 @@ const UserDepositListFilter: React.FC<TProps> = ({
                       PageIndex: 1,
                     });
                   }}
-                >
-                  <div className="mx-1">{item.name}</div>
-                  <div className="mx-1">({item.value})</div>
-                </div>
-              ))}
+                  icon="far fa-search"
+                  title="Tìm kiếm"
+                  showLoading
+                  toolip=""
+                />
+              </div>
             </div>
-          </div>
-        </div>
-      </Drawer>
+          }
+        >
+          <ActionButton
+            title="Bộ lọc"
+            icon="fas fa-filter"
+            isButton
+            onClick={() => setIsShow(!isShow)}
+            isButtonClassName="bg-main !text-white ml-2"
+          />
+        </Popover>
+      </div>
+
+      <div className="flex gap-2 items-end justify-end flex-wrap">
+        {numberOfOrder?.map((item) => {
+          // const len = (1 / numberOfOrder?.length) * 100;
+          return (
+            <div
+              key={item?.name}
+              className={clsx(
+                `col-span-${item.col}`,
+                item?.id === Status.current ? "!bg-sec !text-white" : "",
+                filterBox,
+              )}
+              // style={{
+              //   width: `calc(${len}% - 6px)`
+              // }}
+              onClick={() => {
+                Status.current = item.id;
+                setIsShow(!isShow);
+                handleFilter({
+                  TypeSearch: TypeSearch.current,
+                  SearchContent: SearchContent.current,
+                  Status: Status.current,
+                  FromDate: FromDate.current,
+                  ToDate: ToDate.current,
+                  PageIndex: 1,
+                });
+              }}
+            >
+              <div className="mx-1">{item.name}</div>
+              <div className="mx-1">({item.value})</div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

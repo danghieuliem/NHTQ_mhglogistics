@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { IconButton } from "~/components/globals/button/IconButton";
+import { ActionButton } from "~/components/globals/button/ActionButton";
 import { FilterRangeDate } from "~/components/globals/filterBase";
 
 type TProps = {
@@ -11,30 +11,26 @@ export const PaymentProfitFilter: React.FC<TProps> = ({ handleFilter }) => {
   const toDate = useRef<string>(null);
 
   return (
-    <div className="grid grid-cols-3 xl:gap-4 w-full">
-      <div className="col-span-1 xl:mb-0 mb-4">
-        <FilterRangeDate
-          placeholder="Từ ngày/đến ngày"
-          handleDate={(val: string[]) => {
-            fromDate.current = val[0];
-            toDate.current = val[1];
-          }}
-        />
-      </div>
-      <div className="col-span-1 xl:mb-0 mb-4 flex items-end">
-        <IconButton
-          onClick={() => {
-            handleFilter({
-              FromDate: fromDate.current,
-              ToDate: toDate.current,
-            });
-          }}
-          btnClass="lg:mx-4"
-          title="Xem thống kê"
-          icon="far fa-info-square"
-          toolip=""
-        />
-      </div>
+    <div className="flex gap-2 items-end">
+      <FilterRangeDate
+        placeholder="Từ ngày/đến ngày"
+        handleDate={(val: string[]) => {
+          fromDate.current = val[0];
+          toDate.current = val[1];
+        }}
+      />
+      <ActionButton
+        onClick={() => {
+          handleFilter({
+            FromDate: fromDate.current,
+            ToDate: toDate.current,
+          });
+        }}
+        title="Xem thống kê"
+        icon="fas fa-info-square"
+        isButton
+        isButtonClassName="bg-green !text-white h-fit"
+      />
     </div>
   );
 };

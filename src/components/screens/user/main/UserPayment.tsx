@@ -1,7 +1,8 @@
 import { Space } from "antd";
+import Link from "next/link";
 import router from "next/router";
 import { ActionButton, DataTable } from "~/components";
-import { paymentStatus } from "~/configs";
+import { payHelpStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
@@ -10,6 +11,13 @@ const columns: TColumnsType<TNewPaymentOrders> = [
   {
     title: "ID",
     dataIndex: "Id",
+    render: (_) => {
+      return (
+        <Link passHref href={`/user/request-list/detail/?id=${_}`}>
+          <a target="_blank">{_}</a>
+        </Link>
+      );
+    },
   },
   {
     dataIndex: "Created",
@@ -40,9 +48,9 @@ const columns: TColumnsType<TNewPaymentOrders> = [
   {
     title: "Trạng thái",
     dataIndex: "Status",
-    render: (status, record) => {
-      const color = paymentStatus.find((x) => x.id === status);
-      return <TagStatus color={color?.color} statusName={record?.StatusName} />
+    render: (status) => {
+      const color = payHelpStatus.find((x) => x.id === status);
+      return <TagStatus color={color?.color} statusName={color?.name} />;
     },
   },
   {
@@ -52,17 +60,15 @@ const columns: TColumnsType<TNewPaymentOrders> = [
     align: "right",
     render: (_, record) => (
       <Space>
-        <ActionButton
-          onClick={() =>
-            router.push({
-              pathname: "/user/request-list/detail",
-              query: { id: record?.Id },
-            })
-          }
-          icon="fas fa-info-square mr-1"
-          title="Chi tiết đơn"
-          isButton={true}
-        />
+        <Link passHref href={`/user/request-list/detail/?id=${record?.Id}`}>
+          <a target="_blank">
+            <ActionButton
+              icon="fas fa-info-square"
+              title="Chi tiết"
+              isButton={true}
+            />
+          </a>
+        </Link>
       </Space>
     ),
     width: 140,
@@ -128,7 +134,7 @@ export const UserPayment = ({ data, isFetching }) => {
         bordered: true,
         title: "Đơn hàng thanh toán hộ",
         expandable: expandable,
-        bgHeaderType: "paymentTable"
+        bgHeaderType: "paymentTable",
       }}
     />
   );

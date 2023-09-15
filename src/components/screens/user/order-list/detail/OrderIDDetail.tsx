@@ -1,17 +1,7 @@
 import { Card } from "antd";
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
-import { DataTable } from "~/components";
-import { TColumnsType, TTable } from "~/types/table";
-import { _format } from "~/utils";
-type TFeeSupports = {
-  Id?: number;
-  MainOrderId?: number;
-  SupportName?: string;
-  Updated?: Date;
-  UpdatedBy?: string;
-  SupportInfoVND?: number;
-};
+
 
 const templageMethods = [
   {
@@ -70,9 +60,7 @@ const styleWrapIcon = `col-span-3 lg:col-span-3 text-sm text-[#000]`;
 const styleIcon = `text-[#ffa500] text-[18px]`;
 const styleValue = `col-span-3 lg:col-span-3 text-sm text-[#666565] font-semibold`;
 
-const OrderIDDetail: React.FC<
-  TTable<TFeeSupports> & { dataAll; data2 }
-> = ({ data, dataAll, data2 }) => {
+const OrderIDDetail: React.FC<{ dataAll; data2 }> = ({ dataAll, data2 }) => {
   const [renderMethods, setRenderMethods] = useState(templageMethods);
 
   useEffect(() => {
@@ -83,26 +71,6 @@ const OrderIDDetail: React.FC<
 
     setRenderMethods(newMethod);
   }, [dataAll]);
-
-  const columns: TColumnsType<TFeeSupports> = [
-    {
-      dataIndex: "Id",
-      render: (value, record, index) => <>{++index}</>,
-      title: "STT",
-      responsive: ["lg"],
-    },
-    {
-      dataIndex: "SupportName",
-      title: "Tên phụ phí",
-    },
-    {
-      title: "Số tiền (VNĐ)",
-      dataIndex: "SupportInfoVND",
-      render: (_, record) => {
-        return <>{_format.getVND(record?.SupportInfoVND)}</>;
-      },
-    },
-  ];
 
   return (
     <div className="grid grid-cols-1 gap-4">
@@ -162,18 +130,8 @@ const OrderIDDetail: React.FC<
           </div>
         </div>
       </Card>
-      <div>
-        <DataTable
-          {...{
-            columns,
-            data,
-            // bordered: true,
-            title: "Danh sách phụ phí",
-          }}
-        />
-      </div>
     </div>
   );
 };
 
-export const OrderIDDetailMemo = React.memo(OrderIDDetail)
+export const OrderIDDetailMemo = React.memo(OrderIDDetail);

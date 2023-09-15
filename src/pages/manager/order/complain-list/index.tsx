@@ -1,13 +1,13 @@
 import router from "next/router";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { complain } from "~/api";
 import {
   ComplainListFilter,
-  ComplainListForm,
+  ComplainListFormMemo,
   ComplainListTable,
-  Layout,
+  Layout
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -30,7 +30,16 @@ const Index: TNextPageWithLayout = () => {
   };
 
   const { isFetching, data, refetch } = useQuery(
-    ["reportList", { ...filter }],
+    [
+      "reportList",
+      [
+        filter.SearchContent,
+        filter.FromDate,
+        filter.ToDate,
+        filter.Status,
+        filter.PageIndex,
+      ],
+    ],
     () => complain.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,
@@ -55,20 +64,44 @@ const Index: TNextPageWithLayout = () => {
     setModal(!modal);
   };
 
-  const handleExportExcel = async () => {
-    complain
-      .exportExcel({ ...filter, PageSize: 99999 })
-      .then((res) => {
-        router.push(res.Data);
-      })
-      .catch((error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+  const handleExportExcel = useCallback(async () => {
+    const id = toast.loading("Đang xử lý ...");
+    let newFilter = { ...filter };
+
+    if (
+      filter.SearchContent ||
+      filter.FromDate ||
+      filter.ToDate ||
+      filter.Status
+    ) {
+      newFilter = {
+        ...filter,
+        PageSize: 9999,
+      };
+    }
+
+    try {
+      const res = await complain.exportExcel(newFilter);
+      router.push(res.Data);
+    } catch (error) {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 3000,
+        render: (error as any)?.response?.data?.ResultMessage,
+        type: "error",
       });
-  };
+    } finally {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "default",
+      });
+    }
+  }, [filter.SearchContent, filter.FromDate, filter.ToDate, filter.Status]);
 
   return (
     <div>
-      <div className="w-fit ml-auto">
+      <div className="flex justify-between items-end">
         <ComplainListFilter
           handleFilter={handleFilter}
           handleExportExcel={handleExportExcel}
@@ -81,7 +114,7 @@ const Index: TNextPageWithLayout = () => {
         loading={isFetching}
         handleModal={handleModal}
       />
-      <ComplainListForm
+      <ComplainListFormMemo
         onCancel={() => setModal(false)}
         visible={modal}
         defaultValues={item.current}

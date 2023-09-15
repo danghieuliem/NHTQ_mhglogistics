@@ -1,9 +1,9 @@
 import router from "next/router";
 import React from "react";
 import { smallPackage } from "~/api";
-import { DataTable, IconButton, toast } from "~/components";
+import { ActionButton, DataTable, toast } from "~/components";
 import TagStatus from "~/components/screens/status/TagStatus";
-import { transportStatus } from "~/configs";
+import { transportationStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 
@@ -64,11 +64,11 @@ export const OrderTransportList: React.FC<TTable<TSmallPackage>> = ({
       align: "right",
       title: "Trạng thái",
       render: (status, record) => {
-        const orderStatus = transportStatus.find((x) => x.id === status);
+        const orderStatus = transportationStatus.find((x) => x.id === status);
         return (
           <TagStatus
             color={orderStatus?.color}
-            statusName={record?.StatusName}
+            statusName={orderStatus?.name}
           />
         );
       },
@@ -113,7 +113,7 @@ export const OrderTransportList: React.FC<TTable<TSmallPackage>> = ({
   };
 
   return (
-    <div className="mt-4">
+    <div className="my-4">
       <DataTable
         {...{
           columns,
@@ -122,14 +122,12 @@ export const OrderTransportList: React.FC<TTable<TSmallPackage>> = ({
           expandable: expandable,
           title: "Danh sách mã vận đơn",
           extraElment: (
-            <IconButton
+            <ActionButton
               onClick={() => onExportExcel()}
               title="Xuất"
               icon="fas fa-file-export"
-              showLoading
-              toolip="Xuất thống kê"
-              green
-              btnClass="!h-fit"
+              isButton
+              isButtonClassName="bg-green !text-white"
             />
           ),
         }}

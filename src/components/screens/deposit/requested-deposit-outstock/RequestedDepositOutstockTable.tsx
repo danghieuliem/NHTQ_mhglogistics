@@ -79,7 +79,7 @@ export const RequestedDepositOutstockTable: React.FC<TProps> = ({
 					/>
 					{!record.Checked && (
 						<ActionButton
-							icon="fas fa-check"
+							icon="fas fa-check-circle"
 							onClick={() => update(index, { ...record, Checked: true })}
 							title="Xác nhận kiện"
 						/>

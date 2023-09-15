@@ -8,7 +8,7 @@ const Index: TNextPageWithLayout = () => {
 	return (
 		<div className="tableBox">
 			<p className='text-red italic pb-3 '>* Vui lòng import đúng file mẫu, tránh tình trạng lỗi dữ liệu khách hàng</p>
-			<ImportForm />
+			<ImportForm  type={1}/>
 		</div>
 	);
 };

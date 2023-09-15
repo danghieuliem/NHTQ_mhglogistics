@@ -42,7 +42,7 @@ export const ActionButton: FC<TProps> = ({
     <div
       {...props}
       className={clsx(
-        "my-[2px] w-fit flex justify-between items-center py-[5px] px-[8px] shadow-md hover:shadow-none transition-all duration-300 rounded-[4px] cursor-pointer text-[#061d49] hover:bg-[#061d49] hover:!text-[#fff]",
+        "my-[2px] w-fit flex justify-between items-center py-[5px] px-[8px] shadow-md hover:shadow-none transition-all duration-300 rounded-[4px] !cursor-pointer text-[#061d49] hover:bg-main hover:!text-[#fff]",
         isButtonClassName
       )}
       style={{

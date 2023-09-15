@@ -1,12 +1,11 @@
-import { Pagination } from "antd";
 import router, { useRouter } from "next/router";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { mainOrder } from "~/api";
 import { Layout, OrderListFilter, OrderListTable } from "~/components";
-import { orderStatus } from "~/configs/appConfigs";
+import { orderStatus } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import { useCatalogue } from "~/hooks/useCatalogue";
 import { RootState } from "~/store";
@@ -16,6 +15,7 @@ const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
     (state: RootState) => state.userCurretnInfo
   );
+
   const { query } = useRouter();
   const [numberOfOrder, setNumberOfOrder] = useState(orderStatus);
   const [filter, setFilter] = useState({
@@ -80,7 +80,8 @@ const Index: TNextPageWithLayout = () => {
         filter.SearchContent,
         filter.Status,
         filter.UID,
-        filter.PageIndex
+        filter.PageIndex,
+        filter.OrderType,
       ],
     ],
     () => mainOrder.getList(filter).then((res) => res.Data),
@@ -99,7 +100,7 @@ const Index: TNextPageWithLayout = () => {
       keepPreviousData: true,
       refetchOnWindowFocus: true,
       refetchOnReconnect: true,
-      staleTime: 5000,
+      staleTime: Number(query?.q) !== filter?.OrderType ? 0 : 5000,
     }
   );
 
@@ -108,16 +109,52 @@ const Index: TNextPageWithLayout = () => {
     userSaleEnabled: true,
   });
 
-  const handleExportExcel = async () => {
-    mainOrder
-      .exportExcel({ ...filter, PageSize: 99999 })
-      .then((res) => {
-        router.push(res?.Data);
-      })
-      .catch((error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+  const handleExportExcel = useCallback(async () => {
+    const id = toast.loading("Đang xử lý ...");
+    let newFilter = { ...filter };
+
+    if (
+      filter.TypeSearch ||
+      filter.FromDate ||
+      filter.ToDate ||
+      filter.FromPrice ||
+      filter.ToPrice ||
+      filter.IsNotMainOrderCode ||
+      filter.SearchContent ||
+      filter.Status
+    ) {
+      newFilter = {
+        ...filter,
+        PageSize: 9999,
+      };
+    }
+
+    try {
+      const res = await mainOrder.exportExcel(newFilter);
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "default",
       });
-  };
+      router.push(`${res.Data}`);
+    } catch (error) {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 2000,
+        type: "error",
+        render: (error as any)?.response?.data?.ResultMessage,
+      });
+    }
+  }, [
+    filter.TypeSearch,
+    filter.FromDate,
+    filter.ToDate,
+    filter.FromPrice,
+    filter.ToPrice,
+    filter.IsNotMainOrderCode,
+    filter.SearchContent,
+    filter.Status,
+  ]);
 
   useQuery(
     [
@@ -172,23 +209,23 @@ const Index: TNextPageWithLayout = () => {
         newUser={userCurrentInfo}
       />
       <OrderListTable
-        {...{
-          loading: isFetching,
-          data: data?.Items,
-          userOrder,
-          userSale,
-          RoleID: userCurrentInfo?.UserGroupId,
-          refetch,
-        }}
+        loading={isFetching}
+        data={data?.Items}
+        userOrder={userOrder}
+        userSale={userSale}
+        RoleID={userCurrentInfo?.UserGroupId}
+        refetch={refetch}
+        filter={filter}
+        handleFilter={handleFilter}
       />
-      <Pagination
+      {/* <Pagination
         total={filter?.TotalItems}
         current={filter?.PageIndex}
         pageSize={filter?.PageSize}
         onChange={(page, pageSize) =>
           handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
         }
-      />
+      /> */}
     </Fragment>
   );
 };

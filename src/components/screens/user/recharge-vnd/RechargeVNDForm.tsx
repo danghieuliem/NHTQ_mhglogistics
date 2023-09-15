@@ -28,7 +28,7 @@ export const RechargeVNDForm: React.FC<TProps> = ({
   const userCurrentInfo: TUser = useSelector(
     (state: RootState) => state.userCurretnInfo
   );
-
+  
   const { control, handleSubmit, reset, resetField, watch } = useForm<
     TUserHistoryRechargeVND & {
       BankNumber: Number;
@@ -122,8 +122,8 @@ export const RechargeVNDForm: React.FC<TProps> = ({
                 isButton
                 icon="fas fa-qrcode mr-4"
                 title="Mã QR"
-                isButtonClassName="bg-sec !text-white"
-                disabled={!selectedBank?.IMGQR}
+                isButtonClassName="bg-main !text-white"
+                disabled={!selectedBank?.BankName}
               />
             </Popover>
           </div>
@@ -193,10 +193,10 @@ export const RechargeVNDForm: React.FC<TProps> = ({
                 showLoading
                 onClick={handleSubmit(_onPress)}
                 icon="fas fa-check-circle"
-                title="Gửi xác nhận"
+                title="Tạo"
                 toolip=""
-                btnClass="!bg-orange !text-white"
-                disabled={loading}
+                btnClass="!bg-green !text-white"
+                disabled={loading || !selectedBank}
               />
             </div>
           </div>

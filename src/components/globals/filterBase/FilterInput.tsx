@@ -38,7 +38,7 @@ export const FilterInput: FC<TProps> = ({
 	const handleInput = useCallback((val: string) => (input.current = val), []);
 	return (
 		<div className="">
-			<div className={clsx("text-[10px] py-[2px] font-bold", prefix && "left-12")}>
+			<div className={clsx("text-[12px] text-label py-[2px] font-bold", prefix && "left-12")}>
 				{label}
 			</div>
 			<Input

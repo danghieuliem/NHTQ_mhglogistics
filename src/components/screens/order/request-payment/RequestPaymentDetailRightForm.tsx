@@ -9,6 +9,7 @@ export const RequestPaymentDetailRightForm: React.FC<TControl<TRequestPaymentOrd
 	loading,
 	setValue,
 }) => {
+
 	return (
 		<React.Fragment>
 			<div className="tableBox mb-4">
@@ -49,7 +50,7 @@ export const RequestPaymentDetailRightForm: React.FC<TControl<TRequestPaymentOrd
 						<FormInputNumber
 							control={control}
 							name="TotalPriceVND"
-							label="Tổng tiền Việt Nam Đồng (VNĐ)"
+							label="Tổng tiền (VNĐ)"
 							placeholder=""
 							suffix=" VNĐ"
 							disabled

@@ -79,14 +79,14 @@ const Index: TNextPageWithLayout = () => {
           render: "Tạo đơn thành công!",
           type: "success",
           isLoading: false,
-          autoClose: 1000,
+          autoClose: 500,
         });
         router.push("/manager/order/order-list?q=3");
       })
       .catch((error) => {
         toast.update(id, {
           render: "Tạo đơn thất bại!",
-          type: "success",
+          type: "error",
           isLoading: false,
           autoClose: 1000,
         });
@@ -97,7 +97,7 @@ const Index: TNextPageWithLayout = () => {
     <>
       <div className="flex w-fit ml-auto">
         <ActionButton
-          title="Thêm sản phẩm"
+          title="Thêm"
           onClick={() =>
             append({
               Id: new Date().getTime(),
@@ -110,7 +110,7 @@ const Index: TNextPageWithLayout = () => {
               QuantityProduct: null,
             })
           }
-          icon="far fa-plus"
+          icon="fas fa-plus-circle"
           isButton
           isButtonClassName="bg-green !text-white mr-2"
         />
@@ -196,10 +196,10 @@ const Index: TNextPageWithLayout = () => {
           }
         >
           <ActionButton
-            icon="mr-0"
+            icon="fas fa-hand-point-right"
             title="Tiếp tục"
             isButton
-            isButtonClassName="bg-sec !text-white"
+            isButtonClassName="bg-blue !text-white"
           />
         </Popover>
       </div>

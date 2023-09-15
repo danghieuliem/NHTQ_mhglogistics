@@ -18,9 +18,9 @@ import {
 import { _format } from "~/utils";
 import Notification from "./box/Notification";
 import styles from "./index.module.css";
+import { useRouter } from "next/router";
 
 type TProps = {
-  handleTabbar: (bool: boolean) => void;
   hover: boolean;
   handleHover: (bool: boolean) => void;
   userPage?: boolean;
@@ -52,11 +52,8 @@ const Bars = ({ hover, onClick }) => {
 
 const NotificationBell = ({ userPage, userCurrentInfo }) => {
   const isLoadRef = useRef(true);
-
-  const [totalNofi, setTotalNoti] = useState(0);
   
-
-  const { data: dataNewNotify } = useQuery(
+  const { data } = useQuery(
     ["new-notification"],
     () =>
       getAllNewNotify
@@ -65,19 +62,23 @@ const NotificationBell = ({ userPage, userCurrentInfo }) => {
         })
         .then((res) => {
           if (res?.Data > 100) {
-            setTotalNoti(res?.Data);
-            isLoadRef.current = true;
+            // setTotalNoti(res?.Data);
+            // isLoadRef.current = true;
+            return res;
           } else {
-            setTotalNoti(res?.Data);
-            isLoadRef.current = false;
+            // setTotalNoti(res?.Data);
+            // isLoadRef.current = false;
+            return res;
           }
         }),
     {
       onError: (error) => {
         toast.error((error as any)?.response?.data?.ResultMessage);
       },
-      enabled: isLoadRef.current,
+      // enabled: isLoadRef.current,
       retry: false,
+      staleTime: 5000,
+      keepPreviousData: true
     }
   );
 
@@ -123,17 +124,17 @@ const NotificationBell = ({ userPage, userCurrentInfo }) => {
             <div className={clsx(styles.block, styles.actionInfo, "!flex")}>
               <div
                 className={`text-[20px] text-black ${
-                  totalNofi > 0 && styles.bellIcon
+                  data?.Data > 0 && styles.bellIcon
                 }`}
               >
                 <i className="fal fa-bell"></i>
               </div>
-              {totalNofi > 0 && (
+              {data?.Data > 0 && (
                 <div
                   className={`text-[10px] items-center flex bg-red rounded-[8px] absolute px-[6px] top-[50%] left-[50%] translate-y-[-90%]`}
                 >
                   <span className="items-center flex text-[#fff]">
-                    {totalNofi > 100 ? "100+" : totalNofi}
+                    {data?.Data > 100 ? "100+" : data?.Data}
                   </span>
                 </div>
               )}
@@ -146,7 +147,7 @@ const NotificationBell = ({ userPage, userCurrentInfo }) => {
         type="vertical"
         className={clsx(
           "bg-main h-3",
-          totalNofi > 100 ? "!ml-6" : "ml-auto"
+          data?.Data > 100 ? "!ml-6" : "ml-auto"
         )}
       />
     </>
@@ -158,7 +159,7 @@ const NotificationBellMemo = React.memo(NotificationBell)
 const LeftInfoComponents = ({ userPage, userCurrentInfo }) => {
   const firstPage = useAppSelector(selectFirstPageDashboard);
   const connection = useAppSelector(selectConnection);
-  // const router = useRouter();
+  const router = useRouter();
   // const dispatch = useDispatch();
 
   return (
@@ -230,7 +231,7 @@ const LeftInfoComponents = ({ userPage, userCurrentInfo }) => {
                       userCurrentInfo.UserGroupId.toString()
                     ));
 
-                  // router.push("/");
+                  router.push("/authen/login/");
                 }}
               >
                 <i className="fas fa-sign-out-alt"></i>
@@ -271,7 +272,6 @@ const NonRenderingChangeHover = React.memo(LeftInfoComponents);
 
 const Header: React.FC<TProps> = ({
   hover,
-  handleTabbar,
   handleHover,
   userPage,
 }) => {
@@ -282,17 +282,8 @@ const Header: React.FC<TProps> = ({
     (state: RootState) => state.userCurretnInfo
   );
 
-  // const connectionId = connection?.connectionId;
-
-  // useEffect(() => {
-  //   if (!connectionId) return;
-  //   connection.on("send-notification", (noti) => {
-  //     return dataList.unshift(noti);
-  //   });
-  // }, [connectionId]);
-
   return (
-    <header className={clsx(styles.header)}>
+    <header className={clsx(styles.header, !userPage && "shadow-md" )}>
       <div
         className={clsx(
           userPage ? styles.innerHeaderUser : styles.innerHeaderManager

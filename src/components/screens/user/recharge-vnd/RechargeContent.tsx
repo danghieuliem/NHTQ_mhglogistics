@@ -1,4 +1,5 @@
 import { Collapse } from "antd";
+import clsx from "clsx";
 import { useSelector } from "react-redux";
 import { RootState } from "~/store";
 
@@ -63,6 +64,7 @@ export const RechargeContent = ({ newUser }) => {
                     {[dataGlobal.Address].map((address, index) => (
                       <div
                         className="font-bold"
+                        key={clsx(address, index)}
                         dangerouslySetInnerHTML={{ __html: address }}
                       ></div>
                     ))}
@@ -147,6 +149,7 @@ export const RechargeContent = ({ newUser }) => {
                       {[dataGlobal.Address].map((address, index) => (
                         <div
                           className="font-bold"
+                          key={clsx(address, index)}
                           dangerouslySetInnerHTML={{ __html: address }}
                         ></div>
                       ))}

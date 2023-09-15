@@ -1,7 +1,6 @@
-import { Tag } from "antd";
 import React from "react";
 import { DataTable } from "~/components";
-import { reportStatus } from "~/configs/appConfigs";
+import { complainStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
@@ -59,8 +58,8 @@ export const ReportListTable: React.FC<TTable<TReport>> = ({
       width: 120,
       render: (status, record) => (
         <TagStatus
-          color={reportStatus[status]?.color}
-          statusName={record?.StatusName}
+          color={complainStatus.find(x => x.id === status).color}
+          statusName={complainStatus.find(x => x.id === status).name}
         />
         // <Tag color={reportStatus[status]?.color}>{record?.StatusName}</Tag>
       ),
@@ -109,7 +108,7 @@ export const ReportListTable: React.FC<TTable<TReport>> = ({
         data,
         loading,
         expandable,
-        bordered: false,
+        // bordered: false,
         pagination,
         onChange: handlePagination,
         scroll: { y: 660 },

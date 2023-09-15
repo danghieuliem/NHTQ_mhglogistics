@@ -1,13 +1,13 @@
 import React, { useRef } from "react";
-import { FilterRangeDate, IconButton } from "~/components";
+import { ActionButton, FilterRangeDate } from "~/components";
 
 type TProps = {
   handleFilter: (newFilter) => void;
 };
 
 export const PurchaseProfiltFilter: React.FC<TProps> = ({ handleFilter }) => {
-  const fromDate = useRef<string>(null);
-  const toDate = useRef<string>(null);
+  const FromDate = useRef<string>(null);
+  const ToDate = useRef<string>(null);
 
   return (
     <div className="grid grid-cols-3 gap-4">
@@ -15,24 +15,23 @@ export const PurchaseProfiltFilter: React.FC<TProps> = ({ handleFilter }) => {
         <FilterRangeDate
           placeholder="Từ ngày/đến ngày"
           handleDate={(val: string[]) => {
-            fromDate.current = val[0];
-            toDate.current = val[1];
+            FromDate.current = val[0];
+            ToDate.current = val[1];
           }}
         />
       </div>
       <div className="col-span-1 xl:mt-0 mt-4 flex items-end ">
-        <IconButton
-          title="Xem thống kê"
-          icon="far fa-info-square"
+        <ActionButton
+          title="Lọc thống kê ngày"
+          icon="fas fa-info-square"
           onClick={() => {
             handleFilter({
-              FromDate: fromDate.current,
-              ToDate: toDate.current,
+              FromDate: FromDate.current,
+              ToDate: ToDate.current,
             });
           }}
-          btnClass="md:mx-4 !mx-0"
-          showLoading
-          toolip=""
+          isButton
+          isButtonClassName="bg-green !text-white"
         />
       </div>
     </div>

@@ -77,7 +77,7 @@ const EmployeeManagementForm: FC<TProps> = ({
         toast.update(id, {
           render: "Thêm nhân viên thành công",
           type: "success",
-          autoClose: 2000,
+          autoClose: 500,
           isLoading: false,
         });
       })

@@ -7,21 +7,20 @@ interface TProps {
 
 const TagStatus = ({ color, statusName }: TProps) => {
   return (
-    <div className="w-fit flex justify-center items-center">
+    <div className="w-fit flex justify-center items-center gap-1">
       <span
         style={{
           background: color,
-          width: "8px",
-          height: "8px",
+          width: "6px",
+          height: "6px",
           borderRadius: "100%",
-          marginRight: "6px",
         }}
       ></span>
       <span
         style={{
-          color,
+          color: color,
           fontSize: "12px",
-          fontWeight: "bold"
+          fontWeight: "bold",
         }}
       >
         {statusName}

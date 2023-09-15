@@ -1,8 +1,8 @@
-import { Pagination, Space } from "antd";
-import router from "next/router";
+import { Space } from "antd";
+import Link from "next/link";
 import React from "react";
 import { ActionButton, DataTable } from "~/components";
-import { reportStatus } from "~/configs/appConfigs";
+import { complainStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
@@ -23,9 +23,9 @@ export const ComplainListTable: React.FC<TTable<TReport> & TProps> = ({
     {
       dataIndex: "Id",
       title: "ID",
-      width: 50, 
+      width: 50,
       align: "center",
-      fixed: "left"
+      fixed: "left",
     },
     {
       dataIndex: "UserName",
@@ -37,7 +37,7 @@ export const ComplainListTable: React.FC<TTable<TReport> & TProps> = ({
       dataIndex: "MainOrderId",
       title: "Mã đơn hàng",
       width: 120,
-      align: "right"
+      align: "right",
     },
     {
       dataIndex: "Amount",
@@ -49,17 +49,15 @@ export const ComplainListTable: React.FC<TTable<TReport> & TProps> = ({
     {
       dataIndex: "ComplainText",
       title: "Nội dung",
-      width: 260
+      width: 260,
     },
     {
       dataIndex: "Status",
       title: "Trạng thái",
       width: 120,
-      render: (status, record) => {
-        const color = reportStatus.find((x) => x.id === status);
-        return (
-          <TagStatus color={color?.color} statusName={record?.StatusName} />
-        );
+      render: (status) => {
+        const color = complainStatus.find((x) => x.id === status);
+        return <TagStatus color={color?.color} statusName={color?.name} />;
       },
     },
     {
@@ -102,17 +100,13 @@ export const ComplainListTable: React.FC<TTable<TReport> & TProps> = ({
             isButton
           />
 
-          <ActionButton
-            onClick={() =>
-              router.push({
-                pathname: "/manager/order/order-list/detail",
-                query: { id: record?.MainOrderId },
-              })
-            }
-            icon="fas fa-info"
-            title="Chi tiết"
-            isButton
-          />
+          <Link
+            href={`/manager/order/order-list/detail/?id=${record?.MainOrderId}`}
+          >
+            <a target="_blank">
+              <ActionButton icon="fas fa-info" title="Chi tiết" isButton />
+            </a>
+          </Link>
         </Space>
       ),
     },
@@ -126,16 +120,20 @@ export const ComplainListTable: React.FC<TTable<TReport> & TProps> = ({
           data,
           loading,
           bordered: true,
-          scroll: {y: 700, x: 1200}
+          scroll: { y: 700, x: 1200 },
+          pagination: {
+            current: filter.PageIndex,
+            total: filter.TotalItems,
+            pageSize: filter.PageSize,
+          },
+          onChange: (page, pageSize) => {
+            handleFilter({
+              ...filter,
+              PageIndex: page.current,
+              PageSize: page.pageSize,
+            });
+          },
         }}
-      />
-      <Pagination
-        total={filter?.TotalItems}
-        current={filter?.PageIndex}
-        pageSize={filter?.PageSize}
-        onChange={(page, pageSize) =>
-          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-        }
       />
     </>
   );

@@ -1,13 +1,11 @@
-import { Divider } from "antd";
 import { useRouter } from "next/router";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { bigPackage } from "~/api";
 import {
   Empty,
   Layout,
   PackageManagementForm,
-  PackageManagementFormDetail,
   PackageManagementFormFilter,
   PackageManagementFormTable,
   toast,
@@ -59,6 +57,8 @@ const Index: TNextPageWithLayout = () => {
           <PackageManagementFormFilter
             handleFilter={handleFilter}
             loading={isLoading}
+            data={data?.Data}
+            refetch={refetch}
           />
         </div>
         <PackageManagementFormTable
@@ -67,6 +67,7 @@ const Index: TNextPageWithLayout = () => {
           )}
           loading={isLoading}
           handleModal={handleModal}
+          refetch={refetch}
         />
       </div>
       {/* <PackageManagementFormDetail

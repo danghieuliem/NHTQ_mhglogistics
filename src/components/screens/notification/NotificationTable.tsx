@@ -9,6 +9,7 @@ import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../status/TagStatus";
 import NotificationFilter from "./NotificationFilter";
+import { useQueryClient } from "react-query";
 
 type TProps = {
   data: any;
@@ -27,6 +28,7 @@ export const NotificationTable: React.FC<TTable & TProps> = ({
   isFetching,
 }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const queryClient = useQueryClient();
 
   const columns: TColumnsType<any> = [
     {
@@ -61,7 +63,7 @@ export const NotificationTable: React.FC<TTable & TProps> = ({
     },
     {
       dataIndex: "GoToDetail",
-      title: "Xem chi tiết",
+      title: "Thao tác",
       align: "center",
       width: 90,
       render: (_, data) => {
@@ -77,13 +79,15 @@ export const NotificationTable: React.FC<TTable & TProps> = ({
               // href={data.Url || ''}
             >
               <ActionButton
-                icon="far fa-info-square"
-                title="Xem chi tiết"
+                icon="fas fa-info-square"
+                title="Chi tiết"
                 isButton
                 onClick={() => {
                   if (!data.IsRead) {
                     data.IsRead = true;
-                    getAllNewNotify.readNotify([data?.Id]);
+                    getAllNewNotify.readNotify([data?.Id]).then(() => {
+                      queryClient.invalidateQueries("new-notification");
+                    })
                   }
                 }}
               />
@@ -160,11 +164,12 @@ export const NotificationTable: React.FC<TTable & TProps> = ({
                         toast.update(id, {
                           render: "Đã đọc thông báo!",
                           isLoading: false,
-                          autoClose: 1000,
+                          autoClose: 500,
                           type: "success",
                         });
                         setSelectedRowKeys([]);
                         refetch();
+                        queryClient.invalidateQueries("new-notification");
                       })
                       .catch((error) => {
                         toast.update(id, {

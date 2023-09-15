@@ -58,7 +58,7 @@ const AddNewWareHouseForm = ({ onCancel, visible, refetchFrom, refetchTo }) => {
             render: "Thêm kho thành công!",
             type: "success",
             isLoading: false,
-            autoClose: 1000,
+            autoClose: 500,
           });
           refetchFrom();
         })
@@ -80,7 +80,7 @@ const AddNewWareHouseForm = ({ onCancel, visible, refetchFrom, refetchTo }) => {
             render: "Thêm kho thành công!",
             type: "success",
             isLoading: false,
-            autoClose: 1000,
+            autoClose: 500,
           });
           refetchTo();
         })
@@ -178,7 +178,7 @@ const AddNewMethod = ({ onCancel, visible, refetchMethod }) => {
           render: "Thêm phương thức thành công!",
           type: "success",
           isLoading: false,
-          autoClose: 1000,
+          autoClose: 500,
         });
         refetchMethod();
         reset();
@@ -186,7 +186,7 @@ const AddNewMethod = ({ onCancel, visible, refetchMethod }) => {
     } catch (error) {
       toast.update(id, {
         render: "Thêm phương thức thất bại!",
-        type: "success",
+        type: "error",
         isLoading: false,
         autoClose: 1000,
       });
@@ -263,7 +263,7 @@ const EditComponent = ({
             render: "Cập nhật thành công!",
             type: "success",
             isLoading: false,
-            autoClose: 1000,
+            autoClose: 500,
           });
         })
         .catch((error) =>
@@ -289,7 +289,7 @@ const EditComponent = ({
             render: "Cập nhật thành công!",
             type: "success",
             isLoading: false,
-            autoClose: 1000,
+            autoClose: 500,
           });
         })
         .catch((error) => {
@@ -315,7 +315,7 @@ const EditComponent = ({
             render: "Cập nhật thành công!",
             type: "success",
             isLoading: false,
-            autoClose: 1000,
+            autoClose: 500,
           });
         })
         .catch((error) =>
@@ -616,7 +616,7 @@ const Index: TNextPageWithLayout = () => {
             <IconButton
               onClick={() => setModalWarehouse(!modalWarehouse)}
               title="Thêm kho"
-              icon="fas fa-plus"
+              icon="fas fa-plus-circle"
               showLoading
               btnClass="!mr-4"
               toolip="Thêm Kho"
@@ -625,7 +625,7 @@ const Index: TNextPageWithLayout = () => {
             <IconButton
               onClick={() => setModalMethod(!modalMethod)}
               title="Thêm phương thức"
-              icon="fas fa-plus"
+              icon="fas fa-plus-circle"
               showLoading
               toolip="Thêm Kho"
               green

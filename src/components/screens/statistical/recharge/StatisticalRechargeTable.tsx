@@ -1,5 +1,5 @@
 import React from "react";
-import { DataTable, IconButton } from "~/components";
+import { ActionButton, DataTable, IconButton } from "~/components";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
@@ -44,6 +44,7 @@ export const StatisticalRechargeTable = ({
     {
       dataIndex: "Status",
       title: "Trạng thái",
+      width: 100,
       fixed: "right",
       render: () => <TagStatus color="green" statusName="Đã duyệt" />,
     },
@@ -62,11 +63,12 @@ export const StatisticalRechargeTable = ({
           scroll: { y: 700, x: 1200 },
           onChange: handlePagination,
           extraElment: (
-            <IconButton
+            <ActionButton
               onClick={() => handleExportExcelRecharge()}
               icon="fas fa-file-export"
-              title="Xuất thống kê"
-              showLoading
+              title="Xuất"
+              isButton
+              isButtonClassName="bg-green !text-white"
             />
           ),
         }}

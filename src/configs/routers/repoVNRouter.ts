@@ -1,62 +1,43 @@
 export const repoVNRouter = [
   {
-    path: "javascript:;",
-    name: "Quản lý kho",
-    icon: "fas fa-warehouse-alt",
-    childrens: [
+    Title: "NGHIỆP VỤ KHO",
+    Icon: "fas fa-warehouse-alt",
+    Children: [
       {
-        path: "/manager/warehouse/check-warehouse-vietnam/",
-        name: "Kiểm hàng kho VN",
+        Path: "/manager/warehouse/check-warehouse-vietnam/",
+        Icon: "",
+        Label: "Kiểm kho VN",
+      },
+      // {
+      //   Path: "/manager/warehouse/import/ImportComingVN",
+      //   Icon: "",
+      //   Label: "Import về VN",
+      // },
+      {
+        Path: "/manager/warehouse/package-management/",
+        Icon: "",
+        Label: "Bao hàng",
       },
       {
-        path: "/manager/money/out-stock-payment/",
-        name: "Thanh toán xuất kho",
+        Path: "/manager/warehouse/transaction-code-management/",
+        Icon: "",
+        Label: "Mã vận đơn",
       },
-    ],
-  },
-  {
-    path: "/manager/warehouse/out-stock/",
-    name: "Xuất kho",
-    icon: "fas fa-file-export",
-    childrens: [
       {
-        path: "/manager/warehouse/out-stock/",
-        name: "Xuất kho",
-        icon: "fas fa-file-export",
+        Path: "/manager/warehouse/floating-package/",
+        Icon: "",
+        Label: "Kiện trôi nổi",
       },
-    ],
-  },
-  {
-    path: "/manager/warehouse/package-management/",
-    name: "Bao hàng",
-    icon: "far fa-box-full",
-    childrens: [
       {
-        path: "/manager/warehouse/package-management/",
-        name: "Bao hàng",
+        Path: "/manager/warehouse/out-stock/",
+        Icon: "",
+        Label: "Xuất kho",
       },
-    ],
-  },
-  {
-    path: "/manager/warehouse/transaction-code-management/",
-    name: "Mã vận đơn",
-    icon: "fas fa-barcode-scan",
-    childrens: [
-      {
-        path: "/manager/warehouse/transaction-code-management/",
-        name: "Mã vận đơn",
-      },
-    ],
-  },
-  {
-    path: "/manager/warehouse/floating-package/",
-    name: "Kiện trôi nổi",
-    icon: "fas fa-truck-loading",
-    childrens: [
-      {
-        path: "/manager/warehouse/floating-package/",
-        name: "Kiện trôi nổi",
-      },
+      // {
+      //   Path: "/manager/money/out-stock-payment/",
+      //   Icon: "",
+      //   Label: "Thanh toán xuất kho",
+      // },
     ],
   },
 ];

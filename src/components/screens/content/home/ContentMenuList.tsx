@@ -1,4 +1,4 @@
-import { Popconfirm, Space, Tooltip } from "antd";
+import { Modal, Popconfirm, Popover, Space, Tooltip } from "antd";
 import React, { useCallback, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { menu, pageType } from "~/api";
@@ -39,12 +39,12 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
       dataIndex: "Position",
       title: "Vị trí",
       render: (_, __, index) => ++index,
-      width: 80,
+      width: 60,
     },
     {
       dataIndex: "Name",
       title: "Tên menu",
-      width: 120,
+      width: 100,
     },
     {
       dataIndex: "Active",
@@ -55,39 +55,48 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
           statusName={record?.Active ? "Hiện" : "Ẩn"}
         />
       ),
-      width: 120,
+      width: 100,
     },
     {
       dataIndex: "action",
       title: "Thao tác",
       render: (_, record) => (
-        <div className="flex gap-1 flex-wrap justify-center">
-          <ActionButton
-            icon="fas fa-edit"
-            onClick={() => setEdit(record?.Id)}
-            title="Chỉnh sửa nội dung"
-            iconContainerClassName="!text-sec p-0"
-          />
-          <ActionButton
-            icon="fas fa-layer-plus"
-            onClick={() => setChild(record?.Id)}
-            title="Thêm menu con"
-            iconContainerClassName="!text-sec p-0"
-          />
-          <Popconfirm
-            onConfirm={() => _onRemove(record?.Id)}
-            placement="topRight"
-            title="Bạn muốn xoá menu này?"
-            okText="Yes"
-            cancelText="No"
-          >
-            <ActionButton
-              icon="fas fa-trash-alt"
-              title="Delete"
-              iconContainerClassName="!text-sec p-0"
-            />
-          </Popconfirm>
-        </div>
+        <Popover
+          trigger={"hover"}
+          placement="right"
+          content={
+            <div className="grid grid-cols-1 gap-2 p-2">
+              <ActionButton
+                icon="fas fa-edit"
+                onClick={() => setEdit(record?.Id)}
+                title="Chỉnh sửa"
+                isButton
+                isButtonClassName="bg-blue !text-white"
+              />
+              <ActionButton
+                icon="fas fa-plus-circle"
+                onClick={() => setChild(record?.Id)}
+                title="Thêm menu con"
+                isButtonClassName="bg-green !text-white"
+                isButton
+              />
+              <ActionButton
+                icon="fas fa-trash-alt"
+                title="Xoá menu"
+                isButton
+                isButtonClassName="bg-red !text-white"
+                onClick={() => (
+                  Modal.confirm({
+                    title: "Bạn muốn xoá menu này?",
+                    onOk: () => _onRemove(record?.Id)
+                  })
+                )}
+              />
+            </div>
+          }
+        >
+          <ActionButton title="Thao tác" icon="!mr-0" isButton />
+        </Popover>
       ),
       width: 120,
     },
@@ -133,7 +142,7 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
             <IconButton
               onClick={() => setAddNewModal(true)}
               title="Thêm"
-              icon="far fa-plus"
+              icon="fas fa-plus-circle"
               showLoading
               toolip="Thêm menu"
               btnClass="!bg-green mt-[-10px]"
@@ -194,8 +203,7 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
                       <ActionButton
                         icon="fas fa-edit"
                         onClick={() => {
-                          console.log("item: ", item);
-                          setEdit(item)
+                          setEdit(item);
                         }}
                         title="Chỉnh sửa nội dung"
                       />
@@ -209,7 +217,7 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
                         cancelText="No"
                       >
                         <ActionButton
-                          icon="fas fa-trash-alt"
+                          icon="fas fa-trash-alt !text-red"
                           title="Delete"
                           iconContainerClassName="iconGreen"
                         />

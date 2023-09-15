@@ -8,39 +8,57 @@
   justify-content: space-between;
 }
 
-.inner {
-  @apply text-white;
-  display: flex;
-  align-items: center;
-  padding: 4px 10px;
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
-}
-
-.inner:hover {
-  @apply bg-sec;
-}
-
-.innerActive {
-  @apply bg-sec;
-}
-
-.dropdown {
-  /* @apply text-sec; */
-  margin-left: 8px;
-}
-
-.PopoverliMenuItem {
+.liItem a {
   @apply text-white block;
-  padding: 8px;
-  border-radius: 6px;
-  transition: all 0.3s ease-in-out;
+  padding: 8px !important;
+  line-height: initial;
+  font-weight: 500;
+  font-size: 16px;
 }
 
-.PopoverliMenuItem:hover {
-  @apply bg-white text-main;
+.liItem a:hover {
+  @apply !text-white;
 }
 
-.PopoverliMenuItemActive {
-  @apply bg-sec text-white;
+/* .liItem i:first-child {
+  margin-right: 10px;
+} */
+
+.liItemActive,
+.liItem:hover {
+  @apply bg-sec;
+  transition: all 0.3s ease-in;
+}
+
+.liItemActive a {
+  @apply text-white;
+}
+
+.dropdownIcon {
+  margin-left: 10px;
+}
+
+.subMenu {
+  @apply bg-main shadow-md;
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.subMenuActive {
+  @apply bg-sec;
+}
+
+.subMenu a {
+  padding: 12px;
+  color: #fff;
+  line-height: initial;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.subMenu a:hover {
+  transition: all 0.3s ease-in;
+  @apply bg-sec !text-white;
 }

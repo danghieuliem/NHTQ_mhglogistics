@@ -1,5 +1,5 @@
 import React from "react";
-import { DataTable, IconButton } from "~/components";
+import { ActionButton, DataTable } from "~/components";
 import { orderStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils/index";
@@ -177,12 +177,12 @@ export const SalesOrderStatisticTable = ({
           extraElment: (
             <div className="">
               {(RoleID === 1 || RoleID === 3) && (
-                <IconButton
-                  title="Xuất Thống Kê"
+                <ActionButton
+                  title="Xuất"
                   onClick={exportExcel}
                   icon="fas fa-file-export"
-                  btnIconClass="!mr-2"
-                  showLoading
+                  isButton
+                  isButtonClassName="bg-green !text-white"
                 />
               )}
             </div>

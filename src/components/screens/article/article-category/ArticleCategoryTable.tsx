@@ -1,8 +1,7 @@
 import { Tooltip } from "antd";
 import Link from "next/link";
-import router from "next/router";
 import { FC } from "react";
-import { ActionButton, DataTable, IconButton } from "~/components";
+import { ActionButton, DataTable } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
@@ -73,12 +72,10 @@ export const ArticleCategoryTable: FC<TTable<TPageType>> = ({
           <div>
             <Link href="/manager/article/article-category/add">
               <a target="_blank">
-                <IconButton
-                  btnClass={"iconGreen w-[180px]"}
-                  icon="far fa-plus"
-                  title={"Thêm chuyên mục"}
-                  showLoading
-                  toolip=""
+                <ActionButton
+                  icon="fas fa-plus-circle"
+                  title={"Thêm chuyên mục"}  
+                  isButton isButtonClassName="bg-green !text-white" 
                 />
               </a>
             </Link>

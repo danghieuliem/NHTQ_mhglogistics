@@ -1,4 +1,4 @@
-import { Modal, Pagination, Popover, Tabs } from "antd";
+import { Modal, Popover, Tabs } from "antd";
 import "antd/dist/antd.css";
 import clsx from "clsx";
 import React from "react";
@@ -9,10 +9,11 @@ import {
   ActionButton,
   DataTable,
   FormInput,
+  ReportContentMemo,
   UserDepositListFilterMemo,
-  toast
+  toast,
 } from "~/components";
-import { EOrderStatusData, transportStatus } from "~/configs/appConfigs";
+import { ETransportationOrder, transportationStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
@@ -28,8 +29,9 @@ const DetailInfo = (record) => {
   const divStyle = `flex justify-between items-center border-b border-[#e4e4e4] py-1`;
   const detailBox = `grid grid-cols-2 gap-7`;
   const title = `text-[18px] font-bold`;
-  const color = transportStatus.find((x) => x.id === record?.record?.Status);
-
+  const color = transportationStatus.find(
+    (x) => x.id === record?.record?.Status
+  );
   return (
     <>
       {window.innerWidth >= 768 ? (
@@ -310,6 +312,8 @@ const DetailInfo = (record) => {
   );
 };
 
+const DetailInfoMemo = React.memo(DetailInfo);
+
 export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
   data,
   loading,
@@ -346,12 +350,6 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
       width: 60,
     },
     {
-      dataIndex: "Created",
-      title: "Ngày tạo",
-      render: (date) => <div>{_format.getVNDate(date)}</div>,
-      responsive: ["lg"],
-    },
-    {
       dataIndex: "OrderTransactionCode",
       title: "Mã vận đơn",
     },
@@ -377,10 +375,148 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
       responsive: ["lg"],
     },
     {
+      dataIndex: "CreateDate",
+      title: "TimeLine",
+      render: (_, record) => (
+        <React.Fragment>
+          {record.Created && (
+            <p
+              className={clsx(
+                record?.Status === ETransportationOrder.ChoDuyet && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Tạo đơn: </span>
+              <span>
+                {_format.getVNDate(record.Created, "HH:mm")} -{" "}
+                {_format.getVNDate(record.Created, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.ConfirmDate && (
+            <p
+              className={clsx(
+                record?.Status === ETransportationOrder.DonMoi && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Đơn mới:</span>
+              <span>
+                {_format.getVNDate(record.ConfirmDate, "HH:mm")} -{" "}
+                {_format.getVNDate(record.ConfirmDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.TQDate && (
+            <p
+              className={clsx(
+                record?.Status === ETransportationOrder.VeKhoTQ && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Về kho TQ:</span>
+              <span>
+                {_format.getVNDate(record.TQDate, "HH:mm")} -{" "}
+                {_format.getVNDate(record.TQDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.ComingVNDate && (
+            <p
+              className={clsx(
+                record?.Status === ETransportationOrder.DangVeVN && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Đang về VN:</span>
+              <span>
+                {_format.getVNDate(record.ComingVNDate, "HH:mm")} -{" "}
+                {_format.getVNDate(record.ComingVNDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.VNDate && (
+            <p
+              className={clsx(
+                record?.Status === ETransportationOrder.VeKhoVN && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Vê kho VN:</span>
+              <span>
+                {_format.getVNDate(record.VNDate, "HH:mm")} -{" "}
+                {_format.getVNDate(record.VNDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.PaidDate && (
+            <p
+              className={clsx(
+                record?.Status === ETransportationOrder.DaThanhToan &&
+                  "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Thanh toán:</span>
+              <span>
+                {_format.getVNDate(record.PaidDate, "HH:mm")} -{" "}
+                {_format.getVNDate(record.PaidDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.CompleteDate && (
+            <p
+              className={clsx(
+                record?.Status === ETransportationOrder.DaHoanThanh &&
+                  "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Hoàn thành:</span>
+              <span>
+                {_format.getVNDate(record.CompleteDate, "HH:mm")} -{" "}
+                {_format.getVNDate(record.CompleteDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.ComplainDate && (
+            <p
+              className={clsx(
+                record?.Status === ETransportationOrder.DaKhieuNai &&
+                  "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Khiếu nại:</span>
+              <span>
+                {_format.getVNDate(record.ComplainDate, "HH:mm")} -{" "}
+                {_format.getVNDate(record.ComplainDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.CancelDate && (
+            <p
+              className={clsx(
+                record?.Status === ETransportationOrder.Huy && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Huỷ đơn:</span>
+              <span>
+                {_format.getVNDate(record.CancelDate, "HH:mm")} -{" "}
+                {_format.getVNDate(record.CancelDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+        </React.Fragment>
+      ),
+      width: 280,
+    },
+    {
       dataIndex: "Status",
       title: "Trạng thái",
       render: (status, record) => {
-        const color = transportStatus.find((x) => x.id === status);
+        const color = transportationStatus.find((x) => x.id === status);
         return (
           <TagStatus color={color?.color} statusName={record?.StatusName} />
         );
@@ -393,8 +529,24 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
       fixed: "right",
       render: (_, record) => {
         return (
-          <div>
-            {record.Status === EOrderStatusData.ArrivedToVietNamWarehouse && (
+          <div className="flex gap-1 flex-wrap">
+            <Popover
+              trigger={"click"}
+              placement="leftBottom"
+              content={
+                <div className="p-4 !bg-[#fdfdfd36] rounded-md border border-main">
+                  <DetailInfoMemo record={record} />
+                </div>
+              }
+            >
+              <ActionButton
+                icon="fas fa-info-square"
+                title="Chi tiết"
+                iconContainerClassName="iconRed"
+                isButton={true}
+              />
+            </Popover>
+            {record.Status === ETransportationOrder.VeKhoVN && (
               <ActionButton
                 onClick={() =>
                   Modal.confirm({
@@ -420,11 +572,11 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
                 }
                 icon="fas fa-money-check"
                 title="Thanh toán"
-                iconContainerClassName="iconRed"
+                isButtonClassName="bg-blue !text-white"
                 isButton={true}
               />
             )}
-            {record.Status === EOrderStatusData.NewOrder && (
+            {record.Status === ETransportationOrder.ChoDuyet && (
               <ActionButton
                 onClick={() =>
                   Modal.confirm({
@@ -445,27 +597,25 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
                   })
                 }
                 icon="far fa-trash-alt"
-                title="Hủy đơn"
-                iconContainerClassName="iconRed"
+                title="Hủy"
+                isButtonClassName="bg-red !text-white"
                 isButton={true}
               />
             )}
-            <Popover
-              trigger={"click"}
-              placement="leftBottom"
-              content={
-                <div className="p-4 !bg-[#f5851f36] rounded-md">
-                  <DetailInfo record={record} />
-                </div>
-              }
-            >
-              <ActionButton
-                icon="fas fa-info-square"
-                title="Chi tiết đơn"
-                iconContainerClassName="iconRed"
-                isButton={true}
-              />
-            </Popover>
+            {record?.Status === ETransportationOrder.DaHoanThanh && (
+              <Popover
+                trigger={"click"}
+                placement="left"
+                content={<ReportContentMemo defaultValue={record} />}
+              >
+                <ActionButton
+                  icon="fas fa-balance-scale-right"
+                  title="Khiếu nại"
+                  isButton={true}
+                  isButtonClassName="bg-red !text-white"
+                />
+              </Popover>
+            )}
           </div>
         );
       },
@@ -523,7 +673,7 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
                 />
               </Popover>
             </div>
-            {item.Status === EOrderStatusData.ArrivedToVietNamWarehouse && (
+            {item.Status === ETransportationOrder.VeKhoVN && (
               <div className="extentable-button">
                 <ActionButton
                   onClick={() =>
@@ -555,7 +705,7 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
                 />
               </div>
             )}
-            {item.Status === EOrderStatusData.NewOrder && (
+            {item.Status === ETransportationOrder.ChoDuyet && (
               <div className="extentable-button">
                 <ActionButton
                   onClick={() =>
@@ -584,6 +734,21 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
                 />
               </div>
             )}
+            {item?.Status === ETransportationOrder.DaHoanThanh && (
+              <Popover
+                trigger={"click"}
+                placement="left"
+                content={<ReportContentMemo defaultValue={item} />}
+              >
+                <ActionButton
+                  icon="fas fa-balance-scale-right"
+                  title="Khiếu nại"
+                  btnRed
+                  isButton={true}
+                  isButtonClassName="bg-red !text-white"
+                />
+              </Popover>
+            )}
           </div>
         </div>
       );
@@ -600,24 +765,28 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
           bordered: true,
           expandable: expandable,
           scroll: { y: 640 },
-          title: "Danh sách",
+          extraElmentClassName: "!w-full",
           extraElment: (
             <UserDepositListFilterMemo
-              numberOfOrder={transportStatus}
+              numberOfOrder={transportationStatus}
               moneyOfOrders={moneyOfOrders}
               handleFilter={handleFilter}
               isSelectSomeItems={!!ids.length}
             />
           ),
+          pagination: {
+            current: filter.PageIndex,
+            total: filter.TotalItems,
+            pageSize: filter.PageSize,
+          },
+          onChange: (page, pageSize) => {
+            handleFilter({
+              ...filter,
+              PageIndex: page.current,
+              PageSize: page.pageSize,
+            });
+          },
         }}
-      />
-      <Pagination
-        total={filter?.TotalItems}
-        current={filter?.PageIndex}
-        pageSize={filter?.PageSize}
-        onChange={(page, pageSize) =>
-          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-        }
       />
     </>
   );

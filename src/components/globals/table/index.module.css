@@ -6,7 +6,7 @@
 .table table > thead > tr > th {
   @apply !text-white !bg-main;
   background-image: linear-gradient(#fdc830, #f37335);
-  padding: 16px 12px;
+  padding: 14px 12px;
   font-weight: bold;
   white-space: nowrap;
   border-right: none !important;

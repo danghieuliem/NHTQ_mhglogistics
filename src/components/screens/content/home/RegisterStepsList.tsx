@@ -23,7 +23,6 @@ export const RegisterStepsList: React.FC<
         return (
           <Image
             src={record?.IMG ? record.IMG : "/default/pro-empty.jpg"}
-            preview={false}
             className="!h-[30px] !w-[30px]"
           />
         );
@@ -57,6 +56,7 @@ export const RegisterStepsList: React.FC<
           icon="fas fa-edit text-sec"
           onClick={() => handleModal(record)}
           title="Cập nhật"
+          isButton
         />
       ),
     },

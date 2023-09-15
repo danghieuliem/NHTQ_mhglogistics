@@ -4,10 +4,10 @@ import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { Page } from "~/api";
 import {
+  ActionButton,
   ArticleFilterBase,
   ArticleListTable,
-  IconButton,
-  Layout,
+  Layout
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -28,7 +28,7 @@ const Index: TNextPageWithLayout = () => {
   });
 
   const { data, isFetching } = useQuery(
-    ["Page", { ...filter }],
+    ["Page", [filter.PageIndex, filter.SearchContent, filter.PageTypeId]],
     () => Page.getList(filter).then((res) => res?.Data),
     {
       keepPreviousData: true,
@@ -53,13 +53,7 @@ const Index: TNextPageWithLayout = () => {
         <ArticleFilterBase handleFilter={handleFilter} />
         <Link href={"/manager/article/article-list/add"}>
           <a target="_blank">
-            <IconButton
-              btnClass={"iconGreen"}
-              icon="far fa-plus"
-              title={"Thêm bài viết"}
-              showLoading
-              toolip=""
-            />
+            <ActionButton icon="fas fa-plus-circle" title={"Thêm bài viết"} isButton isButtonClassName="bg-green !text-white" />
           </a>
         </Link>
       </div>

@@ -44,14 +44,14 @@ export const NotificationFilter: FC<TProps> = ({handleFilter, isFetching}) => {
 			<div>
 				<IconButton
 					icon="fas fa-search"
-					title="Tìm?"
+					title="Lọc"
 					onClick={handleTransformDate}
 					showLoading
 					toolip=""
 					disabled={isFetching}
 				/>
 			</div>
-			<div className="ml-4">
+			{/* <div className="ml-4">
 				<IconButton
 					icon="far fa-info-square"
 					title="Lọc hôm nay"
@@ -62,7 +62,7 @@ export const NotificationFilter: FC<TProps> = ({handleFilter, isFetching}) => {
 					toolip=""
 					disabled={isFetching}
 				/>
-			</div>
+			</div> */}
 		</div>
 	);
 };

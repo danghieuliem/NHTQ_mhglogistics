@@ -9,7 +9,6 @@ type TFilterParams = {
 	RoleID: number;
 	UID: number;
 
-
 	SalerID: number;
 	OrdererID: number;
 };

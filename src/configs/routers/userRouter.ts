@@ -1,114 +1,136 @@
 export const userRouter = [
   {
-    path: "/user/",
-    name: "Tổng quan",
-    icon: "fas fa-home-alt",
-    childrens: [
+    Title: "TỔNG QUAN",
+    Children: [
       {
-        name: "Tổng quan",
-        path: "/user/",
+        Label: "Tổng quan",
+        Icon: "fas fa-th-large",
+        Path: "/user/",
       },
     ],
   },
   {
-    path: "/user/cart/",
-    name: "Giỏ hàng",
-    icon: "fas fa-bags-shopping",
-    childrens: [
+    Title: "GIỎ HÀNG",
+    Children: [
       {
-        path: "/user/cart/",
-        name: "Giỏ hàng",
+        Label: "Giỏ hàng",
+        Icon: "fas fa-bags-shopping",
+        Path: "/user/cart/",
       },
     ],
   },
   {
-    path: "javascript:;",
-    icon: "fas fa-shopping-basket",
-    name: "Đơn hàng",
-    childrens: [
+    Title: "ĐƠN MUA HỘ",
+    Children: [
       {
-        path: "/user/order-list/",
-        name: "Đơn mua hộ",
-      },
-      {
-        path: "/user/order-list/?q=3",
-        name: "Đơn mua hộ khác",
-      },
-      {
-        path: "/user/create-order/",
-        name: "Tạo mua hộ khác",
-      },
-    ],
-  },
-  {
-    path: "javascript:;",
-    icon: "far fa-envelope-open-text",
-    name: "Ký gửi",
-    childrens: [
-      {
-        path: "/user/deposit-list/",
-        name: "Danh sách ký gửi",
-      },
-      {
-        path: "/user/create-deposit/",
-        name: "Tạo đơn ký gửi",
+        Label: "Đơn mua hộ",
+        Icon: "fas fa-envelope-open-text",
+        Path: "javascript:;",
+        SubChildren: [
+          {
+            Label: "Đơn mua hộ",
+            Icon: "fas fa-shopping-basket",
+            Path: "/user/order-list/",
+          },
+          {
+            Path: "/user/order-list/?q=3",
+            Label: "Đơn mua hộ khác",
+            Icon: ""
+          },
+          {
+            Path: "/user/create-order/",
+            Label: "Tạo mua hộ khác",
+            Icon: ""
+          },
+        ],
       },
     ],
   },
   {
-    path: "javascript:;",
-    icon: "far fa-credit-card",
-    name: "Thanh toán hộ",
-    childrens: [
+    Title: "ĐƠN KÝ GỬI",
+    Children: [
       {
-        path: "/user/request-list/",
-        name: "Danh sách",
-      },
-      {
-        path: "/user/create-request-payment/",
-        name: "Tạo thanh toán hộ",
-      },
-    ],
-  },
-  {
-    path: "javascript:;",
-    icon: "far fa-sack-dollar",
-    name: "Tài chính",
-    childrens: [
-      {
-        path: "/user/history-transaction-vnd/",
-        name: "Lịch sử giao dịch",
-      },
-      {
-        path: "/user/recharge-vnd/",
-        name: "Tạo yêu cầu nạp",
-      },
-      {
-        path: "/user/withdrawal-vnd/",
-        name: "Tạo yêu cầu rút",
+        Label: "Ký gửi",
+        Icon: "fas fa-envelope-open-text",
+        Path: "javascript:;",
+        SubChildren: [
+          {
+            Path: "/user/deposit-list/",
+            Label: "Danh sách ký gửi",
+          },
+          {
+            Path: "/user/create-deposit/",
+            Label: "Tạo đơn ký gửi",
+          },
+        ],
       },
     ],
   },
   {
-    path: "javascript:;",
-    icon: "fas fa-edit",
-    name: "Kiểm tra",
-    childrens: [
+    Title: "THANH TOÁN HỘ",
+    Children: [
       {
-        path: "/user/tracking/",
-        name: "Tracking",
+        Label: "Thanh toán hộ",
+        Icon: "fas fa-envelope-open-text",
+        Path: "javascript:;",
+        SubChildren: [
+          {
+            Path: "/user/request-list/",
+            Label: "Danh sách",
+          },
+          {
+            Path: "/user/create-request-payment/",
+            Label: "Tạo thanh toán hộ",
+          },
+        ],
       },
+    ],
+  },
+  {
+    Title: "TÀI CHÍNH",
+    Children: [
       {
-        path: "/user/report/",
-        name: "Khiếu nại",
+        Label: "Tài chính",
+        Icon: "fas fa-envelope-open-text",
+        Path: "javascript:;",
+        SubChildren: [
+          {
+            Path: "/user/history-transaction-vnd/",
+            Label: "Lịch sử giao dịch",
+          },
+          {
+            Path: "/user/recharge-vnd/",
+            Label: "Tạo yêu cầu nạp",
+          },
+          {
+            Path: "/user/withdrawal-vnd/",
+            Label: "Tạo yêu cầu rút",
+          },
+        ],
       },
+    ],
+  },
+  {
+    Title: "KIỂM TRA",
+    Children: [
       {
-        path: "/user/transaction-code-management/",
-        name: "Quản lý mã vận đơn",
-      },
-      {
-        path: "/user/notification/",
-        name: "Danh sách thông báo",
+        Label: "Kiểm tra",
+        Icon: "fas fa-edit",
+        Path: "javascript:;",
+        SubChildren: [
+          {
+            Path: "/user/tracking/",
+            Label: "Tracking",
+          },
+          {
+            Path: "/user/report/",
+            Label: "Khiếu nại",
+          },
+          {
+            Label: "Quản lý kiện",
+            Path: "/user/transaction-code-management/",
+          },
+        ],
       },
     ],
   },

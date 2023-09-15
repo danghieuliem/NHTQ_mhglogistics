@@ -3,7 +3,6 @@ import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { notification } from "~/api";
 import { UserLayout, toast } from "~/components";
-import NotificationFilter from "~/components/screens/notification/NotificationFilter";
 import NotificationTable from "~/components/screens/notification/NotificationTable";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -39,9 +38,9 @@ const Index: TNextPageWithLayout = ({ connection }) => {
           // PageIndex: res?.Data?.PageIndex,
           PageSize: res?.Data?.PageSize,
         });
-        if (data?.Items?.length <= 0) {
-          toast.info("Không có thông báo trong khoảng thời gian này!");
-        }
+        // if (data?.Items?.length <= 0) {
+        //   toast.info("Không có thông báo trong khoảng thời gian này!");
+        // }
         return res?.Data;
       }),
     {

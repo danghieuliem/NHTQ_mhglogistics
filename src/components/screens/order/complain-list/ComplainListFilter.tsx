@@ -1,9 +1,10 @@
 import { Popover } from "antd";
 import { FC, useRef } from "react";
-import { FilterInput, FilterSelect } from "~/components";
+import { ActionButton, FilterInput, FilterSelect } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
 import { FilterRangeDate } from "~/components/globals/filterBase";
-import { EReportStatusData, reportStatusData } from "~/configs/appConfigs";
+import { complainStatus } from "~/configs";
+import { EReportStatusData } from "~/configs/appConfigs";
 
 const usernameProps = {
   id: "username",
@@ -28,69 +29,81 @@ export const ComplainListFilter: FC<TProps> = ({
 
   return (
     <>
-      <Popover
-        trigger={"click"}
-        placement="bottomLeft"
-        content={
-          <div className="grid grid-cols-1 gap-2 p-2">
-            <div className="col-span-1">
-              <FilterInput
-                {...usernameProps}
-                handleSearch={(val: string) =>
-                  (SearchContent.current = val.trim())
-                }
-              />
+      <div className="flex items-end gap-2">
+        <Popover
+          trigger={"click"}
+          placement="bottomLeft"
+          content={
+            <div className="grid grid-cols-1 gap-2 p-2">
+              <div className="col-span-1">
+                <FilterInput
+                  {...usernameProps}
+                  handleSearch={(val: string) =>
+                    (SearchContent.current = val.trim())
+                  }
+                />
+              </div>
+              <div className="col-span-1">
+                <FilterRangeDate
+                  format="DD/MM/YYYY"
+                  placeholder="Từ ngày / đến ngày"
+                  handleDate={(val: string[]) => {
+                    FromDate.current = val[0];
+                    ToDate.current = val[1];
+                  }}
+                />
+              </div>
+              <div className="col-span-1 flex justify-end items-end">
+                <IconButton
+                  onClick={() =>
+                    handleFilter({
+                      SearchContent: SearchContent.current,
+                      FromDate: FromDate.current,
+                      ToDate: ToDate.current,
+                      Status: Status.current,
+                      PageIndex: 1,
+                    })
+                  }
+                  icon="mr-0"
+                  title="Tìm kiếm"
+                  showLoading
+                  toolip="Lọc"
+                />
+              </div>
             </div>
-            <div className="col-span-1">
-              <FilterRangeDate
-                format="DD/MM/YYYY"
-                placeholder="Từ ngày / đến ngày"
-                handleDate={(val: string[]) => {
-                  FromDate.current = val[0];
-                  ToDate.current = val[1];
-                }}
-              />
-            </div>
-            <div className="col-span-1">
-              <FilterSelect
-                placeholder="Chọn trạng thái"
-                label="Trạng thái"
-                data={reportStatusData}
-                handleSearch={(val: EReportStatusData) => {
-                  Status.current = val;
-                }}
-                isClearable
-              />
-            </div>
-            <div className="col-span-1 flex justify-end items-end">
-              <IconButton
-                onClick={() =>
-                  handleFilter({
-                    SearchContent: SearchContent.current,
-                    FromDate: FromDate.current,
-                    ToDate: ToDate.current,
-                    Status: Status.current,
-                    PageIndex: 1,
-                  })
-                }
-                icon="mr-0"
-                title="Lọc"
-                showLoading
-                toolip="Lọc"
-              />
-            </div>
-          </div>
-        }
-      >
-        <IconButton icon="fas fa-filter" title="Lọc" showLoading toolip="Lọc" btnClass="mr-2" />
-      </Popover>
-      <IconButton
+          }
+        >
+          <ActionButton
+            icon="fas fa-filter"
+            title="Lọc"
+            isButton
+            isButtonClassName="bg-main !text-white"
+          />
+        </Popover>
+        <div className="w-[200px]">
+          <FilterSelect
+            placeholder="Chọn trạng thái"
+            label="Trạng thái"
+            data={complainStatus}
+            handleSearch={(val: number) => {
+              handleFilter({
+                SearchContent: SearchContent.current,
+                FromDate: FromDate.current,
+                ToDate: ToDate.current,
+                Status: val,
+                PageIndex: 1,
+              })
+            }}
+            isClearable
+          />
+        </div>
+      </div>
+      <ActionButton
         onClick={() => handleExportExcel()}
         icon="fas fa-file-export"
         title="Xuất"
-        showLoading
-        toolip="Xuất thống kê"
-        green
+        isButton
+        isButtonClassName="bg-green !text-white"
       />
     </>
   );

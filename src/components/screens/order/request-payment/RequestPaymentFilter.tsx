@@ -1,11 +1,12 @@
 import { Popover } from "antd";
 import { FC, useRef } from "react";
-import { IconButton } from "~/components/globals/button/IconButton";
+import { ActionButton } from "~/components/globals/button/ActionButton";
 import {
   FilterInput,
   FilterRangeDate,
   FilterSelect,
 } from "~/components/globals/filterBase";
+import { payHelpStatus } from "~/configs";
 import { paymentData } from "~/configs/appConfigs";
 
 const usernameProps = {
@@ -33,51 +34,43 @@ export const RequestPaymentFilter: FC<TProps> = ({
   const SalerId = useRef<number>(null);
 
   return (
-    <div className="w-fit ml-auto">
+    <div className="flex justify-between">
       <Popover
         trigger={"click"}
         placement="bottomLeft"
         content={
           <div className="grid grid-cols-2 gap-2 p-2">
-            <div className="col-span-1">
-              <FilterInput
-                {...usernameProps}
-                handleSearch={(val: string) =>
-                  (SearchContent.current = val.trim())
-                }
-              />
-            </div>
-            <div className="col-span-1">
-              <FilterRangeDate
-                placeholder="Từ ngày / đến ngày"
-                format="DD/MM/YYYY"
-                handleDate={(val: string[]) => {
-                  FromDate.current = val[0];
-                  ToDate.current = val[1];
-                }}
-              />
-            </div>
-            <div className="col-span-1">
-              <FilterSelect
-                data={paymentData}
-                label="Trạng thái"
-                isClearable
-                placeholder="Chọn trạng thái"
-                handleSearch={(val: number) => (Status.current = val)}
-              />
-            </div>
-            <div className="col-span-1">
-              <FilterSelect
-                data={userSale}
-                label="Nhân viên kinh doanh"
-                isClearable
-                select={{ label: "UserName", value: "Id" }}
-                placeholder="Nhân viên kinh doanh"
-                handleSearch={(val: number) => (SalerId.current = val)}
-              />
-            </div>
-            <div className="col-span-2 flex justify-end">
-              <IconButton
+            <FilterInput
+              {...usernameProps}
+              handleSearch={(val: string) =>
+                (SearchContent.current = val.trim())
+              }
+            />
+            <FilterRangeDate
+              placeholder="Từ ngày / đến ngày"
+              format="DD/MM/YYYY"
+              handleDate={(val: string[]) => {
+                FromDate.current = val[0];
+                ToDate.current = val[1];
+              }}
+            />
+            <FilterSelect
+              data={payHelpStatus}
+              label="Trạng thái"
+              isClearable
+              placeholder="Chọn trạng thái"
+              handleSearch={(val: number) => (Status.current = val)}
+            />
+            <FilterSelect
+              data={userSale}
+              label="Nhân viên kinh doanh"
+              isClearable
+              select={{ label: "UserName", value: "Id" }}
+              placeholder="Nhân viên kinh doanh"
+              handleSearch={(val: number) => (SalerId.current = val)}
+            />
+            <div className="col-span-full ml-auto">
+              <ActionButton
                 onClick={() =>
                   handleFilter({
                     SearchContent: SearchContent.current,
@@ -89,29 +82,27 @@ export const RequestPaymentFilter: FC<TProps> = ({
                   })
                 }
                 icon="mr-0"
-                title="Lọc"
-                showLoading
-                toolip="Lọc"
+                title="Tìm kiếm"
+                isButton
+                isButtonClassName="bg-sec !text-white"
               />
             </div>
           </div>
         }
       >
-        <IconButton
+        <ActionButton
           icon="fas fa-filter"
-          btnClass="!mr-2"
           title="Bộ lọc"
-          showLoading
+          isButton
+          isButtonClassName="bg-main !text-white"
         />
       </Popover>
-      <IconButton
+      <ActionButton
         onClick={() => handleExporTExcel()}
-        btnClass=""
         icon={"fas fa-file-export"}
         title="Xuất"
-        showLoading
-        toolip="Xuất thống kê"
-        green
+        isButton
+        isButtonClassName="bg-green !text-white"
       />
     </div>
   );

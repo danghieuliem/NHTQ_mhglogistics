@@ -14,6 +14,7 @@ export const breadcrumb = {
       detail: "Chi tiết quản lý bao hàng",
     },
     transactionCodeManagement: "Quản lý mã vận đơn",
+    exportChina: "Xuất kho TQ"
   },
   statistical: {
     transaction: "Thống kê giao dịch",

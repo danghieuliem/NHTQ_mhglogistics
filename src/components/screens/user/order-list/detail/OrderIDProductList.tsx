@@ -1,14 +1,14 @@
-import { Drawer, Input, Tooltip } from "antd";
+import { Tooltip } from "antd";
+import Link from "next/link";
 import router from "next/router";
-import React, { useState } from "react";
+import React from "react";
 import { toast } from "react-toastify";
 import { order } from "~/api";
-import { ActionButton, IconButton } from "~/components";
+import { ActionButton } from "~/components";
 import { DataTable } from "~/components/globals/table";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
 // import ReportContent from "./Report";
-import { useQueryClient } from "react-query";
 
 type TPropsTable = {
   Id: number;
@@ -21,12 +21,13 @@ type TPropsTable = {
   Brand: string;
   mainOrder: any;
   StatusComplain: number;
+  LinkOrigin?: string
 };
 
-export const OrderIDProductList: React.FC<any> = ({ data, mainOrder, refetch}) => {
-  const [visible, setVisible] = useState<TPropsTable>(null);
-  const [loading, setLoading] = useState(false);
-  const queryClient = useQueryClient();
+export const OrderIDProductList: React.FC<any> = ({
+  data,
+}) => {
+  // const queryClient = useQueryClient();
 
   const onExportExcel = async () => {
     try {
@@ -39,32 +40,32 @@ export const OrderIDProductList: React.FC<any> = ({ data, mainOrder, refetch}) =
     }
   };
 
-  const handleUpdateQuantity_Brand = (data: any) => {
-    setLoading(true);
-    const id = toast.loading("Đang xử lý ...");
+  // const handleUpdateQuantity_Brand = (data: any) => {
+  //   const id = toast.loading("Đang xử lý ...");
 
-    order.update(data)
-      .then(res => {
-        refetch();
-        queryClient.invalidateQueries("orderList");
-        toast.update(id, {
-          type: "success",
-          render: data?.Brand ? "Cập nhật ghi chú thành công" : "Cập nhật số lượng thành công!",
-          autoClose: 1000,
-          isLoading: false
-        })
-      })
-      .catch(error => {
-        toast.update(id, {
-          type: "error",
-          render: (error as any)?.response?.data?.ResultMessage,
-          autoClose: 1000,
-          isLoading: false
-        })
-      })
-      .finally(() => setLoading(false))
-  }
-
+  //   order
+  //     .update(data)
+  //     .then((res) => {
+  //       refetch();
+  //       queryClient.invalidateQueries("orderList");
+  //       toast.update(id, {
+  //         type: "success",
+  //         render: data?.Brand
+  //           ? "Cập nhật ghi chú thành công"
+  //           : "Cập nhật số lượng thành công!",
+  //         autoClose: 1000,
+  //         isLoading: false,
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       toast.update(id, {
+  //         type: "error",
+  //         render: (error as any)?.response?.data?.ResultMessage,
+  //         autoClose: 1000,
+  //         isLoading: false,
+  //       });
+  //     })
+  // };
 
   const columns: TColumnsType<TPropsTable> = [
     {
@@ -100,9 +101,13 @@ export const OrderIDProductList: React.FC<any> = ({ data, mainOrder, refetch}) =
         // const [note, setNote] = useState(record?.Brand);
         return (
           <div className="flex flex-col gap-2">
-            <Tooltip title="Tên sản phẩm" className="font-semibold">
-              {record?.TitleOrigin}
-            </Tooltip>
+            <Link href={record?.LinkOrigin}>
+              <a target="_blank">
+                <Tooltip title="Tên sản phẩm" className="font-semibold">
+                  {record?.TitleOrigin}
+                </Tooltip>
+              </a>
+            </Link>
             <div>
               <span className="font-semibold">Thuộc tính: </span>
               <span>{record?.Property}</span>
@@ -138,7 +143,7 @@ export const OrderIDProductList: React.FC<any> = ({ data, mainOrder, refetch}) =
       title: "Số lượng",
       align: "right",
       render: (_, record) => {
-        return <>{_format.getVND(_, " ")}</>
+        return <>{_format.getVND(_, " ")}</>;
         // const [quantity, setQuantity] = useState(_);
         // return (
         //   <div>
@@ -228,32 +233,16 @@ export const OrderIDProductList: React.FC<any> = ({ data, mainOrder, refetch}) =
           data,
           title: "Danh sách sản phẩm",
           extraElment: (
-            <IconButton
+            <ActionButton
               onClick={() => onExportExcel()}
               title="Xuất"
               icon="fas fa-file-export"
-              showLoading
-              toolip="Xuất thống kê"
-              green
-              btnClass="!h-fit"
+              isButton
+              isButtonClassName="bg-green !text-white"
             />
           ),
         }}
       />
-      {/* <Drawer
-        title="Tạo khiếu nại mới"
-        placement="right"
-        width={"40vw"}
-        onClose={() => setVisible(null)}
-        visible={!!visible?.Id}
-        closable={false}
-        style={{ zIndex: "10000000" }}
-      >
-        <ReportContent
-          defaultValue={visible}
-          onCancel={() => setVisible(null)}
-        />
-      </Drawer> */}
     </>
   );
 };

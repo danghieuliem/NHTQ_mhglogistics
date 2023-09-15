@@ -1,4 +1,4 @@
-import { Divider, Modal } from "antd";
+import { Divider, Modal, Popover } from "antd";
 import { TableRowSelection } from "antd/lib/table/interface";
 import clsx from "clsx";
 import Link from "next/link";
@@ -10,20 +10,21 @@ import { mainOrder, orderShopTemp } from "~/api";
 import {
   ActionButton,
   DataTable,
-  UserAnotherOrderListFilterMemo
+  ReportContentMemo,
+  UserAnotherOrderListFilterMemo,
 } from "~/components";
-import { EOrderStatus, orderStatus } from "~/configs/appConfigs";
+import { EOrderStatus, orderStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
 
-const PaymenComponent = ({
-  handleDeposit,
-  handlePayment,
-  selectedRowKeys,
-}) => {
-  const paymentData = selectedRowKeys?.filter((item) => item?.Status === 10);
-  const noDepositData = selectedRowKeys?.filter((item) => item?.Status === 0);
+const PaymenComponent = ({ handleDeposit, handlePayment, selectedRowKeys }) => {
+  const paymentData = selectedRowKeys?.filter(
+    (item) => item?.Status === EOrderStatus.VeVN
+  );
+  const noDepositData = selectedRowKeys?.filter(
+    (item) => item?.Status === EOrderStatus.DonMoi
+  );
   const [show, setShow] = useState(false);
   // const [loading, setLoading] = useState(false);
 
@@ -31,7 +32,7 @@ const PaymenComponent = ({
     <>
       <ActionButton
         isButton
-        isButtonClassName="bg-sec !text-white hover:!bg-main"
+        isButtonClassName="bg-sec !text-white hover:!bg-main absolute left-0 left-0"
         title="Đặt cọc/thanh toán"
         icon="fad fa-money-check !mr-2"
         disabled={selectedRowKeys.length <= 0}
@@ -112,26 +113,33 @@ export const UserAnotherOrderListTable: React.FC<
     type;
     q;
     moneyOfOrders;
+    filter;
     handleFilter;
   }
-> = ({ data, loading, handleModal, type, q, moneyOfOrders, handleFilter }) => {
-  const [delLoading, setDelLoading] = useState(false);
+> = ({
+  data,
+  loading,
+  handleModal,
+  type,
+  q,
+  moneyOfOrders,
+  filter,
+  handleFilter,
+}) => {
   const queryClient = useQueryClient();
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   const handleDeleteProd = async (id: number) => {
-    setDelLoading(true);
     const idToast = toast.loading("Đang xử lý");
     try {
       await mainOrder.delete(id);
       toast.update(idToast, {
         render: `Hủy đơn hàng #${id} thành công!`,
         type: "success",
-        autoClose: 1000,
+        autoClose: 500,
         isLoading: false,
       });
       queryClient.invalidateQueries("orderList");
-      setDelLoading(false);
     } catch (error) {
       toast.update(idToast, {
         render: (error as any)?.response?.data?.ResultMessage,
@@ -139,7 +147,6 @@ export const UserAnotherOrderListTable: React.FC<
         autoClose: 1000,
         isLoading: false,
       });
-      setDelLoading(false);
     }
   };
 
@@ -151,8 +158,7 @@ export const UserAnotherOrderListTable: React.FC<
         toast.update(id, {
           render: "Thêm đơn thành công, vui lòng kiểm tra giỏ hàng!",
           type: "success",
-          autoClose: 1000,
-          closeOnClick: true,
+          autoClose: 500,
           isLoading: false,
         });
       })
@@ -172,7 +178,7 @@ export const UserAnotherOrderListTable: React.FC<
       { Status: 2 }
     )
   );
-  
+
   const mutationUpdatePayment = useMutation((data: TOrder[]) =>
     mainOrder.updateOrder(
       data?.map((item) => item?.Id),
@@ -195,7 +201,7 @@ export const UserAnotherOrderListTable: React.FC<
           render: "Đặt cọc thành công.",
           isLoading: false,
           type: "success",
-          autoClose: 1000,
+          autoClose: 500,
         });
       })
       .catch((error) => {
@@ -222,8 +228,8 @@ export const UserAnotherOrderListTable: React.FC<
         toast.update(id, {
           render: "Đặt cọc thành công.",
           isLoading: false,
+          autoClose: 500,
           type: "success",
-          autoClose: 1000,
         });
       })
       .catch((error) => {
@@ -243,6 +249,13 @@ export const UserAnotherOrderListTable: React.FC<
       title: "ID",
       width: 60,
       responsive: ["lg"],
+      render: (_) => {
+        return (
+          <Link href={`/user/order-list/detail/?id=${_}`}>
+            <a target="_blank">{_}</a>
+          </Link>
+        );
+      },
     },
     {
       dataIndex: "ImageOrigin",
@@ -309,11 +322,13 @@ export const UserAnotherOrderListTable: React.FC<
           {record.Created && (
             <p
               className={clsx(
-                record?.Status === EOrderStatus.NoDeposit && "text-red",
+                (record?.Status === EOrderStatus.ChoBaoGia ||
+                  record?.Status === EOrderStatus.DonMoi) &&
+                  "text-red",
                 "flex justify-between px-2"
               )}
             >
-              <span>Lên đơn: </span>
+              <span>Đơn mới: </span>
               <span>
                 {_format.getVNDate(record.Created, "HH:mm")} -
                 {_format.getVNDate(record.Created, "DD/MM/YYYY")}
@@ -323,7 +338,7 @@ export const UserAnotherOrderListTable: React.FC<
           {record.DepositDate && (
             <p
               className={clsx(
-                record?.Status === EOrderStatus.Deposited && "text-red",
+                record?.Status === EOrderStatus.DaCoc && "text-red",
                 "flex justify-between px-2"
               )}
             >
@@ -337,7 +352,7 @@ export const UserAnotherOrderListTable: React.FC<
           {record.DateBuy && (
             <p
               className={clsx(
-                record?.Status === EOrderStatus.Purchased && "text-red",
+                record?.Status === EOrderStatus.DaMuaHang && "text-red",
                 "flex justify-between px-2"
               )}
             >
@@ -348,10 +363,24 @@ export const UserAnotherOrderListTable: React.FC<
               </span>
             </p>
           )}
+          {record.DateSendGoods && (
+            <p
+              className={clsx(
+                record?.Status === EOrderStatus.ShopPhatHang && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Shop phát hàng:</span>
+              <span>
+                {_format.getVNDate(record.DateSendGoods, "HH:mm")} -
+                {_format.getVNDate(record.DateSendGoods, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
           {record.DateTQ && (
             <p
               className={clsx(
-                record?.Status === EOrderStatus.InChinaWarehoue && "text-red",
+                record?.Status === EOrderStatus.VeTQ && "text-red",
                 "flex justify-between px-2"
               )}
             >
@@ -362,10 +391,24 @@ export const UserAnotherOrderListTable: React.FC<
               </span>
             </p>
           )}
+          {record.DateComingVN && (
+            <p
+              className={clsx(
+                record?.Status === EOrderStatus.DangVeVN && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Đang về VN:</span>
+              <span>
+                {_format.getVNDate(record.DateComingVN, "HH:mm")} -
+                {_format.getVNDate(record.DateComingVN, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
           {record.DateVN && (
             <p
               className={clsx(
-                record?.Status === EOrderStatus.InVietnamWarehoue && "text-red",
+                record?.Status === EOrderStatus.VeVN && "text-red",
                 "flex justify-between px-2"
               )}
             >
@@ -379,7 +422,7 @@ export const UserAnotherOrderListTable: React.FC<
           {record.PayDate && (
             <p
               className={clsx(
-                record?.Status === EOrderStatus.Paid && "text-red",
+                record?.Status === EOrderStatus.DaThanhToan && "text-red",
                 "flex justify-between px-2"
               )}
             >
@@ -393,7 +436,7 @@ export const UserAnotherOrderListTable: React.FC<
           {record.CompleteDate && (
             <p
               className={clsx(
-                record?.Status === EOrderStatus.Finished && "text-red",
+                record?.Status === EOrderStatus.HoanThanh && "text-red",
                 "flex justify-between px-2"
               )}
             >
@@ -401,6 +444,20 @@ export const UserAnotherOrderListTable: React.FC<
               <span>
                 {_format.getVNDate(record.CompleteDate, "HH:mm")} -
                 {_format.getVNDate(record.CompleteDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.ComplainDate && (
+            <p
+              className={clsx(
+                record?.Status === EOrderStatus.KhieuNai && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Khiếu nại:</span>
+              <span>
+                {_format.getVNDate(record.ComplainDate, "HH:mm")} -
+                {_format.getVNDate(record.ComplainDate, "DD/MM/YYYY")}
               </span>
             </p>
           )}
@@ -413,9 +470,7 @@ export const UserAnotherOrderListTable: React.FC<
       title: "Trạng thái",
       render: (status, record) => {
         const color = orderStatus.find((x) => x.id === status);
-        return (
-          <TagStatus color={color?.color} statusName={record?.StatusName} />
-        );
+        return <TagStatus color={color?.color} statusName={color?.name} />;
       },
       width: 140,
     },
@@ -425,12 +480,12 @@ export const UserAnotherOrderListTable: React.FC<
       align: "right",
       render: (_, record) => {
         return (
-          <div className="flex gap-1 flex-col">
+          <div className="flex gap-1 flex-wrap">
             <Link href={`/user/order-list/detail/?id=${record?.Id}`}>
               <a target="_blank">
                 <ActionButton
                   isButton={true}
-                  icon="far fa-info-square"
+                  icon="fas fa-info-square"
                   title="Chi tiết"
                 />
               </a>
@@ -445,10 +500,11 @@ export const UserAnotherOrderListTable: React.FC<
                 }
                 isButton={true}
                 icon="fas fa-cart-arrow-down"
-                title="Mua lại đơn"
+                title="Mua lại"
+                isButtonClassName=""
               />
             )}
-            {record?.Status === EOrderStatus.NoDeposit && (
+            {record?.Status === EOrderStatus.DonMoi && (
               <ActionButton
                 onClick={() =>
                   Modal.confirm({
@@ -458,11 +514,11 @@ export const UserAnotherOrderListTable: React.FC<
                 }
                 icon="far fa-dollar-sign"
                 title="Đặt cọc"
-                btnYellow
                 isButton={true}
+                isButtonClassName="bg-green !text-white"
               />
             )}
-            {record?.Status === EOrderStatus.InVietnamWarehoue && (
+            {record?.Status === EOrderStatus.VeVN && (
               <ActionButton
                 onClick={() =>
                   Modal.confirm({
@@ -476,7 +532,8 @@ export const UserAnotherOrderListTable: React.FC<
                 isButton={true}
               />
             )}
-            {record?.Status === EOrderStatus.NoDeposit && (
+            {(record?.Status === EOrderStatus.DonMoi ||
+              record?.Status === EOrderStatus.ChoBaoGia) && (
               <ActionButton
                 onClick={() =>
                   Modal.confirm({
@@ -486,12 +543,26 @@ export const UserAnotherOrderListTable: React.FC<
                 }
                 icon="fas fa-trash"
                 isButtonClassName="!bg-red !text-white"
-                title="Hủy đơn!"
+                title="Hủy"
                 btnYellow
                 isButton={true}
               />
             )}
-            {/* record.IsCheckNotiPrice */}
+            {record?.Status === EOrderStatus.HoanThanh && (
+              <Popover
+                trigger={"click"}
+                placement="left"
+                content={<ReportContentMemo defaultValue={record} />}
+              >
+                <ActionButton
+                  icon="fas fa-balance-scale-right"
+                  title="Khiếu nại"
+                  btnRed
+                  isButton={true}
+                  isButtonClassName="bg-red !text-white"
+                />
+              </Popover>
+            )}
           </div>
         );
       },
@@ -502,9 +573,10 @@ export const UserAnotherOrderListTable: React.FC<
   ];
 
   const rowSelection: TableRowSelection<TOrder> = {
-    selectedRowKeys: selectedRowKeys?.map(item => item.Id),
+    selectedRowKeys: selectedRowKeys?.map((item) => item.Id),
     getCheckboxProps: (record) => {
-      return record.Status === 10 || record.Status === 0
+      return record.Status === EOrderStatus.DonMoi ||
+        record.Status === EOrderStatus.VeTQ
         ? { name: record.Id.toString(), disabled: false }
         : { name: record.Id.toString(), disabled: true, className: "!hidden" };
     },
@@ -565,12 +637,20 @@ export const UserAnotherOrderListTable: React.FC<
                 value: record.DepositDate,
               },
               {
-                title: "Đặt hàng",
+                title: "Đã mua hàng",
                 value: record.DateBuy,
+              },
+              {
+                title: "Shop phát hàng",
+                value: record?.DateSendGoods,
               },
               {
                 title: "Đã về kho TQ",
                 value: record.DateTQ,
+              },
+              {
+                title: "Đang về VN",
+                value: record.DateComingVN,
               },
               {
                 title: "Đã về kho VN",
@@ -583,6 +663,10 @@ export const UserAnotherOrderListTable: React.FC<
               {
                 title: "Hoàn thành",
                 value: record.CompleteDate,
+              },
+              {
+                title: "Khiếu nại",
+                value: record.ComplainDate,
               },
             ].map(
               (item) =>
@@ -631,8 +715,7 @@ export const UserAnotherOrderListTable: React.FC<
                               render:
                                 "Thêm đơn thành công, vui lòng kiểm tra giỏ hàng!",
                               type: "success",
-                              autoClose: 1000,
-                              closeOnClick: true,
+                              autoClose: 500,
                               isLoading: false,
                             });
                           })
@@ -654,7 +737,7 @@ export const UserAnotherOrderListTable: React.FC<
             )}
 
             {/* khiếu nại */}
-            {record?.Status === EOrderStatus.Finished && (
+            {record?.Status === EOrderStatus.HoanThanh && (
               <div className="extentable-button">
                 <ActionButton
                   onClick={() =>
@@ -677,7 +760,7 @@ export const UserAnotherOrderListTable: React.FC<
               <>
                 {record?.IsCheckNotiPrice && (
                   <>
-                    {record?.Status === EOrderStatus.NoDeposit && (
+                    {record?.Status === EOrderStatus.DonMoi && (
                       <div className="extentable-button">
                         <ActionButton
                           onClick={() => {
@@ -691,7 +774,7 @@ export const UserAnotherOrderListTable: React.FC<
                         />
                       </div>
                     )}
-                    {record?.Status === EOrderStatus.InVietnamWarehoue && (
+                    {record?.Status === EOrderStatus.VeVN && (
                       <div className="extentable-button">
                         <ActionButton
                           onClick={() => {
@@ -707,7 +790,8 @@ export const UserAnotherOrderListTable: React.FC<
                     )}
                   </>
                 )}
-                {record?.Status === EOrderStatus.NoDeposit && (
+                {(record?.Status === EOrderStatus.ChoBaoGia ||
+                  record?.Status === EOrderStatus.DonMoi) && (
                   <div className="extentable-button">
                     <ActionButton
                       onClick={() =>
@@ -726,7 +810,7 @@ export const UserAnotherOrderListTable: React.FC<
               </>
             ) : (
               <>
-                {record?.Status === EOrderStatus.NoDeposit && (
+                {record?.Status === EOrderStatus.DonMoi && (
                   <div className="extentable-button">
                     <ActionButton
                       onClick={() => {
@@ -740,7 +824,7 @@ export const UserAnotherOrderListTable: React.FC<
                     />
                   </div>
                 )}
-                {record?.Status === EOrderStatus.InVietnamWarehoue && (
+                {record?.Status === EOrderStatus.VeVN && (
                   <div className="extentable-button">
                     <ActionButton
                       onClick={() => {
@@ -754,7 +838,8 @@ export const UserAnotherOrderListTable: React.FC<
                     />
                   </div>
                 )}
-                {record?.Status === EOrderStatus.NoDeposit && (
+                {(record?.Status === EOrderStatus.ChoBaoGia ||
+                  record?.Status === EOrderStatus.DonMoi) && (
                   <div className="extentable-button">
                     <ActionButton
                       onClick={() =>
@@ -779,34 +864,48 @@ export const UserAnotherOrderListTable: React.FC<
   };
 
   return (
-    <DataTable
-      {...{
-        columns,
-        data,
-        bordered: true,
-        rowSelection,
-        loading,
-        // title: q === "3" ? "Danh sách đơn mua hộ khác" : "Danh sách đơn mua hộ",
-        expandable: expandable,
-        scroll: { y: 640 },
-        mediaWidth: 1200,
-        extraElmentClassName:
-          "flex items-center !justify-between !w-full flex-wrap",
-        extraElment: (
-          <>
-            <PaymenComponentMemo
-              selectedRowKeys={selectedRowKeys}
-              handleDeposit={handleDeposit}
-              handlePayment={handlePayment}
-            />
-            <UserAnotherOrderListFilterMemo
-              moneyOfOrders={moneyOfOrders}
-              numberOfOrder={orderStatus}
-              handleFilter={handleFilter}
-            />
-          </>
-        ),
-      }}
-    />
+    <div>
+      <DataTable
+        {...{
+          columns,
+          data,
+          // bordered: true,
+          rowSelection,
+          loading,
+          // title: q === "3" ? "Danh sách đơn mua hộ khác" : "Danh sách đơn mua hộ",
+          expandable: expandable,
+          scroll: { y: 640 },
+          mediaWidth: 1200,
+          extraElmentClassName:
+            "flex items-center !justify-between !w-full flex-wrap flex-col gap-2 relative",
+          extraElment: (
+            <>
+              <PaymenComponentMemo
+                selectedRowKeys={selectedRowKeys}
+                handleDeposit={handleDeposit}
+                handlePayment={handlePayment}
+              />
+              <UserAnotherOrderListFilterMemo
+                moneyOfOrders={moneyOfOrders}
+                numberOfOrder={orderStatus}
+                handleFilter={handleFilter}
+              />
+            </>
+          ),
+          pagination: {
+            current: filter.PageIndex,
+            total: filter.TotalItems,
+            pageSize: filter.PageSize,
+          },
+          onChange: (page, pageSize) => {
+            handleFilter({
+              ...filter,
+              PageIndex: page.current,
+              PageSize: page.pageSize,
+            });
+          },
+        }}
+      />
+    </div>
   );
 };

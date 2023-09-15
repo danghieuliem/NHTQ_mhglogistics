@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
-import { FilterRangeDate } from "~/components";
-import { IconButton } from "~/components/globals/button/IconButton";
+import { ActionButton, FilterRangeDate } from "~/components";
 
 type TProps = {
   handleFilter: (newFilter) => void;
@@ -15,25 +14,23 @@ export const TransactionFilter: React.FC<TProps> = ({ handleFilter }) => {
       <div className="">
         <FilterRangeDate
           placeholder=""
-          // placeholder="Từ ngày/đến ngày"
           handleDate={(val: string[]) => {
             fromDate.current = val[0];
             toDate.current = val[1];
           }}
         />
       </div>
-      <IconButton
-        icon="far fa-info-square"
-        btnIconClass="!mr-2"
-        title="Xem thống kê"
+      <ActionButton
+        icon="fas fa-info-square"
+        title="Lọc thống kê"
         onClick={() =>
           handleFilter({
             FromDate: fromDate.current,
             ToDate: toDate.current,
           })
         }
-        btnClass={"h-fit"}
-        toolip=""
+        isButton
+        isButtonClassName="bg-green !text-white"
       />
     </div>
   );

@@ -1,36 +1,38 @@
-import Link from "next/link";
+import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { Page } from "~/api";
 import { _format } from "~/utils";
 import styles from "./index.module.css";
 
 const NewsItem = ({ item }) => {
+  const router = useRouter();
+
   return (
-    <Link href={`/chuyen-muc/detail/?code=${item?.Code}`}>
-      <a
-        target={"_blank"}
-        onClick={() => localStorage.setItem("PageTypeId", item?.PageTypeId)}
-      >
-        <div className={styles.NewsItemBox}>
-          <div
-            className={styles.img}
-            style={{
-              background: item?.IMG
-                ? `url(${
-                    item?.IMG?.includes(" ")
-                      ? item?.IMG.replaceAll(" ", "%20")
-                      : item?.IMG
-                  })`
-                : "url(/default/pro-empty.jpg)",
-            }}
-          />
-          <div className={styles.datetime}>
-            <h3>{item?.Title}</h3>
-            <span>{_format.getShortVNDate(item?.Created)}</span>
-          </div>
+    <a
+      onClick={() => {
+        localStorage.setItem("PageTypeId", item?.PageTypeId);
+        router.push(`/chuyen-muc/detail/?code=${item?.Code}`);
+      }}
+    >
+      <div className={styles.NewsItemBox}>
+        <div
+          className={styles.img}
+          style={{
+            background: item?.IMG
+              ? `url(${
+                  item?.IMG?.includes(" ")
+                    ? item?.IMG.replaceAll(" ", "%20")
+                    : item?.IMG
+                })`
+              : "url(/default/pro-empty.jpg)",
+          }}
+        />
+        <div className={styles.datetime}>
+          <h3>{item?.Title}</h3>
+          <span>{_format.getShortVNDate(item?.Created)}</span>
         </div>
-      </a>
-    </Link>
+      </div>
+    </a>
   );
 };
 

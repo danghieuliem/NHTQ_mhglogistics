@@ -2,7 +2,7 @@ import { Modal, Popover, Tabs } from "antd";
 import clsx from "clsx";
 import React from "react";
 import { ActionButton, DataTable } from "~/components";
-import { transportStatus } from "~/configs";
+import { transportationStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
@@ -13,7 +13,9 @@ const DetailInfo = (record) => {
   const divStyle = `flex justify-between items-center border-b border-[#e4e4e4] py-1`;
   const detailBox = `grid grid-cols-2 gap-7`;
   const title = `text-[18px] font-bold`;
-  const color = transportStatus.find((x) => x.id === record?.record?.Status);
+  const color = transportationStatus.find(
+    (x) => x.id === record?.record?.Status
+  );
   return (
     <>
       {window.innerWidth >= 768 ? (
@@ -296,6 +298,7 @@ const DetailInfo = (record) => {
 
 const DetailInfoMemo = React.memo(DetailInfo);
 
+
 export const UserTransfer = ({ data, isFetching }) => {
   const columns: TColumnsType<TNewDeliveryOrders> = [
     {
@@ -328,10 +331,10 @@ export const UserTransfer = ({ data, isFetching }) => {
     {
       title: "Trạng thái",
       dataIndex: "Status",
-      render: (status, record) => {
-        const color = transportStatus.find((x) => x.id === status);
+      render: (status) => {
+        const color = transportationStatus.find((x) => x.id === status);
         return (
-          <TagStatus color={color?.color} statusName={record?.StatusName} />
+          <TagStatus color={color?.color} statusName={color?.name} />
         );
       },
     },

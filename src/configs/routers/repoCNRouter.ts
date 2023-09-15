@@ -1,56 +1,32 @@
 export const repoCNRouter = [
   {
-    path: "/manager/warehouse/check-warehouse-china/",
-    name: "Kiểm kho Trung Quốc",
-    icon: "fas fa-warehouse-alt",
-    childrens: [
+    Title: "NGHIỆP VỤ KHO",
+    Icon: "fas fa-warehouse-alt",
+    Children: [
       {
-        path: "/manager/warehouse/check-warehouse-china/",
-        name: "Kiểm kho Trung Quốc",
+        Path: "/manager/warehouse/check-warehouse-china/",
+        Icon: "",
+        Label: "Kiểm kho TQ",
       },
-    ],
-  },
-  {
-    name: "Import mã vận đơn",
-    path: "/manager/warehouse/import/",
-    icon: "fas fa-upload",
-    childrens: [
       {
-        path: "/manager/warehouse/import/",
-        name: "Import mã vận đơn",
+        Path: "/manager/warehouse/import/",
+        Icon: "",
+        Label: "Import kho TQ",
       },
-    ],
-  },
-  {
-    name: "Quản lý bao hàng",
-    path: "/manager/warehouse/package-management/",
-    icon: "far fa-box-full",
-    childrens: [
       {
-        path: "/manager/warehouse/package-management/",
-        name: "Bao hàng",
+        Path: "/manager/warehouse/package-management/",
+        Icon: "",
+        Label: "Bao hàng",
       },
-    ],
-  },
-  {
-    name: "Quản lý mã vận đơn",
-    path: "/manager/warehouse/transaction-code-management/",
-    icon: "fas fa-barcode-scan",
-    childrens: [
       {
-        path: "/manager/warehouse/transaction-code-management/",
-        name: "Mã vận đơn",
+        Path: "/manager/warehouse/transaction-code-management/",
+        Icon: "",
+        Label: "Mã vận đơn",
       },
-    ],
-  },
-  {
-    path: "/manager/warehouse/floating-package/",
-    name: "Quản lý kiện trôi nổi",
-    icon: "fas fa-truck-loading",
-    childrens: [
       {
-        path: "/manager/warehouse/floating-package/",
-        name: "Quản lý kiện trôi nổi",
+        Path: "/manager/warehouse/floating-package/",
+        Icon: "",
+        Label: "Kiện trôi nổi",
       },
     ],
   },

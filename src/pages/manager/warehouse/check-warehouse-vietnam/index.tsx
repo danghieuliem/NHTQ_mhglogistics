@@ -4,7 +4,7 @@ import { SEOConfigs } from "~/configs/SEOConfigs";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-  return <CheckWarehouseVietNamForm />;
+  return <CheckWarehouseVietNamForm type={'toWarehouseVN'}/>;
 };
 
 Index.displayName = SEOConfigs.checkWarehouseVN;

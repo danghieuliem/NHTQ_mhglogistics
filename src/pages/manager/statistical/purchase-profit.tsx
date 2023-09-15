@@ -1,6 +1,5 @@
-import { Pagination } from "antd";
 import router from "next/router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { reportMainOrder } from "~/api";
@@ -21,8 +20,8 @@ const Index: TNextPageWithLayout = () => {
     PageIndex: 1,
     OrderBy: "Id desc",
     Status: 5,
-    fromDate: null,
-    toDate: null,
+    FromDate: null,
+    ToDate: null,
   });
 
   const handleFilter = (newFilter) => {
@@ -32,7 +31,10 @@ const Index: TNextPageWithLayout = () => {
   const [chartData, setChartData] = useState<Record<string, number>>(null);
 
   const { data, isFetching } = useQuery(
-    ["clientPurchaseReportData", { ...filter }],
+    [
+      "clientPurchaseReportData",
+      [filter.PageIndex, filter.FromDate, filter.ToDate],
+    ],
     () => reportMainOrder.getList(filter).then((res) => res.Data),
     {
       onSuccess: (data) => {
@@ -61,40 +63,51 @@ const Index: TNextPageWithLayout = () => {
     }
   );
 
-  const handleExportExcel = () => {
-    reportMainOrder
-      .exportExcel({ Status: 5, ...filter, PageSize: 99999 })
-      .then((res) => {
-        router.push(res?.Data);
-      })
-      .catch((error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+  const handleExportExcel = useCallback(async () => {
+    const id = toast.loading("Đang xử lý ...");
+    let newFilter = { ...filter };
+
+    if (filter.FromDate || filter.ToDate) {
+      newFilter = {
+        ...filter,
+        PageSize: 9999,
+      };
+    }
+
+    try {
+      const res = await reportMainOrder.exportExcel(newFilter);
+      router.push(res?.Data);
+    } catch (error) {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "error",
+        render: (error as any)?.response?.data?.ResultMessage,
       });
-  };
+    } finally {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "default",
+      });
+    }
+  }, [filter.FromDate, filter.ToDate]);
 
   return (
     <div className="grid grid-cols-1 gap-4">
-      <div className="col-span-1">
+      <div className="tableBox col-span-1">
         <PurchaseProfiltFilter handleFilter={handleFilter} />
         <PurchaseProfitChart dataChart={chartData} />
       </div>
       <div className="cols-span-1">
         <PurchaseProfitTable
-          {...{
-            data: data?.Items,
-            // pagination,
-            // handlePagination: (pagination) => setPagination(pagination),
-            loading: isFetching,
-            handleExportExcel: handleExportExcel,
-          }}
-        />
-        <Pagination
-          total={filter?.TotalItems}
-          current={filter?.PageIndex}
-          pageSize={filter?.PageSize}
-          onChange={(page, pageSize) =>
-            handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-          }
+          data={data?.Items}
+          // pagination,
+          // handlePagination: (pagination) => setPagination(pagination),
+          loading={isFetching}
+          handleExportExcel={handleExportExcel}
+          filter
+          handleFilter={handleFilter}
         />
       </div>
     </div>

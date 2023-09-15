@@ -40,7 +40,7 @@ const Index: TNextPageWithLayout = () => {
             <div className="mb-4">
               <IconButton
                 onClick={handleSubmit(_onPress)}
-                icon="far fa-plus"
+                icon="fas fa-plus-circle"
                 title="Tạo mới"
                 btnClass="!mr-4"
                 showLoading

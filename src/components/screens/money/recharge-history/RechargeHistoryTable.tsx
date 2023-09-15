@@ -1,14 +1,14 @@
-import { Pagination, Space } from "antd";
 import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import ReactToPrint, { PrintContextConsumer } from "react-to-print";
 import { adminSendUserWallet } from "~/api";
-import { ActionButton, DataTable, toast } from "~/components";
+import { ActionButton, DataTable } from "~/components";
 import { moneyStatus } from "~/configs";
 import { RootState } from "~/store";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import { toast } from "react-toastify";
 
 type TProps = {
   filter: {
@@ -46,27 +46,51 @@ export const RechargeHistoryTable: React.FC<
       dataIndex: "Amount",
       title: "Số tiền nạp (VNĐ)",
       align: "right",
-      render: (money) => _format.getVND(money, " "),
-      width: 100,
-    },
-    {
-      dataIndex: "BankName",
-      title: "Ngân hàng",
-      width: 120,
+      render: (money, __) => {
+        return (
+          <div>
+            <div className="flex justify-between mb-1">
+              <div className="font-semibold">Số tiền: </div>
+              <div>{_format.getVND(money, " ")}</div>
+            </div>
+            <div className="flex justify-between">
+              <div className="font-semibold">Ngân hàng: </div>
+              <div>{__?.BankName}</div>
+            </div>
+          </div>
+        );
+      },
+      width: 160,
     },
     {
       dataIndex: "Created",
       title: "Ngày nạp",
-      render: (_, record) => <div>{_format.getVNDate(record.Created)}</div>,
+      render: (_, record) => {
+        return (
+          <div>
+            <div className="font-semibold mb-1">
+              {_format.getVNDate(record.Created)}
+            </div>
+            <div>{record?.CreatedBy}</div>
+          </div>
+        );
+      },
       responsive: ["xl"],
-      width: 140,
+      width: 160,
     },
     {
       dataIndex: "Updated",
       title: "Ngày duyệt",
-      render: (_, record) => <div>{_format.getVNDate(record.Updated)}</div>,
+      render: (_, record) => {
+        return (
+          <div>
+            <div className="mb-1">{_format.getVNDate(record.Updated)}</div>
+            <div>{record?.UpdatedBy}</div>
+          </div>
+        );
+      },
       responsive: ["xl"],
-      width: 140,
+      width: 160,
     },
     {
       dataIndex: "Status",
@@ -77,44 +101,60 @@ export const RechargeHistoryTable: React.FC<
           <TagStatus color={color?.color} statusName={record.StatusName} />
         );
       },
-      width: 100,
+      width: 120,
     },
     {
       dataIndex: "action",
       title: "Thao tác",
       align: "right",
       fixed: "right",
-      width: 160,
+      width: 90,
       render: (_, record) => (
-        <Space>
+        <div className="flex flex-wrap gap-1">
           {record?.Status === 1 && (
             <ActionButton
               onClick={() => handleModal(record)}
-              icon="fad fa-edit"
+              icon="fas fa-edit"
               title="Cập nhật"
               isButton
-              // disabled={record?.Status !== 1}
+              isButtonClassName="bg-blue !text-white"
             />
           )}
-          <ReactToPrint content={() => componentRef.current}>
-            <PrintContextConsumer>
-              {({ handlePrint }) => (
-                <ActionButton
-                  onClick={() => {
-                    toast.info("Đang xử lý. Chờ xíu nhé ...");
-                    adminSendUserWallet.getByID(record.Id).then((res) => {
-                      setDataEx(res?.Data);
-                      handlePrint();
-                    });
-                  }}
-                  isButton
-                  icon="fad fa-print"
-                  title="In phiếu"
-                />
-              )}
-            </PrintContextConsumer>
-          </ReactToPrint>
-        </Space>
+          {record?.Status === 2 && (
+            <ReactToPrint content={() => componentRef.current}>
+              <PrintContextConsumer>
+                {({ handlePrint }) => (
+                  <ActionButton
+                    onClick={() => {
+                      const id = toast.loading("Đang xử lý. Chờ xíu nhé ...");
+                      adminSendUserWallet.getByID(record.Id).then((res) => {
+                        setDataEx(res?.Data);
+                        handlePrint();
+                        toast.update(id, {
+                          render: "",
+                          isLoading: false,
+                          autoClose: 100,
+                          type: "success"
+                        })
+                      }).catch(error => {
+                        toast.update(id, {
+                          render: "Vui lòng thử lại",
+                          isLoading: false,
+                          autoClose: 3000,
+                          type: "error"
+                        })
+                      })
+                    }}
+                    isButton
+                    icon="fas fa-print"
+                    title="In phiếu"
+                    isButtonClassName="bg-green !text-white"
+                  />
+                )}
+              </PrintContextConsumer>
+            </ReactToPrint>
+          )}
+        </div>
       ),
     },
   ];
@@ -233,15 +273,19 @@ export const RechargeHistoryTable: React.FC<
           scroll: { y: 700, x: 1200 },
           filter,
           handleFilter,
+          pagination: {
+            pageSize: filter.PageSize,
+            total: filter.TotalItems,
+            current: filter.PageIndex,
+          },
+          onChange: (page, pageSize) => {
+            handleFilter({
+              ...filter,
+              PageIndex: page.current,
+              PageSize: page.pageSize
+            });
+          },
         }}
-      />
-      <Pagination
-        total={filter?.TotalItems}
-        current={filter?.PageIndex}
-        pageSize={filter?.PageSize}
-        onChange={(page, pageSize) =>
-          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-        }
       />
     </React.Fragment>
   );

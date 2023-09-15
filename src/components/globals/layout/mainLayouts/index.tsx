@@ -58,7 +58,6 @@ export const Layout: TlayoutWithChild & React.FC<TProps> = ({
   const handleHover = useCallback((bool: boolean) => setHover(bool), []);
 
   const [tabbar, setTabbar] = useState(false);
-  const handleTabbar = useCallback((bool: boolean) => setTabbar(bool), []);
 
   const userGroupId = userCurrentInfo?.UserGroupId;
   if (userGroupId !== 1) {
@@ -68,7 +67,6 @@ export const Layout: TlayoutWithChild & React.FC<TProps> = ({
     <AuthLayoutProtector>
       <Header
         {...{
-          handleTabbar,
           tabbar,
           hover,
           handleHover,
@@ -85,7 +83,7 @@ export const Layout: TlayoutWithChild & React.FC<TProps> = ({
           <MenuHorizontal />
         ) : (
           <Sidebar
-            {...{ hover, handleHover, tabbar, handleTabbar, userPage }}
+            {...{ hover, tabbar, userPage }}
           />
         )}
 

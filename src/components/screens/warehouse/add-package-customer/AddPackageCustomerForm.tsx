@@ -16,37 +16,38 @@ let newKey = new Date().getTime().toString();
 type TForm = TWarehouseVN & TAddtionalFieldWarehouse;
 
 export const AddPackageCustomerForm = () => {
-  const { warehouseTQ, warehouseVN, shippingTypeToWarehouse } = useCatalogue({
+  const { warehouseTQ, warehouseVN, shippingTypeToWarehouse, client } = useCatalogue({
     warehouseTQEnabled: true,
     warehouseVNEnabled: true,
     shippingTypeToWarehouseEnabled: true,
+    clientEnabled: true
   });
 
   const { control, handleSubmit, getValues, reset } = useForm<TForm>({
     mode: "onBlur",
   });
 
-  const { data } = useQuery(
-    "clientData",
-    () =>
-      user.getList({
-        PageIndex: 1,
-        PageSize: 1000000,
-        OrderBy: "Id desc",
-      }),
-    {
-      select: (data) => data.Data.Items,
-    }
-  );
+  // const { data } = useQuery(
+  //   "clientData",
+  //   () =>
+  //     user.getList({
+  //       PageIndex: 1,
+  //       PageSize: 1000000,
+  //       OrderBy: "Id desc",
+  //     }),
+  //   {
+  //     select: (data) => data.Data.Items,
+  //   }
+  // );
 
-  useDeepEffect(() => {
-    reset({
-      AssignUID: 0,
-      WareHouseFromId: 0,
-      WareHouseId: 0,
-      ShippingTypeId: 0,
-    });
-  }, [warehouseTQ, warehouseVN, shippingTypeToWarehouse]);
+  // useDeepEffect(() => {
+  //   reset({
+  //     AssignUID: 0,
+  //     WareHouseFromId: 0,
+  //     WareHouseId: 0,
+  //     ShippingTypeId: 0,
+  //   });
+  // }, [warehouseTQ, warehouseVN, shippingTypeToWarehouse]);
 
   const {
     control: controlArray,
@@ -84,6 +85,13 @@ export const AddPackageCustomerForm = () => {
 
   const queryClient = useQueryClient();
   const _onCreate = async (newData: TWarehouseVN) => {
+    reset({
+      AssignUID: getValues("AssignUID"),
+      WareHouseId: getValues("WareHouseId"),
+      WareHouseFromId: getValues("WareHouseFromId"),
+      ShippingTypeId: getValues("ShippingTypeId"),
+    });
+
     try {
       const res = await queryClient.fetchQuery(
         [
@@ -139,7 +147,16 @@ export const AddPackageCustomerForm = () => {
   };
 
   const _onPress = async (data: TWarehouseVN[]) => {
-    console.log(data);
+    const newdata: TWarehouseCN[] = data.map((item) => ({
+      ...item,
+      IsAssign: true,
+      AssignType: 2,
+      AssignUID: getValues("AssignUID"),
+      WareHouseId: getValues("WareHouseId"),
+      WareHouseFromId: getValues("WareHouseFromId"),
+      ShippingTypeId: getValues("ShippingTypeId"),
+    }));
+
     if (
       !getValues("AssignUID") ||
       !getValues("WareHouseId") ||
@@ -152,17 +169,7 @@ export const AddPackageCustomerForm = () => {
       return;
     } else {
       try {
-        await mutationUpdate.mutateAsync(
-          data.map((item) => ({
-            ...item,
-            IsAssign: true,
-            AssignType: 2,
-            AssignUID: getValues("AssignUID"),
-            WareHouseId: getValues("WareHouseId"),
-            WareHouseFromId: getValues("WareHouseFromId"),
-            ShippingTypeId: getValues("ShippingTypeId"),
-          }))
-        );
+        await mutationUpdate.mutateAsync(newdata);
         router.push("/manager/deposit/deposit-list");
       } catch (error) {}
     }
@@ -185,63 +192,61 @@ export const AddPackageCustomerForm = () => {
           rules={{ required: "This field is required" }}
           onEnter={handleSubmit(_onCreate)}
         />
-        {!!Object.keys(watchArray()).length && (
-          <div className="grid grid-cols-2 gap-4 pt-4 mt-4 border-t border-[#cccccc]">
-            <div className="col-span-1 flex items-center">
-              <div className="w-full">
-                <FormSelect
-                  control={control}
-                  name="AssignUID"
-                  placeholder="Chọn UserName"
-                  label="Username"
-                  data={data}
-                  isClearable
-                  select={{ label: "UserName", value: "Id" }}
-                />
-              </div>
-            </div>
-            <div className="col-span-1 flex items-center">
-              <div className="w-full">
-                <FormSelect
-                  control={control}
-                  name="WareHouseFromId"
-                  placeholder="Chọn kho Trung Quốc"
-                  data={warehouseTQ}
-                  isClearable
-                  label="Kho Trung Quốc"
-                  select={{ label: "Name", value: "Id" }}
-                />
-              </div>
-            </div>
-            <div className="col-span-1 flex items-center">
-              <div className="w-full">
-                <FormSelect
-                  control={control}
-                  name="WareHouseId"
-                  placeholder="Chọn kho Việt Nam"
-                  isClearable
-                  data={warehouseVN}
-                  label="Kho Việt Nam"
-                  select={{ label: "Name", value: "Id" }}
-                  required={true}
-                />
-              </div>
-            </div>
-            <div className="col-span-1 flex items-center">
-              <div className="w-full">
-                <FormSelect
-                  control={control}
-                  name="ShippingTypeId"
-                  placeholder="Chọn phương thức vận chuyển"
-                  data={shippingTypeToWarehouse}
-                  isClearable
-                  label="Phương thức vận chuyển"
-                  select={{ label: "Name", value: "Id" }}
-                />
-              </div>
+        <div className="grid grid-cols-2 gap-4 pt-4 mt-4 border-t border-[#cccccc]">
+          <div className="col-span-1 flex items-center">
+            <div className="w-full">
+              <FormSelect
+                control={control}
+                name="AssignUID"
+                placeholder="Chọn UserName"
+                label="Username"
+                data={client}
+                isClearable
+                select={{ label: "UserName", value: "Id" }}
+              />
             </div>
           </div>
-        )}
+          <div className="col-span-1 flex items-center">
+            <div className="w-full">
+              <FormSelect
+                control={control}
+                name="WareHouseFromId"
+                placeholder="Chọn kho Trung Quốc"
+                data={warehouseTQ}
+                isClearable
+                label="Kho Trung Quốc"
+                select={{ label: "Name", value: "Id" }}
+              />
+            </div>
+          </div>
+          <div className="col-span-1 flex items-center">
+            <div className="w-full">
+              <FormSelect
+                control={control}
+                name="WareHouseId"
+                placeholder="Chọn kho Việt Nam"
+                isClearable
+                data={warehouseVN}
+                label="Kho Việt Nam"
+                select={{ label: "Name", value: "Id" }}
+                required={true}
+              />
+            </div>
+          </div>
+          <div className="col-span-1 flex items-center">
+            <div className="w-full">
+              <FormSelect
+                control={control}
+                name="ShippingTypeId"
+                placeholder="Chọn phương thức vận chuyển"
+                data={shippingTypeToWarehouse}
+                isClearable
+                label="Phương thức vận chuyển"
+                select={{ label: "Name", value: "Id" }}
+              />
+            </div>
+          </div>
+        </div>
       </div>
       {!!Object.keys(watchArray()).length &&
         Object.keys(watchArray()).map((key) => (

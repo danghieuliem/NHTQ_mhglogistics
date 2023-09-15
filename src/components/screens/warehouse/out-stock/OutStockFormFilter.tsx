@@ -215,28 +215,29 @@ export const OutStockFormFilter: React.FC<TProps> = ({
       <div className="hidden">
         <ComponentToPrint ref={componentRef} />
       </div>
-      <div className="grid grid-cols-8 max-w-[1100px]">
-        <div className="col-span-2 mr-4">
+      <div className="flex justify-between items-end">
+        <div className="flex gap-2">
           <FilterInput
             placeholder="Họ tên người nhận"
             id="username"
             name="UserName"
+            label="Họ tên người nhận"
             inputClassName=""
             value={user?.UserName}
             handleSearch={(val) => setUser({ ...user, UserName: val })}
           />
-        </div>
-        <div className="col-span-2 mr-4">
           <FilterInput
             placeholder="Số điện thoại người nhận"
             id="userphone"
             name="UserPhone"
             inputClassName=""
+            label="Số điện thoại người nhận"
             value={user?.UserPhone}
             handleSearch={(val) => setUser({ ...user, UserPhone: val })}
           />
         </div>
-        <div className="col-span-4 flex items-end">
+
+        <div className="">
           {!!outStockSessionPackages?.find((x) => !x.IsPayment) ? (
             <IconButton
               onClick={onReload}

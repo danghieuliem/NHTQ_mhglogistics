@@ -17,6 +17,7 @@ import { SEOConfigs } from "~/configs/SEOConfigs";
 import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 import { _format } from "~/utils";
+import { toast as toastR } from "react-toastify";
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
@@ -41,7 +42,6 @@ const Index: TNextPageWithLayout = () => {
   const handleFilter = useCallback((newFilter) => {
     const filterNew = { ...filter, ...newFilter };
     if (filterNew?.RoleID !== 1 || filter?.RoleID !== 3) {
-      console.log("object");
       delete filterNew.UID;
     }
     setFilter(filterNew);
@@ -76,18 +76,41 @@ const Index: TNextPageWithLayout = () => {
   );
 
   const _onExportExcel = useCallback(async () => {
-    try {
-      const res = await staffIncome.exportExcel({
+    const id = toastR.loading("Đang xử lý ...");
+    let newFilter = { ...filter };
+
+    if (
+      filter.FromDate ||
+      filter.ToDate ||
+      filter.SearchContent ||
+      filter.Status ||
+      filter.RoleID
+    ) {
+      newFilter = {
         ...filter,
-        PageSize: 99999,
-        RoleID: userCurrentInfo?.UserGroupId,
-        UID: userCurrentInfo?.Id,
-      });
+        PageSize: 9999,
+      };
+    }
+
+    try {
+      const res = await staffIncome.exportExcel(newFilter);
       router.push(`${res.Data}`);
     } catch (error) {
       toast.error(error);
+    } finally {
+      toastR.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "default",
+      });
     }
-  }, []);
+  }, [
+    filter.FromDate,
+    filter.ToDate,
+    filter.SearchContent,
+    filter.Status,
+    filter.RoleID,
+  ]);
 
   const mutationPayment = useMutation(
     () => staffIncome.payment({ Type: 2, Id: 0 }),

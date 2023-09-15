@@ -53,16 +53,15 @@ const Index = () => {
                 })
               );
               dispatch(setRouter(user.UserGroupId));
+              router.push("/user");
+              toast.update(id, {
+                render: "Đang dô nè ông già, đừng gấp!!!!! :)))",
+                isLoading: false,
+                autoClose: 3000,
+                type: "success",
+              });
             })
             .catch(() => console.log("error to fetching user by id!"));
-
-          router.push("/user");
-          toast.update(id, {
-            render: "Đang dô nè ông già, đừng gấp!!!!! :)))",
-            isLoading: false,
-            autoClose: 3000,
-            type: "success",
-          });
         } catch (error) {
           toast.update(id, {
             render: "Lỗi gì kìa ông già :)))",

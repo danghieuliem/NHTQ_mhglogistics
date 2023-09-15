@@ -32,13 +32,16 @@ const Index: TNextPageWithLayout = () => {
     isFetching,
     isError,
   } = useQuery(
-    ["clientWithdrawData", [
-      filter.SearchContent,
-      filter.Status,
-      filter.FromDate,
-      filter.ToDate,
-      filter.PageIndex
-    ]],
+    [
+      "clientWithdrawData",
+      [
+        filter.SearchContent,
+        filter.Status,
+        filter.FromDate,
+        filter.ToDate,
+        filter.PageIndex,
+      ],
+    ],
     () => outStockSession.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,
@@ -56,9 +59,7 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <>
-      <div className="w-fit ml-auto">
-        <OutStockPaymentFilter handleFilter={handleFilter} />
-      </div>
+      <OutStockPaymentFilter handleFilter={handleFilter} />
       <OutStockPaymentTable
         data={userOutstockData?.Items}
         loading={isFetching}

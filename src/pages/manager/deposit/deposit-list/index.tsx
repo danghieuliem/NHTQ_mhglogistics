@@ -1,5 +1,5 @@
 import router from "next/router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -7,7 +7,7 @@ import { transportationOrder } from "~/api";
 import { DepositListFilter, DepositListTable, Layout } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
-import { transportStatus } from "~/configs/appConfigs";
+import { transportationStatus } from "~/configs";
 import { useCatalogue } from "~/hooks";
 import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
@@ -51,7 +51,7 @@ const Index: TNextPageWithLayout = () => {
         filter.Status,
         filter.UID,
         filter.PageIndex,
-        filter.SalerID
+        filter.SalerID,
       ],
     ],
     () => transportationOrder.getList(filter).then((res) => res.Data),
@@ -71,21 +71,50 @@ const Index: TNextPageWithLayout = () => {
     }
   );
 
-  const handleExporTExcel = async () => {
-    transportationOrder
-      .exportExcel({
-        ...filter,
-        PageSize: 99999,
-      })
-      .then((res) => {
-        router.push(`${res.Data}`);
-      })
-      .catch((error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
-      });
-  };
+  const handleExporTExcel = useCallback(async () => {
+    const id = toast.loading("Đang xử lý ...");
+    let newFilter = { ...filter };
 
-  useQuery(
+    if (
+      filter.TypeSearch ||
+      filter.FromDate ||
+      filter.ToDate ||
+      filter.SearchContent ||
+      filter.Status ||
+      filter.SalerID
+    ) {
+      newFilter = {
+        ...filter,
+        PageSize: 9999,
+      };
+    }
+    try {
+      const res = await transportationOrder.exportExcel(newFilter);
+      router.push(`${res.Data}`);
+    } catch (error) {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "error",
+        render: (error as any)?.response?.data?.ResultMessage,
+      });
+    } finally {
+      toast.update(id, {
+        isLoading: false,
+        autoClose: 1,
+        type: "default",
+      });
+    }
+  }, [
+    filter.TypeSearch,
+    filter.FromDate,
+    filter.ToDate,
+    filter.SearchContent,
+    filter.Status,
+    filter.SalerID,
+  ]);
+
+  const {refetch: countRefetch} = useQuery(
     ["deposit-infor-list"],
     () =>
       transportationOrder.getAmountInfo({
@@ -96,7 +125,7 @@ const Index: TNextPageWithLayout = () => {
       onSuccess: (res) => {
         const data = res.Data;
         data?.forEach((x) => {
-          const target = transportStatus.find((i) => i.id === x?.Status);
+          const target = transportationStatus.find((i) => i.id === x?.Status);
           if (target) {
             target.value = x?.Quantity;
           }
@@ -115,7 +144,7 @@ const Index: TNextPageWithLayout = () => {
     <div className="">
       <DepositListFilter
         userSale={userSale}
-        numberOfOrder={transportStatus}
+        numberOfOrder={transportationStatus}
         handleFilter={(newFilter) => handleFilter(newFilter)}
         handleExporTExcel={handleExporTExcel}
       />
@@ -127,6 +156,7 @@ const Index: TNextPageWithLayout = () => {
         filter={filter}
         handleFilter={handleFilter}
         RoleID={userCurrentInfo?.UserGroupId}
+        countRefetch={countRefetch}
       />
     </div>
   );

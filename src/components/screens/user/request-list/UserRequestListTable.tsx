@@ -1,4 +1,5 @@
-import { Modal, Pagination } from "antd";
+import { Modal } from "antd";
+import Link from "next/link";
 import router from "next/router";
 import React, { useRef } from "react";
 import { toast } from "react-toastify";
@@ -10,10 +11,11 @@ import {
   FilterSelect,
   IconButton,
 } from "~/components";
-import { EPaymentData, paymentStatus } from "~/configs/appConfigs";
+import { EPayHelp, payHelpStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import clsx from "clsx";
 
 type TProps = {
   filter;
@@ -30,7 +32,7 @@ const UserRequestListFilter = ({ handleFilter }) => {
     <div className="grid grid-cols-5 gap-4">
       <div className="col-span-2">
         <FilterSelect
-          data={paymentStatus}
+          data={payHelpStatus}
           placeholder={"Trạng thái"}
           label="Trạng thái"
           select={{ label: "name", value: "id" }}
@@ -84,7 +86,7 @@ export const UserRequestListTable: React.FC<
       toast.success(type === 2 ? "Thanh toán thành công!" : "Hủy thành công!");
       refetch();
     } catch (error) {
-      toast.success((error as any)?.response?.data?.ResultMessage);
+      toast.error((error as any)?.response?.data?.ResultMessage);
     }
   };
 
@@ -94,12 +96,13 @@ export const UserRequestListTable: React.FC<
       title: "ID",
       width: 90,
       // responsive: ["lg"],
-    },
-    {
-      dataIndex: "Created",
-      title: "Ngày gửi",
-      render: (date) => _format.getVNDate(date),
-      responsive: ["md"],
+      render: (_) => {
+        return (
+          <Link passHref href={`/user/request-list/detail/?id=${_}`}>
+            <a target="_blank">{_}</a>
+          </Link>
+        );
+      },
     },
     {
       dataIndex: "TotalPrice",
@@ -122,13 +125,90 @@ export const UserRequestListTable: React.FC<
       responsive: ["lg"],
     },
     {
+      dataIndex: "Created",
+      title: "TimeLine",
+      render: (_, record) => (
+        <React.Fragment>
+          {record.Created && (
+            <p
+              className={clsx(
+                record?.Status === EPayHelp.ChoDuyet && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Đơn mới: </span>
+              <span>
+                {_format.getVNDate(record.Created, "HH:mm")} -
+                {_format.getVNDate(record.Created, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.ConfirmDate && (
+            <p
+              className={clsx(
+                record?.Status === EPayHelp.DaDuyet && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Đã duyệt:</span>
+              <span>
+                {_format.getVNDate(record.ConfirmDate, "HH:mm")} -
+                {_format.getVNDate(record.ConfirmDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.PaidDate && (
+            <p
+              className={clsx(
+                record?.Status === EPayHelp.DaThanhToan && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Thanh toán:</span>
+              <span>
+                {_format.getVNDate(record.PaidDate, "HH:mm")} -
+                {_format.getVNDate(record.PaidDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.CompleteDate && (
+            <p
+              className={clsx(
+                record?.Status === EPayHelp.DaHoanThanh && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Hoàn thành:</span>
+              <span>
+                {_format.getVNDate(record.CompleteDate, "HH:mm")} -
+                {_format.getVNDate(record.CompleteDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.CancelDate && (
+            <p
+              className={clsx(
+                record?.Status === EPayHelp.DonHuy && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Huỷ đơn:</span>
+              <span>
+                {_format.getVNDate(record.CancelDate, "HH:mm")} -
+                {_format.getVNDate(record.CancelDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+        </React.Fragment>
+      ),
+      width: 280,
+    },
+    {
       dataIndex: "Status",
       title: "Trạng thái",
-      render: (status, record) => {
-        const color = paymentStatus.find((x) => x.id === status);
-        return (
-          <TagStatus color={color?.color} statusName={record?.StatusName} />
-        );
+      render: (status) => {
+        const color = payHelpStatus.find((x) => x.id === status);
+        return <TagStatus color={color?.color} statusName={color?.name} />;
       },
     },
     {
@@ -138,45 +218,45 @@ export const UserRequestListTable: React.FC<
       responsive: ["lg"],
       render: (_, record) => {
         return (
-          <div>
-            {record?.Status === EPaymentData.Unpaid ||
-              (record?.Status === EPaymentData.Confirmed && (
+          <div className="flex gap-1 flex-wrap">
+            <Link passHref href={`/user/request-list/detail/?id=${record?.Id}`}>
+              <a target="_blank" rel="noopener noreferrer">
+                <ActionButton
+                  icon="fas fa-info-square"
+                  title="Chi tiết"
+                  isButton={true}
+                />
+              </a>
+            </Link>
+            {record?.Status === EPayHelp.ChoDuyet ||
+              (record?.Status === EPayHelp.DaDuyet && (
                 <ActionButton
                   onClick={() => {
                     Modal.confirm({
                       title: <b>Thanh toán đơn này!</b>,
-                      onOk: () => handleAction(record, 2),
+                      onOk: () => handleAction(record, EPayHelp.DaThanhToan),
                     });
                   }}
                   icon="fas fa-dollar-sign"
                   title="Thanh toán"
                   isButton={true}
+                  isButtonClassName="bg-blue !text-white"
                 />
               ))}
-            {record.Status === EPaymentData.Unpaid && (
+            {record.Status === EPayHelp.ChoDuyet && (
               <ActionButton
                 onClick={() => {
                   Modal.confirm({
                     title: <b>Hủy yêu cầu thanh toán này!</b>,
-                    onOk: () => handleAction(record, 3),
+                    onOk: () => handleAction(record, EPayHelp.DonHuy),
                   });
                 }}
                 icon="fas fa-trash"
-                title="Hủy yêu cầu"
+                title="Hủy"
                 isButton={true}
+                isButtonClassName="bg-red !text-white"
               />
             )}
-            <ActionButton
-              onClick={() =>
-                router.push({
-                  pathname: "/user/request-list/detail",
-                  query: { id: record?.Id },
-                })
-              }
-              icon="far fa-info-square"
-              title="Chi tiết đơn"
-              isButton={true}
-            />
           </div>
         );
       },
@@ -209,8 +289,8 @@ export const UserRequestListTable: React.FC<
           </div>
           <div className="extentable-actions">
             <div className="extentable-button">
-              {item?.Status === EPaymentData.Unpaid ||
-                (item?.Status === EPaymentData.Confirmed && (
+              {item?.Status === EPayHelp.ChoDuyet ||
+                (item?.Status === EPayHelp.DaDuyet && (
                   <ActionButton
                     onClick={() => {
                       Modal.confirm({
@@ -225,21 +305,19 @@ export const UserRequestListTable: React.FC<
                 ))}
             </div>
             <div className="extentable-button">
-              {item.Status !== EPaymentData.Finished &&
-                item.Status !== EPaymentData.Paid &&
-                item.Status !== EPaymentData.Canceled && (
-                  <ActionButton
-                    onClick={() => {
-                      Modal.confirm({
-                        title: <b>Hủy yêu cầu thanh toán này!</b>,
-                        onOk: () => handleAction(item, 3),
-                      });
-                    }}
-                    icon="fas fa-trash"
-                    title="Hủy yêu cầu"
-                    isButton={true}
-                  />
-                )}
+              {item.Status !== EPayHelp.ChoDuyet && (
+                <ActionButton
+                  onClick={() => {
+                    Modal.confirm({
+                      title: <b>Hủy yêu cầu thanh toán này!</b>,
+                      onOk: () => handleAction(item, 3),
+                    });
+                  }}
+                  icon="fas fa-trash"
+                  title="Hủy yêu cầu"
+                  isButton={true}
+                />
+              )}
             </div>
 
             <div className="extentable-button">
@@ -274,15 +352,19 @@ export const UserRequestListTable: React.FC<
           extraElment: (
             <UserRequestListFilterMemo handleFilter={handleFilter} />
           ),
+          pagination: {
+            current: filter.PageIndex,
+            total: filter.TotalItems,
+            pageSize: filter.PageSize,
+          },
+          onChange: (page, pageSize) => {
+            handleFilter({
+              ...filter,
+              PageIndex: page.current,
+              PageSize: page.pageSize,
+            });
+          },
         }}
-      />
-      <Pagination
-        total={filter?.TotalItems}
-        current={filter?.PageIndex}
-        pageSize={filter?.PageSize}
-        onChange={(page, pageSize) =>
-          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-        }
       />
     </>
   );

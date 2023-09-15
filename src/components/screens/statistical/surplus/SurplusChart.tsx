@@ -2,7 +2,7 @@ import React from "react";
 import {Bar} from "react-chartjs-2";
 import {_format} from "~/utils";
 
-export const SurplusChart = ({dataChart, totalWallet}) => {
+export const SurplusChart = ({dataChart}) => {
 	const labels = ["Số dư"];
 	const data = {
 		labels,
@@ -36,10 +36,6 @@ export const SurplusChart = ({dataChart, totalWallet}) => {
 	};
 	return (
 		<React.Fragment>
-			<div className="text-lg py-4">
-				<span className="text-base">Tổng số dư:</span>
-				<span className="text-blue"> {_format.getVND(totalWallet)}</span>
-			</div>
 			<div className="text-base font-semibold text-center pb-2 text-[#626262]">
 				<span>Biểu đồ số lượng user theo số dư</span>
 				<Bar data={data} height={70} />
