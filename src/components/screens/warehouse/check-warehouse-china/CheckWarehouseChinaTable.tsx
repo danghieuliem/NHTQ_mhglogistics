@@ -1,7 +1,7 @@
-import { Divider, Input } from "antd";
-import JsBarcode from "jsbarcode";
+import { Divider } from "antd";
 import Link from "next/link";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Barcode from "react-barcode";
 import ReactToPrint, { PrintContextConsumer, useReactToPrint } from "react-to-print";
 import {
   ActionButton,
@@ -48,6 +48,8 @@ export const CheckWarehouseChinaTable: React.FC<
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
+
+  const [dataPrint, setDataPrint] = useState(null);
 
   // của trung quốc
   const columns: TColumnsType<TWarehouseCN> = [
@@ -293,11 +295,7 @@ export const CheckWarehouseChinaTable: React.FC<
           <ActionButton
             icon="fas fa-barcode-read"
             onClick={() => {
-              JsBarcode("#barcode", record?.OrderTransactionCode, {
-                displayValue: false,
-                width: 3,
-              });
-              handlePrint();
+              setDataPrint(record);
             }}
             title="In barcode"
             isButton
@@ -477,7 +475,7 @@ export const CheckWarehouseChinaTable: React.FC<
       dataIndex: "BigPackageName",
       title: "Bao lớn",
       render: (_, record) => {
-        return <Input.TextArea disabled value={_} readOnly rows={2}/>;
+        return <span>{_}</span>
       },
     },
     {
@@ -572,6 +570,7 @@ export const CheckWarehouseChinaTable: React.FC<
                 <ActionButton
                   icon="fas fa-barcode-read"
                   onClick={() => {
+                    setDataPrint(record);
                     // setDataPrint(record);
                     // JsBarcode("#barcode", record?.OrderTransactionCode, {
                     //   displayValue: true,
@@ -600,11 +599,34 @@ export const CheckWarehouseChinaTable: React.FC<
 
   const ComponentToPrint = React.forwardRef<{}, {}>((props, ref: any) => {
     return (
-      <div ref={ref} className="w-full">
-        <svg className="w-full m-auto" id="barcode"></svg>
+      <div
+        ref={ref}
+        className="w-full flex flex-col justify-center items-center"
+      >
+        {/* <svg className="w-full m-auto" id="barcode"></svg>
+         */}
+        <Barcode value={dataPrint?.OrderTransactionCode || "barcode"} />
+        <div className="text-[18px]">
+          Username: <span className="font-bold">{dataPrint?.UserName}</span>
+        </div>
       </div>
     );
   });
+
+  const handlePrintFunc = (callback: any) => {
+    // JsBarcode("#barcode", dataPrint?.OrderTransactionCode, {
+    //   displayValue: false,
+    //   width: 5,
+    // });
+    callback();
+  };
+
+  useEffect(() => {
+    if (dataPrint) {
+      handlePrintFunc(handlePrint);
+      setDataPrint(null);
+    }
+  }, [dataPrint?.UID]);
 
   return (
     <div className="mt-4 ">

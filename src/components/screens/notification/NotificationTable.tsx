@@ -164,7 +164,7 @@ export const NotificationTable: React.FC<TTable & TProps> = ({
                         toast.update(id, {
                           render: "Đã đọc thông báo!",
                           isLoading: false,
-                          autoClose: 1000,
+                          autoClose: 500,
                           type: "success",
                         });
                         setSelectedRowKeys([]);

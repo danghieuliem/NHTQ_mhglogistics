@@ -203,7 +203,7 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
             render: "Cập nhật sản phẩm thành công.",
             type: "success",
             isLoading: false,
-            autoClose: 1000,
+            autoClose: 500,
           });
         });
       } else {
@@ -212,7 +212,7 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
             render: "Xoá sản phẩm thành công.",
             type: "success",
             isLoading: false,
-            autoClose: 1000,
+            autoClose: 500,
           });
         });
       }

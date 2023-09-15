@@ -165,7 +165,7 @@ const Index: TNextPageWithLayout & React.FC<{}> = () => {
         toast.update(id, {
           render: "Đặt đơn thành công, đang vào giỏ hàng,",
           type: "success",
-          autoClose: 1000,
+          autoClose: 500,
           isLoading: false,
         });
       })

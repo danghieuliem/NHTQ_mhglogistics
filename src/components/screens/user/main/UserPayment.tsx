@@ -1,11 +1,11 @@
 import { Space } from "antd";
+import Link from "next/link";
 import router from "next/router";
 import { ActionButton, DataTable } from "~/components";
-import { paymentStatus } from "~/configs";
+import { payHelpStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
-import Link from "next/link";
 
 const columns: TColumnsType<TNewPaymentOrders> = [
   {
@@ -48,9 +48,9 @@ const columns: TColumnsType<TNewPaymentOrders> = [
   {
     title: "Trạng thái",
     dataIndex: "Status",
-    render: (status, record) => {
-      const color = paymentStatus.find((x) => x.id === status);
-      return <TagStatus color={color?.color} statusName={record?.StatusName} />;
+    render: (status) => {
+      const color = payHelpStatus.find((x) => x.id === status);
+      return <TagStatus color={color?.color} statusName={color?.name} />;
     },
   },
   {

@@ -111,6 +111,7 @@ type TWarehouseVN = {
 type TImport = {
   BigPackageId: number;
   FileURL: string;
+  Type: number;
 };
 
 type TPackage = {

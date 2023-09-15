@@ -1,12 +1,12 @@
 import { Popover } from "antd";
 import { FC, useRef } from "react";
 import { ActionButton } from "~/components/globals/button/ActionButton";
-import { IconButton } from "~/components/globals/button/IconButton";
 import {
   FilterInput,
   FilterRangeDate,
   FilterSelect,
 } from "~/components/globals/filterBase";
+import { payHelpStatus } from "~/configs";
 import { paymentData } from "~/configs/appConfigs";
 
 const usernameProps = {
@@ -55,7 +55,7 @@ export const RequestPaymentFilter: FC<TProps> = ({
               }}
             />
             <FilterSelect
-              data={paymentData}
+              data={payHelpStatus}
               label="Trạng thái"
               isClearable
               placeholder="Chọn trạng thái"

@@ -303,6 +303,9 @@ type TOrder = Omit<TBaseReponseParams, "Name" | "Code" | "Description"> & {
   FeeBuyProCK?: number;
   FeeWeightCK?: number;
   CancelDate?: Date;
+  DateSendGoods?: Date;
+  DateComingVN?: Date;
+  ComplainDate?: Date
 };
 
 type THistoryService = Omit<
@@ -364,6 +367,11 @@ type TRequestPaymentOrder = Omit<
   Date: Date;
   SalerID: number;
   SalerName: string;
+
+  ConfirmDate: Date;
+  PaidDate: Date;
+  CompleteDate: Date;
+  CancelDate: Date;
 
   // User: Omit<TBaseReponseParams, "Name" | "Code" | "Description"> & {
   //   Address: string;

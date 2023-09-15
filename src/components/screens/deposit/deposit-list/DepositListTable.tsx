@@ -4,10 +4,11 @@ import React from "react";
 import { toast } from "react-toastify";
 import { transportationOrder } from "~/api";
 import { ActionButton, DataTable, FilterSelect } from "~/components";
-import { transportStatus } from "~/configs/appConfigs";
+import { ETransportationOrder, transportationStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import clsx from "clsx";
 
 type TProps = {
   refetch: () => void;
@@ -17,6 +18,7 @@ type TProps = {
   filter;
   handleFilter: (newFilter) => void;
   userSale;
+  countRefetch;
 };
 
 export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
@@ -27,6 +29,7 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
   filter,
   handleFilter,
   userSale,
+  countRefetch,
 }) => {
   const _onPress = (data: TUserDeposit) => {
     const id = toast.loading("Đang xử lý ...");
@@ -34,11 +37,12 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
       .update(data)
       .then((res) => {
         refetch();
+        countRefetch();
         toast.update(id, {
           render: "Duyệt đơn thành công!",
           isLoading: false,
           type: "success",
-          autoClose: 1000,
+          autoClose: 500,
         });
       })
       .catch(() => {
@@ -168,19 +172,149 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
       },
     },
     {
-      dataIndex: "Created",
-      title: "Ngày tạo",
-      width: 180,
-      render: (date) => date && _format.getVNDate(date),
+      dataIndex: "CreateDate",
+      title: "TimeLine",
+      render: (_, record) => (
+        <React.Fragment>
+          {record.Created && (
+            <p
+              className={clsx(
+                record?.Status === ETransportationOrder.ChoDuyet && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Đơn mới: </span>
+              <span>
+                {_format.getVNDate(record.Created, "HH:mm")} -
+                {_format.getVNDate(record.Created, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.ConfirmDate && (
+            <p
+              className={clsx(
+                record?.Status === ETransportationOrder.DonMoi && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Xác nhận:</span>
+              <span>
+                {_format.getVNDate(record.ConfirmDate, "HH:mm")} -
+                {_format.getVNDate(record.ConfirmDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.TQDate && (
+            <p
+              className={clsx(
+                record?.Status === ETransportationOrder.VeKhoTQ && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Về kho TQ:</span>
+              <span>
+                {_format.getVNDate(record.TQDate, "HH:mm")} -
+                {_format.getVNDate(record.TQDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.ComingVNDate && (
+            <p
+              className={clsx(
+                record?.Status === ETransportationOrder.DangVeVN && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Đang về VN:</span>
+              <span>
+                {_format.getVNDate(record.ComingVNDate, "HH:mm")} -
+                {_format.getVNDate(record.ComingVNDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.VNDate && (
+            <p
+              className={clsx(
+                record?.Status === ETransportationOrder.VeKhoVN && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Vê kho VN:</span>
+              <span>
+                {_format.getVNDate(record.VNDate, "HH:mm")} -
+                {_format.getVNDate(record.VNDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.PaidDate && (
+            <p
+              className={clsx(
+                record?.Status === ETransportationOrder.DaThanhToan &&
+                  "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Thanh toán:</span>
+              <span>
+                {_format.getVNDate(record.PaidDate, "HH:mm")} -
+                {_format.getVNDate(record.PaidDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.CompleteDate && (
+            <p
+              className={clsx(
+                record?.Status === ETransportationOrder.DaHoanThanh &&
+                  "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Hoàn thành:</span>
+              <span>
+                {_format.getVNDate(record.CompleteDate, "HH:mm")} -
+                {_format.getVNDate(record.CompleteDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.ComplainDate && (
+            <p
+              className={clsx(
+                record?.Status === ETransportationOrder.DaKhieuNai &&
+                  "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Khiếu nại:</span>
+              <span>
+                {_format.getVNDate(record.ComplainDate, "HH:mm")} -
+                {_format.getVNDate(record.ComplainDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+          {record.CancelDate && (
+            <p
+              className={clsx(
+                record?.Status === ETransportationOrder.Huy && "text-red",
+                "flex justify-between px-2"
+              )}
+            >
+              <span>Huỷ đơn:</span>
+              <span>
+                {_format.getVNDate(record.CancelDate, "HH:mm")} -
+                {_format.getVNDate(record.CancelDate, "DD/MM/YYYY")}
+              </span>
+            </p>
+          )}
+        </React.Fragment>
+      ),
+      width: 280,
     },
     {
       dataIndex: "Status",
       title: "Trạng thái",
-      render: (status, record) => {
-        const color = transportStatus.find((x) => x.id === status);
-        return (
-          <TagStatus color={color?.color} statusName={record?.StatusName} />
-        );
+      render: (status) => {
+        const color = transportationStatus.find((x) => x.id === status);
+        return <TagStatus color={color?.color} statusName={color?.name} />;
       },
       width: 120,
     },
@@ -203,13 +337,17 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
                 />
               </a>
             </Link>
-            {record?.Status === 2 &&
+            {record?.Status === ETransportationOrder.ChoDuyet &&
               (RoleID === 1 || RoleID === 3 || RoleID === 7) && (
                 <ActionButton
                   onClick={() =>
                     Modal.confirm({
                       title: "Xác nhận duyệt đơn này?",
-                      onOk: () => _onPress({ ...record, Status: 3 }),
+                      onOk: () =>
+                        _onPress({
+                          ...record,
+                          Status: ETransportationOrder.DonMoi,
+                        }),
                     })
                   }
                   icon="fas fa-check-circle"
@@ -233,12 +371,16 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
           loading,
           bordered: true,
           scroll: { y: 700, x: 1200 },
-          pagination: {current: filter.PageIndex, total: filter.TotalItems, pageSize: filter.PageSize },
+          pagination: {
+            current: filter.PageIndex,
+            total: filter.TotalItems,
+            pageSize: filter.PageSize,
+          },
           onChange: (page, pageSize) => {
             handleFilter({
               ...filter,
               PageIndex: page.current,
-              PageSize: page.pageSize
+              PageSize: page.pageSize,
             });
           },
         }}

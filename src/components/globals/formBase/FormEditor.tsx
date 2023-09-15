@@ -15,7 +15,6 @@ const init = {
   menubar: true,
   language: "vi",
   language_url: "/langs/vi.js",
-  content_style: "body { background: red; }",
   plugins:
     "advlist image code autolink lists charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste directionality code help wordcount",
   toolbar:

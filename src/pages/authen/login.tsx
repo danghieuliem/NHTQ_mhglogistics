@@ -43,7 +43,7 @@ const Index: TNextPageWithLayout = () => {
 
             {isOpen === "forgetPass" && <h1>Tìm lại mật khẩu</h1>}
 
-            {isOpen === "trial" && <h1>Tìm lại mật khẩu</h1>}
+            {isOpen === "trial" && <h1>Phân quyền dùng thử</h1>}
           </div>
         </div>
         {isOpen === "login" && (

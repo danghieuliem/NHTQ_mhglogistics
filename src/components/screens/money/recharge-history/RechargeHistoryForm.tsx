@@ -65,7 +65,7 @@ export const RechargeHistoryForm: React.FC<TForm<TUserHistoryRechargeVND>> = ({
           render: "Cập nhật nạp tiền thành công!",
           isLoading: false,
           type: "success",
-          autoClose: 1000,
+          autoClose: 500,
         });
       })
       .catch(() => {

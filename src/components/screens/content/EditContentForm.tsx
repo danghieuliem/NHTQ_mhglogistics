@@ -207,7 +207,7 @@ const EditContentForm: React.FC<any> = ({ edit, onCancel, categogyList }) => {
           render: "Cập nhật thành công",
           type: "success",
           isLoading: false,
-          autoClose: 1000,
+          autoClose: 500,
         });
       })
       .catch((error) => {

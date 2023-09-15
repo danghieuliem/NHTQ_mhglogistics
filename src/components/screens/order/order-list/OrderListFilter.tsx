@@ -12,13 +12,10 @@ import {
   FilterInputNumber,
   FilterRangeDate,
 } from "~/components/globals/filterBase";
-import {
-  ECreatedOrderStatusData,
-  createdOrderStatusData,
-  searchData,
-} from "~/configs/appConfigs";
+import { EOrderStatus, orderStatus } from "~/configs";
+import { ECreatedOrderStatusData, searchData } from "~/configs/appConfigs";
 
-const filterBox = `py-[9px] font-bold uppercase text-[12px] rounded-[4px] leading-[initial]
+const filterBox = `py-[9px] px-1 font-bold uppercase text-[12px] rounded-[4px] leading-[initial]
 flex items-center justify-center border border-[#e8e8e8] shadow-lg 
 cursor-pointer hover:shadow-sm transition-all duration-500 hover:!bg-main hover:!text-white`;
 
@@ -116,10 +113,8 @@ export const OrderListFilter: FC<TProps> = ({
                 placeholder="Chọn trạng thái"
                 label="Trạng thái"
                 isClearable
-                handleSearch={(val: ECreatedOrderStatusData) =>
-                  (Status.current = val)
-                }
-                data={createdOrderStatusData}
+                handleSearch={(val: number) => (Status.current = val)}
+                data={orderStatus}
               />
               <div className="col-span-2 flex items-end justify-between">
                 <FilterCheckbox
@@ -170,7 +165,7 @@ export const OrderListFilter: FC<TProps> = ({
 
       <div className="flex items-end flex-wrap gap-2">
         {(query?.q !== "3"
-          ? numberOfOrder.filter((x) => x.id !== 100)
+          ? numberOfOrder.filter((x) => x.id !== EOrderStatus.ChoBaoGia)
           : numberOfOrder
         )?.map((item) => (
           <div

@@ -56,13 +56,17 @@ const PercentOrder = () => {
         // labels: dataLabels,
         backgroundColor: [
           "#000",
-          "#f57c00",
-          "#c71585",
-          "#008000",
-          "#ffa500",
-          "#008080",
-          "#096dd9",
+          "purple",
           "#f00",
+          "#ffa500",
+          "#00808",
+          "#F04438",
+          "#f57c00",
+          "#FDB022",
+          "#c71585",
+          "#096dd9",
+          "#008000",
+          "#601010",
         ],
         data: dataChart,
         hoverOffset: 4,
@@ -74,14 +78,18 @@ const PercentOrder = () => {
     <div className="tableBox col-span-4">
       <p className="titleTable">Tỉ lệ đơn mua hộ</p>
       <div className="grid grid-cols-2 gap-1 mt-4 ">
-        <TagStatus color="#000" statusName="Huỷ đơn hàng" />
-        <TagStatus color="#f57c00" statusName="Đã về kho TQ" />
-        <TagStatus color="#c71585" statusName="Đã về kho VN" />
-        <TagStatus color="#008000" statusName="Đã hoàn thành" />
-        <TagStatus color="#ffa500" statusName="Đã đặt cọc" />
-        <TagStatus color="#008080" statusName="Đã mua hàng" />
+        <TagStatus color="#000" statusName="Đã huỷ" />
+        <TagStatus color="purple" statusName="Chờ báo giá" />
+        <TagStatus color="#f00" statusName="Đơn mới" />
+        <TagStatus color="#ffa500" statusName="Đã cọc" />
+        <TagStatus color="#00808" statusName="Đã mua hàng" />
+        <TagStatus color="#F04438" statusName="Shop phát hàng" />
+        <TagStatus color="#f57c00" statusName="Về kho TQ" />
+        <TagStatus color="#FDB022" statusName="Đang về VN" />
+        <TagStatus color="#c71585" statusName="Về kho VN" />
         <TagStatus color="#096dd9" statusName="Đã thanh toán" />
-        <TagStatus color="#f00" statusName="Chưa đặc cọc" />
+        <TagStatus color="#008000" statusName="Hoàn thành" />
+        <TagStatus color="#601010" statusName="Khiếu nại" />
       </div>
       <Pie
         data={data}
@@ -120,12 +128,14 @@ const PercentTransport = () => {
         // labels: dataLabels,
         backgroundColor: [
           "#000",
-          "#008080",
+          "magenta",
+          "#f00",
           "#f57c00",
+          "#FDB022",
           "#c71585",
           "#096dd9",
           "#008000",
-          "magenta",
+          "#601010",
         ],
         data: dataChart,
         hoverOffset: 4,
@@ -137,13 +147,15 @@ const PercentTransport = () => {
     <div className="tableBox col-span-4">
       <p className="titleTable">Tỉ lệ đơn ký gửi</p>
       <div className="grid grid-cols-2 gap-1 mt-4 ">
-        <TagStatus color="#000" statusName="Hủy" />
-        <TagStatus color="#008080" statusName="Đã duyệt" />
+        <TagStatus color="#000" statusName="Đã huỷ" />
+        <TagStatus color="magenta" statusName="Chờ duyệt" />
+        <TagStatus color="#f00" statusName="Đơn mới" />
         <TagStatus color="#f57c00" statusName="Về kho TQ" />
+        <TagStatus color="#FDB022" statusName="Đang về VN" />
         <TagStatus color="#c71585" statusName="Về kho VN" />
         <TagStatus color="#096dd9" statusName="Đã thanh toán" />
-        <TagStatus color="#008000" statusName="Đã hoàn thành" />
-        <TagStatus color="magenta" statusName="Chờ duyệt" />
+        <TagStatus color="#008000" statusName="Hoàn thành" />
+        <TagStatus color="#601010" statusName="Khiếu nại" />
       </div>
       <Pie
         data={data}
@@ -179,7 +191,7 @@ const PercentPayment = () => {
     datasets: [
       {
         // labels: dataLabels,
-        backgroundColor: ["darkred", "#096dd9", "#000", "#f57c00", "#008000"],
+        backgroundColor: ["#000", "magenta", "#008080", "#096dd9", "#008000"],
         data: dataChart,
         hoverOffset: 4,
       },
@@ -190,11 +202,11 @@ const PercentPayment = () => {
     <div className="tableBox col-span-4">
       <p className="titleTable">Tỉ lệ đơn thanh toán hộ</p>
       <div className="grid grid-cols-2 gap-1 mt-4 ">
-        <TagStatus color="darkred" statusName="Chưa thanh toán" />
+        <TagStatus color="#000" statusName="Đã huỷ" />
+        <TagStatus color="magenta" statusName="Chờ duyệt" />
+        <TagStatus color="#008080" statusName="Đã duyệt" />
         <TagStatus color="#096dd9" statusName="Đã thanh toán" />
-        <TagStatus color="#000" statusName="Đã hủy" />
-        <TagStatus color="#f57c00" statusName="Đã xác nhận" />
-        <TagStatus color="#008000" statusName="Đã hoàn thành" />
+        <TagStatus color="#008000" statusName="Hoàn thành" />
       </div>
       <Pie
         data={data}

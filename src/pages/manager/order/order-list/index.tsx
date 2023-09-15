@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { mainOrder } from "~/api";
 import { Layout, OrderListFilter, OrderListTable } from "~/components";
-import { orderStatus } from "~/configs/appConfigs";
+import { orderStatus } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import { useCatalogue } from "~/hooks/useCatalogue";
 import { RootState } from "~/store";
@@ -81,7 +81,7 @@ const Index: TNextPageWithLayout = () => {
         filter.Status,
         filter.UID,
         filter.PageIndex,
-        query?.q,
+        filter.OrderType,
       ],
     ],
     () => mainOrder.getList(filter).then((res) => res.Data),

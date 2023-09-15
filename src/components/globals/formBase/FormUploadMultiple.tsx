@@ -1,6 +1,6 @@
 import { Upload } from "antd";
 import { UploadFile } from "antd/lib/upload/interface";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Control,
   FieldValues,
@@ -87,15 +87,17 @@ export const FormUploadMultiple = <
   }) => {
     setFileList(newFileList);
 
-    baseFile
-      .uploadFile(newFileList[newFileList.length - 1].originFileObj)
-      .then((res) => {
-        if (typeof value === "undefined") {
-          onChange([res?.Data]);
-        } else {
-          onChange([...value, res?.Data]);
-        }
-      });
+    if (newFileList.length && newFileList.length === fileList.length) {
+      baseFile
+        .uploadFile(newFileList[newFileList.length - 1]?.originFileObj)
+        .then((res) => {
+          if (typeof value === "undefined") {
+            onChange([res?.Data]);
+          } else {
+            onChange([...value, res?.Data]);
+          }
+        });
+    }
   };
 
   const uploadButton = (
@@ -120,7 +122,7 @@ export const FormUploadMultiple = <
           listType="picture-card"
           fileList={fileList}
           // multiple={true}
-          
+
           onChange={async (file) => {
             if (file.fileList.length > 6) {
               setErrorMsg("Bạn upload quá 6 ảnh");

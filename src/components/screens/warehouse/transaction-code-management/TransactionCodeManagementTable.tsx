@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { DataTable } from "~/components";
-import { packageStatus } from "~/configs/appConfigs";
+import { smallPackageStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
@@ -115,10 +115,8 @@ export const TransactionCodeManagementTable: React.FC<
       dataIndex: "Status",
       title: "Trạng thái",
       render: (status, record) => {
-        const color = packageStatus.find((x) => x.id === status);
-        return (
-          <TagStatus color={color?.color} statusName={record?.StatusName} />
-        );
+        const color = smallPackageStatus.find((x) => x.id === status);
+        return <TagStatus color={color?.color} statusName={color?.name} />;
       },
       width: 100,
     },
@@ -261,10 +259,8 @@ export const TransactionCodeManagementTable: React.FC<
       title: "Trạng thái",
       fixed: "right",
       render: (status, record) => {
-        const color = packageStatus.find((x) => x.id === status);
-        return (
-          <TagStatus color={color?.color} statusName={record?.StatusName} />
-        );
+        const color = smallPackageStatus.find((x) => x.id === status);
+        return <TagStatus color={color?.color} statusName={color?.name} />;
       },
       width: 120,
     },

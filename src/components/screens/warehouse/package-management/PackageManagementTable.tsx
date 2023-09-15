@@ -3,7 +3,7 @@ import router from "next/router";
 import React from "react";
 import { bigPackage } from "~/api";
 import { ActionButton, DataTable, toast } from "~/components";
-import { bigPackageStatusData } from "~/configs/appConfigs";
+import { bigPackageStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
@@ -81,12 +81,10 @@ export const PackageManagementTable: React.FC<TTable<TPackage> & TProps> = ({
       dataIndex: "Status",
       title: "Trạng thái",
       width: 180,
-      render: (status, record) => (
-        <TagStatus
-          color={bigPackageStatusData.find((x) => x.id === status)?.color}
-          statusName={record.StatusName}
-        />
-      ),
+      render: (status) => {
+        const color = bigPackageStatus.find((x) => x.id === status);
+        return <TagStatus color={color?.color} statusName={color?.name} />;
+      },
     },
     {
       dataIndex: "action",
@@ -132,12 +130,16 @@ export const PackageManagementTable: React.FC<TTable<TPackage> & TProps> = ({
           bordered: true,
           // expandable: expandable,
           scroll: { y: 700, x: 1200 },
-          pagination: {current: filter.PageIndex, total: filter.TotalItems, pageSize: filter.PageSize },
+          pagination: {
+            current: filter.PageIndex,
+            total: filter.TotalItems,
+            pageSize: filter.PageSize,
+          },
           onChange: (page, pageSize) => {
             handleFilter({
               ...filter,
               PageIndex: page.current,
-              PageSize: page.pageSize
+              PageSize: page.pageSize,
             });
           },
         }}

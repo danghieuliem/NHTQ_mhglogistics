@@ -49,10 +49,10 @@ export const UserAnotherOrder = ({ data }) => {
     {
       title: "Trạng thái",
       dataIndex: "Status",
-      render: (status, record) => {
+      render: (status) => {
         const color = orderStatus.find((x) => x.id === status);
         return (
-          <TagStatus color={color?.color} statusName={record?.StatusName} />
+          <TagStatus color={color?.color} statusName={color?.name} />
         );
       },
     },
@@ -64,7 +64,7 @@ export const UserAnotherOrder = ({ data }) => {
       render: (_, record) => (
         <Space>
           <Link href={`/user/order-list/detail/?id=${record?.Id}`} passHref>
-            <a target="_blank" rel="noopener noreferrer">
+            <a target="_blank">
               <ActionButton
                 icon={"fas fa-info-square"}
                 title={"Chi tiết"}

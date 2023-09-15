@@ -2,8 +2,8 @@ import { Space } from "antd";
 import React from "react";
 import { ActionButton, DataTable } from "~/components";
 import {
-  packageStatus
-} from "~/configs/appConfigs";
+  smallPackageStatus
+} from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
@@ -65,8 +65,8 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
       title: "Trạng thái kiện",
       render: (status, record) => (
         <TagStatus
-          color={packageStatus.find((x) => x.id === record.Status)?.color}
-          statusName={record.StatusName}
+          color={smallPackageStatus.find((x) => x.id === record.Status)?.color}
+          statusName={smallPackageStatus.find((x) => x.id === record.Status)?.name}
         />
       ),
     },

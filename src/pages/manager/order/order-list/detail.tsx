@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { useRouter } from "next/router";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useSelector } from "react-redux";
 import { mainOrder } from "~/api";
 import {
@@ -21,7 +21,7 @@ import {
   OrderTransferCodeList,
   toast,
 } from "~/components";
-import { breadcrumb } from "~/configs";
+import { EOrderStatus, breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import { useCatalogue } from "~/hooks";
 import { RootState } from "~/store";
@@ -39,7 +39,7 @@ const Index: TNextPageWithLayout = () => {
   const router = useRouter();
   const orderId = Number(router.query.id);
   const [active, setActive] = React.useState(0);
-
+  const queryClient = useQueryClient();
 
   const { userSale, userOrder } = useCatalogue({
     userSaleEnabled: true,
@@ -55,8 +55,6 @@ const Index: TNextPageWithLayout = () => {
     () => mainOrder.getByID(+query?.id),
     {
       onSuccess: (data) => {
-        if (!data?.Data?.IsCheckNotiPrice && data?.Data?.OrderType === 3)
-          toast.warning("Đơn hàng chưa cập nhật báo giá cho khách!");
         form.reset(data?.Data);
       },
       onError: toast.error,
@@ -71,6 +69,7 @@ const Index: TNextPageWithLayout = () => {
   const mutationUpdate = useMutation(mainOrder.update, {
     onSuccess: () => {
       toast.success("Cập nhật đơn hàng thành công");
+      queryClient.invalidateQueries("history-order");
       refetch();
     },
     onError: (error) => {
@@ -89,24 +88,18 @@ const Index: TNextPageWithLayout = () => {
     if (newData.Status === 100) {
       newData.IsCheckNotiPrice = false;
     }
+
+    // if ([EOrderStatus.ChoBaoGia].includes(data?.Status)) {
+    //   toast.warning("Đơn hàng chưa cập nhật báo giá cho khách!");
+    // } else {
+    //   await mutationUpdate.mutateAsync(newData);
+    // }
+
     await mutationUpdate.mutateAsync(newData);
   };
 
   if (isError) {
     return <Empty />;
-  }
-
-  // if (isLoading) {
-  //   return <Finding />;
-  // }
-
-  {
-    /* {data && (
-        <MessageControlManager
-          clientId={data.Data.UID}
-          mainOrderId={+query?.id}
-        />
-      )} */
   }
 
   return (

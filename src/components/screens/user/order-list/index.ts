@@ -5,3 +5,4 @@ export * from "./detail/OrderIDDetail";
 export * from "./detail/OrderIDProductList";
 export * from "./detail/OrderIDPaymentHistory";
 export * from "./detail/MessageControlUser";
+export * from "./detail/Report"

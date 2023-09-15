@@ -6,7 +6,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { bigPackage, smallPackage } from "~/api";
 import { FormInput, FormSelect, HookWrapper, IconButton } from "~/components";
 import { toast } from "~/components/toast";
-import { ESmallPackageStatusData } from "~/configs/appConfigs";
+import { ESmallPackage } from "~/configs";
 import { usePressKeyboard } from "~/hooks";
 import {
   CheckWarehouseChinaNewBagForm,
@@ -113,17 +113,25 @@ export const CheckWarehouseChinaForm = () => {
           TransactionCode: newData.OrderTransactionCode.trim(),
         })
         .then((res) => {
-          if (res.Data[0].Status === 4) {
+          if (res.Data[0].Status === ESmallPackage.DaHuy) {
             toast.info("Đơn hàng đã HỦY!");
             return;
           }
 
-          if (res.Data[0].Status === 5) {
+          if (res.Data[0].Status === ESmallPackage.VeKhoVN) {
+            toast.info("Đơn hàng đã về kho VN!");
+            return;
+          }
+
+          if (res.Data[0].Status === ESmallPackage.DaGiao) {
             toast.info("Đơn hàng đã được giao!");
             return;
           }
 
-          if (res.Data[0].Status === 1 || res.Data[0].Status === 2) {
+          if (
+            res.Data[0].Status === ESmallPackage.MoiTao ||
+            res.Data[0].Status === ESmallPackage.VeKhoTQ
+          ) {
             let key = res.Data[0].UserName + res.Data[0].Phone;
 
             handleData(
@@ -133,8 +141,8 @@ export const CheckWarehouseChinaForm = () => {
                   ? item?.BigPackageId
                   : getValues("BigPackageId"),
                 Status:
-                  item.Status <= ESmallPackageStatusData.ArrivedToChinaWarehouse
-                    ? ESmallPackageStatusData.ArrivedToChinaWarehouse
+                  item.Status <= ESmallPackage.VeKhoTQ
+                    ? ESmallPackage.VeKhoTQ
                     : item.Status,
               })),
               key

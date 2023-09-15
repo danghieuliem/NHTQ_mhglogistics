@@ -150,7 +150,7 @@ export const CreateRequestPaymentForm = () => {
             <IconButton
               onClick={() => handleBill("add")}
               btnClass=""
-              icon="fas fa-plus-circle-circle"
+              icon="!mr-0"
               title="Thêm"
               showLoading
               toolip=""

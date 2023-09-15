@@ -8,7 +8,7 @@ import { bigPackage, smallPackage } from "~/api";
 import { FormSelect, FormUpload } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
 
-export const ImportForm = () => {
+export const ImportForm = ({type}) => {
   const { control, handleSubmit } = useForm<TImport>({ mode: "onBlur" });
   const [bigPackages, setBigPackages] = useState([]);
   const [loadingExport, setLoadingExport] = useState(false);
@@ -43,7 +43,10 @@ export const ImportForm = () => {
   const _onPress = (data: TImport) => {
     setLoadingImport(true);
     smallPackage
-      .postImportPackage(data)
+      .postImportPackage({
+        ...data,
+        Type: type
+      })
       .then((res) => {
         Modal.info({
           title: "Import thành công!",

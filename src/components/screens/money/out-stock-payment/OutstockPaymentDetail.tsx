@@ -208,7 +208,7 @@ export const OutstockPaymentDetail: React.FC<
         toast.update(id, {
           render: "Thanh toán thành công!",
           isLoading: false,
-          autoClose: 3000,
+          autoClose: 500,
           type: "success",
         });
         handleRefetch();
@@ -217,7 +217,7 @@ export const OutstockPaymentDetail: React.FC<
         toast.update(id, {
           render: (error as any)?.response?.data?.ResultMessage,
           isLoading: false,
-          autoClose: 3000,
+          autoClose: 1000,
           type: "error",
         });
       });
