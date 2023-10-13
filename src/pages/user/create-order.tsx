@@ -71,28 +71,29 @@ const Index: TNextPageWithLayout = () => {
   }, [warehouseTQ, warehouseVN, shippingTypeToWarehouse]);
 
   const _onPress = async (data: TUserCreateOrder) => {
-    setLoading(true);
-    const id = toast.loading("Đang xử lý ...");
-    mainOrder
-      .addAnother({ ...data, UID: userCurrentInfo?.Id })
-      .then(() => {
-        toast.update(id, {
-          render: "Tạo đơn thành công!",
-          isLoading: false,
-          type: "success",
-          autoClose: 500,
-        });
-        router.push("/user/order-list?q=3");
-      })
-      .catch((error) => {
-        toast.update(id, {
-          render: "Tạo đơn thất bại!",
-          isLoading: false,
-          type: "error",
-          autoClose: 10000,
-        });
-      })
-      .finally(() => setLoading(false))
+    console.log(data);
+    // setLoading(true);
+    // const id = toast.loading("Đang xử lý ...");
+    // mainOrder
+    //   .addAnother({ ...data, UID: userCurrentInfo?.Id })
+    //   .then(() => {
+    //     toast.update(id, {
+    //       render: "Tạo đơn thành công!",
+    //       isLoading: false,
+    //       type: "success",
+    //       autoClose: 500,
+    //     });
+    //     router.push("/user/order-list?q=3");
+    //   })
+    //   .catch((error) => {
+    //     toast.update(id, {
+    //       render: "Tạo đơn thất bại!",
+    //       isLoading: false,
+    //       type: "error",
+    //       autoClose: 10000,
+    //     });
+    //   })
+    //   .finally(() => setLoading(false))
   };
 
   return (
