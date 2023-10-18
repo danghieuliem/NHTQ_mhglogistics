@@ -50,7 +50,7 @@ export const OrderProductItem: React.FC<TProps> = ({
   function handleQuantity(val: number) {
     if (isInteger(val)) {
       setChangeValue(true);
-      setQuantity(val > 0 ? val : 1);
+      setQuantity(val >= 0 ? val : 1);
       const newTotal = priceVND * val;
       setTotal(newTotal);
     }
@@ -101,7 +101,7 @@ export const OrderProductItem: React.FC<TProps> = ({
             RoleID === 3 ||
             RoleID === 4 ||
             RoleID === 8 ||
-            RoleID === 6 ) && (
+            RoleID === 6) && (
             <div className="xl:block">
               <ActionButton
                 iconContainerClassName="border-none"
@@ -228,7 +228,7 @@ export const OrderProductItem: React.FC<TProps> = ({
             </div>
             <div className="text-sm">
               <InputNumber
-                 className="!rounded-[6px] !w-full"
+                className="!rounded-[6px] !w-full"
                 value={_format.getVND(total, "")}
                 disabled={true}
               />
