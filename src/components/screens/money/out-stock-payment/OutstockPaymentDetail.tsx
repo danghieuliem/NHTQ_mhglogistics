@@ -93,7 +93,7 @@ export const OutstockPaymentDetail: React.FC<
     {
       dataIndex: "SmallPackage",
       title: "Mã kiện",
-      width: 200,      
+      width: 200,
       render: (smallPackage: TSmallPackage) =>
         smallPackage?.OrderTransactionCode,
     },
@@ -436,18 +436,15 @@ export const OutstockPaymentDetail: React.FC<
           )}
         </div>
       </div>
-      {/* <div className="tex-center inline-block text-sm text-[#ed5b00] font-bold">
-        <span> Phiếu xuất kho #{item?.Id}</span>
-      </div> */}
+
       <DataTable
         {...{
           columns,
           data: item?.OutStockSessionPackages,
           bordered: true,
           summary: !loading ? summary : undefined,
-          // expandable: expandable,
           scroll: { x: 1200, y: 600 },
-          title: `Phiếu xuất kho #${item?.Id}`
+          title: `Phiếu xuất kho #${item?.Id}`,
         }}
       />
     </Spin>

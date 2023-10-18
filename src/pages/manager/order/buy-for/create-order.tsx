@@ -14,13 +14,14 @@ import {
   Layout,
 } from "~/components";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
+import { EParamQ } from "~/enums";
 import { useCatalogue } from "~/hooks/useCatalogue";
 import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
 
   const defaultValuesProducts = [
@@ -81,7 +82,7 @@ const Index: TNextPageWithLayout = () => {
           isLoading: false,
           autoClose: 500,
         });
-        router.push("/manager/order/order-list?q=3");
+        router.push(`/manager/order/order-list?q=${EParamQ.otherOrder}`);
       })
       .catch((error) => {
         toast.update(id, {

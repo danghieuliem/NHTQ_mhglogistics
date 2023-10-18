@@ -64,18 +64,18 @@ export const ArticleCategoryTable: FC<TTable<TPageType>> = ({
         columns,
         data,
         bordered: true,
-        // expandable: expandable,
         loading,
         pagination,
-        extraElmentClassName: "w-fit ml-auto",
-        extraElment: (
+        extraElementClassName: "w-fit ml-auto",
+        extraElement: (
           <div>
             <Link href="/manager/article/article-category/add">
               <a target="_blank">
                 <ActionButton
                   icon="fas fa-plus-circle"
-                  title={"Thêm chuyên mục"}  
-                  isButton isButtonClassName="bg-green !text-white" 
+                  title={"Thêm chuyên mục"}
+                  isButton
+                  isButtonClassName="bg-green !text-white"
                 />
               </a>
             </Link>

@@ -21,12 +21,6 @@ const options = {
       display: false,
     },
   },
-  // scales: {
-  //   xAxes: { grid: { display: false, drawBorder: false } },
-  //   yAxes: {
-  //     grid: { display: true, borderDash: [3, 3], drawBorder: false },
-  //   },
-  // },
 };
 
 const PercentOrder = () => {
@@ -59,7 +53,7 @@ const PercentOrder = () => {
           "purple",
           "#f00",
           "#ffa500",
-          "#00808",
+          "#008080",
           "#F04438",
           "#f57c00",
           "#FDB022",
@@ -82,7 +76,7 @@ const PercentOrder = () => {
         <TagStatus color="purple" statusName="Chờ báo giá" />
         <TagStatus color="#f00" statusName="Đơn mới" />
         <TagStatus color="#ffa500" statusName="Đã cọc" />
-        <TagStatus color="#00808" statusName="Đã mua hàng" />
+        <TagStatus color="#008080" statusName="Đã mua hàng" />
         <TagStatus color="#F04438" statusName="Shop phát hàng" />
         <TagStatus color="#f57c00" statusName="Về kho TQ" />
         <TagStatus color="#FDB022" statusName="Đang về VN" />

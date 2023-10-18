@@ -1,13 +1,9 @@
-import { Modal, Popover, Tabs } from "antd";
+import { Tabs } from "antd";
 import clsx from "clsx";
 import React from "react";
-import { ActionButton, DataTable } from "~/components";
+import TagStatus from "~/components/screens/status/TagStatus";
 import { transportationStatus } from "~/configs";
-import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
-import TagStatus from "../../status/TagStatus";
-
-// ffefe0
 
 const DetailInfo = (record) => {
   const divStyle = `flex justify-between items-center border-b border-[#e4e4e4] py-1`;
@@ -296,83 +292,4 @@ const DetailInfo = (record) => {
   );
 };
 
-const DetailInfoMemo = React.memo(DetailInfo);
-
-export const UserTransfer = ({ data, isFetching }) => {
-  const columns: TColumnsType<TNewDeliveryOrders> = [
-    {
-      title: "ID",
-      dataIndex: "Id",
-      responsive: ["md"],
-    },
-    {
-      title: "Ngày đặt",
-      dataIndex: "Created",
-      render: (date) => <span>{_format.getVNDate(date)}</span>,
-      responsive: ["lg"],
-    },
-    {
-      title: "Mã vận đơn",
-      dataIndex: "OrderTransactionCode",
-    },
-    {
-      dataIndex: "PayableWeight",
-      title: "Cân nặng (kg)",
-      align: "right",
-      responsive: ["lg"],
-    },
-    {
-      dataIndex: "TotalPriceVND",
-      title: "Tổng tiền (VNĐ)",
-      align: "right",
-      responsive: ["lg"],
-      render: (_) => _format.getVND(_, ""),
-    },
-    {
-      title: "Trạng thái",
-      dataIndex: "Status",
-      render: (status) => {
-        const color = transportationStatus.find((x) => x.id === status);
-        return <TagStatus color={color?.color} statusName={color?.name} />;
-      },
-    },
-    {
-      title: "Thao tác",
-      dataIndex: "action",
-      responsive: ["lg"],
-      align: "right",
-      render: (_, record) => (
-        <Popover
-          trigger={"click"}
-          placement="leftBottom"
-          content={
-            <div className="p-4 !bg-[#fab34a85] rounded-md">
-              <DetailInfoMemo record={record} />
-            </div>
-          }
-        >
-          <ActionButton
-            icon="fas fa-info-square"
-            title="Chi tiết"
-            iconContainerClassName="iconRed"
-            isButton={true}
-          />
-        </Popover>
-      ),
-    },
-  ];
-
-  return (
-    <DataTable
-      {...{
-        columns,
-        data: data?.Items,
-        loading: isFetching,
-        bordered: true,
-        title: "Đơn hàng ký gửi",
-
-        bgHeaderType: "depositTable",
-      }}
-    />
-  );
-};
+export const DetailInfoMemo = React.memo(DetailInfo);

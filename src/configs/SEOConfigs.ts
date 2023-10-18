@@ -115,7 +115,7 @@ export const SEOHomeConfigs = {
   payFor: {
     listRequest: "Danh sách yêu cầu thanh toán hộ",
     createRequest: "Tạo yêu cầu thanh toán hộ",
-    detaiPay: "Chi tiết thanh toán hộ",
+    detailPay: "Chi tiết thanh toán hộ",
   },
   financialManagement: {
     listTransactionVND: " Danh sách giao dịch VNĐ",

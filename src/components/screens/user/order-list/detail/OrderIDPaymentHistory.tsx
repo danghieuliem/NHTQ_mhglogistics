@@ -12,20 +12,33 @@ const OrderIDPaymentHistory: React.FC<TTable<TPayOrderHistory>> = ({
     {
       dataIndex: "Id",
       title: "ID",
+      responsive: ["md"],
     },
     {
       dataIndex: "Type",
-      title: "Hình thức thanh toán",
+      title: (
+        <>
+          Hình thức
+          <br />
+          thanh toán
+        </>
+      ),
       render: (record) => {
         const type = formalPaymentData.find((item) => item.id === record);
-        return <TagStatus color={type.color} statusName={type?.name}/>
+        return <TagStatus color={type.color} statusName={type?.name} />;
       },
     },
     {
       dataIndex: "Amount",
       align: "right",
-      title: "Số tiền (VNĐ)",
-      render: (money) => _format.getVND(money, " "),
+      title: (
+        <>
+          Số tiền
+          <br />
+          (VNĐ)
+        </>
+      ),
+      render: (money) => _format.getVND(money, ""),
     },
     {
       dataIndex: "Created",
@@ -42,27 +55,6 @@ const OrderIDPaymentHistory: React.FC<TTable<TPayOrderHistory>> = ({
     },
   ];
 
-  const expandable = {
-    expandedRowRender: (item) => {
-      return (
-        <div className="extentable">
-          <div className="extentable-content">
-            <div className="extentable-row">
-              <span className="extentable-label">Ngày thanh toán: </span>
-              <span className="extentable-value">
-                {_format.getVNDate(item?.Created)}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Loại thanh toán: </span>
-              <span className="extentable-value">{item?.StatusName}</span>
-            </div>
-          </div>
-        </div>
-      );
-    },
-  };
-
   return (
     <div className="mt-4">
       <DataTable
@@ -70,7 +62,7 @@ const OrderIDPaymentHistory: React.FC<TTable<TPayOrderHistory>> = ({
           columns,
           data,
           bordered: true,
-          expandable: expandable,
+
           title: "Lịch sử thanh toán",
         }}
       />

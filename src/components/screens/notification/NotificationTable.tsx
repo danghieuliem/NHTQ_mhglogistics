@@ -50,7 +50,10 @@ export const NotificationTable: React.FC<TTable & TProps> = ({
       width: 120,
       render: (_, data) => {
         return (
-          <TagStatus color={data.IsRead ? "blue" : "red"} statusName={data.IsRead ? "Đã xem" : "Chưa xem"}/>
+          <TagStatus
+            color={data.IsRead ? "blue" : "red"}
+            statusName={data.IsRead ? "Đã xem" : "Chưa xem"}
+          />
         );
       },
     },
@@ -87,7 +90,7 @@ export const NotificationTable: React.FC<TTable & TProps> = ({
                     data.IsRead = true;
                     getAllNewNotify.readNotify([data?.Id]).then(() => {
                       queryClient.invalidateQueries("new-notification");
-                    })
+                    });
                   }
                 }}
               />
@@ -97,25 +100,6 @@ export const NotificationTable: React.FC<TTable & TProps> = ({
       },
     },
   ];
-
-  const expandable = {
-    expandedRowRender: (record) => (
-      <ul className="px-2 text-xs">
-        <li className="sm:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Ngày:</span>
-          <div>{_format.getShortVNDate(record?.Created)}</div>
-        </li>
-        <li className="md:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Nội dung:</span>
-          <div>{record?.NotificationContent}</div>
-        </li>
-        <li className="xl:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Trạng thái:</span>
-          <div>{record?.TotalPriceReceive}</div>
-        </li>
-      </ul>
-    ),
-  };
 
   const rowSelection = {
     selectedRowKeys,
@@ -127,8 +111,6 @@ export const NotificationTable: React.FC<TTable & TProps> = ({
     onChange: (selectedRowKeys: React.Key[], selectedRows: TOrder[]) => {
       setSelectedRowKeys(selectedRowKeys);
     },
-    // hideSelectAll: true,
-    // columnWidth: 26,
   };
   return (
     <>
@@ -138,13 +120,10 @@ export const NotificationTable: React.FC<TTable & TProps> = ({
           columns,
           data,
           bordered: true,
-          // pagination: data?.length === 0 ? null : pagination,
-          // onChange: handlePagination,
-          expandable: expandable,
           scroll: { y: 700 },
           rowSelection,
-          extraElmentClassName: "flex !w-full items-end justify-between",
-          extraElment: (
+          extraElementClassName: "flex !w-full items-end justify-between",
+          extraElement: (
             <>
               <NotificationFilter
                 handleFilter={handleFilter}

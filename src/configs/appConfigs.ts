@@ -1,9 +1,11 @@
+import { EParamQ } from "~/enums";
+
 export const config = {
   // PRODUCTION: '' || process.env.PRODUCTION,
   // DEVELOPMENT: '' || process.env.DEVELOPMENT,
   API_URL: "" || process.env.NEXT_PUBLIC_API_SERVER,
   ENV: process.env.NODE_ENV,
-  tokenName: "tokenNHTQ-demo"
+  tokenName: "tokenNHTQ-demo",
 };
 
 export const regex = {
@@ -46,129 +48,6 @@ export enum EOrderStatusData {
   Paid = 6,
   ReceivedOrder = 7,
 }
-
-export const orderStatusData = [
-  {
-    id: EOrderStatusData.All,
-    name: "Tất cả trạng thái",
-    color: "default",
-  },
-  {
-    id: EOrderStatusData.NewOrder,
-    name: "Đơn hàng mới",
-    color: "#FF0000",
-  },
-  {
-    id: EOrderStatusData.Approved,
-    name: "Đơn đã duyệt",
-    color: "#ffa500",
-  },
-  {
-    id: EOrderStatusData.ArrivedToChinaWarehouse,
-    name: "Đã về kho TQ",
-    color: "#808000",
-  },
-  {
-    id: EOrderStatusData.ArrivedToVietNamWarehouse,
-    name: "Đã về kho đích",
-    color: "#008000",
-  },
-  {
-    id: EOrderStatusData.ReceivedOrder,
-    name: "Đã nhận hàng",
-    color: "#6E6E6E",
-  },
-  {
-    id: EOrderStatusData.Paid,
-    name: "Đã thanh toán",
-    color: "#000080",
-  },
-  {
-    id: EOrderStatusData.Canceled,
-    name: "Đơn hàng huỷ",
-    color: "#000",
-  },
-  {
-    id: EOrderStatusData.Requested,
-    name: "Đã yêu cầu",
-    color: "#000080",
-  },
-];
-
-export const orderDataNumberOfOrder = [
-  {
-    id: EOrderStatusData.All,
-    label: "Tất cả đơn",
-    key: "TotalOrders",
-    col: 2,
-    value: null,
-    bgColor: "#fff",
-    textColor: "#333",
-  },
-  {
-    id: EOrderStatusData.NewOrder,
-    label: "Đơn hàng mới",
-    key: "TotalNewOrders",
-    col: 1,
-    value: null,
-    bgColor: "#FCEDEB",
-    textColor: "#E54C36",
-  },
-  {
-    id: EOrderStatusData.Approved,
-    label: "Đơn đã duyệt",
-    key: "ToTalConfimed",
-    col: 1,
-    value: null,
-    bgColor: "#EFF5EC",
-    textColor: "#5F9D46",
-  },
-  {
-    id: EOrderStatusData.ArrivedToChinaWarehouse,
-    label: "Đã về kho TQ",
-    key: "TotalInChina",
-    col: 1,
-    value: null,
-    bgColor: "#F1A934",
-    textColor: "#fff",
-  },
-  {
-    id: EOrderStatusData.ArrivedToVietNamWarehouse,
-    label: "Đã về kho đích",
-    key: "TotalInVietnam",
-    col: 1,
-    value: null,
-    bgColor: "#D32240",
-    textColor: "#fff",
-  },
-  {
-    id: EOrderStatusData.Canceled,
-    label: "Đơn hàng huỷ",
-    key: "TotalCancled",
-    col: 1,
-    value: null,
-    bgColor: "#E54C36",
-    textColor: "#fff",
-  },
-  {
-    id: EOrderStatusData.Paid,
-    label: "Đơn hàng đã thanh toán",
-    key: "TotalPaid",
-    col: 1,
-    value: null,
-    bgColor: "#E9F6F3",
-    textColor: "#27A689",
-  },
-  {
-    id: EOrderStatusData.ReceivedOrder,
-    label: "Đã nhận hàng",
-    key: "TotalCompleted",
-    col: 1,
-    value: null,
-    bgColor: "#6E6E6E",
-    textColor: "#fff",
-  },
-];
 
 export const orderMoneyOfOrdersData = [
   {
@@ -221,65 +100,11 @@ export const orderMoneyOfOrdersData = [
   },
 ];
 
-export const orderStatus2Data = [
-  {
-    id: EOrderStatusData.All,
-    name: "Tất cả trạng thái",
-    color: "default",
-  },
-  {
-    id: EOrderStatusData.NewOrder,
-    name: "Đơn hàng mới",
-    color: "#d32f2f",
-  },
-  {
-    id: EOrderStatusData.ArrivedToChinaWarehouse,
-    name: "Đã về kho TQ",
-    color: "#f57c00",
-  },
-  {
-    id: EOrderStatusData.ArrivedToVietNamWarehouse,
-    name: "Đã về kho đích",
-    color: "#008000",
-  },
-  {
-    id: EOrderStatusData.Paid,
-    name: "Đã thanh toán",
-    color: "#D32240",
-  },
-  {
-    id: EOrderStatusData.ReceivedOrder,
-    name: "Đã nhận hàng",
-    color: "#6E6E6E",
-  },
-  {
-    id: EOrderStatusData.Canceled,
-    name: "Đơn hàng huỷ",
-    color: "#000",
-  },
-  {
-    id: EOrderStatusData.Approved,
-    name: "Đơn đã duyệt",
-    color: "teal",
-  },
-];
 // ===== END =====
 
 // created order status data scope
 // ===== BEGIN =====
 
-/**
- * Chưa đặt cọc = 0,
-    Hủy = 1,
-    Đã đặt cọc = 2,
-    Đã mua hàng = 5,
-    Đã về kho TQ = 6,
-    Đã về kho VN = 7,
-    Đã thanh toán = 9,
-    Đã hoàn thành = 10,
-    Đã khiếu nại = 11,
-    Chờ báo giá = 100
- */
 export enum ECreatedOrderStatusData {
   All = null,
   Undeposited = 0,
@@ -343,186 +168,6 @@ export const createdOrderStatusData = [
   },
 ];
 
-export const createdDataNumberOfOrder = [
-  {
-    id: ECreatedOrderStatusData.All,
-    key: "AllOrders",
-    col: 1,
-    value: null,
-    label: "Tất cả",
-    bgColor: "#fff",
-    textColor: "#333",
-  },
-  {
-    id: ECreatedOrderStatusData.Canceled,
-    key: "Cancel",
-    col: 1,
-    value: null,
-    bgColor: "#000",
-    textColor: "#fff",
-    label: "Đơn hủy",
-  },
-  {
-    id: ECreatedOrderStatusData.Undeposited,
-    key: "UnDeposit",
-    col: 1,
-    value: null,
-    bgColor: "#FF0000",
-    textColor: "#E54C36",
-    label: "Đơn mới",
-  },
-  {
-    id: ECreatedOrderStatusData.Deposited,
-    key: "Deposit",
-    col: 1,
-    value: null,
-    bgColor: "orange",
-    textColor: "#fff",
-    label: "Đơn đặt cọc",
-  },
-  {
-    id: ECreatedOrderStatusData.BoughtForOrder,
-    key: "PurchaseOrder",
-    col: 1,
-    value: null,
-    bgColor: "#008080",
-    textColor: "#5F9D46",
-    label: "Đơn đã mua",
-  },
-  {
-    id: ECreatedOrderStatusData.ArrivedToChinaWarehouse,
-    key: "InChinaWarehoue",
-    col: 1,
-    value: null,
-    bgColor: "#808000",
-    textColor: "",
-    label: "Đơn tại Trung Quốc",
-  },
-  {
-    id: ECreatedOrderStatusData.ArrivedToVietNamWarehouse,
-    key: "InVietnamWarehoue",
-    col: 1,
-    value: null,
-    bgColor: "#008000",
-    textColor: "#fff",
-    label: "Đơn tại Việt Nam",
-  },
-  // {
-  // 	id: ECreatedOrderStatusData.Approved,
-  // 	key: "Comfirmed",
-  // 	col: 1,
-  // 	value: null,
-  // bgColor: "",
-  // 	textColor: "",
-  // label: "Đơn đã xác nhận",
-  // },
-  {
-    id: ECreatedOrderStatusData.Paid,
-    key: "Paid",
-    col: 1,
-    value: null,
-    bgColor: "#E9F6F3",
-    textColor: "#000080",
-    label: "Đơn đã thanh toán",
-  },
-  {
-    id: ECreatedOrderStatusData.Finished,
-    key: "Completed",
-    col: 1,
-    value: null,
-    bgColor: "#0000FF",
-    textColor: "#fff",
-    label: "Đơn hoàn thành",
-  },
-  // {
-  // 	key: "WaitConfirm",
-  // 	col: 1,
-  // 	value: null,
-  // 	label: "Đơn chờ xác nhận"
-  // },
-  // {
-  // 	key: "WaitPayment",
-  // 	col: 1,
-  // 	value: null,
-  // 	label: "Đơn chờ thanh toán"
-  // },
-];
-
-export const createdDataNumberOfOtherOrder = [
-  {
-    id: ECreatedOrderStatusData.All,
-    key: "AllOrders",
-    col: 2,
-    value: null,
-    bgColor: "#fff",
-    textColor: "#333",
-    label: "Tất cả đơn",
-  },
-  {
-    id: 1,
-    key: "Cancel",
-    col: 1,
-    value: null,
-    bgColor: "#000",
-    textColor: "#fff",
-    label: "Đơn đã hủy",
-  },
-  {
-    id: 0,
-    key: "UnDeposit",
-    col: 1,
-    value: null,
-    bgColor: "#FF0000",
-    textColor: "#E54C36",
-    label: "Đơn chưa cọc",
-  },
-  {
-    id: 100,
-    key: "Comfirmed",
-    col: 1,
-    value: null,
-    bgColor: "#EFF5EC",
-    textColor: "#5F9D46",
-    label: "Đơn chờ báo giá",
-  },
-  {
-    id: 6,
-    key: "InChinaWarehoue",
-    col: 1,
-    value: null,
-    bgColor: "#808000",
-    textColor: "#fff",
-    label: "Đơn tại Trung Quốc",
-  },
-  {
-    id: 7,
-    key: "InVietnamWarehoue",
-    col: 1,
-    value: null,
-    bgColor: "#008000",
-    textColor: "#fff",
-    label: "Đơn tại Việt Nam",
-  },
-  {
-    id: 9,
-    key: "Paid",
-    col: 1,
-    value: null,
-    bgColor: "#000080",
-    textColor: "#27A689",
-    label: "Đơn đã thanh toán",
-  },
-  {
-    id: 10,
-    key: "Completed",
-    col: 1,
-    value: null,
-    bgColor: "#0000FF",
-    textColor: "#fff",
-    label: "Đơn hoàn thành",
-  },
-];
-
 export const createdMoneyOfOrdersData = [
   {
     key: "AmountNotDelivery",
@@ -573,10 +218,6 @@ export const createdMoneyOfOrdersData = [
 ];
 
 export const statusData = [
-  // {
-  // 	id: ECreatedOrderStatusData.Approved,
-  // 	name: "Đã duyệt đơn",
-  // },
   {
     id: ECreatedOrderStatusData.Undeposited,
     name: "Chờ đặt cọc",
@@ -611,107 +252,7 @@ export const statusData = [
   },
 ];
 
-export enum ECreatedOrderStatusDataDetail {
-  All = null,
-  Undeposited = 0,
-  Canceled = 1,
-  Deposited = 2,
-  WaitingForOrderApproval = 3,
-  Approved = 4,
-  BoughtForOrder = 5,
-  ArrivedToChinaWarehouse = 6,
-  ArrivedToVietNamWarehouse = 7,
-  WaitingForPayment = 8,
-  Paid = 9,
-  Finished = 10,
-}
-
-export const createdOrderStatusDataDetail = [
-  {
-    id: ECreatedOrderStatusDataDetail.All,
-    color: "orange",
-  },
-  {
-    id: ECreatedOrderStatusDataDetail.Undeposited,
-    color: "#FF0000",
-  },
-  {
-    id: ECreatedOrderStatusDataDetail.Canceled,
-    color: "#000",
-  },
-  {
-    id: ECreatedOrderStatusDataDetail.Deposited,
-    color: "#ffa500",
-  },
-  {
-    id: ECreatedOrderStatusDataDetail.WaitingForOrderApproval,
-    color: "#EAF3FB",
-  },
-  {
-    id: ECreatedOrderStatusDataDetail.Approved,
-    color: "#fbc02d",
-  },
-  {
-    id: ECreatedOrderStatusDataDetail.BoughtForOrder,
-    color: "#008080",
-  },
-  {
-    id: ECreatedOrderStatusDataDetail.ArrivedToChinaWarehouse,
-    color: "#808000",
-  },
-  {
-    id: ECreatedOrderStatusDataDetail.ArrivedToVietNamWarehouse,
-    color: "#008000",
-  },
-  {
-    id: ECreatedOrderStatusDataDetail.WaitingForPayment,
-    color: "#2A8BD5",
-  },
-  {
-    id: ECreatedOrderStatusDataDetail.Paid,
-    color: "#000080",
-  },
-  {
-    id: ECreatedOrderStatusDataDetail.Finished,
-    color: "#0000FF",
-  },
-];
-
 // ===== END =====
-
-export const transferStatusData = [
-  {
-    id: 1,
-    name: "Chưa về kho TQ",
-  },
-  {
-    id: 2,
-    name: "Đã về kho TQ",
-  },
-  {
-    id: 3,
-    name: "Đã về kho đích",
-  },
-  {
-    id: 4,
-    name: "Đã giao khách hàng",
-  },
-  {
-    id: 5,
-    name: "Đã hủy",
-  },
-];
-
-export const transferData = [
-  {
-    id: 1,
-    name: "Đi thường",
-  },
-  {
-    id: 2,
-    name: "Đi nhanh",
-  },
-];
 
 export const dataGender = [
   {
@@ -727,76 +268,6 @@ export const dataGender = [
 export const categoryData = [
   { Id: true, Name: "Đơn ký gửi" },
   { Id: false, Name: "Đơn mua hộ" },
-];
-
-export const seoCategoryData = [
-  { name: "Bảng giá vận chuyển", id: 1 },
-  { name: "Hướng dẫn", id: 2 },
-  { name: "Dịch vụ", id: 3 },
-  { name: "Giới thiệu", id: 4 },
-  { name: "Chính sách", id: 5 },
-];
-
-export const roleData = [
-  {
-    id: null,
-    name: "Tất cả",
-  },
-  {
-    id: 1,
-    name: "Manager",
-  },
-  {
-    id: 2,
-    name: "NV Đặt hàng",
-  },
-  {
-    id: 3,
-    name: "NV Kho TQ",
-  },
-  {
-    id: 4,
-    name: "NV Kho VN",
-  },
-  {
-    id: 5,
-    name: "NV Kinh doanh",
-  },
-  {
-    id: 6,
-    name: "Kế toán",
-  },
-];
-
-export const employeeRoleData = [
-  {
-    id: 1,
-    name: "User",
-  },
-  {
-    id: 2,
-    name: "Manager",
-  },
-  {
-    id: 3,
-    name: "Nhân viên đặt hàng",
-  },
-  {
-    id: 4,
-    name: "Nhân viên kho TQ",
-  },
-  {
-    id: 5,
-    name: "Nhân viên kho đích",
-  },
-  {
-    id: 6,
-    name: "Nhân viên sale",
-  },
-  {
-    id: 7,
-    name: "Nhân viên kế toán",
-  },
 ];
 
 // active data scope
@@ -1147,7 +618,6 @@ export const search3Data = [
     id: ESearch3Data.Transport,
     name: "Mã vận đơn",
   },
-
 ];
 
 export const searchData = [
@@ -1762,7 +1232,7 @@ export const firstPageDirect = [
     allowPath: [
       "/manager/order/order-list",
       "/manager/order/order-list/detail",
-      "/manager/order/order-list?q=3",
+      `/manager/order/order-list?q=${EParamQ.otherOrder}`,
       "/manager/statistical/sales",
       "/manager/employee/bonus-order",
       "/manager/order/buy-for/create-order",
@@ -1791,9 +1261,6 @@ export const firstPageDirect = [
       "/manager/warehouse/transaction-code-management",
       "/manager/warehouse/floating-package",
       "/manager/warehouse/package-management/detail",
-      // "/manager/order/order-list",
-      // "/manager/order/order-list/detail",
-      // "/manager/order/order-list?q=3",
       "/manager/money/out-stock-payment",
       "/manager/money/out-stock-payment/detail",
     ],
@@ -1805,7 +1272,7 @@ export const firstPageDirect = [
       "/manager/client/client-list",
       "/manager/order/order-list",
       "/manager/order/order-list/detail",
-      "/manager/order/order-list?q=3",
+      `/manager/order/order-list?q=${EParamQ.otherOrder}`,
       "/manager/deposit/deposit-list",
       "/manager/deposit/deposit-list",
       "/manager/order/buy-for/create-order",
@@ -1844,10 +1311,10 @@ export const firstPageDirect = [
       "/manager/client/transaction-history",
       "/manager/order/order-list",
       "/manager/order/order-list/detail",
-      "/manager/order/order-list?q=3",
+      `/manager/order/order-list?q=${EParamQ.otherOrder}`,
       "/manager/client/client-list",
       "/manager/deposit/deposit-list/",
-      "/manager/order/request-payment/"
+      "/manager/order/request-payment/",
     ],
   },
 ];
@@ -1907,267 +1374,6 @@ export const apiWithoutToken = [
   "/page/get-by-code",
 ];
 
-// export const enum EPaymentStatus {
-//   Pending = 1,
-//   Paid = 2,
-//   Cancel = 3,
-//   Finished = 4,
-//   Confirmed = 5
-// }
-
-// export const paymentStatus = [
-//   {
-//     id: EPaymentStatus.Pending,
-//     name: "Chờ duyệt",
-//     col: 2,
-//     value: null,
-//     color: "darkred",
-//   },
-//   {
-//     id: EPaymentStatus.Paid,
-//     name: "Đã thanh toán",
-//     col: 2,
-//     value: null,
-//     color: "#096dd9",
-//   },
-//   {
-//     id: EPaymentStatus.Cancel,
-//     name: "Đã hủy",
-//     col: 2,
-//     value: null,
-//     color: "#000",
-//   },
-//   {
-//     id: EPaymentStatus.Finished,
-//     name: "Đã hoàn thành",
-//     col: 2,
-//     value: null,
-//     color: "#008000",
-//   },
-//   {
-//     id: EPaymentStatus.Confirmed,
-//     name: "Đã xác nhận",
-//     col: 2,
-//     value: null,
-//     color: "#f57c00",
-//   },
-// ];
-
-// export const transportStatus = [
-//   {
-//     id: -1,
-//     name: "Tất cả",
-//     col: 1,
-//     value: null,
-//     color: "#000",
-//   },
-//   {
-//     id: 1,
-//     name: "Hủy",
-//     col: 1,
-//     value: null,
-//     color: "#000",
-//   },
-//   {
-//     id: 2,
-//     name: "Chờ duyệt",
-//     col: 1,
-//     value: null,
-//     color: "magenta",
-//   },
-//   {
-//     id: 3,
-//     name: "Đã duyệt",
-//     col: 1,
-//     value: null,
-//     color: "#008080",
-//   },
-//   {
-//     id: 4,
-//     name: "Về kho TQ",
-//     col: 1,
-//     value: null,
-//     color: "#f57c00",
-//   },
-//   {
-//     id: 5,
-//     name: "Về kho VN",
-//     col: 1,
-//     value: null,
-//     color: "#c71585",
-//   },
-//   {
-//     id: 6,
-//     name: "Đã thanh toán",
-//     col: 1,
-//     value: null,
-//     color: "#096dd9",
-//   },
-//   {
-//     id: 7,
-//     name: "Đã hoàn thành",
-//     col: 1,
-//     value: null,
-//     color: "#008000",
-//   },
-// ];
-
-
-// export const enum EOrderStatus {
-//   all = -1,
-//   NoDeposit = 0,
-//   WaitingForQuote = 100,
-//   Cancel = 1,
-//   Deposited = 2,
-//   Purchased = 5,
-//   InChinaWarehoue = 6,
-//   InVietnamWarehoue = 7,
-//   Paid = 9,
-//   Finished = 10,
-//   Complained = 11
-// }
-
-// export const orderStatus = [
-//   {
-//     id: EOrderStatus.all,
-//     name: "Tất cả",
-//     col: 1,
-//     money: null,
-//     value: null,
-//   },
-//   {
-//     id: EOrderStatus.NoDeposit,
-//     name: "Chưa cọc",
-//     color: "#f00",
-//     col: 1,
-//     money: null,
-//     value: null,
-//   },
-//   {
-//     id: EOrderStatus.WaitingForQuote,
-//     name: "Chờ báo giá",
-//     color: "purple",
-//     col: 1,
-//     money: null,
-//     value: null,
-//   },
-//   {
-//     id: EOrderStatus.Cancel,
-//     name: "Hủy",
-//     color: "#000",
-//     col: 1,
-//     money: null,
-//     value: null,
-//   },
-//   {
-//     id: EOrderStatus.Deposited,
-//     name: "Đã đặt cọc",
-//     color: "#ffa500",
-//     col: 1,
-//     money: null,
-//     value: null,
-//   },
-//   {
-//     id: EOrderStatus.Purchased,
-//     name: "Đã mua hàng",
-//     color: "#008080",
-//     col: 1,
-//     money: null,
-//     value: null,
-//   },
-//   {
-//     id: EOrderStatus.InChinaWarehoue,
-//     name: "Về kho TQ",
-//     color: "#f57c00",
-//     col: 1,
-//     money: null,
-//     value: null,
-//   },
-//   {
-//     id: EOrderStatus.InVietnamWarehoue,
-//     name: "Về kho VN",
-//     color: "#c71585",
-//     col: 1,
-//     money: null,
-//     value: null,
-//   },
-//   {
-//     id: EOrderStatus.Paid,
-//     name: "Đã thanh toán",
-//     color: "#096dd9",
-//     col: 1,
-//     money: null,
-//     value: null,
-//   },
-//   {
-//     id: EOrderStatus.Finished,
-//     name: "Đã hoàn thành",
-//     color: "#008000",
-//     col: 1,
-//     money: null,
-//     value: null,
-//   },
-//   {
-//     id: EOrderStatus.Complained,
-//     name: "Đã khiếu nại",
-//     color: "#601010",
-//     col: 1,
-//     money: null,
-//     value: null,
-//   },
-// ];
-
-// export const packageStatus = [
-//   {
-//     id: 0,
-//     name: "Đã hủy",
-//     color: "#000",
-//   },
-//   {
-//     id: 1,
-//     name: "Mới đặt",
-//     color: "blue",
-//   },
-//   {
-//     id: 2,
-//     name: "Đã về kho TQ",
-//     color: "#f57c00",
-//   },
-//   {
-//     id: 3,
-//     name: "Đã về kho VN",
-//     color: "#c71585",
-//   },
-//   {
-//     id: 5,
-//     name: "Đã giao",
-//     color: "#008000",
-//   },
-// ];
-
-// export const reportStatus = [
-//   {
-//     id: 0,
-//     name: "Đã hủy",
-//     color: "#000",
-//   },
-//   {
-//     id: 1,
-//     name: "Chưa duyệt",
-//     color: "red",
-//   },
-//   {
-//     id: 2,
-//     name: "Đang xử lý",
-//     color: "#008080",
-//   },
-//   {
-//     id: 3,
-//     name: "Đã xử lý",
-//     color: "#008000",
-//   },
-// ];
-
 export const moneyStatus = [
   {
     id: 1,
@@ -2185,7 +1391,6 @@ export const moneyStatus = [
     color: "#000",
   },
 ];
-
 
 export const NotificationList = [
   {

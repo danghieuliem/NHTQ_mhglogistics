@@ -227,7 +227,7 @@ export const OutStockTable: React.FC<
         {...{
           data: data,
           columns: columns,
-          // expandable: expandable,
+          //
           rowSelection: {
             type: "checkbox",
             onChange: (value) => handleOnChangeKey(value),

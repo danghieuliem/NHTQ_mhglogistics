@@ -14,7 +14,7 @@ import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
 
   const { userSale } = useCatalogue({
@@ -114,7 +114,7 @@ const Index: TNextPageWithLayout = () => {
     filter.SalerID,
   ]);
 
-  const {refetch: countRefetch} = useQuery(
+  const { refetch: countRefetch } = useQuery(
     ["deposit-infor-list"],
     () =>
       transportationOrder.getAmountInfo({

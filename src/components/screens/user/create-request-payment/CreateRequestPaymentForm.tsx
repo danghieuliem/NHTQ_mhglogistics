@@ -14,7 +14,7 @@ import { RootState } from "~/store";
 
 export const CreateRequestPaymentForm = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
 
   const [loading, setLoading] = useState(false);
@@ -135,7 +135,7 @@ export const CreateRequestPaymentForm = () => {
       style={{ pointerEvents: loading ? "none" : "all" }}
     >
       <div className="tableBox col-span-2 md:col-span-1">
-        <div className="col-span-2 flex items-end border-b pb-4 border-[#cdd6cd] mb-4">
+        <div className="col-span-2 flex flex-col sm:flex-row gap-2 items-end border-b pb-4 border-[#cdd6cd] mb-4">
           <div className="w-full">
             <FormInput
               control={control}
@@ -150,7 +150,7 @@ export const CreateRequestPaymentForm = () => {
             <IconButton
               onClick={() => handleBill("add")}
               btnClass=""
-              icon="!mr-0"
+              icon=""
               title="Thêm"
               showLoading
               toolip=""
@@ -163,41 +163,47 @@ export const CreateRequestPaymentForm = () => {
             {fields.map((item, index) => (
               <div
                 key={item?.id}
-                className={clsx("flex items-center", index !== 0 && "mt-4")}
+                className={clsx(
+                  "flex flex-col sm:flex-row gap-2 items-end sm:items-center",
+                  index !== 0 && "mt-4"
+                )}
               >
-                <FormInputNumber
-                  control={control}
-                  name={`PayHelpDetails.${index}.desc1` as const}
-                  placeholder="Giá tiền (¥)"
-                  label=""
-                  prefix="¥ "
-                  hideError
-                  rules={{ required: "This field is required" }}
-                />
-                <FormInput
-                  control={control}
-                  name={`PayHelpDetails.${index}.desc2` as const}
-                  placeholder="Nội dung"
-                  inputContainerClassName="!mx-2"
-                  allowClear
-                />
-                <IconButton
-                  onClick={() => handleBill("remove", index)}
-                  btnClass=""
-                  icon=""
-                  title="Xoá"
-                  showLoading
-                  toolip=""
-                  red
-                  btnIconClass="!mr-0"
-                />
+                <div className="flex-1 flex items-center gap-3 w-full">
+                  <span className="text-xl">{index}</span>
+                  <div className="flex-1 flex flex-col w-full">
+                    <FormInputNumber
+                      control={control}
+                      name={`PayHelpDetails.${index}.desc1` as const}
+                      placeholder="Giá tiền (¥)"
+                      label=""
+                      prefix="¥ "
+                      hideError
+                      rules={{ required: "This field is required" }}
+                    />
+                    <FormInput
+                      control={control}
+                      name={`PayHelpDetails.${index}.desc2` as const}
+                      placeholder="Nội dung"
+                      allowClear
+                    />
+                  </div>
+                  <IconButton
+                    onClick={() => handleBill("remove", index)}
+                    btnClass=""
+                    icon=""
+                    title="Xoá"
+                    showLoading
+                    toolip=""
+                    red
+                  />
+                </div>
               </div>
             ))}
           </div>
         </div>
       </div>
       <div className="tableBox col-span-2 md:col-span-1 grid grid-cols-2 gap-4 relative">
-        <div className="md:col-span-1">
+        <div className="col-span-full md:col-span-1">
           <FormInputNumber
             control={control}
             name="Currency"
@@ -225,7 +231,7 @@ export const CreateRequestPaymentForm = () => {
             required={false}
           />
         </div>
-        <div className="md:col-span-1">
+        <div className="col-span-full md:col-span-1">
           <FormTextarea
             control={control}
             name="Note"
@@ -234,7 +240,7 @@ export const CreateRequestPaymentForm = () => {
             required={false}
           />
         </div>
-        <div className="absolute bottom-[10px] right-[10px]">
+        <div className="md:absolute bottom-[10px] right-[10px]">
           <IconButton
             onClick={handleSubmit(_onPress)}
             btnClass="mt-4 !bg-blue !text-white"

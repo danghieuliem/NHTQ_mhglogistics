@@ -120,18 +120,9 @@ export const VolumeFeeTable: FC<TTable<TVolumeFee | any> & TProps> = ({
           data,
           loading,
           bordered: true,
-          // expandable: expandable,
           scroll: { y: 700 },
         }}
       />
-      {/* <div className="mt-4 text-right">
-				<Pagination
-					total={filter?.TotalItems}
-					current={filter?.PageIndex}
-					pageSize={filter?.PageSize}
-					onChange={(page, pageSize) => handleFilter({...filter, PageIndex: page, PageSize: pageSize})}
-				/>
-			</div> */}
     </>
   );
 };

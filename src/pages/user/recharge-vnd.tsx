@@ -34,18 +34,24 @@ export const CreateRequestCom = ({ newUser, bank, TotalAmount }) => {
       <Drawer
         title={
           <Tag color="text-white" className="!bg-main shadow-lg">
-            Tạo yêu cầu nạp tiền
+            Tạo yêu cầu
+            <br className="xs:hidden" />
+            nạp tiền
           </Tag>
         }
         visible={isShow}
         onClose={() => setIsShow(!isShow)}
-        width={"96vw"}
+        width={""}
+        className="w-[96vw]"
         closable={false}
         closeIcon={false}
         extra={
           <Space>
             <div className="font-bold text-sm text-blue py-1 px-4 w-fit rounded-[4px]">
-              Tổng tiền đã nạp: {_format.getVND(TotalAmount)}
+              Tổng tiền đã nạp:{" "}
+              <span className="amount break-words">
+                {_format.getVND(TotalAmount)}
+              </span>
             </div>
             <IconButton
               onClick={() => setIsShow(!isShow)}
@@ -73,7 +79,7 @@ export const CreateRequestCom = ({ newUser, bank, TotalAmount }) => {
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
   const { bank } = useCatalogue({ bankEnabled: true });
   const item = useRef<TUserHistoryRechargeVND>();
@@ -160,7 +166,7 @@ const Index: TNextPageWithLayout = () => {
           bank,
           TotalAmount: data?.Items[0]?.TotalAmount,
           filter,
-          handleFilter
+          handleFilter,
         }}
       />
       <ModalDelete

@@ -35,7 +35,7 @@ export const HistoryTransactionVNDTable: React.FC<
       render: (_, record) => {
         return (
           <>{`${record?.Amount > 0 ? (record?.Type === 1 ? "-" : "+") : ""} ${
-            (record?.Amount) && _format.getVND(record?.Amount, " ")
+            record?.Amount && _format.getVND(record?.Amount, " ")
           }`}</>
         );
       },
@@ -49,39 +49,6 @@ export const HistoryTransactionVNDTable: React.FC<
     },
   ];
 
-  const expandable = {
-    expandedRowRender: (item) => {
-      return (
-        <div className="extentable">
-          <div className="extentable-content w-full">
-            <div className="extentable-row sm:hidden">
-              <span className="extentable-label">Id giao dịch: </span>
-              <span className="extentable-value">{item?.Id}</span>
-            </div>
-            <div className="extentable-row md:hidden">
-              <span className="extentable-label">Nội dung giao dịch: </span>
-              <span className="extentable-value !max-w-[50%] text-right">
-                {item?.Content}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Số dư hiện tại: </span>
-              <span className="extentable-value">
-                {_format.getVND(item?.MoneyLeft, " ")}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Ngày: </span>
-              <span className="extentable-value">
-                {_format.getVNDate(item?.Created)}
-              </span>
-            </div>
-          </div>
-        </div>
-      );
-    },
-  };
-
   return (
     <>
       <DataTable
@@ -90,14 +57,14 @@ export const HistoryTransactionVNDTable: React.FC<
           data,
           loading,
           bordered: true,
-          expandable: expandable,
+
           scroll: { y: 620 },
           pagination: {
             current: filter.PageIndex,
             total: filter.TotalItems,
             pageSize: filter.PageSize,
           },
-          onChange: (page, pageSize) => {
+          onChange: (page) => {
             handleFilter({
               ...filter,
               PageIndex: page.current,

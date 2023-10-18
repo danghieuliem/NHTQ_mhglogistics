@@ -16,7 +16,7 @@ import type { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
   const [modalAdd, setModalAdd] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
@@ -38,7 +38,15 @@ const Index: TNextPageWithLayout = () => {
   }, []);
 
   const { isFetching, data, isLoading, refetch } = useQuery(
-    ["warehouseFeeData", [filter.WarehouseFromId, filter.WarehouseId, filter.IsHelpMoving, filter.ShippingTypeToWareHouseId]],
+    [
+      "warehouseFeeData",
+      [
+        filter.WarehouseFromId,
+        filter.WarehouseId,
+        filter.IsHelpMoving,
+        filter.ShippingTypeToWareHouseId,
+      ],
+    ],
     () => warehouseFee.getList(filter),
     {
       keepPreviousData: true,

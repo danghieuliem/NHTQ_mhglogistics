@@ -18,7 +18,7 @@ import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
   const [modal, setModal] = useState(false);
 
@@ -30,10 +30,10 @@ const Index: TNextPageWithLayout = () => {
     UserName: null,
     RoleID: userCurrentInfo?.UserGroupId,
     IsEmployee: 1,
-    UserGroupId: null
+    UserGroupId: null,
   });
 
-  const handleFilter = useCallback( (newFilter) => {
+  const handleFilter = useCallback((newFilter) => {
     setFilter({ ...filter, ...newFilter });
   }, []);
 
@@ -48,11 +48,7 @@ const Index: TNextPageWithLayout = () => {
   // ===== END =====
 
   const { isFetching, data, refetch } = useQuery(
-    ["employeeData", [
-      filter.PageIndex,
-      filter.UserGroupId,
-      filter.UserName
-    ]],
+    ["employeeData", [filter.PageIndex, filter.UserGroupId, filter.UserName]],
     () => user.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,
@@ -87,7 +83,7 @@ const Index: TNextPageWithLayout = () => {
   }, []);
 
   const handleCloseModal = useCallback(() => setModal(false), []);
-  const handleOpenAddStaff = useCallback(() => setModal(true), [])
+  const handleOpenAddStaff = useCallback(() => setModal(true), []);
 
   return (
     <>

@@ -23,7 +23,7 @@ type TProps = {
   refetchCart?: any;
 };
 
-const InputNote = ({ canUpdate, record, onHandleProduct, disabled}) => {
+const InputNote = ({ canUpdate, record, onHandleProduct, disabled }) => {
   const [note, setNote] = useState(record?.Brand);
 
   return (
@@ -87,7 +87,7 @@ const InputQuantity = ({ onHandleProduct, record, canUpdate, disabled }) => {
   );
 };
 
-const MobileItem = ({ data, onHandleProduct, canUpdate, disabled}) => {
+const MobileItem = ({ data, onHandleProduct, canUpdate, disabled }) => {
   return (
     <div className="flex flex-wrap gap-2 items-center justify-between">
       {data?.map((item, index) => (
@@ -228,7 +228,7 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
       setLoading(false);
     }
   };
-  
+
   const columns: TColumnsType<TUserCartOrderTemp> = [
     {
       dataIndex: "Id",
@@ -290,7 +290,7 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
       title: "Số lượng",
       align: "center",
       width: 100,
-      render: (_, record, index) => {
+      render: (_, record) => {
         return (
           <InputQuantity
             record={record}
@@ -305,21 +305,23 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
     {
       dataIndex: "PriceOrigin",
       align: "center",
-      title: <>Đơn giá (¥/VNĐ)</>,
+      title: (
+        <>
+          Đơn giá
+          <br />
+          (¥/VNĐ)
+        </>
+      ),
       width: 160,
       render: (_, record) => {
-        return <>{_format.getVND(_, "")} / {_format.getVND(record?.UPriceBuyVN, "")}</>;
+        return (
+          <>
+            {_format.getVND(_, "")} / {_format.getVND(record?.UPriceBuyVN, "")}
+          </>
+        );
       },
       responsive: canUpdate ? ["lg"] : ["md"],
     },
-    // {
-    //   dataIndex: "UPriceBuyVN",
-    //   align: "center",
-    //   title: <>Đơn giá</>,
-    //   render: (_) => _format.getVND(_, " đ"),
-    //   responsive: canUpdate ? ["lg"] : ["md"],
-    // },
-
     {
       dataIndex: "EPriceBuyVN",
       title: "Thành tiền",
@@ -354,66 +356,6 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
     },
   ];
 
-  const expandable = {
-    expandedRowRender: (record) => {
-      return (
-        <div className="extentable">
-          <div className="extentable-content">
-            <div className="extentable-row">
-              <span className="extentable-label">Số lượng: </span>
-              <span className="extentable-value">
-                <InputQuantity
-                  record={record}
-                  canUpdate={canUpdate}
-                  onHandleProduct={onHandleProduct}
-                  disabled={loading}
-                />
-              </span>
-            </div>
-
-            <div className="extentable-row">
-              <span className="extentable-label">Đơn giá: </span>
-              <span className="extentable-value">
-                {_format.getVND(record?.PriceOrigin, " ¥")}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Đơn giá: </span>
-              <span className="extentable-value">
-                {_format.getVND(record?.UPriceBuyVN, " đ")}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Thành tiền: </span>
-              <span className="extentable-value">
-                {_format.getVND(record?.EPriceBuyVN, " đ")}
-              </span>
-            </div>
-          </div>
-
-          {canUpdate && (
-            <div className="extentable-actions">
-              <div className="extentable-button">
-                <ActionButton
-                  isButton
-                  title="Xoá sản phẩm"
-                  icon="fas fa-trash-alt"
-                  onClick={() => {
-                    onHandleProduct("delete", {
-                      Id: record?.Id,
-                      Quantity: 0,
-                    });
-                  }}
-                />
-              </div>
-            </div>
-          )}
-        </div>
-      );
-    },
-    defaultExpandAllRows: true,
-  };
-
   return (
     <>
       {window.innerWidth > 768 ? (
@@ -421,7 +363,6 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
           style="cartTable"
           data={data}
           columns={columns}
-          expandable={expandable}
           mediaWidth={canUpdate ? 992 : null}
         />
       ) : (
@@ -435,145 +376,3 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
     </>
   );
 };
-
-// export const OrderTempItem: React.FC<TProps> = ({index, orderTempData, updateProduct, deleteProduct, isLoading}) => {
-
-// 	const [quantity, setQuantity] = React.useState(orderTempData?.Quantity);
-// 	const [brand, setBrand] = React.useState(orderTempData?.Brand);
-// 	const [priceCNY, setPriceCNY] = React.useState(() => {
-// 		if (orderTempData?.PricePromotion !== 0) {
-// 			return orderTempData?.PriceOrigin > orderTempData?.PricePromotion
-// 				? _format.getVND(orderTempData?.PricePromotion, " ")
-// 				: _format.getVND(orderTempData?.PriceOrigin, " ");
-// 		}
-
-// 		return _format.getVND(orderTempData?.PriceOrigin, " ");
-// 	});
-
-// 	const handleQuantity = (val: number) => {
-// 		if (!val) {
-// 			setQuantity(1);
-// 		} else {
-// 			setQuantity(val);
-// 		}
-// 	};
-
-// 	function onChangeOrderBrand(e: React.ChangeEvent<HTMLInputElement>) {
-// 		setBrand(e.target.value);
-// 	}
-
-// 	return (
-// 		// <div
-// 		// 	key={orderTempData.Id}
-// 		// 	className="orderProductItem border"
-// 		// 	style={{
-// 		// 		opacity: isLoading ? "0.4" : "1",
-// 		// 		pointerEvents: isLoading ? "none" : "all",
-// 		// 	}}
-// 		// >
-// 		// 	<div className="flex flex-wrap  lg:justify-between">
-// 		// 		<div className="flex w-full items-center mb-5 justify-between px-3 borderBottom">
-// 		// 			<Tooltip title="Link đến sản phẩm">
-// 		// 				<a href={orderTempData?.LinkOrigin} target="_blank" className="mainTitle">
-// 		// 					{orderTempData?.TitleOrigin}
-// 		// 				</a>
-// 		// 			</Tooltip>
-// 		// 			<div className="xl:block">
-// 		// 				<ActionButton
-// 		// 					iconContainerClassName="border-none"
-// 		// 					title="Cập nhật"
-// 		// 					icon={isLoading ? "fas fa-sync fa-spin" : "fas fa-sync-alt"}
-// 		// 					onClick={() => updateProduct(quantity, brand)}
-// 		// 				/>
-// 		// 				<ActionButton
-// 		// 					iconContainerClassName="border-none"
-// 		// 					title="Xóa sản phẩm này!"
-// 		// 					icon="fas fa-trash-alt"
-// 		// 					onClick={deleteProduct}
-// 		// 				/>
-// 		// 			</div>
-// 		// 		</div>
-// 		// 		<div className="flex xl:w-7/12 items-center">
-// 		// 			<div className="flex">
-// 		// 				<div className="self-stretch flex items-center">
-// 		// 					<div className="w-[20px] h-[20px] text-center rounded-[5px] border border-[#0c5963] flex items-center justify-center">
-// 		// 						{++index}
-// 		// 					</div>
-// 		// 				</div>
-// 		// 				<div className="w-[75px] h-[75px] border border-[#6969691a] ml-4 rounded-xl overflow-hidden">
-// 		// 					<Link href={orderTempData?.LinkOrigin}>
-// 		// 						<a target="_blank">
-// 		// 							<img src={_format.parseImageURL(orderTempData?.ImageOrigin)} width="100%" height="100%" />
-// 		// 						</a>
-// 		// 					</Link>
-// 		// 				</div>
-// 		// 			</div>
-// 		// 			<div className="ml-2">
-// 		// 				<div className="flex flex-wrap items-end">
-// 		// 					<span className="text-sm mr-4 text-[#484747] font-semibold">* Thuộc tính:</span>
-// 		// 					<span>{orderTempData?.Property}</span>
-// 		// 				</div>
-// 		// 				<div className="flex flex-wrap items-end">
-// 		// 					<span className="text-sm mr-4 text-[#484747] font-semibold">* Ghi chú:</span>
-// 		// 					<input
-// 		// 						type="text"
-// 		// 						className="border-b !rounded-none border-[#0000003a] text-[#000] bg-[transparent] max-w-[140px] outline-0"
-// 		// 						value={brand ?? ""}
-// 		// 						onChange={(e) => onChangeOrderBrand(e)}
-// 		// 					/>
-// 		// 				</div>
-// 		// 			</div>
-// 		// 		</div>
-// 		// 		<div className="xl:w-5/12">
-// 		// 			<div className="grid grid-cols-1 xl:!grid-cols-2">
-// 		// 				<div className="col-span-1 lg:!col-span-1 xl:block flex justify-between ml-2 mb-2 xl:mb-0">
-// 		// 					<div className="text-[10px] py-[2px] uppercase font-bold">Số lượng (cái)</div>
-// 		// 					<div className="text-sm text-center">
-// 		// 						<InputNumber
-// 		// 							size="middle"
-// 		// 							min={1}
-// 		// 							max={100000}
-// 		// 							value={quantity}
-// 		// 							onChange={handleQuantity}
-// 		// 							// style={{height: "30px"}}
-// 		// 						/>
-// 		// 					</div>
-// 		// 				</div>
-// 		// 				<div className="col-span-1 lg:!col-span-1 xl:block flex justify-between ml-2 mb-2 xl:mb-0">
-// 		// 					<div className="text-[10px] py-[2px] uppercase font-bold">Đơn giá (¥)</div>
-// 		// 					<div className="text-orange">
-// 		// 						<div className="text-sm text-center">
-// 		// 							<InputNumber size="middle" disabled={true} value={priceCNY} />
-// 		// 						</div>
-// 		// 					</div>
-// 		// 				</div>
-// 		// 				<div className="col-span-1 lg:!col-span-1 xl:block flex justify-between ml-2 mb-2 xl:mb-0">
-// 		// 					<div className="text-[10px] py-[2px] uppercase font-bold">Đơn giá (VNĐ)</div>
-// 		// 					<div className="text-orange">
-// 		// 						<div className="text-sm text-center">
-// 		// 							<InputNumber
-// 		// 								size="middle"
-// 		// 								value={_format.getVND(orderTempData?.UPriceBuyVN, "")}
-// 		// 								disabled={true}
-// 		// 								// onChange={handleChangePriceCNY}
-// 		// 							/>
-// 		// 						</div>
-// 		// 					</div>
-// 		// 				</div>
-// 		// 				<div className="col-span-1 lg:!col-span-1 xl:block flex justify-between ml-2 mb-2 xl:mb-0">
-// 		// 					<div className="text-[10px] py-[2px] uppercase font-bold">Thành tiền (VNĐ)</div>
-// 		// 					<div className="text-sm text-center">
-// 		// 						<InputNumber size="middle" value={_format.getVND(orderTempData?.EPriceBuyVN, "")} disabled={true} />
-// 		// 					</div>
-// 		// 				</div>
-// 		// 			</div>
-// 		// 		</div>
-// 		// 	</div>
-// 		// </div>
-// 		<DataTable
-// 			data={[]}
-// 			columns={[]}
-
-// 		/>
-// 	);
-// };

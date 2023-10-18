@@ -52,28 +52,12 @@ const TransactionTable: FC<
     },
   ];
 
-  const expandable = {
-    expandedRowRender: (record) => (
-      <ul className="px-2 text-xs">
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Loại giao dịch:</span>
-          {record.TradeTypeName}
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Ngày thực hiện giao dịch:</span>
-          {_format.getVNDate(record.Created)}
-        </li>
-      </ul>
-    ),
-  };
-
   return (
     <DataTable
       {...{
         columns,
         data,
         bordered: true,
-        expandable: expandable,
         loading,
         scroll: { y: 700, x: 1200 },
         pagination: {

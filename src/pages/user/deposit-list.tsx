@@ -13,12 +13,8 @@ import { _format } from "~/utils";
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
-
-  // useEffect(() => {
-  //   setFilter({ ...filter, UID: userCurrentInfo?.Id });
-  // }, [userCurrentInfo?.Id]);
 
   const [filter, setFilter] = useState({
     PageIndex: 1,

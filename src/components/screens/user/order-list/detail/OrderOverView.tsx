@@ -168,7 +168,7 @@ const templateFee = [
   },
 ];
 
-const styleLi = `flex items-center justify-between pb-3 border-b border-[#56545454] pt-[10px] last:border-none`;
+const styleLi = `grid grid-cols-2 gap-4 items-center justify-between pb-3 border-b border-[#56545454] pt-[10px] last:border-none`;
 const styleWrapIcon = `text-sm text-[#000]`;
 const styleIcon = `mr-2 pt-[2px] text-[#ffa500] text-[18px]`;
 const styleValue = `text-sm text-[#666565] font-semibold`;
@@ -194,14 +194,14 @@ const OrderOverView: React.FC<TProps> = ({ data, updatePaid }) => {
     setRenderFee(newFee);
   }, [data]);
 
-
-
   return (
     <Card
       title="Tổng quan đơn hàng"
       extra={
         <div className="flex justify-between items-center my-[-10px]">
-          <span className="ant-card-head-title font-medium text-[16px]">Tổng quan đơn hàng</span>
+          <span className="ant-card-head-title font-medium text-[16px]">
+            Tổng quan đơn hàng
+          </span>
           <div className="flex justify-between">
             {data?.Status === 0 && (
               <IconButton

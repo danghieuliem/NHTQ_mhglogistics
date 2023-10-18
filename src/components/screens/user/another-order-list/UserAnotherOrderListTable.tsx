@@ -2,7 +2,6 @@ import { Divider, Modal, Popover } from "antd";
 import { TableRowSelection } from "antd/lib/table/interface";
 import clsx from "clsx";
 import Link from "next/link";
-import router from "next/router";
 import React, { useCallback, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
@@ -17,96 +16,7 @@ import { EOrderStatus, orderStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
-
-const PaymenComponent = ({ handleDeposit, handlePayment, selectedRowKeys }) => {
-  const paymentData = selectedRowKeys?.filter(
-    (item) => item?.Status === EOrderStatus.VeVN
-  );
-  const noDepositData = selectedRowKeys?.filter(
-    (item) => item?.Status === EOrderStatus.DonMoi
-  );
-  const [show, setShow] = useState(false);
-  // const [loading, setLoading] = useState(false);
-
-  return (
-    <>
-      <ActionButton
-        isButton
-        isButtonClassName="bg-sec !text-white hover:!bg-main absolute left-0 left-0"
-        title="Đặt cọc/thanh toán"
-        icon="fad fa-money-check !mr-2"
-        disabled={selectedRowKeys.length <= 0}
-        onClick={() => setShow(!show)}
-      />
-      <Modal
-        footer={false}
-        visible={show}
-        closable={false}
-        onCancel={() => setShow(!show)}
-      >
-        <div className="p-4">
-          {noDepositData?.length > 0 && (
-            <div className="flex items-center justify-between">
-              <span className="col-span-2 flex flex-col">
-                <span className="font-bold">Tổng tiền đặt cọc: </span>
-                <span className="text-lg text-main font-semibold">
-                  {_format.getVND(
-                    noDepositData?.reduce(
-                      (acc, cur) => acc + cur?.AmountDeposit,
-                      0
-                    ) || 0
-                  )}
-                </span>
-              </span>
-              <ActionButton
-                icon="!mr-0"
-                title="Đặt cọc"
-                isButton
-                isButtonClassName="bg-blue h-fit !text-white"
-                onClick={() => {
-                  handleDeposit(noDepositData);
-                  setShow(!show);
-                }}
-              />
-            </div>
-          )}
-          {noDepositData?.length > 0 && paymentData.length > 0 && (
-            <Divider className="!my-2" />
-          )}
-          {paymentData?.length > 0 && (
-            <>
-              <div className="flex items-center justify-between">
-                <span className="col-span-2 flex flex-col">
-                  <span className="font-bold">Tổng tiền thanh toán: </span>
-                  <span className="text-lg text-main font-semibold">
-                    {_format.getVND(
-                      paymentData?.reduce(
-                        (prev, cur) => prev + cur?.RemainingAmount,
-                        0
-                      )
-                    )}
-                  </span>
-                </span>
-                <ActionButton
-                  icon="!mr-0"
-                  title="Thanh toán"
-                  isButton
-                  isButtonClassName="bg-blue h-fit !text-white"
-                  onClick={() => {
-                    handlePayment(paymentData);
-                    setShow(!show);
-                  }}
-                />
-              </div>
-            </>
-          )}
-        </div>
-      </Modal>
-    </>
-  );
-};
-
-const PaymenComponentMemo = React.memo(PaymenComponent);
+import { EParamQ } from "~/enums";
 
 export const UserAnotherOrderListTable: React.FC<
   TTable<TOrder> & {
@@ -116,16 +26,7 @@ export const UserAnotherOrderListTable: React.FC<
     filter;
     handleFilter;
   }
-> = ({
-  data,
-  loading,
-  handleModal,
-  type,
-  q,
-  moneyOfOrders,
-  filter,
-  handleFilter,
-}) => {
+> = ({ data, loading, q, moneyOfOrders, filter, handleFilter }) => {
   const queryClient = useQueryClient();
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
@@ -154,7 +55,7 @@ export const UserAnotherOrderListTable: React.FC<
     const id = toast.loading("Đang thêm ...");
     orderShopTemp
       .addSame({ Id: Id })
-      .then((res) => {
+      .then(() => {
         toast.update(id, {
           render: "Thêm đơn thành công, vui lòng kiểm tra giỏ hàng!",
           type: "success",
@@ -162,7 +63,7 @@ export const UserAnotherOrderListTable: React.FC<
           isLoading: false,
         });
       })
-      .catch((error) => {
+      .catch(() => {
         toast.update(id, {
           render: "Thêm đơn thất bại!",
           type: "error",
@@ -188,8 +89,6 @@ export const UserAnotherOrderListTable: React.FC<
 
   const handleDeposit = useCallback((data: TOrder[]) => {
     const id = toast.loading("Đang xử lý ...");
-    // setLoading(true);
-
     mutationUpdateDeposit
       .mutateAsync(data)
       .then(() => {
@@ -212,13 +111,10 @@ export const UserAnotherOrderListTable: React.FC<
           autoClose: 1000,
         });
       });
-    // .finally(() => setLoading(false));
   }, []);
 
   const handlePayment = useCallback((data: TOrder[]) => {
     const id = toast.loading("Đang xử lý ...");
-    // setLoading(true);
-
     mutationUpdatePayment
       .mutateAsync(data)
       .then(() => {
@@ -240,7 +136,6 @@ export const UserAnotherOrderListTable: React.FC<
           autoClose: 1000,
         });
       });
-    // .finally(() => setLoading(false));
   }, []);
 
   const columns: TColumnsType<TOrder> = [
@@ -249,10 +144,10 @@ export const UserAnotherOrderListTable: React.FC<
       title: "ID",
       width: 60,
       responsive: ["lg"],
-      render: (_) => {
+      render: (value) => {
         return (
-          <Link href={`/user/order-list/detail/?id=${_}`}>
-            <a target="_blank">{_}</a>
+          <Link href={`/user/order-list/detail/?id=${value}`}>
+            <a target="_blank">{value}</a>
           </Link>
         );
       },
@@ -280,7 +175,9 @@ export const UserAnotherOrderListTable: React.FC<
       dataIndex: "TotalPriceVND",
       title: (
         <>
-          Tổng tiền <br /> (VNĐ)
+          Tổng tiền
+          <br />
+          (VNĐ)
         </>
       ),
       align: "right",
@@ -292,7 +189,9 @@ export const UserAnotherOrderListTable: React.FC<
       dataIndex: "AmountDeposit",
       title: (
         <>
-          Số tiền phải cọc <br /> (VNĐ)
+          Số tiền phải cọc
+          <br />
+          (VNĐ)
         </>
       ),
       align: "right",
@@ -304,7 +203,8 @@ export const UserAnotherOrderListTable: React.FC<
       dataIndex: "Deposit",
       title: (
         <>
-          Số tiền đã cọc <br />
+          Số tiền đã cọc
+          <br />
           (VNĐ)
         </>
       ),
@@ -468,7 +368,7 @@ export const UserAnotherOrderListTable: React.FC<
     {
       dataIndex: "Status",
       title: "Trạng thái",
-      render: (status, record) => {
+      render: (status) => {
         const color = orderStatus.find((x) => x.id === status);
         return <TagStatus color={color?.color} statusName={color?.name} />;
       },
@@ -490,7 +390,7 @@ export const UserAnotherOrderListTable: React.FC<
                 />
               </a>
             </Link>
-            {Number(q) !== 3 && (
+            {q !== EParamQ.otherOrder && (
               <ActionButton
                 onClick={() =>
                   Modal.confirm({
@@ -580,286 +480,8 @@ export const UserAnotherOrderListTable: React.FC<
         ? { name: record.Id.toString(), disabled: false }
         : { name: record.Id.toString(), disabled: true, className: "!hidden" };
     },
-    onChange: (selectedRowKeys: React.Key[], selectedRows: TOrder[]) => {
+    onChange: (_, selectedRows: TOrder[]) => {
       setSelectedRowKeys(selectedRows);
-    },
-    // hideSelectAll: true,
-    // columnWidth: 26,
-  };
-
-  const expandable = {
-    expandedRowRender: (record: any) => {
-      return (
-        <div className="extentable">
-          <div className="extentable-content">
-            <div className="extentable-row lg:hidden">
-              <span className="extentable-label">Id đơn: </span>
-              <span className="extentable-value">{record?.Id}</span>
-            </div>
-            <div className="extentable-row sm:hidden">
-              <span className="extentable-label">Tổng tiền: </span>
-              <span className="extentable-value">
-                {_format.getVND(record?.TotalPriceVND)}
-              </span>
-            </div>
-            <div className="extentable-row md:hidden">
-              <span className="extentable-label">Số tiền phải cọc: </span>
-              <span className="extentable-value">
-                {_format.getVND(record?.AmountDeposit)}
-              </span>
-            </div>
-            <div className="extentable-row md:hidden">
-              <span className="extentable-label">Số tiền đã cọc: </span>
-              <span className="extentable-value">
-                {_format.getVND(record?.Deposit)}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label !text-red">
-                Số tiền còn lại:{" "}
-              </span>
-              <span className="extentable-value !text-red">
-                {_format.getVND(
-                  record?.TotalPriceVND - record?.Deposit,
-                  " VNĐ"
-                )}
-              </span>
-            </div>
-
-            {/* timeline */}
-            {[
-              {
-                title: "Lên đơn",
-                value: record.Created,
-              },
-              {
-                title: "Đặt cọc",
-                value: record.DepositDate,
-              },
-              {
-                title: "Đã mua hàng",
-                value: record.DateBuy,
-              },
-              {
-                title: "Shop phát hàng",
-                value: record?.DateSendGoods,
-              },
-              {
-                title: "Đã về kho TQ",
-                value: record.DateTQ,
-              },
-              {
-                title: "Đang về VN",
-                value: record.DateComingVN,
-              },
-              {
-                title: "Đã về kho VN",
-                value: record.DateVN,
-              },
-              {
-                title: "Thanh toán",
-                value: record.PayDate,
-              },
-              {
-                title: "Hoàn thành",
-                value: record.CompleteDate,
-              },
-              {
-                title: "Khiếu nại",
-                value: record.ComplainDate,
-              },
-            ].map(
-              (item) =>
-                item?.value && (
-                  <div className="extentable-row">
-                    <span className="extentable-label">{item?.title}: </span>
-                    <span className="extentable-value">
-                      {_format.getVNDate(item?.value, "HH:mm")} -
-                      {_format.getVNDate(item?.value, "DD/MM/YYYY")}
-                    </span>
-                  </div>
-                )
-            )}
-          </div>
-          <div className="extentable-actions">
-            {/* button detail */}
-            <div className="extentable-button">
-              <ActionButton
-                onClick={() =>
-                  router.push({
-                    pathname: "/user/order-list/detail",
-                    query: {
-                      id: record?.Id,
-                    },
-                  })
-                }
-                isButton={true}
-                icon="far fa-info-square"
-                title="Chi tiết"
-              />
-            </div>
-
-            {/* mua lại */}
-            {Number(q) !== 3 && (
-              <div className="extentable-button">
-                <ActionButton
-                  onClick={() =>
-                    Modal.confirm({
-                      title: "Xác nhận muốn mua lại đơn hàng này?",
-                      onOk: () => {
-                        const id = toast.loading("Đang thêm ...");
-                        orderShopTemp
-                          .addSame({ Id: record?.Id })
-                          .then((res) => {
-                            toast.update(id, {
-                              render:
-                                "Thêm đơn thành công, vui lòng kiểm tra giỏ hàng!",
-                              type: "success",
-                              autoClose: 500,
-                              isLoading: false,
-                            });
-                          })
-                          .catch((error) => {
-                            toast.update(id, {
-                              render: "Thêm đơn thất bại!",
-                              type: "error",
-                              isLoading: false,
-                            });
-                          });
-                      },
-                    })
-                  }
-                  isButton={true}
-                  icon="fas fa-cart-arrow-down"
-                  title="Mua lại"
-                />
-              </div>
-            )}
-
-            {/* khiếu nại */}
-            {record?.Status === EOrderStatus.HoanThanh && (
-              <div className="extentable-button">
-                <ActionButton
-                  onClick={() =>
-                    router.push({
-                      pathname: "/user/report/detail",
-                      query: {
-                        id: record?.Id,
-                      },
-                    })
-                  }
-                  icon="fas fa-balance-scale-right"
-                  title="Khiếu nại"
-                  btnRed
-                  isButton={true}
-                />
-              </div>
-            )}
-
-            {Number(q) === 3 ? (
-              <>
-                {record?.IsCheckNotiPrice && (
-                  <>
-                    {record?.Status === EOrderStatus.DonMoi && (
-                      <div className="extentable-button">
-                        <ActionButton
-                          onClick={() => {
-                            type.current = "deposit";
-                            handleModal([record], undefined, "one");
-                          }}
-                          icon="far fa-dollar-sign"
-                          title="Đặt cọc"
-                          btnYellow
-                          isButton={true}
-                        />
-                      </div>
-                    )}
-                    {record?.Status === EOrderStatus.VeVN && (
-                      <div className="extentable-button">
-                        <ActionButton
-                          onClick={() => {
-                            type.current = "payment";
-                            handleModal([record], undefined, "one");
-                          }}
-                          icon="fas fa-credit-card"
-                          title="Thanh toán"
-                          btnBlue
-                          isButton={true}
-                        />
-                      </div>
-                    )}
-                  </>
-                )}
-                {(record?.Status === EOrderStatus.ChoBaoGia ||
-                  record?.Status === EOrderStatus.DonMoi) && (
-                  <div className="extentable-button">
-                    <ActionButton
-                      onClick={() =>
-                        Modal.confirm({
-                          title: "Xác nhận xóa đơn hàng?",
-                          onOk: () => handleDeleteProd(record?.Id),
-                        })
-                      }
-                      icon="fas fa-trash"
-                      title="Hủy đơn!"
-                      btnYellow
-                      isButton={true}
-                    />
-                  </div>
-                )}
-              </>
-            ) : (
-              <>
-                {record?.Status === EOrderStatus.DonMoi && (
-                  <div className="extentable-button">
-                    <ActionButton
-                      onClick={() => {
-                        type.current = "deposit";
-                        handleModal([record], undefined, "one");
-                      }}
-                      icon="far fa-dollar-sign"
-                      title="Đặt cọc"
-                      btnYellow
-                      isButton={true}
-                    />
-                  </div>
-                )}
-                {record?.Status === EOrderStatus.VeVN && (
-                  <div className="extentable-button">
-                    <ActionButton
-                      onClick={() => {
-                        type.current = "payment";
-                        handleModal([record], undefined, "one");
-                      }}
-                      icon="fas fa-credit-card"
-                      title="Thanh toán"
-                      btnBlue
-                      isButton={true}
-                    />
-                  </div>
-                )}
-                {(record?.Status === EOrderStatus.ChoBaoGia ||
-                  record?.Status === EOrderStatus.DonMoi) && (
-                  <div className="extentable-button">
-                    <ActionButton
-                      onClick={() =>
-                        Modal.confirm({
-                          title: "Xác nhận xóa đơn hàng?",
-                          onOk: () => handleDeleteProd(record?.Id),
-                        })
-                      }
-                      icon="fas fa-trash"
-                      title="Hủy đơn!"
-                      btnYellow
-                      isButton={true}
-                    />
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-        </div>
-      );
     },
   };
 
@@ -869,23 +491,18 @@ export const UserAnotherOrderListTable: React.FC<
         {...{
           columns,
           data,
-          // bordered: true,
           rowSelection,
           loading,
-          // title: q === "3" ? "Danh sách đơn mua hộ khác" : "Danh sách đơn mua hộ",
-          expandable: expandable,
           scroll: { y: 640 },
           mediaWidth: 1200,
-          extraElmentClassName:
+          extraElementClassName:
             "flex items-center !justify-between !w-full flex-wrap flex-col gap-2 relative",
-          extraElment: (
+          extraElement: (
             <>
-              <PaymenComponentMemo
+              <UserAnotherOrderListFilterMemo
                 selectedRowKeys={selectedRowKeys}
                 handleDeposit={handleDeposit}
                 handlePayment={handlePayment}
-              />
-              <UserAnotherOrderListFilterMemo
                 moneyOfOrders={moneyOfOrders}
                 numberOfOrder={orderStatus}
                 handleFilter={handleFilter}
@@ -897,7 +514,7 @@ export const UserAnotherOrderListTable: React.FC<
             total: filter.TotalItems,
             pageSize: filter.PageSize,
           },
-          onChange: (page, pageSize) => {
+          onChange: (page) => {
             handleFilter({
               ...filter,
               PageIndex: page.current,

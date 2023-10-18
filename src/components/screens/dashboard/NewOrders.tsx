@@ -84,7 +84,6 @@ export const NewOrders = React.memo(() => {
         data,
         loading: isFetching,
         title: "Đơn mua hộ mới",
-        // expandable: expandable,
       }}
     />
   );

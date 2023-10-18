@@ -8,17 +8,16 @@ import { UserAnotherOrderListTable, UserLayout } from "~/components";
 import { orderStatus } from "~/configs";
 import { createdMoneyOfOrdersData } from "~/configs/appConfigs";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
+import { EParamQ } from "~/enums";
 import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
   const { query } = useRouter();
-  // const [items, setItems] = useState<TOrder[]>([]);
   const type = useRef<"deposit" | "payment">("deposit");
-  // const queryClient = useQueryClient();
 
   const [filter, setFilter] = useState({
     TypeSearch: null,
@@ -31,16 +30,14 @@ const Index: TNextPageWithLayout = () => {
     FromDate: null,
     ToDate: null,
     UID: userCurrentInfo?.Id,
-    OrderType: query?.q === "3" ? 3 : 1,
+    OrderType: query?.q === EParamQ.otherOrder ? 3 : 1,
   });
 
-  // const [depositType, setDepositType] = useState<TDepositType>("one");
-  // const [modal, setModal] = useState(false);
   const [moneyOfOrders, setMoneyOfOrders] = useState(createdMoneyOfOrdersData);
 
   const handleFilter = useCallback((newFilter) => {
     setFilter({ ...filter, ...newFilter });
-  }, [])
+  }, []);
 
   useEffect(() => {
     setFilter({
@@ -52,23 +49,26 @@ const Index: TNextPageWithLayout = () => {
       PageIndex: 1,
       PageSize: 20,
       UID: userCurrentInfo?.Id,
-      OrderType: query?.q === "3" ? 3 : 1,
+      OrderType: query?.q === EParamQ.otherOrder ? 3 : 1,
       TotalItems: null,
     });
     setMoneyOfOrders(createdMoneyOfOrdersData);
   }, [query?.q, userCurrentInfo?.Id]);
 
-  const { data, isFetching, refetch } = useQuery(
-    ["orderList", [
-      filter.ToDate,
-      filter.FromDate,
-      filter.OrderType,
-      filter.PageIndex,
-      filter.SearchContent,
-      filter.Status,
-      filter.UID,
-      filter.PageIndex
-    ]],
+  const { data, isFetching } = useQuery(
+    [
+      "orderList",
+      [
+        filter.ToDate,
+        filter.FromDate,
+        filter.OrderType,
+        filter.PageIndex,
+        filter.SearchContent,
+        filter.Status,
+        filter.UID,
+        filter.PageIndex,
+      ],
+    ],
     () => mainOrder.getList(filter).then((res) => res.Data),
     {
       onSuccess: (data) =>
@@ -90,10 +90,13 @@ const Index: TNextPageWithLayout = () => {
   );
 
   useQuery(
-    ["main-order-amount", { OrderType: query?.q === "3" ? 3 : 1 }],
+    [
+      "main-order-amount",
+      { OrderType: query?.q === EParamQ.otherOrder ? 3 : 1 },
+    ],
     () =>
       mainOrder.getMainOrderAmount({
-        orderType: query?.q === "3" ? 3 : 1,
+        orderType: query?.q === EParamQ.otherOrder ? 3 : 1,
       }),
     {
       onSuccess: (res) => {
@@ -120,12 +123,15 @@ const Index: TNextPageWithLayout = () => {
   useQuery(
     [
       "number-of-order",
-      { UID: userCurrentInfo?.Id, orderType: query?.q === "3" ? 3 : 1 },
+      {
+        UID: userCurrentInfo?.Id,
+        orderType: query?.q === EParamQ.otherOrder ? 3 : 1,
+      },
     ],
     () =>
       mainOrder.getNumberOfOrder({
         UID: userCurrentInfo?.Id,
-        orderType: query?.q === "3" ? 3 : 1,
+        orderType: query?.q === EParamQ.otherOrder ? 3 : 1,
       }),
     {
       onSuccess(res) {
@@ -155,20 +161,11 @@ const Index: TNextPageWithLayout = () => {
           handleFilter,
           moneyOfOrders,
           loading: isFetching,
-          // handleModal,
           type,
           q: query?.q,
           filter,
         }}
       />
-      {/* <Pagination
-        total={filter?.TotalItems}
-        current={filter?.PageIndex}
-        pageSize={filter?.PageSize}
-        onChange={(page, pageSize) =>
-          handleFilter({ ...filter, PageIndex: page, PageSize: pageSize })
-        }
-      /> */}
     </React.Fragment>
   );
 };

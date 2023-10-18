@@ -52,7 +52,7 @@ const Bars = ({ hover, onClick }) => {
 
 const NotificationBell = ({ userPage, userCurrentInfo }) => {
   const isLoadRef = useRef(true);
-  
+
   const { data } = useQuery(
     ["new-notification"],
     () =>
@@ -78,7 +78,7 @@ const NotificationBell = ({ userPage, userCurrentInfo }) => {
       // enabled: isLoadRef.current,
       retry: false,
       staleTime: 5000,
-      keepPreviousData: true
+      keepPreviousData: true,
     }
   );
 
@@ -145,16 +145,13 @@ const NotificationBell = ({ userPage, userCurrentInfo }) => {
 
       <Divider
         type="vertical"
-        className={clsx(
-          "bg-main h-3",
-          data?.Data > 100 ? "!ml-6" : "ml-auto"
-        )}
+        className={clsx("bg-main h-3", data?.Data > 100 ? "!ml-6" : "ml-auto")}
       />
     </>
   );
 };
 
-const NotificationBellMemo = React.memo(NotificationBell)
+const NotificationBellMemo = React.memo(NotificationBell);
 
 const LeftInfoComponents = ({ userPage, userCurrentInfo }) => {
   const firstPage = useAppSelector(selectFirstPageDashboard);
@@ -205,7 +202,10 @@ const LeftInfoComponents = ({ userPage, userCurrentInfo }) => {
       )}
 
       {/* Thông báo */}
-      <NotificationBellMemo userPage={userPage} userCurrentInfo={userCurrentInfo} />
+      <NotificationBellMemo
+        userPage={userPage}
+        userCurrentInfo={userCurrentInfo}
+      />
 
       {/* thông tin người dùng */}
       <Popover
@@ -254,7 +254,7 @@ const LeftInfoComponents = ({ userPage, userCurrentInfo }) => {
               />
             )}
           </div>
-          <div className={styles.userInfoWrapper}>
+          <div className={clsx(styles.userInfoWrapper, "!hidden xs:!flex")}>
             <span className="text-main text-[14px] items-end font-semibold">
               {userCurrentInfo?.UserName}
             </span>
@@ -270,20 +270,16 @@ const LeftInfoComponents = ({ userPage, userCurrentInfo }) => {
 
 const NonRenderingChangeHover = React.memo(LeftInfoComponents);
 
-const Header: React.FC<TProps> = ({
-  hover,
-  handleHover,
-  userPage,
-}) => {
+const Header: React.FC<TProps> = ({ hover, handleHover, userPage }) => {
   const dataGlobal: TConfig = useSelector(
     (state: RootState) => state.dataGlobal
   );
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
 
   return (
-    <header className={clsx(styles.header, !userPage && "shadow-md" )}>
+    <header className={clsx(styles.header, !userPage && "shadow-md")}>
       <div
         className={clsx(
           userPage ? styles.innerHeaderUser : styles.innerHeaderManager

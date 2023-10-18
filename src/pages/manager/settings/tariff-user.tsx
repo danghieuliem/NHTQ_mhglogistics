@@ -3,7 +3,12 @@ import { useCallback, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { userLevel } from "~/api";
-import { Layout, TariffUserFormMemo, TariffUserTable, toast } from "~/components";
+import {
+  Layout,
+  TariffUserFormMemo,
+  TariffUserTable,
+  toast,
+} from "~/components";
 import { breadcrumb } from "~/configs";
 import { defaultPagination } from "~/configs/appConfigs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -12,16 +17,13 @@ import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
   const [pagination, setPagination] =
     useState<TablePaginationConfig>(defaultPagination);
 
   const { isFetching, isError, error, data, isLoading } = useQuery(
-    [
-      "userLevelData",
-      { Current: pagination.current},
-    ],
+    ["userLevelData", { Current: pagination.current }],
     () =>
       userLevel
         .getList({
@@ -46,7 +48,7 @@ const Index: TNextPageWithLayout = () => {
     setModal(!modal);
   };
 
-  const handleCloseModal = useCallback(() => setModal(false), [])
+  const handleCloseModal = useCallback(() => setModal(false), []);
 
   return (
     <>

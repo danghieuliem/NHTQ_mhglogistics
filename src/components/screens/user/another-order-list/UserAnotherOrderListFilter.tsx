@@ -1,4 +1,4 @@
-import { Popover } from "antd";
+import { Divider, Modal, Popover } from "antd";
 import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 import {
@@ -11,8 +11,9 @@ import { EOrderStatus, orderStatus } from "~/configs";
 import {
   ECreatedOrderStatusData,
   ESearchData,
-  search2Data
+  search2Data,
 } from "~/configs/appConfigs";
+import { EParamQ } from "~/enums";
 import { _format } from "~/utils";
 
 const inputProps = {
@@ -30,12 +31,16 @@ type TProps = {
   handleFilter: (newFilter) => void;
   numberOfOrder: any;
   moneyOfOrders: any;
+  selectedRowKeys: any;
+  handleDeposit: (data: TOrder[]) => void;
+  handlePayment: (data: TOrder[]) => void;
 };
 
-const NumberOfOrderComp = ({ numberOfOrder, q }) => {
+const NumberOfOrderComp = (props: { numberOfOrder: any; q: EParamQ }) => {
+  const { numberOfOrder, q } = props;
   return (
     <div className="min-w-[300px] p-4">
-      {(q !== "3"
+      {(q !== EParamQ.otherOrder
         ? numberOfOrder.filter((x) => x.id !== 100)
         : numberOfOrder
       )?.map((item, index) => (
@@ -74,12 +79,15 @@ const MoneyOfOrdersComp = ({ moneyOfOrders }) => {
 const CountComponent = ({ numberOfOrder, moneyOfOrders }) => {
   const { query } = useRouter();
   return (
-    <div className="flex gap-2">
+    <>
       <Popover
         trigger="click"
         placement="bottomRight"
         content={
-          <NumberOfOrderComp numberOfOrder={numberOfOrder} q={query?.id} />
+          <NumberOfOrderComp
+            numberOfOrder={numberOfOrder}
+            q={query?.id as EParamQ.otherOrder}
+          />
         }
       >
         <ActionButton
@@ -101,9 +109,102 @@ const CountComponent = ({ numberOfOrder, moneyOfOrders }) => {
           isButtonClassName="bg-green !text-white hover:bg-sec"
         />
       </Popover>
+    </>
+  );
+};
+
+const PaymentComponent = ({
+  handleDeposit,
+  handlePayment,
+  selectedRowKeys,
+}) => {
+  const paymentData = selectedRowKeys?.filter(
+    (item) => item?.Status === EOrderStatus.VeVN
+  );
+  const noDepositData = selectedRowKeys?.filter(
+    (item) => item?.Status === EOrderStatus.DonMoi
+  );
+  const [show, setShow] = useState(false);
+
+  return (
+    <div>
+      <ActionButton
+        isButton
+        isButtonClassName="bg-sec !text-white hover:!bg-main"
+        title="Đặt cọc/thanh toán"
+        icon="fad fa-money-check !mr-2"
+        disabled={selectedRowKeys.length <= 0}
+        onClick={() => setShow(!show)}
+      />
+      <Modal
+        footer={false}
+        visible={show}
+        closable={false}
+        onCancel={() => setShow(!show)}
+      >
+        <div className="p-4">
+          {noDepositData?.length > 0 && (
+            <div className="flex items-center justify-between">
+              <span className="col-span-2 flex flex-col">
+                <span className="font-bold">Tổng tiền đặt cọc: </span>
+                <span className="text-lg text-main font-semibold">
+                  {_format.getVND(
+                    noDepositData?.reduce(
+                      (acc, cur) => acc + cur?.AmountDeposit,
+                      0
+                    ) || 0
+                  )}
+                </span>
+              </span>
+              <ActionButton
+                icon="!mr-0"
+                title="Đặt cọc"
+                isButton
+                isButtonClassName="bg-blue h-fit !text-white"
+                onClick={() => {
+                  handleDeposit(noDepositData);
+                  setShow(!show);
+                }}
+              />
+            </div>
+          )}
+          {noDepositData?.length > 0 && paymentData.length > 0 && (
+            <Divider className="!my-2" />
+          )}
+          {paymentData?.length > 0 && (
+            <>
+              <div className="flex items-center justify-between">
+                <span className="col-span-2 flex flex-col">
+                  <span className="font-bold">Tổng tiền thanh toán: </span>
+                  <span className="text-lg text-main font-semibold">
+                    {_format.getVND(
+                      paymentData?.reduce(
+                        (prev, cur) => prev + cur?.RemainingAmount,
+                        0
+                      )
+                    )}
+                  </span>
+                </span>
+                <ActionButton
+                  icon="!mr-0"
+                  title="Thanh toán"
+                  isButton
+                  isButtonClassName="bg-blue h-fit !text-white"
+                  onClick={() => {
+                    handlePayment(paymentData);
+                    setShow(!show);
+                  }}
+                />
+              </div>
+            </>
+          )}
+        </div>
+      </Modal>
     </div>
   );
 };
+
+const PaymentComponentMemo = React.memo(PaymentComponent);
 
 export const CountComponentMemo = React.memo(CountComponent);
 
@@ -111,6 +212,9 @@ const UserAnotherOrderListFilter: React.FC<TProps> = ({
   handleFilter,
   numberOfOrder,
   moneyOfOrders,
+  selectedRowKeys,
+  handleDeposit,
+  handlePayment,
 }) => {
   const [isShow, setIsShow] = useState(false);
   const { query } = useRouter();
@@ -122,7 +226,12 @@ const UserAnotherOrderListFilter: React.FC<TProps> = ({
 
   return (
     <div className="flex justify-between flex-wrap items-end gap-4 w-full">
-      <div className="flex gap-2 ml-auto">
+      <div className="flex sm:flex-row flex-col gap-2 sm:ml-auto">
+        <PaymentComponentMemo
+          selectedRowKeys={selectedRowKeys}
+          handleDeposit={handleDeposit}
+          handlePayment={handlePayment}
+        />
         <CountComponentMemo
           moneyOfOrders={moneyOfOrders}
           numberOfOrder={numberOfOrder}
@@ -154,7 +263,7 @@ const UserAnotherOrderListFilter: React.FC<TProps> = ({
                 <FilterSelect
                   isClearable={true}
                   data={
-                    query?.q !== "3"
+                    query?.q !== EParamQ.otherOrder
                       ? orderStatus.filter(
                           (x) => x.id !== EOrderStatus.ChoBaoGia
                         )
@@ -206,13 +315,13 @@ const UserAnotherOrderListFilter: React.FC<TProps> = ({
         </Popover>
       </div>
       <div className="flex items-end flex-wrap gap-2 w-full">
-        {(query?.q !== "3"
+        {(query?.q !== EParamQ.otherOrder
           ? numberOfOrder.filter((x) => x.id !== EOrderStatus.ChoBaoGia)
           : numberOfOrder
         )?.map((item) => {
           const len =
             (1 /
-              (query?.q !== "3"
+              (query?.q !== EParamQ.otherOrder
                 ? numberOfOrder?.filter((x) => x.id !== EOrderStatus.ChoBaoGia)
                     .length
                 : numberOfOrder?.length)) *

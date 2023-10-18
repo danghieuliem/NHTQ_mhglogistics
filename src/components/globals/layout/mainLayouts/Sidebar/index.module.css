@@ -19,7 +19,7 @@
 .navWrapperOpen {
   padding: 10px;
   transform: translateX(0%);
-  width: 260px;
+  width: 200px;
 }
 
 .navListContent,
@@ -65,7 +65,7 @@
 .subMenuLabel i,
 .subLabel i {
   margin-right: 10px;
-  font-size: 10px
+  font-size: 10px;
 }
 
 .childLabel a,
@@ -74,7 +74,7 @@
 }
 
 .childLabel:hover a,
-.subLabel:hover a{
+.subLabel:hover a {
   @apply !text-white;
 }
 
@@ -89,7 +89,6 @@
 }
 
 @media screen and (max-width: 1200px) {
-  
   .navWrapper {
     position: fixed;
     z-index: 999;
@@ -97,7 +96,6 @@
     height: 100vh;
   }
 }
-
 
 /* OLD CSS */
 

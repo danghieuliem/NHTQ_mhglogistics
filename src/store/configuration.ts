@@ -48,19 +48,19 @@ const persistUserCurrentInfo = {
 const peristCartReducer = persistReducer(persistCartConfig, cartReducer);
 const persistDataGlobalSetup = persistReducer(
   persistDataGlobal,
-  dataGlobalSlice.reducer,
+  dataGlobalSlice.reducer
 );
 const persistUserCurrentSetup = persistReducer<TUser>(
   persistUserCurrentInfo,
   userCurrentInfo.reducer
-)
+);
 
 export const rootReducer = combineReducers({
   cart: peristCartReducer,
   user: userReducer,
   admin: adminReducer,
   dataGlobal: persistDataGlobalSetup,
-  userCurretnInfo: persistUserCurrentSetup
+  userCurrentInfo: persistUserCurrentSetup,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -79,7 +79,6 @@ export const store = configureStore({
 export const persistor = persistStore(store);
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
-
 
 // export type AppThunk<ReturnType = void> = ThunkAction<
 //   ReturnType,

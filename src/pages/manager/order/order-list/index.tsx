@@ -7,13 +7,14 @@ import { mainOrder } from "~/api";
 import { Layout, OrderListFilter, OrderListTable } from "~/components";
 import { orderStatus } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
+import { EParamQ } from "~/enums";
 import { useCatalogue } from "~/hooks/useCatalogue";
 import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
 
   const { query } = useRouter();
@@ -29,7 +30,7 @@ const Index: TNextPageWithLayout = () => {
     IsNotMainOrderCode: false,
     sorter: null,
     TotalItems: null,
-    OrderType: query?.q === "3" ? 3 : 1,
+    OrderType: query?.q === EParamQ.otherOrder ? 3 : 1,
     PageIndex: 1,
     PageSize: 20,
     OrderBy: "Id desc",
@@ -52,7 +53,7 @@ const Index: TNextPageWithLayout = () => {
       IsNotMainOrderCode: false,
       sorter: null,
       TotalItems: null,
-      OrderType: query?.q === "3" ? 3 : 1,
+      OrderType: query?.q === EParamQ.otherOrder ? 3 : 1,
       PageIndex: 1,
       PageSize: 20,
       OrderBy: "Id desc",
@@ -166,7 +167,7 @@ const Index: TNextPageWithLayout = () => {
           userCurrentInfo?.UserGroupId === 6
             ? 3
             : userCurrentInfo?.UserGroupId,
-        orderType: query?.q === "3" ? 3 : 1,
+        orderType: query?.q === EParamQ.otherOrder ? 3 : 1,
       },
     ],
     () =>
@@ -177,7 +178,7 @@ const Index: TNextPageWithLayout = () => {
           userCurrentInfo?.UserGroupId === 6
             ? 3
             : userCurrentInfo?.UserGroupId,
-        orderType: query?.q === "3" ? 3 : 1,
+        orderType: query?.q === EParamQ.otherOrder ? 3 : 1,
       }),
     {
       onSuccess(res) {
@@ -200,7 +201,9 @@ const Index: TNextPageWithLayout = () => {
   return (
     <Fragment>
       <div className="breadcrumb">
-        {query?.q === "3" ? "Đơn hàng mua hộ khác" : "Đơn hàng mua hộ"}
+        {query?.q === EParamQ.otherOrder
+          ? "Đơn hàng mua hộ khác"
+          : "Đơn hàng mua hộ"}
       </div>
       <OrderListFilter
         numberOfOrder={numberOfOrder}

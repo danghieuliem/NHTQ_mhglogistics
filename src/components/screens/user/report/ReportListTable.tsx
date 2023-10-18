@@ -58,48 +58,12 @@ export const ReportListTable: React.FC<TTable<TReport>> = ({
       width: 120,
       render: (status, record) => (
         <TagStatus
-          color={complainStatus.find(x => x.id === status).color}
-          statusName={complainStatus.find(x => x.id === status).name}
+          color={complainStatus.find((x) => x.id === status).color}
+          statusName={complainStatus.find((x) => x.id === status).name}
         />
-        // <Tag color={reportStatus[status]?.color}>{record?.StatusName}</Tag>
       ),
     },
   ];
-
-  const expandable = {
-    expandedRowRender: (item) => {
-      return (
-        <div className="extentable">
-          <div className="extentable-content w-full">
-            <div className="extentable-row sm:hidden">
-              <span className="extentable-label">ID đơn hàng: </span>
-              <span className="extentable-value">{item?.MainOrderId}</span>
-            </div>
-            <div className="extentable-row md:hidden">
-              <span className="extentable-label">Nội dung: </span>
-              <span className="extentable-value">{item?.ComplainText}</span>
-            </div>
-            <div className="extentable-row lg:hidden">
-              <span className="extentable-label">Ngày tạo: </span>
-              <span className="extentable-value">
-                {_format.getVNDate(item?.Created)}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Ngày xử lý: </span>
-              <span className="extentable-value">
-                {_format.getVNDate(item?.Updated)}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Nhân viên xử lý: </span>
-              <span className="extentable-value">{item?.UpdatedBy}</span>
-            </div>
-          </div>
-        </div>
-      );
-    },
-  };
 
   return (
     <DataTable
@@ -107,8 +71,6 @@ export const ReportListTable: React.FC<TTable<TReport>> = ({
         columns,
         data,
         loading,
-        expandable,
-        // bordered: false,
         pagination,
         onChange: handlePagination,
         scroll: { y: 660 },

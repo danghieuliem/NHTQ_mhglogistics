@@ -124,11 +124,10 @@ const PurchaseProfitTable: FC<
         columns,
         data,
         bordered: true,
-        // expandable: expandable,
         loading,
         scroll: { y: 700, x: 1200 },
-        extraElmentClassName: "ml-auto",
-        extraElment: (
+        extraElementClassName: "ml-auto",
+        extraElement: (
           <ActionButton
             onClick={handleExportExcel}
             icon="fas fa-file-export"

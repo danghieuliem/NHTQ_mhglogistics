@@ -18,7 +18,7 @@ export const WithDrawalVNDForm: FC = () => {
 
   const queryClient = useQueryClient();
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
 
   const mutationAdd = useMutation(withdraw.create, {

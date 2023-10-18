@@ -63,11 +63,10 @@ export const TheMostBalance = React.memo(() => {
     <DataTable
       {...{
         columns,
-        data,
+        data: data as TEmployee[],
         loading: isFetching,
         style: "secondary",
         title: "Khách hàng có số dư nhiều nhất",
-        // expandable: expandable,
       }}
     />
   );

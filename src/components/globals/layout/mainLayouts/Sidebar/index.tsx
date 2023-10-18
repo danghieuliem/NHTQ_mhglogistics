@@ -15,13 +15,14 @@ export type TProps = {
   hover: boolean;
   tabbar: boolean;
   userPage?: boolean;
+  handleHover?: (val: boolean) => void;
 };
 
-const Sidebar: FC<TProps> = ({ userPage, hover }) => {
+const Sidebar: FC<TProps> = ({ userPage, hover, handleHover }) => {
   let menuRouter = useAppSelector(selectRouter);
   const router = useRouter();
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
 
   let renderMenuRouter = userPage ? userRouter : menuRouter;
@@ -96,7 +97,7 @@ const Sidebar: FC<TProps> = ({ userPage, hover }) => {
 
   return (
     <div className={clsx(styles.navWrapper, hover && styles.navWrapperOpen)}>
-      {renderMenuRouter?.map((menuParent, index) => (
+      {renderMenuRouter?.map((menuParent) => (
         <div key={menuParent?.Title} className={styles.menuWrapper}>
           <div className={styles.mainTitle}>
             <span className="mr-2">
@@ -112,9 +113,9 @@ const Sidebar: FC<TProps> = ({ userPage, hover }) => {
                     key={clsx(child?.Path)}
                     className={clsx(
                       styles.childLabel,
-                      activeRouter[0].match(child?.Path) &&
-                        styles.childLabelActive
+                      activeRouter[0] === child?.Path && styles.childLabelActive
                     )}
+                    onClick={() => handleHover(false)}
                   >
                     <Link
                       href={child.Path}
@@ -154,6 +155,7 @@ const Sidebar: FC<TProps> = ({ userPage, hover }) => {
                             : activeRouter[0] === item?.Path &&
                                 styles.subLabelActive
                         )}
+                        onClick={() => handleHover(false)}
                       >
                         <Link href={item.Path}>
                           <a>

@@ -14,7 +14,7 @@ import {
   FormSelect,
   FormSwitch,
   IconButton,
-  Layout
+  Layout,
 } from "~/components";
 import TagStatus from "~/components/screens/status/TagStatus";
 import { breadcrumb } from "~/configs";
@@ -364,21 +364,6 @@ const EditComponent = ({
                 rules={{ required: "Vui lòng nhập đia chỉ kho!" }}
               />
               <FormSwitch control={control} name="Active" label="Active" />
-              {/* <FormSelect
-                label="Kho ở đâu?"
-                data={[
-                  { Name: "Trung Quốc", Id: true },
-                  { Name: "Việt Nam", Id: false },
-                ]}
-                defaultValue={{
-                  Name: defaultValues?.IsChina ? "Trung Quốc" : "Việt Nam",
-                  Id: defaultValues?.Id,
-                }}
-                select={{ label: "Name", value: "Id" }}
-                control={control}
-                name={"IsChina"}
-                placeholder={""}
-              /> */}
             </>
           ) : (
             <>
@@ -414,9 +399,9 @@ const EditComponent = ({
   );
 };
 
-const AddNewWareHouseFormMemo = React.memo(AddNewWareHouseForm) 
-const AddNewMethodMemo = React.memo(AddNewMethod)
-const EditComponentMemo = React.memo(EditComponent)
+const AddNewWareHouseFormMemo = React.memo(AddNewWareHouseForm);
+const AddNewMethodMemo = React.memo(AddNewMethod);
+const EditComponentMemo = React.memo(EditComponent);
 
 const Index: TNextPageWithLayout = () => {
   const [modalWarehouse, setModalWarehouse] = useState(false);
@@ -452,6 +437,7 @@ const Index: TNextPageWithLayout = () => {
     {
       title: "ID",
       dataIndex: "Id",
+      responsive: ["md"],
       align: "right",
     },
     {
@@ -538,6 +524,7 @@ const Index: TNextPageWithLayout = () => {
     {
       title: "ID",
       dataIndex: "Id",
+      responsive: ["md"],
       align: "right",
     },
     {
@@ -637,7 +624,7 @@ const Index: TNextPageWithLayout = () => {
           <DataTable
             rowKey={"Id"}
             key={"1"}
-            columns={columnsWarehouse}
+            columns={columnsWarehouse as any}
             data={warehouseFromData}
             pagination={false}
           />
@@ -646,7 +633,7 @@ const Index: TNextPageWithLayout = () => {
           <DataTable
             rowKey={"Id"}
             key={"2"}
-            columns={columnsWarehouse}
+            columns={columnsWarehouse as any}
             data={warehouseToData}
             pagination={false}
           />
@@ -655,7 +642,7 @@ const Index: TNextPageWithLayout = () => {
           <DataTable
             rowKey={"Id"}
             key={"3"}
-            columns={columnsMethod}
+            columns={columnsMethod as any}
             data={shippingType}
             pagination={false}
           />

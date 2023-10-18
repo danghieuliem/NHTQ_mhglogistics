@@ -220,7 +220,7 @@ class Format {
 
   convert_block_three = (number) => {
     if (number == "000") return "";
-    var _a = number + ""; //Convert biến 'number' thành kiểu string
+    let _a = number + ""; //Convert biến 'number' thành kiểu string
 
     //Kiểm tra độ dài của khối
     switch (_a.length) {
@@ -231,19 +231,19 @@ class Format {
       case 2:
         return this.convert_block_two(_a);
       case 3:
-        var chuc_dv = "";
+        let chuc_dv = "";
         if (_a.slice(1, 3) != "00") {
           chuc_dv = this.convert_block_two(_a.slice(1, 3));
         }
-        var tram = this.chuHangTram[_a[0]] + " trăm";
+        let tram = this.chuHangTram[_a[0]] + " trăm";
         return tram + " " + chuc_dv;
     }
   };
 
   convert_block_two = (number) => {
-    var dv = this.chuHangDonVi[number[1]];
-    var chuc = this.chuHangChuc[number[0]];
-    var append = "";
+    let dv = this.chuHangDonVi[number[1]];
+    let chuc = this.chuHangChuc[number[0]];
+    let append = "";
 
     // Nếu chữ số hàng đơn vị là 5
     if (number[0] > 0 && number[1] == 5) {
@@ -263,12 +263,12 @@ class Format {
   };
 
   toVietnamese(number: number) {
-    var str = String(number) + "";
-    var i = 0;
-    var arr = [];
-    var index = str.length;
-    var result = [];
-    var rsString = "";
+    let str = String(number) + "";
+    let i = 0;
+    let arr = [];
+    let index = str.length;
+    let result = [];
+    let rsString = "";
 
     if (index == 0 || str == "NaN") {
       return "";

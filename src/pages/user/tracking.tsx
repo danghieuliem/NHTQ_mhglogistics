@@ -10,17 +10,17 @@ import {
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
 import { TNextPageWithLayout } from "~/types/layout";
 
-const Index: TNextPageWithLayout = ({ connection }) => {
+const Index: TNextPageWithLayout = () => {
   const [TransactionCode, setTransactionCode] = useState<string>(null);
   const handleFilter = (TransactionCode: string) => {
-		if (TransactionCode === "") {
-			toast.warn("Vui lòng nhập mã vận đơn!");
-			return;
-		}
+    if (TransactionCode === "") {
+      toast.warn("Vui lòng nhập mã vận đơn!");
+      return;
+    }
     setTransactionCode(TransactionCode.trim());
-	}
+  };
 
-  const { data, isLoading, isFetching } = useQuery(
+  const { data } = useQuery(
     ["tracking", TransactionCode],
     () => smallPackage.getByTransactionCode({ TransactionCode }),
     {
@@ -39,17 +39,10 @@ const Index: TNextPageWithLayout = ({ connection }) => {
       </div>
       <div className="">
         <div>
-					{/* {
-						isFetching && <Loading />
-					} */}
-					{
-						TransactionCode && data?.length > 0 && 
+          {TransactionCode && data?.length > 0 && (
             <TrackingDetail data={data} />
-
-					}
-					{
-						TransactionCode && (!data?.length) && <Empty />
-					}
+          )}
+          {TransactionCode && !data?.length && <Empty />}
         </div>
       </div>
     </div>

@@ -37,7 +37,7 @@ export const TrackingDetail: React.FC<TProps> = ({ data }) => {
         <div className="flex items-center justify-between py-2">
           <span className="text-black">Tổng tiền hàng: </span>
           <span className="text-main">
-            {_format.getVND(data?.[0].TotalPrice, " ")}
+            {_format.getVND(data?.[0].TotalPrice, "")}
           </span>
         </div>
       </Card>

@@ -12,7 +12,7 @@ export const TariffGoodsCheckingTable: FC<TTable<any>> = ({
     {
       dataIndex: "Id",
       title: "ID",
-      align: "right"
+      align: "right",
     },
     {
       dataIndex: "AmountFrom",
@@ -59,7 +59,7 @@ export const TariffGoodsCheckingTable: FC<TTable<any>> = ({
       dataIndex: "action",
       key: "action",
       title: "Thao tác",
-      align: 'right',
+      align: "right",
       render: (_, record) => (
         <ActionButton
           onClick={() => handleModal(record)}
@@ -70,38 +70,6 @@ export const TariffGoodsCheckingTable: FC<TTable<any>> = ({
     },
   ];
 
-  // const expandable = {
-  //   expandedRowRender: (record) => (
-  //     <ul className="px-2 text-xs">
-  //       <li className="xl:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Số lượng từ: </span>
-  //         <span style={{ backgroundColor: "blue" }}>{record.AmountFrom}</span>
-  //       </li>
-  //       <li className="xl:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Số lượng đến: </span>
-  //         {record.AmountTo}
-  //       </li>
-  //       <li className="sm:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Mức phí: </span>
-  //         {record.Fee}
-  //       </li>
-  //       <li className="xl:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Tên loại phí:</span>
-  //         {record.TypeName}
-  //       </li>
-
-  //       <li className="xl:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Thao tác:</span>
-  //         <ActionButton
-  //           onClick={() => handleModal(record)}
-  //           icon="fas fa-edit"
-  //           title="Cập nhật"
-  //         />
-  //       </li>
-  //     </ul>
-  //   ),
-  // };
-
   return (
     <DataTable
       {...{
@@ -109,7 +77,6 @@ export const TariffGoodsCheckingTable: FC<TTable<any>> = ({
         columns,
         data,
         bordered: true,
-        // expandable: expandable,
       }}
     />
   );

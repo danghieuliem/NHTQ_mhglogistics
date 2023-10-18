@@ -16,7 +16,7 @@ export const StatisticalRechargeTable = ({
       dataIndex: "Id",
       title: "ID",
       width: 70,
-      fixed: "left"
+      fixed: "left",
     },
     {
       dataIndex: "CreatedBy",
@@ -51,27 +51,26 @@ export const StatisticalRechargeTable = ({
   ];
 
   return (
-      <DataTable
-        {...{
-          columns,
-          data,
-          bordered: true,
-          // expandable: expandable,
-          loading,
-          pagination,
-          title: "Danh sách nạp tiền",
-          scroll: { y: 700, x: 1200 },
-          onChange: handlePagination,
-          extraElment: (
-            <ActionButton
-              onClick={() => handleExportExcelRecharge()}
-              icon="fas fa-file-export"
-              title="Xuất"
-              isButton
-              isButtonClassName="bg-green !text-white"
-            />
-          ),
-        }}
-      />
+    <DataTable
+      {...{
+        columns,
+        data,
+        bordered: true,
+        loading,
+        pagination,
+        title: "Danh sách nạp tiền",
+        scroll: { y: 700, x: 1200 },
+        onChange: handlePagination,
+        extraElement: (
+          <ActionButton
+            onClick={() => handleExportExcelRecharge()}
+            icon="fas fa-file-export"
+            title="Xuất"
+            isButton
+            isButtonClassName="bg-green !text-white"
+          />
+        ),
+      }}
+    />
   );
 };

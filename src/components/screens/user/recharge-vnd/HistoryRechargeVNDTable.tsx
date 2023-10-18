@@ -13,7 +13,7 @@ interface TProps {
   bank;
   TotalAmount;
   filter;
-  handleFilter
+  handleFilter;
 }
 
 export const HistoryRechargeVNDTable: React.FC<
@@ -26,7 +26,7 @@ export const HistoryRechargeVNDTable: React.FC<
   bank,
   TotalAmount,
   filter,
-  handleFilter
+  handleFilter,
 }) => {
   const columns: TColumnsType<TUserHistoryRechargeVND> = [
     {
@@ -82,47 +82,6 @@ export const HistoryRechargeVNDTable: React.FC<
     },
   ];
 
-  const expandable = {
-    expandedRowRender: (item) => {
-      return (
-        <div className="extentable">
-          <div
-            className={clsx(
-              "extentable-content",
-              item?.Status !== ERechargeStatusData.Pending ? "w-full" : "flex-1"
-            )}
-          >
-            <div className="extentable-row md:hidden">
-              <span className="extentable-label">Nội dung: </span>
-              <span className="extentable-value text-right">
-                {_format.getVND(item?.TradeContent)}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Ngày đặt: </span>
-              <span className="extentable-value">
-                {_format.getVNDate(item?.Created)}
-              </span>
-            </div>
-          </div>
-
-          {item?.Status === ERechargeStatusData.Pending && (
-            <div className={clsx("extentable-actions w-fit ml-4")}>
-              <div className="extentable-button">
-                <ActionButton
-                  onClick={() => handleModal(item)}
-                  icon="far fa-trash-alt"
-                  title="Xóa"
-                  isButton={true}
-                />
-              </div>
-            </div>
-          )}
-        </div>
-      );
-    },
-  };
-
   return (
     <DataTable
       {...{
@@ -141,10 +100,10 @@ export const HistoryRechargeVNDTable: React.FC<
           });
         },
         loading,
-        expandable: expandable,
+
         scroll: { y: 600 },
         title: "Danh sách nạp gần đây",
-        extraElment:
+        extraElement:
           window.innerWidth >= 860 ? (
             <Tooltip title="Tổng tiền đã nạp">
               <div className="bg-blue font-bold text-[#fff] py-1 px-4 rounded-[4px] shadow-md">

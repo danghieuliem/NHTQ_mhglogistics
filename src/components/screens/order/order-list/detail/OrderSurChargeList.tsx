@@ -159,7 +159,6 @@ export const OrderSurChargeList: React.FC<TProps> = ({
         columns={columns}
         data={fields}
         style="detailOrder"
-        // expandable={expandable}
       />
       <Divider />
     </>
