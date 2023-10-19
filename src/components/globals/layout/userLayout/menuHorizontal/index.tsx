@@ -10,18 +10,18 @@ export const MenuHorizontal: FC<{}> = ({}) => {
   const router = useRouter();
   const renderMenuRouter: any = userRouter;
 
-  const [activekey, setActiveKey] = useState([]);
+  const [activeKey, setActiveKey] = useState([]);
 
   const [activeRouter, setActiveRouter] = useState([""]);
 
   const handleActiveKey = (name: string) => {
-    const indexKey = activekey.indexOf(name);
+    const indexKey = activeKey.indexOf(name);
 
     if (indexKey === -1) {
-      setActiveKey([...activekey, name]);
+      setActiveKey([...activeKey, name]);
     } else {
-      activekey.splice(indexKey, 1);
-      setActiveKey([...activekey]);
+      activeKey.splice(indexKey, 1);
+      setActiveKey([...activeKey]);
     }
   };
 
@@ -107,7 +107,7 @@ export const MenuHorizontal: FC<{}> = ({}) => {
                         <div
                           className={clsx(
                             styles.liItem,
-                            activekey[0]?.match(child?.Label) &&
+                            activeKey[0]?.match(child?.Label) &&
                               styles.liItemActive
                           )}
                         >

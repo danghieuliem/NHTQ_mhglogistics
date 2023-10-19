@@ -27,22 +27,18 @@ const Sidebar: FC<TProps> = ({ userPage, hover, handleHover }) => {
 
   let renderMenuRouter = userPage ? userRouter : menuRouter;
 
-  if (window.innerWidth < 1200) {
-    renderMenuRouter = userRouter;
-  }
-
-  const [activekey, setActiveKey] = useState([]);
+  const [activeKey, setActiveKey] = useState([]);
 
   const [activeRouter, setActiveRouter] = useState([""]);
   const [obj, setObj] = useState({});
 
   const handleActiveKey = (name: string) => {
-    const indexKey = activekey.indexOf(name);
+    const indexKey = activeKey.indexOf(name);
     if (indexKey === -1) {
-      setActiveKey([...activekey, name]);
+      setActiveKey([...activeKey, name]);
     } else {
-      activekey.splice(indexKey, 1);
-      setActiveKey([...activekey]);
+      activeKey.splice(indexKey, 1);
+      setActiveKey([...activeKey]);
     }
   };
 
@@ -105,7 +101,7 @@ const Sidebar: FC<TProps> = ({ userPage, hover, handleHover }) => {
             </span>
             <span>{menuParent?.Title}</span>
           </div>
-          <Menu mode="inline" openKeys={activekey} selectedKeys={activeRouter}>
+          <Menu mode="inline" openKeys={activeKey} selectedKeys={activeRouter}>
             {menuParent?.Children.map((child) => {
               if (!child?.SubChildren) {
                 return (
