@@ -120,39 +120,6 @@ const Index: TNextPageWithLayout = () => {
     }
   );
 
-  useQuery(
-    [
-      "number-of-order",
-      {
-        UID: userCurrentInfo?.Id,
-        orderType: query?.q === EParamQ.otherOrder ? 3 : 1,
-      },
-    ],
-    () =>
-      mainOrder.getNumberOfOrder({
-        UID: userCurrentInfo?.Id,
-        orderType: query?.q === EParamQ.otherOrder ? 3 : 1,
-      }),
-    {
-      onSuccess(res) {
-        const data = res.Data;
-        data?.forEach((d) => {
-          const target = orderStatus.find((x) => x?.id === d?.Status);
-          if (target) {
-            target.value = d?.Quantity;
-          }
-        });
-      },
-      onError(error) {
-        toast.error((error as any)?.response?.data?.ResultMessage);
-      },
-      enabled: !!userCurrentInfo?.Id,
-      keepPreviousData: true,
-      staleTime: 5000,
-      refetchOnWindowFocus: true,
-    }
-  );
-
   return (
     <React.Fragment>
       <UserAnotherOrderListTable

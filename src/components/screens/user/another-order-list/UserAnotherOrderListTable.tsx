@@ -3,7 +3,7 @@ import { TableRowSelection } from "antd/lib/table/interface";
 import clsx from "clsx";
 import Link from "next/link";
 import React, { useCallback, useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 import { mainOrder, orderShopTemp } from "~/api";
 import {
@@ -12,11 +12,15 @@ import {
   ReportContentMemo,
   UserAnotherOrderListFilterMemo,
 } from "~/components";
+
 import { EOrderStatus, orderStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
 import { EParamQ } from "~/enums";
+import { RootState } from "~/store";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 export const UserAnotherOrderListTable: React.FC<
   TTable<TOrder> & {
@@ -27,8 +31,13 @@ export const UserAnotherOrderListTable: React.FC<
     handleFilter;
   }
 > = ({ data, loading, q, moneyOfOrders, filter, handleFilter }) => {
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurrentInfo
+  );
+  const { query } = useRouter();
   const queryClient = useQueryClient();
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [listStatus, setListStatus] = useState([...orderStatus]);
 
   const handleDeleteProd = async (id: number) => {
     const idToast = toast.loading("Đang xử lý");
@@ -74,17 +83,11 @@ export const UserAnotherOrderListTable: React.FC<
   }, []);
 
   const mutationUpdateDeposit = useMutation((data: TOrder[]) =>
-    mainOrder.updateOrder(
-      data?.map((item) => item.Id),
-      { Status: 2 }
-    )
+    mainOrder.updateOrder(data?.map((item) => item.Id), { Status: 2 })
   );
 
   const mutationUpdatePayment = useMutation((data: TOrder[]) =>
-    mainOrder.updateOrder(
-      data?.map((item) => item?.Id),
-      { Status: 7 }
-    )
+    mainOrder.updateOrder(data?.map((item) => item?.Id), { Status: 7 })
   );
 
   const handleDeposit = useCallback((data: TOrder[]) => {
@@ -137,6 +140,41 @@ export const UserAnotherOrderListTable: React.FC<
         });
       });
   }, []);
+
+  useQuery(
+    [
+      "number-of-order",
+      {
+        UID: userCurrentInfo?.Id,
+        orderType: query?.q === EParamQ.otherOrder ? 3 : 1,
+      },
+    ],
+    () =>
+      mainOrder.getNumberOfOrder({
+        UID: userCurrentInfo?.Id,
+        orderType: query?.q === EParamQ.otherOrder ? 3 : 1,
+      }),
+    {
+      onSuccess(res) {
+        const data = res.Data;
+        const newListStatus = [...listStatus];
+        data?.forEach((x) => {
+          const index = newListStatus.findIndex((i) => i.id === x?.Status);
+          if (index !== -1) {
+            newListStatus[index].value = x?.Quantity;
+          }
+        });
+        setListStatus(newListStatus);
+      },
+      onError(error) {
+        toast.error((error as any)?.response?.data?.ResultMessage);
+      },
+      enabled: !!userCurrentInfo?.Id,
+      keepPreviousData: true,
+      staleTime: 5000,
+      refetchOnWindowFocus: true,
+    }
+  );
 
   const columns: TColumnsType<TOrder> = [
     {
@@ -504,7 +542,7 @@ export const UserAnotherOrderListTable: React.FC<
                 handleDeposit={handleDeposit}
                 handlePayment={handlePayment}
                 moneyOfOrders={moneyOfOrders}
-                numberOfOrder={orderStatus}
+                numberOfOrder={listStatus}
                 handleFilter={handleFilter}
               />
             </>

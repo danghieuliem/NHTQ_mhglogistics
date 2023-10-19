@@ -1,9 +1,9 @@
 import { Modal, Popover, Tabs } from "antd";
 import "antd/dist/antd.css";
 import clsx from "clsx";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { transportationOrder } from "~/api";
 import {
   ActionButton,
@@ -18,6 +18,8 @@ import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
 import { DetailInfoMemo } from "./components/DetailInfoMemo";
+import { useSelector } from "react-redux";
+import { RootState } from "~/store";
 
 const TimelineRender = (props: { record: TUserDeposit }) => {
   const { record } = props;
@@ -160,6 +162,10 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
   moneyOfOrders,
   ids,
 }) => {
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurrentInfo
+  );
+
   const { control, getValues, reset } = useForm({
     mode: "onBlur",
     defaultValues: {
@@ -348,6 +354,35 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
     },
   ];
 
+  const [listStatus, setListStatus] = useState([...transportationStatus]);
+
+  useQuery(
+    ["deposit-infor-list"],
+    () =>
+      transportationOrder.getAmountInfo({
+        UID: userCurrentInfo?.Id,
+      }),
+    {
+      onSuccess: (res) => {
+        const data = res.Data;
+        const newListStatus = [...listStatus];
+        data?.forEach((x) => {
+          const index = newListStatus.findIndex((i) => i.id === x?.Status);
+          if (index !== -1) {
+            newListStatus[index].value = x?.Quantity;
+          }
+        });
+        setListStatus(newListStatus);
+      },
+      onError: (error) => {
+        toast.error((error as any)?.response?.data?.ResultMessage);
+      },
+      retry: false,
+      enabled: !!userCurrentInfo?.Id,
+      refetchOnWindowFocus: true,
+    }
+  );
+
   return (
     <>
       <DataTable
@@ -360,7 +395,7 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
           extraElementClassName: "!w-full",
           extraElement: (
             <UserDepositListFilterMemo
-              numberOfOrder={transportationStatus}
+              numberOfOrder={listStatus}
               moneyOfOrders={moneyOfOrders}
               handleFilter={handleFilter}
               isSelectSomeItems={!!ids.length}
