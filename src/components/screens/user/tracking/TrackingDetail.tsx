@@ -26,15 +26,15 @@ export const TrackingDetail: React.FC<TProps> = ({ data }) => {
           />
         }
       >
-        <div className="flex items-center justify-between py-2">
+        <div className="flex flex-col xs:flex-row items-center justify-between py-2">
           <span className="text-black">Mã vận đơn: </span>
           <span className="text-main">{data?.[0]?.OrderTransactionCode}</span>
         </div>
-        <div className="flex items-center justify-between py-2">
+        <div className="flex flex-col xs:flex-row items-center justify-between py-2">
           <span className="text-black">Loại đơn hàng: </span>
           <span className="text-main">{data?.[0]?.OrderTypeName}</span>
         </div>
-        <div className="flex items-center justify-between py-2">
+        <div className="flex flex-col xs:flex-row items-center justify-between py-2">
           <span className="text-black">Tổng tiền hàng: </span>
           <span className="text-main">
             {_format.getVND(data?.[0].TotalPrice, "")}
