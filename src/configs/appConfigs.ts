@@ -49,6 +49,49 @@ export enum EOrderStatusData {
   ReceivedOrder = 7,
 }
 
+export const orderStatus2Data = [
+  {
+    id: EOrderStatusData.All,
+    name: "Tất cả trạng thái",
+    color: "default",
+  },
+  {
+    id: EOrderStatusData.NewOrder,
+    name: "Đơn hàng mới",
+    color: "#d32f2f",
+  },
+  {
+    id: EOrderStatusData.ArrivedToChinaWarehouse,
+    name: "Đã về kho TQ",
+    color: "#f57c00",
+  },
+  {
+    id: EOrderStatusData.ArrivedToVietNamWarehouse,
+    name: "Đã về kho đích",
+    color: "#008000",
+  },
+  {
+    id: EOrderStatusData.Paid,
+    name: "Đã thanh toán",
+    color: "#D32240",
+  },
+  {
+    id: EOrderStatusData.ReceivedOrder,
+    name: "Đã nhận hàng",
+    color: "#6E6E6E",
+  },
+  {
+    id: EOrderStatusData.Canceled,
+    name: "Đơn hàng huỷ",
+    color: "#000",
+  },
+  {
+    id: EOrderStatusData.Approved,
+    name: "Đơn đã duyệt",
+    color: "teal",
+  },
+];
+
 export const orderMoneyOfOrdersData = [
   {
     key: "AmountAll",
@@ -1204,7 +1247,7 @@ export const controllerList = {
   Auth: "Auth",
 };
 export type TControllerList =
-  typeof controllerList[keyof typeof controllerList];
+  (typeof controllerList)[keyof typeof controllerList];
 
 // update by Siinh
 // firstPageDirect to check page user can accesabled, if not => redirect to page can access
@@ -1263,6 +1306,7 @@ export const firstPageDirect = [
       "/manager/warehouse/package-management/detail",
       "/manager/money/out-stock-payment",
       "/manager/money/out-stock-payment/detail",
+      "/manager/warehouse/add-package-customer/",
     ],
   },
   {
