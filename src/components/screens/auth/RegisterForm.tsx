@@ -8,7 +8,7 @@ import { Button, FormInput, toast } from "~/components";
 import { config } from "~/configs";
 import { setRouter, updateUser, useAppDispatch } from "~/store";
 import { _format } from "~/utils";
-import { EUnique, checkUnique, createComplain } from "./method";
+import { createComplain } from "./method";
 import { useRouter } from "next/router";
 
 const aLink =
@@ -72,7 +72,7 @@ const RegisterForm = ({ handleOpen }) => {
               })
             );
             setLoading(false);
-            router.push('/user/');
+            router.push("/user/");
             dispatch(setRouter(user.UserGroupId));
           })
           .catch(() => console.log("error to fetching user by id!"));
@@ -124,7 +124,7 @@ const RegisterForm = ({ handleOpen }) => {
                   if (check) {
                     return "Không được chứa Tiếng Việt!";
                   }
-                  return checkUnique(value.trim(), EUnique.username);
+                  // return checkUnique(value.trim(), EUnique.username);
                 },
               },
             }}
@@ -163,11 +163,11 @@ const RegisterForm = ({ handleOpen }) => {
                 value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
                 message: "Không đúng định dạng!",
               },
-              validate: {
-                check: (value) => {
-                  return checkUnique(value.trim(), EUnique.email);
-                },
-              },
+              // validate: {
+              //   check: (value): Promise<any> => {
+              //     return checkUnique(value.trim(), EUnique.email);
+              //   },
+              // },
             }}
             prefix={<i className="fas fa-envelope"></i>}
           />
@@ -192,11 +192,11 @@ const RegisterForm = ({ handleOpen }) => {
                   /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
                 message: "Sđt không đúng định dạng!",
               },
-              validate: {
-                check: (value) => {
-                  return checkUnique(value.trim(), EUnique.phone);
-                },
-              },
+              // validate: {
+              //   check: (value): Promise<any> => {
+              //     return checkUnique(value.trim(), EUnique.phone);
+              //   },
+              // },
             }}
           />
         </div>
