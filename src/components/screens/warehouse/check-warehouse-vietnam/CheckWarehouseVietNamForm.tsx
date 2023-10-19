@@ -26,7 +26,7 @@ type TForm = {
   [key: string]: TWarehouseVN[];
 };
 
-export const CheckWarehouseVietNamForm = ({type}) => {
+export const CheckWarehouseVietNamForm = ({ type }) => {
   const { handleSubmit, control, reset, resetField } = useForm<TWarehouseVN>({
     mode: "onBlur",
     defaultValues: {
@@ -93,7 +93,7 @@ export const CheckWarehouseVietNamForm = ({type}) => {
                   },
                 });
               } else {
-                toast.warning("Vui lòng quét kiện này tại kho TQ trươc!")
+                toast.warning("Vui lòng quét kiện này tại kho TQ trươc!");
               }
             }
           }
@@ -144,14 +144,15 @@ export const CheckWarehouseVietNamForm = ({type}) => {
         return;
       }
 
-
-      let key = res.Data[0].UserName + res.Data[0].Phone;
+      let key = res.Data[0].Phone;
       handleData(
         res.Data.map((item) => ({
           ...item,
           Status:
             item.Status <= ESmallPackage.VeKhoVN
-              ? type === "toWarehouseVN" ? ESmallPackage.VeKhoVN : ESmallPackage.XuatKhoTQ
+              ? type === "toWarehouseVN"
+                ? ESmallPackage.VeKhoVN
+                : ESmallPackage.XuatKhoTQ
               : item.Status,
         })),
         key
