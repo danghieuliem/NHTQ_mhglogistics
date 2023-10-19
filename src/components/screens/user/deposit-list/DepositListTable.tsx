@@ -1,7 +1,7 @@
 import { Modal, Popover, Tabs } from "antd";
 import "antd/dist/antd.css";
 import clsx from "clsx";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { transportationOrder } from "~/api";
@@ -20,6 +20,8 @@ import TagStatus from "../../status/TagStatus";
 import { DetailInfoMemo } from "./components/DetailInfoMemo";
 import { useSelector } from "react-redux";
 import { RootState } from "~/store";
+import { toast as reactToast } from "react-toastify";
+import { TableRowSelection } from "antd/lib/table/interface";
 
 const TimelineRender = (props: { record: TUserDeposit }) => {
   const { record } = props;
@@ -383,12 +385,76 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
     }
   );
 
+  const [selectedRows, setSelectedRows] = useState<TUserDeposit[]>([]);
+
+  const handlePayment = useCallback(() => {
+    const listId = selectedRows.map((row) => row.Id);
+
+    let sumTotalPriceVND: number = 0;
+    selectedRows.forEach((row) => {
+      sumTotalPriceVND += row.TotalPriceVND;
+    });
+
+    Modal.confirm({
+      title: `Thanh toán các đơn hàng.`,
+      content: (
+        <b>
+          <p>{listId.join(" - ")}</p>
+          Tổng tiền: {_format.getVND(sumTotalPriceVND, " VNĐ")}
+        </b>
+      ),
+      onOk: () => {
+        const id = reactToast.loading("Đang xử lý ...");
+
+        transportationOrder
+          .makePayment(listId)
+          .then(() => {
+            queryClient.invalidateQueries("userDepositList");
+            return reactToast.update(id, {
+              render: "Thanh toán thành công.",
+              isLoading: false,
+              type: "success",
+              autoClose: 500,
+            });
+          })
+          .then(() => {
+            setSelectedRows([]);
+          })
+          .catch((error) => {
+            reactToast.update(id, {
+              render: (error as any)?.response?.data?.ResultMessage,
+              isLoading: false,
+              type: "error",
+              autoClose: 500,
+            });
+          });
+      },
+    });
+  }, [selectedRows]);
+
+  const rowSelection: TableRowSelection<TUserDeposit> = {
+    selectedRowKeys: selectedRows?.map((item) => item.Id),
+    getCheckboxProps: (record) => {
+      return record.Status === ETransportationOrder.VeKhoVN
+        ? { name: record.Id.toString(), disabled: false }
+        : {
+            name: record.Id.toString(),
+            disabled: true,
+            className: "!hidden",
+          };
+    },
+    onChange: (_, selectedRows: TUserDeposit[]) => {
+      setSelectedRows([...selectedRows]);
+    },
+  };
+
   return (
     <>
       <DataTable
         {...{
           loading,
           columns,
+          rowSelection,
           data,
           bordered: true,
           scroll: { y: 640 },
@@ -399,6 +465,8 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
               moneyOfOrders={moneyOfOrders}
               handleFilter={handleFilter}
               isSelectSomeItems={!!ids.length}
+              selectedRows={selectedRows}
+              handlePayment={handlePayment}
             />
           ),
           pagination: {

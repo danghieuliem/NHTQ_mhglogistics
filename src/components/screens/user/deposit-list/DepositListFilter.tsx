@@ -12,7 +12,7 @@ import { transportationStatus } from "~/configs";
 import {
   EOrderStatusData,
   ESearchData,
-  searchData
+  searchData,
 } from "~/configs/appConfigs";
 import { _format } from "~/utils";
 
@@ -33,6 +33,9 @@ type TProps = {
   isSelectSomeItems: boolean;
   numberOfOrder: any;
   moneyOfOrders: any;
+
+  handlePayment: () => void;
+  selectedRows: Array<any>;
 };
 
 const NumberOfOrderComp = ({ numberOfOrder }) => {
@@ -55,7 +58,6 @@ const NumberOfOrderComp = ({ numberOfOrder }) => {
 };
 
 const MoneyOfOrdersComp = ({ moneyOfOrders }) => {
-  
   return (
     <div className="w-fit p-4">
       {moneyOfOrders?.map((item, index) => (
@@ -77,6 +79,8 @@ const UserDepositListFilter: React.FC<TProps> = ({
   handleFilter,
   numberOfOrder,
   moneyOfOrders,
+  handlePayment,
+  selectedRows,
 }) => {
   const [isShow, setIsShow] = useState(false);
   const TypeSearch = useRef<ESearchData>(ESearchData.All);
@@ -89,6 +93,14 @@ const UserDepositListFilter: React.FC<TProps> = ({
     <div className="flex flex-col gap-2 w-full justify-between">
       <div className="flex flex-wrap gap-2 items-end justify-between">
         <div className="flex flex-wrap gap-2">
+          <ActionButton
+            disabled={!selectedRows?.length}
+            title="Thanh toán đơn đã chọn"
+            icon="fas fa-money-check-alt"
+            isButton
+            isButtonClassName="bg-blue !text-white hover:bg-sec"
+            onClick={handlePayment}
+          />
           <Popover
             trigger="click"
             placement="bottomRight"
@@ -191,7 +203,7 @@ const UserDepositListFilter: React.FC<TProps> = ({
               className={clsx(
                 `col-span-${item.col}`,
                 item?.id === Status.current ? "!bg-sec !text-white" : "",
-                filterBox,
+                filterBox
               )}
               // style={{
               //   width: `calc(${len}% - 6px)`
