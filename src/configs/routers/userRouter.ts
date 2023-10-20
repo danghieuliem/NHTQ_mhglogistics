@@ -22,6 +22,16 @@ export const userRouter = [
     ],
   },
   {
+    Title: "TÌM SẢN PHẨM",
+    Children: [
+      {
+        Label: "Tìm sản phẩm",
+        Icon: "fas fa-search",
+        Path: "/user/search-product/",
+      },
+    ],
+  },
+  {
     Title: "ĐƠN MUA HỘ",
     Children: [
       {

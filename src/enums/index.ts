@@ -1,4 +1,4 @@
 export enum EParamQ {
-  order = null,
+  order = "",
   otherOrder = "3",
 }

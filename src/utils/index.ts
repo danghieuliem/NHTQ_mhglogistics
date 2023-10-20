@@ -109,6 +109,24 @@ class Format {
     return false;
   };
 
+  // format currency of china
+  getYuan = (price: number, suffix: string = " ¥") => {
+    if (price === null || price === undefined) return "--";
+    if (Number(price) && !price) return 0;
+    if (Number.isInteger(price)) {
+      return (
+        (price?.toString() || "0").replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+        suffix
+      );
+    }
+
+    return (
+      (price > 0
+        ? price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        : price) + suffix
+    );
+  };
+
   // format tiền việt nam
   getVND = (price: number, suffix: string = " VNĐ") => {
     if (price === null || price === undefined) return "--";
@@ -119,7 +137,11 @@ class Format {
         suffix
       );
     }
-    return (price > 0 ? price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") : price )+ suffix;
+    return (
+      (price > 0
+        ? price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        : price) + suffix
+    );
   };
 
   // format phần trăm
@@ -381,9 +403,10 @@ class FunctionHandle {
   handleCheckAccessPage(userGroupId: number, router: NextRouter) {
     const pathname = router.pathname;
     const pagePush = firstPageDirect.find((item) => item.id === userGroupId);
-  
-    if (pathname.includes("/user") || pathname.includes("/notification")) return;
-  
+
+    if (pathname.includes("/user") || pathname.includes("/notification"))
+      return;
+
     switch (userGroupId) {
       case 2:
         if (pagePush.allowPath[0].split("/")[1] !== pathname?.split("/")[1]) {
@@ -398,27 +421,27 @@ class FunctionHandle {
         }
         break;
       case 4:
-        if (!pagePush.allowPath.find(x => x.match(pathname))) {
+        if (!pagePush.allowPath.find((x) => x.match(pathname))) {
           router.push(pagePush.page);
         }
         break;
       case 5:
-        if (!pagePush.allowPath.find(x => x.match(pathname))) {
+        if (!pagePush.allowPath.find((x) => x.match(pathname))) {
           router.push(pagePush.page);
         }
         break;
       case 6:
-        if (!pagePush.allowPath.find(x => x.match(pathname))) {
+        if (!pagePush.allowPath.find((x) => x.match(pathname))) {
           router.push(pagePush.page);
         }
         break;
       case 7:
-        if (!pagePush.allowPath.find(x => x.match(pathname))) {
+        if (!pagePush.allowPath.find((x) => x.match(pathname))) {
           router.push(pagePush.page);
         }
         break;
       case 8:
-        if (!pagePush.allowPath.find(x => x.match(pathname))) {
+        if (!pagePush.allowPath.find((x) => x.match(pathname))) {
           router.push(pagePush.page);
         }
         break;
