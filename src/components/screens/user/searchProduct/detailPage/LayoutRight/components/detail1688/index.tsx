@@ -1,14 +1,16 @@
 import { Badge, Divider, InputNumber, Modal } from "antd";
 import clsx from "clsx";
-import { useRouter } from "next/dist/client/router";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { configuration, orderShopTemp } from "~/api";
 import { toast } from "~/components/toast";
 import { _format } from "~/utils";
 import styles from "../common/_index.module.scss";
 import { cloneDeep } from "lodash";
+import { StepPrice } from "../common/stepPrice";
+import { DetailProductModal } from "../common/modal";
+import { useViewDetailProduct } from "../hooks/useViewDetailProduct";
 
 type TConfiguartor = {
   Pid: string;
@@ -36,7 +38,8 @@ export const Detail1688: FC<LayoutRightProps> = ({ item, onChangePreview }) => {
     queryKey: ["get-currency"],
     queryFn: () => configuration.getCurrency(),
   });
-  const router = useRouter();
+
+  const { getImageOfItem } = useViewDetailProduct(item);
 
   const groupAttriButes: TGroupAttributes[] = useMemo(() => {
     const isConfigAttributes = item.Attributes.filter(
@@ -109,7 +112,7 @@ export const Detail1688: FC<LayoutRightProps> = ({ item, onChangePreview }) => {
     }
   );
 
-  const { control, register, watch, handleSubmit } = useForm<any>({
+  const { control, watch, handleSubmit } = useForm<any>({
     defaultValues: {
       list: item.ConfiguredItems.length
         ? item.ConfiguredItems.map((vl) => {
@@ -212,6 +215,8 @@ export const Detail1688: FC<LayoutRightProps> = ({ item, onChangePreview }) => {
     const fmList = filterList.map((vl) => {
       return {
         ...rootProduct,
+        image_model: getImageOfItem(vl) || item.MainPictureUrl,
+        image_origin: getImageOfItem(vl) || item.MainPictureUrl,
         quantity: vl.number,
         price_origin: vl.Price.OriginalPrice,
         property: vl.Configurators.map((cf) => {
@@ -233,69 +238,24 @@ export const Detail1688: FC<LayoutRightProps> = ({ item, onChangePreview }) => {
       };
     });
 
+    // return;
     const firstElement = fmList.shift();
     mutationPost.mutate(firstElement, {
-      onSuccess: (res) => {
+      onSuccess: () => {
         mutationPostList.mutate(fmList, {
-          onError: (err) => {
+          onError: () => {
             toast.error("Có lỗi xảy ra vui lòng thử lại");
           },
-          onSuccess: (res) => {
+          onSuccess: () => {
             setOpenModal(true);
             toast.success("Thêm vào giỏ hàng thành công");
           },
         });
       },
-      onError: (err) => {
+      onError: () => {
         toast.error("Có lỗi xảy ra vui lòng thử lại");
       },
     });
-  };
-
-  const renderPriceOrigin = () => {
-    if (!item?.ConfiguredItems?.length) {
-      /// not yet check
-      return item.Price.OriginalPrice.toFixed(2);
-    }
-    if (!!item?.Promotions?.length) {
-      const minPrice = item.Promotions[
-        item.Promotions.length - 1
-      ].ConfiguredItems.reduce((prev, cur) => {
-        if (cur.Price.OriginalPrice < prev.Price.OriginalPrice) return cur;
-        return prev;
-      });
-      const maxPrice = item.Promotions[
-        item.Promotions.length - 1
-      ].ConfiguredItems.reduce((prev, cur) => {
-        if (cur.Price.OriginalPrice > prev.Price.OriginalPrice) return cur;
-        return prev;
-      });
-      return (
-        <span>
-          {minPrice.Price.OriginalPrice.toFixed(2)} ~{" "}
-          <span className={styles["rmb"]}>¥</span>
-          {maxPrice.Price.OriginalPrice.toFixed(2)}
-        </span>
-      );
-    } else {
-      const minPrice = item.ConfiguredItems.reduce((prev, cur) => {
-        if (!cur.Quantity) return prev;
-        if (cur.Price.OriginalPrice < prev.Price.OriginalPrice) return cur;
-        return prev;
-      });
-      const maxPrice = item.ConfiguredItems.reduce((prev, cur) => {
-        if (!cur.Quantity) return prev;
-        if (cur.Price.OriginalPrice > prev.Price.OriginalPrice) return cur;
-        return prev;
-      });
-      return (
-        <span>
-          {minPrice.Price.OriginalPrice.toFixed(2)} ~{" "}
-          <span className={styles["rmb"]}>¥</span>
-          {maxPrice.Price.OriginalPrice.toFixed(2)}
-        </span>
-      );
-    }
   };
 
   const renderGoodPrice = (configItem: TConfigItem) => {
@@ -340,6 +300,7 @@ export const Detail1688: FC<LayoutRightProps> = ({ item, onChangePreview }) => {
     // const res = item.Attributes.find((vl) => configurators[configurators.length - 1].Vid == vl.Vid)
     return ress?.Value || "";
   };
+
   const renderTotalPrice = () => {
     const filterList = list
       .filter((el) => el.number != "0")
@@ -368,52 +329,7 @@ export const Detail1688: FC<LayoutRightProps> = ({ item, onChangePreview }) => {
             <span className={styles["price-name"]}>Giá tiền</span>
             <span className={styles["price-num"]}>Lô hàng</span>
           </div>
-          <div className={styles["step-price-wrapper"]}>
-            {item?.QuantityRanges?.length ? (
-              item.QuantityRanges.map((vl, idx) => {
-                return (
-                  <div
-                    className={styles["step-price-item"]}
-                    style={{
-                      width: `calc(100%/${item?.QuantityRanges.length})`,
-                    }}
-                    key={`step-price-${idx}`}
-                  >
-                    <div className={styles["price-box"]}>
-                      <span className={styles["rmb"]}>¥</span>
-                      <span className={styles["price"]}>
-                        {vl.Price.OriginalPrice.toFixed(2)}
-                      </span>
-                    </div>
-                    <div className={styles["unit-box"]}>
-                      <span>
-                        {item.QuantityRanges[idx + 1]
-                          ? `${vl.MinQuantity}~${
-                              item.QuantityRanges[idx + 1].MinQuantity - 1
-                            }`
-                          : `≥${vl.MinQuantity}`}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })
-            ) : (
-              <div
-                className={styles["step-price-item"]}
-                style={{
-                  width: `100%`,
-                }}
-              >
-                <div className={styles["price-box"]}>
-                  <span className={styles["rmb"]}>¥</span>
-                  <span className={styles["price"]}>{renderPriceOrigin()}</span>
-                </div>
-                <div className={styles["unit-box"]}>
-                  <span>{`≥${item.FirstLotQuantity}`}</span>
-                </div>
-              </div>
-            )}
-          </div>
+          <StepPrice item={item} />
         </div>
       </div>
 
@@ -638,43 +554,7 @@ export const Detail1688: FC<LayoutRightProps> = ({ item, onChangePreview }) => {
           Thêm vào giỏ hàng
         </button>
       </div>
-      <Modal
-        centered
-        visible={openModal}
-        onOk={() => setOpenModal(false)}
-        onCancel={() => setOpenModal(false)}
-        footer={false}
-      >
-        <div className="p-[30px]">
-          <div className="mb-[30px]">
-            <p className="text-[18px] font-medium text-green">
-              Hàng đã được thêm vào giỏ. Bạn có muốn đi đến giỏ hàng
-            </p>
-          </div>
-          <div className="flex gap-4 justify-end">
-            <button
-              type="button"
-              className="text-[16px] text-[#000] px-8 py-2 rounded"
-              style={{
-                border: "1px solid #dedede",
-              }}
-              onClick={() => setOpenModal(false)}
-            >
-              Ở lại
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setOpenModal(false);
-                router.push("/user/cart/");
-              }}
-              className="text-[16px] px-8 py-2 bg-main hover:bg-mainDark text-white rounded"
-            >
-              Đồng ý
-            </button>
-          </div>
-        </div>
-      </Modal>
+      <DetailProductModal openModal={openModal} setOpenModal={setOpenModal} />
     </div>
   );
 };

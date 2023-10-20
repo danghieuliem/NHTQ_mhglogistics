@@ -1,16 +1,15 @@
-import { Modal } from 'antd'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { Modal } from "antd";
+import Link from "next/link";
 
 export const DetailProductModal = ({ openModal, setOpenModal }) => {
-  const router = useRouter()
   return (
     <Modal
       centered
       visible={openModal}
       onOk={() => setOpenModal(false)}
       onCancel={() => setOpenModal(false)}
-      footer={false}>
+      footer={false}
+    >
       <div className="p-[30px]">
         <div className="mb-[30px]">
           <p className="text-[18px] font-medium text-green">
@@ -22,23 +21,25 @@ export const DetailProductModal = ({ openModal, setOpenModal }) => {
             type="button"
             className="text-[16px] text-[#000] px-8 py-2 rounded"
             style={{
-              border: '1px solid #dedede'
+              border: "1px solid #dedede",
             }}
-            onClick={() => setOpenModal(false)}>
+            onClick={() => setOpenModal(false)}
+          >
             Ở lại
           </button>
           <Link href="/user/cart/">
             <a
               target="_blank"
               onClick={() => {
-                setOpenModal(false)
+                setOpenModal(false);
               }}
-              className="text-[16px] px-8 py-2 bg-main hover:bg-mainDark text-white rounded">
+              className="text-[16px] px-8 py-2 bg-main hover:bg-mainDark text-white rounded"
+            >
               Đồng ý
             </a>
           </Link>
         </div>
       </div>
     </Modal>
-  )
-}
+  );
+};
