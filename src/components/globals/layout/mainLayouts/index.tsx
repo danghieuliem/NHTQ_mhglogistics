@@ -53,8 +53,7 @@ export const Layout: TlayoutWithChild & React.FC<TProps> = ({
   // }, []);
 
   const [hover, setHover] = useState(
-    // userPage ? window.innerWidth >= 1280 : true
-    false
+    userPage ? window.innerWidth > 1200 : true
   );
   const handleHover = useCallback((bool: boolean) => setHover(bool), []);
 

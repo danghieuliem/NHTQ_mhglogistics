@@ -111,7 +111,9 @@ const Sidebar: FC<TProps> = ({ userPage, hover, handleHover }) => {
                       styles.childLabel,
                       activeRouter[0] === child?.Path && styles.childLabelActive
                     )}
-                    onClick={() => handleHover(false)}
+                    onClick={
+                      () => window.innerWidth <= 1200 && handleHover(false) // max 1200px lg tailwind
+                    }
                   >
                     <Link
                       href={child.Path}
@@ -151,7 +153,9 @@ const Sidebar: FC<TProps> = ({ userPage, hover, handleHover }) => {
                             : activeRouter[0] === item?.Path &&
                                 styles.subLabelActive
                         )}
-                        onClick={() => handleHover(false)}
+                        onClick={
+                          () => window.innerWidth <= 1200 && handleHover(false) // max 1200px lg tailwind
+                        }
                       >
                         <Link href={item.Path}>
                           <a>

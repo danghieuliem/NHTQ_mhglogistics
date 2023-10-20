@@ -1,5 +1,4 @@
 import { Tooltip } from "antd";
-import clsx from "clsx";
 import React from "react";
 import { ActionButton, DataTable } from "~/components";
 import { ERechargeStatusData, rechargeStatusData } from "~/configs/appConfigs";
@@ -67,16 +66,16 @@ export const HistoryRechargeVNDTable: React.FC<
       title: "Thao tác",
       dataIndex: "action",
       align: "right",
-      render: (_, record) =>
-        record?.Status === ERechargeStatusData.Pending && (
-          <ActionButton
-            onClick={() => handleModal(record)}
-            icon="!mr-0"
-            title="Xóa"
-            isButton={true}
-            isButtonClassName="bg-red !text-white"
-          />
-        ),
+      render: (_, record) => (
+        <ActionButton
+          onClick={() => handleModal(record)}
+          icon="!mr-0"
+          title="Xóa"
+          isButton={true}
+          isButtonClassName="bg-red !text-white"
+          disabled={record?.Status !== ERechargeStatusData.Pending}
+        />
+      ),
       responsive: ["md"],
       width: 100,
     },
@@ -92,7 +91,7 @@ export const HistoryRechargeVNDTable: React.FC<
           total: filter.TotalItems,
           pageSize: filter.PageSize,
         },
-        onChange: (page, pageSize) => {
+        onChange: (page) => {
           handleFilter({
             ...filter,
             PageIndex: page.current,
@@ -100,7 +99,6 @@ export const HistoryRechargeVNDTable: React.FC<
           });
         },
         loading,
-
         scroll: { y: 600 },
         title: "Danh sách nạp gần đây",
         extraElement:

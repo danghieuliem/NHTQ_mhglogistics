@@ -109,7 +109,7 @@ export const RechargeVNDForm: React.FC<TProps> = ({
               content={
                 <Image
                   preview={false}
-                  width={400}
+                  width={"fit-content"}
                   src={`https://img.vietqr.io/image/${selectedBank?.BankName}-${selectedBank?.BankNumber}-print.jpg?amount=${
                     watch().Amount
                   }&addInfo=${

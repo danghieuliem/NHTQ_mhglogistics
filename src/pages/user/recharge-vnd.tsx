@@ -1,4 +1,4 @@
-import { Drawer, Pagination, Space, Tag } from "antd";
+import { Drawer, Space, Tag } from "antd";
 import React, { useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useSelector } from "react-redux";
@@ -34,25 +34,16 @@ export const CreateRequestCom = ({ newUser, bank, TotalAmount }) => {
       <Drawer
         title={
           <Tag color="text-white" className="!bg-main shadow-lg">
-            Tạo yêu cầu
-            <br className="xs:hidden" />
-            nạp tiền
+            Tạo yêu cầu nạp tiền
           </Tag>
         }
         visible={isShow}
         onClose={() => setIsShow(!isShow)}
-        width={""}
-        className="w-[96vw]"
+        width={"96vw"}
         closable={false}
         closeIcon={false}
         extra={
           <Space>
-            <div className="font-bold text-sm text-blue py-1 px-4 w-fit rounded-[4px]">
-              Tổng tiền đã nạp:{" "}
-              <span className="amount break-words">
-                {_format.getVND(TotalAmount)}
-              </span>
-            </div>
             <IconButton
               onClick={() => setIsShow(!isShow)}
               title=""
@@ -65,6 +56,9 @@ export const CreateRequestCom = ({ newUser, bank, TotalAmount }) => {
         }
       >
         <div className="grid grid-cols-12 gap-4 m-4">
+          <div className="col-span-full font-bold text-sm text-blue py-1 px-4 w-fit rounded-[4px]">
+            Tổng tiền đã nạp: {_format.getVND(TotalAmount)}
+          </div>
           <div className="col-span-12 lg:col-span-6">
             <RechargeContent newUser={newUser} />
           </div>
