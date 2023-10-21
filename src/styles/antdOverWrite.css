@@ -410,3 +410,7 @@ div.order.ant-drawer-bottom.ant-drawer-open .ant-drawer-content-wrapper {
     flex-direction: column;
   }
 }
+
+.ant-image-img {
+  @apply !w-auto;
+}
