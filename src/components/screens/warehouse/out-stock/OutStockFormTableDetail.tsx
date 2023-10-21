@@ -20,10 +20,10 @@ export const OutStockFormTableDetail: React.FC<
           <Link
             href={
               Number(record?.MainOrderID)
-                ? `http://localhost:3000/manager/order/order-list/detail/?id=${Number(
+                ? `/manager/order/order-list/detail/?id=${Number(
                     record?.MainOrderID
                   )}`
-                : `http://localhost:3000/manager/deposit/deposit-list/detail/?id=${Number(
+                : `/manager/deposit/deposit-list/detail/?id=${Number(
                     record?.TransportationID
                   )}`
             }
