@@ -116,6 +116,12 @@ export const OrderSurChargeList: React.FC<TProps> = ({
                     });
                 } else {
                   remove(index);
+                  toast.update(id, {
+                    render: "Xoá phụ phí thành công!",
+                    autoClose: 500,
+                    isLoading: false,
+                    type: "success",
+                  });
                 }
               }}
             />
