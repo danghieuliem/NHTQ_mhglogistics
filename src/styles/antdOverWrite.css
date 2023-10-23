@@ -254,6 +254,7 @@
 .ant-table-content {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
+  overflow: visible !important;
 }
 
 .ant-table.ant-table-bordered
