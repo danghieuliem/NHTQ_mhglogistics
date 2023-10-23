@@ -46,7 +46,6 @@ const Index: TNextPageWithLayout = () => {
   });
 
   const _onPress = async (data: TForm) => {
-    console.log(data);
     try {
       await mutationUpdate.mutateAsync(data);
     } catch (error) {}

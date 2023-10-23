@@ -21,14 +21,16 @@ export const SurplusFilter: React.FC<TProps> = ({
           placeholder="Chọn loại user"
           label="Loại user"
           handleSearch={(val: number) => {
-            console.log(val);
             handleFilter(val);
           }}
         />
       </div>
       <div className="text-lg py-4">
         <span className="text-base">Tổng số dư:</span>
-        <span className="text-main font-bold"> {_format.getVND(totalWallet)}</span>
+        <span className="text-main font-bold">
+          {" "}
+          {_format.getVND(totalWallet)}
+        </span>
       </div>
     </div>
   );

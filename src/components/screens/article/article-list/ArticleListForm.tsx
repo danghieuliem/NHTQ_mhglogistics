@@ -21,10 +21,6 @@ export const ArticleListForm: React.FC<TProps> = ({
   data,
   pageType,
 }) => {
-  // const { pageType } = useCatalogue({ pageTypeEnabled: !!data });
-
-  // console.log("pageType: ", pageType);
-
   return (
     <>
       <div className="grid grid-cols-12 gap-4 p-2">

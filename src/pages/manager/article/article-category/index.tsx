@@ -6,16 +6,6 @@ import { SEOConfigs } from "~/configs/SEOConfigs";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-  // const [SearchContent, setSearchContent] = useState<string>(null);
-  // const [filter, setFilter] = useState({
-
-  // });
-
-  // const handleFilter = (SearchContent: string) => {
-  // 	console.log(SearchContent);
-  // 	setSearchContent(SearchContent);
-  // };
-
   const { data, isFetching } = useQuery(
     [
       "pageType",

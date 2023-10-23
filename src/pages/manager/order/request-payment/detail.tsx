@@ -7,7 +7,7 @@ import {
   Layout,
   RequestPaymentDetailLeftForm,
   RequestPaymentDetailRightForm,
-  toast
+  toast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -39,8 +39,6 @@ const Index: TNextPageWithLayout = () => {
   const mutationUpdate = useMutation((data: TRequestPaymentOrder) =>
     payHelp.update(data)
   );
-
-  console.log(data);
 
   const _onPress = (data: TRequestPaymentOrder) => {
     mutationUpdate

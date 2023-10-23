@@ -39,7 +39,6 @@ type TProps = {
 };
 
 const NumberOfOrderComp = ({ numberOfOrder }) => {
-  console.log(numberOfOrder);
   return (
     <div className="min-w-[300px] p-4">
       {numberOfOrder?.map((item, index) => (

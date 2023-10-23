@@ -6,8 +6,6 @@ import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
 
 export const UserDepositDetail = ({ visible, onCancel, dataDetail }) => {
-  // console.log("DataDetail: ", dataDetail);
-
   const columns1: TColumnsType<TUserDeposit> = [
     {
       dataIndex: "Id",

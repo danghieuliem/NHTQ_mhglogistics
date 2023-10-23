@@ -63,10 +63,6 @@ const Index: TNextPageWithLayout = () => {
     keyName: "Id",
   });
 
-  useEffect(() => {
-    console.log(watch("smallPackages"));
-  }, [watch("smallPackages")]);
-
   useDeepEffect(() => {
     reset({
       smallPackages: [

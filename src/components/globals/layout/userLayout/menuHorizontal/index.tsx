@@ -38,7 +38,6 @@ export const MenuHorizontal: FC<{}> = ({}) => {
                 renderMenuRouter[i].Children[x]?.SubChildren[z].Path
               )
             ) {
-              console.log(renderMenuRouter[i].Children[x]?.Label);
               setActiveKey([renderMenuRouter[i].Children[x]?.Label]);
               break;
             }

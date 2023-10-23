@@ -325,9 +325,6 @@ export const EmployeeManagementDetailForm: React.FC<TProps> = ({
                         )?.UserName ?? "Chọn nhân viên kinh doanh",
                       Id: defaultValues?.SaleId ?? 0,
                     }}
-                    // callback={(val) => {
-                    // 	console.log(userSaleCatalogue?.find((item) => item.Id === val)?.UserName);
-                    // }}
                   />
                 </div>
                 <div className="mb-3">
@@ -347,9 +344,6 @@ export const EmployeeManagementDetailForm: React.FC<TProps> = ({
                         )?.UserName ?? "Chọn nhân viên đặt hàng",
                       Id: defaultValues?.DatHangId ?? 0,
                     }}
-                    // callback={(val) => {
-                    // 	console.log(userOrderCatalogue?.find((item) => item.Id === val)?.UserName);
-                    // }}
                   />
                 </div>
                 <div className="mb-3">
@@ -368,9 +362,6 @@ export const EmployeeManagementDetailForm: React.FC<TProps> = ({
                         )?.Name ?? "Chọn cấp người dùng",
                       Id: defaultValues?.LevelId,
                     }}
-                    // callback={(val) => {
-                    // 	console.log(userLevelCatalogue?.find((item) => item.Id === val)?.Name);
-                    // }}
                   />
                 </div>
                 <div className="mb-3">
