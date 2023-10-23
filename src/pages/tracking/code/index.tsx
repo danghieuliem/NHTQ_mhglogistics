@@ -41,7 +41,6 @@ const Index = () => {
   };
 
   useEffect(() => {
-    console.log(router?.query?.TransactionCode);
     if (code) {
       handleGetCode(code.toString());
     }

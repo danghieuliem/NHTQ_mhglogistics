@@ -22,8 +22,8 @@ export const DepositListHistory: React.FC<TProps> = () => {
     setFilter({
       ...filter,
       TransportationOrderId: +router.query?.id,
-    })
-  }, [router.query])
+    });
+  }, [router.query]);
 
   const { data } = useQuery(
     [
@@ -66,11 +66,9 @@ export const DepositListHistory: React.FC<TProps> = () => {
     {
       dataIndex: "HistoryContent",
       title: "Nội dung",
-      width: 400
+      width: 400,
     },
   ];
-
-  console.log(data);
 
   return (
     <DataTable

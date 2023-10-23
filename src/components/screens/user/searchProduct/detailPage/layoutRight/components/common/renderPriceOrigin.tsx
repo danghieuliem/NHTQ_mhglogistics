@@ -2,8 +2,6 @@ import { _format } from "~/utils";
 import styles from "./_index.module.scss";
 
 export const RenderPriceOrigin = ({ item }) => {
-  console.log(item);
-
   if (!item?.ConfiguredItems?.length) {
     /// not yet check
     return <>{_format.getYuan(item?.Price.OriginalPrice)}</>;
@@ -21,7 +19,6 @@ export const RenderPriceOrigin = ({ item }) => {
       if (cur.Price.OriginalPrice > prev.Price.OriginalPrice) return cur;
       return prev;
     });
-    console.log(minPrice, maxPrice);
 
     return (
       <span>

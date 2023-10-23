@@ -22,8 +22,6 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
   setValue,
 }) => {
   function handleCheckbox(ctrl, e) {
-    console.log(ctrl, e.target.checked);
-
     setValue(ctrl, e.target.checked);
   }
 

@@ -112,10 +112,12 @@ const CategoryListComp = ({ control, watch, categogyList, setValue }) => {
           rules={{
             required: "This field is required",
           }}
-          defaultValue={ watch().PageTypeId && {
-            Name: categogyList.find((x) => x.Id === watch().PageTypeId)?.Name,
-            Id: watch().PageTypeId,
-          }}
+          defaultValue={
+            watch().PageTypeId && {
+              Name: categogyList.find((x) => x.Id === watch().PageTypeId)?.Name,
+              Id: watch().PageTypeId,
+            }
+          }
           disabled={!watch().IsEdit}
           callback={() => {
             setValue(
@@ -135,7 +137,11 @@ const CategoryListComp = ({ control, watch, categogyList, setValue }) => {
   );
 };
 
-const AddChildContentForm: React.FC<any> = ({ child, onCancel, categogyList }) => {
+const AddChildContentForm: React.FC<any> = ({
+  child,
+  onCancel,
+  categogyList,
+}) => {
   // const [data, setData] = useState<any>();
 
   const { control, handleSubmit, setValue, reset, watch } = useForm<{
@@ -187,7 +193,6 @@ const AddChildContentForm: React.FC<any> = ({ child, onCancel, categogyList }) =
     IsEdit?: number;
     Parent: number;
   }) => {
-    console.log(newData);
     const sendData = { ...newData };
 
     if (!sendData?.IsEdit) {
@@ -198,7 +203,8 @@ const AddChildContentForm: React.FC<any> = ({ child, onCancel, categogyList }) =
 
     onCancel();
     const id = toast.loading("Đang xử lý ...");
-    menu.create(sendData)
+    menu
+      .create(sendData)
       .then(() => {
         queryClient.invalidateQueries("menuData");
         toast.update(id, {

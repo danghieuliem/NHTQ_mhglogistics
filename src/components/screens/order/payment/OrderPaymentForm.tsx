@@ -59,9 +59,6 @@ export const OrderPaymentForm: React.FC<TProps> = ({
       getValues("PaymentType") === 1
         ? data?.AmountDeposit
         : data?.RemainingAmount;
-
-    // console.log("payment data: ", { ...data_pay, Amount: amountValue });
-
     await mutationUpdate.mutateAsync({ ...data_pay, Amount: amountValue });
   };
 

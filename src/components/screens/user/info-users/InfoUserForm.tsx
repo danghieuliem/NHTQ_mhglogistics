@@ -8,7 +8,6 @@ import { useCatalogue } from "~/hooks/useCatalogue";
 import { _format } from "~/utils";
 import { EUnique, checkUnique, createComplain } from "../../auth/method";
 
-
 export const InfoUserForm: React.FC<any> = ({
   data,
   control,
@@ -33,8 +32,6 @@ export const InfoUserForm: React.FC<any> = ({
     userOrderEnabled: true,
     userSaleEnabled: true,
   });
-
-  console.log(warehouseTQ);
 
   const [changePass, setChangePass] = useState(false);
   const [showPass, setShowPass] = useState(false);

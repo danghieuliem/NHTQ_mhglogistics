@@ -79,7 +79,6 @@ export const CheckWarehouseVietNamForm = ({ type }) => {
             if (newData[0].OrderType === EOrderTypeStatusData.Transper) {
               toast.warning("Bạn đã quét đơn hàng ký gửi này rồi");
             } else if (newData[0].OrderType === EOrderTypeStatusData.Buy) {
-              console.log("object");
               if (type === "toWarehouseVN") {
                 confirm({
                   title: "Thông báo!",
