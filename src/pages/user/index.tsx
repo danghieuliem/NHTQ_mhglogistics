@@ -13,6 +13,7 @@ import {
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
+import { EParamQ } from "~/enums";
 import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 const dataBoxItem = [
@@ -28,7 +29,7 @@ const dataBoxItem = [
   {
     key: "mainOrderOtherTotal",
     label: "Mua hàng hộ khác",
-    path: "/user/order-list?q=3",
+    path: `/user/order-list?q=${EParamQ.otherOrder}`,
     icon: "fas fa-cubes",
     color: "#009000",
     bgColor: "#E5FFE5",
@@ -56,7 +57,7 @@ const dataBoxItem = [
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
 
   const [total, setTotal] = useState(dataBoxItem);

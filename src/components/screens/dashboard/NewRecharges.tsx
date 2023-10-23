@@ -84,7 +84,6 @@ export const NewRecharges = React.memo(() => {
         style: "secondary",
         loading: isFetching,
         title: "Khách hàng mới nạp tiền",
-        // expandable: expandable,
       }}
     />
   );

@@ -101,7 +101,6 @@ export const PersonalRechargeTable: React.FC<
           columns,
           data,
           bordered: true,
-          // expandable: expandable,
           loading: loading,
           scroll: { y: 700, x: 1200 },
           pagination: {

@@ -174,7 +174,7 @@ export const SalesOrderStatisticTable = ({
           loading,
           scroll: { x: 1200, y: 700 },
           title: "Thống kê đơn hàng",
-          extraElment: (
+          extraElement: (
             <div className="">
               {(RoleID === 1 || RoleID === 3) && (
                 <ActionButton

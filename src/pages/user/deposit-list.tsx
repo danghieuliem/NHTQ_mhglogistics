@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { transportationOrder } from "~/api";
 import { UserDepositListTable, UserLayout } from "~/components";
-import { breadcrumb, transportationStatus } from "~/configs";
+import { breadcrumb } from "~/configs";
 import { orderMoneyOfOrdersData } from "~/configs/appConfigs";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
 import { RootState } from "~/store";
@@ -13,12 +13,8 @@ import { _format } from "~/utils";
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
-
-  // useEffect(() => {
-  //   setFilter({ ...filter, UID: userCurrentInfo?.Id });
-  // }, [userCurrentInfo?.Id]);
 
   const [filter, setFilter] = useState({
     PageIndex: 1,
@@ -108,31 +104,6 @@ const Index: TNextPageWithLayout = () => {
     enabled: !!userCurrentInfo?.Id,
     refetchOnWindowFocus: true,
   });
-
-  useQuery(
-    ["deposit-infor-list"],
-    () =>
-      transportationOrder.getAmountInfo({
-        UID: userCurrentInfo?.Id,
-      }),
-    {
-      onSuccess: (res) => {
-        const data = res.Data;
-        data?.forEach((x) => {
-          const target = transportationStatus.find((i) => i.id === x?.Status);
-          if (target) {
-            target.value = x?.Quantity;
-          }
-        });
-      },
-      onError: (error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
-      },
-      retry: false,
-      enabled: !!userCurrentInfo?.Id,
-      refetchOnWindowFocus: true,
-    }
-  );
 
   return (
     <UserDepositListTable

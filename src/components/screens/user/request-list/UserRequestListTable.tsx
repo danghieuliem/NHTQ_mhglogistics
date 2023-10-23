@@ -30,7 +30,7 @@ const UserRequestListFilter = ({ handleFilter }) => {
 
   return (
     <div className="grid grid-cols-5 gap-4">
-      <div className="col-span-2">
+      <div className="col-span-full sm:col-span-2">
         <FilterSelect
           data={payHelpStatus}
           placeholder={"Trạng thái"}
@@ -42,7 +42,7 @@ const UserRequestListFilter = ({ handleFilter }) => {
           isClearable
         />
       </div>
-      <div className="col-span-2">
+      <div className="col-span-full sm:col-span-2">
         <FilterRangeDate
           placeholder="Từ ngày / đến ngày"
           format="DD/MM/YYYY"
@@ -52,7 +52,7 @@ const UserRequestListFilter = ({ handleFilter }) => {
           }}
         />
       </div>
-      <div className="col-span-1 flex items-end">
+      <div className="col-span-full sm:col-span-1 flex items-end">
         <IconButton
           onClick={() => {
             handleFilter({
@@ -73,6 +73,86 @@ const UserRequestListFilter = ({ handleFilter }) => {
 };
 
 const UserRequestListFilterMemo = React.memo(UserRequestListFilter);
+
+const TimelineRender = (props: { record: TRequestPaymentOrder }) => {
+  const { record } = props;
+
+  const data = [
+    record.Created && {
+      isActive: record?.Status === EPayHelp.ChoDuyet,
+      title: "Đơn mới:",
+      display: (
+        <>
+          {_format.getVNDate(record.Created, "HH:mm")} -{" "}
+          {_format.getVNDate(record.Created, "DD/MM/YYYY")}
+        </>
+      ),
+    },
+
+    record.ConfirmDate && {
+      isActive: record?.Status === EPayHelp.DaDuyet,
+      title: "Đã duyệt:",
+      display: (
+        <>
+          {_format.getVNDate(record.ConfirmDate, "HH:mm")} -{" "}
+          {_format.getVNDate(record.ConfirmDate, "DD/MM/YYYY")}
+        </>
+      ),
+    },
+
+    record.PaidDate && {
+      isActive: record?.Status === EPayHelp.DaThanhToan,
+      title: "Thanh toán:",
+      display: (
+        <>
+          {_format.getVNDate(record.PaidDate, "HH:mm")} -{" "}
+          {_format.getVNDate(record.PaidDate, "DD/MM/YYYY")}
+        </>
+      ),
+    },
+
+    record.CompleteDate && {
+      isActive: record?.Status === EPayHelp.DaHoanThanh,
+      title: "Hoàn thành:",
+      display: (
+        <>
+          {_format.getVNDate(record.CompleteDate, "HH:mm")} -{" "}
+          {_format.getVNDate(record.CompleteDate, "DD/MM/YYYY")}
+        </>
+      ),
+    },
+
+    record.CancelDate && {
+      isActive: record?.Status === EPayHelp.DonHuy,
+      title: "Huỷ đơn:",
+      display: (
+        <>
+          {_format.getVNDate(record.CompleteDate, "HH:mm")} -{" "}
+          {_format.getVNDate(record.CompleteDate, "DD/MM/YYYY")}
+        </>
+      ),
+    },
+  ];
+
+  return (
+    <div className="display flex flex-col w-full gap-1 xs:gap-0">
+      {data.map(
+        (item) =>
+          item && (
+            <p
+              className={clsx(
+                item.isActive && "text-red",
+                "grid grid-cols-7 items-center justify-between px-2 gap-1 border rounded-md xs:border-none"
+              )}
+            >
+              <span className="title col-span-3">{item.title}</span>
+              <span className="display col-span-4">{item.display}</span>
+            </p>
+          )
+      )}
+    </div>
+  );
+};
 
 export const UserRequestListTable: React.FC<
   TTable<TRequestPaymentOrder> & TProps
@@ -95,113 +175,59 @@ export const UserRequestListTable: React.FC<
       dataIndex: "Id",
       title: "ID",
       width: 90,
-      // responsive: ["lg"],
-      render: (_) => {
+      responsive: ["lg"],
+      render: (value) => {
         return (
-          <Link passHref href={`/user/request-list/detail/?id=${_}`}>
-            <a target="_blank">{_}</a>
+          <Link passHref href={`/user/request-list/detail/?id=${value}`}>
+            <a target="_blank">{value}</a>
           </Link>
         );
       },
     },
     {
       dataIndex: "TotalPrice",
-      title: "Tổng tiền (¥)",
+      title: (
+        <>
+          Tổng tiền
+          <br />
+          (¥)
+        </>
+      ),
       align: "right",
       responsive: ["lg"],
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
     },
     {
       dataIndex: "TotalPriceVND",
-      title: "Tổng tiền (VNĐ)",
+      title: (
+        <>
+          Tổng tiền
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
     },
     {
       dataIndex: "Currency",
-      title: "Tỷ giá (VNĐ)",
+      title: (
+        <>
+          Tỷ giá
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
-      render: (excharge) => _format.getVND(excharge, " "),
+      render: (excharge) => _format.getVND(excharge, ""),
       responsive: ["lg"],
     },
     {
       dataIndex: "Created",
       title: "TimeLine",
-      render: (_, record) => (
-        <React.Fragment>
-          {record.Created && (
-            <p
-              className={clsx(
-                record?.Status === EPayHelp.ChoDuyet && "text-red",
-                "flex justify-between px-2"
-              )}
-            >
-              <span>Đơn mới: </span>
-              <span>
-                {_format.getVNDate(record.Created, "HH:mm")} -
-                {_format.getVNDate(record.Created, "DD/MM/YYYY")}
-              </span>
-            </p>
-          )}
-          {record.ConfirmDate && (
-            <p
-              className={clsx(
-                record?.Status === EPayHelp.DaDuyet && "text-red",
-                "flex justify-between px-2"
-              )}
-            >
-              <span>Đã duyệt:</span>
-              <span>
-                {_format.getVNDate(record.ConfirmDate, "HH:mm")} -
-                {_format.getVNDate(record.ConfirmDate, "DD/MM/YYYY")}
-              </span>
-            </p>
-          )}
-          {record.PaidDate && (
-            <p
-              className={clsx(
-                record?.Status === EPayHelp.DaThanhToan && "text-red",
-                "flex justify-between px-2"
-              )}
-            >
-              <span>Thanh toán:</span>
-              <span>
-                {_format.getVNDate(record.PaidDate, "HH:mm")} -
-                {_format.getVNDate(record.PaidDate, "DD/MM/YYYY")}
-              </span>
-            </p>
-          )}
-          {record.CompleteDate && (
-            <p
-              className={clsx(
-                record?.Status === EPayHelp.DaHoanThanh && "text-red",
-                "flex justify-between px-2"
-              )}
-            >
-              <span>Hoàn thành:</span>
-              <span>
-                {_format.getVNDate(record.CompleteDate, "HH:mm")} -
-                {_format.getVNDate(record.CompleteDate, "DD/MM/YYYY")}
-              </span>
-            </p>
-          )}
-          {record.CancelDate && (
-            <p
-              className={clsx(
-                record?.Status === EPayHelp.DonHuy && "text-red",
-                "flex justify-between px-2"
-              )}
-            >
-              <span>Huỷ đơn:</span>
-              <span>
-                {_format.getVNDate(record.CancelDate, "HH:mm")} -
-                {_format.getVNDate(record.CancelDate, "DD/MM/YYYY")}
-              </span>
-            </p>
-          )}
-        </React.Fragment>
-      ),
+      render: (_, record) => <TimelineRender record={record} />,
       width: 280,
+      responsive: ["sm"],
     },
     {
       dataIndex: "Status",
@@ -263,82 +289,6 @@ export const UserRequestListTable: React.FC<
     },
   ];
 
-  const expandable = {
-    expandedRowRender: (item) => {
-      return (
-        <div className="extentable">
-          <div className="extentable-content">
-            <div className="extentable-row">
-              <span className="extentable-label">Tỷ giá: </span>
-              <span className="extentable-value">
-                {_format.getVND(item?.Currency)}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Tỷ giá: </span>
-              <span className="extentable-value">
-                {_format.getVND(item?.TotalPrice, " ¥")}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Ngày đặt: </span>
-              <span className="extentable-value">
-                {_format.getVNDate(item?.Created)}
-              </span>
-            </div>
-          </div>
-          <div className="extentable-actions">
-            <div className="extentable-button">
-              {item?.Status === EPayHelp.ChoDuyet ||
-                (item?.Status === EPayHelp.DaDuyet && (
-                  <ActionButton
-                    onClick={() => {
-                      Modal.confirm({
-                        title: <b>Thanh toán đơn này!</b>,
-                        onOk: () => handleAction(item, 2),
-                      });
-                    }}
-                    icon="fas fa-dollar-sign"
-                    title="Thanh toán"
-                    isButton={true}
-                  />
-                ))}
-            </div>
-            <div className="extentable-button">
-              {item.Status !== EPayHelp.ChoDuyet && (
-                <ActionButton
-                  onClick={() => {
-                    Modal.confirm({
-                      title: <b>Hủy yêu cầu thanh toán này!</b>,
-                      onOk: () => handleAction(item, 3),
-                    });
-                  }}
-                  icon="fas fa-trash"
-                  title="Hủy yêu cầu"
-                  isButton={true}
-                />
-              )}
-            </div>
-
-            <div className="extentable-button">
-              <ActionButton
-                onClick={() =>
-                  router.push({
-                    pathname: "/user/request-list/detail",
-                    query: { id: item?.Id },
-                  })
-                }
-                icon="far fa-info-square"
-                title="Chi tiết đơn"
-                isButton={true}
-              />
-            </div>
-          </div>
-        </div>
-      );
-    },
-  };
-
   return (
     <>
       <DataTable
@@ -346,10 +296,8 @@ export const UserRequestListTable: React.FC<
           loading,
           columns,
           data,
-          expandable: expandable,
           scroll: { y: 700 },
-          extraElmentClassName: "!w-1/2 ml-auto",
-          extraElment: (
+          extraElement: (
             <UserRequestListFilterMemo handleFilter={handleFilter} />
           ),
           pagination: {
@@ -357,7 +305,7 @@ export const UserRequestListTable: React.FC<
             total: filter.TotalItems,
             pageSize: filter.PageSize,
           },
-          onChange: (page, pageSize) => {
+          onChange: (page) => {
             handleFilter({
               ...filter,
               PageIndex: page.current,

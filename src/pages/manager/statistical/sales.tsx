@@ -19,7 +19,7 @@ import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
 
   const [type, setType] = useState<"sum" | "detail">("detail");
@@ -183,9 +183,9 @@ const Index: TNextPageWithLayout = () => {
         isLoading: false,
         autoClose: 3000,
         type: "error",
-        render: (error as any)?.response?.data?.ResultMessage
+        render: (error as any)?.response?.data?.ResultMessage,
       });
-    }  finally {
+    } finally {
       toast.update(id, {
         isLoading: false,
         autoClose: 1,

@@ -25,7 +25,7 @@ const init = {
   //   "body { font-family:Times New Roman,Times,sans-serif; font-size:12pt }",
   file_picker_types: "image",
   file_picker_callback: function (cb, value, meta) {
-    var input = document.createElement("input");
+    let input = document.createElement("input");
     input.setAttribute("type", "file");
     input.setAttribute("accept", "image/*");
 

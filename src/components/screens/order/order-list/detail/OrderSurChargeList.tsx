@@ -116,6 +116,12 @@ export const OrderSurChargeList: React.FC<TProps> = ({
                     });
                 } else {
                   remove(index);
+                  toast.update(id, {
+                    render: "Xoá phụ phí thành công!",
+                    autoClose: 500,
+                    isLoading: false,
+                    type: "success",
+                  });
                 }
               }}
             />
@@ -159,7 +165,6 @@ export const OrderSurChargeList: React.FC<TProps> = ({
         columns={columns}
         data={fields}
         style="detailOrder"
-        // expandable={expandable}
       />
       <Divider />
     </>

@@ -377,13 +377,19 @@
   z-index: 10;
 }
 
+.menu__svg {
+  @apply h-8 w-8;
+}
+
 .svg {
   transition: all 0.4s ease;
 }
 
 .svg .menu__svg path {
   fill: none;
-  transition: stroke-dasharray 0.4s, stroke-dashoffset 0.4s;
+  transition:
+    stroke-dasharray 0.4s,
+    stroke-dashoffset 0.4s;
   stroke: #fff;
   stroke-width: 10px !important;
   stroke-linecap: round;
@@ -397,7 +403,9 @@
 .svg .menu__svg path:nth-child(3) {
   stroke-dasharray: 40 85;
   transform-origin: 50%;
-  transition: transform 0.4s, stroke-dashoffset 0.4s;
+  transition:
+    transform 0.4s,
+    stroke-dashoffset 0.4s;
 }
 
 .active .menu__svg {
@@ -405,10 +413,12 @@
 }
 .active .menu__svg path {
   fill: none;
-  transition: stroke-dasharray 0.4s, stroke-dashoffset 0.4s;
+  transition:
+    stroke-dasharray 0.4s,
+    stroke-dashoffset 0.4s;
   stroke-linecap: round;
 }
-.active .menu__svg path:nth-child(1){
+.active .menu__svg path:nth-child(1) {
   stroke-dashoffset: -64px;
 }
 .active .menu__svg path:nth-child(2) {

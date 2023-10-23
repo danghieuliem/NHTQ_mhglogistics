@@ -22,6 +22,8 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
   setValue,
 }) => {
   function handleCheckbox(ctrl, e) {
+    console.log(ctrl, e.target.checked);
+
     setValue(ctrl, e.target.checked);
   }
 
@@ -32,11 +34,11 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
       align: "right",
       render: (_, __, index) => ++index,
       width: 50,
-      responsive: ["sm"],
     },
     {
       dataIndex: "OrderTransactionCode",
       title: "Mã kiện",
+      responsive: ["md"],
       render: (_, __, index) => (
         <FormInput
           control={control}
@@ -67,7 +69,7 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
           placeholder=""
         />
       ),
-      responsive: ["lg"],
+      responsive: ["md"],
       width: 120,
     },
     {
@@ -101,46 +103,41 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
     },
     {
       dataIndex: "IsCheckProduct",
-      title: "Kiểm đếm",
+      title: "Dịch vụ",
       align: "center",
       render: (_, __, index) => (
-        <Checkbox
-          defaultChecked={false}
-          onChange={(e) =>
-            handleCheckbox(`smallPackages.${index}.IsCheckProduct`, e)
-          }
-        />
+        <div className="flex flex-col gap-1">
+          <div className="flex justify-between">
+            <span className="text-left">Kiểm đếm: </span>
+            <Checkbox
+              defaultChecked={false}
+              onChange={(e) =>
+                handleCheckbox(`smallPackages.${index}.IsCheckProduct`, e)
+              }
+            />
+          </div>
+          <div className="flex justify-between">
+            <span className="text-left">Đóng gỗ: </span>
+            <Checkbox
+              defaultChecked={false}
+              onChange={(e) =>
+                handleCheckbox(`smallPackages.${index}.IsPacked`, e)
+              }
+            />
+          </div>
+          <div className="flex justify-between">
+            <span className="text-left">Bảo hiểm: </span>
+            <Checkbox
+              defaultChecked={false}
+              onChange={(e) =>
+                handleCheckbox(`smallPackages.${index}.IsInsurance`, e)
+              }
+            />
+          </div>
+        </div>
       ),
       width: 80,
-      responsive: ["lg"],
-    },
-    {
-      dataIndex: "IsPacked",
-      title: "Đóng gỗ",
-      width: 80,
-      align: "center",
-      render: (_, __, index) => (
-        <Checkbox
-          defaultChecked={false}
-          onChange={(e) => handleCheckbox(`smallPackages.${index}.IsPacked`, e)}
-        />
-      ),
-      responsive: ["lg"],
-    },
-    {
-      dataIndex: "IsInsurance",
-      title: "Bảo hiểm",
-      align: "center",
-      width: 80,
-      render: (_, __, index) => (
-        <Checkbox
-          defaultChecked={false}
-          onChange={(e) =>
-            handleCheckbox(`smallPackages.${index}.IsInsurance`, e)
-          }
-        />
-      ),
-      responsive: ["lg"],
+      responsive: ["md"],
     },
     {
       dataIndex: "UserNote",
@@ -153,7 +150,7 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
           placeholder=""
         />
       ),
-      responsive: ["lg"],
+      responsive: ["md"],
     },
     {
       dataIndex: "action",
@@ -177,101 +174,12 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
     },
   ];
 
-  const expandable = {
-    expandedRowRender: (item, index) => {
-      return (
-        <div className="extentable w-full">
-          <div className="extentable-content grid grid-cols-3 gap-3 w-full">
-            <div className="extentable-row">
-              <span className="extentable-value">
-                <FormInput
-                  control={control}
-                  name={`smallPackages.${index}.Category`}
-                  placeholder=""
-                  label="Loại sản phẩm"
-                />
-              </span>
-            </div>
-            <div className="extentable-row md:hidden">
-              <span className="extentable-value">
-                <FormInputNumber
-                  control={control}
-                  label="Số lượng"
-                  name={`smallPackages.${index}.Amount`}
-                  placeholder=""
-                />
-              </span>
-            </div>
-            <div className="extentable-row md:hidden">
-              <span className="extentable-value">
-                <FormInputNumber
-                  prefix={"¥ "}
-                  label="Phí COD (¥)"
-                  control={control}
-                  name={`smallPackages.${index}.FeeShip`}
-                  placeholder=""
-                />
-              </span>
-            </div>
-            <div className="extentable-row md:hidden">
-              <span className="extentable-value">
-                <FormInput
-                  control={control}
-                  label="Ghi chú"
-                  name={`smallPackages.${index}.UserNote`}
-                  placeholder=""
-                />
-              </span>
-            </div>
-            <div className="grid grid-cols-2 gap-2 col-span-2">
-              <div className="extentable-row justify-center">
-                <span className="extentable-value">
-                  <Checkbox
-                    defaultChecked={false}
-                    onChange={(e) =>
-                      handleCheckbox(`smallPackages.${index}.IsCheckProduct`, e)
-                    }
-                  />
-                </span>
-                <span className="extentable-label ml-2">Kiểm đếm: </span>
-              </div>
-              <div className="extentable-row justify-center">
-                <span className="extentable-value">
-                  <Checkbox
-                    defaultChecked={false}
-                    onChange={(e) =>
-                      handleCheckbox(`smallPackages.${index}.IsPacked`, e)
-                    }
-                  />
-                </span>
-                <span className="extentable-label ml-2">Đóng gỗ: </span>
-              </div>
-              <div className="extentable-row justify-center">
-                <span className="extentable-value">
-                  <Checkbox
-                    defaultChecked={false}
-                    onChange={(e) =>
-                      handleCheckbox(`smallPackages.${index}.IsInsurance`, e)
-                    }
-                  />
-                </span>
-                <span className="extentable-label ml-2">Bảo hiểm: </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    },
-    defaultExpandAllRows: true,
-  };
-
   return (
     <DataTable
       {...{
         columns,
         data,
         bordered: true,
-        expandable,
       }}
     />
   );

@@ -33,6 +33,11 @@ export const repoVNRouter = [
         Icon: "",
         Label: "Xuất kho",
       },
+      {
+        Path: "/manager/warehouse/add-package-customer/",
+        Icon: "",
+        Label: "Gán kiện kí gửi",
+      },
       // {
       //   Path: "/manager/money/out-stock-payment/",
       //   Icon: "",

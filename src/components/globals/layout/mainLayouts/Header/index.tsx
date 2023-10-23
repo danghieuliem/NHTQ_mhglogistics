@@ -7,7 +7,7 @@ import { default as AvatarName } from "react-avatar";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { getAllNewNotify } from "~/api";
+import { configuration, getAllNewNotify } from "~/api";
 import { config, getLevelId } from "~/configs";
 import {
   RootState,
@@ -51,8 +51,6 @@ const Bars = ({ hover, onClick }) => {
 };
 
 const NotificationBell = ({ userPage, userCurrentInfo }) => {
-  const isLoadRef = useRef(true);
-  
   const { data } = useQuery(
     ["new-notification"],
     () =>
@@ -78,14 +76,22 @@ const NotificationBell = ({ userPage, userCurrentInfo }) => {
       // enabled: isLoadRef.current,
       retry: false,
       staleTime: 5000,
-      keepPreviousData: true
+      keepPreviousData: true,
     }
   );
+
+  const [visible, setVisible] = useState(false);
+
+  const handleClickChange = (visible) => {
+    setVisible(visible);
+  };
 
   return (
     <>
       <Popover
         trigger={"click"}
+        visible={visible}
+        onVisibleChange={handleClickChange}
         placement="bottomRight"
         content={
           <Card
@@ -94,7 +100,7 @@ const NotificationBell = ({ userPage, userCurrentInfo }) => {
             extra={
               <div className={styles.totalNotiButton}>
                 <div className="text-sec text-md font-semibold">Thông báo!</div>
-                <div>
+                <div onClick={() => setVisible(false)}>
                   <Link
                     href={`${
                       userPage === true ? "/user" : "/manager"
@@ -145,16 +151,13 @@ const NotificationBell = ({ userPage, userCurrentInfo }) => {
 
       <Divider
         type="vertical"
-        className={clsx(
-          "bg-main h-3",
-          data?.Data > 100 ? "!ml-6" : "ml-auto"
-        )}
+        className={clsx("bg-main h-3", data?.Data > 100 ? "!ml-6" : "ml-auto")}
       />
     </>
   );
 };
 
-const NotificationBellMemo = React.memo(NotificationBell)
+const NotificationBellMemo = React.memo(NotificationBell);
 
 const LeftInfoComponents = ({ userPage, userCurrentInfo }) => {
   const firstPage = useAppSelector(selectFirstPageDashboard);
@@ -205,7 +208,10 @@ const LeftInfoComponents = ({ userPage, userCurrentInfo }) => {
       )}
 
       {/* Thông báo */}
-      <NotificationBellMemo userPage={userPage} userCurrentInfo={userCurrentInfo} />
+      <NotificationBellMemo
+        userPage={userPage}
+        userCurrentInfo={userCurrentInfo}
+      />
 
       {/* thông tin người dùng */}
       <Popover
@@ -254,7 +260,7 @@ const LeftInfoComponents = ({ userPage, userCurrentInfo }) => {
               />
             )}
           </div>
-          <div className={styles.userInfoWrapper}>
+          <div className={clsx(styles.userInfoWrapper, "!hidden xs:!flex")}>
             <span className="text-main text-[14px] items-end font-semibold">
               {userCurrentInfo?.UserName}
             </span>
@@ -270,20 +276,21 @@ const LeftInfoComponents = ({ userPage, userCurrentInfo }) => {
 
 const NonRenderingChangeHover = React.memo(LeftInfoComponents);
 
-const Header: React.FC<TProps> = ({
-  hover,
-  handleHover,
-  userPage,
-}) => {
+const Header: React.FC<TProps> = ({ hover, handleHover, userPage }) => {
+  const { data: configData } = useQuery({
+    queryKey: ["get-currency"],
+    queryFn: () => configuration.getCurrency(),
+  });
+
   const dataGlobal: TConfig = useSelector(
     (state: RootState) => state.dataGlobal
   );
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
 
   return (
-    <header className={clsx(styles.header, !userPage && "shadow-md" )}>
+    <header className={clsx(styles.header, !userPage && "shadow-md")}>
       <div
         className={clsx(
           userPage ? styles.innerHeaderUser : styles.innerHeaderManager
@@ -331,7 +338,7 @@ const Header: React.FC<TProps> = ({
                 Tỉ giá:
               </span>
               <span className="!font-bold xl:!text-[12px] !text-xs flex items-center !text-main">
-                1¥ = {_format.getVND(dataGlobal?.Currency, " VNĐ")}
+                1¥ = {_format.getVND(configData?.Data, " VNĐ")}
               </span>
             </div>
           </div>

@@ -95,58 +95,6 @@ export const TariffPriceChangeTable: FC<TTable<TTariffPriceChange>> = ({
     },
   ];
 
-  // const expandable = {
-  // 	expandedRowRender: (record) => (
-  // 		<ul className="px-2 text-xs">
-  // 			<li className="sm:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Vip 0:</span>
-  // 				{record.Vip0}
-  // 			</li>
-  // 			<li className="sm:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Vip 1:</span>
-  // 				{record.Vip1}
-  // 			</li>
-  // 			<li className="md:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Vip 2:</span>
-  // 				{record.Vip2}
-  // 			</li>
-  // 			<li className="md:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Vip 3:</span>
-  // 				{record.Vip3}
-  // 			</li>
-  // 			<li className="md:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Vip 4:</span>
-  // 				{record.Vip4}
-  // 			</li>
-  // 			<li className="lg:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Vip 5:</span>
-  // 				{record.Vip5}
-  // 			</li>
-  // 			<li className="lg:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Vip 6:</span>
-  // 				{record.Vip6}
-  // 			</li>
-  // 			<li className="lg:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Vip 7:</span>
-  // 				{record.Vip7}
-  // 			</li>
-  // 			<li className="lg:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Vip 8:</span>
-  // 				{record.Vip8}
-  // 			</li>
-
-  // 			<li className="xl:hidden justify-between flex py-2">
-  // 				<span className="font-medium mr-4">Thao tác:</span>
-  // 				<ActionButton
-  // 					onClick={() => handleModal(record)}
-  // 					icon="fas fa-edit"
-  // 					title="Cập nhật"
-  // 				/>
-  // 			</li>
-  // 		</ul>
-  // 	),
-  // };
-
   return (
     <DataTable
       {...{
@@ -154,7 +102,6 @@ export const TariffPriceChangeTable: FC<TTable<TTariffPriceChange>> = ({
         columns,
         data,
         bordered: true,
-        // expandable: expandable,
       }}
     />
   );

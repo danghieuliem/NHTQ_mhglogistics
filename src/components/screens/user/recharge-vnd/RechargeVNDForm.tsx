@@ -26,9 +26,9 @@ export const RechargeVNDForm: React.FC<TProps> = ({
   const [loading, setLoading] = useState(false);
   const [selectedBank, setSelectedBank] = useState<any>(bankCatalogue[0]);
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
-  
+
   const { control, handleSubmit, reset, resetField, watch } = useForm<
     TUserHistoryRechargeVND & {
       BankNumber: Number;
@@ -62,7 +62,7 @@ export const RechargeVNDForm: React.FC<TProps> = ({
 
   const _onPress = (data: TUserHistoryRechargeVND) => {
     if (data.Amount <= 0) {
-      toast.warning("Số tiền yêu cầu nạp không được nhỏ hơn bằng 0 đồng!");
+      toast.warning("Số tiền yêu cầu nạp phải lớn hơn 0 đồng!");
       return;
     }
     if (!selectedBank?.Id) {
@@ -83,7 +83,7 @@ export const RechargeVNDForm: React.FC<TProps> = ({
         <span className="text-md block mb-2 font-bold uppercase text-[#595857] border-b border-[#f8dfd5]">
           DANH SÁCH NGÂN HÀNG
         </span>
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-1">
+        <div className="grid xs:grid-cols-2 lg:grid-cols-3 gap-1">
           {bankCatalogue.map((item) => {
             return (
               <BankCard
@@ -109,10 +109,10 @@ export const RechargeVNDForm: React.FC<TProps> = ({
               content={
                 <Image
                   preview={false}
-                  width={400}
-                  src={`https://img.vietqr.io/image/${selectedBank?.BankName}-${
-                    selectedBank?.BankNumber
-                  }-print.jpg?amount=${watch().Amount}&addInfo=${
+                  width={"fit-content"}
+                  src={`https://img.vietqr.io/image/${selectedBank?.BankName}-${selectedBank?.BankNumber}-print.jpg?amount=${
+                    watch().Amount
+                  }&addInfo=${
                     watch().TradeContent
                   }&accountName=${selectedBank?.Branch}`}
                 />
@@ -127,78 +127,64 @@ export const RechargeVNDForm: React.FC<TProps> = ({
               />
             </Popover>
           </div>
-          <div className="col-span-2 grid grid-cols-4 gap-2">
-            <div className="col-span-2">
-              <FormInput
-                control={control}
-                name="BankInfo"
-                placeholder={selectedBank?.BankName}
-                required={false}
-                label="Tên ngân hàng"
-                disabled
-              />
-            </div>
-            <div className="col-span-2">
-              <FormInput
-                control={control}
-                name="BankNumber"
-                placeholder={selectedBank?.BankNumber}
-                required={false}
-                label="Số tài khoản"
-                disabled
-              />
-            </div>
-            <div className="col-span-2">
-              <FormInput
-                control={control}
-                name="Name"
-                placeholder={selectedBank?.Name}
-                required={false}
-                label="Tên chi nhánh"
-                disabled
-              />
-            </div>
-            <div className="col-span-2">
-              <FormInput
-                control={control}
-                name="Branch"
-                placeholder={selectedBank?.Branch}
-                required={false}
-                label="Chủ tài khoản"
-                disabled
-              />
-            </div>
-            <div className="col-span-2">
-              <FormInputNumber
-                control={control}
-                name="Amount"
-                placeholder=""
-                suffix=" VNĐ"
-                label="Nhập số tiền (VNĐ)"
-                rules={{ required: "Nhập số tiền cần nạp!" }}
-              />
-            </div>
-            <div className="col-span-2">
-              <FormInput
-                control={control}
-                name="TradeContent"
-                placeholder="Nội dung nạp tiền"
-                label="Nội dung"
-                hideError={true}
-                rules={{ required: "Nhập nội dung nạp tiền!" }}
-              />
-            </div>
-            <div className="col-span-4 ml-auto">
-              <IconButton
-                showLoading
-                onClick={handleSubmit(_onPress)}
-                icon="fas fa-check-circle"
-                title="Tạo"
-                toolip=""
-                btnClass="!bg-green !text-white"
-                disabled={loading || !selectedBank}
-              />
-            </div>
+          <div className="col-span-2 grid xs:grid-cols-2 grid-cols-1 gap-2">
+            <FormInput
+              control={control}
+              name="BankInfo"
+              placeholder={selectedBank?.BankName}
+              required={false}
+              label="Tên ngân hàng"
+              disabled
+            />
+            <FormInput
+              control={control}
+              name="BankNumber"
+              placeholder={selectedBank?.BankNumber}
+              required={false}
+              label="Số tài khoản"
+              disabled
+            />
+            <FormInput
+              control={control}
+              name="Name"
+              placeholder={selectedBank?.Name}
+              required={false}
+              label="Tên chi nhánh"
+              disabled
+            />
+            <FormInput
+              control={control}
+              name="Branch"
+              placeholder={selectedBank?.Branch}
+              required={false}
+              label="Chủ tài khoản"
+              disabled
+            />
+            <FormInputNumber
+              control={control}
+              name="Amount"
+              placeholder=""
+              suffix=" VNĐ"
+              label="Nhập số tiền (VNĐ)"
+              rules={{ required: "Nhập số tiền cần nạp!" }}
+            />
+            <FormInput
+              control={control}
+              name="TradeContent"
+              placeholder="Nội dung nạp tiền"
+              label="Nội dung"
+              hideError={true}
+              rules={{ required: "Nhập nội dung nạp tiền!" }}
+            />
+            <IconButton
+              showLoading
+              onClick={handleSubmit(_onPress)}
+              icon="fas fa-check-circle"
+              title="Tạo"
+              toolip=""
+              btnClass="col-span-full !bg-green !text-white mt-4 py-2.5"
+              disabled={loading || !selectedBank}
+            />
           </div>
         </div>
       </div>

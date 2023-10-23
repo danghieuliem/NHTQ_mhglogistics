@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { _format } from "~/utils";
 
-const box = "grid grid-cols-2 lg:grid-cols-4 gap-4";
+const box = "grid xs:grid-cols-2 lg:grid-cols-4 gap-4";
 const titleContain = "";
 const iconTitle = `bg-[#fff] rounded-[4px] py-1 px-2 shadow-sm`;
 const addOrder = `mr-2 text-[26px] flex text-label items-end`;
@@ -12,7 +12,9 @@ const BoxItem = ({ value, path, label, icon, color, bgColor }) => {
   return (
     <Link href={`${path}`}>
       <a
-        className={clsx("p-2 lg:p-4 rounded-[6px] shadow-md hover:!shadow-none transition-all")}
+        className={clsx(
+          "p-2 lg:p-4 rounded-[6px] shadow-md hover:!shadow-none transition-all"
+        )}
         style={{ background: `${bgColor}` }}
       >
         <div className={titleContain}>
@@ -26,7 +28,9 @@ const BoxItem = ({ value, path, label, icon, color, bgColor }) => {
               <div className={addOrder}>
                 <span style={{ color: color, fontWeight: "600" }}>
                   {value ? "+" : ""}
-                  <span style={{letterSpacing: "-2px"}}>{_format.getVND(value, " ")}</span>
+                  <span style={{ letterSpacing: "-2px" }}>
+                    {_format.getVND(value, " ")}
+                  </span>
                 </span>
                 <span className={clsx("text-[12px] ml-2 hidden xl:block pb-2")}>
                   Đơn hàng

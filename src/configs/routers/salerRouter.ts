@@ -1,3 +1,5 @@
+import { EParamQ } from "~/enums";
+
 export const salerRouter = [
   {
     Title: "TÀI KHOẢN",
@@ -49,7 +51,7 @@ export const salerRouter = [
           },
           {
             // key: "MainOrderAnother",
-            Path: "/manager/order/order-list/?q=3",
+            Path: `/manager/order/order-list/?q=${EParamQ.otherOrder}`,
             Label: "ĐH mua hộ khác",
             Icon: "",
           },

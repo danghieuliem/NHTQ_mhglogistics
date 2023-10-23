@@ -85,12 +85,12 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
                 title="Xoá menu"
                 isButton
                 isButtonClassName="bg-red !text-white"
-                onClick={() => (
+                onClick={() =>
                   Modal.confirm({
                     title: "Bạn muốn xoá menu này?",
-                    onOk: () => _onRemove(record?.Id)
+                    onOk: () => _onRemove(record?.Id),
                   })
-                )}
+                }
               />
             </div>
           }
@@ -135,10 +135,9 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
         {...{
           data: data,
           columns,
-          isExpand: true,
           title: "Danh sách menu",
           scroll: { x: 100, y: 400 },
-          extraElment: (
+          extraElement: (
             <IconButton
               onClick={() => setAddNewModal(true)}
               title="Thêm"
@@ -148,87 +147,6 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
               btnClass="!bg-green mt-[-10px]"
             />
           ),
-          expandable: {
-            expandIcon: ({ expanded, onExpand, record }) =>
-              record?.Children.length > 0 ? (
-                <>
-                  {expanded ? (
-                    <i
-                      className="fas fa-folder-open"
-                      onClick={(e) => onExpand(record, e)}
-                    ></i>
-                  ) : (
-                    <i
-                      className="fas fa-folder-plus"
-                      onClick={(e) => onExpand(record, e)}
-                    ></i>
-                  )}
-                </>
-              ) : (
-                <div className="">
-                  <i className="fas fa-folder"></i>
-                </div>
-              ),
-            expandedRowRender: (record) => {
-              const OrderBy = record?.Children.sort(
-                (a, b) => a?.Position - b?.Position
-              );
-              return OrderBy?.map((item) => (
-                <div
-                  key={item?.Id}
-                  className="flex justify-between items-center"
-                >
-                  <div className="">
-                    {/* <Tooltip title="Vị trí menu" className="mr-4">
-												{item?.Position}
-											</Tooltip> */}
-                    <Tooltip
-                      title="Tên menu con"
-                      className="ml-1 text-[14px] text-[#6b6f82]"
-                    >
-                      {item?.Name}
-                    </Tooltip>
-                    <Tooltip title="Trạng thái">
-                      <TagStatus
-                        color={item?.Active ? "green" : "red"}
-                        statusName={item?.Active ? "Hiện" : "Ẩn"}
-                      />
-                    </Tooltip>
-                    {/* <Tooltip title="Trạng thái">
-												<Tag color={item?.Active ? "green" : "red"}>{item?.Active ? "Hiện" : "Ẩn"}</Tag>
-											</Tooltip> */}
-                  </div>
-                  <Space>
-                    <div>
-                      <ActionButton
-                        icon="fas fa-edit"
-                        onClick={() => {
-                          setEdit(item);
-                        }}
-                        title="Chỉnh sửa nội dung"
-                      />
-                    </div>
-                    <div>
-                      <Popconfirm
-                        onConfirm={() => _onRemove(item?.Id)}
-                        placement="topRight"
-                        title="Bạn muốn xoá menu này?"
-                        okText="Yes"
-                        cancelText="No"
-                      >
-                        <ActionButton
-                          icon="fas fa-trash-alt !text-red"
-                          title="Delete"
-                          iconContainerClassName="iconGreen"
-                        />
-                      </Popconfirm>
-                    </div>
-                  </Space>
-                </div>
-              ));
-            },
-            rowExpandable: (record) => record?.Children.length > 0,
-          },
         }}
       />
       <AddNewContentFormMemo

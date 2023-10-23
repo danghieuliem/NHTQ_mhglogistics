@@ -1,14 +1,13 @@
 .loginPage {
-  background-image: url('/default/login-bg.png');
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
+  background-image: url("/default/login-bg.png");
+  display: flex;
+  justify-items: center;
+  width: 100vw;
+  height: 100vh;
   transform: scale(1.01);
   background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+  background-size: cover;
+  background-position: center;
 }
 
 .img {
@@ -16,17 +15,16 @@
   width: 100%;
   bottom: 0;
   left: 0;
-  transform: translateY(20%)
+  transform: translateY(20%);
 }
 
 .loginWrapper {
-  @apply shadow-2xl p-4;
-  left: 50%;
-  top: 40%;
-  transform: translate(-50%, -50%);
+  @apply shadow-2xl p-4 m-auto;
   height: fit-content;
-  width: 34vw;
-  position: fixed;
+  width: 550px;
+  max-height: 100%;
+  overflow-y: scroll;
+  position: relative;
   background: #fff;
   padding: 24px;
 
@@ -40,7 +38,7 @@
 }
 
 .loginLogo {
-  width: 16rem;
+  max-width: 16rem;
 }
 
 .loginText h1 {
@@ -72,18 +70,21 @@
 }
 
 .infoValue {
-  @apply text-white;
+  @apply text-white break-words;
 }
 
 @media screen and (max-width: 768px) {
   .loginWrapper {
-    top: 50%;
     width: 88vw;
-    max-height: 80vh;
-    z-index: 2;
   }
 
   .img {
     transform: translateY(0);
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .loginContact {
+    display: none;
   }
 }

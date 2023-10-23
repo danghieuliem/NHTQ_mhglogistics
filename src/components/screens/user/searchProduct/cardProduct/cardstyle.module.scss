@@ -1,0 +1,192 @@
+.card-wrap {
+  @apply flex flex-col rounded-md shadow-xl;
+  width: 100%;
+  height: 100%;
+  border: 1px solid transparent;
+  background-color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
+  padding-bottom: 6px;
+  &:hover {
+    border: 1px solid #ff7300;
+  }
+  .image-container {
+    // &:hover ~ .card-element-hover{
+    //     display: block;
+    // }
+    @apply grow;
+    &:hover ~ .wrap-element-hover {
+      display: block;
+    }
+    .image {
+      @apply h-[189px] md:h-[222px];
+      object-fit: cover;
+      width: 100%;
+      transform: scale(1);
+      transition: all 0.5s ease 0s;
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+  .wrap-element-hover {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 999;
+    bottom: 0;
+    display: none;
+    &:hover {
+      display: block;
+    }
+    .card-element-hover {
+      width: 100%;
+      position: absolute;
+      z-index: 999;
+      bottom: 0;
+      // display: none;
+      // &:hover {
+      //     display: block;
+      // }
+      .tag {
+        @apply flex justify-center items-center;
+        background-color: rgba(255, 115, 0, 0.9);
+        height: 39px;
+        line-height: 17px;
+        white-space: nowrap;
+        color: #fff;
+        font-size: 12px;
+        text-decoration: none;
+        // flex: 1 1 33.33%;
+      }
+      .deal-container {
+        display: flex;
+        border-bottom: 1px solid #e7e7e7;
+        height: 51px;
+        background-color: white;
+        .deal {
+          flex: 1 1 33.33%;
+          justify-content: flex-start;
+          display: flex;
+          align-items: center;
+          &:first-child {
+            border-left: 0 !important;
+          }
+        }
+        .deal-item {
+          @apply flex flex-col justify-center items-start;
+          .deal-container-price {
+            display: flex;
+            max-width: 54px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 17px;
+            white-space: pre;
+            color: #ff5400;
+            font-family: ArialMT, Arial;
+            font-size: 14px;
+            .rmb {
+              font-size: 12px;
+            }
+          }
+        }
+        .deal-num {
+          font-size: 12px;
+        }
+        //         padding: 6px 3px 6px 7px;
+        // width: 62px;  33
+
+        // padding: 6px 15px;
+        // width: 79px; 2
+
+        // padding: 6px 15px;
+        // width: 190px;
+      }
+    }
+  }
+}
+
+.element-title-oneline {
+  .title {
+    width: 100%;
+    padding: 0 12px;
+    margin: 12px 0;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 20px;
+    height: 60px;
+    color: #222222;
+    font-size: 16px;
+    &:hover {
+      color: #ff6000;
+      text-decoration: underline;
+    }
+  }
+}
+.element-price {
+  display: flex;
+  margin-top: 12px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-left: 11px;
+  position: relative;
+  .show-price {
+    @apply flex gap-[5px] items-center;
+    .rmb {
+      white-space: nowrap;
+      color: #ff6000;
+      font-size: 14px;
+      display: inline-block;
+      font-weight: bold;
+    }
+    .price {
+      @apply text-[14px] lg:text-[24px] leading-[24px] text-[#ff6000] font-bold;
+    }
+  }
+  .sale {
+    @apply text-[12px] lg:text-[14px];
+    white-space: pre-wrap;
+    box-sizing: content-box;
+    display: flex;
+    align-items: flex-end;
+    background-color: #ffffff;
+    width: max-content;
+    position: absolute;
+    right: 10px;
+    padding: 0;
+    justify-content: flex-start;
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .title {
+    line-height: initial !important;
+    padding: 0 4px !important;
+    font-size: 12px !important;
+    margin: 8px 0 !important;
+    -webkit-line-clamp: 4 !important;
+  }
+  .element-price {
+    flex-direction: column !important;
+    padding: 0 4px !important;
+    margin-top: 0 !important;
+  }
+
+  .sale {
+    position: relative !important;
+    right: unset !important;
+    border-top: 1px solid #3333335c;
+    padding-top: 4px !important;
+    margin-top: 4px;
+    width: 100% !important;
+  }
+}

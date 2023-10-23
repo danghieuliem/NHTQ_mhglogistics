@@ -16,7 +16,7 @@ import {
   updateGlobal,
   useAppDispatch,
   useAppSelector,
-  updateUser
+  updateUser,
 } from "~/store";
 
 const AuthLayoutProtector: FC<{ children: ReactElement[] | ReactElement }> = ({
@@ -25,7 +25,7 @@ const AuthLayoutProtector: FC<{ children: ReactElement[] | ReactElement }> = ({
   const dispatch = useAppDispatch();
   const session = Cookies.get(config.tokenName);
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
 
   if (!userCurrentInfo.Id || !session) {

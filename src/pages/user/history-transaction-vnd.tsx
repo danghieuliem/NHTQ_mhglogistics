@@ -15,7 +15,7 @@ import { _format } from "~/utils";
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
   const [filter, setFilter] = useState({
     PageIndex: 1,
@@ -80,7 +80,7 @@ const Index: TNextPageWithLayout = () => {
           </div>
         </div>
 
-        <div className="">
+        <div className="mt-4">
           <HistoryTransactionVNDFilter handleFilter={handleFilter} />
         </div>
       </div>

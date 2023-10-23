@@ -18,7 +18,7 @@ import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
   const [modal, setModal] = useState(false);
 
@@ -93,8 +93,8 @@ const Index: TNextPageWithLayout = () => {
       toast.update(id, {
         isLoading: false,
         autoClose: 1,
-        type: "default"
-      })
+        type: "default",
+      });
     }
   }, [filter.UserName]);
 

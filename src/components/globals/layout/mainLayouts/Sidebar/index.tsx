@@ -15,33 +15,30 @@ export type TProps = {
   hover: boolean;
   tabbar: boolean;
   userPage?: boolean;
+  handleHover?: (val: boolean) => void;
 };
 
-const Sidebar: FC<TProps> = ({ userPage, hover }) => {
+const Sidebar: FC<TProps> = ({ userPage, hover, handleHover }) => {
   let menuRouter = useAppSelector(selectRouter);
   const router = useRouter();
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
 
   let renderMenuRouter = userPage ? userRouter : menuRouter;
 
-  if (window.innerWidth < 1200) {
-    renderMenuRouter = userRouter;
-  }
-
-  const [activekey, setActiveKey] = useState([]);
+  const [activeKey, setActiveKey] = useState([]);
 
   const [activeRouter, setActiveRouter] = useState([""]);
   const [obj, setObj] = useState({});
 
   const handleActiveKey = (name: string) => {
-    const indexKey = activekey.indexOf(name);
+    const indexKey = activeKey.indexOf(name);
     if (indexKey === -1) {
-      setActiveKey([...activekey, name]);
+      setActiveKey([...activeKey, name]);
     } else {
-      activekey.splice(indexKey, 1);
-      setActiveKey([...activekey]);
+      activeKey.splice(indexKey, 1);
+      setActiveKey([...activeKey]);
     }
   };
 
@@ -96,7 +93,7 @@ const Sidebar: FC<TProps> = ({ userPage, hover }) => {
 
   return (
     <div className={clsx(styles.navWrapper, hover && styles.navWrapperOpen)}>
-      {renderMenuRouter?.map((menuParent, index) => (
+      {renderMenuRouter?.map((menuParent) => (
         <div key={menuParent?.Title} className={styles.menuWrapper}>
           <div className={styles.mainTitle}>
             <span className="mr-2">
@@ -104,7 +101,7 @@ const Sidebar: FC<TProps> = ({ userPage, hover }) => {
             </span>
             <span>{menuParent?.Title}</span>
           </div>
-          <Menu mode="inline" openKeys={activekey} selectedKeys={activeRouter}>
+          <Menu mode="inline" openKeys={activeKey} selectedKeys={activeRouter}>
             {menuParent?.Children.map((child) => {
               if (!child?.SubChildren) {
                 return (
@@ -112,9 +109,11 @@ const Sidebar: FC<TProps> = ({ userPage, hover }) => {
                     key={clsx(child?.Path)}
                     className={clsx(
                       styles.childLabel,
-                      activeRouter[0].match(child?.Path) &&
-                        styles.childLabelActive
+                      activeRouter[0] === child?.Path && styles.childLabelActive
                     )}
+                    onClick={
+                      () => window.innerWidth <= 1200 && handleHover(false) // max 1200px lg tailwind
+                    }
                   >
                     <Link
                       href={child.Path}
@@ -154,6 +153,9 @@ const Sidebar: FC<TProps> = ({ userPage, hover }) => {
                             : activeRouter[0] === item?.Path &&
                                 styles.subLabelActive
                         )}
+                        onClick={
+                          () => window.innerWidth <= 1200 && handleHover(false) // max 1200px lg tailwind
+                        }
                       >
                         <Link href={item.Path}>
                           <a>

@@ -2,7 +2,7 @@
   content: unset !important;
 }
 
-.maintable table > thead > tr > th,
+.mainTable table > thead > tr > th,
 .table table > thead > tr > th {
   @apply !text-white !bg-main;
   background-image: linear-gradient(#fdc830, #f37335);
@@ -20,24 +20,24 @@
   background-image: linear-gradient(#009aff, #1fb9f0);
 }
 .anotherTable table > thead > tr > th {
-  background-image: linear-gradient(#259D24, #12F80A);
+  background-image: linear-gradient(#259d24, #12f80a);
 }
 .depositTable table > thead > tr > th {
-  background-image: linear-gradient(#FDC830, #F37335);
+  background-image: linear-gradient(#fdc830, #f37335);
 }
 .paymentTable table > thead > tr > th {
-  background-image: linear-gradient(#C157CE, #EE0020);
+  background-image: linear-gradient(#c157ce, #ee0020);
 }
 
-.maintable table > thead > tr > th:last-of-type,
+.mainTable table > thead > tr > th:last-of-type,
 .table table > thead > tr > th:last-of-type {
   border-right: none !important;
 }
 
 .table table > tbody > tr > td,
-.maintable table > tbody > tr > td,
+.mainTable table > tbody > tr > td,
 .table table > tfoot > tr > td,
-.maintable table > tfoot > tr > td {
+.mainTable table > tfoot > tr > td {
   color: #6b6f82;
   border-right: none !important;
   padding: 10px;
@@ -46,6 +46,6 @@
 }
 
 .cartTable table > thead > tr > th,
-.cartTable table > tbody > tr > td  {
-  background: #FFF1E4 !important;
+.cartTable table > tbody > tr > td {
+  background: #fff1e4 !important;
 }

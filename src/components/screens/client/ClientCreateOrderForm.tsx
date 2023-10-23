@@ -13,6 +13,7 @@ import {
 } from "~/components/globals/formBase";
 import { DataTable } from "~/components/globals/table";
 import { toast } from "~/components/toast";
+import { EParamQ } from "~/enums";
 import { useCatalogue, useDeepEffect, usePressKeyboard } from "~/hooks";
 import { TColumnsType } from "~/types/table";
 
@@ -184,7 +185,7 @@ export const ClientCreateOrderForm = ({ userData }: TProps) => {
       toast.success(
         `Bạn đã tạo đơn hàng khác thành công cho user ${userData.UserName}`
       );
-      router.push("/manager/order/order-list?q=3");
+      router.push(`/manager/order/order-list?q=${EParamQ.otherOrder}`);
     },
     onError: toast.error,
   });

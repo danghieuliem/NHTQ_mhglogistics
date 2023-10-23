@@ -305,7 +305,7 @@ type TOrder = Omit<TBaseReponseParams, "Name" | "Code" | "Description"> & {
   CancelDate?: Date;
   DateSendGoods?: Date;
   DateComingVN?: Date;
-  ComplainDate?: Date
+  ComplainDate?: Date;
 };
 
 type THistoryService = Omit<

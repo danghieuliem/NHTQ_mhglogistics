@@ -24,7 +24,6 @@ const Index: TNextPageWithLayout = () => {
   const handleSetOpen = useCallback((x) => setIsOpen(x), []);
 
   return (
-    // <HomeLayoutProtector>
     <div className={styles.loginPage}>
       <div className={styles.loginWrapper}>
         <div>
@@ -80,11 +79,9 @@ const Index: TNextPageWithLayout = () => {
       </div>
       <img src="/default/login-bottom.png" alt="" className={styles.img} />
     </div>
-    // {/* </HomeLayoutProtector> */}
   );
 };
 
-// Index.displayName = SEOConfigs.homePage;
 Index.Layout = BlankLayout;
 Index.displayName = "Hệ thống";
 

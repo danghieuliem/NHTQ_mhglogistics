@@ -26,7 +26,7 @@ export const Layout: TlayoutWithChild & React.FC<TProps> = ({
 }) => {
   const router = useRouter();
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
   // const ids = useAppSelector((state) => state?.user?.current)?.UserId;
 
@@ -53,7 +53,7 @@ export const Layout: TlayoutWithChild & React.FC<TProps> = ({
   // }, []);
 
   const [hover, setHover] = useState(
-    userPage ? window.innerWidth >= 1280 : true
+    userPage ? window.innerWidth > 1200 : true
   );
   const handleHover = useCallback((bool: boolean) => setHover(bool), []);
 
@@ -82,9 +82,7 @@ export const Layout: TlayoutWithChild & React.FC<TProps> = ({
         {window.innerWidth >= 1280 && userPage ? (
           <MenuHorizontal />
         ) : (
-          <Sidebar
-            {...{ hover, tabbar, userPage }}
-          />
+          <Sidebar {...{ hover, tabbar, userPage, handleHover }} />
         )}
 
         <div className={clsx("app-main-content height-content app-main")}>
@@ -101,10 +99,9 @@ export const Layout: TlayoutWithChild & React.FC<TProps> = ({
             {children}
           </div>
           <ButtonBackTop />
-          {
-            (userPage === true && window.innerWidth >= 1280) &&
+          {userPage === true && window.innerWidth >= 1280 && (
             <Footer hover={false} userPage />
-          }
+          )}
         </div>
       </main>
     </AuthLayoutProtector>

@@ -74,7 +74,6 @@ export const NewDeliveryOrders = React.memo(() => {
         data,
         loading: isFetching,
         title: "Đơn ký gửi mới",
-        // expandable: expandable,
       }}
     />
   );

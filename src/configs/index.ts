@@ -1,4 +1,5 @@
 export * from "./appConfigs";
 export * from "./breadcrumbConfig";
 export * from "./exportHeading";
-export * from './status';
+export * from "./status";
+export * from "./searchConfig";

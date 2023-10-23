@@ -1,5 +1,4 @@
 import { Tooltip } from "antd";
-import clsx from "clsx";
 import React from "react";
 import { ActionButton, DataTable } from "~/components";
 import { ERechargeStatusData, rechargeStatusData } from "~/configs/appConfigs";
@@ -13,7 +12,7 @@ interface TProps {
   bank;
   TotalAmount;
   filter;
-  handleFilter
+  handleFilter;
 }
 
 export const HistoryRechargeVNDTable: React.FC<
@@ -26,7 +25,7 @@ export const HistoryRechargeVNDTable: React.FC<
   bank,
   TotalAmount,
   filter,
-  handleFilter
+  handleFilter,
 }) => {
   const columns: TColumnsType<TUserHistoryRechargeVND> = [
     {
@@ -67,61 +66,20 @@ export const HistoryRechargeVNDTable: React.FC<
       title: "Thao tác",
       dataIndex: "action",
       align: "right",
-      render: (_, record) =>
-        record?.Status === ERechargeStatusData.Pending && (
-          <ActionButton
-            onClick={() => handleModal(record)}
-            icon="!mr-0"
-            title="Xóa"
-            isButton={true}
-            isButtonClassName="bg-red !text-white"
-          />
-        ),
+      render: (_, record) => (
+        <ActionButton
+          onClick={() => handleModal(record)}
+          icon="!mr-0"
+          title="Xóa"
+          isButton={true}
+          isButtonClassName="bg-red !text-white"
+          disabled={record?.Status !== ERechargeStatusData.Pending}
+        />
+      ),
       responsive: ["md"],
       width: 100,
     },
   ];
-
-  const expandable = {
-    expandedRowRender: (item) => {
-      return (
-        <div className="extentable">
-          <div
-            className={clsx(
-              "extentable-content",
-              item?.Status !== ERechargeStatusData.Pending ? "w-full" : "flex-1"
-            )}
-          >
-            <div className="extentable-row md:hidden">
-              <span className="extentable-label">Nội dung: </span>
-              <span className="extentable-value text-right">
-                {_format.getVND(item?.TradeContent)}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Ngày đặt: </span>
-              <span className="extentable-value">
-                {_format.getVNDate(item?.Created)}
-              </span>
-            </div>
-          </div>
-
-          {item?.Status === ERechargeStatusData.Pending && (
-            <div className={clsx("extentable-actions w-fit ml-4")}>
-              <div className="extentable-button">
-                <ActionButton
-                  onClick={() => handleModal(item)}
-                  icon="far fa-trash-alt"
-                  title="Xóa"
-                  isButton={true}
-                />
-              </div>
-            </div>
-          )}
-        </div>
-      );
-    },
-  };
 
   return (
     <DataTable
@@ -133,7 +91,7 @@ export const HistoryRechargeVNDTable: React.FC<
           total: filter.TotalItems,
           pageSize: filter.PageSize,
         },
-        onChange: (page, pageSize) => {
+        onChange: (page) => {
           handleFilter({
             ...filter,
             PageIndex: page.current,
@@ -141,10 +99,9 @@ export const HistoryRechargeVNDTable: React.FC<
           });
         },
         loading,
-        expandable: expandable,
         scroll: { y: 600 },
         title: "Danh sách nạp gần đây",
-        extraElment:
+        extraElement:
           window.innerWidth >= 860 ? (
             <Tooltip title="Tổng tiền đã nạp">
               <div className="bg-blue font-bold text-[#fff] py-1 px-4 rounded-[4px] shadow-md">

@@ -266,61 +266,6 @@ export const TransactionCodeManagementTable: React.FC<
     },
   ];
 
-  const expandable = {
-    expandedRowRender: (item) => {
-      return (
-        <div className="extentable">
-          <div className="extentable-content w-full">
-            <div className="extentable-row">
-              <span className="extentable-label">ID: </span>
-              <span className="extentable-value">{item?.Id}</span>
-            </div>
-            <div className="extentable-row sm:hidden">
-              <span className="extentable-label ">Bao hàng: </span>
-              <span className="extentable-value">
-                {item?.Code ? item?.Code : "--"}
-              </span>
-            </div>
-            <div className="extentable-row sm:hidden">
-              <span className="extentable-label ">Mã vận đơn: </span>
-              <span className="extentable-value">
-                {item?.OrderTransactionCode ? item?.OrderTransactionCode : "--"}
-              </span>
-            </div>
-            <div className="extentable-row md:hidden">
-              <span className="extentable-label">Cân nặng (Kg): </span>
-              <span className="extentable-value">
-                {_format.getVND(item?.PayableWeight, " ")}
-              </span>
-            </div>
-            <div className="extentable-row md:hidden">
-              <span className="extentable-label">Thể tích (m3): </span>
-              <span className="extentable-value">
-                {_format.getVND(item?.VolumePayment, " ")}
-              </span>
-            </div>
-            <div className="extentable-row md:hidden">
-              <span className="extentable-label">Kích thước (DxRxC): </span>
-              <span className="extentable-value">{item?.Width}</span>
-            </div>
-            <div className="extentable-row lg:hidden">
-              <span className="extentable-label">Ghi chú: </span>
-              <span className="extentable-value max-w-[50%] text-right">
-                {item?.Description}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Ngày tạo: </span>
-              <span className="extentable-value">
-                {_format.getVNDate(item?.Created)}
-              </span>
-            </div>
-          </div>
-        </div>
-      );
-    },
-  };
-
   return (
     <>
       <DataTable
@@ -330,7 +275,7 @@ export const TransactionCodeManagementTable: React.FC<
             : columnsUser,
           data,
           bordered: true,
-          expandable: expandable,
+
           mediaWidth: 1200,
           loading: loading,
           scroll: { y: 700 },

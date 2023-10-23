@@ -56,10 +56,10 @@ export const OutstockPaymentDetail: React.FC<
           <Link
             href={
               Number(record?.MainOrderID)
-                ? `http://localhost:3000/manager/order/order-list/detail/?id=${Number(
+                ? `/manager/order/order-list/detail/?id=${Number(
                     record?.MainOrderID
                   )}`
-                : `http://localhost:3000/manager/deposit/deposit-list/detail/?id=${Number(
+                : `/manager/deposit/deposit-list/detail/?id=${Number(
                     record?.TransportationID
                   )}`
             }
@@ -93,13 +93,19 @@ export const OutstockPaymentDetail: React.FC<
     {
       dataIndex: "SmallPackage",
       title: "Mã kiện",
-      width: 200,      
+      width: 200,
       render: (smallPackage: TSmallPackage) =>
         smallPackage?.OrderTransactionCode,
     },
     {
       dataIndex: "SmallPackage",
-      title: "Cân nặng (kg)",
+      title: (
+        <>
+          Cân nặng
+          <br />
+          (kg)
+        </>
+      ),
       align: "right",
       width: 120,
       render: (smallPackage: TSmallPackage) =>
@@ -107,7 +113,13 @@ export const OutstockPaymentDetail: React.FC<
     },
     {
       dataIndex: "SmallPackage",
-      title: "Số khối (m3)",
+      title: (
+        <>
+          Số khối
+          <br />
+          (m3)
+        </>
+      ),
       align: "right",
       width: 120,
       render: (smallPackage: TSmallPackage) =>
@@ -167,13 +179,10 @@ export const OutstockPaymentDetail: React.FC<
             <b>Tổng cân nặng</b>
           </Table.Summary.Cell>
           <Table.Summary.Cell index={1} align="right">
-            {_format.getVND(
-              item?.OutStockSessionPackages?.reduce(
-                (prev, cur) => prev + cur?.SmallPackage?.PayableWeight,
-                0
-              ),
-              " Kg"
-            ) || "0 Kg"}
+            {item?.OutStockSessionPackages?.reduce(
+              (prev, cur) => prev + cur?.SmallPackage?.PayableWeight,
+              0
+            ) + " Kg"}
           </Table.Summary.Cell>
         </Table.Summary.Row>
         <Table.Summary.Row>
@@ -204,7 +213,7 @@ export const OutstockPaymentDetail: React.FC<
         Status: 2,
         IsPaymentWallet,
       })
-      .then((res) => {
+      .then(() => {
         toast.update(id, {
           render: "Thanh toán thành công!",
           isLoading: false,
@@ -285,6 +294,7 @@ export const OutstockPaymentDetail: React.FC<
               <th>Số khối (m3)</th>
               <th>Kích thước (D x R x C)</th>
               <th>Phí cân nặng (VNĐ)</th>
+              <th>Thành tiền (VNĐ)</th>
             </tr>
           </thead>
           <tbody>
@@ -297,11 +307,12 @@ export const OutstockPaymentDetail: React.FC<
                   <td>{item?.SmallPackage?.VolumePayment}</td>
                   <td>{item?.SmallPackage?.LWH}</td>
                   <td>{_format.getVND(item?.SmallPackage?.PriceWeight, "")}</td>
+                  <td>{_format.getVND(item?.SmallPackage?.TotalPrice || 0)}</td>
                 </tr>
               );
             })}
             <tr>
-              <td colSpan={5}>Tổng tiền cần thanh toán</td>
+              <td colSpan={6}>Tổng tiền cần thanh toán</td>
               <td>
                 {_format.getVND(
                   Number(
@@ -436,18 +447,15 @@ export const OutstockPaymentDetail: React.FC<
           )}
         </div>
       </div>
-      {/* <div className="tex-center inline-block text-sm text-[#ed5b00] font-bold">
-        <span> Phiếu xuất kho #{item?.Id}</span>
-      </div> */}
+
       <DataTable
         {...{
           columns,
           data: item?.OutStockSessionPackages,
           bordered: true,
           summary: !loading ? summary : undefined,
-          // expandable: expandable,
           scroll: { x: 1200, y: 600 },
-          title: `Phiếu xuất kho #${item?.Id}`
+          title: `Phiếu xuất kho #${item?.Id}`,
         }}
       />
     </Spin>

@@ -120,7 +120,6 @@ export const TariffChinaVietNamTable: FC<TTable<TTariffTQVN> & TProps> = ({
         data,
         loading,
         bordered: true,
-        // expandable: expandable,
         scroll: { y: 700 },
       }}
     />

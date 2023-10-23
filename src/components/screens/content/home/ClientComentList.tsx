@@ -77,17 +77,6 @@ export const ClientComentList: React.FC<
     setModal(true);
   };
 
-  const expandable = {
-    expandedRowRender: (record) => (
-      <ul className="px-2 text-xs">
-        <li className="flex justify-between py-2">
-          <span className="font-medium mr-4">Nội dung:</span>
-          {record?.Description}
-        </li>
-      </ul>
-    ),
-  };
-
   return (
     <React.Fragment>
       <DataTable
@@ -95,7 +84,6 @@ export const ClientComentList: React.FC<
           columns,
           data,
           title: "Khách hàng nhận xét",
-          expandable: expandable,
         }}
       />
       <ClientCommentForm
