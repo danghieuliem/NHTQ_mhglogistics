@@ -7,7 +7,7 @@ import { default as AvatarName } from "react-avatar";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { getAllNewNotify } from "~/api";
+import { configuration, getAllNewNotify } from "~/api";
 import { config, getLevelId } from "~/configs";
 import {
   RootState,
@@ -51,8 +51,6 @@ const Bars = ({ hover, onClick }) => {
 };
 
 const NotificationBell = ({ userPage, userCurrentInfo }) => {
-  const isLoadRef = useRef(true);
-
   const { data } = useQuery(
     ["new-notification"],
     () =>
@@ -271,6 +269,11 @@ const LeftInfoComponents = ({ userPage, userCurrentInfo }) => {
 const NonRenderingChangeHover = React.memo(LeftInfoComponents);
 
 const Header: React.FC<TProps> = ({ hover, handleHover, userPage }) => {
+  const { data: configData } = useQuery({
+    queryKey: ["get-currency"],
+    queryFn: () => configuration.getCurrency(),
+  });
+
   const dataGlobal: TConfig = useSelector(
     (state: RootState) => state.dataGlobal
   );
@@ -327,7 +330,7 @@ const Header: React.FC<TProps> = ({ hover, handleHover, userPage }) => {
                 Tỉ giá:
               </span>
               <span className="!font-bold xl:!text-[12px] !text-xs flex items-center !text-main">
-                1¥ = {_format.getVND(dataGlobal?.Currency, " VNĐ")}
+                1¥ = {_format.getVND(configData?.Data, " VNĐ")}
               </span>
             </div>
           </div>
