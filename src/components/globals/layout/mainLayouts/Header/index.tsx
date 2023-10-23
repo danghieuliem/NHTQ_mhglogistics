@@ -80,10 +80,18 @@ const NotificationBell = ({ userPage, userCurrentInfo }) => {
     }
   );
 
+  const [visible, setVisible] = useState(false);
+
+  const handleClickChange = (visible) => {
+    setVisible(visible);
+  };
+
   return (
     <>
       <Popover
         trigger={"click"}
+        visible={visible}
+        onVisibleChange={handleClickChange}
         placement="bottomRight"
         content={
           <Card
@@ -92,7 +100,7 @@ const NotificationBell = ({ userPage, userCurrentInfo }) => {
             extra={
               <div className={styles.totalNotiButton}>
                 <div className="text-sec text-md font-semibold">Thông báo!</div>
-                <div>
+                <div onClick={() => setVisible(false)}>
                   <Link
                     href={`${
                       userPage === true ? "/user" : "/manager"

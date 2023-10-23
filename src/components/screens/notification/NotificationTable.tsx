@@ -1,6 +1,6 @@
 import { Pagination } from "antd";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { toast } from "react-toastify";
 import { getAllNewNotify } from "~/api";
 import { ActionButton } from "~/components/globals/button/ActionButton";
@@ -101,6 +101,31 @@ export const NotificationTable: React.FC<TTable & TProps> = ({
     },
   ];
 
+  const handleMarkRead = useCallback(() => {
+    const id = toast.loading("Đang xử lý ...");
+    getAllNewNotify
+      .readNotify(selectedRowKeys)
+      .then(() => {
+        toast.update(id, {
+          render: "Đã đọc thông báo!",
+          isLoading: false,
+          autoClose: 500,
+          type: "success",
+        });
+        setSelectedRowKeys([]);
+        refetch();
+        queryClient.invalidateQueries("new-notification");
+      })
+      .catch((error) => {
+        toast.update(id, {
+          render: (error as any)?.response?.data?.ResultMessage,
+          isLoading: false,
+          autoClose: 1000,
+          type: "error",
+        });
+      });
+  }, []);
+
   const rowSelection = {
     selectedRowKeys,
     getCheckboxProps: (record) => {
@@ -128,39 +153,9 @@ export const NotificationTable: React.FC<TTable & TProps> = ({
               <NotificationFilter
                 handleFilter={handleFilter}
                 isFetching={isFetching}
+                onMarkRead={handleMarkRead}
+                isShowMarkRead={selectedRowKeys.length > 0}
               />
-              {selectedRowKeys.length > 0 && (
-                <ActionButton
-                  title="Đánh dấu đã đọc"
-                  icon="!mr-0"
-                  isButton
-                  isButtonClassName="h-fit bg-blue !text-white"
-                  onClick={() => {
-                    const id = toast.loading("Đang xử lý ...");
-                    getAllNewNotify
-                      .readNotify(selectedRowKeys)
-                      .then(() => {
-                        toast.update(id, {
-                          render: "Đã đọc thông báo!",
-                          isLoading: false,
-                          autoClose: 500,
-                          type: "success",
-                        });
-                        setSelectedRowKeys([]);
-                        refetch();
-                        queryClient.invalidateQueries("new-notification");
-                      })
-                      .catch((error) => {
-                        toast.update(id, {
-                          render: (error as any)?.response?.data?.ResultMessage,
-                          isLoading: false,
-                          autoClose: 1000,
-                          type: "error",
-                        });
-                      });
-                  }}
-                />
-              )}
             </>
           ),
         }}
