@@ -21,7 +21,7 @@ const OutStockPaymentTable: React.FC<TTable<TOutStockSession> & TProps> = ({
     {
       dataIndex: "Id",
       title: "ID",
-      width: 50
+      width: 50,
     },
     {
       dataIndex: "Created",
@@ -39,7 +39,7 @@ const OutStockPaymentTable: React.FC<TTable<TOutStockSession> & TProps> = ({
       align: "right",
       render: (val) => _format.getVND(val, ""),
     },
-    
+
     {
       dataIndex: "Status",
       title: "Trạng thái",
@@ -79,15 +79,18 @@ const OutStockPaymentTable: React.FC<TTable<TOutStockSession> & TProps> = ({
           columns,
           data,
           bordered: true,
-          // expandable: expandable,
           loading,
           scroll: { y: 700, x: 1200 },
-          pagination: {current: filter.PageIndex, total: filter.TotalItems, pageSize: filter.PageSize },
+          pagination: {
+            current: filter.PageIndex,
+            total: filter.TotalItems,
+            pageSize: filter.PageSize,
+          },
           onChange: (page, pageSize) => {
             handleFilter({
               ...filter,
               PageIndex: page.current,
-              PageSize: page.pageSize
+              PageSize: page.pageSize,
             });
           },
         }}

@@ -18,7 +18,7 @@ import { _format } from "~/utils";
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
   const dataGlobal: TConfig = useSelector(
     (state: RootState) => state.dataGlobal
@@ -58,7 +58,7 @@ const Index: TNextPageWithLayout = () => {
     setModal(!modal);
   };
 
-  const handleCloseModal = useCallback(() => setModal(false), [])
+  const handleCloseModal = useCallback(() => setModal(false), []);
 
   return (
     <>

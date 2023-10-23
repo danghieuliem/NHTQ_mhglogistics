@@ -1,3 +1,5 @@
+import { EParamQ } from "~/enums";
+
 export const userRouter = [
   {
     Title: "TỔNG QUAN",
@@ -20,6 +22,16 @@ export const userRouter = [
     ],
   },
   {
+    Title: "TÌM SẢN PHẨM",
+    Children: [
+      {
+        Label: "Tìm sản phẩm",
+        Icon: "fas fa-search",
+        Path: "/user/search-product/",
+      },
+    ],
+  },
+  {
     Title: "ĐƠN MUA HỘ",
     Children: [
       {
@@ -33,14 +45,14 @@ export const userRouter = [
             Path: "/user/order-list/",
           },
           {
-            Path: "/user/order-list/?q=3",
+            Path: `/user/order-list/?q=${EParamQ.otherOrder}`,
             Label: "Đơn mua hộ khác",
-            Icon: ""
+            Icon: "",
           },
           {
             Path: "/user/create-order/",
             Label: "Tạo mua hộ khác",
-            Icon: ""
+            Icon: "",
           },
         ],
       },

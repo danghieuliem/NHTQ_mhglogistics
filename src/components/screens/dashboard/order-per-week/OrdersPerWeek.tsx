@@ -7,6 +7,7 @@ import { dashboard } from "~/api";
 import { PurchasePercent, TotalRechargesPerWeek } from "~/components";
 import { _format } from "~/utils";
 import { OrdersPerWeekChart } from "./OrderPerWeekChart";
+import { EParamQ } from "~/enums";
 
 const box = "col-span-2 grid grid-cols-4 gap-4 mb-4";
 
@@ -23,7 +24,7 @@ const dataBoxItem = [
   {
     key: "MainOrderAnotherCount",
     label: "Đơn hàng mua hộ khác",
-    path: "/manager/order/order-list?q=3",
+    path: `/manager/order/order-list?q=${EParamQ.otherOrder}`,
     icon: "fas fa-cubes",
     color: "#009000",
     bgColor: "#E5FFE5",

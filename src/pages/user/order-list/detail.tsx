@@ -10,7 +10,7 @@ import {
   OrderIDProductList,
   OrderOverViewMemo,
   OrderTransportListMemo,
-  UserLayout
+  UserLayout,
 } from "~/components";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import { TNextPageWithLayout } from "~/types/layout";
@@ -30,7 +30,7 @@ const Index: TNextPageWithLayout = () => {
   const { id } = router.query;
   const { query } = useRouter();
 
-  const { data, isError, isLoading, refetch } = useQuery(
+  const { data, refetch } = useQuery(
     ["orderList", +query?.id],
     () => mainOrder.getByID(+query?.id),
     {
@@ -40,6 +40,7 @@ const Index: TNextPageWithLayout = () => {
       enabled: !!+query?.id,
     }
   );
+
   const updatePaid = (type: "deposit" | "payment") => {
     const id = toast.loading("Đang xử lý ...");
     mainOrder
@@ -71,7 +72,7 @@ const Index: TNextPageWithLayout = () => {
   const columns: TColumnsType<TFeeSupports> = [
     {
       dataIndex: "Id",
-      render: (value, record, index) => <>{++index}</>,
+      render: (_, __, index) => <>{++index}</>,
       title: "STT",
       responsive: ["lg"],
     },
@@ -98,7 +99,6 @@ const Index: TNextPageWithLayout = () => {
           {...{
             columns,
             data: data?.Data?.FeeSupports,
-            // bordered: true,
             title: "Danh sách phụ phí",
           }}
         />
@@ -108,19 +108,10 @@ const Index: TNextPageWithLayout = () => {
           <OrderOverViewMemo data={data?.Data} updatePaid={updatePaid} />
         </div>
         <div className="col-span-1">
-          <OrderIDDetailMemo
-            data2={data?.Data?.Orders}
-            dataAll={data?.Data}
-          />
+          <OrderIDDetailMemo data2={data?.Data?.Orders} dataAll={data?.Data} />
         </div>
       </div>
       <OrderIDPaymentHistoryMemo data={data?.Data?.PayOrderHistories} />
-      {/* {data && (
-          <MessageControlUser
-            clientId={data.Data.UID}
-            mainOrderId={+query?.id}
-          />
-        )} */}
     </React.Fragment>
   );
 };

@@ -13,7 +13,7 @@ import {
   ConfigurationSEO,
   ConfigurationSocialNetwork,
   Layout,
-  toast
+  toast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -38,7 +38,7 @@ const Index: TNextPageWithLayout = () => {
   const dispatch = useDispatch();
 
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
 
   const [configData, setConfigData] = useState<TConfig>(null);

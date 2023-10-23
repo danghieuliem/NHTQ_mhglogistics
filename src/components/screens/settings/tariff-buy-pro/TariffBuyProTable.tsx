@@ -12,7 +12,7 @@ export const TariffBuyProTable: FC<TTable<TTariffBuyPro>> = ({
     {
       dataIndex: "Id",
       title: "ID",
-      align: "right"
+      align: "right",
     },
     {
       dataIndex: "PriceFrom",
@@ -51,7 +51,6 @@ export const TariffBuyProTable: FC<TTable<TTariffBuyPro>> = ({
         loading,
         data,
         bordered: true,
-        // expandable: expandable,
       }}
     />
   );

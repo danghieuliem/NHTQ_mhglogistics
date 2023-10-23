@@ -1,9 +1,7 @@
 import { Space } from "antd";
 import React from "react";
 import { ActionButton, DataTable } from "~/components";
-import {
-  smallPackageStatus
-} from "~/configs";
+import { smallPackageStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
@@ -66,7 +64,9 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
       render: (status, record) => (
         <TagStatus
           color={smallPackageStatus.find((x) => x.id === record.Status)?.color}
-          statusName={smallPackageStatus.find((x) => x.id === record.Status)?.name}
+          statusName={
+            smallPackageStatus.find((x) => x.id === record.Status)?.name
+          }
         />
       ),
     },
@@ -80,7 +80,7 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
       title: "Ngày tạo",
       render: (date) => date && _format.getVNDate(date),
       responsive: ["xl"],
-      width: 200
+      width: 200,
     },
     {
       dataIndex: "action",
@@ -115,29 +115,6 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
     },
   ];
 
-  const expandable = {
-    expandedRowRender: (record) => (
-      <ul className="px-2 text-xs">
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Bao hàng:</span>
-          <div>{record?.Code || "---"}</div>
-        </li>
-        <li className="justify-between flex py-2">
-          <span className="font-medium mr-4">Loại hàng:</span>
-          <div>{record?.ProductType || "---"}</div>
-        </li>
-        <li className="xl:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Người nhận hàng:</span>
-          {record?.FloatingUserName || "---"}
-        </li>
-        <li className="xl:hidden justify-between flex py-2">
-          <span className="font-medium mr-4">Ngày tạo:</span>
-          <div>{_format.getVNDate(record?.Created)}</div>
-        </li>
-      </ul>
-    ),
-  };
-
   return (
     <>
       <div>
@@ -147,14 +124,18 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
             data,
             loading,
             bordered: true,
-            expandable: expandable,
-            scroll: {y: 700},
-            pagination: {current: filter.PageIndex, total: filter.TotalItems, pageSize: filter.PageSize },
-            onChange: (page, pageSize) => {
+
+            scroll: { y: 700 },
+            pagination: {
+              current: filter.PageIndex,
+              total: filter.TotalItems,
+              pageSize: filter.PageSize,
+            },
+            onChange: (page) => {
               handleFilter({
                 ...filter,
                 PageIndex: page.current,
-                PageSize: page.pageSize
+                PageSize: page.pageSize,
               });
             },
           }}

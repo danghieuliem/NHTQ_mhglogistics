@@ -30,7 +30,7 @@ type TProps = {
 
 const ReportContent = ({ defaultValue }: TProps) => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
 
   const { handleSubmit, control } = useForm<TPropsTable>({

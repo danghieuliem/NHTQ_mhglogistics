@@ -14,7 +14,7 @@ export const BanksTable: FC<TTable<TBank>> = ({
     {
       dataIndex: "Id",
       title: "ID",
-      align: "right"
+      align: "right",
     },
     {
       dataIndex: "BankName",
@@ -81,9 +81,6 @@ export const BanksTable: FC<TTable<TBank>> = ({
         columns,
         data,
         bordered: true,
-        // pagination,
-        // onChange: handlePagination,
-        // expandable: expandable,
       }}
     />
   );

@@ -14,6 +14,7 @@ import {
 } from "~/components/globals/filterBase";
 import { EOrderStatus, orderStatus } from "~/configs";
 import { ECreatedOrderStatusData, searchData } from "~/configs/appConfigs";
+import { EParamQ } from "~/enums";
 
 const filterBox = `py-[9px] px-1 font-bold uppercase text-[12px] rounded-[4px] leading-[initial]
 flex items-center justify-center border border-[#e8e8e8] shadow-lg 
@@ -164,7 +165,7 @@ export const OrderListFilter: FC<TProps> = ({
       </div>
 
       <div className="flex items-end flex-wrap gap-2">
-        {(query?.q !== "3"
+        {(query?.q !== EParamQ.otherOrder
           ? numberOfOrder.filter((x) => x.id !== EOrderStatus.ChoBaoGia)
           : numberOfOrder
         )?.map((item) => (

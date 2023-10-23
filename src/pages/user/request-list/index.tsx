@@ -10,7 +10,7 @@ import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
 
   const [filter, setFilter] = useState({
@@ -21,7 +21,7 @@ const Index: TNextPageWithLayout = () => {
     UID: userCurrentInfo?.Id,
     Status: null,
     FromDate: null,
-    ToDate: null
+    ToDate: null,
   });
 
   const handleFilter = useCallback((newFilter) => {
@@ -29,12 +29,10 @@ const Index: TNextPageWithLayout = () => {
   }, []);
 
   const { isFetching, data, refetch } = useQuery(
-    ["requestList", [
-      filter.PageIndex,
-      filter.Status,
-      filter.FromDate,
-      filter.ToDate
-    ]],
+    [
+      "requestList",
+      [filter.PageIndex, filter.Status, filter.FromDate, filter.ToDate],
+    ],
     async () => await payHelp.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,

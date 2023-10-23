@@ -51,13 +51,12 @@ export const StatisticalWithdrawTable = ({
         columns,
         data,
         bordered: true,
-        // expandable: expandable,
         loading,
         pagination,
         title: "Danh sách rút tiền",
         onChange: handlePagination,
         scroll: { y: 600, x: 1200 },
-        extraElment: (
+        extraElement: (
           <ActionButton
             onClick={() => handleExportExcelWithDraw()}
             icon="fas fa-file-export"

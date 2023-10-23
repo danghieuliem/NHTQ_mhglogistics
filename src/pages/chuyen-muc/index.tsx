@@ -96,23 +96,6 @@ const Index: TNextPageWithLayout = () => {
                 </div>
               </div>
             </div>
-            {/* {Data?.Pages.length > 0 && !!(Data?.Title && Data?.Description) && (
-              <div>
-                <div className={styles.top}>
-                  <h4 className="small_title">{Data?.Name}</h4>
-                  <h1>
-                    Các bài viết chuyên mục{" "}
-                    <span className="!text-main">{Data?.Name}</span>
-                  </h1>
-                </div>
-                <HomeCard
-                  data={Data?.Pages}
-                  direction="horizontal"
-                  code={router?.query?.Code}
-                  name={Data?.Name}
-                />
-              </div>
-            )} */}
           </div>
         </div>
       </div>

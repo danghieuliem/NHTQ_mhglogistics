@@ -1,6 +1,6 @@
 import { Divider, Popover } from "antd";
 import router from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { useSelector } from "react-redux";
@@ -10,7 +10,7 @@ import {
   CreateDepositSelect,
   CreateDepositTable,
   UserLayout,
-  toast
+  toast,
 } from "~/components";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
 import { useDeepEffect } from "~/hooks";
@@ -20,7 +20,7 @@ import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
 
   const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ const Index: TNextPageWithLayout = () => {
     shippingTypeToWarehouseEnabled: true,
   });
 
-  const { control, reset, handleSubmit, setValue } =
+  const { control, reset, handleSubmit, setValue, watch } =
     useForm<TUserCreateDeposit>({
       mode: "onBlur",
       defaultValues: {
@@ -46,16 +46,27 @@ const Index: TNextPageWithLayout = () => {
             FeeShip: 0,
           },
         ],
-        ShippingTypeId: shippingTypeToWarehouse?.find(x => x.Id === userCurrentInfo?.ShippingType)?.Id,
-        WareHouseFromId: warehouseTQ?.find(x => x.Id === userCurrentInfo?.WarehouseFrom)?.Id,
-        WareHouseId: warehouseVN?.find(x => x.Id === userCurrentInfo?.WarehouseTo)?.Id,
-      }
+        ShippingTypeId: shippingTypeToWarehouse?.find(
+          (x) => x.Id === userCurrentInfo?.ShippingType
+        )?.Id,
+        WareHouseFromId: warehouseTQ?.find(
+          (x) => x.Id === userCurrentInfo?.WarehouseFrom
+        )?.Id,
+        WareHouseId: warehouseVN?.find(
+          (x) => x.Id === userCurrentInfo?.WarehouseTo
+        )?.Id,
+      },
     });
   const { fields, append, remove } = useFieldArray({
     control,
     name: "smallPackages",
     keyName: "Id",
   });
+
+  useEffect(() => {
+    console.log(watch("smallPackages"));
+  }, [watch("smallPackages")]);
+
   useDeepEffect(() => {
     reset({
       smallPackages: [
@@ -68,9 +79,15 @@ const Index: TNextPageWithLayout = () => {
           FeeShip: 0,
         },
       ],
-      ShippingTypeId: shippingTypeToWarehouse?.find(x => x.Id === userCurrentInfo?.ShippingType)?.Id,
-      WareHouseFromId: warehouseTQ?.find(x => x.Id === userCurrentInfo?.WarehouseFrom)?.Id,
-      WareHouseId: warehouseVN?.find(x => x.Id === userCurrentInfo?.WarehouseTo)?.Id,
+      ShippingTypeId: shippingTypeToWarehouse?.find(
+        (x) => x.Id === userCurrentInfo?.ShippingType
+      )?.Id,
+      WareHouseFromId: warehouseTQ?.find(
+        (x) => x.Id === userCurrentInfo?.WarehouseFrom
+      )?.Id,
+      WareHouseId: warehouseVN?.find(
+        (x) => x.Id === userCurrentInfo?.WarehouseTo
+      )?.Id,
     });
   }, [warehouseTQ, warehouseVN, shippingTypeToWarehouse]);
 
@@ -91,9 +108,15 @@ const Index: TNextPageWithLayout = () => {
               FeeShip: 0,
             },
           ],
-          ShippingTypeId: shippingTypeToWarehouse?.find(x => x.Id === userCurrentInfo?.ShippingType)?.Id,
-          WareHouseFromId: warehouseTQ?.find(x => x.Id === userCurrentInfo?.WarehouseFrom)?.Id,
-          WareHouseId: warehouseVN?.find(x => x.Id === userCurrentInfo?.WarehouseTo)?.Id,
+          ShippingTypeId: shippingTypeToWarehouse?.find(
+            (x) => x.Id === userCurrentInfo?.ShippingType
+          )?.Id,
+          WareHouseFromId: warehouseTQ?.find(
+            (x) => x.Id === userCurrentInfo?.WarehouseFrom
+          )?.Id,
+          WareHouseId: warehouseVN?.find(
+            (x) => x.Id === userCurrentInfo?.WarehouseTo
+          )?.Id,
         });
         queryClient.invalidateQueries({ queryKey: "menuData" });
         router.push("/user/deposit-list");
@@ -149,23 +172,19 @@ const Index: TNextPageWithLayout = () => {
           trigger={"click"}
           placement="bottomLeft"
           content={
-            <div className="grid grid-cols-4 p-4 w-[500px]">
-              <div className="col-span-4 grid grid-col-2">
-                <CreateDepositSelect
-                  {...{
-                    control,
-                    warehouseTQCatalogue: warehouseTQ,
-                    warehouseVNCatalogue: warehouseVN,
-                    shippingTypeToWarehouseCatalogue: shippingTypeToWarehouse,
-                    append,
-                  }}
-                  user={userCurrentInfo}
-                />
-              </div>
-              <div className="col-span-4">
-                <Divider className="!my-4" />
-              </div>
-              <div className="col-span-4 flex items-end justify-end">
+            <div className="grid p-4 sm:w-[500px]">
+              <CreateDepositSelect
+                {...{
+                  control,
+                  warehouseTQCatalogue: warehouseTQ,
+                  warehouseVNCatalogue: warehouseVN,
+                  shippingTypeToWarehouseCatalogue: shippingTypeToWarehouse,
+                  append,
+                }}
+                user={userCurrentInfo}
+              />
+              <Divider className="!my-4" />
+              <div className="flex items-end justify-end">
                 <ActionButton
                   onClick={handleSubmit(_onPress)}
                   icon="fas fa-check-circle"

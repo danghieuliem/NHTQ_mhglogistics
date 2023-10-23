@@ -6,12 +6,15 @@ import { Loading } from "~/components";
 import { MvdNotFound } from "~/components/screens/status";
 import { TrackingDetail } from "~/components/screens/user/tracking";
 
-const Box = ({ childern, isResult }) => {
+const Box = ({ children, isResult }) => {
   return (
-    <div className={clsx("w-[100vw] h-[100vh] relative", isResult && "bg-sec")}>
-      <div className="w-3/4 translate-x-[-50%] translate-y-[-50%] absolute top-1/2 left-1/2">
-        {childern}
-      </div>
+    <div
+      className={clsx(
+        "w-screen h-screen relative flex items-center overflow-y-scroll p-8",
+        isResult && "bg-sec"
+      )}
+    >
+      <div className="w-[700px] xl:w-[1200px] relative m-auto">{children}</div>
     </div>
   );
 };
@@ -45,14 +48,14 @@ const Index = () => {
   }, [router?.query]);
 
   if (loading) {
-    return <Box childern={<Loading />} isResult={false} />;
+    return <Box children={<Loading />} isResult={false} />;
   }
 
   if (!trackingData) {
-    return <Box childern={<MvdNotFound />} isResult={false} />;
+    return <Box children={<MvdNotFound />} isResult={false} />;
   }
   return (
-    <Box childern={<TrackingDetail data={trackingData} />} isResult={true} />
+    <Box children={<TrackingDetail data={trackingData} />} isResult={true} />
   );
 };
 

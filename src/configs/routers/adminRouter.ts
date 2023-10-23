@@ -1,3 +1,5 @@
+import { EParamQ } from "~/enums";
+
 export const adminRouter = [
   {
     Title: "TỔNG QUAN",
@@ -132,7 +134,7 @@ export const adminRouter = [
           },
           {
             Key: "MainOrderAnother",
-            Path: "/manager/order/order-list/?q=3",
+            Path: `/manager/order/order-list/?q=${EParamQ.otherOrder}`,
             Label: "ĐH mua hộ khác",
             Icon: "",
             Value: 0,

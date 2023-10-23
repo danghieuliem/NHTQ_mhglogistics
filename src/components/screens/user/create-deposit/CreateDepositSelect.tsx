@@ -12,7 +12,7 @@ type TProps = TControl<TUserCreateDeposit> & {
   shippingTypeToWarehouseCatalogue: TShippingTypeToWarehouse[];
 };
 
-const infoContainer = "col-span-2";
+const infoContainer = "xs:col-span-1 col-span-full";
 
 export const CreateDepositSelect: FC<TProps> = ({
   user,
@@ -23,13 +23,13 @@ export const CreateDepositSelect: FC<TProps> = ({
   append,
 }) => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
   const router = useRouter();
 
   return (
     <>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-4">
         {!router.asPath.match("/user/") && (
           <div className={infoContainer}>
             <FormSelect

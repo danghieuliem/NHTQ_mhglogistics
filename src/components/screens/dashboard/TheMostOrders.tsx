@@ -1,9 +1,9 @@
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { user } from "~/api";
+import { DataTable } from "~/components";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
-import { DataTable } from "../..";
 
 export const TheMostOrders = () => {
   const { isFetching, data, isLoading } = useQuery(
@@ -36,7 +36,8 @@ export const TheMostOrders = () => {
     {
       title: "ID",
       dataIndex: "Id",
-      render: (_, __, index) => ++index,
+      responsive: ["md"],
+      render: (_, __, index) => index + 1,
     },
     {
       title: "Username",
@@ -53,7 +54,7 @@ export const TheMostOrders = () => {
       dataIndex: "TotalMainOrder",
       align: "right",
       render: (_, record) => (
-        <span>{_format.getVND(record?.TotalMainOrder, " ")}</span>
+        <span>{_format.getVND(record?.TotalMainOrder, "")}</span>
       ),
     },
     {
@@ -61,7 +62,7 @@ export const TheMostOrders = () => {
       dataIndex: "TotalTransportationOrder",
       align: "right",
       render: (_, record) => (
-        <span>{_format.getVND(record?.TotalTransportationOrder, " ")}</span>
+        <span>{_format.getVND(record?.TotalTransportationOrder, "")}</span>
       ),
     },
     {
@@ -69,25 +70,18 @@ export const TheMostOrders = () => {
       dataIndex: "TotalPayHelp",
       align: "right",
       render: (_, record) => (
-        <span>{_format.getVND(record?.TotalPayHelp, " ")}</span>
+        <span>{_format.getVND(record?.TotalPayHelp, "")}</span>
       ),
     },
-    // {
-    //   title: "Tổng đơn",
-    //   dataIndex: "TotalMainOrder",
-    //   align: "right",
-    //   render: (_, record) => _format.getVND(record?.TotalMainOrder, " "),
-    // },
   ];
 
   return (
     <DataTable
       {...{
         columns,
-        data: data,
+        data: data as TEmployee[],
         loading: isFetching,
         title: "Khách hàng có đơn hàng nhiều nhất",
-        // expandable: expandable,
       }}
     />
   );

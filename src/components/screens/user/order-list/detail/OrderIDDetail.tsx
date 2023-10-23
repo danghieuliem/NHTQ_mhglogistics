@@ -2,7 +2,6 @@ import { Card } from "antd";
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 
-
 const templageMethods = [
   {
     id: 1,
@@ -58,7 +57,7 @@ const templageMethods = [
 const styleLi = `pb-2 col-span-1 grid gap-2 grid grid-cols-6 border-b border-[#56545454] last:border-none`;
 const styleWrapIcon = `col-span-3 lg:col-span-3 text-sm text-[#000]`;
 const styleIcon = `text-[#ffa500] text-[18px]`;
-const styleValue = `col-span-3 lg:col-span-3 text-sm text-[#666565] font-semibold`;
+const styleValue = `col-span-3 lg:col-span-3 text-sm text-[#666565] font-semibold break-words`;
 
 const OrderIDDetail: React.FC<{ dataAll; data2 }> = ({ dataAll, data2 }) => {
   const [renderMethods, setRenderMethods] = useState(templageMethods);

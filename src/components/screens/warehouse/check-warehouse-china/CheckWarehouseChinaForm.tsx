@@ -132,7 +132,7 @@ export const CheckWarehouseChinaForm = () => {
             res.Data[0].Status === ESmallPackage.MoiTao ||
             res.Data[0].Status === ESmallPackage.VeKhoTQ
           ) {
-            let key = res.Data[0].UserName + res.Data[0].Phone;
+            let key = res.Data[0].Phone;
 
             handleData(
               res.Data.map((item) => ({

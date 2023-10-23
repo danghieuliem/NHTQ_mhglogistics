@@ -42,10 +42,11 @@ export const NewPaymentOrders = React.memo(() => {
     {
       title: "ID",
       dataIndex: "Id",
-      render: (_, __, index) => {
+      responsive: ["md"],
+      render: (value) => {
         return (
-          <Link href={`/manager/order/request-payment/detail/?id=${_}`}>
-            <a target="_blank">{_}</a>
+          <Link href={`/manager/order/request-payment/detail/?id=${value}`}>
+            <a target="_blank">{value}</a>
           </Link>
         );
       },
@@ -69,7 +70,7 @@ export const NewPaymentOrders = React.memo(() => {
     {
       title: "Trạng thái",
       dataIndex: "Status",
-      render: (status, _) => {
+      render: (status) => {
         const color = payHelpStatus.find((x) => x.id === status);
         return <TagStatus color={color?.color} statusName={color.name} />;
       },
@@ -84,7 +85,6 @@ export const NewPaymentOrders = React.memo(() => {
         loading: isFetching,
         style: "secondary",
         title: "Đơn thanh toán hộ mới",
-        // expandable: expandable,
       }}
     />
   );

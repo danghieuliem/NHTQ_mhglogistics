@@ -19,7 +19,7 @@ export const WithDrawalVNDTable: React.FC<TTable<TWithDraw>> = ({
       dataIndex: "Id",
       title: "ID đơn",
       responsive: ["sm"],
-      width: 90
+      width: 90,
     },
     {
       dataIndex: "Created",
@@ -43,7 +43,7 @@ export const WithDrawalVNDTable: React.FC<TTable<TWithDraw>> = ({
       title: "Trạng thái",
       render: (status, _) => {
         const color = moneyStatus.find((x) => x.id === status);
-        return <TagStatus color={color?.color} statusName={color?.name} />
+        return <TagStatus color={color?.color} statusName={color?.name} />;
       },
     },
     {
@@ -68,50 +68,6 @@ export const WithDrawalVNDTable: React.FC<TTable<TWithDraw>> = ({
     },
   ];
 
-  const expandable = {
-    expandedRowRender: (item) => {
-      return (
-        <div className="extentable">
-          <div
-            className={clsx(
-              "extentable-content",
-              item?.Status === ERechargeStatusData.Pending && "!w-full"
-            )}
-          >
-            <div className="extentable-row sm:hidden">
-              <span className="extentable-label">ID: </span>
-              <span className="extentable-value">{item?.Id}</span>
-            </div>
-            <div className="extentable-row lg:hidden">
-              <span className="extentable-label">Nội dung: </span>
-              <span className="extentable-value">{item?.Note}</span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Ngày đặt: </span>
-              <span className="extentable-value">
-                {_format.getVNDate(item?.Created)}
-              </span>
-            </div>
-          </div>
-
-          {item?.Status === ERechargeStatusData.Pending && (
-            <div className="extentable-actions lg:hidden">
-              <div className="extentable-button">
-                <ActionButton
-                  onClick={() => handleModal(item)}
-                  icon="far fa-trash-alt"
-                  title="Xóa"
-                  btnRed
-                  isButton={true}
-                />
-              </div>
-            </div>
-          )}
-        </div>
-      );
-    },
-  };
-
   return (
     <DataTable
       {...{
@@ -121,11 +77,10 @@ export const WithDrawalVNDTable: React.FC<TTable<TWithDraw>> = ({
         style: "secondary",
         pagination,
         onChange: handlePagination,
-        expandable: expandable,
+
         mediaWidth: 1200,
         scroll: { y: 660 },
-        title: " ",
-        extraElment: (
+        extraElement: (
           <div>
             <Popover
               trigger={"click"}

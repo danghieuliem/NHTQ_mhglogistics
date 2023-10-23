@@ -8,7 +8,6 @@ import { ActionButton } from "~/components";
 import { DataTable } from "~/components/globals/table";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
-// import ReportContent from "./Report";
 
 type TPropsTable = {
   Id: number;
@@ -21,14 +20,10 @@ type TPropsTable = {
   Brand: string;
   mainOrder: any;
   StatusComplain: number;
-  LinkOrigin?: string
+  LinkOrigin?: string;
 };
 
-export const OrderIDProductList: React.FC<any> = ({
-  data,
-}) => {
-  // const queryClient = useQueryClient();
-
+export const OrderIDProductList: React.FC<any> = ({ data }) => {
   const onExportExcel = async () => {
     try {
       const res = await order.exportExcel({
@@ -39,33 +34,6 @@ export const OrderIDProductList: React.FC<any> = ({
       toast.error(error);
     }
   };
-
-  // const handleUpdateQuantity_Brand = (data: any) => {
-  //   const id = toast.loading("Đang xử lý ...");
-
-  //   order
-  //     .update(data)
-  //     .then((res) => {
-  //       refetch();
-  //       queryClient.invalidateQueries("orderList");
-  //       toast.update(id, {
-  //         type: "success",
-  //         render: data?.Brand
-  //           ? "Cập nhật ghi chú thành công"
-  //           : "Cập nhật số lượng thành công!",
-  //         autoClose: 1000,
-  //         isLoading: false,
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       toast.update(id, {
-  //         type: "error",
-  //         render: (error as any)?.response?.data?.ResultMessage,
-  //         autoClose: 1000,
-  //         isLoading: false,
-  //       });
-  //     })
-  // };
 
   const columns: TColumnsType<TPropsTable> = [
     {
@@ -97,6 +65,7 @@ export const OrderIDProductList: React.FC<any> = ({
       dataIndex: "TitleOrigin",
       title: "Thông tin",
       width: 500,
+      responsive: ["md"],
       render: (_, record) => {
         // const [note, setNote] = useState(record?.Brand);
         return (
@@ -142,55 +111,51 @@ export const OrderIDProductList: React.FC<any> = ({
       dataIndex: "Quantity",
       title: "Số lượng",
       align: "right",
-      render: (_, record) => {
-        return <>{_format.getVND(_, " ")}</>;
-        // const [quantity, setQuantity] = useState(_);
-        // return (
-        //   <div>
-        //     <input
-        //       disabled={mainOrder?.DatHangId || loading || mainOrder?.Status !== 2}
-        //       value={quantity}
-        //       placeholder=""
-        //       className="w-[60px] h-[28px] !rounded-[6px] border !border-[#c4c4c4] !text-center"
-        //       onChange={(val) => {
-        //         const valueTarget = Number(val.target.value);
-        //         if (!isNaN(valueTarget)) {
-        //           setQuantity(valueTarget);
-        //         }
-        //       }}
-        //       onBlur={() => {
-        //         if (quantity !== record?.Quantity) {
-        //           handleUpdateQuantity_Brand({
-        //             ...record,
-        //             Quantity: quantity
-        //           })
-        //         }
-        //       }}
-        //     />
-        //   </div>
-        // );
+      responsive: ["sm"],
+      render: (value) => {
+        return <>{_format.getVND(value, "")}</>;
       },
     },
     {
       dataIndex: "UPriceBuy",
-      title: "Đơn giá (¥)",
+      title: (
+        <>
+          Đơn giá
+          <br />
+          (¥)
+        </>
+      ),
       align: "right",
-      render: (_, record) => {
-        return <div>{_format.getVND(_, "")}</div>;
+      responsive: ["md"],
+      render: (value) => {
+        return <div>{_format.getVND(value, "")}</div>;
       },
     },
     {
       dataIndex: "UPriceBuyVN",
-      title: "Đơn giá (VNĐ)",
+      title: (
+        <>
+          Đơn giá
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
-      render: (_, record) => {
-        return <div>{_format.getVND(_, "")}</div>;
+      responsive: ["sm"],
+      render: (value) => {
+        return <div>{_format.getVND(value, "")}</div>;
       },
     },
     {
       dataIndex: "Quantity",
       align: "right",
-      title: "Thành tiền (VNĐ)",
+      title: (
+        <>
+          Thành tiền
+          <br />
+          (VNĐ)
+        </>
+      ),
       render: (_, record) => {
         return (
           <div>
@@ -199,30 +164,6 @@ export const OrderIDProductList: React.FC<any> = ({
         );
       },
     },
-    // {
-    //   dataIndex: "action",
-    //   title: "Thao tác",
-    //   render: (_, record) => {
-    //     return (
-    //       <div>
-    //         {record?.StatusComplain !== 1 &&
-    //           (mainOrder?.Orders?.Status === 13 ||
-    //             mainOrder?.Orders?.Status === 15) && (
-    //             <ActionButton
-    //               onClick={() => {
-    //                 setVisible(record);
-    //               }}
-    //               icon="fas fa-balance-scale-right"
-    //               title="Khiếu nại"
-    //               btnRed
-    //               isButton={true}
-    //               // disabled={status !== 14}
-    //             />
-    //           )}
-    //       </div>
-    //     );
-    //   },
-    // },
   ];
 
   return (
@@ -232,7 +173,7 @@ export const OrderIDProductList: React.FC<any> = ({
           columns,
           data,
           title: "Danh sách sản phẩm",
-          extraElment: (
+          extraElement: (
             <ActionButton
               onClick={() => onExportExcel()}
               title="Xuất"

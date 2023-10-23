@@ -11,7 +11,7 @@ import {
   CreateOrderTable,
   FormCheckbox,
   FormInput,
-  UserLayout
+  UserLayout,
 } from "~/components";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
 import { useDeepEffect } from "~/hooks";
@@ -23,7 +23,7 @@ const Index: TNextPageWithLayout = () => {
   const [loading, setLoading] = useState(false);
 
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
 
   const { warehouseTQ, warehouseVN, shippingTypeToWarehouse } = useCatalogue({
@@ -50,12 +50,22 @@ const Index: TNextPageWithLayout = () => {
     IsCheckProduct: false,
     IsInsurance: false,
     IsFastDelivery: false,
-    ShippingType: shippingTypeToWarehouse?.find(x => x.Id === userCurrentInfo?.ShippingType)?.Id,
-    WarehouseTQ: warehouseTQ?.find(x => x.Id === userCurrentInfo?.WarehouseFrom)?.Id,
-    WarehouseVN: warehouseVN?.find(x => x.Id === userCurrentInfo?.WarehouseTo)?.Id,
-  }
+    ShippingType: shippingTypeToWarehouse?.find(
+      (x) => x.Id === userCurrentInfo?.ShippingType
+    )?.Id,
+    WarehouseTQ: warehouseTQ?.find(
+      (x) => x.Id === userCurrentInfo?.WarehouseFrom
+    )?.Id,
+    WarehouseVN: warehouseVN?.find((x) => x.Id === userCurrentInfo?.WarehouseTo)
+      ?.Id,
+  };
 
-  const { control, reset, handleSubmit, formState: {isSubmitting}} = useForm<TUserCreateOrder>({
+  const {
+    control,
+    reset,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<TUserCreateOrder>({
     mode: "onBlur",
     defaultValues: defaultValues,
   });

@@ -25,7 +25,7 @@ const ComplainListForm: React.FC<TForm<TReport>> = ({
   defaultValues,
 }) => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
   const { handleSubmit, reset, control } = useForm<TReport>({
     defaultValues: defaultValues,

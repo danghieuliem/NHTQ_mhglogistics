@@ -298,12 +298,12 @@ const DetailInfo = (record) => {
 
 const DetailInfoMemo = React.memo(DetailInfo);
 
-
 export const UserTransfer = ({ data, isFetching }) => {
   const columns: TColumnsType<TNewDeliveryOrders> = [
     {
       title: "ID",
       dataIndex: "Id",
+      responsive: ["md"],
     },
     {
       title: "Ngày đặt",
@@ -333,9 +333,7 @@ export const UserTransfer = ({ data, isFetching }) => {
       dataIndex: "Status",
       render: (status) => {
         const color = transportationStatus.find((x) => x.id === status);
-        return (
-          <TagStatus color={color?.color} statusName={color?.name} />
-        );
+        return <TagStatus color={color?.color} statusName={color?.name} />;
       },
     },
     {
@@ -364,55 +362,6 @@ export const UserTransfer = ({ data, isFetching }) => {
     },
   ];
 
-  const expandable = {
-    expandedRowRender: (item) => {
-      return (
-        <div className="extentable">
-          <div className="extentable-content">
-            <div className="extentable-row">
-              <span className="extentable-label">Cân nặng: </span>
-              <span className="extentable-value">
-                {_format.getVND(item?.PayableWeight, " Kg")}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Tổng tiền: </span>
-              <span className="extentable-value">
-                {_format.getVND(item?.TotalPriceVND)}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Ngày đặt: </span>
-              <span className="extentable-value">
-                {_format.getVNDate(item?.Created)}
-              </span>
-            </div>
-          </div>
-          <div className="extentable-actions">
-            <div className="extentable-button">
-              <ActionButton
-                icon="fas fa-info-square mr-1"
-                title="Chi tiết"
-                onClick={() =>
-                  Modal.info({
-                    title: (
-                      <div className="text-[20px] font-bold">
-                        Thông tin chi tiết đơn #{item?.Id}
-                      </div>
-                    ),
-                    className: "!w-fit",
-                    content: <DetailInfo record={item} />,
-                  })
-                }
-                isButton={true}
-              />
-            </div>
-          </div>
-        </div>
-      );
-    },
-  };
-
   return (
     <DataTable
       {...{
@@ -421,7 +370,7 @@ export const UserTransfer = ({ data, isFetching }) => {
         loading: isFetching,
         bordered: true,
         title: "Đơn hàng ký gửi",
-        expandable: expandable,
+
         bgHeaderType: "depositTable",
       }}
     />

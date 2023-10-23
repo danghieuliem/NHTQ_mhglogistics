@@ -1,4 +1,4 @@
-import { Drawer, Pagination, Space, Tag } from "antd";
+import { Drawer, Space, Tag } from "antd";
 import React, { useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useSelector } from "react-redux";
@@ -44,9 +44,6 @@ export const CreateRequestCom = ({ newUser, bank, TotalAmount }) => {
         closeIcon={false}
         extra={
           <Space>
-            <div className="font-bold text-sm text-blue py-1 px-4 w-fit rounded-[4px]">
-              Tổng tiền đã nạp: {_format.getVND(TotalAmount)}
-            </div>
             <IconButton
               onClick={() => setIsShow(!isShow)}
               title=""
@@ -59,6 +56,9 @@ export const CreateRequestCom = ({ newUser, bank, TotalAmount }) => {
         }
       >
         <div className="grid grid-cols-12 gap-4 m-4">
+          <div className="col-span-full font-bold text-sm text-blue py-1 px-4 w-fit rounded-[4px]">
+            Tổng tiền đã nạp: {_format.getVND(TotalAmount)}
+          </div>
           <div className="col-span-12 lg:col-span-6">
             <RechargeContent newUser={newUser} />
           </div>
@@ -73,7 +73,7 @@ export const CreateRequestCom = ({ newUser, bank, TotalAmount }) => {
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
   const { bank } = useCatalogue({ bankEnabled: true });
   const item = useRef<TUserHistoryRechargeVND>();
@@ -160,7 +160,7 @@ const Index: TNextPageWithLayout = () => {
           bank,
           TotalAmount: data?.Items[0]?.TotalAmount,
           filter,
-          handleFilter
+          handleFilter,
         }}
       />
       <ModalDelete

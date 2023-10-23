@@ -35,22 +35,36 @@ export const OrderTransportList: React.FC<TTable<TSmallPackage>> = ({
     {
       dataIndex: "Weight",
       align: "right",
-      title: "Cân nặng (KG)",
+      title: (
+        <>
+          Cân nặng
+          <br />
+          (KG)
+        </>
+      ),
       responsive: ["lg"],
     },
     {
       dataIndex: "VolumePayment",
       align: "right",
-      title: "Thể tích (m3)",
+      title: (
+        <>
+          Thể tích
+          <br />
+          (m3)
+        </>
+      ),
       responsive: ["lg"],
     },
     {
       dataIndex: "LWH",
       align: "right",
-      title: () => (
-        <span>
-          KÍCH THƯỚC <br /> (D x R x C)
-        </span>
+      title: (
+        <>
+          KÍCH THƯỚC
+          <br />
+          (D x R x C)
+        </>
       ),
       responsive: ["lg"],
     },
@@ -63,7 +77,7 @@ export const OrderTransportList: React.FC<TTable<TSmallPackage>> = ({
       dataIndex: "Status",
       align: "right",
       title: "Trạng thái",
-      render: (status, record) => {
+      render: (status) => {
         const orderStatus = transportationStatus.find((x) => x.id === status);
         return (
           <TagStatus
@@ -75,43 +89,6 @@ export const OrderTransportList: React.FC<TTable<TSmallPackage>> = ({
     },
   ];
 
-  const expandable = {
-    expandedRowRender: (item) => {
-      return (
-        <div className="extentable">
-          <div className="extentable-content">
-            <div className="extentable-row sm:hidden">
-              <span className="extentable-label">Mã vận đơn: </span>
-              <span className="extentable-value">
-                {item?.OrderTransactionCode}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Cân nặng: </span>
-              <span className="extentable-value">
-                {_format.getVND(item?.Weight, " Kg")}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Kích thước (D x R x C): </span>
-              <span className="extentable-value">{item?.LWH}</span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Số khối: </span>
-              <span className="extentable-value">
-                {_format.getVND(item?.VolumePayment, " m3")}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Note: </span>
-              <span className="extentable-value">{item?.UserNote}</span>
-            </div>
-          </div>
-        </div>
-      );
-    },
-  };
-
   return (
     <div className="my-4">
       <DataTable
@@ -119,9 +96,8 @@ export const OrderTransportList: React.FC<TTable<TSmallPackage>> = ({
           columns,
           data,
           bordered: true,
-          expandable: expandable,
           title: "Danh sách mã vận đơn",
-          extraElment: (
+          extraElement: (
             <ActionButton
               onClick={() => onExportExcel()}
               title="Xuất"

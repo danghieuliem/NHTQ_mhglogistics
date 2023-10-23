@@ -1,6 +1,5 @@
 import { Space } from "antd";
 import Link from "next/link";
-import router from "next/router";
 import { ActionButton, DataTable } from "~/components";
 import { payHelpStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
@@ -11,10 +10,11 @@ const columns: TColumnsType<TNewPaymentOrders> = [
   {
     title: "ID",
     dataIndex: "Id",
-    render: (_) => {
+    responsive: ["md"],
+    render: (value) => {
       return (
-        <Link passHref href={`/user/request-list/detail/?id=${_}`}>
-          <a target="_blank">{_}</a>
+        <Link passHref href={`/user/request-list/detail/?id=${value}`}>
+          <a target="_blank">{value}</a>
         </Link>
       );
     },
@@ -75,55 +75,6 @@ const columns: TColumnsType<TNewPaymentOrders> = [
   },
 ];
 
-const expandable = {
-  expandedRowRender: (item) => {
-    return (
-      <div className="extentable">
-        <div className="extentable-content">
-          <div className="extentable-row">
-            <span className="extentable-label">Tổng tiền: </span>
-            <span className="extentable-value">
-              {_format.getVND(item?.TotalPrice, " ¥")}
-            </span>
-          </div>
-          <div className="extentable-row">
-            <span className="extentable-label">Tổng tiền: </span>
-            <span className="extentable-value">
-              {_format.getVND(item?.TotalPriceVND, " VNĐ")}
-            </span>
-          </div>
-          <div className="extentable-row">
-            <span className="extentable-label">Tỉ giá: </span>
-            <span className="extentable-value">
-              {_format.getVND(item?.Currency, " VNĐ")}
-            </span>
-          </div>
-          <div className="extentable-row">
-            <span className="extentable-label">Ngày tạo: </span>
-            <span className="extentable-value">
-              {_format.getVNDate(item?.Created)}
-            </span>
-          </div>
-        </div>
-        <div className="extentable-actions">
-          <div className="extentable-button">
-            <ActionButton
-              icon="fas fa-info-square mr-1"
-              title="Chi tiết"
-              onClick={() =>
-                router.push({
-                  pathname: "/user/request-list/detail",
-                  query: { id: item?.Id },
-                })
-              }
-              isButton={true}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  },
-};
 export const UserPayment = ({ data, isFetching }) => {
   return (
     <DataTable
@@ -133,7 +84,7 @@ export const UserPayment = ({ data, isFetching }) => {
         loading: isFetching,
         bordered: true,
         title: "Đơn hàng thanh toán hộ",
-        expandable: expandable,
+
         bgHeaderType: "paymentTable",
       }}
     />

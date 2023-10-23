@@ -14,15 +14,15 @@ export const TariffUserTable: FC<TTable<TTariffUser>> = ({
     {
       dataIndex: "Id",
       title: "ID",
-      align: "right"
+      align: "right",
     },
     {
       dataIndex: "Name",
       title: "VIP",
       render: (_, record) => {
-        const target = getLevelId?.find(x => x.LevelId === record?.Id)
-        return <TagStatus statusName={_} color={target.color} />
-      }
+        const target = getLevelId?.find((x) => x.LevelId === record?.Id);
+        return <TagStatus statusName={_} color={target.color} />;
+      },
     },
     {
       dataIndex: "FeeBuyPro",
@@ -76,35 +76,6 @@ export const TariffUserTable: FC<TTable<TTariffUser>> = ({
     },
   ];
 
-  // const expandable = {
-  //   expandedRowRender: (record) => (
-  //     <ul className="px-2 text-xs">
-  //       <li className="sm:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Chiết khấu phí mua hàng:</span>
-  //         {record.FeeBuyPro}
-  //       </li>
-  //       <li className="xl:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">
-  //           Chiết khấu phí vận chuyển TQ-VN:
-  //         </span>
-  //         {record.FeeWeight}
-  //       </li>
-  //       <li className="xl:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Đặt cọc tối thiểu:</span>
-  //         {record.LessDeposit}
-  //       </li>
-  //       <li className="xl:hidden justify-between flex py-2">
-  //         <span className="font-medium mr-4">Thao tác:</span>
-  //         <ActionButton
-  //           onClick={() => handleModal(record)}
-  //           icon="fas fa-edit"
-  //           title="Cập nhật"
-  //         />
-  //       </li>
-  //     </ul>
-  //   ),
-  // };
-
   return (
     <DataTable
       {...{
@@ -112,7 +83,6 @@ export const TariffUserTable: FC<TTable<TTariffUser>> = ({
         loading,
         data,
         // bordered: true,
-        // expandable: expandable,
       }}
     />
   );

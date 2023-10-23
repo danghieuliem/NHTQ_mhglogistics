@@ -1,4 +1,4 @@
-const colors = require("tailwindcss/colors")
+const colors = require("tailwindcss/colors");
 const defaultTheme = require("tailwindcss/defaultTheme");
 const plugin = require("tailwindcss/plugin");
 
@@ -21,10 +21,10 @@ module.exports = {
       success: "#388E3C",
       ["important-pending"]: "#D32F2F",
       active: "#f14f04",
-      orange:{
+      orange: {
         ...colors.orange,
-        DEFAULT: "#f14f04"
-      } ,
+        DEFAULT: "#f14f04",
+      },
       pending: "#f57c00",
       gray: "#e6e6e6",
       purple: "#a0f",
@@ -52,8 +52,14 @@ module.exports = {
       },
     },
     screens: {
-      // => @media (min-width: 640px) { ... }
       xs: "480px",
+      // antd table breakpoint
+      "antd-sm": "576px",
+      "antd-md": "768px",
+      "antd-lg": "992px",
+      "antd-xl": "1200px",
+      "antd-xxl": "1600px",
+
       ...defaultTheme.screens,
     },
   },

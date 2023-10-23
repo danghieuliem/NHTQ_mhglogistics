@@ -14,7 +14,7 @@ export const NotificationsTable: FC<TTable<any>> = ({
       dataIndex: "Id",
       key: "Id",
       title: "ID",
-      align: "right"
+      align: "right",
     },
     {
       dataIndex: "Name",
@@ -160,7 +160,6 @@ export const NotificationsTable: FC<TTable<any>> = ({
         bordered: true,
         pagination: data?.length === 0 ? null : pagination,
         onChange: handlePagination,
-        // expandable: expandable,
       }}
     />
   );

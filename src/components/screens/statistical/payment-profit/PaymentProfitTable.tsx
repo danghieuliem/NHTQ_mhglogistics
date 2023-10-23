@@ -3,11 +3,9 @@ import { DataTable } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 
-const PaymentProfitTable: FC<TTable<TStatisticalPaymentProfit> & {filter, handleFilter}> = ({
-  data,
-  filter,
-  handleFilter
-}) => {
+const PaymentProfitTable: FC<
+  TTable<TStatisticalPaymentProfit> & { filter; handleFilter }
+> = ({ data, filter, handleFilter }) => {
   const columns: TColumnsType<TStatisticalPaymentProfit> = [
     {
       dataIndex: "Id",
@@ -65,8 +63,7 @@ const PaymentProfitTable: FC<TTable<TStatisticalPaymentProfit> & {filter, handle
         columns,
         data,
         bordered: true,
-        // expandable: expandable,
-        scroll: {y: 700, x: 1200},
+        scroll: { y: 700, x: 1200 },
         pagination: {
           current: filter.PageIndex,
           total: filter.TotalItems,

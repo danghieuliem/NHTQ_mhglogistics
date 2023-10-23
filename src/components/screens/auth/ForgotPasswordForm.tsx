@@ -83,7 +83,7 @@ export const ForgotPasswordForm = ({ handleOpen }) => {
           />
         </div>
       </form>
-      <div className="py-4 flex justify-between">
+      <div className="py-4 flex justify-between flex-col xs:flex-row gap-4">
         <span className={aLink} onClick={() => handleOpen("login")}>
           Đăng nhập hệ thống
         </span>

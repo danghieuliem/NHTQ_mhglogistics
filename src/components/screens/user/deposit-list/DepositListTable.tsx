@@ -1,9 +1,9 @@
 import { Modal, Popover, Tabs } from "antd";
 import "antd/dist/antd.css";
 import clsx from "clsx";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { transportationOrder } from "~/api";
 import {
   ActionButton,
@@ -17,6 +17,136 @@ import { ETransportationOrder, transportationStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import { DetailInfoMemo } from "./components/DetailInfoMemo";
+import { useSelector } from "react-redux";
+import { RootState } from "~/store";
+import { toast as reactToast } from "react-toastify";
+import { TableRowSelection } from "antd/lib/table/interface";
+
+const TimelineRender = (props: { record: TUserDeposit }) => {
+  const { record } = props;
+
+  const data = [
+    record.Created && {
+      isActive: record?.Status === ETransportationOrder.ChoDuyet,
+      title: "Tạo đơn:",
+      display: (
+        <>
+          {_format.getVNDate(record.Created, "HH:mm")} -{" "}
+          {_format.getVNDate(record.Created, "DD/MM/YYYY")}
+        </>
+      ),
+    },
+
+    record.ConfirmDate && {
+      isActive: record?.Status === ETransportationOrder.DonMoi,
+      title: "Đơn mới:",
+      display: (
+        <>
+          {_format.getVNDate(record.ConfirmDate, "HH:mm")} -{" "}
+          {_format.getVNDate(record.ConfirmDate, "DD/MM/YYYY")}
+        </>
+      ),
+    },
+
+    record.TQDate && {
+      isActive: record?.Status === ETransportationOrder.VeKhoTQ,
+      title: "Về kho TQ:",
+      display: (
+        <>
+          {_format.getVNDate(record.TQDate, "HH:mm")} -{" "}
+          {_format.getVNDate(record.TQDate, "DD/MM/YYYY")}
+        </>
+      ),
+    },
+
+    record.ComingVNDate && {
+      isActive: record?.Status === ETransportationOrder.DangVeVN,
+      title: "Đang về VN:",
+      display: (
+        <>
+          {_format.getVNDate(record.ComingVNDate, "HH:mm")} -{" "}
+          {_format.getVNDate(record.ComingVNDate, "DD/MM/YYYY")}
+        </>
+      ),
+    },
+
+    record.VNDate && {
+      isActive: record?.Status === ETransportationOrder.VeKhoVN,
+      title: "Về kho VN:",
+      display: (
+        <>
+          {_format.getVNDate(record.VNDate, "HH:mm")} -{" "}
+          {_format.getVNDate(record.VNDate, "DD/MM/YYYY")}
+        </>
+      ),
+    },
+
+    record.PaidDate && {
+      isActive: record?.Status === ETransportationOrder.DaThanhToan,
+      title: "Thanh toán:",
+      display: (
+        <>
+          {_format.getVNDate(record.PaidDate, "HH:mm")} -{" "}
+          {_format.getVNDate(record.PaidDate, "DD/MM/YYYY")}
+        </>
+      ),
+    },
+
+    record.CompleteDate && {
+      isActive: record?.Status === ETransportationOrder.DaHoanThanh,
+      title: "Hoàn thành:",
+      display: (
+        <>
+          {_format.getVNDate(record.CompleteDate, "HH:mm")} -{" "}
+          {_format.getVNDate(record.CompleteDate, "DD/MM/YYYY")}
+        </>
+      ),
+    },
+
+    record.ComplainDate && {
+      isActive: record?.Status === ETransportationOrder.DaKhieuNai,
+      title: "Khiếu nại:",
+      display: (
+        <>
+          {_format.getVNDate(record.ComplainDate, "HH:mm")} -{" "}
+          {_format.getVNDate(record.ComplainDate, "DD/MM/YYYY")}
+        </>
+      ),
+    },
+
+    record.CancelDate && {
+      isActive: record?.Status === ETransportationOrder.Huy,
+      title: "Huỷ đơn:",
+      display: (
+        <>
+          {_format.getVNDate(record.CancelDate, "HH:mm")} -{" "}
+          {_format.getVNDate(record.CancelDate, "DD/MM/YYYY")}
+        </>
+      ),
+    },
+  ];
+
+  return (
+    <div className="display flex flex-col w-full gap-1 xs:gap-0">
+      {data.map(
+        (item) =>
+          item && (
+            <p
+              className={clsx(
+                item.isActive && "text-red",
+                "grid grid-cols-7 items-center justify-between px-2 gap-1 border rounded-md xs:border-none"
+              )}
+            >
+              <span className="title col-span-3">{item.title}</span>
+              <span className="display col-span-4">{item.display}</span>
+            </p>
+          )
+      )}
+    </div>
+  );
+};
+
 type TProps = {
   handleSelectIds: (item: TUserDeposit) => void;
   filter;
@@ -25,304 +155,19 @@ type TProps = {
   ids;
 };
 
-const DetailInfo = (record) => {
-  const divStyle = `flex justify-between items-center border-b border-[#e4e4e4] py-1`;
-  const detailBox = `grid grid-cols-2 gap-7`;
-  const title = `text-[18px] font-bold`;
-  const color = transportationStatus.find(
-    (x) => x.id === record?.record?.Status
-  );
-  return (
-    <>
-      {window.innerWidth >= 768 ? (
-        <div className={clsx(detailBox, "xl:!min-w-[46vw]")}>
-          <div className="col-span-1">
-            <span className={title}>Thông tin</span>
-            <div className={divStyle}>
-              Mã vận đơn:{" "}
-              <span className="font-bold text-[12px]">
-                {record?.record?.OrderTransactionCode}
-              </span>
-            </div>
-            <div className={divStyle}>
-              UserName:{" "}
-              <span className="font-bold text-[12px]">
-                {record?.record?.UserName}
-              </span>
-            </div>
-            <div className={divStyle}>
-              Kho Trung Quốc:{" "}
-              <span className="font-bold text-[12px]">
-                {record?.record?.WareHouseFrom}
-              </span>
-            </div>
-            <div className={divStyle}>
-              Kho Việt Nam:{" "}
-              <span className="font-bold text-[12px]">
-                {record?.record?.WareHouseTo}
-              </span>
-            </div>
-            <div className={divStyle}>
-              Ngày tạo:{" "}
-              <span className="font-bold text-[12px]">
-                {_format.getVNDate(record?.record?.Created)}
-              </span>
-            </div>
-            <div className={divStyle}>
-              Trạng thái:{" "}
-              <TagStatus
-                color={color?.color}
-                statusName={record?.record?.StatusName}
-              />
-            </div>
-            <div className={divStyle}>
-              Phương thức vận chuyển:{" "}
-              <span className="font-bold text-[12px]">
-                {record?.record?.ShippingTypeName}
-              </span>
-            </div>
-            <div className={`${divStyle} flex-col items-baseline`}>
-              Ghi chú nhân viên:{" "}
-              <textarea
-                className="w-full border border-[#e4e4e4] px-3 py-2 bg-white"
-                readOnly
-                disabled
-                value={record?.record?.StaffNote ?? "--"}
-              />
-            </div>
-            <div className={`${divStyle} flex-col items-baseline`}>
-              Ghi chú khách hàng (hủy nếu có):{" "}
-              <textarea
-                className="w-full border border-[#e4e4e4] px-3 py-2 bg-white"
-                readOnly
-                disabled
-                value={
-                  record?.record?.CancelReason === ""
-                    ? record?.record?.Note
-                    : record?.record?.CancelReason
-                }
-              />
-            </div>
-          </div>
-
-          <div className="col-span-1">
-            <span className={title}>Phí chi tiết</span>
-            <div className={divStyle}>
-              Cân nặng:{" "}
-              <span className="font-bold text-[12px]">
-                {record?.record?.PayableWeight ?? 0} kg
-              </span>
-            </div>
-            <div className={divStyle}>
-              Phí cân nặng:{" "}
-              <span className="font-bold text-[12px]">
-                {_format.getVND(record?.record?.FeeWeightPerKg)}
-              </span>
-            </div>
-            <div className={divStyle}>
-              Số khối:{" "}
-              <span className="font-bold text-[12px]">
-                {record?.record?.VolumePayment ?? 0} m3
-              </span>
-            </div>
-            <div className={divStyle}>
-              Phí khối:{" "}
-              <span className="font-bold text-[12px]">
-                {_format.getVND(record?.record?.FeePerVolume)}
-              </span>
-            </div>
-            <div className={divStyle}>
-              Phí vận chuyển:{" "}
-              <span className="font-bold text-[12px]">
-                {_format.getVND(record?.record?.DeliveryPrice)}
-              </span>
-            </div>
-            <div className={divStyle}>
-              Phí COD Trung Quốc:{" "}
-              <span className="font-bold text-[12px]">
-                {_format.getVND(record?.record?.CODFee)}
-              </span>
-            </div>
-            <div className={divStyle}>
-              Phí đóng gỗ:{" "}
-              <span className="font-bold text-[12px]">
-                {_format.getVND(record?.record?.IsPackedPrice)}
-              </span>
-            </div>
-            <div className={divStyle}>
-              Phí bảo hiểm:{" "}
-              <span className="font-bold text-[12px]">
-                {_format.getVND(record?.record?.InsuranceMoney)}
-              </span>
-            </div>
-            <div className={divStyle}>
-              Phí kiểm hàng:{" "}
-              <span className="font-bold text-[12px]">
-                {_format.getVND(record?.record?.IsCheckProductPrice)}
-              </span>
-            </div>
-            <div className={divStyle}>
-              Tổng tiền:{" "}
-              <span className="font-bold text-[12px]">
-                {_format.getVND(record?.record?.TotalPriceVND)}
-              </span>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <Tabs>
-          <Tabs.TabPane tab="Thông tin" tabKey="1" key={"1"}>
-            <div className="my-4">
-              <span className={title}>Thông tin</span>
-              <div className={divStyle}>
-                Mã vận đơn:{" "}
-                <span className="font-bold text-[12px]">
-                  {record?.record?.OrderTransactionCode}
-                </span>
-              </div>
-              <div className={divStyle}>
-                UserName:{" "}
-                <span className="font-bold text-[12px]">
-                  {record?.record?.UserName}
-                </span>
-              </div>
-              <div className={divStyle}>
-                Kho Trung Quốc:{" "}
-                <span className="font-bold text-[12px]">
-                  {record?.record?.WareHouseFrom}
-                </span>
-              </div>
-              <div className={divStyle}>
-                Kho Việt Nam:{" "}
-                <span className="font-bold text-[12px]">
-                  {record?.record?.WareHouseTo}
-                </span>
-              </div>
-              <div className={divStyle}>
-                Ngày tạo:{" "}
-                <span className="font-bold text-[12px]">
-                  {_format.getVNDate(record?.record?.Created)}
-                </span>
-              </div>
-              <div className={divStyle}>
-                Trạng thái:{" "}
-                <TagStatus
-                  color={color?.color}
-                  statusName={record?.record?.StatusName}
-                />
-              </div>
-              <div className={divStyle}>
-                Phương thức vận chuyển:{" "}
-                <span className="font-bold text-[12px]">
-                  {record?.record?.ShippingTypeName}
-                </span>
-              </div>
-              <div className={`${divStyle} flex-col items-baseline`}>
-                Ghi chú nhân viên:{" "}
-                <textarea
-                  className="w-full border border-[#e4e4e4] px-3 py-2 bg-white"
-                  readOnly
-                  disabled
-                  value={record?.record?.StaffNote ?? "--"}
-                />
-              </div>
-              <div className={`${divStyle} flex-col items-baseline`}>
-                Ghi chú khách hàng (hủy nếu có):{" "}
-                <textarea
-                  className="w-full border border-[#e4e4e4] px-3 py-2 bg-white"
-                  readOnly
-                  disabled
-                  value={
-                    record?.record?.CancelReason === ""
-                      ? record?.record?.Note
-                      : record?.record?.CancelReason
-                  }
-                />
-              </div>
-            </div>
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="Các khoản phí" tabKey="2" key={"2"}>
-            <div className="my-4">
-              <span className={title}>Phí chi tiết</span>
-              <div className={divStyle}>
-                Cân nặng:{" "}
-                <span className="font-bold text-[12px]">
-                  {record?.record?.PayableWeight ?? 0} kg
-                </span>
-              </div>
-              <div className={divStyle}>
-                Phí cân nặng:{" "}
-                <span className="font-bold text-[12px]">
-                  {_format.getVND(record?.record?.FeeWeightPerKg)}
-                </span>
-              </div>
-              <div className={divStyle}>
-                Số khối:{" "}
-                <span className="font-bold text-[12px]">
-                  {record?.record?.VolumePayment ?? 0} m3
-                </span>
-              </div>
-              <div className={divStyle}>
-                Phí khối:{" "}
-                <span className="font-bold text-[12px]">
-                  {_format.getVND(record?.record?.FeePerVolume)}
-                </span>
-              </div>
-              <div className={divStyle}>
-                Phí vận chuyển:{" "}
-                <span className="font-bold text-[12px]">
-                  {_format.getVND(record?.record?.DeliveryPrice)}
-                </span>
-              </div>
-              <div className={divStyle}>
-                Phí COD Trung Quốc:{" "}
-                <span className="font-bold text-[12px]">
-                  {_format.getVND(record?.record?.CODFee)}
-                </span>
-              </div>
-              <div className={divStyle}>
-                Phí đóng gỗ:{" "}
-                <span className="font-bold text-[12px]">
-                  {_format.getVND(record?.record?.IsPackedPrice)}
-                </span>
-              </div>
-              <div className={divStyle}>
-                Phí bảo hiểm:{" "}
-                <span className="font-bold text-[12px]">
-                  {_format.getVND(record?.record?.InsuranceMoney)}
-                </span>
-              </div>
-              <div className={divStyle}>
-                Phí kiểm hàng:{" "}
-                <span className="font-bold text-[12px]">
-                  {_format.getVND(record?.record?.IsCheckProductPrice)}
-                </span>
-              </div>
-              <div className={divStyle}>
-                Tổng tiền:{" "}
-                <span className="font-bold text-[12px]">
-                  {_format.getVND(record?.record?.TotalPriceVND)}
-                </span>
-              </div>
-            </div>
-          </Tabs.TabPane>
-        </Tabs>
-      )}
-    </>
-  );
-};
-
-const DetailInfoMemo = React.memo(DetailInfo);
-
 export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
   data,
   loading,
-  handleModal,
+  handleModal, // ToDo: For conform delete
   handleFilter,
   filter,
   moneyOfOrders,
   ids,
 }) => {
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurrentInfo
+  );
+
   const { control, getValues, reset } = useForm({
     mode: "onBlur",
     defaultValues: {
@@ -348,6 +193,7 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
       dataIndex: "Id",
       title: "ID",
       width: 60,
+      responsive: ["md"],
     },
     {
       dataIndex: "OrderTransactionCode",
@@ -355,161 +201,48 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
     },
     {
       dataIndex: "TotalPriceVND",
-      title: "Tổng tiền(VNĐ)",
+      title: (
+        <>
+          Tổng tiền
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       render: (money) => _format.getVND(money, ""),
       responsive: ["md"],
     },
     {
       dataIndex: "PayableWeight",
-      title: "Cân nặng (Kg)",
       align: "right",
-      render: (PayableWeight) => <>{_format.getVND(PayableWeight, " ")}</>,
+      title: (
+        <>
+          Cân nặng
+          <br />
+          (Kg)
+        </>
+      ),
+      render: (PayableWeight) => <>{_format.getVND(PayableWeight, "")}</>,
       responsive: ["lg"],
     },
     {
       dataIndex: "VolumePayment",
-      title: "Thể tích (m3)",
       align: "right",
-      render: (_) => <>{_format.getVND(_, " ")}</>,
+      title: (
+        <>
+          Thể tích
+          <br />
+          (m3)
+        </>
+      ),
+      render: (value) => <>{_format.getVND(value, "")}</>,
       responsive: ["lg"],
     },
     {
       dataIndex: "CreateDate",
       title: "TimeLine",
-      render: (_, record) => (
-        <React.Fragment>
-          {record.Created && (
-            <p
-              className={clsx(
-                record?.Status === ETransportationOrder.ChoDuyet && "text-red",
-                "flex justify-between px-2"
-              )}
-            >
-              <span>Tạo đơn: </span>
-              <span>
-                {_format.getVNDate(record.Created, "HH:mm")} -{" "}
-                {_format.getVNDate(record.Created, "DD/MM/YYYY")}
-              </span>
-            </p>
-          )}
-          {record.ConfirmDate && (
-            <p
-              className={clsx(
-                record?.Status === ETransportationOrder.DonMoi && "text-red",
-                "flex justify-between px-2"
-              )}
-            >
-              <span>Đơn mới:</span>
-              <span>
-                {_format.getVNDate(record.ConfirmDate, "HH:mm")} -{" "}
-                {_format.getVNDate(record.ConfirmDate, "DD/MM/YYYY")}
-              </span>
-            </p>
-          )}
-          {record.TQDate && (
-            <p
-              className={clsx(
-                record?.Status === ETransportationOrder.VeKhoTQ && "text-red",
-                "flex justify-between px-2"
-              )}
-            >
-              <span>Về kho TQ:</span>
-              <span>
-                {_format.getVNDate(record.TQDate, "HH:mm")} -{" "}
-                {_format.getVNDate(record.TQDate, "DD/MM/YYYY")}
-              </span>
-            </p>
-          )}
-          {record.ComingVNDate && (
-            <p
-              className={clsx(
-                record?.Status === ETransportationOrder.DangVeVN && "text-red",
-                "flex justify-between px-2"
-              )}
-            >
-              <span>Đang về VN:</span>
-              <span>
-                {_format.getVNDate(record.ComingVNDate, "HH:mm")} -{" "}
-                {_format.getVNDate(record.ComingVNDate, "DD/MM/YYYY")}
-              </span>
-            </p>
-          )}
-          {record.VNDate && (
-            <p
-              className={clsx(
-                record?.Status === ETransportationOrder.VeKhoVN && "text-red",
-                "flex justify-between px-2"
-              )}
-            >
-              <span>Vê kho VN:</span>
-              <span>
-                {_format.getVNDate(record.VNDate, "HH:mm")} -{" "}
-                {_format.getVNDate(record.VNDate, "DD/MM/YYYY")}
-              </span>
-            </p>
-          )}
-          {record.PaidDate && (
-            <p
-              className={clsx(
-                record?.Status === ETransportationOrder.DaThanhToan &&
-                  "text-red",
-                "flex justify-between px-2"
-              )}
-            >
-              <span>Thanh toán:</span>
-              <span>
-                {_format.getVNDate(record.PaidDate, "HH:mm")} -{" "}
-                {_format.getVNDate(record.PaidDate, "DD/MM/YYYY")}
-              </span>
-            </p>
-          )}
-          {record.CompleteDate && (
-            <p
-              className={clsx(
-                record?.Status === ETransportationOrder.DaHoanThanh &&
-                  "text-red",
-                "flex justify-between px-2"
-              )}
-            >
-              <span>Hoàn thành:</span>
-              <span>
-                {_format.getVNDate(record.CompleteDate, "HH:mm")} -{" "}
-                {_format.getVNDate(record.CompleteDate, "DD/MM/YYYY")}
-              </span>
-            </p>
-          )}
-          {record.ComplainDate && (
-            <p
-              className={clsx(
-                record?.Status === ETransportationOrder.DaKhieuNai &&
-                  "text-red",
-                "flex justify-between px-2"
-              )}
-            >
-              <span>Khiếu nại:</span>
-              <span>
-                {_format.getVNDate(record.ComplainDate, "HH:mm")} -{" "}
-                {_format.getVNDate(record.ComplainDate, "DD/MM/YYYY")}
-              </span>
-            </p>
-          )}
-          {record.CancelDate && (
-            <p
-              className={clsx(
-                record?.Status === ETransportationOrder.Huy && "text-red",
-                "flex justify-between px-2"
-              )}
-            >
-              <span>Huỷ đơn:</span>
-              <span>
-                {_format.getVNDate(record.CancelDate, "HH:mm")} -{" "}
-                {_format.getVNDate(record.CancelDate, "DD/MM/YYYY")}
-              </span>
-            </p>
-          )}
-        </React.Fragment>
-      ),
+      responsive: ["md"],
+      render: (_, record) => <TimelineRender record={record} />,
       width: 280,
     },
     {
@@ -623,135 +356,95 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
     },
   ];
 
-  const expandable = {
-    expandedRowRender: (item) => {
-      return (
-        <div className="extentable">
-          <div className="extentable-content">
-            <div className="extentable-row">
-              <span className="extentable-label">Cân nặng: </span>
-              <span className="extentable-value">
-                {_format.getVND(item?.PayableWeight, " Kg")}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Thể tích: </span>
-              <span className="extentable-value">
-                {_format.getVND(item?.VolumePayment, " m3")}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Tổng tiền: </span>
-              <span className="extentable-value">
-                {_format.getVND(item?.TotalPriceVND)}
-              </span>
-            </div>
+  const [listStatus, setListStatus] = useState([...transportationStatus]);
 
-            <div className="extentable-row">
-              <span className="extentable-label">Ngày đặt: </span>
-              <span className="extentable-value">
-                {_format.getVNDate(item?.Created)}
-              </span>
-            </div>
-          </div>
-          <div className="extentable-actions">
-            <div className="extentable-button">
-              <Popover
-                trigger={"click"}
-                placement="left"
-                content={
-                  <div className="p-4 w-[400px]">
-                    <DetailInfo record={item} />
-                  </div>
-                }
-              >
-                <ActionButton
-                  icon="fas fa-info-square"
-                  title="Chi tiết đơn"
-                  iconContainerClassName="iconRed"
-                  isButton={true}
-                />
-              </Popover>
-            </div>
-            {item.Status === ETransportationOrder.VeKhoVN && (
-              <div className="extentable-button">
-                <ActionButton
-                  onClick={() =>
-                    Modal.confirm({
-                      title: `Thanh toán đơn hàng #${item.Id}.`,
-                      content: (
-                        <b>
-                          Tổng tiền:{" "}
-                          {_format.getVND(item.TotalPriceVND, " VNĐ")}
-                        </b>
-                      ),
-                      onOk: () =>
-                        transportationOrder
-                          .makePayment([item.Id])
-                          .then(() => {
-                            queryClient.invalidateQueries("userDepositList");
-                          })
-                          .catch((error) => {
-                            toast.error(
-                              (error as any)?.response?.data?.ResultMessage
-                            );
-                          }),
-                    })
-                  }
-                  icon="fas fa-money-check"
-                  title="Thanh toán"
-                  iconContainerClassName="iconRed"
-                  isButton={true}
-                />
-              </div>
-            )}
-            {item.Status === ETransportationOrder.ChoDuyet && (
-              <div className="extentable-button">
-                <ActionButton
-                  onClick={() =>
-                    Modal.confirm({
-                      title: `Hủy đơn hàng #${item.Id}?`,
-                      content: (
-                        <FormInput
-                          control={control}
-                          name="note"
-                          placeholder="Tại sao lại hủy đơn hàng?"
-                          inputContainerClassName="!mb-4"
-                          rules={{ required: "Vui lòng điền lý do hủy" }}
-                        />
-                      ),
-                      onOk: () =>
-                        mutationUpdate.mutateAsync({
-                          Id: item.Id,
-                          Note: getValues("note"),
-                        }),
-                    })
-                  }
-                  icon="far fa-trash-alt"
-                  title="Hủy đơn"
-                  iconContainerClassName="iconRed"
-                  isButton={true}
-                />
-              </div>
-            )}
-            {item?.Status === ETransportationOrder.DaHoanThanh && (
-              <Popover
-                trigger={"click"}
-                placement="left"
-                content={<ReportContentMemo defaultValue={item} />}
-              >
-                <ActionButton
-                  icon="fas fa-balance-scale-right"
-                  title="Khiếu nại"
-                  btnRed
-                  isButton={true}
-                  isButtonClassName="bg-red !text-white"
-                />
-              </Popover>
-            )}
-          </div>
-        </div>
-      );
+  useQuery(
+    ["deposit-infor-list"],
+    () =>
+      transportationOrder.getAmountInfo({
+        UID: userCurrentInfo?.Id,
+      }),
+    {
+      onSuccess: (res) => {
+        const data = res.Data;
+        const newListStatus = [...listStatus];
+        data?.forEach((x) => {
+          const index = newListStatus.findIndex((i) => i.id === x?.Status);
+          if (index !== -1) {
+            newListStatus[index].value = x?.Quantity;
+          }
+        });
+        setListStatus(newListStatus);
+      },
+      onError: (error) => {
+        toast.error((error as any)?.response?.data?.ResultMessage);
+      },
+      retry: false,
+      enabled: !!userCurrentInfo?.Id,
+      refetchOnWindowFocus: true,
+    }
+  );
+
+  const [selectedRows, setSelectedRows] = useState<TUserDeposit[]>([]);
+
+  const handlePayment = useCallback(() => {
+    const listId = selectedRows.map((row) => row.Id);
+
+    let sumTotalPriceVND: number = 0;
+    selectedRows.forEach((row) => {
+      sumTotalPriceVND += row.TotalPriceVND;
+    });
+
+    Modal.confirm({
+      title: `Thanh toán các đơn hàng.`,
+      content: (
+        <b>
+          <p>{listId.join(" - ")}</p>
+          Tổng tiền: {_format.getVND(sumTotalPriceVND, " VNĐ")}
+        </b>
+      ),
+      onOk: () => {
+        const id = reactToast.loading("Đang xử lý ...");
+
+        transportationOrder
+          .makePayment(listId)
+          .then(() => {
+            queryClient.invalidateQueries("userDepositList");
+            return reactToast.update(id, {
+              render: "Thanh toán thành công.",
+              isLoading: false,
+              type: "success",
+              autoClose: 500,
+            });
+          })
+          .then(() => {
+            setSelectedRows([]);
+          })
+          .catch((error) => {
+            reactToast.update(id, {
+              render: (error as any)?.response?.data?.ResultMessage,
+              isLoading: false,
+              type: "error",
+              autoClose: 500,
+            });
+          });
+      },
+    });
+  }, [selectedRows]);
+
+  const rowSelection: TableRowSelection<TUserDeposit> = {
+    selectedRowKeys: selectedRows?.map((item) => item.Id),
+    getCheckboxProps: (record) => {
+      return record.Status === ETransportationOrder.VeKhoVN
+        ? { name: record.Id.toString(), disabled: false }
+        : {
+            name: record.Id.toString(),
+            disabled: true,
+            className: "!hidden",
+          };
+    },
+    onChange: (_, selectedRows: TUserDeposit[]) => {
+      setSelectedRows([...selectedRows]);
     },
   };
 
@@ -761,17 +454,19 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
         {...{
           loading,
           columns,
+          rowSelection,
           data,
           bordered: true,
-          expandable: expandable,
           scroll: { y: 640 },
-          extraElmentClassName: "!w-full",
-          extraElment: (
+          extraElementClassName: "!w-full",
+          extraElement: (
             <UserDepositListFilterMemo
-              numberOfOrder={transportationStatus}
+              numberOfOrder={listStatus}
               moneyOfOrders={moneyOfOrders}
               handleFilter={handleFilter}
               isSelectSomeItems={!!ids.length}
+              selectedRows={selectedRows}
+              handlePayment={handlePayment}
             />
           ),
           pagination: {
@@ -779,7 +474,7 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
             total: filter.TotalItems,
             pageSize: filter.PageSize,
           },
-          onChange: (page, pageSize) => {
+          onChange: (page) => {
             handleFilter({
               ...filter,
               PageIndex: page.current,

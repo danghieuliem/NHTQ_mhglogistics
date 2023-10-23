@@ -42,11 +42,10 @@
 }
 
 .icon {
-  @apply shadow-md bg-[#afafaf];
+  @apply shadow-md bg-[#afafaf] hidden xs:flex;
   width: 60px;
   height: 60px;
   border-radius: 4px;
-  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -129,7 +128,6 @@
   @apply bg-main;
 }
 
-
 @media screen and (max-width: 768px) {
   .box {
     padding: 10px 0;
@@ -150,7 +148,7 @@
     text-align: initial;
   }
 
-  .box{
+  .box {
     justify-content: space-between !important;
   }
 }

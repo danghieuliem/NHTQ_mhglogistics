@@ -7,7 +7,7 @@ type TPackage = TBaseReponseParams & {
   SmallPackages: TSmallPackage[];
 };
 
-type TWarehouseCN = Omit<TBaseReponseParams, "Name"> & {
+type TWarehouse = Omit<TBaseReponseParams, "Name"> & {
   AssignMainOrderId: number;
   AdditionFeeCNY: number;
   AdditionFeeVND: number;
@@ -79,6 +79,9 @@ type TWarehouseCN = Omit<TBaseReponseParams, "Name"> & {
   VolumePayment: number;
 };
 
+type TWarehouseVN = TWarehouse;
+type TWarehouseCN = TWarehouse;
+
 type TAddtionalFieldWarehouse = {
   IsWarehouseTQ: boolean;
   IsWarehouseVN: boolean;
@@ -96,16 +99,10 @@ type TAddtionalFieldWarehouse = {
   ShippingTypeId: number;
 };
 
-type TWarehouseVN = TWarehouseCN;
-
 type TCreateCode = {
   codePackage: string;
   codeOrder: string;
   note: string;
-};
-
-type TWarehouseVN = {
-  code: string;
 };
 
 type TImport = {

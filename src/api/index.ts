@@ -62,4 +62,5 @@ export * from "./shippingType";
 export * from "./fee-check-product";
 export * from "./customerTalk";
 export * from "./fee-volume";
-export * from "./history-order-change"
+export * from "./history-order-change";
+export * from "./search";

@@ -9,7 +9,7 @@ import { TNextPageWithLayout } from "~/types/layout";
 const Index: TNextPageWithLayout = () => {
   const { userGroup } = useCatalogue({ userGroupEnabled: true });
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurretnInfo
+    (state: RootState) => state.userCurrentInfo
   );
 
   const UserGroupId = userCurrentInfo?.UserGroupId;

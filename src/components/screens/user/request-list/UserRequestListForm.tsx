@@ -24,12 +24,11 @@ export const UserRequestListForm: React.FC<TProps> = ({ data }) => {
   const { control, handleSubmit, getValues, watch, reset } =
     useForm<TRequestPaymentOrder>({
       mode: "onBlur",
-      // defaultValues: { ...data },
     });
 
   useEffect(() => {
-    reset(data)
-  }, [data])
+    reset(data);
+  }, [data]);
 
   const mutationUpdatePayment = useMutation(payHelp.update, {
     onSuccess: () => {
@@ -68,6 +67,7 @@ export const UserRequestListForm: React.FC<TProps> = ({ data }) => {
     {
       dataIndex: "Id",
       title: "Id",
+      responsive: ["lg"],
     },
     {
       dataIndex: "Created",
@@ -78,52 +78,49 @@ export const UserRequestListForm: React.FC<TProps> = ({ data }) => {
     {
       dataIndex: "action",
       title: "Ghi chú",
-      render: (value, record, index) => {
+      render: (_, record) => {
         return <div>{record?.Desc2}</div>;
       },
       responsive: ["lg"],
     },
     {
       dataIndex: "action",
-      title: "Tỉ giá (VNĐ)",
+      title: (
+        <>
+          Tỉ giá
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       render: () => _format.getVND(data?.Currency, " "),
     },
     {
       dataIndex: "action",
-      title: "Giá tiền (¥)",
+      title: (
+        <>
+          Giá tiền
+          <br />
+          (¥)
+        </>
+      ),
       align: "right",
-      render: (value, record, index) => _format.getVND(record?.Desc1, " "),
+      render: (_, record) => _format.getVND(record?.Desc1, " "),
     },
     {
       dataIndex: "action",
-      title: "Giá tiền (VNĐ)",
+      title: (
+        <>
+          Giá tiền
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
-      render: (value, record, index) =>
+      render: (_, record) =>
         _format.getVND(record?.Desc1 * data?.Currency, " "),
     },
   ];
-
-  const expandable = {
-    expandedRowRender: (item) => {
-      return (
-        <div className="extentable">
-          <div className="extentable-content">
-            <div className="extentable-row">
-              <span className="extentable-label">Ngày tạo: </span>
-              <span className="extentable-value">
-                {_format.getVNDate(item?.Created)}
-              </span>
-            </div>
-            <div className="extentable-row">
-              <span className="extentable-label">Ghi chú: </span>
-              <span className="extentable-value">{item?.Desc2}</span>
-            </div>
-          </div>
-        </div>
-      );
-    },
-  };
 
   return (
     <div
@@ -139,86 +136,76 @@ export const UserRequestListForm: React.FC<TProps> = ({ data }) => {
         extra={
           <div className="col-span-3 text-base font-bold flex justify-between uppercase">
             Thông tin
-            <TagStatus  color={paymentData[data?.Status]?.color} statusName={data?.StatusName}/>
+            <TagStatus
+              color={paymentData[data?.Status]?.color}
+              statusName={data?.StatusName}
+            />
           </div>
         }
       >
-        <div className="col-span-12 lg:col-span-3 grid grid-cols-1 lg:grid-cols-3 gap-2">
-          <div className="col-span-3">
-            <FormInputNumber
-              control={control}
-              name="Currency"
-              label="Tỉ giá"
-              placeholder={`${_format.getVND(data?.Currency)}`}
-              required={false}
-              disabled
-            />
-          </div>
-          <div className="col-span-1 lg:col-span-3">
-            <FormInputNumber
-              control={control}
-              name="TotalPrice"
-              label="Tổng tiền Tệ (¥)"
-              // placeholder={`${_format.getVND(data?.TotalPrice)}`}
-              placeholder=""
-              prefix="¥ "
-              required={false}
-              disabled
-            />
-          </div>
-          <div className="col-span-1 lg:col-span-3">
-            <FormInputNumber
-              control={control}
-              name="TotalPriceVND"
-              label="Tổng tiền (VNĐ)"
-              placeholder=""
-              suffix=" VNĐ"
-              required={false}
-              disabled
-            />
-          </div>
-          <div className="col-span-3">
-            <FormTextarea
-              control={control}
-              name="Note"
-              label="Ghi chú"
-              placeholder=""
-              required={false}
-              disabled
-            />
-          </div>
-          <div className="col-span-3 flex">
-            <Link href="/user/request-list">
-              <a>
-                <IconButton
-                  onClick={undefined}
-                  title="Trở về"
-                  icon="fas fa-undo-alt"
-                  toolip=""
-                />
-              </a>
-            </Link>
-            {data?.Status === 1 && (
+        <div className="col-span-12 lg:col-span-3 grid grid-cols-1 lg:grid-cols-1 gap-2">
+          <FormInputNumber
+            control={control}
+            name="Currency"
+            label="Tỉ giá"
+            placeholder={`${_format.getVND(data?.Currency)}`}
+            required={false}
+            disabled
+          />
+          <FormInputNumber
+            control={control}
+            name="TotalPrice"
+            label="Tổng tiền Tệ (¥)"
+            // placeholder={`${_format.getVND(data?.TotalPrice)}`}
+            placeholder=""
+            prefix="¥ "
+            required={false}
+            disabled
+          />
+          <FormInputNumber
+            control={control}
+            name="TotalPriceVND"
+            label="Tổng tiền (VNĐ)"
+            placeholder=""
+            suffix=" VNĐ"
+            required={false}
+            disabled
+          />
+          <FormTextarea
+            control={control}
+            name="Note"
+            label="Ghi chú"
+            placeholder=""
+            required={false}
+            disabled
+          />
+          <Link href="/user/request-list">
+            <a>
               <IconButton
-                onClick={handleSubmit(_onDeletePayment)}
-                title="Hủy yêu cầu"
-                icon={
-                  deleteLoading ? "fas fa-sync fa-spin" : "fas fa-trash-alt"
-                }
-                toolip="Hủy yêu cầu thanh toán này!"
-                btnClass="!ml-auto"
+                onClick={undefined}
+                title="Trở về"
+                icon="fas fa-undo-alt"
+                toolip=""
               />
-            )}
-          </div>
+            </a>
+          </Link>
+          {data?.Status === 1 && (
+            <IconButton
+              onClick={handleSubmit(_onDeletePayment)}
+              title="Hủy yêu cầu"
+              icon={deleteLoading ? "fas fa-sync fa-spin" : "fas fa-trash-alt"}
+              toolip="Hủy yêu cầu thanh toán này!"
+              btnClass="!ml-auto"
+            />
+          )}
         </div>
       </Card>
       <div className="col-span-12 lg:col-span-9 h-fit">
         <DataTable
           {...{
-            data: data?.PayHelpDetails,
+            data: data?.PayHelpDetails as any,
             columns,
             title: "Danh sách chi tiết",
-            expandable,
           }}
         />
       </div>

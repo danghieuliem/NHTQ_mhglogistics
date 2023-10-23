@@ -95,7 +95,6 @@ export const ArticleListTable: FC<TTable<TPage> & TProps> = ({
     },
   ];
 
-
   return (
     <>
       <DataTable
@@ -103,9 +102,8 @@ export const ArticleListTable: FC<TTable<TPage> & TProps> = ({
           columns,
           data,
           bordered: true,
-          // expandable: expandable,
           loading,
-          scroll: {y: 700, x: 1200},
+          scroll: { y: 700, x: 1200 },
           pagination: {
             current: filter.PageIndex,
             total: filter.TotalItems,

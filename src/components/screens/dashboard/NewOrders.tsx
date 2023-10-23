@@ -72,7 +72,7 @@ export const NewOrders = React.memo(() => {
       dataIndex: "Status",
       render: (status, _) => {
         const color = orderStatus.find((x) => x.id === status);
-        return <TagStatus color={color?.color} statusName={color.name} />;
+        return <TagStatus color={color?.color} statusName={color?.name} />;
       },
     },
   ];
@@ -84,7 +84,6 @@ export const NewOrders = React.memo(() => {
         data,
         loading: isFetching,
         title: "Đơn mua hộ mới",
-        // expandable: expandable,
       }}
     />
   );

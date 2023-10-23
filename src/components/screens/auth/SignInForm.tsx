@@ -16,7 +16,6 @@ export const SignInForm = ({ handleOpen }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-
   const { handleSubmit, control, reset, resetField } = useForm<TLogin>({
     mode: "onBlur",
     defaultValues: {
@@ -63,7 +62,7 @@ export const SignInForm = ({ handleOpen }) => {
               })
             );
             setLoading(false);
-            router.push('/user/');
+            router.push("/user/");
             dispatch(setRouter(user.UserGroupId));
           })
           .catch(() => console.log("error to fetching user by id!"));
@@ -128,7 +127,7 @@ export const SignInForm = ({ handleOpen }) => {
         </div>
       </form>
 
-      <div className="py-4 flex justify-between">
+      <div className="py-4 flex justify-between flex-col xs:flex-row gap-4">
         <span className={aLink} onClick={() => handleOpen("register")}>
           Đăng ký
         </span>

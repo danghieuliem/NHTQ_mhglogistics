@@ -3,11 +3,10 @@ import { differenceWith, isEqual } from "lodash";
 import router from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
-import { smallPackage, user } from "~/api";
+import { smallPackage } from "~/api";
 import { FormInput, FormSelect } from "~/components";
-import { useDeepEffect } from "~/hooks";
 import { useCatalogue } from "~/hooks/useCatalogue";
 import { AddPackageCustomerTable } from "./AddPackageCustomerTable";
 
@@ -16,12 +15,13 @@ let newKey = new Date().getTime().toString();
 type TForm = TWarehouseVN & TAddtionalFieldWarehouse;
 
 export const AddPackageCustomerForm = () => {
-  const { warehouseTQ, warehouseVN, shippingTypeToWarehouse, client } = useCatalogue({
-    warehouseTQEnabled: true,
-    warehouseVNEnabled: true,
-    shippingTypeToWarehouseEnabled: true,
-    clientEnabled: true
-  });
+  const { warehouseTQ, warehouseVN, shippingTypeToWarehouse, client } =
+    useCatalogue({
+      warehouseTQEnabled: true,
+      warehouseVNEnabled: true,
+      shippingTypeToWarehouseEnabled: true,
+      clientEnabled: true,
+    });
 
   const { control, handleSubmit, getValues, reset } = useForm<TForm>({
     mode: "onBlur",

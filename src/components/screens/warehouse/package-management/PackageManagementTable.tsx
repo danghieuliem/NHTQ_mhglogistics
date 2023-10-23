@@ -128,7 +128,7 @@ export const PackageManagementTable: React.FC<TTable<TPackage> & TProps> = ({
           columns,
           data,
           bordered: true,
-          // expandable: expandable,
+          //
           scroll: { y: 700, x: 1200 },
           pagination: {
             current: filter.PageIndex,

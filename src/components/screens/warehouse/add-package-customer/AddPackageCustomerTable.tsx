@@ -27,19 +27,6 @@ export const AddPackageCustomerTable: React.FC<
 
   const columns: TColumnsType<TWarehouseVN> = [
     {
-      dataIndex: "Id",
-      align: "center",
-      title: "Order ID",
-      render: () => 0,
-    },
-    {
-      dataIndex: "OrderType",
-      align: "center",
-      title: "Loại ĐH",
-      render: () => "Kiện chưa xác định",
-      responsive: ["sm"],
-    },
-    {
       dataIndex: "IsCheckProduct",
       align: "center",
       title: "Đơn hàng",
@@ -82,14 +69,15 @@ export const AddPackageCustomerTable: React.FC<
       dataIndex: "Weight",
       align: "center",
       title: "Cân nặng (kg)",
-      render: (weight, _) => {
+      render: (weight, _, index) => {
         return (
-          <Input
+          <FormInputNumber
+            control={control}
+            name={`${name}.${index}.Weight` as any}
             placeholder=""
-            value={_format.getVND(weight, "")}
-            className="max-w-[60px] h-[30px] text-center"
-            // onEnter={() => onPress([data[index]])}
-            disabled
+            inputClassName="max-w-[60px] h-[30px] text-center"
+            onEnter={() => onPress([data[index]])}
+            defaultValue={weight}
           />
         );
       },
@@ -108,8 +96,8 @@ export const AddPackageCustomerTable: React.FC<
               name={`${name}.${index}.Length` as any}
               placeholder=""
               inputClassName="max-w-[60px] h-[30px] text-center"
-              // onEnter={() => onPress([data[index]])}
-              disabled
+              onEnter={() => onPress([data[index]])}
+              defaultValue={0}
             />
           </div>
           <div className="flex items-center my-2">
@@ -119,8 +107,8 @@ export const AddPackageCustomerTable: React.FC<
               name={`${name}.${index}.Width` as any}
               placeholder=""
               inputClassName="max-w-[60px] h-[30px] text-center"
-              // onEnter={() => onPress([data[index]])}
-              disabled
+              onEnter={() => onPress([data[index]])}
+              defaultValue={0}
             />
           </div>
           <div className="flex items-center">
@@ -130,8 +118,8 @@ export const AddPackageCustomerTable: React.FC<
               name={`${name}.${index}.Height` as any}
               placeholder=""
               inputClassName="max-w-[60px] h-[30px] text-center"
-              // onEnter={() => onPress([data[index]])}
-              disabled
+              onEnter={() => onPress([data[index]])}
+              defaultValue={0}
             />
           </div>
         </React.Fragment>
@@ -185,17 +173,10 @@ export const AddPackageCustomerTable: React.FC<
       dataIndex: "Status",
       title: () => <div className="text-center">Trạng thái</div>,
       render: (_, __, index) => (
-        // <FormInput
-        // 	control={control}
-        // 	name={`${name}.${index}.StatusName` as any}
-        // 	placeholder={__.StatusName}
-        // 	disabled
-        // />
         <FormSelect
           control={control}
           name={`${name}.${index}.Status` as any}
           data={[smallPackageStatusData[1]]}
-          disabled
           defaultValue={smallPackageStatusData[1]}
           placeholder="Chọn trạng thái"
         />
@@ -228,8 +209,10 @@ export const AddPackageCustomerTable: React.FC<
     <React.Fragment>
       <div className="grid grid-cols-4 gap-4 mt-4">
         <div className="col-span-3 bg-white w-fit px-4 shadow-md flex items-center !text-sec rounded-[6px]">
-          Bạn đã quét <span className="text-red font-bold text-md mx-1">{data.length}</span>
-          kiện
+          Kiện đã quét
+          <span className="text-red font-bold text-md mx-1">
+            ({data.length})
+          </span>
         </div>
         <div className="col-span-1 flex items-center justify-end">
           <IconButton
@@ -249,7 +232,7 @@ export const AddPackageCustomerTable: React.FC<
         </div>
       </div>
 
-      <DataTable data={data} columns={columns} bordered />
+      <DataTable data={data} columns={columns} bordered mediaWidth={1200} />
     </React.Fragment>
   );
 };
