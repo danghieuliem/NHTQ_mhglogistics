@@ -2,7 +2,7 @@ import { Avatar as AvatarAntd, Card, Divider, Image, Popover } from "antd";
 import clsx from "clsx";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { default as AvatarName } from "react-avatar";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
@@ -28,24 +28,26 @@ type TProps = {
 
 const Bars = ({ hover, onClick }) => {
   return (
-    <div
-      className={clsx(
-        styles.wrapper,
-        styles.openMenu,
-        styles.svg,
-        hover && styles.active
-      )}
-      onClick={onClick}
-    >
-      {/* <img src="/icon/menu-bars.png" /> */}
-      <svg className={clsx(styles.menu__svg)} viewBox="0 0 100 100">
-        <path d="m 30,33 h 40 c 3.722839,0 7.5,3.126468 7.5,8.578427 0,5.451959 -2.727029,8.421573 -7.5,8.421573 h -20"></path>
-        <path
-          d={!hover ? "m 50,50 h 20" : "m 30,50 h 40"}
-          className="path-2"
-        ></path>
-        <path d="m 70,67 h -40 c 0,0 -7.5,-0.802118 -7.5,-8.365747 0,-7.563629 7.5,-8.634253 7.5,-8.634253 h 20"></path>
-      </svg>
+    <div className="flex items-center">
+      <div
+        className={clsx(
+          styles.wrapper,
+          styles.openMenu,
+          styles.svg,
+          hover && styles.active
+        )}
+        onClick={onClick}
+      >
+        {/* <img src="/icon/menu-bars.png" /> */}
+        <svg className={clsx(styles.menu__svg)} viewBox="0 0 100 100">
+          <path d="m 30,33 h 40 c 3.722839,0 7.5,3.126468 7.5,8.578427 0,5.451959 -2.727029,8.421573 -7.5,8.421573 h -20"></path>
+          <path
+            d={!hover ? "m 50,50 h 20" : "m 30,50 h 40"}
+            className="path-2"
+          ></path>
+          <path d="m 70,67 h -40 c 0,0 -7.5,-0.802118 -7.5,-8.365747 0,-7.563629 7.5,-8.634253 7.5,-8.634253 h 20"></path>
+        </svg>
+      </div>
     </div>
   );
 };
@@ -296,7 +298,7 @@ const Header: React.FC<TProps> = ({ hover, handleHover, userPage }) => {
           userPage ? styles.innerHeaderUser : styles.innerHeaderManager
         )}
       >
-        <div className="flex gap-[10px]">
+        <div className="flex gap-[10px] h-full">
           {window.innerWidth <= 1280 && userPage && (
             <Bars {...{ hover, onClick: () => handleHover(!hover) }} />
           )}
@@ -306,9 +308,9 @@ const Header: React.FC<TProps> = ({ hover, handleHover, userPage }) => {
           )}
 
           <div className={`hidden md:block`}>
-            <div className={clsx(styles.img, "w-[12rem]")}>
+            <div className={clsx(styles.img, "h-full")}>
               <Link href="/">
-                <a className={clsx(styles.logo, "flex items-center")}>
+                <a className={clsx(styles.logo, "flex items-center h-full")}>
                   <Image
                     src={dataGlobal?.LogoIMG}
                     width={"100%"}

@@ -75,7 +75,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
 }
 
 .wrapper li {
@@ -142,7 +141,7 @@
 }
 
 .block.profile .img img {
-  width: 100%;
+  width: auto;
   height: 100%;
   border-radius: 8px;
 }
@@ -398,7 +397,7 @@
   stroke-dasharray: 40 160;
 }
 .svg .menu__svg path:nth-child(2) {
-  transform: rotate(0);
+  @apply rotate-0;
 }
 .svg .menu__svg path:nth-child(3) {
   stroke-dasharray: 40 85;
@@ -409,7 +408,7 @@
 }
 
 .active .menu__svg {
-  transform: rotate(45deg);
+  @apply rotate-45;
 }
 .active .menu__svg path {
   fill: none;
@@ -422,8 +421,8 @@
   stroke-dashoffset: -64px;
 }
 .active .menu__svg path:nth-child(2) {
+  @apply rotate-90;
   transform-origin: 50%;
-  transform: rotate(90deg);
 }
 .active .menu__svg path:nth-child(3) {
   stroke-dashoffset: -64px;
