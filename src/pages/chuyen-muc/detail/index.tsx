@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Page } from "~/api";
-import { HomeLayout, HomeSidebar } from "~/components";
+import { HomeSidebar } from "~/components";
 import ContentItem from "~/components/globals/layout/homeLayouts/Card/ContentItem";
 import MetaTags from "~/components/globals/metaTag";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -16,7 +16,7 @@ import styles from "./index.module.css";
 const Index: TNextPageWithLayout = () => {
   const router = useRouter();
   const dataGlobal: any = useSelector((state: RootState) => state.dataGlobal);
-  
+
   const [Data, setData] = useState({
     Title: "",
     SideBar: null,
@@ -80,6 +80,6 @@ const Index: TNextPageWithLayout = () => {
 };
 
 Index.displayName = SEOConfigs.homePage;
-Index.Layout = HomeLayout;
+Index.Layout = <></>;
 
 export default Index;
