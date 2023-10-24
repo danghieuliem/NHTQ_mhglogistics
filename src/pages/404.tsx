@@ -1,11 +1,11 @@
-import React from 'react';
-import { Layout, NotFound } from '~/components';
-import { TNextPageWithLayout } from '~/types/layout';
+import React from "react";
+import { BlankLayout, NotFound } from "~/components";
+import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-	return <NotFound />;
+  return <NotFound />;
 };
 
-Index.Layout = Layout;
+Index.Layout = BlankLayout;
 
 export default Index;

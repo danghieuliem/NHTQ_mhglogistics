@@ -29,7 +29,7 @@ import "../styles/newStyles.css";
 import "../styles/antdOverWrite.css";
 // import "../styles/styles.css";
 // signalR
-import BlankLayout from "~/components/globals/layout/blankLayouts";
+import { BlankLayout } from "~/components";
 
 // config
 const queryClient = new QueryClient();
