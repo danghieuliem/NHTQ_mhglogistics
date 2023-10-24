@@ -5,7 +5,7 @@ export const config = {
   // DEVELOPMENT: '' || process.env.DEVELOPMENT,
   API_URL: "" || process.env.NEXT_PUBLIC_API_SERVER,
   ENV: process.env.NODE_ENV,
-  tokenName: "tokenNHTQ-demo",
+  tokenName: process.env.NEXT_PUBLIC_TOKEN_NAME,
 };
 
 export const regex = {
