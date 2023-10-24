@@ -26,7 +26,7 @@ export * from "./screens/home/infoContact";
 export * from "./screens/home/news";
 export * from "./screens/home/customer";
 export * from "./screens/home/popupNoti";
-export * from './screens/home/tracking';
+export * from "./screens/home/tracking";
 
 // ++ dashboard
 export * from "./screens/dashboard";
@@ -117,7 +117,7 @@ export * from "./screens/status/Loading";
 export * from "./screens/status/Empty";
 export * from "./screens/status/NotFound";
 export * from "./screens/status/Finding";
-export * from "./screens/status/TagStatus"
+export * from "./screens/status/TagStatus";
 
 // globals
 export * from "./globals/authContainer";
@@ -145,6 +145,5 @@ export * from "./globals/transfer";
 
 // resize image
 export * from "./globals/resizeImage";
-
 
 // framer motion

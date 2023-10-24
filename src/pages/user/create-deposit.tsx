@@ -148,7 +148,7 @@ const Index: TNextPageWithLayout = () => {
         <ActionButton
           onClick={() =>
             append({
-              Amount: null,
+              Amount: 1,
               OrderTransactionCode: null,
               Category: null,
               IsCheckProduct: false,
@@ -156,7 +156,7 @@ const Index: TNextPageWithLayout = () => {
               IsInsurance: false,
               Kg: 0,
               UserNote: null,
-              FeeShip: null,
+              FeeShip: 0,
             })
           }
           title="Thêm"
