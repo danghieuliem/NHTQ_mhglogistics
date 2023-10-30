@@ -12,7 +12,7 @@ export const EditArticleCategoryForm: React.FC<TControl<TArticleCategory>> = ({
   return (
     <React.Fragment>
       <div className="grid grid-cols-12 gap-4 p-2">
-        <div className="col-span-3">
+        <div className="col-span-full sm:col-span-3">
           <div className="mb-4">
             <FormInput
               control={control}
@@ -43,7 +43,7 @@ export const EditArticleCategoryForm: React.FC<TControl<TArticleCategory>> = ({
             />
           </div>
         </div>
-        <div className="col-span-9 min-h-[700px]">
+        <div className="col-span-full sm:col-span-9 min-h-[700px]">
           <FormEditor
             control={control}
             label=""

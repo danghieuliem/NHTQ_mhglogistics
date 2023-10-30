@@ -20,26 +20,29 @@ type TProps = {
   RoleID: number;
 };
 
-const costTitle = "w-1/4 text-sm font-semibold";
-const costBox = "w-3/4 grid grid-cols-2 gap-4";
+const box = "flex flex-col sm:flex-row xs:items-center";
+const costTitle = "w-full text-sm font-semibold flex justify-between";
+const costBox = "w-full grid xs:grid-cols-2 gap-4";
 
 const ChangeChargeComponent = ({ control, data, RoleID }) => {
   return (
     <>
-      <div className="flex items-center mt-4">
-        <div className={costTitle}>Cân nặng - thể tích</div>
+      <div className={box}>
+        <div className={costTitle}>
+          <span>Cân nặng - thể tích</span>
+          {(RoleID === 1 || RoleID === 3) && (
+            <Tooltip title="Check nếu muốn thay đổi cân nặng-thể tích!">
+              <FormCheckbox
+                control={control}
+                name="IsChangeTQVNWeight"
+                label=""
+                checkBoxClassName="large"
+              />
+            </Tooltip>
+          )}
+        </div>
         <div className={costBox}>
           <div className="col-span-1 flex items-center">
-            {(RoleID === 1 || RoleID === 3) && (
-              <Tooltip title="Check nếu muốn thay đổi cân nặng-thể tích!">
-                <FormCheckbox
-                  control={control}
-                  name="IsChangeTQVNWeight"
-                  label=""
-                  checkBoxClassName="large"
-                />
-              </Tooltip>
-            )}
             <FormInputNumber
               suffix=" KG"
               control={control}
@@ -61,22 +64,22 @@ const ChangeChargeComponent = ({ control, data, RoleID }) => {
           </div>
         </div>
       </div>
-      <div className="flex items-center mt-4">
+      <div className={box}>
         <div className={costTitle}>
-          Phí vc TQ-VN (CK: {data?.FeeWeightCK ?? 0}%)
+          <span>Phí vc TQ-VN (CK: {data?.FeeWeightCK ?? 0}%)</span>
+          {(RoleID === 1 || RoleID === 3) && (
+            <Tooltip title="Check nếu muốn thay đổi phí vận chuyển TQ-VN!">
+              <FormCheckbox
+                control={control}
+                name="IsChangeFeeWeight"
+                label=""
+                checkBoxClassName="large"
+              />
+            </Tooltip>
+          )}
         </div>
         <div className={costBox}>
           <div className="col-span-2 flex items-center">
-            {(RoleID === 1 || RoleID === 3) && (
-              <Tooltip title="Check nếu muốn thay đổi phí vận chuyển TQ-VN!">
-                <FormCheckbox
-                  control={control}
-                  name="IsChangeFeeWeight"
-                  label=""
-                  checkBoxClassName="large"
-                />
-              </Tooltip>
-            )}
             <FormInputNumber
               suffix=" VNĐ"
               control={control}
@@ -110,262 +113,267 @@ export const OrderCost: React.FC<TProps> = ({ loading, data, RoleID }) => {
 
   return (
     <React.Fragment>
-      <div className="mb-4 py-2 uppercase border-b">
-        <span className="text-base font-bold">Phí cố định</span>
-      </div>
-      <div className="flex items-center mb-4">
-        <div className={costTitle}>Tỷ giá</div>
-        <div className={costBox}>
-          <div className="col-span-2">
-            <FormInputNumber
-              suffix=" VNĐ"
-              control={control}
-              name="CurrentCNYVN"
-              placeholder=""
-              allowNegative={false}
-              disabled
-            />
+      <div className="grid grid-cols-1 gap-2 justify-between">
+        <div className="mb-4 py-2 uppercase border-b">
+          <span className="text-base font-bold">Phí cố định</span>
+        </div>
+        <div className={box}>
+          <div className={costTitle}>Tỷ giá</div>
+          <div className={costBox}>
+            <div className="col-span-2">
+              <FormInputNumber
+                suffix=" VNĐ"
+                control={control}
+                name="CurrentCNYVN"
+                placeholder=""
+                allowNegative={false}
+                disabled
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div className="flex items-center">
-        <div className={costTitle}>Tiền hàng trên web</div>
-        <div className={costBox}>
-          <div className="col-span-1">
-            <FormInputNumber
-              prefix="¥ "
-              control={control}
-              name="PriceCNY"
-              disabled
-              placeholder=""
-              allowNegative={false}
-            />
-          </div>
-          <div className="col-span-1">
-            <FormInputNumber
-              suffix=" VNĐ"
-              control={control}
-              name="PriceVND"
-              disabled
-              placeholder=""
-              allowNegative={false}
-            />
+        <div className={box}>
+          <div className={costTitle}>Tiền hàng trên web</div>
+          <div className={costBox}>
+            <div className="col-span-1">
+              <FormInputNumber
+                prefix="¥ "
+                control={control}
+                name="PriceCNY"
+                disabled
+                placeholder=""
+                allowNegative={false}
+              />
+            </div>
+            <div className="col-span-1">
+              <FormInputNumber
+                suffix=" VNĐ"
+                control={control}
+                name="PriceVND"
+                disabled
+                placeholder=""
+                allowNegative={false}
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div className="flex items-center mt-4">
-        <div className={costTitle}>Tổng số tiền mua thật</div>
-        <div className={costBox}>
-          <div className="col-span-1">
-            <FormInputNumber
-              prefix="¥ "
-              control={control}
-              disabled={
-                !(
-                  RoleID === 1 ||
-                  RoleID === 3 ||
-                  (RoleID === 4 && data?.Status < 5) ||
-                  RoleID === 8 ||
-                  RoleID === 6
-                )
-              }
-              name="TotalPriceRealCNY"
-              placeholder="Tổng số tiền mua thật (¥)"
-              allowNegative={false}
-              callback={(val) => {
-                if (val !== formValue.TotalPriceRealCNY) {
-                  handleSetValue(
-                    "TotalPriceReal",
-                    Math.ceil(val * formValue.CurrentCNYVN)
-                  );
+        <div className={box}>
+          <div className={costTitle}>Tổng số tiền mua thật</div>
+          <div className={costBox}>
+            <div className="col-span-1">
+              <FormInputNumber
+                prefix="¥ "
+                control={control}
+                disabled={
+                  !(
+                    RoleID === 1 ||
+                    RoleID === 3 ||
+                    (RoleID === 4 && data?.Status < 5) ||
+                    RoleID === 8 ||
+                    RoleID === 6
+                  )
                 }
-              }}
-            />
-          </div>
-          <div className="col-span-1">
-            <FormInputNumber
-              suffix=" VNĐ"
-              control={control}
-              name="TotalPriceReal"
-              placeholder=""
-              disabled={true}
-              allowNegative={false}
-              callback={(val) => {
-                if (val !== formValue.TotalPriceReal) {
-                  handleSetValue(
-                    "TotalPriceRealCNY",
-                    val / formValue.CurrentCNYVN
-                  );
-                }
-              }}
-            />
+                name="TotalPriceRealCNY"
+                placeholder="Tổng số tiền mua thật (¥)"
+                allowNegative={false}
+                callback={(val) => {
+                  if (val !== formValue.TotalPriceRealCNY) {
+                    handleSetValue(
+                      "TotalPriceReal",
+                      Math.ceil(val * formValue.CurrentCNYVN)
+                    );
+                  }
+                }}
+              />
+            </div>
+            <div className="col-span-1">
+              <FormInputNumber
+                suffix=" VNĐ"
+                control={control}
+                name="TotalPriceReal"
+                placeholder=""
+                disabled={true}
+                allowNegative={false}
+                callback={(val) => {
+                  if (val !== formValue.TotalPriceReal) {
+                    handleSetValue(
+                      "TotalPriceRealCNY",
+                      val / formValue.CurrentCNYVN
+                    );
+                  }
+                }}
+              />
+            </div>
           </div>
         </div>
+        <div className={box}>
+          <div className={costTitle}>Phí ship Trung Quốc</div>
+          <div className={costBox}>
+            <div className="col-span-1">
+              <FormInputNumber
+                prefix="¥ "
+                control={control}
+                name="FeeShipCNCNY"
+                disabled={
+                  !(
+                    RoleID === 1 ||
+                    RoleID === 3 ||
+                    (RoleID === 4 && !(data?.Status === 5)) ||
+                    RoleID === 8 ||
+                    RoleID === 6
+                  )
+                }
+                placeholder="Phí ship TQ (¥)"
+                allowNegative={false}
+                callback={(val) => {
+                  if (val !== formValue.FeeShipCNCNY) {
+                    handleSetValue(
+                      "FeeShipCN",
+                      Math.ceil(val * formValue.CurrentCNYVN)
+                    );
+                  }
+                }}
+              />
+            </div>
+            <div className="col-span-1">
+              <FormInputNumber
+                suffix=" VNĐ"
+                control={control}
+                name="FeeShipCN"
+                placeholder=""
+                disabled={true}
+                allowNegative={false}
+                callback={(val) => {
+                  if (val !== formValue.FeeShipCN) {
+                    handleSetValue(
+                      "FeeShipCNCNY",
+                      val / formValue.CurrentCNYVN
+                    );
+                  }
+                }}
+              />
+            </div>
+          </div>
+        </div>
+        <div className={box}>
+          <div className={costTitle}>Phí ship Trung Quốc thật</div>
+          <div className={costBox}>
+            <div className="col-span-1">
+              <FormInputNumber
+                prefix="¥ "
+                control={control}
+                name="FeeShipCNRealCNY"
+                disabled={
+                  !(
+                    RoleID === 1 ||
+                    RoleID === 3 ||
+                    (RoleID === 4 && data?.Status <= 5) ||
+                    RoleID === 8 ||
+                    RoleID === 6
+                  )
+                }
+                placeholder="Phí ship TQ thật (¥)"
+                allowNegative={false}
+                callback={(val) => {
+                  if (val !== formValue.FeeShipCNRealCNY) {
+                    handleSetValue(
+                      "FeeShipCNReal",
+                      Math.ceil(val * formValue.CurrentCNYVN)
+                    );
+                  }
+                }}
+              />
+            </div>
+            <div className="col-span-1">
+              <FormInputNumber
+                suffix=" VNĐ"
+                control={control}
+                name="FeeShipCNReal"
+                placeholder=""
+                disabled={true}
+                allowNegative={false}
+                callback={(val) => {
+                  if (val !== formValue.FeeShipCNReal) {
+                    handleSetValue(
+                      "FeeShipCNRealCNY",
+                      val / formValue.CurrentCNYVN
+                    );
+                  }
+                }}
+              />
+            </div>
+          </div>
+        </div>
+        <div className={box}>
+          <div className={costTitle}>Tiền hoa hồng</div>
+          <div className={costBox}>
+            <div className="col-span-1">
+              <FormInputNumber
+                prefix={`¥ ${data?.HHCNY < 0 ? "-" : ""}`}
+                allowNegative={false}
+                control={control}
+                name="HHCNY"
+                placeholder=""
+                disabled
+              />
+            </div>
+            <div className="col-span-1">
+              <FormInputNumber
+                prefix={`${data?.HH < 0 ? "- " : ""}`}
+                suffix=" VNĐ"
+                control={control}
+                allowNegative={false}
+                name="HH"
+                placeholder=""
+                disabled
+              />
+            </div>
+          </div>
+        </div>
+        <div className={box}>
+          <div className={costTitle}>
+            Phí mua hàng (CK: {data?.FeeBuyProCK ?? 0}%)
+          </div>
+          <div className={costBox}>
+            <div className="col-span-1">
+              <FormInputNumber
+                prefix="¥ "
+                control={control}
+                name="CKFeeBuyPro"
+                placeholder=""
+                disabled
+                allowNegative={false}
+              />
+            </div>
+            <div className="col-span-1">
+              <FormInputNumber
+                suffix=" VNĐ"
+                control={control}
+                name="FeeBuyPro"
+                placeholder=""
+                disabled={!(RoleID === 1 || RoleID === 3)}
+                allowNegative={false}
+                callback={(val) => {
+                  if (val !== formValue.FeeBuyPro) {
+                    handleSetValue(
+                      "CKFeeBuyPro",
+                      Math.ceil(val / formValue.CurrentCNYVN)
+                    );
+                  }
+                }}
+              />
+            </div>
+          </div>
+        </div>
+        <ChangeChargeComponent control={control} data={data} RoleID={RoleID} />
       </div>
-      <div className="flex items-center mt-4">
-        <div className={costTitle}>Phí ship Trung Quốc</div>
-        <div className={costBox}>
-          <div className="col-span-1">
-            <FormInputNumber
-              prefix="¥ "
-              control={control}
-              name="FeeShipCNCNY"
-              disabled={
-                !(
-                  RoleID === 1 ||
-                  RoleID === 3 ||
-                  (RoleID === 4 && !(data?.Status === 5)) ||
-                  RoleID === 8 ||
-                  RoleID === 6
-                )
-              }
-              placeholder="Phí ship TQ (¥)"
-              allowNegative={false}
-              callback={(val) => {
-                if (val !== formValue.FeeShipCNCNY) {
-                  handleSetValue(
-                    "FeeShipCN",
-                    Math.ceil(val * formValue.CurrentCNYVN)
-                  );
-                }
-              }}
-            />
-          </div>
-          <div className="col-span-1">
-            <FormInputNumber
-              suffix=" VNĐ"
-              control={control}
-              name="FeeShipCN"
-              placeholder=""
-              disabled={true}
-              allowNegative={false}
-              callback={(val) => {
-                if (val !== formValue.FeeShipCN) {
-                  handleSetValue("FeeShipCNCNY", val / formValue.CurrentCNYVN);
-                }
-              }}
-            />
-          </div>
-        </div>
-      </div>
-      <div className="flex items-center mt-4">
-        <div className={costTitle}>Phí ship Trung Quốc thật</div>
-        <div className={costBox}>
-          <div className="col-span-1">
-            <FormInputNumber
-              prefix="¥ "
-              control={control}
-              name="FeeShipCNRealCNY"
-              disabled={
-                !(
-                  RoleID === 1 ||
-                  RoleID === 3 ||
-                  (RoleID === 4 && data?.Status <= 5) ||
-                  RoleID === 8 ||
-                  RoleID === 6
-                )
-              }
-              placeholder="Phí ship TQ thật (¥)"
-              allowNegative={false}
-              callback={(val) => {
-                if (val !== formValue.FeeShipCNRealCNY) {
-                  handleSetValue(
-                    "FeeShipCNReal",
-                    Math.ceil(val * formValue.CurrentCNYVN)
-                  );
-                }
-              }}
-            />
-          </div>
-          <div className="col-span-1">
-            <FormInputNumber
-              suffix=" VNĐ"
-              control={control}
-              name="FeeShipCNReal"
-              placeholder=""
-              disabled={true}
-              allowNegative={false}
-              callback={(val) => {
-                if (val !== formValue.FeeShipCNReal) {
-                  handleSetValue(
-                    "FeeShipCNRealCNY",
-                    val / formValue.CurrentCNYVN
-                  );
-                }
-              }}
-            />
-          </div>
-        </div>
-      </div>
-      <div className="flex items-center mt-4">
-        <div className={costTitle}>Tiền hoa hồng</div>
-        <div className={costBox}>
-          <div className="col-span-1">
-            <FormInputNumber
-              prefix={`¥ ${data?.HHCNY < 0 ? "-" : ""}`}
-              allowNegative={false}
-              control={control}
-              name="HHCNY"
-              placeholder=""
-              disabled
-            />
-          </div>
-          <div className="col-span-1">
-            <FormInputNumber
-              prefix={`${data?.HH < 0 ? "- " : ""}`}
-              suffix=" VNĐ"
-              control={control}
-              allowNegative={false}
-              name="HH"
-              placeholder=""
-              disabled
-            />
-          </div>
-        </div>
-      </div>
-      <div className="flex items-center mt-4">
-        <div className={costTitle}>
-          Phí mua hàng (CK: {data?.FeeBuyProCK ?? 0}%)
-        </div>
-        <div className={costBox}>
-          <div className="col-span-1">
-            <FormInputNumber
-              prefix="¥ "
-              control={control}
-              name="CKFeeBuyPro"
-              placeholder=""
-              disabled
-              allowNegative={false}
-            />
-          </div>
-          <div className="col-span-1">
-            <FormInputNumber
-              suffix=" VNĐ"
-              control={control}
-              name="FeeBuyPro"
-              placeholder=""
-              disabled={!(RoleID === 1 || RoleID === 3)}
-              allowNegative={false}
-              callback={(val) => {
-                if (val !== formValue.FeeBuyPro) {
-                  handleSetValue(
-                    "CKFeeBuyPro",
-                    Math.ceil(val / formValue.CurrentCNYVN)
-                  );
-                }
-              }}
-            />
-          </div>
-        </div>
-      </div>
-      <ChangeChargeComponent control={control} data={data} RoleID={RoleID} />
 
       {/*  4 serve */}
       <div className="my-4 py-2 uppercase border-b">
         <span className="text-base font-bold">Phí tùy chọn</span>
       </div>
-      <div className="flex items-center mt-4">
-        <div className="w-1/4 text-sm font-semibold flex items-center justify-between">
+      <div className="grid xs:grid-cols-4 items-center mt-4">
+        <div className="col-span-2 sm:col-span-1 font-semibold flex items-center justify-between">
           Kiểm đếm
           <FormCheckbox
             control={control}
@@ -384,7 +392,7 @@ export const OrderCost: React.FC<TProps> = ({ loading, data, RoleID }) => {
             // defaultChecked={data?.IsCheckProduct}
           />
         </div>
-        <div className={costBox}>
+        <div className={costBox + " col-span-2 sm:col-span-3"}>
           <div className="col-span-1">
             <FormInputNumber
               prefix="¥ "
@@ -431,8 +439,8 @@ export const OrderCost: React.FC<TProps> = ({ loading, data, RoleID }) => {
           </div>
         </div>
       </div>
-      <div className="flex items-center mt-4">
-        <div className="w-1/4 text-sm font-semibold flex items-center justify-between">
+      <div className="grid xs:grid-cols-4 items-center mt-4">
+        <div className="col-span-2 sm:col-span-1 font-semibold flex items-center justify-between">
           Đóng gỗ
           <FormCheckbox
             control={control}
@@ -452,7 +460,7 @@ export const OrderCost: React.FC<TProps> = ({ loading, data, RoleID }) => {
             // defaultChecked={data?.IsPacked}
           />
         </div>
-        <div className={costBox}>
+        <div className={costBox + " col-span-2 sm:col-span-3"}>
           <div className="col-span-1">
             <FormInputNumber
               prefix="¥ "
@@ -512,8 +520,8 @@ export const OrderCost: React.FC<TProps> = ({ loading, data, RoleID }) => {
           </div>
         </div>
       </div>
-      <div className="flex items-center mt-4">
-        <div className="w-1/4 text-sm font-semibold flex items-center justify-between">
+      <div className="grid xs:grid-cols-4 items-center mt-4">
+        <div className="col-span-2 sm:col-span-1 font-semibold flex items-center justify-between">
           Bảo hiểm
           <FormCheckbox
             control={control}
@@ -533,7 +541,7 @@ export const OrderCost: React.FC<TProps> = ({ loading, data, RoleID }) => {
             // defaultChecked={getValues("IsInsurance")}
           />
         </div>
-        <div className={costBox}>
+        <div className={costBox + " col-span-2 sm:col-span-3"}>
           <div className="col-span-2">
             <FormInputNumber
               suffix=" VNĐ"
@@ -546,8 +554,8 @@ export const OrderCost: React.FC<TProps> = ({ loading, data, RoleID }) => {
           </div>
         </div>
       </div>
-      <div className="flex items-center mt-4">
-        <div className="w-1/4 text-sm font-semibold flex items-center justify-between">
+      <div className="grid xs:grid-cols-4 items-center mt-4">
+        <div className="col-span-2 sm:col-span-1 font-semibold flex items-center justify-between">
           Giao hàng tại nhà
           <FormCheckbox
             control={control}
@@ -566,7 +574,7 @@ export const OrderCost: React.FC<TProps> = ({ loading, data, RoleID }) => {
             // defaultChecked={data?.IsFastDelivery}
           />
         </div>
-        <div className={costBox}>
+        <div className={costBox + " col-span-2 sm:col-span-3"}>
           <div className="col-span-2">
             <FormInputNumber
               suffix=" VNĐ"
@@ -600,13 +608,13 @@ export const OrderCost: React.FC<TProps> = ({ loading, data, RoleID }) => {
 
       {/* Payment charge */}
       <div className="my-4 py-2 uppercase border-b">
-      <span className="text-base font-bold">Thanh toán</span>
+        <span className="text-base font-bold">Thanh toán</span>
       </div>
-      <div className="flex items-center mt-4">
-        <div className="w-1/4 text-sm font-semibold flex items-center justify-between">
+      <div className="grid xs:grid-cols-4 items-center mt-4">
+        <div className="col-span-2 sm:col-span-1 text-sm font-semibold flex items-center justify-between">
           Số tiền phải cọc
         </div>
-        <div className={costBox}>
+        <div className={costBox + " col-span-2 sm:col-span-3"}>
           <div className="col-span-2">
             <FormInputNumber
               suffix=" VNĐ"
@@ -635,11 +643,11 @@ export const OrderCost: React.FC<TProps> = ({ loading, data, RoleID }) => {
           </div>
         </div>
       </div>
-      <div className="flex items-center mt-4">
-        <div className="w-1/4 text-sm font-semibold flex items-center justify-between">
+      <div className="grid xs:grid-cols-4 items-center mt-4">
+        <div className="col-span-2 sm:col-span-1 text-sm font-semibold flex items-center justify-between">
           Số tiền đã trả
         </div>
-        <div className={costBox}>
+        <div className={costBox + " col-span-2 sm:col-span-3"}>
           <div className="col-span-2">
             <FormInputNumber
               suffix=" VNĐ"

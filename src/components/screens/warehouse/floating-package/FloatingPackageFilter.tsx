@@ -4,13 +4,24 @@ import { FilterInput } from "~/components";
 const codeProps = {
   id: "code",
   name: "code",
-  placeholder: "Nhập mã vận đơn",
+  placeholder: "Mã vận đơn",
 };
 
-export const FloatingPackageFilter = () => {
+type TProps = {
+  handleFilter: (newFilter) => void;
+};
+
+export const FloatingPackageFilter: React.FC<TProps> = ({ handleFilter }) => {
   return (
-    <div className="max-w-[500px] mb-4">
-      <FilterInput {...{ ...codeProps, handleSubmit: () => null }} />
+    <div className="max-w-[200px]">
+      <FilterInput
+        {...codeProps}
+        inputClassName="barcode"
+        handleSubmit={(val) =>
+          handleFilter({ PageIndex: 1, SearchContent: val })
+        }
+        allowClear={false}
+      />
     </div>
   );
 };

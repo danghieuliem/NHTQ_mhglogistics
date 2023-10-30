@@ -25,7 +25,6 @@ const Index: TNextPageWithLayout = () => {
 
   const { pageType } = useCatalogue({ pageTypeEnabled: true });
 
-
   const mutationAdd = useMutation((data: any) => Page.create(data), {
     onSuccess: () => {
       toast.success("Tạo bài viết thành công");
@@ -68,9 +67,9 @@ const Index: TNextPageWithLayout = () => {
               control={control as Control<TArticleList, object>}
               type="add"
               pageType={pageType}
-
             />
           </Tabs.TabPane>
+
           <Tabs.TabPane key={"2"} tab="Cấu hình SEO">
             <ArticleSEOForm control={control as Control<TArticleSEO, object>} />
           </Tabs.TabPane>

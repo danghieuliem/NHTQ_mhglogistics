@@ -39,11 +39,12 @@ export const ClientListTable: React.FC<TTable<TClient | any> & TProps> = ({
       title: "ID",
       width: 60,
       align: "right",
-      fixed: "left"
+      responsive: ["lg"],
     },
     {
       dataIndex: "UserName",
       title: "Thông tin hệ thống",
+      responsive: ["lg"],
       render: (_, record) => {
         return (
           <div className="flex flex-col gap-[4px]">
@@ -72,7 +73,6 @@ export const ClientListTable: React.FC<TTable<TClient | any> & TProps> = ({
           </div>
         );
       },
-      fixed: "left"
     },
     {
       dataIndex: "FullName",
@@ -100,6 +100,7 @@ export const ClientListTable: React.FC<TTable<TClient | any> & TProps> = ({
     {
       dataIndex: "DatHangId",
       title: "Nhân viên",
+      responsive: ["md"],
       render: (_, record) => {
         const orderEm = dathangList?.filter(
           (item) => item.Id === record?.DatHangId
@@ -124,6 +125,7 @@ export const ClientListTable: React.FC<TTable<TClient | any> & TProps> = ({
     {
       dataIndex: "WarehouseFrom",
       title: "Thông tin kho",
+      responsive: ["md"],
       render: (_, record) => {
         return (
           <div className="flex flex-col">
@@ -166,6 +168,7 @@ export const ClientListTable: React.FC<TTable<TClient | any> & TProps> = ({
     {
       dataIndex: "Created",
       title: "Ngày tạo",
+      responsive: ["lg"],
       render: (_, record) => {
         return (
           <>
@@ -179,6 +182,7 @@ export const ClientListTable: React.FC<TTable<TClient | any> & TProps> = ({
       dataIndex: "action",
       title: "Thao tác",
       align: "right",
+      responsive: ["lg"],
       render: (_, record) => (
         <>
           <Popover
@@ -271,7 +275,6 @@ export const ClientListTable: React.FC<TTable<TClient | any> & TProps> = ({
           </Popover>
         </>
       ),
-      fixed: "right",
       width: 120,
     },
   ];
@@ -284,7 +287,6 @@ export const ClientListTable: React.FC<TTable<TClient | any> & TProps> = ({
           columns,
           data,
           bordered: true,
-          scroll: { y: 700, x: 1200 },
         }}
       />
       <div className="mt-4 text-right">

@@ -32,10 +32,10 @@ export const PackageManagementForm: React.FC<TProps> = ({ data, loading }) => {
       router.back();
     } catch (error) {}
   };
-  
+
   return (
-    <div className="grid grid-cols-2 gap-4">
-      <div className="col-span-2">
+    <div className="grid xs:grid-cols-2 gap-4">
+      <div className="col-span-full">
         <FormInput
           control={control}
           name="Code"
@@ -64,10 +64,13 @@ export const PackageManagementForm: React.FC<TProps> = ({ data, loading }) => {
           rules={{ required: "Không bỏ trống khối" }}
         />
       </div>
-      <div className="col-span-2">
+      <div className="col-span-full">
         <FormSelect
           control={control}
-          data={[...bigPackageStatus.slice(1, 2), ...bigPackageStatus.filter(x => x.id >= data?.Status)]}
+          data={[
+            ...bigPackageStatus.slice(1, 2),
+            ...bigPackageStatus.filter((x) => x.id >= data?.Status),
+          ]}
           defaultValue={
             data?.Status && bigPackageStatus.find((x) => x.id === data?.Status)
           }
@@ -77,7 +80,7 @@ export const PackageManagementForm: React.FC<TProps> = ({ data, loading }) => {
           rules={{ required: "Không bỏ trống trạng thái" }}
         />
       </div>
-      <div className="col-span-2 flex border-t border-main pt-4">
+      <div className="col-span-full flex border-t border-main pt-4">
         <IconButton
           icon="fas fa-pencil"
           title="Cập nhật"

@@ -28,13 +28,14 @@ export const VolumeFeeTable: FC<TTable<TVolumeFee | any> & TProps> = ({
   const columns: TColumnsType<TVolumeFee> = [
     {
       dataIndex: "Id",
-      title: "ID",
-      width: 50,
-      align: "right",
+      title: "Thứ tự",
+      width: 80,
+      align: "center",
+      responsive: ["lg"],
     },
     {
       dataIndex: "HelpMovingName",
-      title: "Loại đơn hàng",
+      title: "Loại đơn",
       render: (_, record) => {
         return (
           <TagStatus
@@ -49,32 +50,62 @@ export const VolumeFeeTable: FC<TTable<TVolumeFee | any> & TProps> = ({
     {
       dataIndex: "WareHouseFromName",
       title: "Từ kho",
+      responsive: ["md"],
     },
     {
       dataIndex: "WareHouseToName",
       title: "Đến kho",
+      responsive: ["md"],
     },
     {
       dataIndex: "VolumeFrom",
-      title: "Thể tích từ (m3)",
+      title: (
+        <>
+          Thể tích từ
+          <br />
+          (m3)
+        </>
+      ),
       align: "right",
+      responsive: ["md"],
       render: (_, record) => _format.getVND(record?.VolumeFrom, ""),
     },
     {
       dataIndex: "VolumeTo",
-      title: "Thể tích đến (m3)",
+      title: (
+        <>
+          Thể tích đến
+          <br />
+          (m3)
+        </>
+      ),
       align: "right",
+      responsive: ["md"],
       render: (_, record) => _format.getVND(record?.VolumeTo, ""),
     },
     {
       dataIndex: "Price",
-      title: "Giá (VNĐ)",
+      title: (
+        <>
+          Giá
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
+      responsive: ["md"],
       render: (_, record) => _format.getVND(record?.Price, ""),
     },
     {
       dataIndex: "ShippingTypeToWareHouseName",
-      title: "Hình thức vc",
+      title: (
+        <>
+          Hình thức
+          <br />
+          vận chuyển
+        </>
+      ),
+      responsive: ["md"],
     },
     {
       dataIndex: "action",

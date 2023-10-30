@@ -47,6 +47,7 @@ const Index: TNextPageWithLayout = () => {
   return (
     <>
       <PackageManagementFilter handleFilter={handleFilter} />
+
       <PackageManagementTable
         filter={filter}
         handleFilter={handleFilter}

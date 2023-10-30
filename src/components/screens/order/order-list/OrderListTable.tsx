@@ -11,6 +11,7 @@ import { EOrderStatus, orderStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import { useScreen } from "~/hooks";
 
 export const OrderListTable: React.FC<
   TTable<TOrder> & {
@@ -42,6 +43,8 @@ export const OrderListTable: React.FC<
       })
   );
 
+  const { isWidthMD } = useScreen();
+
   const columns: TColumnsType<TOrder> = [
     {
       dataIndex: "Id",
@@ -49,10 +52,11 @@ export const OrderListTable: React.FC<
       fixed: "left",
       align: "right",
       width: 70,
-      render: (_) => {
+      responsive: ["lg"],
+      render: (value) => {
         return (
-          <Link href={`/manager/order/order-list/detail/?id=${_}`}>
-            <a target="_blank">{_}</a>
+          <Link href={`/manager/order/order-list/detail/?id=${value}`}>
+            <a target="_blank">{value}</a>
           </Link>
         );
       },
@@ -60,7 +64,7 @@ export const OrderListTable: React.FC<
     {
       dataIndex: "UserName",
       title: "Username",
-      fixed: "left",
+      fixed: !isWidthMD ? "left" : null,
       width: 120,
     },
     {
@@ -68,6 +72,7 @@ export const OrderListTable: React.FC<
       title: "Ảnh",
       align: "center",
       width: 100,
+      responsive: ["md"],
       render: (img) => (
         <div className="flex items-center justify-center">
           <img
@@ -84,6 +89,7 @@ export const OrderListTable: React.FC<
       dataIndex: "CurrentCNYVN",
       title: "Thông tin",
       width: 200,
+      responsive: ["md"],
       render: (_, record) => (
         <div className="text-[12px]">
           <div className="flex items-end justify-between">
@@ -138,6 +144,7 @@ export const OrderListTable: React.FC<
           : RoleID === 7
           ? "Nhân viên đặt hàng"
           : "Nhân viên bán hàng",
+      responsive: ["md"],
       render: (_, record) => {
         return (
           <Fragment>
@@ -242,6 +249,7 @@ export const OrderListTable: React.FC<
       align: "center",
       title: () => <p>Mã đơn hàng - mã vận đơn</p>,
       width: 300,
+      responsive: ["sm"],
       render: (data: TOrder["MainOrderTransactionCodeDetails"], record) => {
         return (
           <React.Fragment>
@@ -270,11 +278,11 @@ export const OrderListTable: React.FC<
           </React.Fragment>
         );
       },
-      responsive: ["xl"],
     },
     {
       dataIndex: "DepositDate",
       title: "TimeLine",
+      responsive: ["lg"],
       render: (_, record) => (
         <React.Fragment>
           {record.Created && (
@@ -442,9 +450,7 @@ export const OrderListTable: React.FC<
       title: "Trạng thái",
       render: (status, record) => {
         const color = orderStatus.find((x) => x.id === status);
-        return (
-          <TagStatus color={color?.color} statusName={color?.name} />
-        );
+        return <TagStatus color={color?.color} statusName={color?.name} />;
       },
       width: 120,
     },
@@ -454,6 +460,8 @@ export const OrderListTable: React.FC<
       title: "Thao tác",
       align: "right",
       width: 140,
+      fixed: !isWidthMD ? "right" : null,
+      responsive: ["md"],
       render: (_, record) => (
         <div className="flex flex-wrap gap-1">
           <Link href={`/manager/order/order-list/detail/?id=${record?.Id}`}>
@@ -530,7 +538,6 @@ export const OrderListTable: React.FC<
             )}
         </div>
       ),
-      fixed: "right",
     },
   ];
 
@@ -541,7 +548,7 @@ export const OrderListTable: React.FC<
         columns,
         data,
         bordered: true,
-        scroll: { y: 700, x: 1200 },
+        scroll: isWidthMD ? { x: true } : { y: 700, x: 1200 },
         pagination: {
           current: filter.PageIndex,
           total: filter.TotalItems,

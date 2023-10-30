@@ -215,8 +215,8 @@ export const OutStockFormFilter: React.FC<TProps> = ({
       <div className="hidden">
         <ComponentToPrint ref={componentRef} />
       </div>
-      <div className="flex justify-between items-end">
-        <div className="flex gap-2">
+      <div className="flex justify-between sm:items-end flex-col sm:flex-row gap-4">
+        <div className="flex gap-2 flex-col sm:flex-row">
           <FilterInput
             placeholder="Họ tên người nhận"
             id="username"
@@ -237,13 +237,12 @@ export const OutStockFormFilter: React.FC<TProps> = ({
           />
         </div>
 
-        <div className="">
+        <div className="flex flex-col sm:flex-row gap-4">
           {!!outStockSessionPackages?.find((x) => !x.IsPayment) ? (
             <IconButton
               onClick={onReload}
               title="Reload"
               icon="fas fa-sync"
-              btnClass="!mr-4"
               showLoading
               toolip=""
             />
@@ -255,7 +254,6 @@ export const OutStockFormFilter: React.FC<TProps> = ({
                     onClick={() => onOutstock().then(() => handlePrint())}
                     title="Xuất kho"
                     icon="fas fa-boxes"
-                    btnClass="!mr-4"
                     showLoading
                     toolip=""
                   />

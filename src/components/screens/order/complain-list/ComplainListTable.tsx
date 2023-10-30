@@ -6,6 +6,7 @@ import { complainStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import { useScreen } from "~/hooks";
 
 type TProps = {
   filter;
@@ -19,6 +20,8 @@ export const ComplainListTable: React.FC<TTable<TReport> & TProps> = ({
   handleFilter,
   handleModal,
 }) => {
+  const { isWidthMD } = useScreen();
+
   const columns: TColumnsType<TReport> = [
     {
       dataIndex: "Id",
@@ -26,11 +29,12 @@ export const ComplainListTable: React.FC<TTable<TReport> & TProps> = ({
       width: 50,
       align: "center",
       fixed: "left",
+      responsive: ["lg"],
     },
     {
       dataIndex: "UserName",
       title: "Username",
-      fixed: "left",
+      fixed: isWidthMD ? null : "left",
       width: 140,
     },
     {
@@ -38,17 +42,20 @@ export const ComplainListTable: React.FC<TTable<TReport> & TProps> = ({
       title: "Mã đơn hàng",
       width: 120,
       align: "right",
+      responsive: ["sm"],
     },
     {
       dataIndex: "Amount",
       title: "Số tiền",
       align: "right",
       width: 120,
+      responsive: ["sm"],
       render: (money) => _format.getVND(money, " "),
     },
     {
       dataIndex: "ComplainText",
       title: "Nội dung",
+      responsive: ["lg"],
       width: 260,
     },
     {
@@ -64,6 +71,7 @@ export const ComplainListTable: React.FC<TTable<TReport> & TProps> = ({
       dataIndex: "Created",
       title: "Ngày tạo",
       width: 200,
+      responsive: ["lg"],
       render: (_, record) => {
         return (
           <>
@@ -77,6 +85,7 @@ export const ComplainListTable: React.FC<TTable<TReport> & TProps> = ({
       dataIndex: "Updated",
       title: "Ngày duyệt",
       width: 200,
+      responsive: ["lg"],
       render: (_, record) => {
         return (
           <>
@@ -90,6 +99,7 @@ export const ComplainListTable: React.FC<TTable<TReport> & TProps> = ({
       dataIndex: "action",
       key: "action",
       title: "Thao tác",
+      responsive: ["sm"],
       width: 200,
       render: (_, record) => (
         <Space className="flex">
@@ -120,7 +130,7 @@ export const ComplainListTable: React.FC<TTable<TReport> & TProps> = ({
           data,
           loading,
           bordered: true,
-          scroll: { y: 700, x: 1200 },
+          scroll: isWidthMD ? { x: true } : { y: 700, x: 1200 },
           pagination: {
             current: filter.PageIndex,
             total: filter.TotalItems,

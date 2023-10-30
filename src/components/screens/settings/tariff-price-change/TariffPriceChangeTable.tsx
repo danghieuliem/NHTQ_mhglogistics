@@ -98,6 +98,7 @@ export const TariffPriceChangeTable: FC<TTable<TTariffPriceChange>> = ({
   return (
     <DataTable
       {...{
+        isExpand: false,
         loading,
         columns,
         data,

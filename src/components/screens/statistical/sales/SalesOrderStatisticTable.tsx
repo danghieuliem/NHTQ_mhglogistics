@@ -4,6 +4,7 @@ import { orderStatus } from "~/configs";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils/index";
 import TagStatus from "../../status/TagStatus";
+import { useScreen } from "~/hooks";
 
 export const SalesOrderStatisticTable = ({
   loading,
@@ -13,24 +14,26 @@ export const SalesOrderStatisticTable = ({
   exportExcel,
   RoleID,
 }) => {
+  const { isWidthMD } = useScreen();
+
   const columns: TColumnsType<TStatisticalOrder> = [
     {
       dataIndex: "Id",
       title: "ID",
-      fixed: "left",
-      width: 60,
+      fixed: isWidthMD ? null : "left",
+      width: 80,
+      responsive: ["md"],
     },
     {
       dataIndex: "Created",
       key: "Created",
-      fixed: "left",
       title: "Ngày tạo",
       width: 200,
+      responsive: ["lg"],
       render: (date) => _format.getVNDate(date),
     },
     {
       dataIndex: "SalerUserName",
-      fixed: "left",
       key: "SalerUserName",
       width: 120,
       title: (
@@ -47,16 +50,16 @@ export const SalesOrderStatisticTable = ({
           Tổng <br /> tiền hàng
         </>
       ),
-      fixed: "left",
       align: "right",
       width: 120,
-
+      responsive: ["lg"],
       render: (money) => <>{_format.getVND(money, "")}</>,
     },
     {
       width: 120,
       dataIndex: "FeeShipCN",
       key: "FeeShipCN",
+      responsive: ["lg"],
       title: (
         <>
           Phí ship <br /> Trung Quốc
@@ -69,6 +72,7 @@ export const SalesOrderStatisticTable = ({
       width: 120,
       dataIndex: "FeeBuyPro",
       key: "FeeBuyPro",
+      responsive: ["lg"],
       title: (
         <>
           Phí <br /> mua hàng
@@ -81,6 +85,7 @@ export const SalesOrderStatisticTable = ({
       width: 120,
       dataIndex: "IsFastDeliveryPrice",
       key: "IsFastDeliveryPrice",
+      responsive: ["lg"],
       title: (
         <>
           Phí <br /> giao hàng
@@ -99,6 +104,7 @@ export const SalesOrderStatisticTable = ({
         </>
       ),
       align: "right",
+      responsive: ["md"],
       render: (money) => _format.getVND(money, ""),
     },
     {
@@ -111,6 +117,7 @@ export const SalesOrderStatisticTable = ({
         </>
       ),
       align: "right",
+      responsive: ["md"],
       render: (money) => _format.getVND(money, ""),
     },
     {
@@ -123,6 +130,7 @@ export const SalesOrderStatisticTable = ({
         </>
       ),
       align: "right",
+      responsive: ["md"],
       render: (money) => _format.getVND(money, ""),
     },
     {
@@ -131,6 +139,7 @@ export const SalesOrderStatisticTable = ({
       key: "TotalPriceVND",
       title: "Tổng tiền",
       align: "right",
+      responsive: ["sm"],
       render: (money) => _format.getVND(money, ""),
     },
     {
@@ -139,6 +148,7 @@ export const SalesOrderStatisticTable = ({
       key: "Deposit",
       title: "Đã trả",
       align: "right",
+      responsive: ["sm"],
       render: (money) => _format.getVND(money, ""),
     },
     {
@@ -147,6 +157,7 @@ export const SalesOrderStatisticTable = ({
       key: "MustPay",
       title: "Còn lại",
       align: "right",
+      responsive: ["sm"],
       render: (money) => _format.getVND(money, ""),
     },
     {
@@ -158,7 +169,7 @@ export const SalesOrderStatisticTable = ({
         const color = orderStatus.find((x) => x.id === _record?.Status);
         return <TagStatus color={color?.color} statusName={statusName} />;
       },
-      fixed: "right",
+      fixed: isWidthMD ? null : "right",
     },
   ];
 
@@ -172,7 +183,7 @@ export const SalesOrderStatisticTable = ({
           pagination,
           onChange: (pagination) => handlePagination(pagination),
           loading,
-          scroll: { x: 1200, y: 700 },
+          scroll: isWidthMD ? { x: true } : { x: 1200, y: 700 },
           title: "Thống kê đơn hàng",
           extraElement: (
             <div className="">

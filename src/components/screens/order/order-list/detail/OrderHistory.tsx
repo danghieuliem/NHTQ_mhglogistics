@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "react-query";
 import { historyOrderChange } from "~/api";
 import { DataTable } from "~/components/globals/table";
+import { useScreen } from "~/hooks";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
 
@@ -11,20 +12,22 @@ type TProps = {
 };
 
 export const OrderHistory: React.FC<TProps> = ({ data, loading }) => {
-
-  const {data:  HistoryOrderChanges} = useQuery(
-    ['history-order'],
-    () => historyOrderChange.getList({
-      MainOrderId: data?.Id,
-      PageIndex: 1,
-      PageSize: 999999,
-      OrderBy: "Id desc"
-    })
-    .then(res => res?.Data?.Items),
+  const { isWidthSM } = useScreen();
+  const { data: HistoryOrderChanges } = useQuery(
+    ["history-order"],
+    () =>
+      historyOrderChange
+        .getList({
+          MainOrderId: data?.Id,
+          PageIndex: 1,
+          PageSize: 999999,
+          OrderBy: "Id desc",
+        })
+        .then((res) => res?.Data?.Items),
     {
       enabled: !!data?.Id,
       refetchOnWindowFocus: false,
-      refetchOnReconnect: false
+      refetchOnReconnect: false,
     }
   );
 
@@ -33,17 +36,19 @@ export const OrderHistory: React.FC<TProps> = ({ data, loading }) => {
       dataIndex: "Created",
       title: "Ngày thanh toán",
       render: (date) => _format.getVNDate(date),
-      width: 200
+      width: 200,
+      responsive: ["lg"],
     },
     {
       dataIndex: "CreatedBy",
       title: "Người Thực hiện",
-      width: 160
+      width: 160,
     },
     {
       dataIndex: "StatusName",
       title: "Loại thanh toán",
       width: 160,
+      responsive: ["sm"],
       render: (status, record) => {
         // let color = "orange";
         // if (category === 1) color = "blue";
@@ -54,14 +59,15 @@ export const OrderHistory: React.FC<TProps> = ({ data, loading }) => {
     {
       dataIndex: "TypeName",
       title: "Hình thức",
-      width: 120
+      width: 120,
+      responsive: ["sm"],
     },
     {
       dataIndex: "Amount",
       title: "Tiền thanh toán",
       align: "right",
       render: (money) => _format.getVND(money),
-      width: 200
+      width: 200,
     },
   ];
 
@@ -71,6 +77,7 @@ export const OrderHistory: React.FC<TProps> = ({ data, loading }) => {
       title: "Ngày thay đổi",
       width: 200,
       render: (date) => _format.getVNDate(date),
+      responsive: ["lg"],
     },
     {
       dataIndex: "CreatedBy",
@@ -86,6 +93,7 @@ export const OrderHistory: React.FC<TProps> = ({ data, loading }) => {
       dataIndex: "HistoryContent",
       title: "Nội dung",
       width: 300,
+      responsive: ["sm"],
     },
   ];
 
@@ -95,6 +103,7 @@ export const OrderHistory: React.FC<TProps> = ({ data, loading }) => {
       title: "Ngày khiếu nại",
       // width: 179,
       render: (date) => _format.getVNDate(date),
+      responsive: ["lg"],
     },
     {
       dataIndex: "UpdatedBy",
@@ -105,6 +114,7 @@ export const OrderHistory: React.FC<TProps> = ({ data, loading }) => {
       dataIndex: "Updated",
       title: "Ngày duyệt",
       // width: 110,
+      responsive: ["sm"],
     },
     {
       dataIndex: "StatusName",
@@ -115,6 +125,7 @@ export const OrderHistory: React.FC<TProps> = ({ data, loading }) => {
       dataIndex: "ComplainText",
       title: "Nội dung",
       // width: 110,
+      responsive: ["sm"],
     },
   ];
 
@@ -126,21 +137,21 @@ export const OrderHistory: React.FC<TProps> = ({ data, loading }) => {
         data={data?.PayOrderHistories}
         style="detailOrder"
         className="mb-4"
-        scroll={{y: 500}}
+        scroll={isWidthSM ? { x: true } : { y: 500 }}
       />
       <DataTable
         title="Lịch sử thay đổi"
         columns={changeHistoryColumns}
-        data={(HistoryOrderChanges as any)}
+        data={HistoryOrderChanges as any}
         style="detailOrder"
-        scroll={{y: 600, x: 1200}}
+        scroll={isWidthSM ? { x: true } : { y: 600, x: 1200 }}
         className="mb-4"
       />
       <DataTable
         title="Lịch sử khiếu nại"
         columns={complainHistoryColumns}
         data={data?.Complains}
-        scroll={{y: 500, x: 1200}}
+        scroll={isWidthSM ? { x: true } : { y: 500, x: 1200 }}
         style="detailOrder"
       />
     </React.Fragment>

@@ -22,8 +22,8 @@ export const DepositListHistory: React.FC<TProps> = () => {
     setFilter({
       ...filter,
       TransportationOrderId: +router.query?.id,
-    })
-  }, [router.query])
+    });
+  }, [router.query]);
 
   const { data } = useQuery(
     [
@@ -51,6 +51,7 @@ export const DepositListHistory: React.FC<TProps> = () => {
       dataIndex: "Created",
       title: "Ngày thay đổi",
       width: 200,
+      responsive: ["sm"],
       render: (date) => _format.getVNDate(date),
     },
     {
@@ -62,15 +63,14 @@ export const DepositListHistory: React.FC<TProps> = () => {
       dataIndex: "UserGroupName",
       title: "Quyền hạn",
       width: 120,
+      responsive: ["sm"],
     },
     {
       dataIndex: "HistoryContent",
       title: "Nội dung",
-      width: 400
+      width: 400,
     },
   ];
-
-  console.log(data);
 
   return (
     <DataTable
@@ -78,28 +78,7 @@ export const DepositListHistory: React.FC<TProps> = () => {
       columns={columns}
       data={data as any}
       style="detailOrder"
-      scroll={{ y: 600, x: 700 }}
       className="mb-4"
     />
-    // <DataTable
-    //   {...{
-    //     columns,
-    //     data,
-    //     bordered: true,
-    //     scroll: { y: 700, x: 1200 },
-    //     // pagination: {
-    //     //   current: filter.PageIndex,
-    //     //   total: filter.TotalItems,
-    //     //   pageSize: filter.PageSize,
-    //     // },
-    //     // onChange: (page, pageSize) => {
-    //     //   handleFilter({
-    //     //     ...filter,
-    //     //     PageIndex: page.current,
-    //     //     PageSize: page.pageSize,
-    //     //   });
-    //     // },
-    //   }}
-    // />
   );
 };

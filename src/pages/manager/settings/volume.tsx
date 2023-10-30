@@ -79,6 +79,7 @@ const Index: TNextPageWithLayout = () => {
         }
         handleAddStaff={() => setModalAdd(true)}
       />
+
       <VolumeFeeTable
         {...{
           loading: isFetching,

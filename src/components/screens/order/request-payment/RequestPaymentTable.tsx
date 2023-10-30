@@ -9,6 +9,7 @@ import TagStatus from "../../status/TagStatus";
 import { Modal } from "antd";
 import { EPayHelp, payHelpStatus } from "~/configs";
 import clsx from "clsx";
+import { useScreen } from "~/hooks";
 
 type TProps = {
   filter;
@@ -20,30 +21,33 @@ type TProps = {
 export const RequestPaymentTable: React.FC<
   TTable<TRequestPaymentOrder> & TProps
 > = ({ data, filter, handleFilter, loading, userSale, refetch }) => {
+  const { isWidthMD } = useScreen();
+
   const columns: TColumnsType<TRequestPaymentOrder> = [
     {
       dataIndex: "Id",
       title: "ID",
       width: 50,
       fixed: "left",
+      responsive: ["lg"],
     },
     {
       dataIndex: "UserName",
       title: "Username",
-      fixed: "left",
+      fixed: isWidthMD ? null : "left",
       width: 120,
     },
     {
       dataIndex: "SalerID",
+      responsive: ["md"],
       title: (
         <>
           Nhân viên <br /> kinh doanh
         </>
       ),
       render: (_, record) => {
-        const salerName = userSale?.find(
-          (x) => x.Id === record?.SalerID
-        )?.UserName;
+        const salerName = userSale?.find((x) => x.Id === record?.SalerID)
+          ?.UserName;
         return <>{salerName || "-"}</>;
       },
       width: 120,
@@ -52,6 +56,7 @@ export const RequestPaymentTable: React.FC<
       dataIndex: "TotalPrice",
       title: "Tổng tiền (¥)",
       align: "right",
+      responsive: ["md"],
       render: (money) => _format.getVND(money, " "),
       width: 120,
     },
@@ -59,6 +64,7 @@ export const RequestPaymentTable: React.FC<
       dataIndex: "TotalPriceVND",
       title: "Tổng tiền (VNĐ)",
       align: "right",
+      responsive: ["sm"],
       render: (money) => _format.getVND(money, " "),
       width: 140,
     },
@@ -66,6 +72,7 @@ export const RequestPaymentTable: React.FC<
       dataIndex: "Currency",
       title: "Tỷ giá",
       align: "right",
+      responsive: ["sm"],
       render: (currency) => _format.getVND(currency, " "),
       width: 120,
     },
@@ -73,6 +80,7 @@ export const RequestPaymentTable: React.FC<
       dataIndex: "Note",
       title: "Ghi chú khách hàng",
       width: 200,
+      responsive: ["lg"],
     },
     {
       dataIndex: "Status",
@@ -86,6 +94,7 @@ export const RequestPaymentTable: React.FC<
     {
       dataIndex: "Created",
       title: "TimeLine",
+      responsive: ["lg"],
       render: (_, record) => (
         <React.Fragment>
           {record.Created && (
@@ -168,6 +177,7 @@ export const RequestPaymentTable: React.FC<
       title: "Thao tác",
       fixed: "right",
       width: 120,
+      responsive: ["sm"],
       render: (_, record) => (
         <div className="grid grid-cols-1 gap-2">
           <Link
@@ -229,7 +239,7 @@ export const RequestPaymentTable: React.FC<
           columns,
           data,
           bordered: true,
-          scroll: { x: 1200, y: 700 },
+          scroll: isWidthMD ? { x: true } : { x: 1200, y: 700 },
           pagination: {
             current: filter.PageIndex,
             total: filter.TotalItems,

@@ -192,7 +192,7 @@ export const AddPackageCustomerForm = () => {
           rules={{ required: "This field is required" }}
           onEnter={handleSubmit(_onCreate)}
         />
-        <div className="grid grid-cols-2 gap-4 pt-4 mt-4 border-t border-[#cccccc]">
+        <div className="grid sm:grid-cols-2 gap-4 pt-4 mt-4 border-t border-[#cccccc]">
           <div className="col-span-1 flex items-center">
             <div className="w-full">
               <FormSelect

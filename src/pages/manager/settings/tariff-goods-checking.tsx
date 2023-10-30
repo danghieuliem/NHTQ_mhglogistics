@@ -90,7 +90,6 @@ const Index: TNextPageWithLayout = () => {
           }}
         />
       </TabPane>
-
       <TabPane tab={"Giá sản phẩm lớn hơn 10 ¥"} key="2">
         <TariffGoodsCheckingTable
           {...{

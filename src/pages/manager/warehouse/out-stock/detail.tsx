@@ -1,8 +1,8 @@
-import { Layout, OutStockFormDetail } from '~/components';
-import { TNextPageWithLayout } from '~/types/layout';
+import { Layout, OutStockFormDetail } from "~/components";
+import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-	return <OutStockFormDetail />;
+  return <OutStockFormDetail />;
 };
 
 Index.displayName = "Chi tiết xuất kho";

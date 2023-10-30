@@ -59,12 +59,14 @@ export const NewPaymentOrders = React.memo(() => {
       title: "Tổng tiền (¥)",
       dataIndex: "TotalPrice",
       align: "right",
+      responsive: ["sm"],
       render: (TotalPrice) => _format.getVND(TotalPrice, ""),
     },
     {
       title: "Tổng tiền (VNĐ)",
       dataIndex: "TotalPriceVND",
       align: "right",
+      responsive: ["sm"],
       render: (TotalPriceVND) => _format.getVND(TotalPriceVND, ""),
     },
     {

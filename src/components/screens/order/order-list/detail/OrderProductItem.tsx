@@ -75,9 +75,9 @@ export const OrderProductItem: React.FC<TProps> = ({
         backgroundColor: changeValue && "#f3e6e6",
       }}
     >
-      <div className="flex flex-wrap">
+      <div className="grid grid-cols-12">
         {changeValue && (
-          <div className="flex">
+          <div className="col-span-full flex justify-center">
             {/* <Tooltip title="Cập nhật đơn hàng này!">
 							<Checkbox
 								onClick={() => {
@@ -85,13 +85,13 @@ export const OrderProductItem: React.FC<TProps> = ({
 								}}
 							/>
 						</Tooltip> */}
-            <div className="text-right ml-4 w-full text-[red] font-bold italic">
+            <span className="text-right ml-4 text-[red] font-bold italic">
               Giá trị thay đổi! Vui lòng cập nhật sản phẩm!
-            </div>
+            </span>
           </div>
         )}
 
-        <div className="flex w-full items-center mb-5 justify-between px-3 borderBottom">
+        <div className="flex col-span-full items-center mb-5 justify-between px-3 borderBottom">
           <Tooltip title="Link đến sản phẩm">
             <a href={order?.LinkOrigin} target="_blank" className="mainTitle">
               {order?.TitleOrigin}
@@ -124,7 +124,7 @@ export const OrderProductItem: React.FC<TProps> = ({
             </div>
           )}
         </div>
-        <div className="flex md:w-7/12 xl:w-5/12 items-center">
+        <div className="flex flex-col xs:flex-row col-span-full md:col-span-7 xl:col-span-5 items-center gap-4 py-4">
           <div className="flex">
             <div className="self-stretch flex items-center">
               <Tooltip title="Mã sản phẩm">
@@ -139,7 +139,7 @@ export const OrderProductItem: React.FC<TProps> = ({
               </a>
             </div>
           </div>
-          <div className="ml-2">
+          <div className="ml-2 flex-1">
             <div className="flex flex-wrap items-end">
               <span className="text-sm mr-4 text-[#484747] font-semibold">
                 * Thuộc tính:
@@ -153,15 +153,15 @@ export const OrderProductItem: React.FC<TProps> = ({
               <input
                 disabled={!(RoleID === 1 || RoleID === 3 || RoleID === 4)}
                 type="text"
-                className="border-b !rounded-none border-[#0000003a] text-[#000] bg-[transparent] max-w-[140px] outline-0"
+                className="border-b !rounded-none border-[#0000003a] text-[#000] bg-[transparent] outline-0 flex-1 mr-8"
                 value={brand ?? ""}
                 onChange={(e) => onChangeOrderBrand(e)}
               />
             </div>
           </div>
         </div>
-        <div className="md:grid md:grid-cols-2 xl:flex md:w-5/12 xl:w-7/12">
-          <div className="xl:block flex md:flex-col justify-between ml-2 xl:w-1/4">
+        <div className="grid col-span-full xs:grid-cols-2 xl:flex md:col-span-5 xl:col-span-7">
+          <div className="grid xs:justify-between ml-2">
             <div className="text-sm font-medium text-black mb-2">
               Số lượng (cái)
             </div>
@@ -184,45 +184,41 @@ export const OrderProductItem: React.FC<TProps> = ({
               />
             </div>
           </div>
-          <div className="xl:block flex md:flex-col justify-between ml-2 xl:w-1/4">
+          <div className="grid xs:justify-between ml-2">
             <div className="text-sm font-medium text-black mb-2">
               Đơn giá (¥)
             </div>
-            <div className="text-orange">
-              <div className="text-sm">
-                <InputNumber
-                  disabled={
-                    !(
-                      RoleID === 1 ||
-                      RoleID === 3 ||
-                      RoleID === 4 ||
-                      RoleID === 8 ||
-                      RoleID === 6
-                    )
-                  }
-                  className="!rounded-[6px] !w-full"
-                  value={_format.getVND(priceOrigin, "")}
-                  onChange={handleChangePriceCNY}
-                />
-              </div>
+            <div className="text-sm">
+              <InputNumber
+                disabled={
+                  !(
+                    RoleID === 1 ||
+                    RoleID === 3 ||
+                    RoleID === 4 ||
+                    RoleID === 8 ||
+                    RoleID === 6
+                  )
+                }
+                className="!rounded-[6px] !w-full"
+                value={_format.getVND(priceOrigin, "")}
+                onChange={handleChangePriceCNY}
+              />
             </div>
           </div>
-          <div className="xl:block flex md:flex-col justify-between ml-2 xl:w-1/4">
+          <div className="grid xs:justify-between ml-2">
             <div className="text-sm font-medium text-black mb-2">
               Đơn giá (VNĐ)
             </div>
-            <div className="text-orange">
-              <div className="text-sm">
-                <InputNumber
-                  className="!rounded-[6px] !w-full"
-                  value={_format.getVND(priceVND, "")}
-                  disabled={true}
-                  // onChange={handleChangePriceCNY}
-                />
-              </div>
+            <div className="text-sm">
+              <InputNumber
+                className="!rounded-[6px] !w-full"
+                value={_format.getVND(priceVND, "")}
+                disabled={true}
+                // onChange={handleChangePriceCNY}
+              />
             </div>
           </div>
-          <div className="xl:block flex md:flex-col justify-between ml-2 xl:w-1/4">
+          <div className="grid xs:justify-between ml-2">
             <div className="text-sm font-medium text-black mb-2">
               Thành tiền (VNĐ)
             </div>

@@ -6,14 +6,13 @@ import {
   NewRecharges,
   OrdersPerWeek,
   TheMostBalance,
-  TheMostOrders
+  TheMostOrders,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
-
   return (
     <div className="xl:grid xl:grid-cols-4 xl:gap-4 w-full mb-4">
       <div className="xl:col-span-4 mb-4 xl:mb-0">

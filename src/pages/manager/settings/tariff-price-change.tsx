@@ -80,6 +80,7 @@ const Index: TNextPageWithLayout = () => {
           handlePagination: (pagination) => setPagination(pagination),
         }}
       />
+
       <TariffPriceChangeFormMemo
         {...{
           onCancel: handleCloseModal,

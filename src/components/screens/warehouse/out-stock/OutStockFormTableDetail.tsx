@@ -62,32 +62,48 @@ export const OutStockFormTableDetail: React.FC<
     },
     {
       dataIndex: "SmallPackage",
-      title: "Cân nặng (kg)",
+      title: (
+        <>
+          Cân nặng
+          <br />
+          (kg)
+        </>
+      ),
       align: "right",
       width: 120,
       render: (smallpackage: TSmallPackage) =>
-        smallpackage.Weight && _format.getVND(smallpackage.Weight, ""),
+        smallpackage.Weight && smallpackage.Weight.toFixed(2),
     },
     {
       dataIndex: "SmallPackage",
-      title: "Số khối (m3)",
+      title: (
+        <>
+          Số khối
+          <br />
+          (m3)
+        </>
+      ),
       align: "right",
       width: 120,
       render: (smallpackage: TSmallPackage) =>
-        smallpackage.VolumePayment &&
-        _format.getVND(smallpackage.VolumePayment, ""),
+        smallpackage.VolumePayment && smallpackage.VolumePayment.toFixed(5),
     },
     {
       dataIndex: "SmallPackage",
       align: "right",
       width: 200,
-      title: "Kích thước (D x R x C)",
+      title: (
+        <>
+          Kích thước
+          <br />
+          (D x R x C)
+        </>
+      ),
       render: (_, record, index) => {
         return `${record.SmallPackage.Length ?? 0} x ${
           record.SmallPackage.Width ?? 0
         } x ${record.SmallPackage.Height ?? 0}`;
       },
-      responsive: ["lg"],
     },
     // {
     //   dataIndex: "SmallPackage",
@@ -146,13 +162,12 @@ export const OutStockFormTableDetail: React.FC<
           </Table.Summary.Cell>
           <Table.Summary.Cell index={1} colSpan={1} align="right">
             <Text type="danger">
-              {_format.getVND(
-                data.reduce(
+              {data
+                .reduce(
                   (prev, cur) => prev + cur?.SmallPackage?.VolumePayment,
                   0
-                ),
-                " m3"
-              ) || "0 KG"}
+                )
+                .toFixed(5) + " m3"}
             </Text>
           </Table.Summary.Cell>
         </Table.Summary.Row>
@@ -162,13 +177,12 @@ export const OutStockFormTableDetail: React.FC<
           </Table.Summary.Cell>
           <Table.Summary.Cell index={1} colSpan={1} align="right">
             <Text type="danger">
-              {_format.getVND(
-                data.reduce(
+              {data
+                .reduce(
                   (prev, cur) => prev + cur?.SmallPackage?.PayableWeight,
                   0
-                ),
-                " KG"
-              ) || "0 KG"}
+                )
+                .toFixed(2) + " KG"}
             </Text>
           </Table.Summary.Cell>
         </Table.Summary.Row>
@@ -198,6 +212,7 @@ export const OutStockFormTableDetail: React.FC<
   return (
     <DataTable
       {...{
+        isExpand: false,
         data: data,
         columns: columns,
         loading: loading,

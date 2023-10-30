@@ -15,6 +15,7 @@ export const ArticleCategoryTable: FC<TTable<TPageType>> = ({
     {
       dataIndex: "Id",
       title: "ID",
+      responsive: ["lg"],
     },
     {
       dataIndex: "Name",
@@ -23,7 +24,8 @@ export const ArticleCategoryTable: FC<TTable<TPageType>> = ({
     {
       dataIndex: "Code",
       title: "Link chuyên mục",
-      render(value, record, index) {
+      responsive: ["md"],
+      render(_, record) {
         return <Tooltip title="Link gắn vào menu">{record?.Code}</Tooltip>;
       },
     },
@@ -40,12 +42,14 @@ export const ArticleCategoryTable: FC<TTable<TPageType>> = ({
     {
       dataIndex: "Updated",
       title: "Lần cuối thay đổi",
+      responsive: ["md"],
       render: (date) => date && _format.getVNDate(date),
     },
     {
       dataIndex: "action",
       title: "Thao tác",
       align: "right",
+      responsive: ["sm"],
       render: (_, record) => (
         <Link
           href={`/manager/article/article-category/detail/?id=${record?.Id}`}

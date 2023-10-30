@@ -15,11 +15,13 @@ export const OrderListClientTable: React.FC<TTable<TOrder>> = ({
       dataIndex: "Id",
       title: "ID",
       align: "center",
+      responsive: ["lg"],
     },
     {
       dataIndex: "ImageOrigin",
       title: "Ảnh sản phẩm",
       align: "center",
+      responsive: ["md"],
       render: (img, record) => (
         <div className="flex justify-center">
           <img
@@ -41,21 +43,25 @@ export const OrderListClientTable: React.FC<TTable<TOrder>> = ({
       dataIndex: "OrderTypeName",
       title: "Loại",
       align: "center",
+      responsive: ["md"],
     },
     {
       dataIndex: "OrdererUserName",
       title: "Nhân viên đặt hàng",
       align: "center",
+      responsive: ["md"],
     },
     {
       dataIndex: "SalerUserName",
       title: "Nhân viên kinh doanh",
       align: "center",
+      responsive: ["lg"],
     },
     {
       dataIndex: "Created",
       title: "Ngày đặt",
       align: "center",
+      responsive: ["lg"],
       render: (date) => _format.getVNDate(date),
     },
     {
@@ -65,7 +71,6 @@ export const OrderListClientTable: React.FC<TTable<TOrder>> = ({
         const color = orderStatus.find((x) => x.id === status);
         return <Tag color={color?.color}>{record?.StatusName}</Tag>;
       },
-      responsive: ["xl"],
       width: 160,
     },
     // {

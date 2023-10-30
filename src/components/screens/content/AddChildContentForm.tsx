@@ -112,10 +112,12 @@ const CategoryListComp = ({ control, watch, categogyList, setValue }) => {
           rules={{
             required: "This field is required",
           }}
-          defaultValue={ watch().PageTypeId && {
-            Name: categogyList.find((x) => x.Id === watch().PageTypeId)?.Name,
-            Id: watch().PageTypeId,
-          }}
+          defaultValue={
+            watch().PageTypeId && {
+              Name: categogyList.find((x) => x.Id === watch().PageTypeId)?.Name,
+              Id: watch().PageTypeId,
+            }
+          }
           disabled={!watch().IsEdit}
           callback={() => {
             setValue(
@@ -135,7 +137,11 @@ const CategoryListComp = ({ control, watch, categogyList, setValue }) => {
   );
 };
 
-const AddChildContentForm: React.FC<any> = ({ child, onCancel, categogyList }) => {
+const AddChildContentForm: React.FC<any> = ({
+  child,
+  onCancel,
+  categogyList,
+}) => {
   // const [data, setData] = useState<any>();
 
   const { control, handleSubmit, setValue, reset, watch } = useForm<{
@@ -187,7 +193,6 @@ const AddChildContentForm: React.FC<any> = ({ child, onCancel, categogyList }) =
     IsEdit?: number;
     Parent: number;
   }) => {
-    console.log(newData);
     const sendData = { ...newData };
 
     if (!sendData?.IsEdit) {
@@ -198,7 +203,8 @@ const AddChildContentForm: React.FC<any> = ({ child, onCancel, categogyList }) =
 
     onCancel();
     const id = toast.loading("Đang xử lý ...");
-    menu.create(sendData)
+    menu
+      .create(sendData)
       .then(() => {
         queryClient.invalidateQueries("menuData");
         toast.update(id, {
@@ -227,28 +233,24 @@ const AddChildContentForm: React.FC<any> = ({ child, onCancel, categogyList }) =
           </div>
         </FormCard.Header>
         <FormCard.Body>
-          <div className={`grid grid-cols-2 gap-4`}>
-            <div className="col-span-1 grid grid-cols-3 gap-4 h-fit">
-              <div className="col-span-2">
-                <FormInput
-                  control={control}
-                  name="Name"
-                  label="Tên menu con"
-                  placeholder={""}
-                  rules={{ required: "Vui lòng điền thông tin" }}
-                />
-              </div>
-              <div className="col-span-1">
-                <FormInputNumber
-                  control={control}
-                  name="Position"
-                  label="Vị trí menu con"
-                  placeholder=""
-                  rules={{ required: "Vui lòng điền vị trí hiển thị" }}
-                />
-              </div>
-              <div className="col-span-3 grid grid-cols-3 gap-4">
-                <div className="col-span-2">
+          <div className={`grid md:grid-cols-2 gap-4`}>
+            <div className="grid gap-4 h-fit">
+              <FormInput
+                control={control}
+                name="Name"
+                label="Tên menu con"
+                placeholder={""}
+                rules={{ required: "Vui lòng điền thông tin" }}
+              />
+              <FormInputNumber
+                control={control}
+                name="Position"
+                label="Vị trí menu con"
+                placeholder=""
+                rules={{ required: "Vui lòng điền vị trí hiển thị" }}
+              />
+              <div className="grid xs:grid-cols-3 gap-4">
+                <div className="xs:col-span-2">
                   <FormSelect
                     name="IsEdit"
                     control={control}
@@ -264,7 +266,7 @@ const AddChildContentForm: React.FC<any> = ({ child, onCancel, categogyList }) =
                     }}
                   />
                 </div>
-                <div className="col-span-1">
+                <div className="xs:col-span-1">
                   <FormSwitch
                     control={control}
                     name="Active"

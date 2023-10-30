@@ -77,7 +77,6 @@ export const ChinaAndVietNamWithdrawalForm: FC<TProps> = ({
   });
 
   const _onPress = (data: TWithDraw) => {
-    // console.log("_onPress: ", data)
     page === "vietnam"
       ? mutationCreateWithDraw.mutateAsync(data)
       : mutationCreateRefund.mutateAsync(data);
@@ -85,7 +84,7 @@ export const ChinaAndVietNamWithdrawalForm: FC<TProps> = ({
   };
 
   return (
-    <div className="grid grid-cols-2 gap-2">
+    <div className="grid sm:grid-cols-2 gap-2">
       <div className="col-span-1">
         <FormInput
           control={control}
@@ -165,7 +164,7 @@ export const ChinaAndVietNamWithdrawalForm: FC<TProps> = ({
         <FormTextarea
           control={control}
           name="Note"
-					rows={1}
+          rows={1}
           placeholder=""
           label="Nội dung"
           required={false}

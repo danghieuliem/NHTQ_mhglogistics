@@ -13,7 +13,6 @@ const Index: TNextPageWithLayout = ({ connection }) => {
   const userCurrentInfo: TUser = useSelector(
     (state: RootState) => state.userCurrentInfo
   );
-
   const [filter, setFilter] = useState({
     TotalItems: null,
     PageIndex: 1,

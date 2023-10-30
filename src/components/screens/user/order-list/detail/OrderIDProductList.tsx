@@ -46,16 +46,20 @@ export const OrderIDProductList: React.FC<any> = ({ data }) => {
       dataIndex: "ImageOrigin",
       title: "Ảnh",
       align: "center",
-      render: (img) => {
+      render: (img, record) => {
         return (
-          <div className="flex justify-center m-auto w-20 h-20">
-            <img
-              src={img ? img : "/default/pro-empty.jpg"}
-              alt="image"
-              width={75}
-              height={75}
-              style={{ borderRadius: "4px" }}
-            />
+          <div className="flex justify-center m-auto w-20 h-20 cursor-pointer">
+            <Link href={record?.LinkOrigin}>
+              <a target="_blank">
+                <img
+                  src={img ? img : "/default/pro-empty.jpg"}
+                  alt="image"
+                  width={75}
+                  height={75}
+                  style={{ borderRadius: "4px" }}
+                />
+              </a>
+            </Link>
           </div>
         );
       },

@@ -60,6 +60,7 @@ const Index: TNextPageWithLayout = () => {
   return (
     <>
       <OutStockPaymentFilter handleFilter={handleFilter} />
+
       <OutStockPaymentTable
         data={userOutstockData?.Items}
         loading={isFetching}

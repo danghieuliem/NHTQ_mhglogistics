@@ -7,7 +7,7 @@ import {
   ActionButton,
   ArticleFilterBase,
   ArticleListTable,
-  Layout
+  Layout,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -51,11 +51,6 @@ const Index: TNextPageWithLayout = () => {
     <>
       <div className="flex justify-between items-end">
         <ArticleFilterBase handleFilter={handleFilter} />
-        <Link href={"/manager/article/article-list/add"}>
-          <a target="_blank">
-            <ActionButton icon="fas fa-plus-circle" title={"Thêm bài viết"} isButton isButtonClassName="bg-green !text-white" />
-          </a>
-        </Link>
       </div>
       <ArticleListTable
         data={data?.Items}

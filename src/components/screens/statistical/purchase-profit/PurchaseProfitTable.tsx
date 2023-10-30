@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { ActionButton, DataTable, IconButton } from "~/components";
+import { useScreen } from "~/hooks";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 
@@ -10,6 +11,7 @@ const PurchaseProfitTable: FC<
     handleFilter: (newFilter) => void;
   }
 > = ({ data, filter, handleFilter, loading, handleExportExcel }) => {
+  const { isWidthMD } = useScreen();
   const columns: TColumnsType<TStatisticalPurchaseProfit> = [
     {
       dataIndex: "Id",
@@ -17,11 +19,12 @@ const PurchaseProfitTable: FC<
       fixed: "left",
       align: "right",
       width: 100,
+      responsive: ["lg"],
     },
     {
       dataIndex: "UserName",
       title: "Username",
-      fixed: "left",
+      fixed: isWidthMD ? null : "left",
       width: 120,
     },
     {
@@ -29,7 +32,6 @@ const PurchaseProfitTable: FC<
       title: () => <>Tổng tiền</>,
       width: 120,
       align: "right",
-      fixed: "left",
       render: (money) => _format.getVND(money, " "),
     },
     {
@@ -37,7 +39,6 @@ const PurchaseProfitTable: FC<
       title: () => <>Tổng tiền thật</>,
       align: "right",
       width: 120,
-      fixed: "left",
       render: (money) => _format.getVND(money, " "),
     },
     {
@@ -45,6 +46,7 @@ const PurchaseProfitTable: FC<
       title: () => <>Tiền hàng</>,
       align: "right",
       width: 120,
+      responsive: ["md"],
       render: (money) => _format.getVND(money, " "),
     },
     {
@@ -52,6 +54,7 @@ const PurchaseProfitTable: FC<
       title: () => <>Lợi nhuận</>,
       align: "right",
       width: 120,
+      responsive: ["md"],
       render: (money) => _format.getVND(money, " "),
     },
     {
@@ -59,6 +62,7 @@ const PurchaseProfitTable: FC<
       width: 120,
       title: () => <>Ship TQ</>,
       align: "right",
+      responsive: ["md"],
       render: (money) => _format.getVND(money, " "),
     },
     {
@@ -66,6 +70,7 @@ const PurchaseProfitTable: FC<
       width: 120,
       title: () => <>Ship TQ thật</>,
       align: "right",
+      responsive: ["md"],
       render: (money) => _format.getVND(money, " "),
     },
     {
@@ -73,6 +78,7 @@ const PurchaseProfitTable: FC<
       title: () => <>Phí vận chuyển</>,
       align: "right",
       width: 120,
+      responsive: ["md"],
       render: (money) => _format.getVND(money, " "),
     },
     {
@@ -80,6 +86,7 @@ const PurchaseProfitTable: FC<
       title: () => <>Phí mua hàng</>,
       align: "right",
       width: 120,
+      responsive: ["md"],
       render: (money) => _format.getVND(money, " "),
     },
     {
@@ -87,6 +94,7 @@ const PurchaseProfitTable: FC<
       title: () => <>Phí lưu kho</>,
       align: "right",
       width: 120,
+      responsive: ["lg"],
       render: (money) => _format.getVND(money, " "),
     },
     {
@@ -94,6 +102,7 @@ const PurchaseProfitTable: FC<
       title: () => <>Phí kiểm đếm</>,
       align: "right",
       width: 120,
+      responsive: ["lg"],
       render: (money) => _format.getVND(money, " "),
     },
     {
@@ -101,6 +110,7 @@ const PurchaseProfitTable: FC<
       title: () => <>Phí đóng gỗ</>,
       align: "right",
       width: 120,
+      responsive: ["lg"],
       render: (money) => _format.getVND(money, " "),
     },
     {
@@ -108,6 +118,7 @@ const PurchaseProfitTable: FC<
       title: () => <>Phí bảo hiểm</>,
       align: "right",
       width: 120,
+      responsive: ["lg"],
       render: (money) => _format.getVND(money, " "),
     },
     {
@@ -116,6 +127,7 @@ const PurchaseProfitTable: FC<
       width: 200,
       render: (_, record) => <>{_format.getVNDate(record.Created)}</>,
       fixed: "right",
+      responsive: ["lg"],
     },
   ];
   return (
@@ -125,7 +137,7 @@ const PurchaseProfitTable: FC<
         data,
         bordered: true,
         loading,
-        scroll: { y: 700, x: 1200 },
+        scroll: isWidthMD ? { x: true } : { y: 700, x: 1200 },
         extraElementClassName: "ml-auto",
         extraElement: (
           <ActionButton

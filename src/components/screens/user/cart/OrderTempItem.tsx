@@ -303,7 +303,7 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
       responsive: canUpdate ? ["lg"] : ["md"],
     },
     {
-      dataIndex: "PriceOrigin",
+      dataIndex: "PricePromotion",
       align: "center",
       title: (
         <>

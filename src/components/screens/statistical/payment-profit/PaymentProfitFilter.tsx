@@ -11,7 +11,7 @@ export const PaymentProfitFilter: React.FC<TProps> = ({ handleFilter }) => {
   const toDate = useRef<string>(null);
 
   return (
-    <div className="flex gap-2 items-end">
+    <div className="flex flex-col xs:flex-row gap-2 xs:items-end">
       <FilterRangeDate
         placeholder="Từ ngày/đến ngày"
         handleDate={(val: string[]) => {

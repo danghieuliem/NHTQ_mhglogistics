@@ -10,11 +10,6 @@ export const TariffGoodsCheckingTable: FC<TTable<any>> = ({
 }) => {
   const columns: TColumnsType<any> = [
     {
-      dataIndex: "Id",
-      title: "ID",
-      align: "right",
-    },
-    {
       dataIndex: "AmountFrom",
       title: "Số lượng từ",
       align: "right",
@@ -49,10 +44,16 @@ export const TariffGoodsCheckingTable: FC<TTable<any>> = ({
     // },
     {
       dataIndex: "Fee",
-      title: "Mức phí",
+      title: (
+        <>
+          Mức phí
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       render: (fee) => {
-        return <>{_format.getVND(fee)}</>;
+        return <>{_format.getVND(fee, "")}</>;
       },
     },
     {
@@ -73,6 +74,8 @@ export const TariffGoodsCheckingTable: FC<TTable<any>> = ({
   return (
     <DataTable
       {...{
+        scroll: { x: 600 },
+        isExpand: false,
         loading,
         columns,
         data,

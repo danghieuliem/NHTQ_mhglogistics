@@ -41,10 +41,11 @@ export const NewDeliveryOrders = React.memo(() => {
     {
       title: "ID đơn",
       dataIndex: "Id",
-      render: (_, __, index) => {
+      responsive: ["sm"],
+      render: (value) => {
         return (
-          <Link href={`/manager/deposit/deposit-list/detail/?id=${_}`}>
-            <a target="_blank">{_}</a>
+          <Link href={`/manager/deposit/deposit-list/detail/?id=${value}`}>
+            <a target="_blank">{value}</a>
           </Link>
         );
       },
@@ -56,11 +57,12 @@ export const NewDeliveryOrders = React.memo(() => {
     {
       title: "Mã đơn hàng",
       dataIndex: "OrderTransactionCode",
+      responsive: ["sm"],
     },
     {
       title: "Trạng thái",
       dataIndex: "Status",
-      render: (status, _) => {
+      render: (status) => {
         const color = transportationStatus.find((x) => x.id === status);
         return <TagStatus color={color?.color} statusName={color?.name} />;
       },

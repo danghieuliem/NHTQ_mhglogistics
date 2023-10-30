@@ -62,7 +62,7 @@ export const ServiceForm: React.FC<TForm<TService> & { refetchService }> = ({
           </div>
         </FormCard.Header>
         <FormCard.Body>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid xs:grid-cols-2 gap-4">
             <div className="col-span-1">
               <FormInput
                 control={control}
@@ -81,7 +81,7 @@ export const ServiceForm: React.FC<TForm<TService> & { refetchService }> = ({
                 rules={{ required: "This field is required" }}
               />
             </div>
-            <div className="col-span-2">
+            <div className="xs:col-span-2">
               <FormInput
                 control={control}
                 name="Link"
@@ -90,7 +90,7 @@ export const ServiceForm: React.FC<TForm<TService> & { refetchService }> = ({
                 required={false}
               />
             </div>
-            <div className="col-span-2">
+            <div className="xs:col-span-2">
               <FormUpload
                 control={control}
                 name="IMG"
@@ -98,7 +98,7 @@ export const ServiceForm: React.FC<TForm<TService> & { refetchService }> = ({
                 required={false}
               />
             </div>
-            <div className="col-span-2">
+            <div className="xs:col-span-2">
               <FormTextarea
                 control={control}
                 name="Description"
@@ -107,7 +107,7 @@ export const ServiceForm: React.FC<TForm<TService> & { refetchService }> = ({
                 required={false}
               />
             </div>
-            <div className="col-span-2">
+            <div className="xs:col-span-2">
               <FormSwitch control={control} name="Active" label="Trạng thái" />
             </div>
           </div>

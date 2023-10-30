@@ -137,6 +137,7 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
           columns,
           title: "Danh sách menu",
           scroll: { x: 100, y: 400 },
+          isExpand: false,
           extraElement: (
             <IconButton
               onClick={() => setAddNewModal(true)}

@@ -114,6 +114,7 @@ const Index: TNextPageWithLayout = () => {
         handleFilter={handleFilter}
         handleExporTExcel={handleExporTExcel}
       />
+
       <RequestPaymentTable
         userSale={userSale}
         loading={isFetching}

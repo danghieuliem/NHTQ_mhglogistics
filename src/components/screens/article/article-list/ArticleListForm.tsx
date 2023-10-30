@@ -21,14 +21,10 @@ export const ArticleListForm: React.FC<TProps> = ({
   data,
   pageType,
 }) => {
-  // const { pageType } = useCatalogue({ pageTypeEnabled: !!data });
-
-  // console.log("pageType: ", pageType);
-
   return (
     <>
       <div className="grid grid-cols-12 gap-4 p-2">
-        <div className="col-span-3">
+        <div className="col-span-full md:col-span-3">
           <div className="mb-4">
             <FormInput
               control={control}
@@ -40,11 +36,6 @@ export const ArticleListForm: React.FC<TProps> = ({
               }}
             />
           </div>
-          {/* {type === "edit" && (
-						<div className="">
-							<FormInput control={control} label="Link" placeholder="" name="OGUrl" disabled />
-						</div>
-					)} */}
           <div className="mb-4">
             <FormSelect
               control={control}
@@ -107,7 +98,7 @@ export const ArticleListForm: React.FC<TProps> = ({
             )}
           </div>
         </div>
-        <div className="col-span-9 min-h-[700px]">
+        <div className="col-span-full md:col-span-9 min-h-[700px]">
           <FormEditor
             control={control}
             label=""

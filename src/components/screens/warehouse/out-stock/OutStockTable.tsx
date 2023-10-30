@@ -8,6 +8,8 @@ import { ActionButton, DataTable, IconButton } from "~/components";
 import { smallPackageStatusData } from "~/configs/appConfigs";
 import { TColumnsType, TTable } from "~/types/table";
 import TagStatus from "../../status/TagStatus";
+import Link from "next/link";
+import { orderStatus, transportationStatus } from "~/configs";
 
 const CustomInput = ({ data, setIdsExport, idsExport, handleOnChangeKey }) => {
   const [inputValue, setInputValue] = useState("");
@@ -15,7 +17,7 @@ const CustomInput = ({ data, setIdsExport, idsExport, handleOnChangeKey }) => {
   return (
     <Input
       placeholder="Nhập mã vận đơn cần quét (Enter để quét)"
-      className="!w-[42%] !py-[8px]"
+      className=""
       value={inputValue}
       onChange={(e) => setInputValue((e.target as HTMLInputElement).value)}
       allowClear={true}
@@ -56,34 +58,30 @@ export const OutStockTable: React.FC<
       title: "Order ID",
       render: (_, record) => {
         return (
-          <a
-            target={"_blank"}
-            onClick={() =>
-              router.push({
-                pathname: "/manager/order/order-list/detail",
-                query: {
-                  id: record?.MainOrderId
-                    ? record?.MainOrderId
-                    : record?.TransportationOrderId,
-                },
-              })
-            }
+          <Link
+            href={`/manager/order/order-list/detail/?id=${
+              record?.MainOrderId
+                ? record?.MainOrderId
+                : record?.TransportationOrderId
+            }`}
           >
-            {record?.MainOrderId
-              ? record?.MainOrderId
-              : record?.TransportationOrderId}
-          </a>
+            <a target={"_blank"}>
+              {record?.MainOrderId
+                ? record?.MainOrderId
+                : record?.TransportationOrderId}
+            </a>
+          </Link>
         );
       },
     },
     {
-      dataIndex: "OrderTypeName",
+      dataIndex: "OrderType",
       title: "Loại ĐH",
-      render: (_) => {
+      render: (value: number, record) => {
         return (
           <TagStatus
-            color={_ === "Đơn ký gửi" ? "blue" : "green"}
-            statusName={_}
+            color={value === 2 ? "blue" : "green"} // TODO: ?????
+            statusName={record.OrderTypeName}
           />
         );
       },
@@ -123,31 +121,39 @@ export const OutStockTable: React.FC<
     {
       dataIndex: "OrderTransactionCode",
       title: "Mã vận đơn",
+      responsive: ["md"],
     },
     {
       dataIndex: "Weight",
       title: "Cân nặng (kg)",
       align: "right",
+      responsive: ["md"],
     },
     {
       dataIndex: "VolumePayment",
       title: "Khối (m3)",
       align: "right",
+      responsive: ["md"],
     },
     {
       dataIndex: "LWH",
       title: "Kích thước",
       align: "right",
+      responsive: ["md"],
     },
     {
       dataIndex: "Status",
       title: "Trạng thái",
-      render: (status, record) => (
-        <TagStatus
-          color={smallPackageStatusData.find((x) => x.id === status)?.color}
-          statusName={smallPackageStatusData.find((x) => x.id === status)?.name}
-        />
-      ),
+      render: (status, record) => {
+        const getListStatus: Array<any> =
+          (record?.OrderType === 2 ? transportationStatus : orderStatus) || [];
+
+        const findStatus = getListStatus.find((x) => x?.id === status);
+
+        return (
+          <TagStatus color={findStatus?.color} statusName={findStatus?.name} />
+        );
+      },
     },
   ];
 
@@ -190,8 +196,8 @@ export const OutStockTable: React.FC<
 
   return (
     <div className="mt-4">
-      <div className="flex justify-between items-end">
-        <div className="flex items-center w-[80%]">
+      <div className="flex flex-col xs:flex-row justify-between xs:items-end">
+        <div className="flex items-center">
           <div className="w-full">
             <CustomInput
               data={data}
@@ -227,7 +233,7 @@ export const OutStockTable: React.FC<
         {...{
           data: data,
           columns: columns,
-          //
+          mediaWidth: 768,
           rowSelection: {
             type: "checkbox",
             onChange: (value) => handleOnChangeKey(value),

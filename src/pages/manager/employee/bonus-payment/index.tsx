@@ -131,9 +131,9 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <>
-      <div className="flex items-end justify-between">
-        <div className="flex">
-          <div className="tableBox flex flex-col mr-2">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div className="grid sm:grid-cols-2 gap-2">
+          <div className="tableBox flex flex-col">
             <div className="text-label font-bold">Tổng tiền đã thanh toán:</div>
             <span className="text-blue font-semibold flex justify-end">
               {_format.getVND(data?.Items[0]?.MaxTotalPriceReceivePayment)}

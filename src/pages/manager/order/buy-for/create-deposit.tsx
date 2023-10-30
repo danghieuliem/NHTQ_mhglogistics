@@ -109,7 +109,7 @@ const Index: TNextPageWithLayout = () => {
         <ActionButton
           onClick={() =>
             append({
-              Amount: null,
+              Amount: 1,
               OrderTransactionCode: null,
               Category: null,
               IsCheckProduct: false,
@@ -117,7 +117,7 @@ const Index: TNextPageWithLayout = () => {
               IsInsurance: false,
               Kg: 0,
               UserNote: null,
-              FeeShip: null,
+              FeeShip: 0,
             })
           }
           title="Thêm"
@@ -129,7 +129,7 @@ const Index: TNextPageWithLayout = () => {
           trigger={"click"}
           placement="bottomLeft"
           content={
-            <div className="grid grid-cols-4 p-4 w-[500px]">
+            <div className="grid grid-cols-4 p-4 sm:w-[500px]">
               <div className="col-span-4 grid grid-col-2">
                 <CreateDepositSelect
                   {...{

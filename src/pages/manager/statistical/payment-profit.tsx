@@ -62,11 +62,12 @@ const Index: TNextPageWithLayout = () => {
         <PaymentProfitFilter handleFilter={handleFilter} />
         <PaymentProfitChart dataChart={chartData} />
       </div>
+
       <div className="mt-10">
         <PaymentProfitTable
-            data={data?.Items}
-            filter={filter}
-            handleFilter={handleFilter}
+          data={data?.Items}
+          filter={filter}
+          handleFilter={handleFilter}
         />
       </div>
     </div>

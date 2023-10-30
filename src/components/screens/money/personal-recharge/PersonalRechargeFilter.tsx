@@ -28,8 +28,8 @@ export const PersonalRechargeFilter: React.FC<TProps> = ({
   const ToDate = useRef<string>(null);
 
   return (
-    <div className="flex justify-between items-end">
-      <div className="flex gap-2 items-end">
+    <div className="flex flex-col xs:flex-row justify-between xs:items-end gap-4">
+      <div className="flex flex-col xs:flex-row gap-2 xs:items-end">
         <Popover
           trigger={"click"}
           placement="bottomLeft"

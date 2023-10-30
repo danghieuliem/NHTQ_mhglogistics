@@ -5,6 +5,7 @@ import { ActionButton, DataTable } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import { useScreen } from "~/hooks";
 
 type TProps = {
   filter;
@@ -17,15 +18,19 @@ const OutStockPaymentTable: React.FC<TTable<TOutStockSession> & TProps> = ({
   filter,
   handleFilter,
 }) => {
+  const { isWidthMD } = useScreen();
+
   const columns: TColumnsType<TOutStockSession> = [
     {
       dataIndex: "Id",
       title: "ID",
       width: 50,
+      responsive: ["lg"],
     },
     {
       dataIndex: "Created",
       title: "Ngày tạo",
+      responsive: ["lg"],
       render: (date) => _format.getVNDate(date),
     },
     {
@@ -37,9 +42,9 @@ const OutStockPaymentTable: React.FC<TTable<TOutStockSession> & TProps> = ({
       dataIndex: "TotalPay",
       title: "Tổng tiền (VNĐ)",
       align: "right",
+      responsive: ["sm"],
       render: (val) => _format.getVND(val, ""),
     },
-
     {
       dataIndex: "Status",
       title: "Trạng thái",
@@ -53,6 +58,7 @@ const OutStockPaymentTable: React.FC<TTable<TOutStockSession> & TProps> = ({
     {
       dataIndex: "Updated",
       title: "Ngày cập nhật",
+      responsive: ["lg"],
       render: (date) => _format.getVNDate(date),
     },
     {
@@ -60,6 +66,7 @@ const OutStockPaymentTable: React.FC<TTable<TOutStockSession> & TProps> = ({
       title: "Thao tác",
       fixed: "right",
       width: 120,
+      responsive: ["sm"],
       render: (_, record) => (
         <Link
           href={`/manager/money/out-stock-payment/detail/?id=${record?.Id}`}
@@ -80,7 +87,7 @@ const OutStockPaymentTable: React.FC<TTable<TOutStockSession> & TProps> = ({
           data,
           bordered: true,
           loading,
-          scroll: { y: 700, x: 1200 },
+          scroll: isWidthMD ? { x: true } : { y: 700, x: 1200 },
           pagination: {
             current: filter.PageIndex,
             total: filter.TotalItems,

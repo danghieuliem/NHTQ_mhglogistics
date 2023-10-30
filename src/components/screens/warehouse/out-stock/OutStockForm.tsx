@@ -54,7 +54,7 @@ export const OutStockForm = () => {
 
   return (
     <Spin spinning={loading}>
-      <div className="tableBox grid grid-cols-2 gap-4">
+      <div className="tableBox grid md:grid-cols-2 gap-4">
         <div className="col-span-1 flex">
           <FormSelect
             control={control}
@@ -69,7 +69,7 @@ export const OutStockForm = () => {
           />
         </div>
 
-        <div className="col-span-1 flex items-center">
+        <div className="col-span-1 flex flex-col xs:flex-row xs:items-center gap-2">
           {watch().UID && (
             <>
               <IconButton
@@ -80,7 +80,6 @@ export const OutStockForm = () => {
                     OrderType: 0,
                   });
                 }}
-                btnClass="!mr-2"
                 icon=""
                 btnIconClass="!mr-0"
                 title="Lấy tất cả"
@@ -96,7 +95,6 @@ export const OutStockForm = () => {
                   })
                 }
                 icon=""
-                btnClass="!mr-2"
                 btnIconClass="!mr-0"
                 title="Lấy đơn mua hộ"
                 toolip=""

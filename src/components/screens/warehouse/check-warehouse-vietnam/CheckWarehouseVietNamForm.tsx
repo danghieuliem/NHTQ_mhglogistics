@@ -79,7 +79,6 @@ export const CheckWarehouseVietNamForm = ({ type }) => {
             if (newData[0].OrderType === EOrderTypeStatusData.Transper) {
               toast.warning("Bạn đã quét đơn hàng ký gửi này rồi");
             } else if (newData[0].OrderType === EOrderTypeStatusData.Buy) {
-              console.log("object");
               if (type === "toWarehouseVN") {
                 confirm({
                   title: "Thông báo!",
@@ -131,6 +130,12 @@ export const CheckWarehouseVietNamForm = ({ type }) => {
       //   resetField("OrderTransactionCode");
       //   return;
       // }
+
+      if (res.Data[0].Status > ESmallPackage.XuatKhoTQ) {
+        toast.error("Đơn đã về Việt Nam");
+        resetField("OrderTransactionCode");
+        return;
+      }
 
       if (res.Data[0].Status === ESmallPackage.DaHuy) {
         toast.error("Đơn nãy đã hủy!");
@@ -289,8 +294,8 @@ export const CheckWarehouseVietNamForm = ({ type }) => {
         mutationUpdate.isLoading
       }
     >
-      <div className="tableBox grid grid-cols-4 gap-4">
-        <div className="col-span-2">
+      <div className="tableBox grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="md:col-span-2">
           <FormInput
             control={control}
             name="OrderTransactionCode"
@@ -316,7 +321,7 @@ export const CheckWarehouseVietNamForm = ({ type }) => {
           />
         </div>
         {!!Object.keys(watchArray()).length && (
-          <div className="col-span-4 flex items-end">
+          <div className="col-span-full flex items-end">
             <IconButton
               onClick={handleSubmitArray((data) =>
                 _onPress(

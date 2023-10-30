@@ -23,33 +23,28 @@ const EmployeeManagementFilter: FC<TProps> = ({
 
   return (
     <>
-      <div className="grid grid-cols-5 gap-4">
+      <div className="grid md:grid-cols-5 gap-4">
         {!router.asPath.includes("admin-management") ? (
           <>
-            <div className="col-span-1 mb-0">
-              <FilterInput
-                {...{
-                  id: "username",
-                  name: "username",
-                  placeholder: "UserName",
-                  handleSearch: (val: string) =>
-                    (UserName.current = val.trim()),
-                }}
-              />
-            </div>
-            <div className="col-span-1 mb-0 ">
-              <FilterSelect
-                data={userGroupCatalogue?.filter(
-                  (x) => x.Code !== "USER" && x.Code !== "STOREKEEPERS"
-                )}
-                placeholder="Quyền hạn"
-                isClearable
-                select={{ value: "Id", label: "Description" }}
-                handleSearch={(val: number) => {
-                  UserGroupId.current = val;
-                }}
-              />
-            </div>
+            <FilterInput
+              {...{
+                id: "username",
+                name: "username",
+                placeholder: "UserName",
+                handleSearch: (val: string) => (UserName.current = val.trim()),
+              }}
+            />
+            <FilterSelect
+              data={userGroupCatalogue?.filter(
+                (x) => x.Code !== "USER" && x.Code !== "STOREKEEPERS"
+              )}
+              placeholder="Quyền hạn"
+              isClearable
+              select={{ value: "Id", label: "Description" }}
+              handleSearch={(val: number) => {
+                UserGroupId.current = val;
+              }}
+            />
           </>
         ) : (
           <div className="col-span-1 mb-0">
@@ -73,10 +68,10 @@ const EmployeeManagementFilter: FC<TProps> = ({
 
         <div
           className={clsx(
-            "flex items-end",
+            "flex items-end col-span-full",
             router.asPath.includes("admin-management")
-              ? "col-span-4 justify-end"
-              : "col-span-3 justify-between"
+              ? "md:col-span-4 justify-end"
+              : "md:col-span-3 justify-between"
           )}
         >
           {!router.asPath.includes("admin-management") && (
@@ -117,4 +112,6 @@ const EmployeeManagementFilter: FC<TProps> = ({
   );
 };
 
-export const EmployeeManagementFilterMemo = React.memo(EmployeeManagementFilter)
+export const EmployeeManagementFilterMemo = React.memo(
+  EmployeeManagementFilter
+);

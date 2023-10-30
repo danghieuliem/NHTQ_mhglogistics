@@ -110,6 +110,7 @@ const Index: TNextPageWithLayout = () => {
         handleFilter={handleFilter}
         handleExporTExcel={handleExporTExcel}
       />
+
       <TransactionCodeManagementTable
         handleExporTExcel={handleExporTExcel}
         data={data?.Items}

@@ -7,7 +7,7 @@ import {
   Layout,
   RequestPaymentDetailLeftForm,
   RequestPaymentDetailRightForm,
-  toast
+  toast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -40,8 +40,6 @@ const Index: TNextPageWithLayout = () => {
     payHelp.update(data)
   );
 
-  console.log(data);
-
   const _onPress = (data: TRequestPaymentOrder) => {
     mutationUpdate
       .mutateAsync(data)
@@ -57,8 +55,8 @@ const Index: TNextPageWithLayout = () => {
   if (isError) return <Empty />;
 
   return (
-    <div className="grid grid-cols-12 gap-4">
-      <div className="col-span-3">
+    <div className="grid lg:grid-cols-12 gap-4">
+      <div className="lg:col-span-3">
         <RequestPaymentDetailLeftForm
           loading={isLoading}
           control={control}
@@ -68,7 +66,7 @@ const Index: TNextPageWithLayout = () => {
           data={data}
         />
       </div>
-      <div className="col-span-9">
+      <div className="lg:col-span-9">
         <RequestPaymentDetailRightForm
           loading={isLoading}
           control={control}

@@ -28,33 +28,8 @@ export const Layout: TlayoutWithChild & React.FC<TProps> = ({
   const userCurrentInfo: TUser = useSelector(
     (state: RootState) => state.userCurrentInfo
   );
-  // const ids = useAppSelector((state) => state?.user?.current)?.UserId;
 
-  // useEffect(() => {
-  //   // OneSignal.setSubscription(true)
-  //   OneSignal.init({ appId: "86419110-33f6-4e71-b73b-54bd86b5f99a" });
-
-  //   // .then(() => {
-  //   // 	OneSignal.showSlidedownPrompt();
-  //   // });
-
-  //   // OneSignal.on("popoverShown", function () {
-  //   // 	console.log("Slide Prompt Shown");
-  //   // });
-
-  //   OneSignal.on("subscriptionChange", async () => {
-  //     const userData = await user.getByID(ids);
-  //     const data = userData?.Data;
-
-  //     OneSignal.getUserId(async (userId) => {
-  //       const res = await user.update({ ...data, OneSignalPlayerID: userId });
-  //     });
-  //   });
-  // }, []);
-
-  const [hover, setHover] = useState(
-    userPage ? window.innerWidth > 1200 : true
-  );
+  const [hover, setHover] = useState(window.innerWidth > 1200);
   const handleHover = useCallback((bool: boolean) => setHover(bool), []);
 
   const [tabbar, setTabbar] = useState(false);

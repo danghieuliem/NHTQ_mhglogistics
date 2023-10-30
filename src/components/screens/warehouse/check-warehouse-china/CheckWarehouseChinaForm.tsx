@@ -208,10 +208,10 @@ export const CheckWarehouseChinaForm = () => {
         mutationAddOrderTransactionCode.isLoading
       }
     >
-      <div className="grid grid-cols-4 gap-4">
-        <div className="tableBox col-span-3 h-fit">
+      <div className="grid sm:grid-cols-4 gap-4">
+        <div className="tableBox sm:col-span-3 h-fit">
           <div className="grid grid-cols-4 gap-4">
-            <div className="col-span-3 grid grid-cols-3 gap-2">
+            <div className="col-span-full sm:col-span-3 grid grid-cols-3 gap-2">
               <FormSelect
                 control={control}
                 name="BigPackageId"
@@ -254,7 +254,7 @@ export const CheckWarehouseChinaForm = () => {
                 </HookWrapper>
               </div>
             </div>
-            <div className="col-span-3 grid grid-cols-3 gap-2">
+            <div className="col-span-full sm:col-span-3 grid grid-cols-3 gap-2">
               <FormInput
                 control={control}
                 name="OrderTransactionCode"

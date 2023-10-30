@@ -3,6 +3,7 @@ import { ActionButton, DataTable, IconButton } from "~/components";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import { useScreen } from "~/hooks";
 
 export const StatisticalRechargeTable = ({
   data,
@@ -11,12 +12,14 @@ export const StatisticalRechargeTable = ({
   handlePagination,
   handleExportExcelRecharge,
 }) => {
+  const { isWidthSM, isWidthMD } = useScreen();
   const columns: TColumnsType<TStatisticalRechargeList> = [
     {
       dataIndex: "Id",
       title: "ID",
       width: 70,
       fixed: "left",
+      responsive: ["lg"],
     },
     {
       dataIndex: "CreatedBy",
@@ -25,27 +28,31 @@ export const StatisticalRechargeTable = ({
     {
       dataIndex: "UserName",
       title: "Username",
+      responsive: ["sm"],
     },
     {
       dataIndex: "Amount",
       title: "Số tiền (VNĐ)",
       align: "right",
+      responsive: ["sm"],
       render: (money) => _format.getVND(money, " "),
     },
     {
       dataIndex: "BankName",
       title: "Ngân hàng",
+      responsive: ["md"],
     },
     {
       dataIndex: "Created",
       title: "Ngày tạo",
+      responsive: ["lg"],
       render: (date) => _format.getVNDate(date),
     },
     {
       dataIndex: "Status",
       title: "Trạng thái",
       width: 100,
-      fixed: "right",
+      fixed: isWidthSM ? null : "right",
       render: () => <TagStatus color="green" statusName="Đã duyệt" />,
     },
   ];
@@ -59,7 +66,7 @@ export const StatisticalRechargeTable = ({
         loading,
         pagination,
         title: "Danh sách nạp tiền",
-        scroll: { y: 700, x: 1200 },
+        scroll: isWidthMD ? { x: true } : { y: 700, x: 1200 },
         onChange: handlePagination,
         extraElement: (
           <ActionButton

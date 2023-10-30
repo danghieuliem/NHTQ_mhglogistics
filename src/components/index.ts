@@ -26,7 +26,7 @@ export * from "./screens/home/infoContact";
 export * from "./screens/home/news";
 export * from "./screens/home/customer";
 export * from "./screens/home/popupNoti";
-export * from './screens/home/tracking';
+export * from "./screens/home/tracking";
 
 // ++ dashboard
 export * from "./screens/dashboard";
@@ -44,7 +44,6 @@ export * from "./screens/money/withdrawal-history";
 // ++ employee
 export * from "./screens/employee/bonus-management";
 export * from "./screens/employee/employee-management";
-export * from "./screens/employee/decentralization-management";
 // ++ client
 export * from "./screens/client/client-list";
 // ++ order
@@ -64,23 +63,18 @@ export * from "./screens/settings/tariff-goods-checking";
 export * from "./screens/settings/volume-fee";
 
 // ++ statistical
-export * from "./screens/statistical/order";
 export * from "./screens/statistical/payment-profit";
 export * from "./screens/statistical/purchase-profit";
 export * from "./screens/statistical/recharge";
 export * from "./screens/statistical/sales";
 export * from "./screens/statistical/surplus";
 export * from "./screens/statistical/transaction";
-export * from "./screens/statistical/print-purchase";
-export * from "./screens/statistical/money";
 export * from "./screens/statistical/income-transport";
-export * from "./screens/statistical/income-sale-order";
 // ++ warehouse
 export * from "./screens/warehouse/add-package-customer";
 export * from "./screens/warehouse/check-warehouse-china";
 export * from "./screens/warehouse/check-warehouse-vietnam";
 export * from "./screens/warehouse/floating-package";
-export * from "./screens/warehouse/missing-package";
 export * from "./screens/warehouse/import";
 export * from "./screens/warehouse/out-stock";
 // export * from './screens/warehouse/out-stock';
@@ -117,7 +111,7 @@ export * from "./screens/status/Loading";
 export * from "./screens/status/Empty";
 export * from "./screens/status/NotFound";
 export * from "./screens/status/Finding";
-export * from "./screens/status/TagStatus"
+export * from "./screens/status/TagStatus";
 
 // globals
 export * from "./globals/authContainer";
@@ -145,6 +139,5 @@ export * from "./globals/transfer";
 
 // resize image
 export * from "./globals/resizeImage";
-
 
 // framer motion

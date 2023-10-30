@@ -18,11 +18,11 @@ export const ConfigurationGeneral: FC<TProps<TConfig1>> = ({
 
   return (
     <React.Fragment>
-      <div className="grid grid-cols-3 gap-4">
-        <div className="text-xs col-span-3" style={{ color: "red" }}>
+      <div className="grid sm:grid-cols-4 lg:grid-cols-3 gap-4">
+        <div className="text-xs col-span-full" style={{ color: "red" }}>
           * Lưu ý trước khi thay đổi!
         </div>
-        <div className="col-span-1 grid gap-4">
+        <div className="sm:col-span-2 lg:col-span-1 grid gap-4">
           <FormInput
             control={control}
             label="Tên website"
@@ -83,7 +83,7 @@ export const ConfigurationGeneral: FC<TProps<TConfig1>> = ({
           />
         </div>
 
-        <div className="col-span-1 h-fit grid gap-4">
+        <div className="sm:col-span-2 lg:col-span-1 h-fit grid gap-4">
           <FormInput
             control={control}
             label="Email liên lạc"
@@ -152,8 +152,8 @@ export const ConfigurationGeneral: FC<TProps<TConfig1>> = ({
           </div>
         </div>
 
-        <div className="col-span-1 h-fit grid gap-4">
-          <div className="col-span-1 mb-3 flex">
+        <div className="col-span-full lg:col-span-1 h-fit grid gap-4">
+          <div className="col-span-1 mb-3 flex flex-col xs:flex-row">
             <div className="mr-8">
               <FormUpload
                 control={control}

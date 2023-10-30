@@ -69,7 +69,7 @@ const TariffUserForm: FC<TForm<TTariffUser>> = ({
           </div>
         </FormCard.Header>
         <FormCard.Body>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid sm:grid-cols-3 gap-3">
             <div className="col-span-1">
               <FormInput
                 control={control}
@@ -179,4 +179,4 @@ const TariffUserForm: FC<TForm<TTariffUser>> = ({
   );
 };
 
-export const TariffUserFormMemo = React.memo(TariffUserForm)
+export const TariffUserFormMemo = React.memo(TariffUserForm);

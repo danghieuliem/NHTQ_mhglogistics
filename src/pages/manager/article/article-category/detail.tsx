@@ -46,7 +46,6 @@ const Index: TNextPageWithLayout = () => {
   });
 
   const _onPress = async (data: TForm) => {
-    console.log(data);
     try {
       await mutationUpdate.mutateAsync(data);
     } catch (error) {}
@@ -80,6 +79,7 @@ const Index: TNextPageWithLayout = () => {
               control={control as Control<TArticleCategory, object>}
             />
           </Tabs.TabPane>
+
           <Tabs.TabPane key={"2"} tab={"Cấu hình SEO"}>
             <ArticleSEOForm control={control as Control<TArticleSEO, object>} />
           </Tabs.TabPane>

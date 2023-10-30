@@ -10,7 +10,7 @@ export const TransactionFilter: React.FC<TProps> = ({ handleFilter }) => {
   const toDate = useRef<string>(null);
 
   return (
-    <div className="tableBox w-fit flex items-end gap-4">
+    <div className="tableBox w-fit flex flex-col sm:flex-row sm:items-end gap-4">
       <div className="">
         <FilterRangeDate
           placeholder=""

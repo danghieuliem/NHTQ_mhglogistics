@@ -65,8 +65,8 @@ export const VietNamRechargeForm: React.FC<TProps> = ({
   };
 
   return (
-    <div className="flex gap-4">
-      <div className="col-span-1 w-1/2 grid grid-cols-1 gap-4 content-start">
+    <div className="grid xs:grid-cols-2 gap-4">
+      <div className="col-span-1 grid grid-cols-1 gap-4 content-start">
         <div className="col-span-1">
           <FormInput
             control={control}
@@ -100,7 +100,7 @@ export const VietNamRechargeForm: React.FC<TProps> = ({
             rules={{ required: "This field is required" }}
           />
         </div>
-        <div className="col-span-1 text-left">
+        <div className="col-span-1 text-left hidden xs:block">
           <IconButton
             title="Cập nhật"
             onClick={handleSubmit(_onPress)}
@@ -120,7 +120,7 @@ export const VietNamRechargeForm: React.FC<TProps> = ({
           />
         </div>
       </div>
-      <div className="col-span-1 w-1/2 grid grid-cols-1 gap-4 content-start">
+      <div className="col-span-1 grid grid-cols-1 gap-4 content-start">
         <div className="col-span-1">
           <FormAsyncSelect
             control={control}
@@ -156,6 +156,25 @@ export const VietNamRechargeForm: React.FC<TProps> = ({
             required={false}
           />
         </div>
+      </div>
+      <div className="col-span-full xs:hidden text-left">
+        <IconButton
+          title="Cập nhật"
+          onClick={handleSubmit(_onPress)}
+          showLoading
+          icon="fas fa-pencil"
+          btnClass="!mr-2"
+          btnIconClass="!mr-2"
+          toolip=""
+        />
+        <IconButton
+          onClick={() => router.back()}
+          icon="fas fa-undo-alt"
+          title="Trở về"
+          showLoading
+          btnIconClass="!mr-2"
+          toolip=""
+        />
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ import {
   FormInput,
   FormInputNumber,
   FormSelect,
-  IconButton
+  IconButton,
 } from "~/components";
 import { smallPackageStatus, ESmallPackage } from "~/configs";
 import { TColumnsType } from "~/types/table";
@@ -69,6 +69,7 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
     {
       dataIndex: "MainOrderCodeId",
       title: "Mã đơn hàng",
+      responsive: ["md"],
       render: (_, __, index) => (
         <FormSelect
           control={control}
@@ -95,6 +96,7 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
     {
       dataIndex: "Weight",
       align: "center",
+      responsive: ["md"],
       title: () => <>Cân nặng</>,
       render: (_, __, index) => (
         <FormInputNumber
@@ -116,6 +118,7 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
     {
       dataIndex: "VolumePayment",
       align: "center",
+      responsive: ["md"],
       title: () => <>Thể tích</>,
       render: (_, __, index) => (
         <FormInputNumber
@@ -137,6 +140,7 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
     {
       dataIndex: "LWH",
       align: "center",
+      responsive: ["md"],
       title: () => <>Kích thước</>,
       render: (_, __, index) => (
         <FormInput
@@ -154,6 +158,7 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
     {
       dataIndex: "Status",
       title: "Trạng thái",
+      responsive: ["md"],
       render: (_, __, index) => (
         <FormSelect
           control={control}
@@ -182,6 +187,7 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
     {
       dataIndex: "Description",
       title: "Ghi chú",
+      responsive: ["md"],
       render: (_, record: any, index) => (
         <FormInput
           disabled={
@@ -205,6 +211,7 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
       dataIndex: "action",
       title: "Thao tác",
       width: 80,
+      responsive: ["md"],
       render: (_, record, index) => {
         return (
           <Space>
@@ -280,6 +287,7 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
     <React.Fragment>
       <DataTable
         {...{
+          className: "custom-table-antd-detail-order",
           columns: columns,
           data: fields,
           style: "detailOrder",

@@ -437,12 +437,13 @@ const Index: TNextPageWithLayout = () => {
     {
       title: "ID",
       dataIndex: "Id",
-      responsive: ["md"],
+      responsive: ["lg"],
       align: "right",
     },
     {
       title: "Ngày tạo",
       dataIndex: "Created",
+      responsive: ["lg"],
       render: (date) => _format.getVNDate(date, "DD/MM/YYYY - HH:mm:A"),
     },
     {
@@ -452,6 +453,7 @@ const Index: TNextPageWithLayout = () => {
     {
       dataIndex: "Address",
       title: "Địa chỉ",
+      responsive: ["sm"],
     },
     {
       dataIndex: "Active",
@@ -468,10 +470,12 @@ const Index: TNextPageWithLayout = () => {
     {
       title: () => <>Nhân viên cập nhật</>,
       dataIndex: "UpdatedBy",
+      responsive: ["sm"],
     },
     {
       title: "Cập nhật mới nhất",
       dataIndex: "Updated",
+      responsive: ["lg"],
       render: (date) => {
         return date ? _format.getVNDate(date, "DD/MM/YYYY - HH:mm:A") : "---";
       },
@@ -480,6 +484,7 @@ const Index: TNextPageWithLayout = () => {
       align: "right",
       title: "Thao tác",
       dataIndex: "action",
+      responsive: ["sm"],
       render: (_, record) => {
         return (
           <Space>

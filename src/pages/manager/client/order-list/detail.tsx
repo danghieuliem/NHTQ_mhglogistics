@@ -1,4 +1,3 @@
-import { Tabs } from "antd";
 import clsx from "clsx";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
@@ -9,7 +8,6 @@ import { SEOHomeConfigs } from "~/configs/SEOConfigs";
 import { TNextPageWithLayout } from "~/types/layout";
 import { _format } from "~/utils";
 import Order from "./order";
-import PayHelp from "./payHelp";
 
 const titleName = "text-[#9b9a99] text-xs !mb-2 block";
 const styleValue = " text-[#646463]";
@@ -34,15 +32,15 @@ const Index: TNextPageWithLayout = () => {
     <>
       <div className="my-6">
         <div className="flex lg:w-[100%] text-center">
-          <div className="flex justify-center max-w-[900px] w-full m-auto">
-            <div className={"p-4 tableBox mr-2"}>
+          <div className="flex flex-col xs:grid grid-cols-2 md:grid-cols-4 gap-4 justify-center max-w-[900px] w-full m-auto">
+            <div className="tableBox">
               <div className="border-[0.5px] w-12 h-12 m-auto rounded-3xl text-[#f5aa8c] mb-2">
                 <i className="fal fa-user p-3 text-xl"></i>
               </div>
               <p className={titleName}>Tài khoản khách hàng</p>
               <b className={styleValue}>{dataUser?.Data?.UserName}</b>
             </div>
-            <div className={"p-4 tableBox mx-2"}>
+            <div className="tableBox">
               <div className="border-[0.5px] w-12 h-12 m-auto rounded-3xl text-[#f5aa8c] mb-2">
                 <i className="fal fa-sack-dollar p-3 text-xl"></i>
               </div>
@@ -51,7 +49,7 @@ const Index: TNextPageWithLayout = () => {
                 {_format.getVND(dataUser?.Data?.TotalOrderPrice)}
               </b>
             </div>
-            <div className={"p-4 tableBox mx-2"}>
+            <div className="tableBox">
               <div className="border-[0.5px] w-12 h-12 m-auto rounded-3xl text-[#f5aa8c] mb-2">
                 <i className="fal fa-sack-dollar p-3 text-xl"></i>
               </div>
@@ -60,7 +58,7 @@ const Index: TNextPageWithLayout = () => {
                 {_format.getVND(dataUser?.Data?.TotalPaidPrice)}
               </b>
             </div>
-            <div className={"p-4 tableBox ml-2"}>
+            <div className="tableBox">
               <div className="border-[0.5px] w-12 h-12 m-auto rounded-3xl text-[#f5aa8c] mb-2">
                 <i className="fal fa-sack-dollar p-3 text-xl"></i>
               </div>
@@ -75,18 +73,6 @@ const Index: TNextPageWithLayout = () => {
       <div className="tableBox">
         <Order />
       </div>
-
-      {/* <div className="tableBox">
-				<Tabs>
-					<Tabs.TabPane key={"1"} tab={"Đơn hàng"}>
-						<Order />
-					</Tabs.TabPane>
-
-					<Tabs.TabPane key={"2"} tab={"Đơn thanh toán hộ"}>
-						<PayHelp />
-					</Tabs.TabPane>
-				</Tabs>
-			</div> */}
     </>
   );
 };
