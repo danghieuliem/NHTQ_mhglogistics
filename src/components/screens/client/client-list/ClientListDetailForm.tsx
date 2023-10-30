@@ -117,42 +117,36 @@ export const ClientListDetailForm: React.FC<TProps> = ({
 
   return (
     <div className="grid-cols-1 w-full">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid lg:grid-cols-2 gap-4">
         {/* User information */}
         <div className="tableBox span-col-1 h-fit">
-          <div className="grid grid-cols-4 gap-4">
-            <div className="col-span-4 font-bold text-[22px]">
+          <div className="grid xs:grid-cols-2 gap-4">
+            <div className="col-span-full font-bold text-[22px]">
               Cấu hình người dùng
             </div>
-            <div className="col-span-2">
-              <FormInput
-                control={control}
-                name="UserName"
-                placeholder="Username"
-                label="Nhập username"
-                required={false}
-                disabled={true}
-              />
-            </div>
-            <div className="col-span-2">
-              <FormInput
-                control={control}
-                name="FullName"
-                placeholder="Nhập họ và tên"
-                label="Họ và tên"
-                rules={{ required: "Không bỏ trống họ và tên" }}
-              />
-            </div>
-            <div className="col-span-2">
-              <FormInput
-                control={control}
-                name="Address"
-                placeholder="Địa chỉ"
-                label="Nhập địa chỉ"
-                rules={{ required: "Không bỏ trống địa chỉ" }}
-              />
-            </div>
-            <div className="col-span-2">
+            <FormInput
+              control={control}
+              name="UserName"
+              placeholder="Username"
+              label="Nhập username"
+              required={false}
+              disabled={true}
+            />
+            <FormInput
+              control={control}
+              name="FullName"
+              placeholder="Nhập họ và tên"
+              label="Họ và tên"
+              rules={{ required: "Không bỏ trống họ và tên" }}
+            />
+            <FormInput
+              control={control}
+              name="Address"
+              placeholder="Địa chỉ"
+              label="Nhập địa chỉ"
+              rules={{ required: "Không bỏ trống địa chỉ" }}
+            />
+            <div>
               <FormDate
                 label="Ngày sinh"
                 name="Birthday"
@@ -160,124 +154,111 @@ export const ClientListDetailForm: React.FC<TProps> = ({
                 placeholder="Nhập ngày sinh"
               />
             </div>
-            <div className="col-span-2">
-              <FormInput
-                type="email"
-                control={control}
-                name="Email"
-                placeholder="Email"
-                label="Email"
-                rules={{
-                  required: "Vui lòng điền email..",
-                  pattern: {
-                    value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                    message: "email không đúng định dạng",
+            <FormInput
+              type="email"
+              control={control}
+              name="Email"
+              placeholder="Email"
+              label="Email"
+              rules={{
+                required: "Vui lòng điền email..",
+                pattern: {
+                  value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                  message: "email không đúng định dạng",
+                },
+                validate: {
+                  check: (value) => {
+                    if (value !== oriEmail.current) {
+                      return checkUnique(value, EUnique.email);
+                    } else return;
                   },
-                  validate: {
-                    check: (value) => {
-                      if (value !== oriEmail.current) {
-                        return checkUnique(value, EUnique.email);
-                      } else return;
-                    },
+                },
+              }}
+            />
+            <FormSelect
+              control={control}
+              label="Giới Tính"
+              placeholder=""
+              name="Gender"
+              data={dataGender}
+              select={{ label: "Name", value: "Id" }}
+              defaultValue={dataGender?.[defaultValues?.Gender]}
+              required={false}
+            />
+            <FormInput
+              control={control}
+              name="Phone"
+              placeholder=""
+              label="Số điện thoại"
+              rules={{
+                required: "Vui lòng điền số điện thoại..",
+                pattern: {
+                  value:
+                    /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
+                  message: "Sđt không đúng định dạng",
+                },
+                validate: {
+                  check: (value) => {
+                    if (value !== oriPhone.current) {
+                      return checkUnique(value.trim(), EUnique.phone);
+                    } else return;
                   },
+                },
+              }}
+            />
+            <div className="flex items-end justify-end py-2">
+              <label className="mr-3">Đổi mật khẩu?</label>
+              <Switch
+                onChange={() => {
+                  setChangePass(!changePass);
+                  reset();
                 }}
               />
             </div>
-            <div className="col-span-2">
-              <FormSelect
-                control={control}
-                label="Giới Tính"
-                placeholder=""
-                name="Gender"
-                data={dataGender}
-                select={{ label: "Name", value: "Id" }}
-                defaultValue={dataGender?.[defaultValues?.Gender]}
-                required={false}
-              />
-            </div>
-            <div className="col-span-2">
-              <FormInput
-                control={control}
-                name="Phone"
-                placeholder=""
-                label="Số điện thoại"
-                rules={{
-                  required: "Vui lòng điền số điện thoại..",
-                  pattern: {
-                    value:
-                      /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
-                    message: "Sđt không đúng định dạng",
-                  },
-                  validate: {
-                    check: (value) => {
-                      if (value !== oriPhone.current) {
-                        return checkUnique(value.trim(), EUnique.phone);
-                      } else return;
-                    },
-                  },
-                }}
-              />
-            </div>
-            <div className="col-span-2 flex items-end justify-end">
-              <div className="flex items-center justify-end">
-                <label className="mr-3">Đổi mật khẩu?</label>
-                <Switch
-                  onChange={() => {
-                    setChangePass(!changePass);
-                    reset();
-                  }}
-                />
-              </div>
-            </div>
-            <div className="col-span-2">
-              <FormInput
-                control={control}
-                required={changePass}
-                disabled={!changePass}
-                name="PasswordNew"
-                type="text"
-                placeholder="Mật khẩu mới"
-                label="Mật khẩu mới"
-                rules={
-                  changePass
-                    ? {
-                        minLength: {
-                          value: 8,
-                          message: "Mật khẩu ít nhất 8 kí tự",
+            <FormInput
+              control={control}
+              required={changePass}
+              disabled={!changePass}
+              name="PasswordNew"
+              type="text"
+              placeholder="Mật khẩu mới"
+              label="Mật khẩu mới"
+              rules={
+                changePass
+                  ? {
+                      minLength: {
+                        value: 8,
+                        message: "Mật khẩu ít nhất 8 kí tự",
+                      },
+                      required: "Vui lòng điền mật khẩu",
+                    }
+                  : {}
+              }
+            />
+            <FormInput
+              control={control}
+              required={changePass}
+              disabled={!changePass}
+              name="PasswordAgain"
+              type="text"
+              placeholder="Nhập lại mật khẩu mới"
+              label="Nhập lại mật khẩu mới"
+              rules={
+                changePass
+                  ? {
+                      required: "Vui lòng xác nhận mật khẩu..",
+                      validate: {
+                        checkEqualPassword: (value) => {
+                          return (
+                            getValues("PasswordNew") === value ||
+                            createComplain()
+                          );
                         },
-                        required: "Vui lòng điền mật khẩu",
-                      }
-                    : {}
-                }
-              />
-            </div>
-            <div className="col-span-2">
-              <FormInput
-                control={control}
-                required={changePass}
-                disabled={!changePass}
-                name="PasswordAgain"
-                type="text"
-                placeholder="Nhập lại mật khẩu mới"
-                label="Nhập lại mật khẩu mới"
-                rules={
-                  changePass
-                    ? {
-                        required: "Vui lòng xác nhận mật khẩu..",
-                        validate: {
-                          checkEqualPassword: (value) => {
-                            return (
-                              getValues("PasswordNew") === value ||
-                              createComplain()
-                            );
-                          },
-                        },
-                      }
-                    : {}
-                }
-              />
-            </div>
-            <div className="col-span-2"></div>
+                      },
+                    }
+                  : {}
+              }
+            />
           </div>
         </div>
 
@@ -285,7 +266,7 @@ export const ClientListDetailForm: React.FC<TProps> = ({
         <div className="tableBox span-col-1">
           <div className="grid grid-cols-1 gap-4">
             <div className="col-span-1 font-bold text-[22px]">Cấu hình</div>
-            <div className="col-span-1 grid grid-cols-2 gap-4">
+            <div className="col-span-1 grid xs:grid-cols-2 gap-4">
               <div className="col-span-1">
                 <div className="mb-3">
                   <FormInputNumber

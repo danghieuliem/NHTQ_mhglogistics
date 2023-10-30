@@ -35,6 +35,7 @@ export const TariffBuyProForm: FC<TForm<TTariffBuyPro>> = ({
 
   // Update item
   const queryClient = useQueryClient();
+
   const mutationUpdate = useMutation(feeBuyPro.update, {
     // refresh item + table data after updating successfully
     onSuccess: async (_, variables) => {

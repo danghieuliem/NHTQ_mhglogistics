@@ -28,7 +28,7 @@ export const RechargeHistoryFilter: React.FC<TProps> = ({
   const ToDate = useRef<string>(null);
 
   return (
-    <div className="flex justify-between items-end">
+    <div className="flex flex-col xs:flex-row justify-between items-end">
       <div className="flex gap-2 items-end">
         <Popover
           trigger={"click"}

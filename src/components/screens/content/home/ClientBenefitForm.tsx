@@ -63,7 +63,7 @@ export const ClientBenefitForm: React.FC<
           </div>
         </FormCard.Header>
         <FormCard.Body>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid xs:grid-cols-2 gap-4">
             <div className="col-span-1">
               <FormInput
                 control={control}
@@ -104,7 +104,7 @@ export const ClientBenefitForm: React.FC<
                 }}
               />
             </div>
-            <div className="col-span-2">
+            <div className="xs:col-span-2">
               <FormUpload
                 control={control}
                 name="IMG"
@@ -112,7 +112,7 @@ export const ClientBenefitForm: React.FC<
                 required={false}
               />
             </div>
-            <div className="col-span-2">
+            <div className="xs:col-span-2">
               <FormTextarea
                 control={control}
                 name="Description"
@@ -121,7 +121,7 @@ export const ClientBenefitForm: React.FC<
                 required={false}
               />
             </div>
-            <div className="col-span-2">
+            <div className="xs:col-span-2">
               <FormSwitch
                 control={control}
                 name="Active"

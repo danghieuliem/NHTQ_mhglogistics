@@ -44,7 +44,6 @@ export * from "./screens/money/withdrawal-history";
 // ++ employee
 export * from "./screens/employee/bonus-management";
 export * from "./screens/employee/employee-management";
-export * from "./screens/employee/decentralization-management";
 // ++ client
 export * from "./screens/client/client-list";
 // ++ order
@@ -64,23 +63,18 @@ export * from "./screens/settings/tariff-goods-checking";
 export * from "./screens/settings/volume-fee";
 
 // ++ statistical
-export * from "./screens/statistical/order";
 export * from "./screens/statistical/payment-profit";
 export * from "./screens/statistical/purchase-profit";
 export * from "./screens/statistical/recharge";
 export * from "./screens/statistical/sales";
 export * from "./screens/statistical/surplus";
 export * from "./screens/statistical/transaction";
-export * from "./screens/statistical/print-purchase";
-export * from "./screens/statistical/money";
 export * from "./screens/statistical/income-transport";
-export * from "./screens/statistical/income-sale-order";
 // ++ warehouse
 export * from "./screens/warehouse/add-package-customer";
 export * from "./screens/warehouse/check-warehouse-china";
 export * from "./screens/warehouse/check-warehouse-vietnam";
 export * from "./screens/warehouse/floating-package";
-export * from "./screens/warehouse/missing-package";
 export * from "./screens/warehouse/import";
 export * from "./screens/warehouse/out-stock";
 // export * from './screens/warehouse/out-stock';

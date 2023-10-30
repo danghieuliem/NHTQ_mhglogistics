@@ -374,27 +374,23 @@ export const OutstockPaymentDetail: React.FC<
         </div>
       </div> */}
 
-      <div className="flex justify-between items-end mb-4">
-        <div className="flex">
-          <div className="">
-            <FilterInput
-              {...fullNameProps}
-              inputClassName={"bg-[#333]"}
-              value={user.name}
-              // handleSearch={(val) =>
-              // 	handleUser((prev) => ({...prev, name: val}))
-              // }
-            />
-          </div>
-          <div className="ml-3">
-            <FilterInput
-              {...phoneNumberProps}
-              value={user.phone}
-              // handleSearch={(val) =>
-              // 	handleUser((prev) => ({...prev, phone: val}))
-              // }
-            />
-          </div>
+      <div className="flex flex-col sm:flex-row mb-4 gap-2 sm:justify-between sm:items-end">
+        <div className="grid sm:grid-cols-2 gap-4">
+          <FilterInput
+            {...fullNameProps}
+            inputClassName={"bg-[#333]"}
+            value={user.name}
+            // handleSearch={(val) =>
+            // 	handleUser((prev) => ({...prev, name: val}))
+            // }
+          />
+          <FilterInput
+            {...phoneNumberProps}
+            value={user.phone}
+            // handleSearch={(val) =>
+            // 	handleUser((prev) => ({...prev, phone: val}))
+            // }
+          />
         </div>
         <div className="flex items-center">
           {!!item?.OutStockSessionPackages.find((x) => !x.IsPayment) ? (
@@ -450,11 +446,11 @@ export const OutstockPaymentDetail: React.FC<
 
       <DataTable
         {...{
+          isExpand: false,
           columns,
           data: item?.OutStockSessionPackages,
           bordered: true,
           summary: !loading ? summary : undefined,
-          scroll: { x: 1200, y: 600 },
           title: `Phiếu xuất kho #${item?.Id}`,
         }}
       />

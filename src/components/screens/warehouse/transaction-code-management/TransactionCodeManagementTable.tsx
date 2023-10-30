@@ -6,6 +6,7 @@ import { smallPackageStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import { useScreen } from "~/hooks";
 type TProps = {
   filter;
   handleFilter: (newFilter) => void;
@@ -25,6 +26,7 @@ export const TransactionCodeManagementTable: React.FC<
   handleOnChangeKey,
 }) => {
   const router = useRouter();
+  const { isWidthSM } = useScreen();
 
   const columnsUser: TColumnsType<TSmallPackage> = [
     {
@@ -185,6 +187,7 @@ export const TransactionCodeManagementTable: React.FC<
       dataIndex: "ProductType",
       title: "Loại hàng",
       width: 120,
+      responsive: ["md"],
     },
     {
       dataIndex: "Code",
@@ -253,6 +256,7 @@ export const TransactionCodeManagementTable: React.FC<
         );
       },
       width: 200,
+      responsive: ["lg"],
     },
     {
       dataIndex: "Status",
@@ -278,7 +282,7 @@ export const TransactionCodeManagementTable: React.FC<
 
           mediaWidth: 1200,
           loading: loading,
-          scroll: { y: 700 },
+          scroll: isWidthSM ? { x: true } : { y: 700 },
           rowSelection: isSelect
             ? {
                 type: "checkbox",

@@ -111,7 +111,7 @@ const Index: TNextPageWithLayout = () => {
           pointerEvents: isFetching ? "none" : "all",
         }}
       >
-        <div className="col-span-3 xl:col-span-2">
+        <div className="col-span-full lg:col-span-3 xl:col-span-2">
           <div
             style={{
               position: "sticky",
@@ -129,7 +129,7 @@ const Index: TNextPageWithLayout = () => {
             />
           </div>
         </div>
-        <div className="col-span-7 xl:col-span-8">
+        <div className="col-span-full lg:col-span-7 xl:col-span-8">
           <Collapse
             expandIconPosition="right"
             expandIcon={({ isActive }) => (

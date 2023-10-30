@@ -104,6 +104,7 @@ const Index: TNextPageWithLayout = () => {
           UserGroupId: userCurrentInfo?.UserGroupId,
         }}
       />
+
       <EmployeeManagementFormMemo
         {...{
           visible: modal,

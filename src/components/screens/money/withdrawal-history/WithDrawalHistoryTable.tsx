@@ -11,6 +11,7 @@ import { RootState } from "~/store";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import { useScreen } from "~/hooks";
 type TProps = {
   filter;
   handleFilter: (newFilter) => void;
@@ -128,6 +129,7 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
     );
   });
 
+  const { isWidthMD } = useScreen();
   const columns: TColumnsType<TWithDraw> = [
     {
       dataIndex: "Id",
@@ -135,6 +137,7 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
       fixed: "left",
       width: 50,
       align: "right",
+      responsive: ["lg"],
     },
     {
       dataIndex: "UserName",
@@ -158,6 +161,7 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
       dataIndex: "Beneficiary",
       title: "Thông tin nhận GD",
       width: 230,
+      responsive: ["md"],
       render: (_, record) => {
         return (
           <div>
@@ -186,6 +190,7 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
       dataIndex: "Created",
       title: "Ngày rút",
       width: 200,
+      responsive: ["md"],
       render: (_, record) => {
         return (
           <div>
@@ -199,6 +204,7 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
       dataIndex: "Updated",
       title: "Ngày duyệt",
       width: 200,
+      responsive: ["md"],
       render: (_, record) => {
         return (
           <div>
@@ -225,6 +231,7 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
       title: "Thao tác",
       fixed: "right",
       width: 100,
+      responsive: ["sm"],
       render: (_, record) => (
         <div className="flex flex-wrap gap-2">
           {record?.Status === 1 && (
@@ -274,7 +281,7 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
           data,
           bordered: true,
           loading,
-          scroll: { y: 700, x: 1200 },
+          scroll: isWidthMD ? { x: true } : { y: 700, x: 1200 },
           pagination: {
             current: filter.PageIndex,
             total: filter.TotalItems,

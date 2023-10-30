@@ -35,18 +35,17 @@ export const NotificationTable: React.FC<TTable & TProps> = ({
       dataIndex: "Id",
       title: "STT",
       width: 30,
-      render: (_, __, index) => ++index,
+      responsive: ["lg"],
+      render: (_, __, index) => index + 1,
     },
     {
       dataIndex: "NotificationContent",
       title: "Nội dung",
-      responsive: ["lg"],
       width: 200,
     },
     {
       dataIndex: "TotalPriceReceive",
       title: "Trạng thái",
-      responsive: ["xl"],
       width: 120,
       render: (_, data) => {
         return (
@@ -69,6 +68,7 @@ export const NotificationTable: React.FC<TTable & TProps> = ({
       title: "Thao tác",
       align: "center",
       width: 90,
+      responsive: ["sm"],
       render: (_, data) => {
         return (
           <Link href={data?.Url}>

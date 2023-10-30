@@ -112,10 +112,12 @@ const CategoryListComp = ({ control, watch, categogyList, setValue }) => {
           rules={{
             required: "This field is required",
           }}
-          defaultValue={ watch().PageTypeId && {
-            Name: categogyList.find((x) => x.Id === watch().PageTypeId)?.Name,
-            Id: watch().PageTypeId,
-          }}
+          defaultValue={
+            watch().PageTypeId && {
+              Name: categogyList.find((x) => x.Id === watch().PageTypeId)?.Name,
+              Id: watch().PageTypeId,
+            }
+          }
           disabled={!watch().IsEdit}
           callback={() => {
             setValue(
@@ -135,7 +137,12 @@ const CategoryListComp = ({ control, watch, categogyList, setValue }) => {
   );
 };
 
-const AddNewContentForm: React.FC<any> = ({ edit, onCancel, categogyList, visible }) => {
+const AddNewContentForm: React.FC<any> = ({
+  edit,
+  onCancel,
+  categogyList,
+  visible,
+}) => {
   // const [data, setData] = useState<any>();
 
   const { control, handleSubmit, setValue, reset, watch } = useForm<{
@@ -197,7 +204,8 @@ const AddNewContentForm: React.FC<any> = ({ edit, onCancel, categogyList, visibl
 
     onCancel();
     const id = toast.loading("Đang xử lý ...");
-    menu.create(sendData)
+    menu
+      .create(sendData)
       .then(() => {
         queryClient.invalidateQueries("menuData");
         toast.update(id, {
@@ -226,28 +234,24 @@ const AddNewContentForm: React.FC<any> = ({ edit, onCancel, categogyList, visibl
           </div>
         </FormCard.Header>
         <FormCard.Body>
-          <div className={`grid grid-cols-2 gap-4`}>
-            <div className="col-span-1 grid grid-cols-3 gap-4 h-fit">
-              <div className="col-span-2">
-                <FormInput
-                  control={control}
-                  name="Name"
-                  label="Tên menu"
-                  placeholder={""}
-                  rules={{ required: "Vui lòng điền thông tin" }}
-                />
-              </div>
-              <div className="col-span-1">
-                <FormInputNumber
-                  control={control}
-                  name="Position"
-                  label="Vị trí menu"
-                  placeholder=""
-                  rules={{ required: "Vui lòng điền vị trí hiển thị" }}
-                />
-              </div>
-              <div className="col-span-3 grid grid-cols-3 gap-4">
-                <div className="col-span-2">
+          <div className={`grid md:grid-cols-2 gap-4`}>
+            <div className="col-span-1 grid gap-4 h-fit">
+              <FormInput
+                control={control}
+                name="Name"
+                label="Tên menu"
+                placeholder={""}
+                rules={{ required: "Vui lòng điền thông tin" }}
+              />
+              <FormInputNumber
+                control={control}
+                name="Position"
+                label="Vị trí menu"
+                placeholder=""
+                rules={{ required: "Vui lòng điền vị trí hiển thị" }}
+              />
+              <div className="col-span-full grid grid-cols-3 gap-4">
+                <div className="col-span-full xs:col-span-2">
                   <FormSelect
                     name="IsEdit"
                     control={control}
@@ -263,7 +267,7 @@ const AddNewContentForm: React.FC<any> = ({ edit, onCancel, categogyList, visibl
                     }}
                   />
                 </div>
-                <div className="col-span-1">
+                <div className="col-span-full xs:col-span-1">
                   <FormSwitch
                     control={control}
                     name="Active"

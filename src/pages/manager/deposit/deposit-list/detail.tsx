@@ -25,6 +25,7 @@ const Index: TNextPageWithLayout = ({ connection }) => {
 
   useEffect(() => {
     let timeout = null;
+
     if (connection) {
       connection.on("change", async (_, transportation: TUserDeposit[]) => {
         if (!!transportation.length) {

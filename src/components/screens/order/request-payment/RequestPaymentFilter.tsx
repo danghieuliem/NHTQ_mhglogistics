@@ -39,7 +39,7 @@ export const RequestPaymentFilter: FC<TProps> = ({
         trigger={"click"}
         placement="bottomLeft"
         content={
-          <div className="grid grid-cols-2 gap-2 p-2">
+          <div className="grid xs:grid-cols-2 gap-2 p-2">
             <FilterInput
               {...usernameProps}
               handleSearch={(val: string) =>

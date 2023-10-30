@@ -64,7 +64,7 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <div className="">
-      <div className="flex  gap-4">
+      <div className="flex flex-col lg:flex-row gap-4">
         <TransactionFilter handleFilter={handleFilter} />
         <div className="tableBox text-lg text-[#333] flex items-center gap-4 w-fit">
           Tổng số tiền giao dịch:{" "}
@@ -73,7 +73,9 @@ const Index: TNextPageWithLayout = () => {
           </span>
         </div>
       </div>
-      <TransactionChart dataChart={chartData} />
+      <div className="hidden sm:block">
+        <TransactionChart dataChart={chartData} />
+      </div>
       <div className="mt-6">
         <TransactionTable
           data={data?.Items}

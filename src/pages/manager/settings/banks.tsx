@@ -96,6 +96,7 @@ const Index: TNextPageWithLayout = () => {
           }}
         />
       </div>
+
       <BanksForm
         {...{
           onCancel: () => setModal(false),

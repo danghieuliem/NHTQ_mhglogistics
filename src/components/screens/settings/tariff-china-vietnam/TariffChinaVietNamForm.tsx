@@ -3,11 +3,11 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { warehouseFee } from "~/api/warehouse-fee";
 import {
-	Button,
-	FormCard,
-	FormInputNumber,
-	FormSelect,
-	Modal,
+  Button,
+  FormCard,
+  FormInputNumber,
+  FormSelect,
+  Modal,
 } from "~/components";
 import { toast } from "~/components/toast";
 import { categoryData } from "~/configs/appConfigs";
@@ -38,7 +38,7 @@ const AddNew = ({ wareHouseFrom, wareHouse, shippingType, onCancel }) => {
   return (
     <>
       <FormCard.Body>
-        <div className="grid grid-cols-6 gap-3">
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
           <div className="col-span-3">
             <FormSelect
               data={wareHouseFrom}
@@ -85,7 +85,7 @@ const AddNew = ({ wareHouseFrom, wareHouse, shippingType, onCancel }) => {
               }}
             />
           </div>
-          <div className="col-span-2">
+          <div className="col-span-full sm:col-span-2">
             <FormInputNumber
               control={control}
               name="WeightFrom"
@@ -98,7 +98,7 @@ const AddNew = ({ wareHouseFrom, wareHouse, shippingType, onCancel }) => {
               }}
             />
           </div>
-          <div className="col-span-2">
+          <div className="col-span-full sm:col-span-2">
             <FormInputNumber
               control={control}
               name="WeightTo"
@@ -111,7 +111,7 @@ const AddNew = ({ wareHouseFrom, wareHouse, shippingType, onCancel }) => {
               }}
             />
           </div>
-          <div className="col-span-2">
+          <div className="col-span-full sm:col-span-2">
             <FormInputNumber
               control={control}
               name="Price"
@@ -187,7 +187,7 @@ const Update = ({
   return (
     <>
       <FormCard.Body>
-        <div className="grid grid-cols-6 gap-3">
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
           <div className="col-span-3">
             <FormSelect
               data={wareHouseFrom}
@@ -269,7 +269,7 @@ const Update = ({
               }}
             />
           </div>
-          <div className="col-span-2">
+          <div className="col-span-full sm:col-span-2">
             <FormInputNumber
               control={control}
               name="WeightFrom"
@@ -282,7 +282,7 @@ const Update = ({
               }}
             />
           </div>
-          <div className="col-span-2">
+          <div className="col-span-full sm:col-span-2">
             <FormInputNumber
               control={control}
               name="WeightTo"
@@ -295,7 +295,7 @@ const Update = ({
               }}
             />
           </div>
-          <div className="col-span-2">
+          <div className="col-span-full sm:col-span-2">
             <FormInputNumber
               control={control}
               name="Price"
@@ -324,8 +324,7 @@ const Update = ({
 };
 
 const AddNewMemo = React.memo(AddNew);
-const UpdateMemo = React.memo(Update)
-
+const UpdateMemo = React.memo(Update);
 
 const TariffChinaVietNamForm: FC<
   TForm<TTariffTQVN> & {
@@ -371,4 +370,4 @@ const TariffChinaVietNamForm: FC<
   );
 };
 
-export const TariffChinaVietNamFormMemo = React.memo(TariffChinaVietNamForm)
+export const TariffChinaVietNamFormMemo = React.memo(TariffChinaVietNamForm);

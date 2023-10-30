@@ -18,7 +18,7 @@ export const ConfigurationRateAndRose: FC<TProps<TConfig3>> = ({
           * KHÔNG ĐƯỢC ĐỂ TRỐNG!
         </p>
 
-        <div className="grid grid-cols-3 gap-4 my-5">
+        <div className="grid sm:grid-cols-3 gap-4 my-5">
           <div className="col-span-1">
             <div className="mb-3">
               <FormInputNumber

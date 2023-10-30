@@ -10,7 +10,7 @@ export const PurchaseProfiltFilter: React.FC<TProps> = ({ handleFilter }) => {
   const ToDate = useRef<string>(null);
 
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid sm:grid-cols-3 gap-4">
       <div className="col-span-1">
         <FilterRangeDate
           placeholder="Từ ngày/đến ngày"

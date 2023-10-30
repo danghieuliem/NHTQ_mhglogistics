@@ -207,24 +207,22 @@ export const AddPackageCustomerTable: React.FC<
 
   return (
     <React.Fragment>
-      <div className="grid grid-cols-4 gap-4 mt-4">
-        <div className="col-span-3 bg-white w-fit px-4 shadow-md flex items-center !text-sec rounded-[6px]">
+      <div className="flex flex-col xs:flex-row justify-between gap-2 ms:gap-4 mt-4">
+        <div className="bg-white w-fit px-4 shadow-md flex items-center !text-sec rounded-[6px]">
           Kiện đã quét
           <span className="text-red font-bold text-md mx-1">
             ({data.length})
           </span>
         </div>
-        <div className="col-span-1 flex items-center justify-end">
+        <div className="flex gap-2 flex-col xs:flex-row">
           <IconButton
             onClick={() => onHide(data)}
-            btnClass={"mr-4 mb-4 lg:mb-0"}
             title="Ẩn tất cả"
             icon="fas fa-eye-slash"
             toolip=""
           />
           <IconButton
             onClick={() => onPress(data)}
-            btnClass="mb-4 lg:mb-0"
             icon="fas fa-edit"
             title="Cập nhật tất cả"
             toolip=""

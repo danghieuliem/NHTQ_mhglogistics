@@ -10,6 +10,7 @@ import {
   FormInputNumber,
 } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
+import { useScreen } from "~/hooks";
 import { TColumnsType } from "~/types/table";
 
 type TProps = {
@@ -25,6 +26,7 @@ export const OrderSurChargeList: React.FC<TProps> = ({
   handleUpdate,
   RoleID,
 }) => {
+  const { isWidthSM } = useScreen();
   const FeeSupports = data?.FeeSupports;
   const { control, reset, handleSubmit } = useFormContext<TOrder>();
 
@@ -52,6 +54,7 @@ export const OrderSurChargeList: React.FC<TProps> = ({
       dataIndex: "SupportInfoVND",
       title: "Số tiền (VNĐ)",
       align: "center",
+      responsive: ["sm"],
       render: (_, __, index) => (
         <FormInputNumber
           suffix=" VNĐ"
@@ -161,6 +164,7 @@ export const OrderSurChargeList: React.FC<TProps> = ({
         )}
       </div>
       <DataTable
+        isExpand={isWidthSM}
         rowKey={"id" as any}
         columns={columns}
         data={fields}

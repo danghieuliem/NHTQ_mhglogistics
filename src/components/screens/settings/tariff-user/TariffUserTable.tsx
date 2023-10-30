@@ -12,11 +12,6 @@ export const TariffUserTable: FC<TTable<TTariffUser>> = ({
 }) => {
   const columns: TColumnsType<TTariffUser> = [
     {
-      dataIndex: "Id",
-      title: "ID",
-      align: "right",
-    },
-    {
       dataIndex: "Name",
       title: "VIP",
       render: (_, record) => {
@@ -26,16 +21,30 @@ export const TariffUserTable: FC<TTable<TTariffUser>> = ({
     },
     {
       dataIndex: "FeeBuyPro",
-      title: "Chiết khấu phí mua hàng %",
+      title: (
+        <>
+          Chiết khấu
+          <br />
+          phí mua hàng (%)
+        </>
+      ),
       align: "right",
+      responsive: ["sm"],
       render: (_, record) => {
         return <span>{record?.FeeBuyPro}</span>;
       },
     },
     {
       dataIndex: "FeeWeight",
-      title: "Chiết khấu phí vận chuyển TQ- VN %",
+      title: (
+        <>
+          Chiết khấu
+          <br />
+          phí vận chuyển TQ- VN (%)
+        </>
+      ),
       align: "right",
+      responsive: ["sm"],
       render: (_, record) => {
         return <span>{record?.FeeWeight}</span>;
       },
@@ -44,6 +53,7 @@ export const TariffUserTable: FC<TTable<TTariffUser>> = ({
       dataIndex: "Money",
       title: "Tích luỹ tối thiểu",
       align: "right",
+      responsive: ["sm"],
       render: (_, record) => {
         return <span>{_format.getVND(record?.Money, " ")}</span>;
       },
@@ -52,6 +62,7 @@ export const TariffUserTable: FC<TTable<TTariffUser>> = ({
       dataIndex: "MoneyTo",
       title: "Tích luỹ tối đa",
       align: "right",
+      responsive: ["sm"],
       render: (_, record) => {
         return <span>{_format.getVND(record?.MoneyTo, " ")}</span>;
       },
@@ -60,6 +71,7 @@ export const TariffUserTable: FC<TTable<TTariffUser>> = ({
       dataIndex: "LessDeposit",
       title: "Đặt cọc tối thiểu %",
       align: "right",
+      responsive: ["sm"],
     },
     {
       dataIndex: "action",

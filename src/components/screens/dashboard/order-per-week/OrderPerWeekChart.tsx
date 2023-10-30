@@ -88,7 +88,7 @@ export const OrdersPerWeekChart = ({
   return (
     <div className="tableBox">
       <p className="titleTable">Số lượng đơn trong tuần</p>
-      <div className="grid grid-cols-4 gap-1 mt-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-1 mt-4">
         <TagStatus color="#1582F5" statusName="Mua hộ" />
         <TagStatus color="#009000" statusName="Mua hộ khác" />
         <TagStatus color="#FF7A00" statusName="Ký gửi" />

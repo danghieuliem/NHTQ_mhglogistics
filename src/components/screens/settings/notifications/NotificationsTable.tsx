@@ -15,6 +15,7 @@ export const NotificationsTable: FC<TTable<any>> = ({
       key: "Id",
       title: "ID",
       align: "right",
+      responsive: ["sm"],
     },
     {
       dataIndex: "Name",
@@ -26,6 +27,7 @@ export const NotificationsTable: FC<TTable<any>> = ({
       key: "IsNotifyAdmin",
       title: "Admin",
       align: "center",
+      responsive: ["lg"],
       render: (isChecked) => {
         return (
           <i
@@ -41,6 +43,7 @@ export const NotificationsTable: FC<TTable<any>> = ({
       key: "IsNotifyAccountant",
       title: "Kế toán",
       align: "center",
+      responsive: ["lg"],
       render: (isChecked) => {
         return (
           <i
@@ -56,6 +59,7 @@ export const NotificationsTable: FC<TTable<any>> = ({
       key: "IsNotifySaler",
       title: "Bán hàng",
       align: "center",
+      responsive: ["lg"],
       render: (isChecked) => {
         return (
           <i
@@ -71,6 +75,7 @@ export const NotificationsTable: FC<TTable<any>> = ({
       key: "IsNotifyWarehoue",
       title: "Kho VN",
       align: "center",
+      responsive: ["lg"],
       render: (isChecked) => {
         return (
           <i
@@ -86,6 +91,7 @@ export const NotificationsTable: FC<TTable<any>> = ({
       key: "IsNotifyWarehoueFrom",
       title: "Kho TQ",
       align: "center",
+      responsive: ["lg"],
       render: (isChecked) => {
         return (
           <i
@@ -101,6 +107,7 @@ export const NotificationsTable: FC<TTable<any>> = ({
       key: "IsNotifyUser",
       title: "User",
       align: "center",
+      responsive: ["lg"],
       render: (isChecked) => {
         return (
           <i
@@ -116,6 +123,7 @@ export const NotificationsTable: FC<TTable<any>> = ({
       key: "IsEmailAdmin",
       title: "Gửi mail admin",
       align: "center",
+      responsive: ["lg"],
       render: (isChecked) => {
         return (
           <i

@@ -52,7 +52,7 @@ const Index: TNextPageWithLayout = () => {
         </div>
       </div>
       <div className="col-span-9">
-        <div className="font-bold text-base text-label flex items-center justify-between">
+        <div className="font-bold text-base text-label flex flex-col gap-4 justify-between">
           <span>DANH SÁCH MÃ VẬN ĐƠN</span>
           <PackageManagementFormFilter
             handleFilter={handleFilter}

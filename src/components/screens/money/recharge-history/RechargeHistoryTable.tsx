@@ -9,6 +9,7 @@ import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
 import { toast } from "react-toastify";
+import { useScreen } from "~/hooks";
 
 type TProps = {
   filter: {
@@ -29,13 +30,15 @@ export const RechargeHistoryTable: React.FC<
     (state: RootState) => state.dataGlobal
   );
 
+  const { isWidthMD } = useScreen();
+
   const columns: TColumnsType<TUserHistoryRechargeVND> = [
     {
       dataIndex: "Id",
       title: "ID",
       width: 50,
       align: "right",
-      fixed: "left",
+      responsive: ["lg"],
     },
     {
       dataIndex: "UserName",
@@ -46,6 +49,7 @@ export const RechargeHistoryTable: React.FC<
       dataIndex: "Amount",
       title: "Số tiền nạp (VNĐ)",
       align: "right",
+      responsive: ["md"],
       render: (money, __) => {
         return (
           <div>
@@ -75,7 +79,7 @@ export const RechargeHistoryTable: React.FC<
           </div>
         );
       },
-      responsive: ["xl"],
+      responsive: ["lg"],
       width: 160,
     },
     {
@@ -89,7 +93,7 @@ export const RechargeHistoryTable: React.FC<
           </div>
         );
       },
-      responsive: ["xl"],
+      responsive: ["lg"],
       width: 160,
     },
     {
@@ -107,7 +111,8 @@ export const RechargeHistoryTable: React.FC<
       dataIndex: "action",
       title: "Thao tác",
       align: "right",
-      fixed: "right",
+      fixed: !isWidthMD ? "right" : null,
+      responsive: ["md"],
       width: 90,
       render: (_, record) => (
         <div className="flex flex-wrap gap-1">
@@ -127,23 +132,26 @@ export const RechargeHistoryTable: React.FC<
                   <ActionButton
                     onClick={() => {
                       const id = toast.loading("Đang xử lý. Chờ xíu nhé ...");
-                      adminSendUserWallet.getByID(record.Id).then((res) => {
-                        setDataEx(res?.Data);
-                        handlePrint();
-                        toast.update(id, {
-                          render: "",
-                          isLoading: false,
-                          autoClose: 100,
-                          type: "success"
+                      adminSendUserWallet
+                        .getByID(record.Id)
+                        .then((res) => {
+                          setDataEx(res?.Data);
+                          handlePrint();
+                          toast.update(id, {
+                            render: "",
+                            isLoading: false,
+                            autoClose: 100,
+                            type: "success",
+                          });
                         })
-                      }).catch(error => {
-                        toast.update(id, {
-                          render: "Vui lòng thử lại",
-                          isLoading: false,
-                          autoClose: 3000,
-                          type: "error"
-                        })
-                      })
+                        .catch((error) => {
+                          toast.update(id, {
+                            render: "Vui lòng thử lại",
+                            isLoading: false,
+                            autoClose: 3000,
+                            type: "error",
+                          });
+                        });
                     }}
                     isButton
                     icon="fas fa-print"
@@ -270,7 +278,7 @@ export const RechargeHistoryTable: React.FC<
           data,
           bordered: true,
           loading: loading,
-          scroll: { y: 700, x: 1200 },
+          scroll: isWidthMD ? { x: true } : { y: 700, x: 1200 },
           filter,
           handleFilter,
           pagination: {
@@ -282,7 +290,7 @@ export const RechargeHistoryTable: React.FC<
             handleFilter({
               ...filter,
               PageIndex: page.current,
-              PageSize: page.pageSize
+              PageSize: page.pageSize,
             });
           },
         }}

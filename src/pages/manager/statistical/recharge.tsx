@@ -186,14 +186,13 @@ const Index: TNextPageWithLayout = () => {
     }
   }, [fromDate, toDate, username, bankId]);
 
-
   return (
     <div className="">
-      <div className="grid grid-cols-12 gap-4 mb-4">
-        <div className="tableBox col-span-3 h-fit">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-4">
+        <div className="tableBox md:col-span-3 h-fit">
           <StatisticalRechargeFilter handleFilter={handleFilter} />
         </div>
-        <div className="tableBox col-span-9">
+        <div className="tableBox md:col-span-9 hidden md:block">
           <StatisticalRechargeChart
             dataChart={{ totalRecharge, totalWithdraw }}
           />

@@ -5,6 +5,7 @@ import { activeData } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import { useScreen } from "~/hooks";
 type TProps = {
   filter;
   handleFilter: (newFilter) => void;
@@ -13,36 +14,42 @@ type TProps = {
 export const PersonalRechargeTable: React.FC<
   TTable<TClient | any> & TProps
 > = ({ data, loading, handleFilter, filter }) => {
+  const { isWidthMD, isWidthSM } = useScreen();
   const columns: TColumnsType<TClient> = [
     {
       dataIndex: "Id",
       fixed: "left",
       title: "ID",
       width: 60,
+      responsive: ["lg"],
     },
     {
       dataIndex: "UserName",
       title: "Username",
-      fixed: "left",
+      fixed: !isWidthMD ? "left" : null,
     },
     {
       dataIndex: "FullName",
       title: "Họ và tên",
+      responsive: ["md"],
     },
     {
       dataIndex: "Phone",
       title: "Điện thoại",
       align: "right",
+      responsive: ["sm"],
     },
     {
       dataIndex: "Wallet",
       title: "Số dư",
       align: "right",
+      responsive: ["sm"],
       render: (record) => _format.getVND(record, ""),
     },
     {
       dataIndex: "Created",
       title: "Ngày nạp",
+      responsive: ["lg"],
       render: (_, record) => <>{_format.getVNDate(record.Created)}</>,
     },
     {
@@ -61,6 +68,7 @@ export const PersonalRechargeTable: React.FC<
       align: "right",
       width: 120,
       fixed: "right",
+      responsive: ["sm"],
       render: (_, record) => (
         <div className="flex flex-wrap gap-1">
           <Link
@@ -102,7 +110,7 @@ export const PersonalRechargeTable: React.FC<
           data,
           bordered: true,
           loading: loading,
-          scroll: { y: 700, x: 1200 },
+          scroll: isWidthMD ? { x: true } : { y: 700, x: 1200 },
           pagination: {
             current: filter.PageIndex,
             total: filter.TotalItems,

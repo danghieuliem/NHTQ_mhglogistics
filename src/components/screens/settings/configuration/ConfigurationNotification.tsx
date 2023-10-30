@@ -13,8 +13,8 @@ export const ConfigurationNotification: FC<TProps<TConfig4>> = ({
 }) => {
   return (
     <React.Fragment>
-      <div className="grid grid-cols-5 gap-4">
-        <div className="col-span-2 grid-cols-1 gap-4 grid h-fit">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div className="md:col-span-2 grid-cols-1 gap-4 grid h-fit">
           <div className="col-span-1">
             <FormInput
               control={control}
@@ -50,7 +50,7 @@ export const ConfigurationNotification: FC<TProps<TConfig4>> = ({
             />
           </div>
         </div>
-        <div className="col-span-3 min-h-[600px]">
+        <div className="md:col-span-3 min-h-[600px]">
           <FormEditor
             control={control}
             name="NotiPopup"

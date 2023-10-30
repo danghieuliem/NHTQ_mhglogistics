@@ -73,6 +73,7 @@ const Index: TNextPageWithLayout = () => {
 
   const _onPress = (data: TUserCreateOrder) => {
     const id = toast.loading("Đang xử lý ...");
+
     mainOrder
       .addAnother({ ...data })
       .then(() => {
@@ -119,7 +120,7 @@ const Index: TNextPageWithLayout = () => {
           trigger={"click"}
           placement="bottomLeft"
           content={
-            <div className="grid grid-cols-4 p-4 w-[500px]">
+            <div className="grid grid-cols-4 p-4 sm:w-[500px]">
               <div className="col-span-4 grid grid-col-2">
                 <CreateOrderSelect
                   {...{

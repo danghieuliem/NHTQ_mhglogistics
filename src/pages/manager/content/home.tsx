@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import { customerBenefits, customerTalk, menu, service, step } from "~/api";
 import {
   ClientBenefitList,
-  ClientComentList,
+  ClientCommentList,
   ContentMenuList,
   Layout,
   RegisterStepsList,
@@ -144,10 +144,10 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <div className="grid grid-cols-12 gap-4">
-      <div className="col-span-4">
+      <div className="col-span-full lg:col-span-5 xl:col-span-4">
         <ContentMenuList data={dataMenu?.Items} />
       </div>
-      <div className="col-span-8">
+      <div className="col-span-full lg:col-span-7 xl:col-span-8">
         <RegisterStepsList
           data={dataRegisterSteps?.Items}
           refetchRegisterSteps={refetchRegisterSteps}
@@ -166,7 +166,7 @@ const Index: TNextPageWithLayout = () => {
         />
       </div>
       <div className="col-span-12">
-        <ClientComentList
+        <ClientCommentList
           data={dataCustomerComment?.Items}
           refetchcustomerComment={refetchcustomerComment}
         />

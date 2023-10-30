@@ -66,6 +66,7 @@ export const ClientCreateOrderForm = ({ userData }: TProps) => {
       dataIndex: "ImageProduct",
       align: "center",
       title: "Ảnh đại diện",
+      responsive: ["md"],
       render: (_, __, index) => (
         <FormUpload
           image={true}
@@ -106,6 +107,7 @@ export const ClientCreateOrderForm = ({ userData }: TProps) => {
       dataIndex: "PropertyProduct",
       align: "center",
       title: "Màu sắc / kích thước",
+      responsive: ["lg"],
       render: (_, __, index) => (
         <FormInput
           control={control}
@@ -120,6 +122,7 @@ export const ClientCreateOrderForm = ({ userData }: TProps) => {
       dataIndex: "PriceProduct",
       align: "center",
       title: "Giá sản phẩm NDT",
+      responsive: ["lg"],
       render: (_, __, index) => (
         <FormInputNumber
           control={control}
@@ -134,6 +137,7 @@ export const ClientCreateOrderForm = ({ userData }: TProps) => {
       dataIndex: "QuantityProduct",
       align: "center",
       title: "Số lượng",
+      responsive: ["md"],
       render: (_, __, index) => (
         <FormInputNumber
           control={control}
@@ -148,6 +152,7 @@ export const ClientCreateOrderForm = ({ userData }: TProps) => {
       dataIndex: "NoteProduct",
       align: "center",
       title: "Ghi chú",
+      responsive: ["lg"],
       render: (_, __, index) => (
         <FormInput
           control={control}
@@ -160,6 +165,7 @@ export const ClientCreateOrderForm = ({ userData }: TProps) => {
       dataIndex: "action",
       align: "right",
       title: "Thao tác",
+      responsive: ["sm"],
       render: (_, __, index) => (
         <ActionButton
           title="Xóa"

@@ -19,7 +19,8 @@ export const PackageManagementFormTable: React.FC<
       dataIndex: "Id",
       align: "center",
       title: "STT",
-      render: (_, __, index) => ++index,
+      responsive: ["lg"],
+      render: (_, __, index) => index + 1,
     },
     {
       dataIndex: "Created",
@@ -32,7 +33,7 @@ export const PackageManagementFormTable: React.FC<
           </>
         );
       },
-      responsive: ["xl"],
+      responsive: ["lg"],
     },
     {
       dataIndex: "OrderTransactionCode",
@@ -73,12 +74,12 @@ export const PackageManagementFormTable: React.FC<
           statusName={smallPackageStatus.find((x) => x.id === status)?.name}
         />
       ),
-      responsive: ["xl"],
     },
     {
       dataIndex: "action",
       title: "Thao tác",
       width: 90,
+      responsive: ["sm"],
       render: (_, record) => {
         return (
           <ActionButton

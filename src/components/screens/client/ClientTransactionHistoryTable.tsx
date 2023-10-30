@@ -12,18 +12,21 @@ export const ClientTransactionHistoryTable: React.FC<
     {
       dataIndex: "Id",
       title: "STT",
-      render: (_, __, index) => <>{++index}</>,
+      render: (_, __, index) => index + 1,
       width: 50,
+      responsive: ["lg"],
     },
     {
       dataIndex: "Created",
       title: "Ngày giao dịch",
+      responsive: ["lg"],
       render: (date) => _format.getVNDate(date),
     },
     {
       dataIndex: "Content",
       title: "Nội dung",
-      width: 300
+      responsive: ["lg"],
+      width: 300,
     },
     {
       dataIndex: "TradeTypeName",
@@ -46,6 +49,7 @@ export const ClientTransactionHistoryTable: React.FC<
       dataIndex: "MoneyLeft",
       align: "right",
       title: "Số dư  (VNĐ)",
+      responsive: ["sm"],
       render: (money) => _format.getVND(money, ""),
     },
   ];
@@ -59,7 +63,6 @@ export const ClientTransactionHistoryTable: React.FC<
           columns,
           // bordered,
           loading,
-          scroll: { y: 600, x: 1200 },
         }}
       />
       <div className="mt-4 text-right">

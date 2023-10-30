@@ -9,9 +9,7 @@ import {
 } from "~/components";
 import { IconButton } from "~/components/globals/button/IconButton";
 import { smallPackageStatus } from "~/configs";
-import {
-  searchSmallPackageStatusData
-} from "~/configs/appConfigs";
+import { searchSmallPackageStatusData } from "~/configs/appConfigs";
 
 const inputProps = {
   id: "code",
@@ -37,8 +35,8 @@ const TransactionCodeManagementFilter: React.FC<TProps> = ({
   const ToDate = useRef<string>(null);
 
   return (
-    <div className="flex justify-between items-end">
-      <div className="flex items-end gap-2">
+    <div className="flex flex-col xs:flex-row justify-between xs:items-end gap-4">
+      <div className="flex flex-col xs:flex-row xs:items-end gap-4">
         <Popover
           trigger={"click"}
           placement="topLeft"
@@ -53,9 +51,7 @@ const TransactionCodeManagementFilter: React.FC<TProps> = ({
                 placeholder="Chọn tìm kiếm theo"
                 label="Tìm kiếm theo"
                 isClearable
-                handleSearch={(val: number) =>
-                  (SearchType.current = val)
-                }
+                handleSearch={(val: number) => (SearchType.current = val)}
               />
               <FilterInput
                 {...inputProps}

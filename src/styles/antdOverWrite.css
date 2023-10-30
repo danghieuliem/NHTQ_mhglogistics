@@ -254,7 +254,14 @@
 .ant-table-content {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
+}
+.custom-table-antd-detail-order .ant-table-content {
   overflow: visible !important;
+}
+
+.custom-table-antd-detail-order .ant-table-expanded-row-fixed {
+  overflow: visible !important;
+  z-index: 9999;
 }
 
 .ant-table.ant-table-bordered

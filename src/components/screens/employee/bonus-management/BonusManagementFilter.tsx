@@ -34,48 +34,42 @@ const BonusManagementFilter: FC<TProps> = ({
   const RoleID = useRef<number>(null);
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 flex-col xs:flex-row">
       <Popover
         trigger={"click"}
         placement="bottomLeft"
         content={
-          <div className="grid grid-cols-2 gap-2 p-2">
-            <div className="col-span-1">
-              <FilterSelect
-                data={[
-                  {
-                    id: 1,
-                    name: "Chưa thanh toán",
-                  },
-                  {
-                    id: 5,
-                    name: "Đã thanh toán",
-                  },
-                ]}
-                placeholder="Chọn trạng thái"
-                label="Trạng thái"
-                isClearable
-                handleSearch={(val: number) => (Status.current = val)}
-              />
-            </div>
-            <div className="col-span-1">
-              <FilterInput
-                {...{
-                  ...usernameProps,
-                  handleSearch: (val: string) =>
-                    (SearchContent.current = val.trim()),
-                }}
-              />
-            </div>
-            <div className="col-span-1">
-              <FilterRangeDate
-                placeholder="Từ ngày / đến ngày"
-                handleDate={(val: string[]) => {
-                  FromDate.current = val[0];
-                  ToDate.current = val[1];
-                }}
-              />
-            </div>
+          <div className="grid sm:grid-cols-2 gap-2 p-2">
+            <FilterSelect
+              data={[
+                {
+                  id: 1,
+                  name: "Chưa thanh toán",
+                },
+                {
+                  id: 5,
+                  name: "Đã thanh toán",
+                },
+              ]}
+              placeholder="Chọn trạng thái"
+              label="Trạng thái"
+              isClearable
+              handleSearch={(val: number) => (Status.current = val)}
+            />
+            <FilterInput
+              {...{
+                ...usernameProps,
+                handleSearch: (val: string) =>
+                  (SearchContent.current = val.trim()),
+              }}
+            />
+            <FilterRangeDate
+              placeholder="Từ ngày / đến ngày"
+              handleDate={(val: string[]) => {
+                FromDate.current = val[0];
+                ToDate.current = val[1];
+              }}
+            />
             {(roleID === 1 || roleID === 3) && (
               <div className="col-span-1">
                 <FilterSelect
@@ -96,7 +90,7 @@ const BonusManagementFilter: FC<TProps> = ({
                 />
               </div>
             )}
-            <div className="col-span-2 flex items-end justify-end">
+            <div className="col-span-full flex items-end justify-end">
               <ActionButton
                 onClick={() =>
                   handleFilter({

@@ -28,18 +28,18 @@ export const ArticleListTable: FC<TTable<TPage> & TProps> = ({
       title: "ID",
       width: 50,
       align: "left",
-      fixed: "left",
+      responsive: ["lg"],
     },
     {
       dataIndex: "Title",
       title: "Tiêu đề bài viết",
       width: 240,
-      fixed: "left",
     },
     {
       dataIndex: "PageTypeId",
       title: "Chuyên mục",
       width: 120,
+      responsive: ["lg"],
       render: (_, record) => {
         const Categories = pageType?.find((x) => x?.Id === record?.PageTypeId);
         return <span className="font-bold">{Categories?.Name}</span>;
@@ -49,10 +49,12 @@ export const ArticleListTable: FC<TTable<TPage> & TProps> = ({
       dataIndex: "Code",
       title: "Link bài viết",
       width: 300,
+      responsive: ["lg"],
     },
     {
       dataIndex: "Active",
       title: "Trạng thái",
+      responsive: ["md"],
       width: 100,
       render: (_, record) => (
         <TagStatus
@@ -65,6 +67,7 @@ export const ArticleListTable: FC<TTable<TPage> & TProps> = ({
       dataIndex: "SideBar",
       title: "Sibebar",
       width: 100,
+      responsive: ["md"],
       render: (_, record) => (
         <TagStatus
           color={!record.SideBar ? "red" : "green"}
@@ -76,13 +79,13 @@ export const ArticleListTable: FC<TTable<TPage> & TProps> = ({
       dataIndex: "Created",
       title: "Ngày tạo",
       width: 200,
+      responsive: ["md"],
       render: (date) => _format.getVNDate(date),
     },
     {
       dataIndex: "action",
       title: "Thao tác",
       width: 140,
-      fixed: "right",
       render: (_, record) => (
         <Space>
           <Link href={`/manager/article/article-list/detail/?id=${record.Id}`}>
@@ -101,9 +104,7 @@ export const ArticleListTable: FC<TTable<TPage> & TProps> = ({
         {...{
           columns,
           data,
-          bordered: true,
           loading,
-          scroll: { y: 700, x: 1200 },
           pagination: {
             current: filter.PageIndex,
             total: filter.TotalItems,

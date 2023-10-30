@@ -85,6 +85,25 @@ const ComplainListForm: React.FC<TForm<TReport>> = ({
       });
   };
 
+  const RenderImage = () => {
+    const getListImage = (): any[] => {
+      try {
+        return JSON.parse(defaultValues?.IMG);
+      } catch {
+        return [];
+      }
+    };
+
+    return (
+      <Image.PreviewGroup>
+        {defaultValues?.IMG &&
+          getListImage()?.map((item) => (
+            <Image src={item} key={item} width={120} />
+          ))}
+      </Image.PreviewGroup>
+    );
+  };
+
   return (
     <Modal visible={visible} width={900} onCancel={onCancel}>
       <FormCard loading={isFetching}>
@@ -95,8 +114,8 @@ const ComplainListForm: React.FC<TForm<TReport>> = ({
         </FormCard.Header>
         <FormCard.Body>
           <div className="grid grid-cols-1 gap-4">
-            <div className="grid grid-cols-3 col-span-1 gap-3">
-              <div className="col-span-2">
+            <div className="grid xs:grid-cols-3 col-span-1 gap-3">
+              <div className="xs:col-span-2">
                 <FormInput
                   control={control}
                   name="UserName"
@@ -157,7 +176,7 @@ const ComplainListForm: React.FC<TForm<TReport>> = ({
                   // disabled={defaultValues?.Status === 3}
                 />
               </div>
-              <div className="col-span-3">
+              <div className="col-span-full">
                 <FormTextarea
                   control={control}
                   name="ComplainText"
@@ -170,12 +189,7 @@ const ComplainListForm: React.FC<TForm<TReport>> = ({
             </div>
 
             <div className="col-span-1 flex gap-2">
-              <Image.PreviewGroup>
-                {defaultValues?.IMG &&
-                  JSON.parse(defaultValues?.IMG)?.map((item) => (
-                    <Image src={item} key={item} width={120} />
-                  ))}
-              </Image.PreviewGroup>
+              <RenderImage />
             </div>
 
             {/* <div className="col-span-1">

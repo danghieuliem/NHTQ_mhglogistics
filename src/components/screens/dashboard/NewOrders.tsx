@@ -41,6 +41,7 @@ export const NewOrders = React.memo(() => {
     {
       title: "ID đơn",
       dataIndex: "Id",
+      responsive: ["sm"],
       render: (_) => {
         return (
           <Link href={`/manager/order/order-list/detail/?id=${_}`}>
@@ -58,6 +59,7 @@ export const NewOrders = React.memo(() => {
     {
       title: "Loại đơn hàng",
       dataIndex: "OrderTypeName",
+      responsive: ["sm"],
       render: (_) => (
         <span
           className="font-bold"

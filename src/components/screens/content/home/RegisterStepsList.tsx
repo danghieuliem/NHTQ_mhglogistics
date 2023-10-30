@@ -12,7 +12,7 @@ export const RegisterStepsList: React.FC<
   const columns: TColumnsType<TStep> = [
     {
       dataIndex: "Id",
-      title: "Index",
+      title: "Vị trí",
       render: (_, __, index) => ++index,
     },
     {
@@ -69,13 +69,13 @@ export const RegisterStepsList: React.FC<
     setModal(true);
   };
 
-
   return (
     <React.Fragment>
       <DataTable
         {...{
           columns,
           data,
+          isExpand: false,
           title: "Cách bước đăng ký",
         }}
       />

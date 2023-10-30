@@ -8,6 +8,7 @@ import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {
   const { query } = useRouter();
+
   const [user, setUser] = useState<{ name: string; phone: string }>({
     name: null,
     phone: null,

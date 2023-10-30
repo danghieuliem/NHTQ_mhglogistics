@@ -30,7 +30,6 @@ const Index: TNextPageWithLayout = () => {
       onError: toast.error,
     }
   );
-
   return <ArticleCategoryTable data={data?.Items} loading={isFetching} />;
 };
 

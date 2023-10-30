@@ -10,7 +10,7 @@ type TProps<T extends object = object> = {
 export const ConfigurationSEO: FC<TProps<TConfig6>> = ({ control, data }) => {
   return (
     <React.Fragment>
-      <div className="grid grid-cols-3 gap-4 px-6">
+      <div className="grid md:grid-cols-3 gap-4 px-6">
         <FormInput
           control={control}
           name="MetaTitle"
