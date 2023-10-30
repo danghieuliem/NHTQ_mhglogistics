@@ -169,7 +169,7 @@ export const CreateRequestPaymentForm = () => {
                 )}
               >
                 <div className="flex-1 flex items-center gap-3 w-full">
-                  <span className="text-xl">{index}</span>
+                  <span className="text-xl">{index + 1}</span>
                   <div className="flex-1 flex flex-col w-full">
                     <FormInputNumber
                       control={control}
