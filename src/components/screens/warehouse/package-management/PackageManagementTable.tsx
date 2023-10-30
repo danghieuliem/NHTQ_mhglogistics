@@ -7,6 +7,7 @@ import { bigPackageStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import { useScreen } from "~/hooks";
 type TProps = {
   filter;
   handleFilter: (newFilter) => void;
@@ -28,19 +29,21 @@ export const PackageManagementTable: React.FC<TTable<TPackage> & TProps> = ({
     }
   };
 
+  const { isWidthSM } = useScreen();
+
   const columns: TColumnsType<TPackage> = [
     {
       dataIndex: "Id",
       title: "ID",
       width: 50,
-      fixed: "left",
-      render: (_) => {
+      fixed: isWidthSM ? null : "left",
+      render: (value) => {
         return (
           <Link
             passHref
-            href={`/manager/warehouse/package-management/detail/?id=${_}`}
+            href={`/manager/warehouse/package-management/detail/?id=${value}`}
           >
-            <a target="_blank">{_}</a>
+            <a target="_blank">{value}</a>
           </Link>
         );
       },
@@ -49,33 +52,35 @@ export const PackageManagementTable: React.FC<TTable<TPackage> & TProps> = ({
       dataIndex: "Created",
       title: "Ngày tạo",
       width: 200,
+      responsive: ["lg"],
       render: (date) => _format.getVNDate(date),
     },
     {
       dataIndex: "Code",
       title: "Mã bao hàng",
       width: 120,
+      responsive: ["sm"],
     },
     {
       dataIndex: "Total",
       title: "Tổng kiện",
       align: "right",
       width: 100,
-      render: (_) => <>{_format.getVND(_, " ")}</>,
+      responsive: ["sm"],
     },
     {
       dataIndex: "Weight",
       title: "Cân nặng (Kg)",
       align: "right",
       width: 100,
-      render: (_) => <>{_format.getVND(_, " ")}</>,
+      responsive: ["sm"],
     },
     {
       dataIndex: "Volume",
       title: "Khối (m3)",
       align: "right",
       width: 100,
-      render: (_) => <>{_format.getVND(_, " ")}</>,
+      responsive: ["sm"],
     },
     {
       dataIndex: "Status",
@@ -91,6 +96,7 @@ export const PackageManagementTable: React.FC<TTable<TPackage> & TProps> = ({
       title: "Thao tác",
       width: 100,
       fixed: "right",
+      responsive: ["sm"],
       render: (_, record) => (
         <div className="flex flex-wrap gap-2">
           <Link
@@ -129,7 +135,7 @@ export const PackageManagementTable: React.FC<TTable<TPackage> & TProps> = ({
           data,
           bordered: true,
           //
-          scroll: { y: 700, x: 1200 },
+          scroll: isWidthSM ? { x: true } : { y: 700, x: 1200 },
           pagination: {
             current: filter.PageIndex,
             total: filter.TotalItems,

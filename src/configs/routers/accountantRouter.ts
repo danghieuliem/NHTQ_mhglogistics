@@ -106,6 +106,11 @@ export const accountantRouter = [
           },
           {
             Icon: "",
+            Path: "/manager/statistical/income-transport/",
+            Label: "Doanh thu ký gửi",
+          },
+          {
+            Icon: "",
             Path: "/manager/statistical/recharge/",
             Label: "Nạp - rút tiền",
           },

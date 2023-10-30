@@ -43,18 +43,22 @@ export const TheMostBalance = React.memo(() => {
     {
       title: "Vip",
       dataIndex: "LevelName",
-      render: (_) => <span className="text-sec font-semibold">{_}</span>,
+      render: (value) => (
+        <span className="text-sec font-semibold">{value}</span>
+      ),
     },
     {
       title: "Số dư hiện tại",
       dataIndex: "Wallet",
       align: "right",
+      responsive: ["sm"],
       render: (Wallet) => _format.getVND(Wallet, ""),
     },
     {
       title: "Tổng nạp",
       dataIndex: "SumAmount",
       align: "right",
+      responsive: ["sm"],
       render: (SumAmount) => _format.getVND(SumAmount, ""),
     },
   ];

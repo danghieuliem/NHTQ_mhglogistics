@@ -13,8 +13,8 @@ export const SurplusFilter: React.FC<TProps> = ({
   totalWallet,
 }) => {
   return (
-    <div className="flex items-center justify-between">
-      <div className="w-[300px]">
+    <div className="flex flex-col sm:flex-row gap-2 sm:items-center justify-between">
+      <div className="xs:w-[300px]">
         <FilterSelect
           data={typeOfUserData}
           isClearable

@@ -38,7 +38,7 @@ const AddNew = ({ wareHouseFrom, wareHouse, shippingType, onCancel }) => {
   return (
     <>
       <FormCard.Body>
-        <div className="grid grid-cols-6 gap-3">
+        <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
           <div className="col-span-3">
             <FormSelect
               data={wareHouseFrom}
@@ -85,7 +85,7 @@ const AddNew = ({ wareHouseFrom, wareHouse, shippingType, onCancel }) => {
               }}
             />
           </div>
-          <div className="col-span-2">
+          <div className="col-span-full sm:col-span-2">
             <FormInputNumber
               control={control}
               name="VolumeFrom"
@@ -98,7 +98,7 @@ const AddNew = ({ wareHouseFrom, wareHouse, shippingType, onCancel }) => {
               }}
             />
           </div>
-          <div className="col-span-2">
+          <div className="col-span-full sm:col-span-2">
             <FormInputNumber
               control={control}
               name="VolumeTo"
@@ -111,7 +111,7 @@ const AddNew = ({ wareHouseFrom, wareHouse, shippingType, onCancel }) => {
               }}
             />
           </div>
-          <div className="col-span-2">
+          <div className="col-span-full sm:col-span-2">
             <FormInputNumber
               control={control}
               name="Price"
@@ -187,7 +187,7 @@ const Update = ({
   return (
     <>
       <FormCard.Body>
-        <div className="grid grid-cols-6 gap-3">
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
           <div className="col-span-3">
             <FormSelect
               data={wareHouseFrom}
@@ -269,7 +269,7 @@ const Update = ({
               }}
             />
           </div>
-          <div className="col-span-2">
+          <div className="col-span-full sm:col-span-2">
             <FormInputNumber
               control={control}
               name="VolumeFrom"
@@ -282,7 +282,7 @@ const Update = ({
               }}
             />
           </div>
-          <div className="col-span-2">
+          <div className="col-span-full sm:col-span-2">
             <FormInputNumber
               control={control}
               name="VolumeTo"
@@ -295,7 +295,7 @@ const Update = ({
               }}
             />
           </div>
-          <div className="col-span-2">
+          <div className="col-span-full sm:col-span-2">
             <FormInputNumber
               control={control}
               name="Price"

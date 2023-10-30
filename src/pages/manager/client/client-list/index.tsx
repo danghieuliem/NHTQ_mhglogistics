@@ -9,7 +9,6 @@ import {
   ClientListFilterMemo,
   ClientListFormMemo,
   ClientListTable,
-  IconButton,
   Layout,
 } from "~/components";
 import { breadcrumb } from "~/configs";
@@ -128,7 +127,7 @@ const Index: TNextPageWithLayout = () => {
   return (
     <>
       <div className="flex justify-between">
-        <div>
+        <div className="flex items-center">
           <ClientListFilterMemo
             handleFilter={handleFilter}
             dathangList={userOrder}
@@ -136,7 +135,7 @@ const Index: TNextPageWithLayout = () => {
             roleID={userCurrentInfo?.UserGroupId}
           />
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
           <ActionButton
             onClick={() => setModal(true)}
             icon="fas fa-plus-circle"

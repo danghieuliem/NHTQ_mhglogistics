@@ -18,7 +18,7 @@ export const SalesFilter: React.FC<TProps> = ({
   const toDate = useRef<string>(null);
 
   return (
-    <div className="flex items-end mb-4 gap-2">
+    <div className="flex flex-col lg:flex-row lg:items-end mb-4 gap-2">
       <FilterRangeDate
         format="DD/MM/YYYY"
         placeholder="Từ ngày/đến ngày"
@@ -36,7 +36,6 @@ export const SalesFilter: React.FC<TProps> = ({
         }}
         isButton
         isButtonClassName="bg-green !text-white"
-        
       />
       <ActionButton
         onClick={handleType}

@@ -233,28 +233,24 @@ const AddChildContentForm: React.FC<any> = ({
           </div>
         </FormCard.Header>
         <FormCard.Body>
-          <div className={`grid grid-cols-2 gap-4`}>
-            <div className="col-span-1 grid grid-cols-3 gap-4 h-fit">
-              <div className="col-span-2">
-                <FormInput
-                  control={control}
-                  name="Name"
-                  label="Tên menu con"
-                  placeholder={""}
-                  rules={{ required: "Vui lòng điền thông tin" }}
-                />
-              </div>
-              <div className="col-span-1">
-                <FormInputNumber
-                  control={control}
-                  name="Position"
-                  label="Vị trí menu con"
-                  placeholder=""
-                  rules={{ required: "Vui lòng điền vị trí hiển thị" }}
-                />
-              </div>
-              <div className="col-span-3 grid grid-cols-3 gap-4">
-                <div className="col-span-2">
+          <div className={`grid md:grid-cols-2 gap-4`}>
+            <div className="grid gap-4 h-fit">
+              <FormInput
+                control={control}
+                name="Name"
+                label="Tên menu con"
+                placeholder={""}
+                rules={{ required: "Vui lòng điền thông tin" }}
+              />
+              <FormInputNumber
+                control={control}
+                name="Position"
+                label="Vị trí menu con"
+                placeholder=""
+                rules={{ required: "Vui lòng điền vị trí hiển thị" }}
+              />
+              <div className="grid xs:grid-cols-3 gap-4">
+                <div className="xs:col-span-2">
                   <FormSelect
                     name="IsEdit"
                     control={control}
@@ -270,7 +266,7 @@ const AddChildContentForm: React.FC<any> = ({
                     }}
                   />
                 </div>
-                <div className="col-span-1">
+                <div className="xs:col-span-1">
                   <FormSwitch
                     control={control}
                     name="Active"

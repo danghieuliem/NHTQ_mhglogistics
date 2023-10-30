@@ -37,7 +37,8 @@ const Index: TNextPageWithLayout = ({ connection }) => {
       <div className="w-full xl:w-1/4">
         <TrackingFilter handleFilter={handleFilter} />
       </div>
-      <div className="">
+
+      <div className="body-tracking">
         <div>
           {/* {
 						isFetching && <Loading />

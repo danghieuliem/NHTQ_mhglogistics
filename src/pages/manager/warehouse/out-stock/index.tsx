@@ -11,4 +11,5 @@ const Index: TNextPageWithLayout = () => {
 Index.displayName = SEOConfigs.export;
 Index.breadcrumb = breadcrumb.warehouse.outstock.main;
 Index.Layout = Layout;
+
 export default Index;

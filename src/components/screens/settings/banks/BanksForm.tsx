@@ -9,7 +9,7 @@ import {
   FormInput,
   FormSelect,
   FormSwitch,
-  Modal
+  Modal,
 } from "~/components";
 import { toast } from "~/components/toast";
 import { useCatalogue } from "~/hooks";
@@ -35,22 +35,22 @@ export const BanksForm: React.FC<TForm<TBank> & { type?: string }> = ({
 
   React.useEffect(() => {
     if (visible) {
-      reset(!defaultValues ? {Active: true} : defaultValues);
+      reset(!defaultValues ? { Active: true } : defaultValues);
     }
   }, [visible]);
 
   React.useEffect(() => {
     if (!bankSelectId && type !== "add") return;
-    
-    const bankTarget = vietQRbankList?.find(x => x.id === bankSelectId);
+
+    const bankTarget = vietQRbankList?.find((x) => x.id === bankSelectId);
 
     reset({
       BankName: bankTarget?.shortName,
       IMG: bankTarget?.logo,
-      Active: true
+      Active: true,
       // IMGQR: bankTarget?.logo,
-    })
-  }, [bankSelectId])
+    });
+  }, [bankSelectId]);
 
   // fetch get item by id
   const { isFetching, data } = useQuery(
@@ -121,8 +121,7 @@ export const BanksForm: React.FC<TForm<TBank> & { type?: string }> = ({
           </div>
         </FormCard.Header>
         <FormCard.Body>
-          <div className="grid grid-cols-2 gap-2">
-
+          <div className="grid sm:grid-cols-2 gap-2">
             {type === "add" && (
               <div className="col-span-full">
                 <FormSelect
@@ -133,7 +132,7 @@ export const BanksForm: React.FC<TForm<TBank> & { type?: string }> = ({
                   label="Chọn ngân hàng"
                   select={{
                     label: "longName",
-                    value: "id"
+                    value: "id",
                   }}
                   callback={(val) => {
                     setBankSelectId(val);
@@ -153,24 +152,21 @@ export const BanksForm: React.FC<TForm<TBank> & { type?: string }> = ({
               control={control}
               name="Name"
               label="Chi nhánh"
-              rules={{required: "Vui lòng điền Chi nhánh"}}
-              
+              rules={{ required: "Vui lòng điền Chi nhánh" }}
               placeholder="Chi nhánh"
             />
             <FormInput
               control={control}
               name="Branch"
               label="Chủ tài khoản "
-              rules={{required: "Vui lòng điền Chủ tài khoản"}}
-              
+              rules={{ required: "Vui lòng điền Chủ tài khoản" }}
               placeholder="Chủ tài khoản "
             />
             <FormInput
               control={control}
               name="BankNumber"
               label="Số tài khoản"
-              rules={{required: "Vui lòng điền Số tài khoản"}}
-              
+              rules={{ required: "Vui lòng điền Số tài khoản" }}
               placeholder="Số tài khoản"
             />
 
@@ -186,7 +182,7 @@ export const BanksForm: React.FC<TForm<TBank> & { type?: string }> = ({
               label="Trạng thái"
               required={false}
             />
-            <Image src={watch().IMG} width={"300px"} />
+            <Image src={watch().IMG} width={"200px"} />
           </div>
         </FormCard.Body>
         <FormCard.Footer>

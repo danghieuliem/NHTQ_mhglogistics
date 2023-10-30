@@ -29,9 +29,7 @@ export const Layout: TlayoutWithChild & React.FC<TProps> = ({
     (state: RootState) => state.userCurrentInfo
   );
 
-  const [hover, setHover] = useState(
-    userPage ? window.innerWidth > 1200 : true
-  );
+  const [hover, setHover] = useState(window.innerWidth > 1200);
   const handleHover = useCallback((bool: boolean) => setHover(bool), []);
 
   const [tabbar, setTabbar] = useState(false);

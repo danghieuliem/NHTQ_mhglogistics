@@ -1,15 +1,19 @@
 import { FC } from "react";
 import { DataTable } from "~/components";
+import { useScreen } from "~/hooks";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 
 const TransactionTable: FC<
   TTable<TStatisticalTransaction> & { filter; handleFilter }
 > = ({ data, loading, filter, handleFilter }) => {
+  const { isWidthMD } = useScreen();
+
   const columns: TColumnsType<TStatisticalTransaction> = [
     {
       dataIndex: "Id",
       title: "STT",
+      responsive: ["lg"],
       render: (_, __, index) => <>{++index}</>,
       width: 50,
     },
@@ -17,6 +21,7 @@ const TransactionTable: FC<
       dataIndex: "Content",
       key: "Content",
       title: "Nội dung",
+      responsive: ["lg"],
       width: 300,
     },
     {
@@ -30,7 +35,13 @@ const TransactionTable: FC<
     {
       dataIndex: "Amount",
       key: "Amount",
-      title: "Số tiền (VNĐ)",
+      title: (
+        <>
+          Số tiền
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       render: (money) => _format.getVND(money, " "),
       width: 160,
@@ -38,8 +49,15 @@ const TransactionTable: FC<
     {
       dataIndex: "MoneyLeft",
       key: "MoneyLeft",
-      title: "Số dư (VNĐ)",
+      title: (
+        <>
+          Số dư
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
+      responsive: ["sm"],
       render: (money) => _format.getVND(money, " "),
       width: 160,
     },
@@ -47,6 +65,7 @@ const TransactionTable: FC<
       dataIndex: "Created",
       key: "Created",
       title: "Ngày giờ",
+      responsive: ["lg"],
       render: (date) => _format.getVNDate(date),
       width: 140,
     },
@@ -59,7 +78,7 @@ const TransactionTable: FC<
         data,
         bordered: true,
         loading,
-        scroll: { y: 700, x: 1200 },
+        scroll: isWidthMD ? { x: true } : { y: 700, x: 1200 },
         pagination: {
           current: filter.PageIndex,
           total: filter.TotalItems,

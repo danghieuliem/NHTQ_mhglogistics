@@ -2,15 +2,19 @@ import { Divider } from "antd";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import Barcode from "react-barcode";
-import ReactToPrint, { PrintContextConsumer, useReactToPrint } from "react-to-print";
+import ReactToPrint, {
+  PrintContextConsumer,
+  useReactToPrint,
+} from "react-to-print";
 import {
   ActionButton,
   DataTable,
   FormInputNumber,
   FormSelect,
-  FormTextarea
+  FormTextarea,
 } from "~/components";
 import { ESmallPackageStatusData } from "~/configs/appConfigs";
+import { useScreen } from "~/hooks";
 import { TControl } from "~/types/field";
 import { TColumnsType, TTable } from "~/types/table";
 
@@ -51,6 +55,8 @@ export const CheckWarehouseChinaTable: React.FC<
 
   const [dataPrint, setDataPrint] = useState(null);
 
+  const { isWidthMD, isWidthSM } = useScreen();
+
   // của trung quốc
   const columns: TColumnsType<TWarehouseCN> = [
     {
@@ -80,11 +86,12 @@ export const CheckWarehouseChinaTable: React.FC<
           </div>
         );
       },
-      fixed: "left",
+      fixed: isWidthMD ? null : "left",
     },
     {
       dataIndex: "IsPackged",
       title: "Dịch vụ",
+      width: 80,
       render: (_, record) => (
         <div className="flex justify-center flex-col items-center">
           <div className="flex justify-evenly w-full">
@@ -121,16 +128,20 @@ export const CheckWarehouseChinaTable: React.FC<
           </div>
         </div>
       ),
-      fixed: "left",
+      fixed: isWidthMD ? null : "left",
+      responsive: ["md"],
     },
     {
       dataIndex: "OrderTransactionCode",
       title: "Mã vận đơn",
-      fixed: "left",
+      fixed: isWidthMD ? null : "left",
+      width: 150,
     },
     {
       dataIndex: "TotalOrder",
       title: "Kiểm đếm",
+      width: 150,
+      responsive: ["md"],
       render: (_, record, index) => {
         return (
           <div className="flex flex-col gap-1">
@@ -161,14 +172,23 @@ export const CheckWarehouseChinaTable: React.FC<
     },
     {
       dataIndex: "Weight",
-      title: "Cân nặng (kg)",
+      title: (
+        <>
+          Cân nặng
+          <br />
+          (kg)
+        </>
+      ),
+      width: 100,
       align: "center",
+      responsive: ["md"],
       render: (_, __, index) => (
         <FormInputNumber
           control={control}
           name={`${name}.${index}.Weight` as any}
           placeholder=""
           inputClassName="text-center w-[80px] text-center"
+          defaultValue={0}
           onEnter={handleSubmit((data) => onPress([data[name][index]]))}
         />
       ),
@@ -177,6 +197,8 @@ export const CheckWarehouseChinaTable: React.FC<
       dataIndex: "Width",
       title: "Kích thước",
       align: "center",
+      width: 150,
+      responsive: ["md"],
       render: (_, __, index) => {
         return (
           <div className="flex flex-col gap-1">
@@ -186,6 +208,7 @@ export const CheckWarehouseChinaTable: React.FC<
               placeholder=""
               inputClassName="text-center w-[80px] text-center"
               onEnter={handleSubmit((data) => onPress([data[name][index]]))}
+              defaultValue={0}
               prefix="D = "
             />
             <FormInputNumber
@@ -194,6 +217,7 @@ export const CheckWarehouseChinaTable: React.FC<
               placeholder=""
               inputClassName="text-center w-[80px] text-center"
               onEnter={handleSubmit((data) => onPress([data[name][index]]))}
+              defaultValue={0}
               prefix="R = "
             />
             <FormInputNumber
@@ -202,6 +226,7 @@ export const CheckWarehouseChinaTable: React.FC<
               placeholder=""
               inputClassName="text-center w-[80px] text-center"
               onEnter={handleSubmit((data) => onPress([data[name][index]]))}
+              defaultValue={0}
               prefix="C = "
             />
             <div className="text-center font-bold">{__?.VolumePayment} m3</div>
@@ -212,7 +237,9 @@ export const CheckWarehouseChinaTable: React.FC<
     {
       dataIndex: "BigPackageId",
       title: () => <div className="text-center">Bao lớn</div>,
-      render: (_, record, index) => {
+      width: 250,
+      responsive: ["md"],
+      render: (_, __, index) => {
         return (
           <FormSelect
             control={control}
@@ -241,6 +268,7 @@ export const CheckWarehouseChinaTable: React.FC<
     {
       dataIndex: "Description",
       title: "Ghi chú",
+      responsive: ["lg"],
       render: (_, __, index) => (
         <FormTextarea
           control={control}
@@ -281,6 +309,7 @@ export const CheckWarehouseChinaTable: React.FC<
       title: "Thao tác",
       align: "right",
       width: 140,
+      responsive: ["md"],
       render: (_, record, index) => (
         <div className="flex flex-col gap-2">
           {record.Status <= ESmallPackageStatusData.ArrivedToChinaWarehouse && (
@@ -310,7 +339,7 @@ export const CheckWarehouseChinaTable: React.FC<
           />
         </div>
       ),
-      fixed: "right",
+      fixed: isWidthSM ? null : "right",
     },
   ];
 
@@ -343,11 +372,13 @@ export const CheckWarehouseChinaTable: React.FC<
           </div>
         );
       },
-      fixed: "left",
+      fixed: isWidthMD ? null : "left",
     },
     {
       dataIndex: "IsPackged",
       title: "Dịch vụ",
+      width: 80,
+      responsive: ["lg"],
       render: (_, record) => (
         <div className="flex justify-center flex-col items-center">
           <div className="flex justify-evenly w-full">
@@ -384,17 +415,20 @@ export const CheckWarehouseChinaTable: React.FC<
           </div>
         </div>
       ),
-      fixed: "left",
+      fixed: isWidthMD ? null : "left",
     },
     {
       dataIndex: "OrderTransactionCode",
       title: "Mã vận đơn",
-      fixed: "left",
+      width: 150,
+      fixed: isWidthMD ? null : "left",
     },
     {
       dataIndex: "TotalOrder",
       title: "Kiểm đếm",
-      render: (_, record, index) => {
+      width: 150,
+      responsive: ["md"],
+      render: (value, record) => {
         return (
           <div className="flex flex-col gap-1">
             {record?.OrderType === 2 ? (
@@ -403,7 +437,7 @@ export const CheckWarehouseChinaTable: React.FC<
               </div>
             ) : (
               <div>
-                Số loại: <span className="font-bold">{_}</span>
+                Số loại: <span className="font-bold">{value}</span>
               </div>
             )}
             <div>
@@ -425,6 +459,8 @@ export const CheckWarehouseChinaTable: React.FC<
       dataIndex: "Weight",
       title: "Cân nặng (kg)",
       align: "center",
+      responsive: ["md"],
+      width: 200,
       render: (_, __, index) => (
         <FormInputNumber
           control={control}
@@ -439,6 +475,8 @@ export const CheckWarehouseChinaTable: React.FC<
       dataIndex: "Width",
       title: "Kích thước",
       align: "center",
+      responsive: ["md"],
+      width: 200,
       render: (_, __, index) => {
         return (
           <div className="flex flex-col gap-1">
@@ -474,13 +512,17 @@ export const CheckWarehouseChinaTable: React.FC<
     {
       dataIndex: "BigPackageName",
       title: "Bao lớn",
-      render: (_, record) => {
-        return <span>{_}</span>
+      width: 200,
+      responsive: ["md"],
+      render: (value, record) => {
+        return <span>{value}</span>;
       },
     },
     {
       dataIndex: "Description",
       title: "Ghi chú",
+      responsive: ["lg"],
+      width: 200,
       render: (_, __, index) => (
         <FormTextarea
           control={control}
@@ -508,6 +550,7 @@ export const CheckWarehouseChinaTable: React.FC<
       title: "Thao tác",
       align: "right",
       width: 160,
+      responsive: ["sm"],
       render: (_, record, index) => (
         <div className="flex flex-col gap-1">
           <ActionButton
@@ -593,7 +636,7 @@ export const CheckWarehouseChinaTable: React.FC<
           />
         </div>
       ),
-      fixed: "right",
+      fixed: isWidthSM ? null : "right",
     },
   ];
 
@@ -633,20 +676,21 @@ export const CheckWarehouseChinaTable: React.FC<
       <div className="hidden">
         <ComponentToPrint ref={componentRef} />
       </div>
-      <div className="grid grid-cols-4 gap-4">
-        <div className="col-span-3 bg-white w-fit px-4 shadow-md flex items-center !text-sec rounded-[6px]">
+      <div className="grid sm:grid-cols-4 gap-4">
+        <div className="sm:col-span-2 bg-white w-fit px-4 shadow-md flex items-center !text-sec rounded-[6px]">
           <div className="mr-2 font-bold uppercase">
-            {data?.[0]?.UserName || ""} | {data?.[0]?.Phone || ""}
+            {data?.[0]?.UserName || "Chưa xác định"} |{" "}
+            {data?.[0]?.Phone || "Chưa xác định"}
           </div>
           <span className="text-red font-bold text-lg">{`(${data?.length})`}</span>
         </div>
-        <div className="col-span-1 flex items-center justify-end">
+        <div className="sm:col-span-2 flex flex-col xs:flex-row xs:items-center sm:justify-end gap-2">
           <ActionButton
             onClick={() => onHide(name, [])}
             title="Ẩn tất cả"
             icon="fas fa-eye-slash"
             isButton
-            isButtonClassName="bg-red !text-white mr-2"
+            isButtonClassName="bg-red !text-white"
           />
           <ActionButton
             icon="fas fa-pencil"
@@ -663,6 +707,7 @@ export const CheckWarehouseChinaTable: React.FC<
       <DataTable
         {...{
           data,
+          scroll: isWidthSM ? { x: true } : { x: 600 },
           columns: type === "china" ? columns : columnsVN,
         }}
       />

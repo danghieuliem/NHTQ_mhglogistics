@@ -11,7 +11,7 @@ import { transportationStatus } from "~/configs";
 import {
   EOrderStatusData,
   ESearch3Data,
-  search3Data
+  search3Data,
 } from "~/configs/appConfigs";
 
 const codeProps = {
@@ -54,7 +54,7 @@ export const DepositListFilter: React.FC<TProps> = ({
           trigger={"click"}
           placement="bottomLeft"
           content={
-            <div className="grid grid-cols-2 gap-4 p-4">
+            <div className="grid xs:grid-cols-2 gap-4 p-4">
               <FilterSelect
                 data={[
                   ...search3Data.slice(0, 1),
@@ -97,7 +97,7 @@ export const DepositListFilter: React.FC<TProps> = ({
                 select={{ label: "UserName", value: "Id" }}
                 handleSearch={(val: number) => (SalerID.current = val)}
               />
-              <div className="col-span-2 flex justify-end items-end">
+              <div className="col-span-full flex justify-end items-end">
                 <IconButton
                   onClick={() =>
                     handleFilter({

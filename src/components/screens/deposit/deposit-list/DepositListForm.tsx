@@ -112,9 +112,9 @@ export const DepositListForm: React.FC<TProps> = ({
   };
 
   return (
-    <div className="grid grid-cols-12 gap-4">
-      <div className="col-span-4 tableBox grid grid-cols-4 gap-4 h-fit">
-        <div className="col-span-4 text-base font-bold py-2 uppercase border-b border-main">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+      <div className="lg:col-span-4 tableBox grid md:grid-cols-4 gap-4 h-fit">
+        <div className="col-span-full text-base font-bold py-2 uppercase border-b border-main">
           Thông tin
         </div>
         <div className="col-span-2">
@@ -161,12 +161,11 @@ export const DepositListForm: React.FC<TProps> = ({
             placeholder=""
             label="Trạng thái"
             defaultValue={{
-                id: defaultValues?.Status,
-                name: transportationStatus.find(
-                  (x) => x.id === defaultValues?.Status
-                )?.name,
-              }
-            }
+              id: defaultValues?.Status,
+              name: transportationStatus.find(
+                (x) => x.id === defaultValues?.Status
+              )?.name,
+            }}
             callback={(val) => setCanNote(val === 1 ? 1 : null)}
             rules={{ required: "Không bỏ trống trạng thái" }}
           />
@@ -234,7 +233,7 @@ export const DepositListForm: React.FC<TProps> = ({
           />
         </div>
         {(RoleID === 1 || RoleID === 3) && (
-          <div className="col-span-4 pt-4 border-t border-main">
+          <div className="col-span-full pt-4 border-t border-main">
             <IconButton
               onClick={handleSubmit(_onPress)}
               showLoading
@@ -248,9 +247,9 @@ export const DepositListForm: React.FC<TProps> = ({
         )}
       </div>
 
-      <div className="col-span-8">
+      <div className="lg:col-span-8">
         <div className="grid grid-cols-2 gap-4 tableBox mb-4">
-          <div className="col-span-2 text-base font-bold py-2 uppercase border-b border-main flex justify-between mb-2">
+          <div className="col-span-full text-base font-bold py-2 uppercase border-b border-main flex justify-between mb-2">
             Chi tiết đơn hàng #{defaultValues?.Id}
             <span>
               <TagStatus
@@ -267,97 +266,83 @@ export const DepositListForm: React.FC<TProps> = ({
               />
             </span>
           </div>
-          <div className="col-span-2 grid grid-cols-4 gap-4">
-            <div className="col-span-1">
-              <FormInputNumber
-                control={control}
-                name="PayableWeight"
-                suffix=" Kg"
-                label="Cân nặng (Kg)"
-                placeholder=""
-                required={false}
-                disabled
-              />
-            </div>
-            <div className="col-span-1">
-              <FormInputNumber
-                suffix=" VNĐ"
-                control={control}
-                name="FeeWeightPerKg"
-                label="Đơn giá cân nặng (VNĐ) "
-                placeholder=""
-                required={false}
-                callback={(val) => {
-                  handleCount("FeeWeightPerKg", val);
-                }}
-              />
-            </div>
-            <div className="col-span-1">
-              <FormInputNumber
-                control={control}
-                name="VolumePayment"
-                suffix=" &#x33A5;"
-                label="Thể tích (&#x33A5;)"
-                placeholder=""
-                required={false}
-                disabled
-              />
-            </div>
-            <div className="col-span-1">
-              <FormInputNumber
-                suffix=" VNĐ"
-                control={control}
-                name="FeePerVolume"
-                label={`Đơn giá thể tích (VNĐ)`}
-                placeholder=""
-                required={false}
-                callback={(val) => {
-                  handleCount("FeePerVolume", val);
-                }}
-              />
-            </div>
+          <div className="col-span-full grid md:grid-cols-4 xs:grid-cols-2 gap-4">
+            <FormInputNumber
+              control={control}
+              name="PayableWeight"
+              suffix=" Kg"
+              label="Cân nặng (Kg)"
+              placeholder=""
+              required={false}
+              disabled
+            />
+            <FormInputNumber
+              suffix=" VNĐ"
+              control={control}
+              name="FeeWeightPerKg"
+              label="Đơn giá cân nặng (VNĐ) "
+              placeholder=""
+              required={false}
+              callback={(val) => {
+                handleCount("FeeWeightPerKg", val);
+              }}
+            />
+            <FormInputNumber
+              control={control}
+              name="VolumePayment"
+              suffix=" &#x33A5;"
+              label="Thể tích (&#x33A5;)"
+              placeholder=""
+              required={false}
+              disabled
+            />
+            <FormInputNumber
+              suffix=" VNĐ"
+              control={control}
+              name="FeePerVolume"
+              label={`Đơn giá thể tích (VNĐ)`}
+              placeholder=""
+              required={false}
+              callback={(val) => {
+                handleCount("FeePerVolume", val);
+              }}
+            />
           </div>
-          <div className="col-span-2 grid grid-cols-3 gap-4">
-            <div className="col-span-1">
-              <FormInputNumber
-                suffix=" VNĐ"
-                control={control}
-                name="DeliveryPrice"
-                label={`Phí vận chuyển (VNĐ) (CK: ${
-                  defaultValues?.FeeWeightCK ?? 0
-                }%)`}
-                placeholder=""
-                disabled
-                required={false}
-              />
-            </div>
-            <div className="col-span-1">
-              <FormInputNumber
-                prefix="¥ "
-                control={control}
-                name="CODFeeTQ"
-                label="Phí COD Trung Quốc (¥)"
-                placeholder=""
-                required={false}
-                callback={(val) => {
-                  handleCount("CODFeeTQ", val);
-                }}
-              />
-            </div>
-            <div className="col-span-1">
-              <FormInputNumber
-                suffix=" VNĐ"
-                control={control}
-                name="CODFee"
-                label="Phí COD Trung Quốc (VNĐ)"
-                placeholder=""
-                disabled
-                required={false}
-              />
-            </div>
+          <div className="col-span-full grid md:grid-cols-3 gap-4">
+            <FormInputNumber
+              suffix=" VNĐ"
+              control={control}
+              name="DeliveryPrice"
+              label={`Phí vận chuyển (VNĐ) (CK: ${
+                defaultValues?.FeeWeightCK ?? 0
+              }%)`}
+              placeholder=""
+              disabled
+              required={false}
+            />
+            <FormInputNumber
+              prefix="¥ "
+              control={control}
+              name="CODFeeTQ"
+              label="Phí COD Trung Quốc (¥)"
+              placeholder=""
+              required={false}
+              callback={(val) => {
+                handleCount("CODFeeTQ", val);
+              }}
+            />
+            <FormInputNumber
+              suffix=" VNĐ"
+              control={control}
+              name="CODFee"
+              label="Phí COD Trung Quốc (VNĐ)"
+              placeholder=""
+              disabled
+              required={false}
+            />
           </div>
-          <div className="col-span-2 grid grid-cols-3 gap-4">
-            <div className="col-span-1 relative">
+          <div className="col-span-full grid md:grid-cols-3 gap-4">
+            <div className="relative">
               <FormCheckbox
                 control={control}
                 name="IsCheckProduct"
@@ -377,7 +362,7 @@ export const DepositListForm: React.FC<TProps> = ({
                 }}
               />
             </div>
-            <div className="col-span-1 relative">
+            <div className="relative">
               <FormCheckbox
                 control={control}
                 name="IsPacked"
@@ -397,7 +382,7 @@ export const DepositListForm: React.FC<TProps> = ({
                 }}
               />
             </div>
-            <div className="col-span-1 relative">
+            <div className="relative">
               <FormCheckbox
                 control={control}
                 name="IsInsurance"
@@ -418,7 +403,7 @@ export const DepositListForm: React.FC<TProps> = ({
               />
             </div>
           </div>
-          <div className="col-span-1">
+          <div className="col-span-full sm:col-span-1">
             <FormTextarea
               control={control}
               name="Note"
@@ -429,7 +414,7 @@ export const DepositListForm: React.FC<TProps> = ({
               rows={2}
             />
           </div>
-          <div className="col-span-1">
+          <div className="col-span-full sm:col-span-1">
             <FormTextarea
               control={control}
               name="StaffNote"
@@ -439,7 +424,8 @@ export const DepositListForm: React.FC<TProps> = ({
               rows={2}
             />
           </div>
-          <div className="col-span-2">
+
+          <div className="col-span-full">
             <FormTextarea
               control={control}
               name="CancelReason"
@@ -450,25 +436,9 @@ export const DepositListForm: React.FC<TProps> = ({
               disabled={canNote === 1 ? false : true}
             />
           </div>
-          {/* <div className="col-span-2 pt-4 border-t border-main xl:hidden">
-            {(RoleID === 1 || RoleID === 3) && (
-              <IconButton
-                onClick={handleSubmit(_onPress)}
-                icon="fas fa-edit"
-                title="Cập nhật"
-                toolip=""
-              />
-            )}
-            <IconButton
-              onClick={() => router.back()}
-              icon="fas fa-reply-all"
-              title="Trở về"
-              toolip=""
-            />
-          </div> */}
         </div>
         <div className="tableBox">
-          <DepositListHistory/>
+          <DepositListHistory />
         </div>
       </div>
     </div>

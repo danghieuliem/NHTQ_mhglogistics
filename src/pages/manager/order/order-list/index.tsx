@@ -16,7 +16,6 @@ const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
     (state: RootState) => state.userCurrentInfo
   );
-
   const { query } = useRouter();
   const [numberOfOrder, setNumberOfOrder] = useState(orderStatus);
   const [filter, setFilter] = useState({

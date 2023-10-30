@@ -7,6 +7,8 @@ import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
 import Link from "next/link";
+import { useScreen } from "~/hooks";
+
 type TProps = {
   filter: {
     TotalItems: number;
@@ -30,6 +32,7 @@ export const EmployeeManagementTable: FC<TTable<TEmployee | any> & TProps> = ({
   //   warehouseVNEnabled: true,
   //   warehouseTQEnabled: true,
   // });
+  const { isWidthLG, isWidthMD } = useScreen();
   const router = useRouter();
 
   const colEmployee: TColumnsType<TEmployee> = [
@@ -38,7 +41,8 @@ export const EmployeeManagementTable: FC<TTable<TEmployee | any> & TProps> = ({
       title: "ID",
       width: 60,
       align: "right",
-      fixed: "left",
+      fixed: !isWidthLG ? "left" : null,
+      responsive: ["lg"],
     },
     {
       dataIndex: "UserName",
@@ -71,12 +75,13 @@ export const EmployeeManagementTable: FC<TTable<TEmployee | any> & TProps> = ({
           </div>
         );
       },
-      fixed: "left",
+      fixed: !isWidthLG ? "left" : null,
     },
     {
       dataIndex: "FullName",
       title: "Thông tin cá nhân",
       width: 300,
+      responsive: ["md"],
       render: (_, record) => {
         return (
           <div className="flex flex-col">
@@ -104,6 +109,7 @@ export const EmployeeManagementTable: FC<TTable<TEmployee | any> & TProps> = ({
     {
       dataIndex: "Created",
       title: "Ngày tạo",
+      responsive: ["lg"],
       render: (_, record) => {
         return (
           <div>
@@ -116,6 +122,7 @@ export const EmployeeManagementTable: FC<TTable<TEmployee | any> & TProps> = ({
     {
       dataIndex: "Updated",
       title: "Ngày cập nhật",
+      responsive: ["lg"],
       render: (_, record) => {
         return (
           <div>
@@ -130,6 +137,8 @@ export const EmployeeManagementTable: FC<TTable<TEmployee | any> & TProps> = ({
       title: "Thao tác",
       align: "right",
       width: 220,
+      responsive: ["md"],
+      fixed: !isWidthMD ? "right" : null,
       render: (_, record) => (
         <div className="grid grid-cols-2 gap-1">
           {UserGroupId === 1 && (
@@ -338,7 +347,7 @@ export const EmployeeManagementTable: FC<TTable<TEmployee | any> & TProps> = ({
           columns: router?.pathname.includes("admin") ? colAdmin : colEmployee,
           data,
           bordered: true,
-          scroll: { x: 1200, y: 700 },
+          scroll: isWidthMD ? { x: true } : { x: 1200, y: 700 },
         }}
       />
       <div className="mt-4 text-right">

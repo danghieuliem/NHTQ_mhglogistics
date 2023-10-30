@@ -6,7 +6,7 @@ import {
   CheckWarehouseVietNamAssign2,
   FloatingPackageTable,
   Layout,
-  MissingPackageFilter,
+  FloatingPackageFilter,
   toast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
@@ -84,7 +84,7 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <>
-      <MissingPackageFilter handleFilter={handleFilter} />
+      <FloatingPackageFilter handleFilter={handleFilter} />
       <FloatingPackageTable
         {...{
           data: data?.Items,
@@ -110,16 +110,16 @@ const Index: TNextPageWithLayout = () => {
         />
       </div>
       <div>
-				<CheckWarehouseVietNamAssign2
-					item={item.current}
-					visible={modalAssign2 && modalType.current === "assign2"}
-					onCancel={() => {
-						setModalAssign2(false);
-						item.current = null;
-					}}
-					onPress={_onPress}
-				/>
-			</div>
+        <CheckWarehouseVietNamAssign2
+          item={item.current}
+          visible={modalAssign2 && modalType.current === "assign2"}
+          onCancel={() => {
+            setModalAssign2(false);
+            item.current = null;
+          }}
+          onPress={_onPress}
+        />
+      </div>
     </>
   );
 };

@@ -112,10 +112,12 @@ const CategoryListComp = ({ control, watch, categogyList, setValue }) => {
           rules={{
             required: "This field is required",
           }}
-          defaultValue={ watch().PageTypeId && {
-            Name: categogyList.find((x) => x.Id === watch().PageTypeId)?.Name,
-            Id: watch().PageTypeId,
-          }}
+          defaultValue={
+            watch().PageTypeId && {
+              Name: categogyList.find((x) => x.Id === watch().PageTypeId)?.Name,
+              Id: watch().PageTypeId,
+            }
+          }
           disabled={!watch().IsEdit}
           callback={() => {
             setValue(
@@ -175,7 +177,7 @@ const EditContentForm: React.FC<any> = ({ edit, onCancel, categogyList }) => {
       PageId: null,
       Id: watch().Id,
       IsEdit: watch().IsEdit,
-      Parent: watch().Parent
+      Parent: watch().Parent,
     });
   }, [watch().PageTypeId]);
 
@@ -229,28 +231,24 @@ const EditContentForm: React.FC<any> = ({ edit, onCancel, categogyList }) => {
           </div>
         </FormCard.Header>
         <FormCard.Body>
-          <div className={`grid grid-cols-2 gap-4`}>
-            <div className="col-span-1 grid grid-cols-3 gap-4 h-fit">
-              <div className="col-span-2">
-                <FormInput
-                  control={control}
-                  name="Name"
-                  label="Tên menu"
-                  placeholder={""}
-                  rules={{ required: "Vui lòng điền thông tin" }}
-                />
-              </div>
-              <div className="col-span-1">
-                <FormInputNumber
-                  control={control}
-                  name="Position"
-                  label="Vị trí menu"
-                  placeholder=""
-                  rules={{ required: "Vui lòng điền vị trí hiển thị" }}
-                />
-              </div>
-              <div className="col-span-3 grid grid-cols-3 gap-4">
-                <div className="col-span-2">
+          <div className={`grid md:grid-cols-2 gap-4`}>
+            <div className="col-span-1 grid gap-4 h-fit">
+              <FormInput
+                control={control}
+                name="Name"
+                label="Tên menu"
+                placeholder={""}
+                rules={{ required: "Vui lòng điền thông tin" }}
+              />
+              <FormInputNumber
+                control={control}
+                name="Position"
+                label="Vị trí menu"
+                placeholder=""
+                rules={{ required: "Vui lòng điền vị trí hiển thị" }}
+              />
+              <div className="grid xs:grid-cols-3 gap-4">
+                <div className="xs:col-span-2">
                   <FormSelect
                     name="IsEdit"
                     control={control}
@@ -266,7 +264,7 @@ const EditContentForm: React.FC<any> = ({ edit, onCancel, categogyList }) => {
                     }}
                   />
                 </div>
-                <div className="col-span-1">
+                <div className="xs:col-span-1">
                   <FormSwitch
                     control={control}
                     name="Active"

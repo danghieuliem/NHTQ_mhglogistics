@@ -111,7 +111,7 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <>
-      <div className="grid grid-cols-4 gap-2 mb-4">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-2 mb-4">
         <div className={boxTop}>
           Tổng đơn
           <span className="text-bold text-blue font-semibold text-[20px]">
@@ -137,7 +137,7 @@ const Index: TNextPageWithLayout = () => {
           </span>
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-2 mb-4">
+      <div className="grid md:grid-cols-3 gap-2 mb-4">
         <div className={boxBottom}>
           <div className="IconBoxFilter IconFilter text-white bg-[#e75b5b]">
             <i className="fas fa-sack-dollar"></i>

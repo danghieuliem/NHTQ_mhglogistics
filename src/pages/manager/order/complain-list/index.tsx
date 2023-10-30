@@ -7,7 +7,7 @@ import {
   ComplainListFilter,
   ComplainListFormMemo,
   ComplainListTable,
-  Layout
+  Layout,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -101,12 +101,13 @@ const Index: TNextPageWithLayout = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-end">
+      <div className="flex justify-between flex-col xs:flex-row xs:items-end gap-4">
         <ComplainListFilter
           handleFilter={handleFilter}
           handleExportExcel={handleExportExcel}
         />
       </div>
+
       <ComplainListTable
         filter={filter}
         handleFilter={handleFilter}

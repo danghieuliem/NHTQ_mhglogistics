@@ -56,6 +56,7 @@ export const OutStockPaymentFilter: React.FC<TProps> = ({ handleFilter }) => {
                 ToDate.current = val[1];
               }}
             />
+
             <div className="col-span-full ml-auto">
               <IconButton
                 onClick={() =>

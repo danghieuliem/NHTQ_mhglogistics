@@ -65,6 +65,7 @@ const Index: TNextPageWithLayout = () => {
               }
             />
           </Tabs.TabPane>
+
           <Tabs.TabPane key={"2"} tab="Cấu hình SEO">
             <ArticleSEOForm control={control as Control<TArticleSEO, object>} />
           </Tabs.TabPane>

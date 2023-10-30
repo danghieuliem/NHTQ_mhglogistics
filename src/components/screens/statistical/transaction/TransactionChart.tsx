@@ -146,8 +146,8 @@ const TransactionChart = ({ dataChart }) => {
   };
 
   return (
-    <div className="mt-4 grid grid-cols-12 gap-4">
-      <div className="tableBox col-span-3 flex flex-col gap-4 h-fit">
+    <div className="mt-4 grid grid-cols-1 md:grid-cols-12 gap-4">
+      <div className="tableBox md:col-span-3 flex flex-col gap-4 h-fit">
         <p className="text-[18px] font-medium text-center text-active uppercase">
           Thống kê giao dịch
         </p>
@@ -167,7 +167,7 @@ const TransactionChart = ({ dataChart }) => {
           ))}
         </div>
       </div>
-      <div className="col-span-9 tableBox flex items-center">
+      <div className="md:col-span-9 tableBox flex items-center">
         <Bar height={30} width={"100%"} data={data} options={options} />
       </div>
     </div>

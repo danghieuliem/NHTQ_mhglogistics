@@ -31,6 +31,7 @@ export const TariffChinaVietNamTable: FC<TTable<TTariffTQVN> & TProps> = ({
       title: "ID",
       width: 50,
       align: "right",
+      responsive: ["lg"],
     },
     {
       dataIndex: "HelpMovingName",
@@ -49,27 +50,32 @@ export const TariffChinaVietNamTable: FC<TTable<TTariffTQVN> & TProps> = ({
     {
       dataIndex: "WareHouseFromName",
       title: "Từ kho",
+      responsive: ["md"],
     },
     {
       dataIndex: "WareHouseToName",
       title: "Đến kho",
+      responsive: ["md"],
     },
     {
       dataIndex: "WeightFrom",
       title: "Cân nặng từ",
       align: "right",
+      responsive: ["md"],
       render: (_, record) => _format.getVND(record?.WeightFrom, ""),
     },
     {
       dataIndex: "WeightTo",
       title: "Cân nặng đến",
       align: "right",
+      responsive: ["md"],
       render: (_, record) => _format.getVND(record?.WeightTo, ""),
     },
     {
       dataIndex: "Price",
       title: "Giá (VNĐ)",
       align: "right",
+      responsive: ["md"],
       render: (_, record) => _format.getVND(record?.Price, ""),
     },
     {
@@ -81,6 +87,7 @@ export const TariffChinaVietNamTable: FC<TTable<TTariffTQVN> & TProps> = ({
       dataIndex: "action",
       title: "Thao tác",
       align: "right",
+      responsive: ["sm"],
       render: (_, record) => {
         return (
           <>

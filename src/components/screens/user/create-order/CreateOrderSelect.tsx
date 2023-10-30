@@ -26,7 +26,7 @@ export const CreateOrderSelect: FC<TProps> = ({
 
   return (
     <>
-      <div className="grid grid-cols-4 gap-2">
+      <div className="grid xs:grid-cols-4 gap-2">
         {userList && (
           <div className={infoContainer}>
             <div className="">

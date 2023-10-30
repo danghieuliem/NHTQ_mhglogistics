@@ -2,6 +2,7 @@ import { ActionButton, DataTable } from "~/components";
 import { TColumnsType } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import { useScreen } from "~/hooks";
 
 export const StatisticalWithdrawTable = ({
   data,
@@ -10,15 +11,18 @@ export const StatisticalWithdrawTable = ({
   pagination,
   handleExportExcelWithDraw,
 }) => {
+  const { isWidthSM, isWidthMD } = useScreen();
   const columns: TColumnsType<TStatisticalWithdrawList> = [
     {
       dataIndex: "Id",
       title: "ID",
       width: 70,
+      responsive: ["lg"],
     },
     {
       dataIndex: "CreatedBy",
       title: "Người duyệt",
+      responsive: ["sm"],
     },
     {
       dataIndex: "UserName",
@@ -28,18 +32,20 @@ export const StatisticalWithdrawTable = ({
       dataIndex: "Amount",
       title: "Số tiền (VNĐ)",
       align: "right",
+      responsive: ["sm"],
       render: (money) => _format.getVND(money, " "),
     },
     {
       dataIndex: "Created",
       title: "Ngày tạo",
       width: 200,
+      responsive: ["lg"],
       render: (date) => _format.getVNDate(date),
     },
     {
       dataIndex: "Status",
       title: "Trạng thái",
-      fixed: "right",
+      fixed: isWidthSM ? null : "right",
       width: 100,
       render: () => <TagStatus color="green" statusName="Thành công" />,
     },
@@ -55,7 +61,7 @@ export const StatisticalWithdrawTable = ({
         pagination,
         title: "Danh sách rút tiền",
         onChange: handlePagination,
-        scroll: { y: 600, x: 1200 },
+        scroll: isWidthMD ? { x: true } : { y: 700, x: 1200 },
         extraElement: (
           <ActionButton
             onClick={() => handleExportExcelWithDraw()}

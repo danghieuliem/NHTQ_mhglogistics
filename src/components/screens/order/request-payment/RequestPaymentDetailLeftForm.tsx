@@ -24,8 +24,8 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
   return (
     <div>
       <div className="tableBox">
-        <div className="flex border-b border-[#0000001a]">
-          <div className="w-2/4 p-2 text-sm font-bold text-[#6d6d6d]">
+        <div className="grid grid-cols-2 border-b border-[#0000001a]">
+          <div className="p-2 text-sm font-bold text-[#6d6d6d]">
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
@@ -34,7 +34,7 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
               ID
             </Skeleton>
           </div>
-          <div className="w-2/4 p-2 text-sm font-medium text-[#6d6d6d]">
+          <div className="p-2 text-sm font-medium text-[#6d6d6d]">
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
@@ -44,8 +44,8 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
             </Skeleton>
           </div>
         </div>
-        <div className="flex border-b border-[#0000001a]">
-          <div className="w-2/4 p-2 text-sm font-bold text-[#6d6d6d]">
+        <div className="grid grid-cols-2 border-b border-[#0000001a]">
+          <div className="p-2 text-sm font-bold text-[#6d6d6d]">
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
@@ -54,7 +54,7 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
               Username
             </Skeleton>
           </div>
-          <div className="w-2/4 p-2 text-sm font-medium text-[#6d6d6d]">
+          <div className="p-2 text-sm font-medium text-[#6d6d6d]">
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
@@ -64,8 +64,8 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
             </Skeleton>
           </div>
         </div>
-        <div className="flex border-b border-[#0000001a]">
-          <div className="w-2/4 p-2 text-sm font-bold text-[#6d6d6d]">
+        <div className="grid grid-cols-2 border-b border-[#0000001a]">
+          <div className="p-2 text-sm font-bold text-[#6d6d6d]">
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
@@ -74,7 +74,7 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
               Tổng tiền
             </Skeleton>
           </div>
-          <div className="w-2/4 p-2 text-sm font-medium text-[#6d6d6d]">
+          <div className="p-2 text-sm font-medium text-[#6d6d6d]">
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
@@ -85,8 +85,8 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
             </Skeleton>
           </div>
         </div>
-        <div className="flex border-b border-[#0000001a]">
-          <div className="w-2/4 p-2 text-sm font-bold text-[#6d6d6d]">
+        <div className="grid grid-cols-2 border-b border-[#0000001a]">
+          <div className="p-2 text-sm font-bold text-[#6d6d6d]">
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
@@ -95,7 +95,7 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
               Đã trả
             </Skeleton>
           </div>
-          <div className="w-2/4 p-2 text-sm font-medium text-[#6d6d6d]">
+          <div className="p-2 text-sm font-medium text-[#6d6d6d]">
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
@@ -106,8 +106,8 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
             </Skeleton>
           </div>
         </div>
-        <div className="flex border-b border-[#0000001a]">
-          <div className="w-2/4 p-2 text-sm font-bold text-[#6d6d6d]">
+        <div className="grid grid-cols-2 border-b border-[#0000001a]">
+          <div className="p-2 text-sm font-bold text-[#6d6d6d]">
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
@@ -116,7 +116,7 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
               Còn lại
             </Skeleton>
           </div>
-          <div className="w-2/4 p-2 text-sm font-medium text-[#6d6d6d]">
+          <div className="p-2 text-sm font-medium text-[#6d6d6d]">
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
@@ -127,7 +127,7 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
             </Skeleton>
           </div>
         </div>
-        <div className="flex border-b border-[#0000001a]">
+        <div className="grid grid-cols-full border-b border-[#0000001a]">
           <div className="w-full p-2 text-sm font-medium text-[#6d6d6d]">
             <Skeleton
               loading={loading}
@@ -142,8 +142,9 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
                 defaultValue={{
                   id: payHelpStatus?.find((x) => x?.id === getValues("Status"))
                     ?.id,
-                  name: payHelpStatus?.find((x) => x?.id === getValues("Status"))
-                    ?.name,
+                  name: payHelpStatus?.find(
+                    (x) => x?.id === getValues("Status")
+                  )?.name,
                 }}
                 placeholder=""
                 data={payHelpStatus}

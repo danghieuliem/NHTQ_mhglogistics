@@ -40,7 +40,8 @@ const Index: TNextPageWithLayout = () => {
     {
       dataIndex: "Id",
       title: "STT",
-      render: (_, __, index) => <>{++index}</>,
+      responsive: ["lg"],
+      render: (_, __, index) => index + 1,
       width: 50,
     },
     {
@@ -50,14 +51,17 @@ const Index: TNextPageWithLayout = () => {
     {
       dataIndex: "Email",
       title: "Email",
+      responsive: ["md"],
     },
     {
       dataIndex: "Phone",
       title: "Số điện thoại",
+      responsive: ["sm"],
     },
     {
       dataIndex: "Content",
       title: "Khách ghi chú",
+      responsive: ["lg"],
     },
     {
       dataIndex: "Status",
@@ -75,6 +79,7 @@ const Index: TNextPageWithLayout = () => {
     {
       dataIndex: "Created",
       title: "Ngày khách liên hệ",
+      responsive: ["lg"],
       render: (_, record) => {
         return <>{_format.getVNDate(record?.Created)}</>;
       },

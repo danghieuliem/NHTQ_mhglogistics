@@ -56,7 +56,7 @@ const TariffPriceChangeForm: FC<TForm<TTariffPriceChange>> = ({
           </div>
         </FormCard.Header>
         <FormCard.Body>
-          <div className="grid grid-cols-4 gap-3">
+          <div className="grid xs:grid-cols-4 gap-3">
             <div className="col-span-1">
               <FormInputNumber
                 control={control}

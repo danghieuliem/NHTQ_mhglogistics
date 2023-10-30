@@ -84,7 +84,7 @@ export const ChinaAndVietNamWithdrawalForm: FC<TProps> = ({
   };
 
   return (
-    <div className="grid grid-cols-2 gap-2">
+    <div className="grid sm:grid-cols-2 gap-2">
       <div className="col-span-1">
         <FormInput
           control={control}

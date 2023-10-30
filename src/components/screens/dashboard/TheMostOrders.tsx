@@ -44,7 +44,13 @@ export const TheMostOrders = () => {
       dataIndex: "UserName",
     },
     {
-      title: "Số dư (VNĐ)",
+      title: (
+        <>
+          Số dư
+          <br />
+          (VNĐ)
+        </>
+      ),
       dataIndex: "Wallet",
       align: "right",
       render: (Wallet) => <span>{_format.getVND(Wallet, "")}</span>,
@@ -53,6 +59,7 @@ export const TheMostOrders = () => {
       title: "Mua hộ",
       dataIndex: "TotalMainOrder",
       align: "right",
+      responsive: ["sm"],
       render: (_, record) => (
         <span>{_format.getVND(record?.TotalMainOrder, "")}</span>
       ),
@@ -61,6 +68,7 @@ export const TheMostOrders = () => {
       title: "Ký gửi",
       dataIndex: "TotalTransportationOrder",
       align: "right",
+      responsive: ["sm"],
       render: (_, record) => (
         <span>{_format.getVND(record?.TotalTransportationOrder, "")}</span>
       ),
@@ -69,6 +77,7 @@ export const TheMostOrders = () => {
       title: "Thanh toán hộ",
       dataIndex: "TotalPayHelp",
       align: "right",
+      responsive: ["sm"],
       render: (_, record) => (
         <span>{_format.getVND(record?.TotalPayHelp, "")}</span>
       ),

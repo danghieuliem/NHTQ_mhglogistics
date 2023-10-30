@@ -39,11 +39,10 @@ const Index: TNextPageWithLayout = () => {
   });
   // ===== END =====
 
-  if (isError)
-    return <Empty />;
+  if (isError) return <Empty />;
 
   return (
-    <div className="">
+    <div className="detail">
       <EmployeeManagementDetailForm
         {...{
           defaultValues: data?.Data,

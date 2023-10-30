@@ -5,6 +5,7 @@ import { ActionButton, DataTable, toast } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import { useScreen } from "~/hooks";
 
 type TProps = {
   filter: {
@@ -27,13 +28,15 @@ export const BonusManagementTable: React.FC<TTable<TBonus> & TProps> = ({
   RoleID,
   type,
 }) => {
+  const { isWidthSM } = useScreen();
+
   const columns: TColumnsType<TBonus> = [
     {
       dataIndex: "PayHelpOrderId",
       title: "ID Đơn",
       width: 60,
       align: "right",
-      fixed: "left",
+      fixed: !isWidthSM ? "left" : false,
       render: (_, record) => {
         let mainID = null;
         switch (type) {
@@ -111,7 +114,7 @@ export const BonusManagementTable: React.FC<TTable<TBonus> & TProps> = ({
       title: "Thao tác",
       align: "right",
       width: 180,
-      fixed: "right",
+      fixed: !isWidthSM ? "right" : false,
       render: (_, record) => {
         return (
           <div className="flex flex-wrap gap-1">
@@ -135,7 +138,7 @@ export const BonusManagementTable: React.FC<TTable<TBonus> & TProps> = ({
                     break;
                   default:
                     routerPush = {
-                      pathname: "/manager/order/request-payment/detail",
+                      pathname: "/manager/deposit/deposit-list/detail",
                       query: { id: record?.PayHelpOrderId },
                     };
                     break;
@@ -201,14 +204,19 @@ export const BonusManagementTable: React.FC<TTable<TBonus> & TProps> = ({
           loading,
           columns,
           data,
+          isExpand: false,
           bordered: true,
           scroll: { y: 700, x: 1200 },
-          pagination: {current: filter.PageIndex, total: filter.TotalItems, pageSize: filter.PageSize },
+          pagination: {
+            current: filter.PageIndex,
+            total: filter.TotalItems,
+            pageSize: filter.PageSize,
+          },
           onChange: (page, pageSize) => {
             handleFilter({
               ...filter,
               PageIndex: page.current,
-              PageSize: page.pageSize
+              PageSize: page.pageSize,
             });
           },
         }}

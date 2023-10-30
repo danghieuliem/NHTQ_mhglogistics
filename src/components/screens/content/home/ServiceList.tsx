@@ -79,6 +79,7 @@ export const ServiceList: React.FC<TTable<TService> & { refetchService }> = ({
         {...{
           columns,
           data,
+          isExpand: false,
           title: "Danh sách dịch vụ",
         }}
       />

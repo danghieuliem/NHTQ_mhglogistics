@@ -15,6 +15,7 @@ export const BanksTable: FC<TTable<TBank>> = ({
       dataIndex: "Id",
       title: "ID",
       align: "right",
+      responsive: ["lg"],
     },
     {
       dataIndex: "BankName",
@@ -62,6 +63,7 @@ export const BanksTable: FC<TTable<TBank>> = ({
       key: "action",
       title: "Thao tác",
       align: "right",
+      responsive: ["sm"],
       render: (_, record) => (
         <Space>
           <ActionButton

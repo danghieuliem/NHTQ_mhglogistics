@@ -51,6 +51,7 @@ export const DepositListHistory: React.FC<TProps> = () => {
       dataIndex: "Created",
       title: "Ngày thay đổi",
       width: 200,
+      responsive: ["sm"],
       render: (date) => _format.getVNDate(date),
     },
     {
@@ -62,6 +63,7 @@ export const DepositListHistory: React.FC<TProps> = () => {
       dataIndex: "UserGroupName",
       title: "Quyền hạn",
       width: 120,
+      responsive: ["sm"],
     },
     {
       dataIndex: "HistoryContent",
@@ -76,28 +78,7 @@ export const DepositListHistory: React.FC<TProps> = () => {
       columns={columns}
       data={data as any}
       style="detailOrder"
-      scroll={{ y: 600, x: 700 }}
       className="mb-4"
     />
-    // <DataTable
-    //   {...{
-    //     columns,
-    //     data,
-    //     bordered: true,
-    //     scroll: { y: 700, x: 1200 },
-    //     // pagination: {
-    //     //   current: filter.PageIndex,
-    //     //   total: filter.TotalItems,
-    //     //   pageSize: filter.PageSize,
-    //     // },
-    //     // onChange: (page, pageSize) => {
-    //     //   handleFilter({
-    //     //     ...filter,
-    //     //     PageIndex: page.current,
-    //     //     PageSize: page.pageSize,
-    //     //   });
-    //     // },
-    //   }}
-    // />
   );
 };

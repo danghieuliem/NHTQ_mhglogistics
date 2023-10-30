@@ -77,7 +77,9 @@ const Index: TNextPageWithLayout = () => {
           handleFilter={handleFilter}
           totalWallet={userSurplusData?.Items[0]?.TotalWallet}
         />
-        <SurplusChart dataChart={dataChart} />
+        <div className="hidden md:block">
+          <SurplusChart dataChart={dataChart} />
+        </div>
       </div>
       <SurplusTable
         {...{

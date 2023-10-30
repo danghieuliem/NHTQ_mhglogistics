@@ -29,7 +29,7 @@ export const ComplainListFilter: FC<TProps> = ({
 
   return (
     <>
-      <div className="flex items-end gap-2">
+      <div className="flex flex-col xs:flex-row xs:items-end gap-2">
         <Popover
           trigger={"click"}
           placement="bottomLeft"
@@ -92,7 +92,7 @@ export const ComplainListFilter: FC<TProps> = ({
                 ToDate: ToDate.current,
                 Status: val,
                 PageIndex: 1,
-              })
+              });
             }}
             isClearable
           />

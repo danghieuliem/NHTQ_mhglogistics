@@ -8,7 +8,7 @@ import {
   ArticleSEOForm,
   IconButton,
   Layout,
-  toast
+  toast,
 } from "~/components";
 import { breadcrumb } from "~/configs";
 import { SEOConfigs } from "~/configs/SEOConfigs";
@@ -85,6 +85,7 @@ const Index: TNextPageWithLayout = () => {
               pageType={pageType}
             />
           </Tabs.TabPane>
+
           <Tabs.TabPane key={"2"} tab={"Cấu hình SEO"}>
             <ArticleSEOForm
               control={control as Control<TArticleSEO, object>}

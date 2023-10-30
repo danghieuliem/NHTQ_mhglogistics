@@ -10,7 +10,7 @@ import {
   FormDate,
   FormInput,
   FormSelect,
-  Modal
+  Modal,
 } from "~/components";
 import {
   EActiveData,
@@ -100,7 +100,7 @@ const EmployeeManagementForm: FC<TProps> = ({
           </div>
         </FormCard.Header>
         <FormCard.Body>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid md:grid-cols-3 gap-4">
             <div className="col-span-1 grid grid-cols-1 gap-2 h-fit">
               <div className="col-span-1">
                 <FormInput

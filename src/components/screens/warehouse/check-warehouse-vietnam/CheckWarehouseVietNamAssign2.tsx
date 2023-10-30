@@ -54,8 +54,8 @@ export const CheckWarehouseVietNamAssign2: React.FC<TProps> = ({
           <p>Thêm mã kiện mới</p>
         </FormCard.Header>
         <FormCard.Body>
-          <div className="grid grid-cols-2">
-            <div className="col-span-2 mb-2">
+          <div className="grid xs:grid-cols-2 gap-2">
+            <div className="col-span-full">
               <FormInput
                 control={control}
                 name="OrderTransactionCode"
@@ -66,7 +66,7 @@ export const CheckWarehouseVietNamAssign2: React.FC<TProps> = ({
                 disabled
               />
             </div>
-            <div className="col-span-1 mr-2 mb-2">
+            <div className="col-span-1">
               <FormSelect
                 control={control}
                 name="AssignUID"
@@ -81,7 +81,7 @@ export const CheckWarehouseVietNamAssign2: React.FC<TProps> = ({
                 defaultValue={client?.[0]}
               />
             </div>
-            <div className="col-span-1 ml-2 mb-2">
+            <div className="col-span-1">
               <FormSelect
                 control={control}
                 name="WareHouseFromId"
@@ -96,7 +96,7 @@ export const CheckWarehouseVietNamAssign2: React.FC<TProps> = ({
                 defaultValue={warehouseTQ?.[0]}
               />
             </div>
-            <div className="col-span-1 mr-2 mb-2">
+            <div className="col-span-1">
               <FormSelect
                 control={control}
                 data={warehouseVN}
@@ -111,7 +111,7 @@ export const CheckWarehouseVietNamAssign2: React.FC<TProps> = ({
                 defaultValue={warehouseVN?.[0]}
               />
             </div>
-            <div className="col-span-1 ml-2 mb-2">
+            <div className="col-span-1">
               <FormSelect
                 control={control}
                 name="ShippingTypeId"
@@ -126,7 +126,7 @@ export const CheckWarehouseVietNamAssign2: React.FC<TProps> = ({
                 defaultValue={shippingTypeToWarehouse?.[0]}
               />
             </div>
-            <div className="col-span-2">
+            <div className="col-span-full">
               <FormInput
                 control={control}
                 name="AssignNote"
@@ -138,18 +138,20 @@ export const CheckWarehouseVietNamAssign2: React.FC<TProps> = ({
           </div>
         </FormCard.Body>
         <FormCard.Footer>
-          <Button
-            title="Thêm"
-            btnClass="!mr-2 !bg-main min-w-[unset]"
-            onClick={handleSubmit((data) =>
-              onPress([{ ...data, IsAssign: true, AssignType: 2 }])
-            )}
-          />
-          <Button
-            title="Hủy"
-            btnClass="!bg-active min-w-[unset]"
-            onClick={onCancel}
-          />
+          <div className="space-x-2">
+            <Button
+              title="Thêm"
+              btnClass=" !bg-main min-w-[unset]"
+              onClick={handleSubmit((data) =>
+                onPress([{ ...data, IsAssign: true, AssignType: 2 }])
+              )}
+            />
+            <Button
+              title="Hủy"
+              btnClass="!bg-active min-w-[unset]"
+              onClick={onCancel}
+            />
+          </div>
         </FormCard.Footer>
       </FormCard>
     </Modal>

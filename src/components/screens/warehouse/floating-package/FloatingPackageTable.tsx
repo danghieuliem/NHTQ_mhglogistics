@@ -5,6 +5,7 @@ import { smallPackageStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
+import { useScreen } from "~/hooks";
 type TProps = {
   filter;
   handleFilter: (newFilter) => void;
@@ -19,15 +20,17 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
   refetch,
   handleAssign,
 }) => {
+  const { isWidthMD, isWidthSM } = useScreen();
   const columns: TColumnsType<TSmallPackage> = [
     {
       dataIndex: "Id",
       title: "ID",
+      responsive: ["lg"],
     },
     {
       dataIndex: "Code",
       title: "Bao hàng",
-      responsive: ["xl"],
+      responsive: ["lg"],
     },
     {
       dataIndex: "OrderTransactionCode",
@@ -52,11 +55,13 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
       dataIndex: "Weight",
       title: "Cân kg",
       align: "right",
+      responsive: ["sm"],
     },
     {
       dataIndex: "Volume",
       title: "Khối m3",
       align: "right",
+      responsive: ["sm"],
     },
     {
       dataIndex: "Status",
@@ -79,15 +84,16 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
       dataIndex: "Created",
       title: "Ngày tạo",
       render: (date) => date && _format.getVNDate(date),
-      responsive: ["xl"],
+      responsive: ["lg"],
       width: 200,
     },
     {
       dataIndex: "action",
       align: "right",
       width: 190,
-      fixed: "right",
+      fixed: isWidthSM ? null : "right",
       title: "Gán kiện",
+      responsive: ["md"],
       render: (_, record) => (
         <Space>
           {/* <ActionButton
@@ -124,8 +130,7 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
             data,
             loading,
             bordered: true,
-
-            scroll: { y: 700 },
+            scroll: isWidthMD ? { x: true } : { y: 700, x: 700 },
             pagination: {
               current: filter.PageIndex,
               total: filter.TotalItems,

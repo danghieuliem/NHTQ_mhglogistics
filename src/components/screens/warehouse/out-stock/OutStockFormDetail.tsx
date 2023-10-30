@@ -50,10 +50,7 @@ export const OutStockFormDetail: React.FC = () => {
     } catch (error) {}
   };
 
-  if (isError)
-    return (
-      <Empty />
-    );
+  if (isError) return <Empty />;
 
   return (
     <div className="">
@@ -64,6 +61,7 @@ export const OutStockFormDetail: React.FC = () => {
         outStockSessionPackages={data?.Data?.OutStockSessionPackages}
         dataAll={data?.Data}
       />
+
       <OutStockFormTableDetail
         data={data?.Data?.OutStockSessionPackages}
         loading={isFetching || mutationDelete.isLoading}

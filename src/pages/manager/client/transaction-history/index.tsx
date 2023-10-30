@@ -88,6 +88,7 @@ const Index: TNextPageWithLayout = () => {
             <span>{_format.getVND(userData?.Wallet)}</span>
           </div>
         </div>
+
         <ClientTransactionHistoryFilter
           handleFilter={handleFilter}
           handleExportExcel={handleExportExcel}

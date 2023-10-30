@@ -9,7 +9,7 @@ import { _format } from "~/utils";
 import { OrdersPerWeekChart } from "./OrderPerWeekChart";
 import { EParamQ } from "~/enums";
 
-const box = "col-span-2 grid grid-cols-4 gap-4 mb-4";
+const box = "col-span-2 grid xs:grid-cols-2 md:grid-cols-4 gap-4 mb-4";
 
 const dataBoxItem = [
   {
@@ -144,14 +144,14 @@ export const OrdersPerWeek = React.memo(() => {
         ))}
       </div>
 
-      <div className="grid grid-cols-12 col-span-2 gap-4">
-        <div className="col-span-6">
+      <div className="grid grid-cols-2 col-span-2 gap-4">
+        <div className="col-span-full sm:col-span-1">
           <OrdersPerWeekChart dataChart={dataChart?.Data ?? []} />
         </div>
-        <div className="col-span-6">
+        <div className="col-span-full sm:col-span-1">
           <TotalRechargesPerWeek />
         </div>
-        <div className="col-span-12">
+        <div className="col-span-full">
           <PurchasePercent />
         </div>
       </div>

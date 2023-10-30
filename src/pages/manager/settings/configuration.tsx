@@ -148,6 +148,7 @@ const Index: TNextPageWithLayout = () => {
               />
             </div>
           </TabPane>
+
           <TabPane tab="Cấu hình mạng xã hội" key="2">
             <div id="social-network" className={clsx(className)}>
               <ConfigurationSocialNetwork
@@ -156,6 +157,7 @@ const Index: TNextPageWithLayout = () => {
               />
             </div>
           </TabPane>
+
           <TabPane
             tab={countRequireInputValue(
               Object.keys(errors).length,
@@ -170,6 +172,7 @@ const Index: TNextPageWithLayout = () => {
               />
             </div>
           </TabPane>
+
           <TabPane tab="Thông báo" key="4">
             <div id="notification" className={clsx(className)}>
               <ConfigurationNotification
@@ -178,6 +181,7 @@ const Index: TNextPageWithLayout = () => {
               />
             </div>
           </TabPane>
+
           <TabPane tab="Cấu hình SEO" key="6">
             <div id="seo" className={clsx(className)}>
               <ConfigurationSEO

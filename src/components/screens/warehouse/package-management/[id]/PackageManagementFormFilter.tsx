@@ -28,7 +28,9 @@ const InputSearchTransactionCode = ({ BigPackageId, refetch }) => {
 
   const handleUpdate = (data) => {
     smallPackage
-      .getByTransactionCode({ TransactionCode: data.OrderTransactionCode.trim() })
+      .getByTransactionCode({
+        TransactionCode: data.OrderTransactionCode.trim(),
+      })
       .then((res) => {
         const sendData = { ...res?.Data[0], BigPackageId: BigPackageId };
 
@@ -57,7 +59,7 @@ const InputSearchTransactionCode = ({ BigPackageId, refetch }) => {
   };
 
   return (
-    <div className="flex mr-6 items-end gap-4">
+    <div className="flex flex-col xs:flex-row items-end gap-4">
       <FormInput
         control={control}
         name="OrderTransactionCode"
@@ -83,7 +85,7 @@ export const PackageManagementFormFilter: React.FC<TProps> = ({
   refetch,
 }) => {
   return (
-    <div className="flex gap-4 items-end">
+    <div className="flex flex-col xs:flex-row gap-4 xs:items-end">
       <Skeleton
         loading={loading}
         title={false}

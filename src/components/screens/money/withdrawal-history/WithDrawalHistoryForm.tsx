@@ -79,51 +79,43 @@ export const WithDrawalHistoryForm: React.FC<TForm<TWithDraw>> = ({
           </div>
         </FormCard.Header>
         <FormCard.Body>
-          <div className="grid grid-cols-3 gap-4">
-            <div className="col-span-1">
-              <FormInput
-                control={control}
-                name="UserName"
-                label="Username"
-                placeholder=""
-                disabled
-                rules={{
-                  required: "This is required field",
-                }}
-              />
-            </div>
-            <div className="col-span-1">
-              <FormInputNumber
-                control={control}
-                name="Amount"
-                label="Số tiền rút"
-                placeholder=""
-                suffix=" VNĐ"
-                rules={{
-                  required: "This is required field",
-                }}
-                disabled={defaultValues?.Status === 2}
-              />
-            </div>
-            <div className="col-span-1">
-              <FormSelect
-                control={control}
-                name="Status"
-                data={paymentStatusData.slice(1)}
-                disabled={
-                  defaultValues?.Status !== EPaymentStatusData.Unapproved
-                }
-                defaultValue={paymentStatusData.find(
-                  (x) => x.id === defaultValues?.Status
-                )}
-                label="Trạng thái"
-                placeholder=""
-                rules={{
-                  required: "This is required field",
-                }}
-              />
-            </div>
-            <div className="col-span-3">
+          <div className="grid xs:grid-cols-3 gap-4">
+            <FormInput
+              control={control}
+              name="UserName"
+              label="Username"
+              placeholder=""
+              disabled
+              rules={{
+                required: "This is required field",
+              }}
+            />
+            <FormInputNumber
+              control={control}
+              name="Amount"
+              label="Số tiền rút"
+              placeholder=""
+              suffix=" VNĐ"
+              rules={{
+                required: "This is required field",
+              }}
+              disabled={defaultValues?.Status === 2}
+            />
+            <FormSelect
+              control={control}
+              name="Status"
+              data={paymentStatusData.slice(1)}
+              disabled={defaultValues?.Status !== EPaymentStatusData.Unapproved}
+              defaultValue={paymentStatusData.find(
+                (x) => x.id === defaultValues?.Status
+              )}
+              label="Trạng thái"
+              placeholder=""
+              rules={{
+                required: "This is required field",
+              }}
+            />
+            <div className="col-span-full">
               <FormTextarea
                 control={control}
                 name="Note"

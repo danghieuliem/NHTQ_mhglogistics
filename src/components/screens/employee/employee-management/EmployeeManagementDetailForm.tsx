@@ -90,107 +90,95 @@ export const EmployeeManagementDetailForm: React.FC<TProps> = ({
 
   return (
     <div className="w-full">
-      <div className="grid grid-cols-2 gap-4">
-        <div className="tableBox md:col-span-2 xl:col-span-1">
-          <div className="grid grid-cols-4 gap-4">
-            <div className="col-span-4 font-bold text-[22px]">
-              Cấu hình người dùng
-            </div>
-            <div className="col-span-2">
-              <FormInput
-                control={control}
-                name="UserName"
-                placeholder="Username"
-                label="Nhập username"
-                required={false}
-                disabled={true}
-              />
-            </div>
-            <div className="col-span-2">
-              <FormInput
-                control={control}
-                name="FullName"
-                placeholder="Nhập họ và tên"
-                label="Họ và tên"
-                rules={{ required: "Không bỏ trống họ và tên" }}
-              />
-            </div>
-            <div className="col-span-2">
-              <FormInput
-                control={control}
-                name="Address"
-                placeholder="Địa chỉ"
-                label="Nhập địa chỉ"
-                rules={{ required: "Không bỏ trống địa chỉ" }}
-              />
-            </div>
-            <div className="col-span-2">
-              <FormDate
-                label="Ngày sinh"
-                name="Birthday"
-                control={control}
-                placeholder="Nhập ngày sinh"
-              />
-            </div>
-            <div className="col-span-2">
-              <FormInput
-                type="email"
-                control={control}
-                name="Email"
-                placeholder="Email"
-                label="Email"
-                rules={{
-                  required: "Vui lòng điền email..",
-                  pattern: {
-                    value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                    message: "email không đúng định dạng",
-                  },
-                  validate: {
-                    check: (value) => {
-                      if (value !== oriEmail.current) {
-                        return checkUnique(value, EUnique.email);
-                      } else return;
-                    },
-                  },
-                }}
-              />
-            </div>
-            <div className="col-span-2">
-              <FormSelect
-                control={control}
-                label="Giới Tính"
-                placeholder=""
-                name="Gender"
-                data={genderData}
-                select={{ label: "Name", value: "Id" }}
-                defaultValue={genderData?.[defaultValues?.Gender]}
-                required={false}
-              />
-            </div>
-            <div className="col-span-2">
-              <FormInput
-                control={control}
-                name="Phone"
-                placeholder=""
-                label="Số điện thoại"
-                rules={{
-                  required: "Vui lòng điền số điện thoại..",
-                  pattern: {
-                    value:
-                      /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
-                    message: "Sđt không đúng định dạng",
-                  },
-                  validate: {
-                    check: (value) => {
-                      if (value !== oriPhone.current) {
-                        return checkUnique(value.trim(), EUnique.phone);
-                      } else return;
-                    },
-                  },
-                }}
-              />
-            </div>
-            <div className="col-span-2 flex items-end justify-end">
+      <div className="grid md:grid-cols-2 gap-4">
+        <div className="tableBox md:col-span-2 xl:col-span-1 grid sm:grid-cols-2 gap-4">
+          <div className="col-span-full font-bold text-[22px]">
+            Cấu hình người dùng
+          </div>
+          <FormInput
+            control={control}
+            name="UserName"
+            placeholder="Username"
+            label="Nhập username"
+            required={false}
+            disabled={true}
+          />
+          <FormInput
+            control={control}
+            name="FullName"
+            placeholder="Nhập họ và tên"
+            label="Họ và tên"
+            rules={{ required: "Không bỏ trống họ và tên" }}
+          />
+          <FormInput
+            control={control}
+            name="Address"
+            placeholder="Địa chỉ"
+            label="Nhập địa chỉ"
+            rules={{ required: "Không bỏ trống địa chỉ" }}
+          />
+          <div>
+            <FormDate
+              label="Ngày sinh"
+              name="Birthday"
+              control={control}
+              placeholder="Nhập ngày sinh"
+            />
+          </div>
+          <FormInput
+            type="email"
+            control={control}
+            name="Email"
+            placeholder="Email"
+            label="Email"
+            rules={{
+              required: "Vui lòng điền email..",
+              pattern: {
+                value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                message: "email không đúng định dạng",
+              },
+              validate: {
+                check: (value) => {
+                  if (value !== oriEmail.current) {
+                    return checkUnique(value, EUnique.email);
+                  } else return;
+                },
+              },
+            }}
+          />
+          <FormSelect
+            control={control}
+            label="Giới Tính"
+            placeholder=""
+            name="Gender"
+            data={genderData}
+            select={{ label: "Name", value: "Id" }}
+            defaultValue={genderData?.[defaultValues?.Gender]}
+            required={false}
+          />
+          <FormInput
+            control={control}
+            name="Phone"
+            placeholder=""
+            label="Số điện thoại"
+            rules={{
+              required: "Vui lòng điền số điện thoại..",
+              pattern: {
+                value:
+                  /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
+                message: "Sđt không đúng định dạng",
+              },
+              validate: {
+                check: (value) => {
+                  if (value !== oriPhone.current) {
+                    return checkUnique(value.trim(), EUnique.phone);
+                  } else return;
+                },
+              },
+            }}
+          />
+          <div className="col-span-full flex gap-4 justify-end flex-col items-stretch">
+            <div>
               <label className="mr-3">Đổi mật khẩu?</label>
               <Switch
                 onChange={() => {
@@ -199,7 +187,7 @@ export const EmployeeManagementDetailForm: React.FC<TProps> = ({
                 }}
               />
             </div>
-            <div className="col-span-2">
+            <div className="">
               <FormInput
                 control={control}
                 required={changePass}
@@ -220,8 +208,6 @@ export const EmployeeManagementDetailForm: React.FC<TProps> = ({
                     : {}
                 }
               />
-            </div>
-            <div className="col-span-2">
               <FormInput
                 control={control}
                 required={changePass}
@@ -249,168 +235,166 @@ export const EmployeeManagementDetailForm: React.FC<TProps> = ({
             </div>
           </div>
         </div>
-        <div className="tableBox md:col-span-2 xl:col-span-1">
-          <div className="grid grid-cols-1 gap-4">
-            <div className="col-span-1 font-bold text-[22px]">Cấu hình giá</div>
-            <div className="col-span-1 grid grid-cols-2 gap-4">
-              <div className="col-span-1">
-                <div className="mb-3">
-                  <FormInputNumber
-                    control={control}
-                    name="Currency"
-                    // defaultValue={defaultValues?.Currency}
-                    suffix=" VNĐ"
-                    label="Tỉ giá riêng (VNĐ)"
-                    placeholder="Tỉ giá riêng (VNĐ)"
-                    required={false}
-                  />
-                </div>
-                <div className="mb-3">
-                  <FormInputNumber
-                    control={control}
-                    name="FeeBuyPro"
-                    // defaultValue={defaultValues?.FeeBuyPro ?? 0}
-                    label="Phí mua hàng riêng (%)"
-                    suffix=" %"
-                    placeholder="Phí mua hàng riêng (%)"
-                    required={false}
-                  />
-                </div>
-                <div className="mb-3">
-                  <FormInputNumber
-                    control={control}
-                    name="Deposit"
-                    suffix=" %"
-                    label="Phí đặt cọc riêng (%)"
-                    placeholder="Phí đặt cọc riêng (%)"
-                    required={false}
-                  />
-                </div>
-                <div className="mb-3">
-                  <FormInputNumber
-                    control={control}
-                    name="FeeTQVNPerWeight"
-                    label="Phí cân nặng riêng (VNĐ/Kg)"
-                    suffix=" VNĐ/Kg"
-                    placeholder="Phí cân nặng riêng (VNĐ/Kg)"
-                    required={false}
-                  />
-                </div>
-                <div className="mb-3">
-                  <FormInputNumber
-                    control={control}
-                    name="FeeTQVNPerVolume"
-                    label="Phí thể tích riêng (VNĐ/m3)"
-                    placeholder="Phí thể tích riêng (VNĐ/m3)"
-                    suffix=" VNĐ/m3"
-                    required={false}
-                  />
-                </div>
+        <div className="tableBox md:col-span-2 xl:col-span-1 grid grid-cols-1 gap-4">
+          <div className="col-span-1 font-bold text-[22px]">Cấu hình giá</div>
+          <div className="col-span-1 grid sm:grid-cols-2 gap-4">
+            <div className="col-span-1">
+              <div className="mb-3">
+                <FormInputNumber
+                  control={control}
+                  name="Currency"
+                  // defaultValue={defaultValues?.Currency}
+                  suffix=" VNĐ"
+                  label="Tỉ giá riêng (VNĐ)"
+                  placeholder="Tỉ giá riêng (VNĐ)"
+                  required={false}
+                />
               </div>
-              <div className="col-span-1">
-                <div className="mb-3">
-                  <FormSelect
-                    control={control}
-                    placeholder=""
-                    name="SaleId"
-                    label="Nhân viên kinh doanh"
-                    data={userSaleCatalogue}
-                    required={false}
-                    select={{ label: "UserName", value: "Id" }}
-                    isClearable={true}
-                    defaultValue={{
-                      UserName:
-                        userSaleCatalogue?.find(
-                          (item) => item.Id === defaultValues?.SaleId
-                        )?.UserName ?? "Chọn nhân viên kinh doanh",
-                      Id: defaultValues?.SaleId ?? 0,
-                    }}
-                  />
-                </div>
-                <div className="mb-3">
-                  <FormSelect
-                    control={control}
-                    placeholder=""
-                    name="DatHangId"
-                    label="Nhân viên đặt hàng"
-                    isClearable={true}
-                    data={userOrderCatalogue}
-                    required={false}
-                    select={{ label: "UserName", value: "Id" }}
-                    defaultValue={{
-                      UserName:
-                        userOrderCatalogue?.find(
-                          (item) => item.Id === defaultValues?.DatHangId
-                        )?.UserName ?? "Chọn nhân viên đặt hàng",
-                      Id: defaultValues?.DatHangId ?? 0,
-                    }}
-                  />
-                </div>
-                <div className="mb-3">
-                  <FormSelect
-                    control={control}
-                    placeholder=""
-                    name="LevelId"
-                    required={false}
-                    label="Cấp người dùng"
-                    data={userLevelCatalogue}
-                    select={{ label: "Name", value: "Id" }}
-                    defaultValue={{
-                      Name:
-                        userLevelCatalogue?.find(
-                          (item) => item.Id === defaultValues?.LevelId
-                        )?.Name ?? "Chọn cấp người dùng",
-                      Id: defaultValues?.LevelId,
-                    }}
-                  />
-                </div>
-                <div className="mb-3">
-                  <FormSelect
-                    control={control}
-                    placeholder=""
-                    name="UserGroupId"
-                    label="Quyền hạn"
-                    data={userGroupCatalogue}
-                    select={{ label: "Name", value: "Id" }}
-                    defaultValue={{
-                      Name: defaultValues?.UserGroupName,
-                      Id: defaultValues?.UserGroupId,
-                    }}
-                    callback={(val) => {
-                      UserGroupNameCur.current = userGroupCatalogue.find(
-                        (item) => item.Id === val
-                      )?.Name;
-                    }}
-                  />
-                </div>
-                <div className="mb-3">
-                  <FormSelect
-                    control={control}
-                    name="Status"
-                    data={activeData.slice(1)}
-                    defaultValue={{
-                      id: defaultValues?.Status,
-                      name: defaultValues?.StatusName,
-                    }}
-                    label="Trạng thái tài khoản"
-                    placeholder="Chọn trạng thái tài khoản"
-                    required={false}
-                    menuPlacement="bottom"
-                  />
-                </div>
+              <div className="mb-3">
+                <FormInputNumber
+                  control={control}
+                  name="FeeBuyPro"
+                  // defaultValue={defaultValues?.FeeBuyPro ?? 0}
+                  label="Phí mua hàng riêng (%)"
+                  suffix=" %"
+                  placeholder="Phí mua hàng riêng (%)"
+                  required={false}
+                />
+              </div>
+              <div className="mb-3">
+                <FormInputNumber
+                  control={control}
+                  name="Deposit"
+                  suffix=" %"
+                  label="Phí đặt cọc riêng (%)"
+                  placeholder="Phí đặt cọc riêng (%)"
+                  required={false}
+                />
+              </div>
+              <div className="mb-3">
+                <FormInputNumber
+                  control={control}
+                  name="FeeTQVNPerWeight"
+                  label="Phí cân nặng riêng (VNĐ/Kg)"
+                  suffix=" VNĐ/Kg"
+                  placeholder="Phí cân nặng riêng (VNĐ/Kg)"
+                  required={false}
+                />
+              </div>
+              <div className="mb-3">
+                <FormInputNumber
+                  control={control}
+                  name="FeeTQVNPerVolume"
+                  label="Phí thể tích riêng (VNĐ/m3)"
+                  placeholder="Phí thể tích riêng (VNĐ/m3)"
+                  suffix=" VNĐ/m3"
+                  required={false}
+                />
               </div>
             </div>
+            <div className="col-span-1">
+              <div className="mb-3">
+                <FormSelect
+                  control={control}
+                  placeholder=""
+                  name="SaleId"
+                  label="Nhân viên kinh doanh"
+                  data={userSaleCatalogue}
+                  required={false}
+                  select={{ label: "UserName", value: "Id" }}
+                  isClearable={true}
+                  defaultValue={{
+                    UserName:
+                      userSaleCatalogue?.find(
+                        (item) => item.Id === defaultValues?.SaleId
+                      )?.UserName ?? "Chọn nhân viên kinh doanh",
+                    Id: defaultValues?.SaleId ?? 0,
+                  }}
+                />
+              </div>
+              <div className="mb-3">
+                <FormSelect
+                  control={control}
+                  placeholder=""
+                  name="DatHangId"
+                  label="Nhân viên đặt hàng"
+                  isClearable={true}
+                  data={userOrderCatalogue}
+                  required={false}
+                  select={{ label: "UserName", value: "Id" }}
+                  defaultValue={{
+                    UserName:
+                      userOrderCatalogue?.find(
+                        (item) => item.Id === defaultValues?.DatHangId
+                      )?.UserName ?? "Chọn nhân viên đặt hàng",
+                    Id: defaultValues?.DatHangId ?? 0,
+                  }}
+                />
+              </div>
+              <div className="mb-3">
+                <FormSelect
+                  control={control}
+                  placeholder=""
+                  name="LevelId"
+                  required={false}
+                  label="Cấp người dùng"
+                  data={userLevelCatalogue}
+                  select={{ label: "Name", value: "Id" }}
+                  defaultValue={{
+                    Name:
+                      userLevelCatalogue?.find(
+                        (item) => item.Id === defaultValues?.LevelId
+                      )?.Name ?? "Chọn cấp người dùng",
+                    Id: defaultValues?.LevelId,
+                  }}
+                />
+              </div>
+              <div className="mb-3">
+                <FormSelect
+                  control={control}
+                  placeholder=""
+                  name="UserGroupId"
+                  label="Quyền hạn"
+                  data={userGroupCatalogue}
+                  select={{ label: "Name", value: "Id" }}
+                  defaultValue={{
+                    Name: defaultValues?.UserGroupName,
+                    Id: defaultValues?.UserGroupId,
+                  }}
+                  callback={(val) => {
+                    UserGroupNameCur.current = userGroupCatalogue.find(
+                      (item) => item.Id === val
+                    )?.Name;
+                  }}
+                />
+              </div>
+              <div className="mb-3">
+                <FormSelect
+                  control={control}
+                  name="Status"
+                  data={activeData.slice(1)}
+                  defaultValue={{
+                    id: defaultValues?.Status,
+                    name: defaultValues?.StatusName,
+                  }}
+                  label="Trạng thái tài khoản"
+                  placeholder="Chọn trạng thái tài khoản"
+                  required={false}
+                  menuPlacement="bottom"
+                />
+              </div>
+            </div>
+          </div>
 
-            <div className="col-span-1 flex justify-end">
-              <IconButton
-                icon="fas fa-edit"
-                title="Cập nhật"
-                onClick={handleSubmit(_onPress)}
-                btnClass="!mr-2 !bg-active"
-                showLoading
-                toolip=""
-              />
-            </div>
+          <div className="col-span-1 flex justify-end">
+            <IconButton
+              icon="fas fa-edit"
+              title="Cập nhật"
+              onClick={handleSubmit(_onPress)}
+              btnClass="!mr-2 !bg-active"
+              showLoading
+              toolip=""
+            />
           </div>
         </div>
       </div>

@@ -148,6 +148,7 @@ const Index: TNextPageWithLayout = () => {
         handleFilter={(newFilter) => handleFilter(newFilter)}
         handleExporTExcel={handleExporTExcel}
       />
+
       <DepositListTable
         userSale={userSale}
         refetch={refetch}

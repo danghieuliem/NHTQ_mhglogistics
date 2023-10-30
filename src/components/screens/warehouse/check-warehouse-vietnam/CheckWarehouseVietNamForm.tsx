@@ -131,6 +131,12 @@ export const CheckWarehouseVietNamForm = ({ type }) => {
       //   return;
       // }
 
+      if (res.Data[0].Status > ESmallPackage.XuatKhoTQ) {
+        toast.error("Đơn đã về Việt Nam");
+        resetField("OrderTransactionCode");
+        return;
+      }
+
       if (res.Data[0].Status === ESmallPackage.DaHuy) {
         toast.error("Đơn nãy đã hủy!");
         resetField("OrderTransactionCode");
@@ -288,8 +294,8 @@ export const CheckWarehouseVietNamForm = ({ type }) => {
         mutationUpdate.isLoading
       }
     >
-      <div className="tableBox grid grid-cols-4 gap-4">
-        <div className="col-span-2">
+      <div className="tableBox grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="md:col-span-2">
           <FormInput
             control={control}
             name="OrderTransactionCode"
@@ -315,7 +321,7 @@ export const CheckWarehouseVietNamForm = ({ type }) => {
           />
         </div>
         {!!Object.keys(watchArray()).length && (
-          <div className="col-span-4 flex items-end">
+          <div className="col-span-full flex items-end">
             <IconButton
               onClick={handleSubmitArray((data) =>
                 _onPress(

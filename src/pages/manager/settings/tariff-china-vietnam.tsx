@@ -77,6 +77,7 @@ const Index: TNextPageWithLayout = () => {
         }
         handleAddStaff={() => setModalAdd(true)}
       />
+
       <TariffChinaVietNamTable
         {...{
           loading: isFetching,

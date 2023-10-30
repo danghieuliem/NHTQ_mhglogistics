@@ -53,7 +53,7 @@ export const DataTable = <T extends object = object>({
   loading = false,
   expandable,
   className,
-  isExpand = false,
+  isExpand = true,
   mediaWidth = 992,
   extraElement,
   bgHeaderType,
@@ -108,7 +108,8 @@ export const DataTable = <T extends object = object>({
 
   const getExpandable = useMemo<any>(() => {
     const defaultExpanded = { expandedRowRender: expandedRow };
-    if (isTablet) return expandable || defaultExpanded;
+    if (!isTablet) return;
+    if (isExpand && isTablet) return expandable || defaultExpanded;
     else if (isExpand) return expandable || defaultExpanded;
   }, [isExpand, expandable, isTablet, expandedRow]);
 

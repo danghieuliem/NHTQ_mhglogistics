@@ -40,14 +40,10 @@ export const NewRecharges = React.memo(() => {
   );
 
   const columns: TColumnsType<TNewRecharge> = [
-    // {
-    //   title: "STT",
-    //   dataIndex: "Id",
-    //   render: (_, __, index) => ++index,
-    // },
     {
       title: "Ngày giờ",
       dataIndex: "Created",
+      responsive: ["sm"],
       render: (created) => {
         return (
           <>
@@ -64,12 +60,13 @@ export const NewRecharges = React.memo(() => {
       title: "Số tiền nạp",
       dataIndex: "Amount",
       align: "right",
+      responsive: ["sm"],
       render: (Amount) => _format.getVND(Amount, ""),
     },
     {
       title: "Trạng thái",
       dataIndex: "Status",
-      render: (status, _) => {
+      render: (status) => {
         const color = moneyStatus.find((x) => x.id === status);
         return <TagStatus color={color?.color} statusName={color.name} />;
       },

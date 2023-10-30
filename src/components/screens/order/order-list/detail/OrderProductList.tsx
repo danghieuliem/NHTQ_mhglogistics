@@ -64,11 +64,12 @@ export const OrderProductList: React.FC<TProps> = ({
     <React.Fragment>
       <div className="flex justify-between items-center">
         <div className="flex flex-wrap gap-2">
-          <span className="font-bold">
-            Tổng số lượng: <span className="text-red"> {totalQuantity}</span>{" "}
+          <span className="font-bold grid xs:grid-cols-2">
+            <span>Tổng số lượng:</span>{" "}
+            <span className="text-red"> {totalQuantity}</span>{" "}
           </span>
-          <span className="font-bold">
-            Tổng tiền sản phẩm:{" "}
+          <span className="font-bold grid xs:grid-cols-2">
+            <span>Tổng tiền sản phẩm:</span>{" "}
             <span className="text-red">{_format.getVND(data?.PriceVND)}</span>
           </span>
         </div>

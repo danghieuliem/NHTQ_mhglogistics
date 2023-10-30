@@ -1,6 +1,6 @@
 import { Modal } from "antd";
 import Link from "next/link";
-import React from "react";
+import React, { useMemo } from "react";
 import { toast } from "react-toastify";
 import { transportationOrder } from "~/api";
 import { ActionButton, DataTable, FilterSelect } from "~/components";
@@ -9,6 +9,7 @@ import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 import TagStatus from "../../status/TagStatus";
 import clsx from "clsx";
+import { useScreen } from "~/hooks";
 
 type TProps = {
   refetch: () => void;
@@ -31,6 +32,8 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
   userSale,
   countRefetch,
 }) => {
+  const { isWidthLG, isWidthSM } = useScreen();
+
   const _onPress = (data: TUserDeposit) => {
     const id = toast.loading("Đang xử lý ...");
     transportationOrder
@@ -61,11 +64,12 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
       title: "ID",
       width: 50,
       align: "right",
-      fixed: "left",
-      render: (_) => {
+      responsive: ["sm"],
+      fixed: !isWidthLG ? "left" : false,
+      render: (value) => {
         return (
-          <Link href={`/manager/deposit/deposit-list/detail/?id=${_}`}>
-            <a target="_blank">{_}</a>
+          <Link href={`/manager/deposit/deposit-list/detail/?id=${value}`}>
+            <a target="_blank">{value}</a>
           </Link>
         );
       },
@@ -74,17 +78,19 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
       dataIndex: "OrderTransactionCode",
       title: <>Mã vận đơn</>,
       width: 120,
-      fixed: "left",
+      fixed: !isWidthLG ? "left" : false,
     },
     {
       dataIndex: "UserName",
       title: <>UserName</>,
       width: 120,
+      responsive: ["sm"],
     },
     {
       dataIndex: "WareHouseFrom",
       title: <>Thông tin</>,
       width: 250,
+      responsive: ["sm"],
       render: (_, record) => {
         return (
           <div className="h-full flex flex-col">
@@ -108,6 +114,7 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
       dataIndex: "TotalPriceVND",
       title: <>Thông tin phí (VNĐ)</>,
       width: 250,
+      responsive: ["sm"],
       render: (_, record) => {
         return (
           <>
@@ -145,6 +152,7 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
       dataIndex: "SalerID",
       title: <>Nhân viên</>,
       width: 160,
+      responsive: ["sm"],
       render: (_, record) => {
         return (
           <FilterSelect
@@ -174,6 +182,7 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
     {
       dataIndex: "CreateDate",
       title: "TimeLine",
+      responsive: ["sm"],
       render: (_, record) => (
         <React.Fragment>
           {record.Created && (
@@ -323,6 +332,7 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
       title: "Thao tác",
       width: 120,
       fixed: "right",
+      responsive: ["sm"],
       render: (_, record) => {
         return (
           <div className="flex flex-wrap gap-1">
@@ -370,7 +380,7 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
           data,
           loading,
           bordered: true,
-          scroll: { y: 700, x: 1200 },
+          scroll: isWidthSM ? { x: true } : { y: 700, x: 1200 },
           pagination: {
             current: filter.PageIndex,
             total: filter.TotalItems,

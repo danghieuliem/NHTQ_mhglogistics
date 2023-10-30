@@ -5,7 +5,7 @@ import { TColumnsType, TTable } from "~/types/table";
 import TagStatus from "../../status/TagStatus";
 import { ClientCommentForm } from "./ClientCommentForm";
 
-export const ClientComentList: React.FC<
+export const ClientCommentList: React.FC<
   TTable<TCustomerBenefit> & { refetchcustomerComment }
 > = ({ data, refetchcustomerComment }) => {
   const columns: TColumnsType<TCustomerBenefit> = [
@@ -83,6 +83,7 @@ export const ClientComentList: React.FC<
         {...{
           columns,
           data,
+          isExpand: false,
           title: "Khách hàng nhận xét",
         }}
       />

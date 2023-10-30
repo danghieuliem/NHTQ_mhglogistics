@@ -32,7 +32,7 @@ export const TariffChinaVietNamFilter: FC<TProps> = (props) => {
       .getList({
         PageSize: 999999,
         PageIndex: 1,
-        Active: true
+        Active: true,
       })
       .then((res) => res.Data.Items)
   );
@@ -42,7 +42,7 @@ export const TariffChinaVietNamFilter: FC<TProps> = (props) => {
       .getList({
         PageSize: 999999,
         PageIndex: 1,
-        Active: true
+        Active: true,
       })
       .then((res) => res.Data.Items)
   );
@@ -54,7 +54,7 @@ export const TariffChinaVietNamFilter: FC<TProps> = (props) => {
         .getList({
           PageSize: 999999,
           PageIndex: 1,
-          Active: true
+          Active: true,
         })
         .then((res) => res.Data.Items),
     {
@@ -68,7 +68,7 @@ export const TariffChinaVietNamFilter: FC<TProps> = (props) => {
         placement="bottomLeft"
         trigger={"click"}
         content={
-          <div className="w-fit  grid grid-cols-2 gap-4 !p-4">
+          <div className="w-fit grid xs:grid-cols-2 gap-4 !p-4">
             <div className="col-span-1">
               <FormSelect
                 isClearable={true}
@@ -117,7 +117,7 @@ export const TariffChinaVietNamFilter: FC<TProps> = (props) => {
                 required={false}
               />
             </div>
-            <div className="col-span-2 flex justify-end">
+            <div className="col-span-full flex justify-end">
               <IconButton
                 onClick={handleSubmit(_onFilter)}
                 icon="!mr-0"

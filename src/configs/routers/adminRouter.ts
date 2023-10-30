@@ -51,13 +51,9 @@ export const adminRouter = [
             Path: "/manager/settings/banks/",
             Label: "Danh sách ngân hàng",
           },
-          {
-            Path: "/manager/settings/notifications/",
-            Label: "Thông báo",
-          },
           // {
-          // 	Path: "manager/employee/decentralization-management",
-          // 	name: "Quản lý phân quyền",
+          //   Path: "/manager/settings/notifications/",
+          //   Label: "Thông báo",
           // },
         ],
       },
@@ -337,6 +333,11 @@ export const adminRouter = [
             Icon: "",
             Path: "/manager/statistical/payment-profit/",
             Label: "Lợi nhuận thanh toán",
+          },
+          {
+            Icon: "",
+            Path: "/manager/statistical/income-transport/",
+            Label: "Doanh thu ký gửi",
           },
           {
             Icon: "",

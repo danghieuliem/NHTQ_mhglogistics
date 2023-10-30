@@ -47,6 +47,7 @@ export const TariffBuyProTable: FC<TTable<TTariffBuyPro>> = ({
   return (
     <DataTable
       {...{
+        isExpand: false,
         columns,
         loading,
         data,

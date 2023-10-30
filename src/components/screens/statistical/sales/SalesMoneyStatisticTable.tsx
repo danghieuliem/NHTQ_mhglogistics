@@ -7,7 +7,8 @@ export const SalesMoneyStatisticTable = ({ data }) => {
     {
       title: "STT",
       dataIndex: "Name",
-      render: (_, __, index) => ++index,
+      render: (_, __, index) => index + 1,
+      responsive: ["lg"],
     },
     {
       dataIndex: "Name",

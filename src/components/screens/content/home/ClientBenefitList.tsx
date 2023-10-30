@@ -32,7 +32,7 @@ export const ClientBenefitList: React.FC<
     {
       dataIndex: "Name",
       title: "Tên quyền lợi",
-      width: 260
+      width: 260,
     },
     {
       dataIndex: "Active",
@@ -52,7 +52,10 @@ export const ClientBenefitList: React.FC<
       sorter: (a, b) => a?.ItemType - b?.ItemType,
       render(value, record, index) {
         return (
-          <TagStatus color={record?.ItemType == 1 ? "magenta" : "blue"} statusName={record?.ItemTypeName} />
+          <TagStatus
+            color={record?.ItemType == 1 ? "magenta" : "blue"}
+            statusName={record?.ItemTypeName}
+          />
         );
       },
     },
@@ -90,6 +93,7 @@ export const ClientBenefitList: React.FC<
         {...{
           columns,
           data,
+          isExpand: false,
           title: "Danh sách quyền lợi/cam kết",
         }}
       />

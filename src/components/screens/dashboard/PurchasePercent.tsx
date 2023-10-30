@@ -69,7 +69,7 @@ const PercentOrder = () => {
   };
 
   return (
-    <div className="tableBox col-span-4">
+    <div className="tableBox w-full h-full flex flex-col justify-between">
       <p className="titleTable">Tỉ lệ đơn mua hộ</p>
       <div className="grid grid-cols-2 gap-1 mt-4 ">
         <TagStatus color="#000" statusName="Đã huỷ" />
@@ -138,7 +138,7 @@ const PercentTransport = () => {
   };
 
   return (
-    <div className="tableBox col-span-4">
+    <div className="tableBox w-full h-full flex flex-col justify-between">
       <p className="titleTable">Tỉ lệ đơn ký gửi</p>
       <div className="grid grid-cols-2 gap-1 mt-4 ">
         <TagStatus color="#000" statusName="Đã huỷ" />
@@ -193,7 +193,7 @@ const PercentPayment = () => {
   };
 
   return (
-    <div className="tableBox col-span-4">
+    <div className="tableBox w-full h-full flex flex-col justify-between">
       <p className="titleTable">Tỉ lệ đơn thanh toán hộ</p>
       <div className="grid grid-cols-2 gap-1 mt-4 ">
         <TagStatus color="#000" statusName="Đã huỷ" />
@@ -218,7 +218,7 @@ const PercentPaymentMemo = React.memo(PercentPayment);
 
 export const PurchasePercent = () => {
   return (
-    <div className="grid grid-cols-12 gap-4">
+    <div className="xs:grid hidden md:grid-cols-3 gap-4 w-full">
       <PercentOrderMemo />
       <PercentTransportMemo />
       <PercentPaymentMemo />
