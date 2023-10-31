@@ -1,15 +1,14 @@
-import { Input, Tag } from "antd";
+import { Input } from "antd";
 import router from "next/router";
 import React, { useState } from "react";
 import { useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 import { outStockSession } from "~/api";
-import { ActionButton, DataTable, IconButton } from "~/components";
-import { smallPackageStatusData } from "~/configs/appConfigs";
+import { ActionButton, DataTable } from "~/components";
 import { TColumnsType, TTable } from "~/types/table";
 import TagStatus from "../../status/TagStatus";
 import Link from "next/link";
-import { orderStatus, transportationStatus } from "~/configs";
+import { smallPackageStatus } from "~/configs";
 
 const CustomInput = ({ data, setIdsExport, idsExport, handleOnChangeKey }) => {
   const [inputValue, setInputValue] = useState("");
@@ -144,11 +143,8 @@ export const OutStockTable: React.FC<
     {
       dataIndex: "Status",
       title: "Trạng thái",
-      render: (status, record) => {
-        const getListStatus: Array<any> =
-          (record?.OrderType === 2 ? transportationStatus : orderStatus) || [];
-
-        const findStatus = getListStatus.find((x) => x?.id === status);
+      render: (status) => {
+        const findStatus = smallPackageStatus.find((x) => x?.id === status);
 
         return (
           <TagStatus color={findStatus?.color} statusName={findStatus?.name} />

@@ -3,7 +3,7 @@ import React from "react";
 import { smallPackage } from "~/api";
 import { ActionButton, DataTable, toast } from "~/components";
 import TagStatus from "~/components/screens/status/TagStatus";
-import { transportationStatus } from "~/configs";
+import { smallPackageStatus } from "~/configs";
 import { TColumnsType, TTable } from "~/types/table";
 import { _format } from "~/utils";
 
@@ -78,7 +78,7 @@ export const OrderTransportList: React.FC<TTable<TSmallPackage>> = ({
       align: "right",
       title: "Trạng thái",
       render: (status) => {
-        const orderStatus = transportationStatus.find((x) => x.id === status);
+        const orderStatus = smallPackageStatus.find((x) => x.id === status);
         return (
           <TagStatus
             color={orderStatus?.color}
