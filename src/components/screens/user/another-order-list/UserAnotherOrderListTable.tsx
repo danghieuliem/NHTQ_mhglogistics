@@ -322,7 +322,7 @@ export const UserAnotherOrderListTable: React.FC<
                 "flex justify-between px-2"
               )}
             >
-              <span>Vê kho TQ:</span>
+              <span>Về kho TQ:</span>
               <span>
                 {_format.getVNDate(record.DateTQ, "HH:mm")} -
                 {_format.getVNDate(record.DateTQ, "DD/MM/YYYY")}
@@ -350,7 +350,7 @@ export const UserAnotherOrderListTable: React.FC<
                 "flex justify-between px-2"
               )}
             >
-              <span>Vê kho VN:</span>
+              <span>Về kho VN:</span>
               <span>
                 {_format.getVNDate(record.DateVN, "HH:mm")} -
                 {_format.getVNDate(record.DateVN, "DD/MM/YYYY")}
