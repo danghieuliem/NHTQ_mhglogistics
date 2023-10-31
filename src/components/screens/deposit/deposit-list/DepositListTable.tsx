@@ -248,7 +248,7 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
                 "flex justify-between px-2"
               )}
             >
-              <span>Vê kho VN:</span>
+              <span>Về kho VN:</span>
               <span>
                 {_format.getVNDate(record.VNDate, "HH:mm")} -
                 {_format.getVNDate(record.VNDate, "DD/MM/YYYY")}
