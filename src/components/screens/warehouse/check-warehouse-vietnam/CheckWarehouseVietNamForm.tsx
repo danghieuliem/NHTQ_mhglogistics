@@ -131,7 +131,7 @@ export const CheckWarehouseVietNamForm = ({ type }) => {
       //   return;
       // }
 
-      if (res.Data[0].Status > ESmallPackage.XuatKhoTQ) {
+      if (res.Data[0].Status > ESmallPackage.VeKhoVN) {
         toast.error("Đơn đã về Việt Nam");
         resetField("OrderTransactionCode");
         return;
