@@ -1,4 +1,5 @@
 import { Spin } from "antd";
+import { isEmpty } from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
@@ -64,15 +65,19 @@ const Index: TNextPageWithLayout = ({ connection }) => {
   if (isError) return <NotFound />;
 
   return (
-    <Spin spinning={loading}>
-      <DepositListForm
-        defaultValues={data?.Data}
-        shippingTypeToWarehouseCatalogue={shippingTypeToWarehouse}
-        loading={isLoading}
-        refetch={refetch}
-        RoleID={userCurrentInfo?.UserGroupId}
-      />
-    </Spin>
+    <>
+      {!isEmpty(data) && (
+        <Spin spinning={loading}>
+          <DepositListForm
+            defaultValues={data?.Data}
+            shippingTypeToWarehouseCatalogue={shippingTypeToWarehouse}
+            loading={isLoading}
+            refetch={refetch}
+            RoleID={userCurrentInfo?.UserGroupId}
+          />
+        </Spin>
+      )}
+    </>
   );
 };
 
