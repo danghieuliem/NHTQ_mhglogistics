@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { BlankLayout } from "~/components";
+import BlankLayout from "~/components/globals/layout/blankLayouts";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {

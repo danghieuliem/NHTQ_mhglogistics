@@ -27,9 +27,9 @@ import "../assets/fontawesome/css/all.min.css";
 import "../styles/globals.css";
 import "../styles/newStyles.css";
 import "../styles/antdOverWrite.css";
+import BlankLayout from "~/components/globals/layout/blankLayouts";
 // import "../styles/styles.css";
 // signalR
-import { BlankLayout } from "~/components";
 
 // config
 const queryClient = new QueryClient();

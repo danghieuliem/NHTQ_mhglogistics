@@ -1,5 +1,7 @@
 import React from "react";
 
-export const BlankLayout: React.FC<{}> = ({ children }) => {
+const BlankLayout: React.FC<{}> = ({ children }) => {
   return <>{children}</>;
 };
+
+export default BlankLayout;
