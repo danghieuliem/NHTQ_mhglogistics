@@ -83,7 +83,8 @@
 // export default Index;
 
 import React from "react";
-import { BlankLayout, NotFound } from "~/components";
+import { NotFound } from "~/components";
+import BlankLayout from "~/components/globals/layout/blankLayouts";
 import { TNextPageWithLayout } from "~/types/layout";
 
 const Index: TNextPageWithLayout = () => {

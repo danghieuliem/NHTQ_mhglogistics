@@ -8,11 +8,11 @@ import {
   RegisterFormMemo,
   SignInForm,
 } from "~/components";
-import { BlankLayout } from "~/components";
 import { RootState } from "~/store";
 import { TNextPageWithLayout } from "~/types/layout";
 import styles from "./index.module.css";
 import { TrialForm } from "~/components/screens/auth/Trial";
+import BlankLayout from "~/components/globals/layout/blankLayouts";
 
 const Index: TNextPageWithLayout = () => {
   const dataGlobal: TConfig = useSelector(
