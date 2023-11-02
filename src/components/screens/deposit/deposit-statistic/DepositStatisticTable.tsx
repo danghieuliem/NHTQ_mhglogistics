@@ -73,24 +73,33 @@ export const DepositStatisticTable: React.FC<
     },
     {
       dataIndex: "TotalPackage",
-      title: "Tổng số kiện",
+      title: (
+        <>
+          Tổng số
+          <br />
+          kiện
+        </>
+      ),
       align: "center",
       responsive: ["lg"],
-      render: (money) => money && _format.getVND(money, ""),
     },
     {
       dataIndex: "TotalWeight",
       title: "Tổng số KG",
       align: "center",
       responsive: ["lg"],
-      render: (money) => money && _format.getVND(money, ""),
     },
     {
       dataIndex: "TotalPriceVND",
-      title: "Tổng cước",
+      title: (
+        <>
+          Tổng cước
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "center",
       responsive: ["xl"],
-      render: (money) => money && _format.getVND(money),
     },
     {
       dataIndex: "ShippingTypeInVNName",
@@ -100,9 +109,15 @@ export const DepositStatisticTable: React.FC<
     },
     {
       dataIndex: "StatusExport",
-      title: "Trạng thái thanh toán",
+      title: (
+        <>
+          Trạng thái
+          <br />
+          thanh toán
+        </>
+      ),
       align: "center",
-      render: (status, record) => {
+      render: (_, record) => {
         return (
           <Tag color={paymentData?.[record.Status]?.color}>
             {record.StatusName}

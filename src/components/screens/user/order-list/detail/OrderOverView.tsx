@@ -252,16 +252,15 @@ const OrderOverView: React.FC<TProps> = ({ data, updatePaid }) => {
                   x.key.includes("TQ")
                 ) {
                   if (x.key.includes("Price") || x.key.includes("FeeShip")) {
-                    return ` - (${_format.getVND(x?.value, " ¥")})`;
+                    return ` - (${_format.getYuan(x?.value)})`;
                   } else {
                     // return ` - (${x?.value} kg)`;
                   }
                 } else {
-                  return _format.getVND(x?.value, " VNĐ");
+                  return _format.getVND(x?.value);
                 }
               })}
-            {item?.value.length === 1 &&
-              _format.getVND(item?.value[0].value, " VNĐ")}
+            {item?.value.length === 1 && _format.getVND(item?.value[0].value)}
           </div>
         </div>
       ))}

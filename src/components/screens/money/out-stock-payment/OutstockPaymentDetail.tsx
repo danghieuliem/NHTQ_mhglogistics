@@ -123,11 +123,11 @@ export const OutstockPaymentDetail: React.FC<
       align: "right",
       width: 120,
       render: (smallPackage: TSmallPackage) =>
-        _format.getVND(smallPackage?.VolumePayment, ""),
+        _format.getVolume(smallPackage?.VolumePayment),
     },
     {
       dataIndex: "SmallPackage",
-      title: "Trạng thái kiện",
+      title: "Trạng thái",
       width: 200,
       render: (smallPackage: TSmallPackage) => (
         <TagStatus
@@ -141,7 +141,11 @@ export const OutstockPaymentDetail: React.FC<
     },
     {
       dataIndex: "IsPayment",
-      title: "Trạng thái thanh toán",
+      title: (
+        <>
+          Trạng thái <br /> thanh toán
+        </>
+      ),
       width: 200,
       render: (isPayment: boolean) => (
         <TagStatus
@@ -152,10 +156,14 @@ export const OutstockPaymentDetail: React.FC<
     },
     {
       dataIndex: "OrderRemaining",
-      title: "Số tiền cần thanh toán (VNĐ)",
+      title: (
+        <>
+          Số tiền <br /> cần thanh toán <br /> (VNĐ)
+        </>
+      ),
       align: "right",
       render: (money) => (
-        <b className="text-warning">{_format.getVND(money, " ")}</b>
+        <b className="text-warning">{_format.getVND(money, "")}</b>
       ),
     },
   ];
@@ -168,10 +176,12 @@ export const OutstockPaymentDetail: React.FC<
             <b>Tổng số khối</b>
           </Table.Summary.Cell>
           <Table.Summary.Cell index={1} colSpan={1} align="right">
-            {item?.OutStockSessionPackages?.reduce(
-              (prev, cur) => prev + cur?.SmallPackage?.VolumePayment,
-              0
-            ).toFixed(5) + " m3"}
+            {_format.getVolume(
+              item?.OutStockSessionPackages?.reduce(
+                (prev, cur) => prev + cur?.SmallPackage?.VolumePayment,
+                0
+              )
+            ) + " m3"}
           </Table.Summary.Cell>
         </Table.Summary.Row>
         <Table.Summary.Row>
@@ -307,7 +317,9 @@ export const OutstockPaymentDetail: React.FC<
                   <td>{item?.SmallPackage?.VolumePayment}</td>
                   <td>{item?.SmallPackage?.LWH}</td>
                   <td>{_format.getVND(item?.SmallPackage?.PriceWeight, "")}</td>
-                  <td>{_format.getVND(item?.SmallPackage?.TotalPrice || 0)}</td>
+                  <td>
+                    {_format.getVND(item?.SmallPackage?.TotalPrice || 0, "")}
+                  </td>
                 </tr>
               );
             })}

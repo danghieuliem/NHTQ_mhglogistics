@@ -40,7 +40,13 @@ const OutStockPaymentTable: React.FC<TTable<TOutStockSession> & TProps> = ({
     },
     {
       dataIndex: "TotalPay",
-      title: "Tổng tiền (VNĐ)",
+      title: (
+        <>
+          Tổng tiền
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       responsive: ["sm"],
       render: (val) => _format.getVND(val, ""),

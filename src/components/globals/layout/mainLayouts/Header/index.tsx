@@ -340,7 +340,7 @@ const Header: React.FC<TProps> = ({ hover, handleHover, userPage }) => {
                 Tỉ giá:
               </span>
               <span className="!font-bold xl:!text-[12px] !text-xs flex items-center !text-main">
-                1¥ = {_format.getVND(configData?.Data, " VNĐ")}
+                1¥ = {_format.getVND(configData?.Data)}
               </span>
             </div>
           </div>

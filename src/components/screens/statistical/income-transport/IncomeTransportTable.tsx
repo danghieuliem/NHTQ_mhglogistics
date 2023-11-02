@@ -79,7 +79,12 @@ const IncomeTransportTable: FC<TTable<TStatisticalIncomeTransport>> = ({
     {
       dataIndex: "SensorFeeVND",
       key: "SensorFeeVND",
-      title: "Cước vật tư",
+      title: (
+        <>
+          Cước vật tư <br />
+          (VNĐ)
+        </>
+      ),
       align: "center",
       render: (money) => _format.getVND(money),
       responsive: ["md"],
@@ -89,7 +94,13 @@ const IncomeTransportTable: FC<TTable<TStatisticalIncomeTransport>> = ({
     {
       dataIndex: "AdditionFeeVND",
       key: "AdditionFeeVND",
-      title: "PP mặt hàng đặc biệt",
+      title: (
+        <>
+          PP mặt hàng
+          <br />
+          đặc biệt
+        </>
+      ),
       align: "center",
       render: (money) => _format.getVND(money),
       responsive: ["lg"],
@@ -99,7 +110,11 @@ const IncomeTransportTable: FC<TTable<TStatisticalIncomeTransport>> = ({
     {
       dataIndex: "FeeWeightPerKg",
       key: "FeeWeightPerKg",
-      title: "Tiền cân KG",
+      title: (
+        <>
+          Tiền cân KG <br /> (VNĐ)
+        </>
+      ),
       align: "center",
       render: (money) => _format.getVND(money),
       responsive: ["lg"],
@@ -109,7 +124,12 @@ const IncomeTransportTable: FC<TTable<TStatisticalIncomeTransport>> = ({
     {
       dataIndex: "TotalPriceVND",
       key: "TotalPriceVND",
-      title: "Tổng tiền",
+      title: (
+        <>
+          Tổng tiền <br />
+          (br)
+        </>
+      ),
       align: "center",
       render: (money) => _format.getVND(money),
       responsive: ["lg"],

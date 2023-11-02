@@ -149,7 +149,7 @@ export const OutStockFormTableDetail: React.FC<
       dataIndex: "OrderRemaining",
       title: "Số tiền cần thanh toán (VNĐ)",
       align: "right",
-      render: (price) => _format.getVND(price, " "),
+      render: (price) => _format.getVND(price, ""),
     },
   ];
 

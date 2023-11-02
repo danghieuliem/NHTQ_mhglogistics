@@ -29,7 +29,7 @@ const columns: TColumnsType<TNewPaymentOrders> = [
     title: "Tổng tiền (¥)",
     dataIndex: "TotalPrice",
     align: "right",
-    render: (record) => _format.getVND(record, ""),
+    render: (record) => _format.getYuan(record, ""),
     responsive: ["lg"],
   },
   {

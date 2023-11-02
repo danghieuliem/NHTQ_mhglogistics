@@ -127,6 +127,10 @@ class Format {
     );
   };
 
+  getVolume = (val: number) => {
+    return val.toFixed(5);
+  };
+
   // format tiền việt nam
   getVND = (price: number, suffix: string = " VNĐ") => {
     if (price === null || price === undefined) return "--";

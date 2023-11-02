@@ -24,7 +24,13 @@ const ChinaWithdrawHistoryTable: React.FC<TTable<TRechargeRMB | TRefund>> = ({
     },
     {
       dataIndex: "Amount",
-      title: "Số tiền",
+      title: (
+        <>
+          Số tiền
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "center",
       responsive: ["sm"],
       render: (record) => _format.getVND(record, ""),

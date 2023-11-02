@@ -195,7 +195,7 @@ export const UserRequestListTable: React.FC<
       ),
       align: "right",
       responsive: ["lg"],
-      render: (money) => _format.getVND(money, ""),
+      render: (money) => _format.getYuan(money, ""),
     },
     {
       dataIndex: "TotalPriceVND",

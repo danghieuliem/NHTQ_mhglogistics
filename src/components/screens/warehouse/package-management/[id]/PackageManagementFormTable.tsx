@@ -49,14 +49,13 @@ export const PackageManagementFormTable: React.FC<
       align: "right",
       title: "Phí ship tệ",
       responsive: ["md"],
-      render: (fee) => _format.getVND(fee, ""),
+      render: (fee) => _format.getYuan(fee, ""),
     },
     {
       dataIndex: "Weight",
       align: "right",
       title: "Cận nặng kg",
       responsive: ["lg"],
-      render: (fee) => _format.getVND(fee, ""),
     },
     // {
     //   dataIndex: "Volume",

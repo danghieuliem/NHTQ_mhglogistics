@@ -411,8 +411,8 @@ export const OrderPaymentForm: React.FC<TProps> = ({
                         <span>Số tiền cần thanh toán: </span>
                         <span className="font-bold">
                           {getValues("PaymentType") === 1
-                            ? _format.getVND(data?.AmountDeposit, " VNĐ")
-                            : _format.getVND(data?.RemainingAmount, " VNĐ")}
+                            ? _format.getVND(data?.AmountDeposit)
+                            : _format.getVND(data?.RemainingAmount)}
                         </span>
                       </div>
                       <b className="mt-10 block">

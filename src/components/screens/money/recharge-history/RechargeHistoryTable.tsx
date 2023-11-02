@@ -47,19 +47,25 @@ export const RechargeHistoryTable: React.FC<
     },
     {
       dataIndex: "Amount",
-      title: "Số tiền nạp (VNĐ)",
+      title: (
+        <>
+          Số tiền nạp
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       responsive: ["md"],
-      render: (money, __) => {
+      render: (money, record) => {
         return (
           <div>
             <div className="flex justify-between mb-1">
               <div className="font-semibold">Số tiền: </div>
-              <div>{_format.getVND(money, " ")}</div>
+              <div>{_format.getVND(money, "")}</div>
             </div>
             <div className="flex justify-between">
               <div className="font-semibold">Ngân hàng: </div>
-              <div>{__?.BankName}</div>
+              <div>{record?.BankName}</div>
             </div>
           </div>
         );

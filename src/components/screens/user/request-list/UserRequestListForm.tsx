@@ -105,7 +105,7 @@ export const UserRequestListForm: React.FC<TProps> = ({ data }) => {
         </>
       ),
       align: "right",
-      render: (_, record) => _format.getVND(record?.Desc1, " "),
+      render: (_, record) => _format.getYuan(record?.Desc1, " "),
     },
     {
       dataIndex: "action",
@@ -156,7 +156,6 @@ export const UserRequestListForm: React.FC<TProps> = ({ data }) => {
             control={control}
             name="TotalPrice"
             label="Tổng tiền Tệ (¥)"
-            // placeholder={`${_format.getVND(data?.TotalPrice)}`}
             placeholder=""
             prefix="¥ "
             required={false}

@@ -36,7 +36,11 @@ export const SalesPaymentStatisticTable = ({
     },
     {
       dataIndex: "Amount",
-      title: "Số tiền",
+      title: (
+        <>
+          Số tiền <br /> (VNĐ)
+        </>
+      ),
       align: "right",
       render: (money) => _format.getVND(money, ""),
       responsive: ["md"],

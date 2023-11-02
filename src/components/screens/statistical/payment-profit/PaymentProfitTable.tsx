@@ -34,33 +34,54 @@ const PaymentProfitTable: FC<
     },
     {
       dataIndex: "TotalPrice",
-      title: "Số tiền (¥)",
+      title: (
+        <>
+          Số tiền
+          <br />
+          (¥)
+        </>
+      ),
       align: "right",
       width: 120,
       responsive: ["md"],
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
     },
     {
       dataIndex: "TotalPriceVNDGiaGoc",
-      title: "Tiền gốc (VNĐ)",
+      title: (
+        <>
+          Tiền gốc <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       responsive: ["sm"],
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
       width: 120,
     },
     {
       dataIndex: "TotalPriceVND",
-      title: "Tiền thu (VNĐ)",
+      title: (
+        <>
+          Tiền thu <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       responsive: ["sm"],
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
       width: 120,
     },
     {
       dataIndex: "Profit",
-      title: "Lợi nhuận (VNĐ)",
+      title: (
+        <>
+          Lợi nhuận <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
       width: 120,
     },
   ];

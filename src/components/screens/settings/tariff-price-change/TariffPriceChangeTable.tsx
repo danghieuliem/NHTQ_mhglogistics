@@ -16,15 +16,27 @@ export const TariffPriceChangeTable: FC<TTable<TTariffPriceChange>> = ({
     },
     {
       dataIndex: "PriceFromCNY",
-      title: "Giá tệ từ (¥)",
+      title: (
+        <>
+          Giá tệ từ
+          <br />
+          (¥)
+        </>
+      ),
       align: "right",
-      render: (priceFromCNY) => _format.getVND(priceFromCNY, " "),
+      render: (priceFromCNY) => _format.getYuan(priceFromCNY, ""),
     },
     {
       dataIndex: "PriceToCNY",
-      title: "Giá tệ đến (¥)",
+      title: (
+        <>
+          Giá tệ đến
+          <br />
+          (¥)
+        </>
+      ),
       align: "right",
-      render: (PriceToCNY) => _format.getVND(PriceToCNY, " "),
+      render: (PriceToCNY) => _format.getYuan(PriceToCNY, ""),
     },
     {
       dataIndex: "Vip0",

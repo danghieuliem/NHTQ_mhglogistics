@@ -43,7 +43,7 @@ const TransactionTable: FC<
         </>
       ),
       align: "right",
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
       width: 160,
     },
     {
@@ -58,7 +58,7 @@ const TransactionTable: FC<
       ),
       align: "right",
       responsive: ["sm"],
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
       width: 160,
     },
     {

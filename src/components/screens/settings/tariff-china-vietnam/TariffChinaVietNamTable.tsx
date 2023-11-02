@@ -62,14 +62,12 @@ export const TariffChinaVietNamTable: FC<TTable<TTariffTQVN> & TProps> = ({
       title: "Cân nặng từ",
       align: "right",
       responsive: ["md"],
-      render: (_, record) => _format.getVND(record?.WeightFrom, ""),
     },
     {
       dataIndex: "WeightTo",
       title: "Cân nặng đến",
       align: "right",
       responsive: ["md"],
-      render: (_, record) => _format.getVND(record?.WeightTo, ""),
     },
     {
       dataIndex: "Price",

@@ -50,7 +50,7 @@ export const HistoryRechargeVNDTable: React.FC<
       dataIndex: "Amount",
       title: "Số tiền nạp (VNĐ)",
       align: "right",
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
       width: 140,
     },
     {

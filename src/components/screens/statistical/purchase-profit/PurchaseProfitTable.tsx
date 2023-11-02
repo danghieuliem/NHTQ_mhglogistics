@@ -29,97 +29,155 @@ const PurchaseProfitTable: FC<
     },
     {
       dataIndex: "TotalPriceVND",
-      title: () => <>Tổng tiền</>,
+      title: () => (
+        <>
+          Tổng tiền
+          <br />
+          (VNĐ)
+        </>
+      ),
       width: 120,
       align: "right",
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
     },
     {
       dataIndex: "TotalPriceReal",
-      title: () => <>Tổng tiền thật</>,
+      title: () => (
+        <>
+          Tổng tiền thật
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       width: 120,
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
     },
     {
       dataIndex: "PriceVND",
-      title: () => <>Tiền hàng</>,
+      title: () => (
+        <>
+          Tiền hàng
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       width: 120,
       responsive: ["md"],
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
     },
     {
       dataIndex: "Profit",
-      title: () => <>Lợi nhuận</>,
+      title: () => (
+        <>
+          Lợi nhuận
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       width: 120,
       responsive: ["md"],
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
     },
     {
       dataIndex: "FeeShipCN",
       width: 120,
-      title: () => <>Ship TQ</>,
+      title: () => (
+        <>
+          Ship TQ
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       responsive: ["md"],
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
     },
     {
       dataIndex: "FeeShipCNReal",
       width: 120,
-      title: () => <>Ship TQ thật</>,
+      title: () => (
+        <>
+          Ship TQ thật
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       responsive: ["md"],
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
     },
     {
       dataIndex: "FeeWeight",
-      title: () => <>Phí vận chuyển</>,
+      title: () => (
+        <>
+          Phí vận chuyển
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       width: 120,
       responsive: ["md"],
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
     },
     {
       dataIndex: "FeeBuyPro",
-      title: () => <>Phí mua hàng</>,
+      title: () => (
+        <>
+          Phí mua hàng
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       width: 120,
       responsive: ["md"],
-      render: (money) => _format.getVND(money, " "),
-    },
-    {
-      dataIndex: "FeeInWareHouse",
-      title: () => <>Phí lưu kho</>,
-      align: "right",
-      width: 120,
-      responsive: ["lg"],
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
     },
     {
       dataIndex: "IsCheckProductPrice",
-      title: () => <>Phí kiểm đếm</>,
+      title: () => (
+        <>
+          Phí kiểm đếm
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       width: 120,
       responsive: ["lg"],
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
     },
     {
       dataIndex: "IsPackedPrice",
-      title: () => <>Phí đóng gỗ</>,
+      title: () => (
+        <>
+          Phí đóng gỗ
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       width: 120,
       responsive: ["lg"],
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
     },
     {
       dataIndex: "InsuranceMoney",
-      title: () => <>Phí bảo hiểm</>,
+      title: () => (
+        <>
+          Phí bảo hiểm
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       width: 120,
       responsive: ["lg"],
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
     },
     {
       dataIndex: "Created",

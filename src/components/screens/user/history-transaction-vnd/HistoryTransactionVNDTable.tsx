@@ -30,12 +30,17 @@ export const HistoryTransactionVNDTable: React.FC<
     },
     {
       dataIndex: "Amount",
-      title: "Số tiền (VNĐ)",
+      title: (
+        <>
+          Số tiền <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       render: (_, record) => {
         return (
           <>{`${record?.Amount > 0 ? (record?.Type === 1 ? "-" : "+") : ""} ${
-            record?.Amount && _format.getVND(record?.Amount, " ")
+            record?.Amount && _format.getVND(record?.Amount, "")
           }`}</>
         );
       },
@@ -43,9 +48,14 @@ export const HistoryTransactionVNDTable: React.FC<
     {
       dataIndex: "MoneyLeft",
       responsive: ["lg"],
-      title: "Số dư (VNĐ)",
+      title: (
+        <>
+          Số dư <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
     },
   ];
 

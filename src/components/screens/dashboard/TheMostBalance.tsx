@@ -48,14 +48,26 @@ export const TheMostBalance = React.memo(() => {
       ),
     },
     {
-      title: "Số dư hiện tại",
+      title: (
+        <>
+          Số dư hiện tại
+          <br />
+          (VNĐ)
+        </>
+      ),
       dataIndex: "Wallet",
       align: "right",
       responsive: ["sm"],
       render: (Wallet) => _format.getVND(Wallet, ""),
     },
     {
-      title: "Tổng nạp",
+      title: (
+        <>
+          Tổng nạp
+          <br />
+          (VNĐ)
+        </>
+      ),
       dataIndex: "SumAmount",
       align: "right",
       responsive: ["sm"],

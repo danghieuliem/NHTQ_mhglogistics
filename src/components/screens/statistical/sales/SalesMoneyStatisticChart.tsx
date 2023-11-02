@@ -118,18 +118,7 @@ export const SalesMoneyStatisticChart = ({ type, dataChart }) => {
 
   return (
     <div className="">
-      {/* <div className="lg:flex items-center justify-between mb-8">
-				<span className="text-xl mb-2 lg:mb-0">Tổng tiền</span>
-				<div className="flex justify-between lg:w-[20%] text-[#fff] px-4 border-r-2 border-r-[#ed5b00]">
-					<span className="text-base text-blue">{_format.getVND(974043)}</span>
-					<br />
-					<span className="text-base text-orange">
-						{_format.getVND(974043)}
-					</span>
-				</div>
-			</div> */}
       <Bar height={160} data={data} />
-      {/* <Bar height={60} options={options} data={type === 'sum' ? dataSumChart : dataDetailChart} /> */}
     </div>
   );
 };

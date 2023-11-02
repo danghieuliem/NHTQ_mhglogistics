@@ -16,15 +16,25 @@ export const TariffBuyProTable: FC<TTable<TTariffBuyPro>> = ({
     },
     {
       dataIndex: "PriceFrom",
-      title: "Giá từ",
+      title: (
+        <>
+          Giá từ <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
-      render: (price) => _format.getVND(price, " "),
+      render: (price) => _format.getVND(price, ""),
     },
     {
       dataIndex: "PriceTo",
-      title: "Giá đến",
+      title: (
+        <>
+          Giá đến <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
-      render: (price) => _format.getVND(price, " "),
+      render: (price) => _format.getVND(price, ""),
     },
     {
       dataIndex: "FeePercent",

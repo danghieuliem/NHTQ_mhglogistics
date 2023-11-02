@@ -66,7 +66,7 @@ const Index: TNextPageWithLayout = () => {
         <div className="text-right">
           <p className="font-bold">Giá tiền mặc định: </p>
           <span className="text-main font-semibold">
-            {_format.getVND(dataGlobal?.PricePayHelpDefault, " VNĐ")}
+            {_format.getVND(dataGlobal?.PricePayHelpDefault)}
           </span>
         </div>
       </div>

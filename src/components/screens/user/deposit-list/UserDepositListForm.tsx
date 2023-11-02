@@ -89,11 +89,10 @@ export const UserDepositListForm: React.FC<TProps> = ({
         </FormCard.Header>
         <FormCard.Body>
           <div className="text-sm mb-4">
-            Tổng số mã xuất kho của quý khách :{" "}
-            {_format.getVND(data?.ListId?.length, "")}
+            Tổng số mã xuất kho của quý khách : {data?.ListId?.length}
           </div>
           <div className="text-sm my-4">
-            Tổng số kg xuất kho: {_format.getVND(data?.TotalWeight, " kg")}.{" "}
+            Tổng số kg xuất kho: {data?.TotalWeight + " kg"}.{" "}
             {_format.getVND(data?.TotalWeightPriceVND)}.
           </div>
           <div className="text-sm my-4">

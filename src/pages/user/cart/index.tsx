@@ -225,18 +225,15 @@ const Index: TNextPageWithLayout = () => {
               <div className="flex gap-2 items-center">
                 <span className="cartNewWrapper-label">Tổng shop:</span>
                 <span className="text-[20px] text-red font-bold">
-                  {_format.getVND(currentCart?.length, "")}
+                  {currentCart?.length}
                 </span>
               </div>
               <div className="flex gap-2 items-center">
                 <span className="cartNewWrapper-label">Tổng sản phẩm:</span>
                 <span className="text-[20px] text-red font-bold">
-                  {_format.getVND(
-                    currentCart.reduce(
-                      (cur, prev) => cur + (prev.OrderTemps?.length || 0),
-                      0
-                    ),
-                    ""
+                  {currentCart.reduce(
+                    (cur, prev) => cur + (prev.OrderTemps?.length || 0),
+                    0
                   )}
                 </span>
               </div>

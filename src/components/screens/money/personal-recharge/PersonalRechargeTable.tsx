@@ -41,7 +41,12 @@ export const PersonalRechargeTable: React.FC<
     },
     {
       dataIndex: "Wallet",
-      title: "Số dư",
+      title: (
+        <>
+          Số dư <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       responsive: ["sm"],
       render: (record) => _format.getVND(record, ""),

@@ -61,7 +61,7 @@ export const InfoUserContact: React.FC<any> = ({ data }) => {
           item.value = data[item.key] === 0 ? "Nữ" : "Nam";
           break;
         case "TransactionMoney":
-          item.value = _format.getVND(data[item.key], " VNĐ");
+          item.value = _format.getVND(data[item.key]);
           break;
         default:
           item.value = data[item.key];
