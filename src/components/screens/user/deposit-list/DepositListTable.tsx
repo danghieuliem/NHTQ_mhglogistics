@@ -279,33 +279,34 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
                 isButton={true}
               />
             </Popover>
-            {record.Status === ETransportationOrder.VeKhoVN && (
-              <ActionButton
-                onClick={() =>
-                  Modal.confirm({
-                    title: `Thanh toán đơn hàng #${record.Id}.`,
-                    content: (
-                      <b>Tổng tiền: {_format.getVND(record.TotalPriceVND)}</b>
-                    ),
-                    onOk: () =>
-                      transportationOrder
-                        .makePayment([record.Id])
-                        .then(() => {
-                          queryClient.invalidateQueries("userDepositList");
-                        })
-                        .catch((error) => {
-                          toast.error(
-                            (error as any)?.response?.data?.ResultMessage
-                          );
-                        }),
-                  })
-                }
-                icon="fas fa-money-check"
-                title="Thanh toán"
-                isButtonClassName="bg-blue !text-white"
-                isButton={true}
-              />
-            )}
+            {record.Status === ETransportationOrder.VeKhoVN &&
+              record.TotalPriceVND != 0 && (
+                <ActionButton
+                  onClick={() =>
+                    Modal.confirm({
+                      title: `Thanh toán đơn hàng #${record.Id}.`,
+                      content: (
+                        <b>Tổng tiền: {_format.getVND(record.TotalPriceVND)}</b>
+                      ),
+                      onOk: () =>
+                        transportationOrder
+                          .makePayment([record.Id])
+                          .then(() => {
+                            queryClient.invalidateQueries("userDepositList");
+                          })
+                          .catch((error) => {
+                            toast.error(
+                              (error as any)?.response?.data?.ResultMessage
+                            );
+                          }),
+                    })
+                  }
+                  icon="fas fa-money-check"
+                  title="Thanh toán"
+                  isButtonClassName="bg-blue !text-white"
+                  isButton={true}
+                />
+              )}
             {record.Status === ETransportationOrder.ChoDuyet && (
               <ActionButton
                 onClick={() =>
@@ -432,7 +433,8 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
   const rowSelection: TableRowSelection<TUserDeposit> = {
     selectedRowKeys: selectedRows?.map((item) => item.Id),
     getCheckboxProps: (record) => {
-      return record.Status === ETransportationOrder.VeKhoVN
+      return record.Status === ETransportationOrder.VeKhoVN &&
+        record.TotalPriceVND != 0
         ? { name: record.Id.toString(), disabled: false }
         : {
             name: record.Id.toString(),

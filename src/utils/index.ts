@@ -1,5 +1,6 @@
 import { SorterResult } from "antd/lib/table/interface";
 import jwt_decode from "jwt-decode";
+import { isEmpty } from "lodash";
 import moment from "moment";
 import { NextRouter } from "next/router";
 import { baseFile } from "~/api";
@@ -128,6 +129,7 @@ class Format {
   };
 
   getVolume = (val: number) => {
+    if (isEmpty(val)) return 0;
     return val.toFixed(5);
   };
 
