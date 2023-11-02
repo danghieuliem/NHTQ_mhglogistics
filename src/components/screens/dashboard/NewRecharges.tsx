@@ -57,7 +57,13 @@ export const NewRecharges = React.memo(() => {
       dataIndex: "UserName",
     },
     {
-      title: "Số tiền nạp",
+      title: (
+        <>
+          Số tiền nạp
+          <br />
+          (VNĐ)
+        </>
+      ),
       dataIndex: "Amount",
       align: "right",
       responsive: ["sm"],

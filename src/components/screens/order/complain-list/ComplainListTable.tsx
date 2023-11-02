@@ -46,11 +46,16 @@ export const ComplainListTable: React.FC<TTable<TReport> & TProps> = ({
     },
     {
       dataIndex: "Amount",
-      title: "Số tiền",
+      title: (
+        <>
+          Số tiền <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       width: 120,
       responsive: ["sm"],
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
     },
     {
       dataIndex: "ComplainText",

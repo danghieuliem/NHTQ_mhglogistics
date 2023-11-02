@@ -235,7 +235,7 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
           (m3)
         </>
       ),
-      render: (value) => <>{_format.getVND(value, "")}</>,
+      render: (value) => <>{_format.getVolume(value)}</>,
       responsive: ["lg"],
     },
     {
@@ -285,10 +285,7 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
                   Modal.confirm({
                     title: `Thanh toán đơn hàng #${record.Id}.`,
                     content: (
-                      <b>
-                        Tổng tiền:{" "}
-                        {_format.getVND(record.TotalPriceVND, " VNĐ")}
-                      </b>
+                      <b>Tổng tiền: {_format.getVND(record.TotalPriceVND)}</b>
                     ),
                     onOk: () =>
                       transportationOrder
@@ -400,7 +397,7 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
       content: (
         <b>
           <p>{listId.join(" - ")}</p>
-          Tổng tiền: {_format.getVND(sumTotalPriceVND, " VNĐ")}
+          Tổng tiền: {_format.getVND(sumTotalPriceVND)}
         </b>
       ),
       onOk: () => {

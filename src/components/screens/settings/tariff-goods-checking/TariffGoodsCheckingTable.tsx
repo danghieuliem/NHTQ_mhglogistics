@@ -19,9 +19,6 @@ export const TariffGoodsCheckingTable: FC<TTable<any>> = ({
       dataIndex: "AmountTo",
       title: "Số lượng đến",
       align: "right",
-      render: (_, record) => {
-        return <>{_format.getVND(record.AmountTo, "")}</>;
-      },
     },
     // {
     // 	dataIndex: "TypeName",

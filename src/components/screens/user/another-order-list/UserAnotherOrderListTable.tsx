@@ -220,7 +220,7 @@ export const UserAnotherOrderListTable: React.FC<
       ),
       align: "right",
       responsive: ["sm"],
-      render: (price) => _format.getVND(price, " "),
+      render: (price) => _format.getVND(price, ""),
       width: 120,
     },
     {
@@ -235,7 +235,7 @@ export const UserAnotherOrderListTable: React.FC<
       align: "right",
       width: 120,
       responsive: ["md"],
-      render: (price) => _format.getVND(price, " "),
+      render: (price) => _format.getVND(price, ""),
     },
     {
       dataIndex: "Deposit",
@@ -249,7 +249,7 @@ export const UserAnotherOrderListTable: React.FC<
       width: 120,
       align: "right",
       responsive: ["md"],
-      render: (price) => _format.getVND(price, " "),
+      render: (price) => _format.getVND(price, ""),
     },
     {
       dataIndex: "DepositDate",

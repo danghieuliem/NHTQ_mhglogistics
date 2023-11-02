@@ -123,7 +123,7 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
               <span>
                 {_format.getVND(
                   record?.PayableWeight * record?.FeeWeightPerKg,
-                  " "
+                  ""
                 )}
               </span>
             </div>
@@ -132,17 +132,17 @@ export const DepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
               <span>
                 {_format.getVND(
                   record?.VolumePayment * record?.FeePerVolume,
-                  " "
+                  ""
                 )}
               </span>
             </div>
             <div className="flex justify-between">
               <span className="font-semibold">Phí vận chuyển: </span>
-              <span>{_format.getVND(record?.DeliveryPrice, " ")}</span>
+              <span>{_format.getVND(record?.DeliveryPrice, "")}</span>
             </div>
             <div className="flex justify-between">
               <span className="font-semibold">Tổng tiền: </span>
-              <span>{_format.getVND(record?.TotalPriceVND, " ")}</span>
+              <span>{_format.getVND(record?.TotalPriceVND, "")}</span>
             </div>
           </>
         );

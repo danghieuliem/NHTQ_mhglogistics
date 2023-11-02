@@ -35,7 +35,13 @@ export const OrderListClientTable: React.FC<TTable<TOrder>> = ({
     },
     {
       dataIndex: "TotalOrderAmount",
-      title: "Tổng tiền",
+      title: (
+        <>
+          Tổng tiền
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "center",
       render: (money) => _format.getVND(money, ""),
     },
@@ -47,13 +53,25 @@ export const OrderListClientTable: React.FC<TTable<TOrder>> = ({
     },
     {
       dataIndex: "OrdererUserName",
-      title: "Nhân viên đặt hàng",
+      title: (
+        <>
+          Nhân viên
+          <br />
+          đặt hàng
+        </>
+      ),
       align: "center",
       responsive: ["md"],
     },
     {
       dataIndex: "SalerUserName",
-      title: "Nhân viên kinh doanh",
+      title: (
+        <>
+          Nhân viên
+          <br />
+          kinh doanh
+        </>
+      ),
       align: "center",
       responsive: ["lg"],
     },
@@ -66,18 +84,19 @@ export const OrderListClientTable: React.FC<TTable<TOrder>> = ({
     },
     {
       dataIndex: "Status",
-      title: "Trạng thái hiện tại",
+      title: (
+        <>
+          Trạng thái
+          <br />
+          hiện tại
+        </>
+      ),
       render: (status, record) => {
         const color = orderStatus.find((x) => x.id === status);
         return <Tag color={color?.color}>{record?.StatusName}</Tag>;
       },
       width: 160,
     },
-    // {
-    // 	dataIndex: 'action',
-    // 	title: 'Thao tác',
-    // 	align: 'center'
-    // }
   ];
 
   return (

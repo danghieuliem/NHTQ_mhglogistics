@@ -36,7 +36,7 @@ export const SurplusTable: React.FC<TTable<TStatisticalSurplus>> = ({
             </div>
             <div className="font-bold text-main text-xs">
               <i className="fas fa-coins mr-2"></i>
-              {_format.getVND(record?.Wallet, " ")}
+              {_format.getVND(record?.Wallet, "")}
             </div>
             <div className="font-bold text-sec">{record?.UserGroupName}</div>
           </div>

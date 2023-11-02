@@ -36,7 +36,12 @@ export const ReportListTable: React.FC<TTable<TReport>> = ({
       dataIndex: "Amount",
       align: "right",
       width: 200,
-      title: <>Tiền bồi thường</>,
+      title: (
+        <>
+          Tiền bồi thường <br />
+          (VNĐ)
+        </>
+      ),
       render: (money) => _format.getVND(money, ""),
     },
     {

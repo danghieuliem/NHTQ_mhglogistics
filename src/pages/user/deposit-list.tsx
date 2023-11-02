@@ -91,7 +91,7 @@ const Index: TNextPageWithLayout = () => {
       for (let key in data) {
         moneyOfOrders.forEach((item) => {
           if (item.key === key) {
-            item.value = _format.getVND(data[key], " ");
+            item.value = _format.getVND(data[key], "");
           }
         });
       }

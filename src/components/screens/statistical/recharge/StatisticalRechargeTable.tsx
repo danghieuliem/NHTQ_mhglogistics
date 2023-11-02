@@ -32,10 +32,16 @@ export const StatisticalRechargeTable = ({
     },
     {
       dataIndex: "Amount",
-      title: "Số tiền (VNĐ)",
+      title: (
+        <>
+          Số tiền
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       responsive: ["sm"],
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
     },
     {
       dataIndex: "BankName",

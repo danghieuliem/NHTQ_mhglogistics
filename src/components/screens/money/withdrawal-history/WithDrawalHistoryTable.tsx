@@ -141,7 +141,13 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
     },
     {
       dataIndex: "UserName",
-      title: "Thông tin tạo GD",
+      title: (
+        <>
+          Thông tin
+          <br />
+          tạo GD
+        </>
+      ),
       width: 230,
       render: (_, record) => {
         return (
@@ -159,7 +165,13 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
     },
     {
       dataIndex: "Beneficiary",
-      title: "Thông tin nhận GD",
+      title: (
+        <>
+          Thông tin
+          <br />
+          nhận GD
+        </>
+      ),
       width: 230,
       responsive: ["md"],
       render: (_, record) => {
@@ -167,7 +179,7 @@ export const WithDrawalHistoryTable: React.FC<TTable<TWithDraw> & TProps> = ({
           <div>
             <div className="flex justify-between mb-1 text-red">
               <span className="font-semibold">Số tiền (VNĐ):</span>
-              <span>{_format.getVND(record?.Amount, " ")}</span>
+              <span>{_format.getVND(record?.Amount, "")}</span>
             </div>
             <Divider className="!my-1" />
             <div className="flex justify-between mb-1">

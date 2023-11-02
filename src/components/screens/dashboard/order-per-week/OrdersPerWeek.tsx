@@ -73,7 +73,7 @@ const BoxItem = ({ value, path, label, icon, color, bgColor }) => {
                 <span style={{ color: color, fontWeight: "600" }}>
                   {value ? "+" : ""}
                   <span style={{ letterSpacing: "-2px" }}>
-                    {_format.getVND(value, " ")}
+                    {_format.getVND(value, "")}
                   </span>
                 </span>
                 <span className={clsx("text-[12px] ml-2 hidden xl:block pb-2")}>

@@ -35,20 +35,24 @@ export const ClientTransactionHistoryTable: React.FC<
     {
       dataIndex: "Amount",
       align: "right",
-      title: "Số tiền  (VNĐ)",
-      // render: (money) => _format.getVND(money, ""),
-      render: (_, record) => {
-        return (
-          <>{`${record?.Amount > 0 ? (record?.Type === 1 ? "-" : "+") : ""} ${
-            isNumber(record?.Amount) && _format.getVND(record?.Amount, " ")
-          }`}</>
-        );
-      },
+      title: (
+        <>
+          Số tiền
+          <br />
+          (VNĐ)
+        </>
+      ),
     },
     {
       dataIndex: "MoneyLeft",
       align: "right",
-      title: "Số dư  (VNĐ)",
+      title: (
+        <>
+          Số dư
+          <br />
+          (VNĐ)
+        </>
+      ),
       responsive: ["sm"],
       render: (money) => _format.getVND(money, ""),
     },

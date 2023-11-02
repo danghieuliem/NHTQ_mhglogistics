@@ -185,7 +185,7 @@ const Header = ({ dataMenu }) => {
                       styles.headerTopLinkAuthRecharge
                     )}
                   >
-                    1¥ = {_format.getVND(dataGlobal?.Currency, "")}
+                    1¥ = {_format.getVND(dataGlobal?.Currency)}
                   </span>
                 </div>
                 <div className="mr-3 w-fit flex">

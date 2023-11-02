@@ -116,9 +116,6 @@ export const OrderIDProductList: React.FC<any> = ({ data }) => {
       title: "Số lượng",
       align: "right",
       responsive: ["sm"],
-      render: (value) => {
-        return <>{_format.getVND(value, "")}</>;
-      },
     },
     {
       dataIndex: "UPriceBuy",

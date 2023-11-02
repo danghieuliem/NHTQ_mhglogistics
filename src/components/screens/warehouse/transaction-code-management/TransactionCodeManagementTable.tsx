@@ -89,11 +89,11 @@ export const TransactionCodeManagementTable: React.FC<
           <div>
             <div className="flex justify-between">
               <span className="font-semibold">Cân nặng (kg): </span>
-              <span>{_format.getVND(record?.PayableWeight, " ")}</span>
+              <span>{record?.PayableWeight}</span>
             </div>
             <div className="flex justify-between">
               <span className="font-semibold">Số khối (m3): </span>
-              <span>{_format.getVND(record?.VolumePayment, " ")}</span>
+              <span>{_format.getVolume(record?.VolumePayment)}</span>
             </div>
             <div className="flex justify-between">
               <span className="font-semibold">DxRxC: </span>
@@ -222,11 +222,11 @@ export const TransactionCodeManagementTable: React.FC<
           <div>
             <div className="flex justify-between">
               <span className="font-semibold">Cân nặng (kg): </span>
-              <span>{_format.getVND(record?.PayableWeight, " ")}</span>
+              <span>{record?.PayableWeight}</span>
             </div>
             <div className="flex justify-between">
               <span className="font-semibold">Số khối (m3): </span>
-              <span>{_format.getVND(record?.VolumePayment, " ")}</span>
+              <span>{_format.getVolume(record?.VolumePayment)}</span>
             </div>
             <div className="flex justify-between">
               <span className="font-semibold">DxRxC: </span>

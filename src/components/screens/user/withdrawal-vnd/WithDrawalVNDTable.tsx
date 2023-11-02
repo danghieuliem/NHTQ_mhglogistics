@@ -36,7 +36,7 @@ export const WithDrawalVNDTable: React.FC<TTable<TWithDraw>> = ({
       dataIndex: "Amount",
       title: "Số tiền rút (VNĐ)",
       align: "right",
-      render: (record) => _format.getVND(record, " "),
+      render: (record) => _format.getVND(record, ""),
     },
     {
       dataIndex: "Status",

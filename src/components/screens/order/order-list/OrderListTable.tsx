@@ -105,7 +105,7 @@ export const OrderListTable: React.FC<
               {/* {record?.PriceVND &&
 								record?.CurrentCNYVN &&
 								_format.getVND(record?.PriceVND / record?.CurrentCNYVN, ' ¥')} */}
-              {_format.getVND(record?.PriceCNY, " ¥")}
+              {_format.getYuan(record?.PriceCNY, " ¥")}
             </p>
           </div>
           <div className="flex items-end justify-between">

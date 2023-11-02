@@ -200,7 +200,7 @@ export const OrderProductItem: React.FC<TProps> = ({
                   )
                 }
                 className="!rounded-[6px] !w-full"
-                value={_format.getVND(priceOrigin, "")}
+                value={_format.getYuan(priceOrigin, "")}
                 onChange={handleChangePriceCNY}
               />
             </div>

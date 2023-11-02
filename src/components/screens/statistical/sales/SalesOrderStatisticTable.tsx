@@ -62,7 +62,7 @@ export const SalesOrderStatisticTable = ({
       responsive: ["lg"],
       title: (
         <>
-          Phí ship <br /> Trung Quốc
+          Phí ship <br /> Trung Quốc (VNĐ)
         </>
       ),
       align: "right",
@@ -75,7 +75,7 @@ export const SalesOrderStatisticTable = ({
       responsive: ["lg"],
       title: (
         <>
-          Phí <br /> mua hàng
+          Phí <br /> mua hàng (VNĐ)
         </>
       ),
       align: "right",
@@ -88,7 +88,7 @@ export const SalesOrderStatisticTable = ({
       responsive: ["lg"],
       title: (
         <>
-          Phí <br /> giao hàng
+          Phí <br /> giao hàng (VNĐ)
         </>
       ),
       align: "right",
@@ -100,7 +100,7 @@ export const SalesOrderStatisticTable = ({
       key: "FeeWeight",
       title: (
         <>
-          Phí <br /> cân nặng
+          Phí <br /> cân nặng (VNĐ)
         </>
       ),
       align: "right",
@@ -113,7 +113,7 @@ export const SalesOrderStatisticTable = ({
       key: "IsCheckProductPrice",
       title: (
         <>
-          Phí <br /> kiểm đếm
+          Phí <br /> kiểm đếm (VNĐ)
         </>
       ),
       align: "right",
@@ -126,7 +126,7 @@ export const SalesOrderStatisticTable = ({
       key: "IsPackedPrice",
       title: (
         <>
-          Phí <br /> đóng gói
+          Phí <br /> đóng gói (VNĐ)
         </>
       ),
       align: "right",
@@ -137,7 +137,11 @@ export const SalesOrderStatisticTable = ({
       width: 120,
       dataIndex: "TotalPriceVND",
       key: "TotalPriceVND",
-      title: "Tổng tiền",
+      title: (
+        <>
+          Tổng tiền <br /> (VNĐ)
+        </>
+      ),
       align: "right",
       responsive: ["sm"],
       render: (money) => _format.getVND(money, ""),
@@ -146,7 +150,11 @@ export const SalesOrderStatisticTable = ({
       width: 120,
       dataIndex: "Deposit",
       key: "Deposit",
-      title: "Đã trả",
+      title: (
+        <>
+          Đã trả <br /> (VNĐ)
+        </>
+      ),
       align: "right",
       responsive: ["sm"],
       render: (money) => _format.getVND(money, ""),
@@ -155,7 +163,11 @@ export const SalesOrderStatisticTable = ({
       width: 120,
       dataIndex: "MustPay",
       key: "MustPay",
-      title: "Còn lại",
+      title: (
+        <>
+          Còn lại <br /> (VNĐ)
+        </>
+      ),
       align: "right",
       responsive: ["sm"],
       render: (money) => _format.getVND(money, ""),

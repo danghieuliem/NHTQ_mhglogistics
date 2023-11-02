@@ -54,31 +54,53 @@ export const RequestPaymentTable: React.FC<
     },
     {
       dataIndex: "TotalPrice",
-      title: "Tổng tiền (¥)",
+      title: (
+        <>
+          Tổng tiền
+          <br />
+          (¥)
+        </>
+      ),
       align: "right",
       responsive: ["md"],
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getYuan(money, ""),
       width: 120,
     },
     {
       dataIndex: "TotalPriceVND",
-      title: "Tổng tiền (VNĐ)",
+      title: (
+        <>
+          Tổng tiền
+          <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       responsive: ["sm"],
-      render: (money) => _format.getVND(money, " "),
+      render: (money) => _format.getVND(money, ""),
       width: 140,
     },
     {
       dataIndex: "Currency",
-      title: "Tỷ giá",
+      title: (
+        <>
+          Tỷ giá <br />
+          (VNĐ)
+        </>
+      ),
       align: "right",
       responsive: ["sm"],
-      render: (currency) => _format.getVND(currency, " "),
+      render: (currency) => _format.getVND(currency, ""),
       width: 120,
     },
     {
       dataIndex: "Note",
-      title: "Ghi chú khách hàng",
+      title: (
+        <>
+          Ghi chú <br />
+          khách hàng
+        </>
+      ),
       width: 200,
       responsive: ["lg"],
     },

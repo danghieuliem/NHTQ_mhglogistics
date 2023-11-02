@@ -139,7 +139,7 @@ export const ChinaAndVietNamWithdrawalForm: FC<TProps> = ({
             callback={(value) => {
               if (value > getValues("Wallet")) {
                 toast.warning(
-                  `Bạn chỉ được rút tối đa ${_format.getVND(
+                  `Bạn chỉ được rút tối đa ${_format.getYuan(
                     getValues("Wallet"),
                     "¥"
                   )}`

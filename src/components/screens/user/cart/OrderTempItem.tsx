@@ -313,10 +313,11 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
         </>
       ),
       width: 160,
-      render: (_, record) => {
+      render: (value, record) => {
         return (
           <>
-            {_format.getVND(_, "")} / {_format.getVND(record?.UPriceBuyVN, "")}
+            {_format.getVND(value, "")} /{" "}
+            {_format.getVND(record?.UPriceBuyVN, "")}
           </>
         );
       },
@@ -327,7 +328,7 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
       title: "Thành tiền",
       align: "center",
       width: 120,
-      render: (_) => _format.getVND(_, " đ"),
+      render: (value) => _format.getVND(value, " đ"),
       responsive: canUpdate ? ["lg"] : ["md"],
     },
     {
