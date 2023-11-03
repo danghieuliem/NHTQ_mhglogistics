@@ -337,7 +337,7 @@ const TariffChinaVietNamForm: FC<
   const { warehouseTQ, warehouseVN, shippingTypeToWarehouse } = useCatalogue({
     warehouseTQEnabled: true,
     warehouseVNEnabled: true,
-    shippingTypeToVNEnabled: true,
+    shippingTypeToWarehouseEnabled: true,
   });
 
   return (
@@ -348,6 +348,7 @@ const TariffChinaVietNamForm: FC<
             <p>{title}</p>
           </div>
         </FormCard.Header>
+        {console.log(shippingTypeToWarehouse)}
         {type === "addNew" ? (
           <AddNewMemo
             wareHouse={warehouseVN}
