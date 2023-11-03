@@ -1,6 +1,6 @@
 import { Divider, Modal, Popover } from "antd";
 import { useRouter } from "next/router";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   ActionButton,
   FilterInput,
@@ -41,7 +41,7 @@ const NumberOfOrderComp = (props: { numberOfOrder: any; q: EParamQ }) => {
   return (
     <div className="min-w-[300px] p-4">
       {(q !== EParamQ.otherOrder
-        ? numberOfOrder.filter((x) => x.id !== 100)
+        ? numberOfOrder.filter((x) => x.id !== EOrderStatus.ChoBaoGia)
         : numberOfOrder
       )?.map((item, index) => (
         <div
@@ -86,7 +86,7 @@ const CountComponent = ({ numberOfOrder, moneyOfOrders }) => {
         content={
           <NumberOfOrderComp
             numberOfOrder={numberOfOrder}
-            q={query?.id as EParamQ.otherOrder}
+            q={query?.q as EParamQ}
           />
         }
       >
@@ -224,6 +224,16 @@ const UserAnotherOrderListFilter: React.FC<TProps> = ({
   const FromDate = useRef<string>(null);
   const ToDate = useRef<string>(null);
 
+  const [currentQ, setCurrentQ] = useState<EParamQ>(query?.q as EParamQ);
+  const [isFirstChangeQ, setIsFirstChangeQ] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (currentQ !== query?.q) {
+      setIsFirstChangeQ(true);
+    }
+    setCurrentQ(query?.q as EParamQ);
+  }, [query?.q]);
+
   return (
     <div className="flex justify-between flex-wrap items-end gap-4 w-full">
       <div className="flex sm:flex-row flex-col gap-2 sm:ml-auto">
@@ -330,12 +340,15 @@ const UserAnotherOrderListFilter: React.FC<TProps> = ({
             <div
               key={item?.name}
               className={`col-span-${item.col} ${filterBox} ${
-                item?.id === Status.current ? "!bg-sec !text-white" : ""
+                isFirstChangeQ
+                  ? item?.id === EOrderStatus.TatCa && "!bg-sec !text-white"
+                  : item?.id === Status.current && "!bg-sec !text-white"
               }`}
               style={{
                 minWidth: `calc(${len}% - 8px)`,
               }}
               onClick={() => {
+                setIsFirstChangeQ(false);
                 setIsShow(!isShow);
                 Status.current = item.id;
                 handleFilter({
