@@ -428,7 +428,7 @@ export const UserAnotherOrderListTable: React.FC<
                 />
               </a>
             </Link>
-            {q !== EParamQ.otherOrder && (
+            {query?.q !== EParamQ.otherOrder && (
               <ActionButton
                 onClick={() =>
                   Modal.confirm({

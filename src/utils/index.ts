@@ -1,5 +1,7 @@
 import { SorterResult } from "antd/lib/table/interface";
 import jwt_decode from "jwt-decode";
+import _ from "lodash";
+import { isEmpty } from "lodash";
 import moment from "moment";
 import { NextRouter } from "next/router";
 import { baseFile } from "~/api";
@@ -128,7 +130,8 @@ class Format {
   };
 
   getVolume = (val: number) => {
-    return val.toFixed(5);
+    if (isEmpty(val) || !_.isNumber(val)) return 0;
+    return val?.toFixed(5);
   };
 
   // format tiền việt nam

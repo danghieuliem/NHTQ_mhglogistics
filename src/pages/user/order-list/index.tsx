@@ -35,9 +35,12 @@ const Index: TNextPageWithLayout = () => {
 
   const [moneyOfOrders, setMoneyOfOrders] = useState(createdMoneyOfOrdersData);
 
-  const handleFilter = useCallback((newFilter) => {
-    setFilter({ ...filter, ...newFilter });
-  }, []);
+  const handleFilter = useCallback(
+    (newFilter) => {
+      setFilter({ ...filter, ...newFilter });
+    },
+    [filter]
+  );
 
   useEffect(() => {
     setFilter({

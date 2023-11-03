@@ -337,7 +337,7 @@ const VolumeFeeForm: FC<
   const { warehouseTQ, warehouseVN, shippingTypeToWarehouse } = useCatalogue({
     warehouseTQEnabled: true,
     warehouseVNEnabled: true,
-    shippingTypeToVNEnabled: true,
+    shippingTypeToWarehouseEnabled: true,
   });
 
   return (
