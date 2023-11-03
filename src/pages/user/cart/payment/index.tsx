@@ -194,7 +194,10 @@ const Index: TNextPageWithLayout & React.FC<{}> = () => {
             <div className="col-span-12 grid grid-cols-1 gap-4 h-fit">
               {orderShopTempsData.map((orderShopTempData, index) => (
                 <Fragment key={`${index}-${orderShopTempData?.Id}`}>
-                  <PaymentOrderInfo orderShopTempData={orderShopTempData} />
+                  <PaymentOrderInfo
+                    orderShopTempData={orderShopTempData}
+                    isAllowDeletedItem={false}
+                  />
                   <Divider className="!my-[2px]" />
                 </Fragment>
               ))}

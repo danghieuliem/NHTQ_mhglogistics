@@ -5,9 +5,13 @@ import { OrderTempItem } from "../OrderTempItem";
 
 type TProps = TControl<TUserPayment> & {
   orderShopTempData: TUserCartOrderShopTemp;
+  isAllowDeletedItem?: boolean;
 };
 
-export const PaymentOrderInfo: React.FC<TProps> = ({ orderShopTempData }) => {
+export const PaymentOrderInfo: React.FC<TProps> = ({
+  orderShopTempData,
+  isAllowDeletedItem = true,
+}) => {
   return (
     <div className="grid grid-cols-12 gap-4">
       <div className="col-span-12 md:col-span-9">
@@ -16,7 +20,11 @@ export const PaymentOrderInfo: React.FC<TProps> = ({ orderShopTempData }) => {
             Tên shop: {orderShopTempData?.ShopName}
           </Tooltip>
         </div>
-        <OrderTempItem data={orderShopTempData?.OrderTemps} canUpdate={false} />
+        <OrderTempItem
+          data={orderShopTempData?.OrderTemps}
+          canUpdate={false}
+          isAllowDeletedItem={isAllowDeletedItem}
+        />
       </div>
 
       {/* phí */}
