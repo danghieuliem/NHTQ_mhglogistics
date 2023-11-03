@@ -6,10 +6,8 @@ import { useMutation, useQueries, useQuery, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 import { orderShopTemp, user } from "~/api";
 import {
-  ActionButton,
   ConfirmCompleteForm,
   PaymentOrderInfo,
-  ReceiveInfoForm,
   UserLayout,
 } from "~/components";
 import { SEOHomeConfigs } from "~/configs/SEOConfigs";
@@ -215,59 +213,6 @@ const Index: TNextPageWithLayout & React.FC<{}> = () => {
                 userPayment={userPayment}
               />
             </div>
-            {/* {window.innerWidth >= 1024 ? (
-              <div className="col-span-3">
-                <div className="sticky top-4">
-                  <ReceiveInfoForm
-                    control={control}
-                    warehouseVN={warehouseVN}
-                    shippingTypeToWarehouse={shippingTypeToWarehouse}
-                    warehouseTQ={warehouseTQ}
-                    userPayment={userPayment}
-                    // addressControl={addressControl}
-                    // getValuesAddress={getValuesAddress}
-                    // addressWatch={addressWatch}
-                  />
-                  <ConfirmCompleteForm
-                    totalPrice={Number(totalPrice)}
-                    control={control}
-                    loadingPayment={loadingPayment}
-                    onPress={handleSubmit(onPress)}
-                  />
-                </div>
-              </div>
-            ) : (
-              <div className="fixed top-[77px] right-[15px]">
-                <Popover
-                  // trigger={"click"}
-                  placement="bottomLeft"
-                  content={
-                    <div className="p-4">
-                      <ReceiveInfoForm
-                        control={control}
-                        warehouseVN={warehouseVN}
-                        shippingTypeToWarehouse={shippingTypeToWarehouse}
-                        warehouseTQ={warehouseTQ}
-                        userPayment={userPayment}
-                      />
-                      <ConfirmCompleteForm
-                        totalPrice={Number(totalPrice)}
-                        control={control}
-                        loadingPayment={loadingPayment}
-                        onPress={handleSubmit(onPress)}
-                      />
-                    </div>
-                  }
-                >
-                  <ActionButton
-                    icon=""
-                    title="Tiếp tục đặt hàng"
-                    isButton
-                    isButtonClassName="bg-green !text-white"
-                  />
-                </Popover>
-              </div>
-            )} */}
           </div>
         </React.Fragment>
       )}

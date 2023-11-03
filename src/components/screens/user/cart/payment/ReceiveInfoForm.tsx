@@ -20,11 +20,11 @@ export const ReceiveInfoForm: React.FC<TProps> = ({
   userPayment,
 }) => {
   return (
-    <div className="col-span-8 grid grid-cols-2 gap-2">
-      <span className="col-span-2 text-[#1582F5] text-[18px] font-bold">
+    <div className="grid grid-cols-2 gap-2">
+      <span className="col-span-full text-[#1582F5] text-[18px] font-bold">
         Thông tin nhận hàng
       </span>
-      <div className="col-span-8 grid grid-cols-3 gap-2 h-fit">
+      <div className="col-span-full grid sm:grid-cols-3 gap-2 h-fit">
         <div className="col-span-1">
           <FormSelect
             data={warehouseTQ}
@@ -101,7 +101,7 @@ export const ReceiveInfoForm: React.FC<TProps> = ({
           />
         </div>
       </div>
-      <div className="col-span-8 grid grid-cols-4 gap-2 h-fit">
+      <div className="col-span-full grid sm:grid-cols-4 gap-2 h-fit">
         <FormInput
           name="FullName"
           placeholder="Nhập họ và tên"

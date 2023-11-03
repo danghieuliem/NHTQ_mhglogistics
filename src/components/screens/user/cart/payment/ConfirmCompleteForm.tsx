@@ -27,21 +27,23 @@ export const ConfirmCompleteForm: React.FC<TProps> = ({
   if (!totalPrice) return null;
 
   return (
-    <div className=" grid grid-cols-12 gap-2 p-4">
-      <ReceiveInfoForm
-        control={control}
-        warehouseVN={warehouseVN}
-        shippingTypeToWarehouse={shippingTypeToWarehouse}
-        warehouseTQ={warehouseTQ}
-        userPayment={userPayment}
-      />
-      <div className="flex items-center col-span-4 justify-end">
+    <div className="grid grid-cols-3 gap-2 p-4">
+      <div className="col-span-full lg:col-span-2 grid">
+        <ReceiveInfoForm
+          control={control}
+          warehouseVN={warehouseVN}
+          shippingTypeToWarehouse={shippingTypeToWarehouse}
+          warehouseTQ={warehouseTQ}
+          userPayment={userPayment}
+        />
+      </div>
+      <div className="flex items-center col-span-full lg:col-span-1 justify-start xs:justify-end">
         <div className="grid grid-cols-1 gap-2 h-fit">
-          <div className="flex justify-end items-center">
+          <div className="flex flex-col xs:flex-row justify-start xs:justify-end xs:items-center gap-4">
             <span className="!text-label text-[20px] font-bold uppercase leading-[initial]">
               Tổng tiền:
             </span>
-            <span className="font-bold text-orange text-[22px] ml-4">
+            <span className="font-bold text-orange text-[22px]">
               {totalPrice && _format.getVND(totalPrice)}
             </span>
           </div>
@@ -49,14 +51,14 @@ export const ConfirmCompleteForm: React.FC<TProps> = ({
             label="Tôi đồng ý với các điều khoản"
             control={control}
             name="IsAgreement"
-            checkBoxClassName="justify-end !text-[#6A6A6A]"
+            checkBoxClassName="xs:justify-end !text-[#6A6A6A]"
             // rules={{ required: 'Vui lòng xác nhận trước khi thanh toán' }}
           />
-          <div className="text-main !text-[16px] text-right">
+          <div className="text-main !text-[16px] xs:text-right">
             Vui lòng xác nhận trước khi hoàn tất.
           </div>
 
-          <div className="flex justify-end">
+          <div className="flex xs:justify-end">
             <ActionButton
               icon="fas fa-hand-point-right"
               title="Hoàn thành"

@@ -14,7 +14,7 @@ export const PaymentOrderInfo: React.FC<TProps> = ({
 }) => {
   return (
     <div className="grid grid-cols-12 gap-4">
-      <div className="col-span-12 md:col-span-9">
+      <div className="col-span-full lg:col-span-9">
         <div className="uppercase font-bold w-full bg-main text-white mb-[-5px] py-2 px-2 rounded-[4px]">
           <Tooltip title="Tên cửa hàng!">
             Tên shop: {orderShopTempData?.ShopName}
@@ -28,7 +28,7 @@ export const PaymentOrderInfo: React.FC<TProps> = ({
       </div>
 
       {/* phí */}
-      <div className="col-span-12 md:col-span-3 h-fit">
+      <div className="col-span-full lg:col-span-3 h-fit">
         <div className="bg-[#FFF1E4] rounded-[6px] p-3 mb-4">
           <div className="text-sm flex justify-between w-full pb-1">
             <p className="text-black font-bold">Tổng đơn</p>
