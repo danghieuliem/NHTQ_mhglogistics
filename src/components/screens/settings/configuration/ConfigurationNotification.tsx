@@ -18,18 +18,6 @@ export const ConfigurationNotification: FC<TProps<TConfig4>> = ({
           <div className="col-span-1">
             <FormInput
               control={control}
-              name="NotiRun"
-              label="Thông báo ngắn đến khách hàng (Bỏ trống để không hiện thông báo ngắn)"
-              placeholder=""
-              required={false}
-              // rules={{
-              // 	required: 'Không bỏ trống nội dung tiêu đề thông báo Popup'
-              // }}
-            />
-          </div>
-          <div className="col-span-1">
-            <FormInput
-              control={control}
               name="NotiPopupTitle"
               label="Tiêu đề thông báo Popup (Bỏ trống tiêu đề sẽ không hiện thông báo trang home)"
               placeholder=""
