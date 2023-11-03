@@ -17,13 +17,16 @@ const Footer: React.FC<TProps> = () => {
         <div className={styles.inner}>
           <div>
             <span className={styles.tag}>Hotline hỗ trợ:</span>
-            <a className={styles.value} href={`tel:+${dataGlobal?.HotlineSupport}`}>
+            <a
+              className={styles.value}
+              href={`tel:+${dataGlobal?.HotlineSupport}`}
+            >
               {dataGlobal?.HotlineSupport}
             </a>
           </div>
           <div>
             <span className={styles.tag}>Phiên bản: </span>
-            <span className={styles.value}>MONA.Software/NHTQ 6.0.5</span>
+            <span className={styles.value}>MONA.Software/NHTQ 6.1.8</span>
           </div>
         </div>
       </div>

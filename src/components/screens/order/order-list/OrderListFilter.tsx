@@ -13,7 +13,11 @@ import {
   FilterRangeDate,
 } from "~/components/globals/filterBase";
 import { EOrderStatus, orderStatus } from "~/configs";
-import { ECreatedOrderStatusData, searchData } from "~/configs/appConfigs";
+import {
+  ECreatedOrderStatusData,
+  ESearchData,
+  searchData,
+} from "~/configs/appConfigs";
 import { EParamQ } from "~/enums";
 
 const filterBox = `py-[9px] px-1 font-bold uppercase text-[12px] rounded-[4px] leading-[initial]
@@ -76,7 +80,11 @@ export const OrderListFilter: FC<TProps> = ({
             <div className="grid grid-cols-2 gap-4 p-4">
               <FilterSelect
                 placeholder="Chọn ... "
-                data={searchData}
+                data={
+                  query?.q === EParamQ.otherOrder
+                    ? searchData.filter((val) => val.id !== ESearchData.Website)
+                    : searchData
+                }
                 label="Tìm kiếm theo"
                 isClearable
                 handleSearch={(val: ECreatedOrderStatusData) =>

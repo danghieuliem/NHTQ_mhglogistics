@@ -1,7 +1,7 @@
 import { Divider, Image, Input, Tooltip } from "antd";
 import clsx from "clsx";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import { orderTemp } from "~/api";
@@ -21,6 +21,7 @@ type TProps = {
   isLoading?: boolean;
   data: TUserCartOrderTemp[];
   refetchCart?: any;
+  isAllowDeletedItem?: boolean;
 };
 
 const InputNote = ({ canUpdate, record, onHandleProduct, disabled }) => {
@@ -185,6 +186,7 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
   data,
   canUpdate = true,
   refetchCart,
+  isAllowDeletedItem = true,
 }) => {
   const mutationUpdateProduct = useMutation(orderTemp.updateField);
   const mutationDeleteProduct = useMutation(orderTemp.delete);
@@ -229,133 +231,139 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
     }
   };
 
-  const columns: TColumnsType<TUserCartOrderTemp> = [
-    {
-      dataIndex: "Id",
-      key: "Id",
-      title: "Thông tin sản phẩm",
-      width: 400,
-      render: (_, record, index) => {
-        return (
-          <div className="grid grid-cols-4 gap-1">
-            <div className="col-span-1 flex items-start">
-              <span className="mr-1 font-bold">{++index}</span>
-              <Image
-                src={
-                  decodeURIComponent(record?.ImageOrigin) ||
-                  "/default/pro-empty.jpg"
-                }
-                width={80}
-                preview={false}
-                className="rounded-[6px]"
-              />
-            </div>
-            <div className="col-span-3 text-black pl-1 flex flex-col gap-1">
-              <Link href={record?.LinkOrigin}>
-                <a target="_blank">
-                  <Tooltip title="Link sản phẩm">
-                    <span className="text-[#6A6A6A]">
-                      {record?.TitleOrigin}
-                    </span>
-                  </Tooltip>
-                </a>
-              </Link>
-              <span className="flex items-start justify-between">
-                <span className="font-bold w-[100px] mr-2 leading-[inital]">
-                  Thuộc tính:{" "}
-                </span>
-                <span
-                  className="text-label text-xs text-right max-w-[160px]"
-                  style={{ wordBreak: "keep-all" }}
-                >
-                  {record?.Property}
-                </span>
-              </span>
-              <span className="">
-                <span className="font-bold">Ghi chú: </span>
-                <InputNote
-                  canUpdate={canUpdate}
-                  record={record}
-                  onHandleProduct={onHandleProduct}
-                  disabled={loading}
+  const columns = useMemo<TColumnsType<TUserCartOrderTemp>>(() => {
+    const cols: TColumnsType<TUserCartOrderTemp> = [
+      {
+        dataIndex: "Id",
+        key: "Id",
+        title: "Thông tin sản phẩm",
+        width: 400,
+        render: (_, record, index) => {
+          return (
+            <div className="grid grid-cols-4 gap-1">
+              <div className="col-span-1 flex items-start">
+                <span className="mr-1 font-bold">{++index}</span>
+                <Image
+                  src={
+                    decodeURIComponent(record?.ImageOrigin) ||
+                    "/default/pro-empty.jpg"
+                  }
+                  width={80}
+                  preview={false}
+                  className="rounded-[6px]"
                 />
-              </span>
+              </div>
+              <div className="col-span-3 text-black pl-1 flex flex-col gap-1">
+                <Link href={record?.LinkOrigin}>
+                  <a target="_blank">
+                    <Tooltip title="Link sản phẩm">
+                      <span className="text-[#6A6A6A]">
+                        {record?.TitleOrigin}
+                      </span>
+                    </Tooltip>
+                  </a>
+                </Link>
+                <span className="flex items-start justify-between">
+                  <span className="font-bold w-[100px] mr-2 leading-[inital]">
+                    Thuộc tính:{" "}
+                  </span>
+                  <span
+                    className="text-label text-xs text-right max-w-[160px]"
+                    style={{ wordBreak: "keep-all" }}
+                  >
+                    {record?.Property}
+                  </span>
+                </span>
+                <span className="">
+                  <span className="font-bold">Ghi chú: </span>
+                  <InputNote
+                    canUpdate={canUpdate}
+                    record={record}
+                    onHandleProduct={onHandleProduct}
+                    disabled={loading}
+                  />
+                </span>
+              </div>
             </div>
-          </div>
-        );
+          );
+        },
       },
-    },
-    {
-      dataIndex: "Quantity",
-      title: "Số lượng",
-      align: "center",
-      width: 100,
-      render: (_, record) => {
-        return (
-          <InputQuantity
-            record={record}
-            onHandleProduct={onHandleProduct}
-            disabled={loading}
-            canUpdate={canUpdate}
-          />
-        );
+      {
+        dataIndex: "Quantity",
+        title: "Số lượng",
+        align: "center",
+        width: 100,
+        render: (_, record) => {
+          return (
+            <InputQuantity
+              record={record}
+              onHandleProduct={onHandleProduct}
+              disabled={loading}
+              canUpdate={canUpdate}
+            />
+          );
+        },
+        responsive: canUpdate ? ["lg"] : ["md"],
       },
-      responsive: canUpdate ? ["lg"] : ["md"],
-    },
-    {
-      dataIndex: "PricePromotion",
-      align: "center",
-      title: (
-        <>
-          Đơn giá
-          <br />
-          (¥/VNĐ)
-        </>
-      ),
-      width: 160,
-      render: (value, record) => {
-        return (
+      {
+        dataIndex: "PricePromotion",
+        align: "center",
+        title: (
           <>
-            {_format.getVND(value, "")} /{" "}
-            {_format.getVND(record?.UPriceBuyVN, "")}
+            Đơn giá
+            <br />
+            (¥/VNĐ)
           </>
-        );
+        ),
+        width: 160,
+        render: (value, record) => {
+          return (
+            <>
+              {_format.getVND(value, "")} /{" "}
+              {_format.getVND(record?.UPriceBuyVN, "")}
+            </>
+          );
+        },
+        responsive: canUpdate ? ["lg"] : ["md"],
       },
-      responsive: canUpdate ? ["lg"] : ["md"],
-    },
-    {
-      dataIndex: "EPriceBuyVN",
-      title: "Thành tiền",
-      align: "center",
-      width: 120,
-      render: (value) => _format.getVND(value, " đ"),
-      responsive: canUpdate ? ["lg"] : ["md"],
-    },
-    {
-      dataIndex: "action",
-      title: "Thao tác",
-      align: "right",
-      width: 100,
-      render: (_, record) => {
-        return (
-          <IconButton
-            title=""
-            btnClass="!bg-[transparent] outline-none"
-            btnIconClass="text-[#CECECE] text-md hover:!text-red"
-            toolip="Xóa sản phẩm này!"
-            icon="fas fa-trash-alt"
-            onClick={() => {
-              onHandleProduct("delete", {
-                Id: record?.Id,
-                Quantity: 0,
-              });
-            }}
-          />
-        );
+      {
+        dataIndex: "EPriceBuyVN",
+        title: "Thành tiền",
+        align: "center",
+        width: 120,
+        render: (value) => _format.getVND(value, " đ"),
+        responsive: canUpdate ? ["lg"] : ["md"],
       },
-      responsive: canUpdate ? ["lg"] : ["xxl"],
-    },
-  ];
+      {
+        dataIndex: "action",
+        title: "Thao tác",
+        align: "right",
+        width: 100,
+        render: (_, record) => {
+          return (
+            <IconButton
+              title=""
+              btnClass="!bg-[transparent] outline-none"
+              btnIconClass="text-[#CECECE] text-md hover:!text-red"
+              toolip="Xóa sản phẩm này!"
+              icon="fas fa-trash-alt"
+              onClick={() => {
+                onHandleProduct("delete", {
+                  Id: record?.Id,
+                  Quantity: 0,
+                });
+              }}
+            />
+          );
+        },
+        responsive: canUpdate ? ["lg"] : ["xxl"],
+      },
+    ];
+
+    !isAllowDeletedItem && cols.pop();
+
+    return cols;
+  }, [isAllowDeletedItem]);
 
   return (
     <>

@@ -45,7 +45,7 @@ export const ClientListDetailForm: React.FC<TProps> = ({
   const { warehouseVN, shippingTypeToWarehouse, warehouseTQ } = useCatalogue({
     warehouseVNEnabled: true,
     warehouseTQEnabled: true,
-    shippingTypeToVNEnabled: true,
+    shippingTypeToWarehouseEnabled: true,
   });
 
   const {
