@@ -1,6 +1,6 @@
-import { FC } from "react";
-import { ActionButton, DataTable } from "~/components";
-import { TColumnsType, TTable } from "~/types/table";
+import { FC } from 'react'
+import { ActionButton, DataTable } from '~/components'
+import { TColumnsType, TTable } from '~/types/table'
 
 export const NotificationsTable: FC<TTable<any>> = ({
   handleModal,
@@ -11,127 +11,127 @@ export const NotificationsTable: FC<TTable<any>> = ({
 }) => {
   const columns: TColumnsType<TSettingNotification> = [
     {
-      dataIndex: "Id",
-      key: "Id",
-      title: "ID",
-      align: "right",
-      responsive: ["sm"],
+      dataIndex: 'Id',
+      key: 'Id',
+      title: 'ID',
+      align: 'right',
+      responsive: ['sm'],
     },
     {
-      dataIndex: "Name",
-      key: "Name",
-      title: "Tên thông báo",
+      dataIndex: 'Name',
+      key: 'Name',
+      title: 'Tên thông báo',
     },
     {
-      dataIndex: "IsNotifyAdmin",
-      key: "IsNotifyAdmin",
-      title: "Admin",
-      align: "center",
-      responsive: ["lg"],
+      dataIndex: 'IsNotifyAdmin',
+      key: 'IsNotifyAdmin',
+      title: 'Admin',
+      align: 'center',
+      responsive: ['lg'],
       render: (isChecked) => {
         return (
           <i
-            className={`xl:text-base text-sm fas ${
-              isChecked ? "fa-check text-green" : "fa-minus text-[#fca7a7]"
+            className={`fas text-sm xl:text-base ${
+              isChecked ? 'fa-check text-green' : 'fa-minus text-[#fca7a7]'
             }`}
           ></i>
-        );
+        )
       },
     },
     {
-      dataIndex: "IsNotifyAccountant",
-      key: "IsNotifyAccountant",
-      title: "Kế toán",
-      align: "center",
-      responsive: ["lg"],
+      dataIndex: 'IsNotifyAccountant',
+      key: 'IsNotifyAccountant',
+      title: 'Kế toán',
+      align: 'center',
+      responsive: ['lg'],
       render: (isChecked) => {
         return (
           <i
-            className={`xl:text-base text-sm fas ${
-              isChecked ? "fa-check text-green" : "fa-minus text-[#fca7a7]"
+            className={`fas text-sm xl:text-base ${
+              isChecked ? 'fa-check text-green' : 'fa-minus text-[#fca7a7]'
             }`}
           ></i>
-        );
+        )
       },
     },
     {
-      dataIndex: "IsNotifySaler",
-      key: "IsNotifySaler",
-      title: "Bán hàng",
-      align: "center",
-      responsive: ["lg"],
+      dataIndex: 'IsNotifySaler',
+      key: 'IsNotifySaler',
+      title: 'Bán hàng',
+      align: 'center',
+      responsive: ['lg'],
       render: (isChecked) => {
         return (
           <i
-            className={`xl:text-base text-sm fas ${
-              isChecked ? "fa-check text-green" : "fa-minus text-[#fca7a7]"
+            className={`fas text-sm xl:text-base ${
+              isChecked ? 'fa-check text-green' : 'fa-minus text-[#fca7a7]'
             }`}
           ></i>
-        );
+        )
       },
     },
     {
-      dataIndex: "IsNotifyWarehoue",
-      key: "IsNotifyWarehoue",
-      title: "Kho VN",
-      align: "center",
-      responsive: ["lg"],
+      dataIndex: 'IsNotifyWarehoue',
+      key: 'IsNotifyWarehoue',
+      title: 'Kho VN',
+      align: 'center',
+      responsive: ['lg'],
       render: (isChecked) => {
         return (
           <i
-            className={`xl:text-base text-sm fas ${
-              isChecked ? "fa-check text-green" : "fa-minus text-[#fca7a7]"
+            className={`fas text-sm xl:text-base ${
+              isChecked ? 'fa-check text-green' : 'fa-minus text-[#fca7a7]'
             }`}
           ></i>
-        );
+        )
       },
     },
     {
-      dataIndex: "IsNotifyWarehoueFrom",
-      key: "IsNotifyWarehoueFrom",
-      title: "Kho TQ",
-      align: "center",
-      responsive: ["lg"],
+      dataIndex: 'IsNotifyWarehoueFrom',
+      key: 'IsNotifyWarehoueFrom',
+      title: 'Kho TQ',
+      align: 'center',
+      responsive: ['lg'],
       render: (isChecked) => {
         return (
           <i
-            className={`xl:text-base text-sm fas ${
-              isChecked ? "fa-check text-green" : "fa-minus text-[#fca7a7]"
+            className={`fas text-sm xl:text-base ${
+              isChecked ? 'fa-check text-green' : 'fa-minus text-[#fca7a7]'
             }`}
           ></i>
-        );
+        )
       },
     },
     {
-      dataIndex: "IsNotifyUser",
-      key: "IsNotifyUser",
-      title: "User",
-      align: "center",
-      responsive: ["lg"],
+      dataIndex: 'IsNotifyUser',
+      key: 'IsNotifyUser',
+      title: 'User',
+      align: 'center',
+      responsive: ['lg'],
       render: (isChecked) => {
         return (
           <i
-            className={`xl:text-base text-sm fas ${
-              isChecked ? "fa-check text-green" : "fa-minus text-[#fca7a7]"
+            className={`fas text-sm xl:text-base ${
+              isChecked ? 'fa-check text-green' : 'fa-minus text-[#fca7a7]'
             }`}
           ></i>
-        );
+        )
       },
     },
     {
-      dataIndex: "IsEmailAdmin",
-      key: "IsEmailAdmin",
-      title: "Gửi mail admin",
-      align: "center",
-      responsive: ["lg"],
+      dataIndex: 'IsEmailAdmin',
+      key: 'IsEmailAdmin',
+      title: 'Gửi mail admin',
+      align: 'center',
+      responsive: ['lg'],
       render: (isChecked) => {
         return (
           <i
-            className={`xl:text-base text-sm fas ${
-              isChecked ? "fa-check text-green" : "fa-minus text-[#fca7a7]"
+            className={`fas text-sm xl:text-base ${
+              isChecked ? 'fa-check text-green' : 'fa-minus text-[#fca7a7]'
             }`}
           ></i>
-        );
+        )
       },
     },
     // {
@@ -145,19 +145,19 @@ export const NotificationsTable: FC<TTable<any>> = ({
     //
     // },
     {
-      dataIndex: "action",
-      key: "action",
-      title: "Thao tác",
-      align: "right",
+      dataIndex: 'action',
+      key: 'action',
+      title: 'Thao tác',
+      align: 'right',
       render: (_, record) => (
         <ActionButton
           onClick={() => handleModal(record)}
-          icon="fas fa-edit"
-          title="Cập nhật"
+          icon='fas fa-edit'
+          title='Cập nhật'
         />
       ),
     },
-  ];
+  ]
 
   return (
     <DataTable
@@ -170,5 +170,5 @@ export const NotificationsTable: FC<TTable<any>> = ({
         onChange: handlePagination,
       }}
     />
-  );
-};
+  )
+}

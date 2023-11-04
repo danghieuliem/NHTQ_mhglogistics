@@ -1,9 +1,9 @@
-import BaseAPI from "../methods";
+import BaseAPI from '../methods'
 
-const { globalCRUD, get } = new BaseAPI<any>("configuration");
+const { globalCRUD, get } = new BaseAPI<any>('configuration')
 
 export const configuration = {
   ...globalCRUD,
 
-  getCurrency: () => get("/currency"),
-};
+  getCurrency: () => get('/currency'),
+}

@@ -1,2 +1,2 @@
-export * from "./TariffUserForm";
-export * from "./TariffUserTable";
+export * from './TariffUserForm'
+export * from './TariffUserTable'

@@ -1,5 +1,5 @@
-import { _format } from "~/utils";
-import { CartOrderItem } from ".";
+import { _format } from '~/utils'
+import { CartOrderItem } from '.'
 
 export const CartOrder = ({
   currentCart,
@@ -8,12 +8,15 @@ export const CartOrder = ({
   toggleShopId,
   chosenShopIds,
   refetchCart,
-  isFetching
+  isFetching,
 }) => {
   return (
     <>
       {currentCart?.map((cart, index) => (
-        <div className="cartNewWrapper-orders-items" key={`${index}-${cart?.ShopId}`}>
+        <div
+          className='cartNewWrapper-orders-items'
+          key={`${index}-${cart?.ShopId}`}
+        >
           <CartOrderItem
             cart={cart}
             note={note?.[cart?.Id]}
@@ -28,5 +31,5 @@ export const CartOrder = ({
         </div>
       ))}
     </>
-  );
-};
+  )
+}

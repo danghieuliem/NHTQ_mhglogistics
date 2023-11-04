@@ -9,20 +9,23 @@ export const AttributeItems = ({ data, onSelected, selectedVid }) => {
         return (
           <div
             className={clsx(styles['attributes-item'])}
-            key={`item-0-${idx}`}>
+            key={`item-0-${idx}`}
+          >
             <div
               className={clsx(
                 styles['attributes-item-inner'],
-                isSelected && styles['attributes-item-inner-active']
+                isSelected && styles['attributes-item-inner-active'],
               )}
-              onClick={isSelected ? null : () => onSelected(att, idx)}>
+              onClick={isSelected ? null : () => onSelected(att, idx)}
+            >
               {att.MiniImageUrl && (
                 <div
                   style={{
                     background: `url(${att.MiniImageUrl}) center center / contain no-repeat`,
                     width: '36px',
-                    height: '36px'
-                  }}></div>
+                    height: '36px',
+                  }}
+                ></div>
               )}
               <div className={styles['attributes-item-inner-value']}>
                 {att.Value}

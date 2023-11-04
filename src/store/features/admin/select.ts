@@ -1,2 +1,1 @@
-import { RootState } from '~/store';
-
+import { RootState } from '~/store'

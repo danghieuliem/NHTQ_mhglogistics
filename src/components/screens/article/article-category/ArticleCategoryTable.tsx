@@ -1,10 +1,10 @@
-import { Tooltip } from "antd";
-import Link from "next/link";
-import { FC } from "react";
-import { ActionButton, DataTable } from "~/components";
-import { TColumnsType, TTable } from "~/types/table";
-import { _format } from "~/utils";
-import TagStatus from "../../status/TagStatus";
+import { Tooltip } from 'antd'
+import Link from 'next/link'
+import { FC } from 'react'
+import { ActionButton, DataTable } from '~/components'
+import { TColumnsType, TTable } from '~/types/table'
+import { _format } from '~/utils'
+import TagStatus from '../../status/TagStatus'
 
 export const ArticleCategoryTable: FC<TTable<TPageType>> = ({
   data,
@@ -13,54 +13,54 @@ export const ArticleCategoryTable: FC<TTable<TPageType>> = ({
 }) => {
   const columns: TColumnsType<TPageType> = [
     {
-      dataIndex: "Id",
-      title: "ID",
-      responsive: ["lg"],
+      dataIndex: 'Id',
+      title: 'ID',
+      responsive: ['lg'],
     },
     {
-      dataIndex: "Name",
-      title: "Tên chuyên mục",
+      dataIndex: 'Name',
+      title: 'Tên chuyên mục',
     },
     {
-      dataIndex: "Code",
-      title: "Link chuyên mục",
-      responsive: ["md"],
+      dataIndex: 'Code',
+      title: 'Link chuyên mục',
+      responsive: ['md'],
       render(_, record) {
-        return <Tooltip title="Link gắn vào menu">{record?.Code}</Tooltip>;
+        return <Tooltip title='Link gắn vào menu'>{record?.Code}</Tooltip>
       },
     },
     {
-      dataIndex: "Active",
-      title: "Trạng thái",
+      dataIndex: 'Active',
+      title: 'Trạng thái',
       render: (_, record) => (
         <TagStatus
-          color={!record.Active ? "red" : "green"}
-          statusName={!record.Active ? "Ẩn" : "Hiện"}
+          color={!record.Active ? 'red' : 'green'}
+          statusName={!record.Active ? 'Ẩn' : 'Hiện'}
         />
       ),
     },
     {
-      dataIndex: "Updated",
-      title: "Lần cuối thay đổi",
-      responsive: ["md"],
+      dataIndex: 'Updated',
+      title: 'Lần cuối thay đổi',
+      responsive: ['md'],
       render: (date) => date && _format.getVNDate(date),
     },
     {
-      dataIndex: "action",
-      title: "Thao tác",
-      align: "right",
-      responsive: ["sm"],
+      dataIndex: 'action',
+      title: 'Thao tác',
+      align: 'right',
+      responsive: ['sm'],
       render: (_, record) => (
         <Link
           href={`/manager/article/article-category/detail/?id=${record?.Id}`}
         >
-          <a target="_blank">
-            <ActionButton icon="fad fa-edit" title="Cập nhật" isButton />
+          <a target='_blank'>
+            <ActionButton icon='fad fa-edit' title='Cập nhật' isButton />
           </a>
         </Link>
       ),
     },
-  ];
+  ]
 
   return (
     <DataTable
@@ -70,16 +70,16 @@ export const ArticleCategoryTable: FC<TTable<TPageType>> = ({
         bordered: true,
         loading,
         pagination,
-        extraElementClassName: "w-fit ml-auto",
+        extraElementClassName: 'w-fit ml-auto',
         extraElement: (
           <div>
-            <Link href="/manager/article/article-category/add">
-              <a target="_blank">
+            <Link href='/manager/article/article-category/add'>
+              <a target='_blank'>
                 <ActionButton
-                  icon="fas fa-plus-circle"
-                  title={"Thêm chuyên mục"}
+                  icon='fas fa-plus-circle'
+                  title={'Thêm chuyên mục'}
                   isButton
-                  isButtonClassName="bg-green !text-white"
+                  isButtonClassName='bg-green !text-white'
                 />
               </a>
             </Link>
@@ -87,5 +87,5 @@ export const ArticleCategoryTable: FC<TTable<TPageType>> = ({
         ),
       }}
     />
-  );
-};
+  )
+}

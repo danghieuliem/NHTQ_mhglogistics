@@ -1,52 +1,52 @@
-import Link from "next/link";
-import router from "next/router";
-import styles from "./index.module.css";
-import { RootState } from "~/store";
-import { useSelector } from "react-redux";
+import Link from 'next/link'
+import router from 'next/router'
+import styles from './index.module.css'
+import { RootState } from '~/store'
+import { useSelector } from 'react-redux'
 
 const blogList = [
   {
     id: 1,
-    title: "Nhập hàng Trung Quốc",
-    code: "nhap-hang-trung-quoc-ve-viet-nam",
+    title: 'Nhập hàng Trung Quốc',
+    code: 'nhap-hang-trung-quoc-ve-viet-nam',
   },
   {
     id: 2,
-    title: "Đặt hàng 1688",
-    code: "",
+    title: 'Đặt hàng 1688',
+    code: '',
   },
   {
     id: 3,
-    title: "Đặt hàng Tmall",
-    code: "",
+    title: 'Đặt hàng Tmall',
+    code: '',
   },
   {
     id: 4,
-    title: "Đặt hàng Taobao",
-    code: "dat-hang-taobao",
+    title: 'Đặt hàng Taobao',
+    code: 'dat-hang-taobao',
   },
-];
+]
 
 const Footer = ({ dataMenu }) => {
   const dataGlobal: TConfig = useSelector(
-    (state: RootState) => state.dataGlobal
-  );
+    (state: RootState) => state.dataGlobal,
+  )
 
   return (
-    <footer className="">
+    <footer className=''>
       <div className={styles.footerTop}>
-        <div className="container">
+        <div className='container'>
           <div className={styles.logo}>
-            <Link href="/">
-              <a className="">
-                <img src={"/default/logo_footer.png"} alt="" height={"auto"} />
+            <Link href='/'>
+              <a className=''>
+                <img src={'/default/logo_footer.png'} alt='' height={'auto'} />
               </a>
             </Link>
           </div>
           <div className={styles.inner}>
-            <div className=" col-span-1">
+            <div className=' col-span-1'>
               <div className={styles.title}>
-                <p className="uppercase font-bold text-lg !mb-4"> Menu </p>
+                <p className='!mb-4 text-lg font-bold uppercase'> Menu </p>
               </div>
               <div className={styles.contentFoot}>
                 {dataMenu?.map((item) => (
@@ -55,7 +55,7 @@ const Footer = ({ dataMenu }) => {
                       className={styles.colorD}
                       onClick={() =>
                         router.push({
-                          pathname: "/chuyen-muc",
+                          pathname: '/chuyen-muc',
                           query: { code: item?.Code },
                         })
                       }
@@ -66,14 +66,14 @@ const Footer = ({ dataMenu }) => {
                 ))}
               </div>
             </div>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <div className={styles.title}>
-                <p className="uppercase font-bold text-lg mb-5">Blog</p>
+                <p className='mb-5 text-lg font-bold uppercase'>Blog</p>
               </div>
               {blogList.map((blog) => (
                 <div className={styles.menuItem} key={blog?.id}>
                   <Link href={`/chuyen-muc/detail/?code=${blog.code}`}>
-                    <a target={"_blank"} className={styles.colorD}>
+                    <a target={'_blank'} className={styles.colorD}>
                       {blog?.title}
                     </a>
                   </Link>
@@ -97,9 +97,9 @@ const Footer = ({ dataMenu }) => {
                 );
               })} */}
             </div>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <div className={styles.title}>
-                <p className="uppercase font-bold text-lg !mb-4"> Liên hệ </p>
+                <p className='!mb-4 text-lg font-bold uppercase'> Liên hệ </p>
               </div>
               <div className={styles.contentFoot}>
                 <div className={styles.contactBox}>
@@ -152,7 +152,7 @@ const Footer = ({ dataMenu }) => {
         <p className={styles.cRight}>MONAMEDIA LOGISTICS</p>
       </div>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

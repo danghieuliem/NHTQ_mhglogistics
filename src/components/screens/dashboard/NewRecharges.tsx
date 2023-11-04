@@ -1,12 +1,12 @@
-import React from "react";
-import { useQuery } from "react-query";
-import { toast } from "react-toastify";
-import { adminSendUserWallet } from "~/api";
-import { moneyStatus } from "~/configs";
-import { TColumnsType } from "~/types/table";
-import { _format } from "~/utils";
-import { DataTable } from "../..";
-import TagStatus from "../status/TagStatus";
+import React from 'react'
+import { useQuery } from 'react-query'
+import { toast } from 'react-toastify'
+import { adminSendUserWallet } from '~/api'
+import { moneyStatus } from '~/configs'
+import { TColumnsType } from '~/types/table'
+import { _format } from '~/utils'
+import { DataTable } from '../..'
+import TagStatus from '../status/TagStatus'
 
 export const NewRecharges = React.memo(() => {
   const {
@@ -15,9 +15,9 @@ export const NewRecharges = React.memo(() => {
     isLoading,
   } = useQuery(
     [
-      "clientRechargeData",
+      'clientRechargeData',
       {
-        OrderBy: "Created desc",
+        OrderBy: 'Created desc',
         PageIndex: 1,
         PageSize: 10,
       },
@@ -25,7 +25,7 @@ export const NewRecharges = React.memo(() => {
     () =>
       adminSendUserWallet
         .getList({
-          OrderBy: "Created desc",
+          OrderBy: 'Created desc',
           PageIndex: 1,
           PageSize: 10,
         })
@@ -34,27 +34,27 @@ export const NewRecharges = React.memo(() => {
       staleTime: 10000,
       keepPreviousData: true,
       onError: (error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+        toast.error((error as any)?.response?.data?.ResultMessage)
       },
-    }
-  );
+    },
+  )
 
   const columns: TColumnsType<TNewRecharge> = [
     {
-      title: "Ngày giờ",
-      dataIndex: "Created",
-      responsive: ["sm"],
+      title: 'Ngày giờ',
+      dataIndex: 'Created',
+      responsive: ['sm'],
       render: (created) => {
         return (
           <>
             <div>{_format.getVNDate(created)}</div>
           </>
-        );
+        )
       },
     },
     {
-      title: "Username",
-      dataIndex: "UserName",
+      title: 'Username',
+      dataIndex: 'UserName',
     },
     {
       title: (
@@ -64,30 +64,30 @@ export const NewRecharges = React.memo(() => {
           (VNĐ)
         </>
       ),
-      dataIndex: "Amount",
-      align: "right",
-      responsive: ["sm"],
-      render: (Amount) => _format.getVND(Amount, ""),
+      dataIndex: 'Amount',
+      align: 'right',
+      responsive: ['sm'],
+      render: (Amount) => _format.getVND(Amount, ''),
     },
     {
-      title: "Trạng thái",
-      dataIndex: "Status",
+      title: 'Trạng thái',
+      dataIndex: 'Status',
       render: (status) => {
-        const color = moneyStatus.find((x) => x.id === status);
-        return <TagStatus color={color?.color} statusName={color.name} />;
+        const color = moneyStatus.find((x) => x.id === status)
+        return <TagStatus color={color?.color} statusName={color.name} />
       },
     },
-  ];
+  ]
 
   return (
     <DataTable
       {...{
         columns,
         data: userRechargeData,
-        style: "secondary",
+        style: 'secondary',
         loading: isFetching,
-        title: "Khách hàng mới nạp tiền",
+        title: 'Khách hàng mới nạp tiền',
       }}
     />
-  );
-});
+  )
+})

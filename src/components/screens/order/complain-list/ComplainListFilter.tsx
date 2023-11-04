@@ -1,41 +1,41 @@
-import { Popover } from "antd";
-import { FC, useRef } from "react";
-import { ActionButton, FilterInput, FilterSelect } from "~/components";
-import { IconButton } from "~/components/globals/button/IconButton";
-import { FilterRangeDate } from "~/components/globals/filterBase";
-import { complainStatus } from "~/configs";
-import { EReportStatusData } from "~/configs/appConfigs";
+import { Popover } from 'antd'
+import { FC, useRef } from 'react'
+import { ActionButton, FilterInput, FilterSelect } from '~/components'
+import { IconButton } from '~/components/globals/button/IconButton'
+import { FilterRangeDate } from '~/components/globals/filterBase'
+import { complainStatus } from '~/configs'
+import { EReportStatusData } from '~/configs/appConfigs'
 
 const usernameProps = {
-  id: "username",
-  name: "username",
-  placeholder: "Nhập Username",
-  label: "Usersname",
-};
+  id: 'username',
+  name: 'username',
+  placeholder: 'Nhập Username',
+  label: 'Usersname',
+}
 
 type TProps = {
-  handleFilter: (newFilter) => void;
-  handleExportExcel: () => void;
-};
+  handleFilter: (newFilter) => void
+  handleExportExcel: () => void
+}
 
 export const ComplainListFilter: FC<TProps> = ({
   handleFilter,
   handleExportExcel,
 }) => {
-  const SearchContent = useRef<string>(null);
-  const FromDate = useRef<string>(null);
-  const ToDate = useRef<string>(null);
-  const Status = useRef<EReportStatusData>(EReportStatusData.All);
+  const SearchContent = useRef<string>(null)
+  const FromDate = useRef<string>(null)
+  const ToDate = useRef<string>(null)
+  const Status = useRef<EReportStatusData>(EReportStatusData.All)
 
   return (
     <>
-      <div className="flex flex-col xs:flex-row xs:items-end gap-2">
+      <div className='flex flex-col gap-2 xs:flex-row xs:items-end'>
         <Popover
-          trigger={"click"}
-          placement="bottomLeft"
+          trigger={'click'}
+          placement='bottomLeft'
           content={
-            <div className="grid grid-cols-1 gap-2 p-2">
-              <div className="col-span-1">
+            <div className='grid grid-cols-1 gap-2 p-2'>
+              <div className='col-span-1'>
                 <FilterInput
                   {...usernameProps}
                   handleSearch={(val: string) =>
@@ -43,17 +43,17 @@ export const ComplainListFilter: FC<TProps> = ({
                   }
                 />
               </div>
-              <div className="col-span-1">
+              <div className='col-span-1'>
                 <FilterRangeDate
-                  format="DD/MM/YYYY"
-                  placeholder="Từ ngày / đến ngày"
+                  format='DD/MM/YYYY'
+                  placeholder='Từ ngày / đến ngày'
                   handleDate={(val: string[]) => {
-                    FromDate.current = val[0];
-                    ToDate.current = val[1];
+                    FromDate.current = val[0]
+                    ToDate.current = val[1]
                   }}
                 />
               </div>
-              <div className="col-span-1 flex justify-end items-end">
+              <div className='col-span-1 flex items-end justify-end'>
                 <IconButton
                   onClick={() =>
                     handleFilter({
@@ -64,26 +64,26 @@ export const ComplainListFilter: FC<TProps> = ({
                       PageIndex: 1,
                     })
                   }
-                  icon="mr-0"
-                  title="Tìm kiếm"
+                  icon='mr-0'
+                  title='Tìm kiếm'
                   showLoading
-                  toolip="Lọc"
+                  toolip='Lọc'
                 />
               </div>
             </div>
           }
         >
           <ActionButton
-            icon="fas fa-filter"
-            title="Lọc"
+            icon='fas fa-filter'
+            title='Lọc'
             isButton
-            isButtonClassName="bg-main !text-white"
+            isButtonClassName='bg-main !text-white'
           />
         </Popover>
-        <div className="w-[200px]">
+        <div className='w-[200px]'>
           <FilterSelect
-            placeholder="Chọn trạng thái"
-            label="Trạng thái"
+            placeholder='Chọn trạng thái'
+            label='Trạng thái'
             data={complainStatus}
             handleSearch={(val: number) => {
               handleFilter({
@@ -92,7 +92,7 @@ export const ComplainListFilter: FC<TProps> = ({
                 ToDate: ToDate.current,
                 Status: val,
                 PageIndex: 1,
-              });
+              })
             }}
             isClearable
           />
@@ -100,11 +100,11 @@ export const ComplainListFilter: FC<TProps> = ({
       </div>
       <ActionButton
         onClick={() => handleExportExcel()}
-        icon="fas fa-file-export"
-        title="Xuất"
+        icon='fas fa-file-export'
+        title='Xuất'
         isButton
-        isButtonClassName="bg-green !text-white"
+        isButtonClassName='bg-green !text-white'
       />
     </>
-  );
-};
+  )
+}

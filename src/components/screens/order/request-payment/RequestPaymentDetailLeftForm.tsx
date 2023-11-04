@@ -1,17 +1,17 @@
-import { Skeleton } from "antd";
-import React from "react";
-import { IconButton } from "~/components/globals/button/IconButton";
-import { FormSelect } from "~/components/globals/formBase";
-import { payHelpStatus } from "~/configs";
-import { TControl } from "~/types/field";
-import { _format } from "~/utils";
+import { Skeleton } from 'antd'
+import React from 'react'
+import { IconButton } from '~/components/globals/button/IconButton'
+import { FormSelect } from '~/components/globals/formBase'
+import { payHelpStatus } from '~/configs'
+import { TControl } from '~/types/field'
+import { _format } from '~/utils'
 
 type TProps = TControl<TRequestPaymentOrder> & {
-  onPress: (data: TRequestPaymentOrder) => void;
-  loading: boolean;
-  data: any;
-  control;
-};
+  onPress: (data: TRequestPaymentOrder) => void
+  loading: boolean
+  data: any
+  control
+}
 
 export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
   handleSubmit,
@@ -23,9 +23,9 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
 }) => {
   return (
     <div>
-      <div className="tableBox">
-        <div className="grid grid-cols-2 border-b border-[#0000001a]">
-          <div className="p-2 text-sm font-bold text-[#6d6d6d]">
+      <div className='tableBox'>
+        <div className='grid grid-cols-2 border-b border-[#0000001a]'>
+          <div className='p-2 text-sm font-bold text-[#6d6d6d]'>
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
@@ -34,7 +34,7 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
               ID
             </Skeleton>
           </div>
-          <div className="p-2 text-sm font-medium text-[#6d6d6d]">
+          <div className='p-2 text-sm font-medium text-[#6d6d6d]'>
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
@@ -44,8 +44,8 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
             </Skeleton>
           </div>
         </div>
-        <div className="grid grid-cols-2 border-b border-[#0000001a]">
-          <div className="p-2 text-sm font-bold text-[#6d6d6d]">
+        <div className='grid grid-cols-2 border-b border-[#0000001a]'>
+          <div className='p-2 text-sm font-bold text-[#6d6d6d]'>
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
@@ -54,7 +54,7 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
               Username
             </Skeleton>
           </div>
-          <div className="p-2 text-sm font-medium text-[#6d6d6d]">
+          <div className='p-2 text-sm font-medium text-[#6d6d6d]'>
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
@@ -64,8 +64,8 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
             </Skeleton>
           </div>
         </div>
-        <div className="grid grid-cols-2 border-b border-[#0000001a]">
-          <div className="p-2 text-sm font-bold text-[#6d6d6d]">
+        <div className='grid grid-cols-2 border-b border-[#0000001a]'>
+          <div className='p-2 text-sm font-bold text-[#6d6d6d]'>
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
@@ -74,7 +74,7 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
               Tổng tiền
             </Skeleton>
           </div>
-          <div className="p-2 text-sm font-medium text-[#6d6d6d]">
+          <div className='p-2 text-sm font-medium text-[#6d6d6d]'>
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
@@ -85,8 +85,8 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
             </Skeleton>
           </div>
         </div>
-        <div className="grid grid-cols-2 border-b border-[#0000001a]">
-          <div className="p-2 text-sm font-bold text-[#6d6d6d]">
+        <div className='grid grid-cols-2 border-b border-[#0000001a]'>
+          <div className='p-2 text-sm font-bold text-[#6d6d6d]'>
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
@@ -95,7 +95,7 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
               Đã trả
             </Skeleton>
           </div>
-          <div className="p-2 text-sm font-medium text-[#6d6d6d]">
+          <div className='p-2 text-sm font-medium text-[#6d6d6d]'>
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
@@ -106,8 +106,8 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
             </Skeleton>
           </div>
         </div>
-        <div className="grid grid-cols-2 border-b border-[#0000001a]">
-          <div className="p-2 text-sm font-bold text-[#6d6d6d]">
+        <div className='grid grid-cols-2 border-b border-[#0000001a]'>
+          <div className='p-2 text-sm font-bold text-[#6d6d6d]'>
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
@@ -116,7 +116,7 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
               Còn lại
             </Skeleton>
           </div>
-          <div className="p-2 text-sm font-medium text-[#6d6d6d]">
+          <div className='p-2 text-sm font-medium text-[#6d6d6d]'>
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
@@ -127,54 +127,54 @@ export const RequestPaymentDetailLeftForm: React.FC<TProps> = ({
             </Skeleton>
           </div>
         </div>
-        <div className="grid grid-cols-full border-b border-[#0000001a]">
-          <div className="w-full p-2 text-sm font-medium text-[#6d6d6d]">
+        <div className='grid-cols-full grid border-b border-[#0000001a]'>
+          <div className='w-full p-2 text-sm font-medium text-[#6d6d6d]'>
             <Skeleton
               loading={loading}
               paragraph={{ rows: 1, width: 100 }}
               title={false}
             >
               <FormSelect
-                menuPlacement="bottom"
+                menuPlacement='bottom'
                 control={control}
-                name="Status"
-                label="Trạng thái"
+                name='Status'
+                label='Trạng thái'
                 defaultValue={{
-                  id: payHelpStatus?.find((x) => x?.id === getValues("Status"))
+                  id: payHelpStatus?.find((x) => x?.id === getValues('Status'))
                     ?.id,
                   name: payHelpStatus?.find(
-                    (x) => x?.id === getValues("Status")
+                    (x) => x?.id === getValues('Status'),
                   )?.name,
                 }}
-                placeholder=""
+                placeholder=''
                 data={payHelpStatus}
-                rules={{ required: "This field is required" }}
+                rules={{ required: 'This field is required' }}
               />
             </Skeleton>
           </div>
         </div>
 
-        <div className="flex mt-2 mb-1 justify-center">
+        <div className='mt-2 mb-1 flex justify-center'>
           <Skeleton
             loading={loading}
             paragraph={{
               rows: 1,
               width: 100,
-              className: "flex justify-end mr-4",
+              className: 'flex justify-end mr-4',
             }}
             title={false}
           >
             <IconButton
-              icon="fas fa-edit"
-              title="Cập nhật"
+              icon='fas fa-edit'
+              title='Cập nhật'
               onClick={handleSubmit(onPress)}
               showLoading
-              btnClass="!mr-4"
-              toolip=""
+              btnClass='!mr-4'
+              toolip=''
             />
           </Skeleton>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

@@ -1,22 +1,22 @@
-import Link from "next/link";
-import React from "react";
-import { useQuery } from "react-query";
-import { toast } from "react-toastify";
-import { payHelp } from "~/api";
-import { payHelpStatus } from "~/configs";
-import { TColumnsType } from "~/types/table";
-import { _format } from "~/utils";
-import { DataTable } from "../..";
-import TagStatus from "../status/TagStatus";
+import Link from 'next/link'
+import React from 'react'
+import { useQuery } from 'react-query'
+import { toast } from 'react-toastify'
+import { payHelp } from '~/api'
+import { payHelpStatus } from '~/configs'
+import { TColumnsType } from '~/types/table'
+import { _format } from '~/utils'
+import { DataTable } from '../..'
+import TagStatus from '../status/TagStatus'
 
 export const NewPaymentOrders = React.memo(() => {
   const { isFetching, data, isLoading } = useQuery(
     [
-      "requestPaymentData",
+      'requestPaymentData',
       {
         PageCurrent: 1,
         PageSize: 10,
-        OrderBy: "",
+        OrderBy: '',
         Status: 1,
       },
     ],
@@ -25,7 +25,7 @@ export const NewPaymentOrders = React.memo(() => {
         .getList({
           PageIndex: 1,
           PageSize: 10,
-          OrderBy: "",
+          OrderBy: '',
           Status: 1,
         })
         .then((res) => res.Data.Items),
@@ -33,27 +33,27 @@ export const NewPaymentOrders = React.memo(() => {
       keepPreviousData: true,
       staleTime: 10000,
       onError: (error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+        toast.error((error as any)?.response?.data?.ResultMessage)
       },
-    }
-  );
+    },
+  )
 
   const columns: TColumnsType<TNewPaymentOrders> = [
     {
-      title: "ID",
-      dataIndex: "Id",
-      responsive: ["md"],
+      title: 'ID',
+      dataIndex: 'Id',
+      responsive: ['md'],
       render: (value) => {
         return (
           <Link href={`/manager/order/request-payment/detail/?id=${value}`}>
-            <a target="_blank">{value}</a>
+            <a target='_blank'>{value}</a>
           </Link>
-        );
+        )
       },
     },
     {
-      title: "Username",
-      dataIndex: "UserName",
+      title: 'Username',
+      dataIndex: 'UserName',
     },
     {
       title: (
@@ -63,10 +63,10 @@ export const NewPaymentOrders = React.memo(() => {
           (¥)
         </>
       ),
-      dataIndex: "TotalPrice",
-      align: "right",
-      responsive: ["sm"],
-      render: (TotalPrice) => _format.getYuan(TotalPrice, ""),
+      dataIndex: 'TotalPrice',
+      align: 'right',
+      responsive: ['sm'],
+      render: (TotalPrice) => _format.getYuan(TotalPrice, ''),
     },
     {
       title: (
@@ -76,20 +76,20 @@ export const NewPaymentOrders = React.memo(() => {
           (VNĐ)
         </>
       ),
-      dataIndex: "TotalPriceVND",
-      align: "right",
-      responsive: ["sm"],
-      render: (TotalPriceVND) => _format.getVND(TotalPriceVND, ""),
+      dataIndex: 'TotalPriceVND',
+      align: 'right',
+      responsive: ['sm'],
+      render: (TotalPriceVND) => _format.getVND(TotalPriceVND, ''),
     },
     {
-      title: "Trạng thái",
-      dataIndex: "Status",
+      title: 'Trạng thái',
+      dataIndex: 'Status',
       render: (status) => {
-        const color = payHelpStatus.find((x) => x.id === status);
-        return <TagStatus color={color?.color} statusName={color.name} />;
+        const color = payHelpStatus.find((x) => x.id === status)
+        return <TagStatus color={color?.color} statusName={color.name} />
       },
     },
-  ];
+  ]
 
   return (
     <DataTable
@@ -97,9 +97,9 @@ export const NewPaymentOrders = React.memo(() => {
         columns,
         data,
         loading: isFetching,
-        style: "secondary",
-        title: "Đơn thanh toán hộ mới",
+        style: 'secondary',
+        title: 'Đơn thanh toán hộ mới',
       }}
     />
-  );
-});
+  )
+})

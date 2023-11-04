@@ -1,31 +1,31 @@
-import React, { useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
-import { user } from "~/api";
-import { FormDate, FormInput, FormInputNumber, FormSelect } from "~/components";
-import { IconButton } from "~/components/globals/button/IconButton";
-import { toast } from "~/components/toast";
-import { activeData, genderData } from "~/configs/appConfigs";
-import { useDeepEffect } from "~/hooks";
+import React, { useRef, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useMutation } from 'react-query'
+import { user } from '~/api'
+import { FormDate, FormInput, FormInputNumber, FormSelect } from '~/components'
+import { IconButton } from '~/components/globals/button/IconButton'
+import { toast } from '~/components/toast'
+import { activeData, genderData } from '~/configs/appConfigs'
+import { useDeepEffect } from '~/hooks'
 
-import { Switch } from "antd";
-import { EUnique, checkUnique, createComplain } from "../../auth/method";
+import { Switch } from 'antd'
+import { EUnique, checkUnique, createComplain } from '../../auth/method'
 
 type TProps = {
-  defaultValues: TEmployee | any;
-  userLevelCatalogue: TUserLevelCatalogue[];
-  userGroupCatalogue: TUserGroupCatalogue[];
-  userSaleCatalogue: TUserCatalogue[];
-  userOrderCatalogue: TUserCatalogue[];
-  loading: boolean;
-  oriEmail: React.MutableRefObject<any>;
-  oriPhone: React.MutableRefObject<any>;
-};
+  defaultValues: TEmployee | any
+  userLevelCatalogue: TUserLevelCatalogue[]
+  userGroupCatalogue: TUserGroupCatalogue[]
+  userSaleCatalogue: TUserCatalogue[]
+  userOrderCatalogue: TUserCatalogue[]
+  loading: boolean
+  oriEmail: React.MutableRefObject<any>
+  oriPhone: React.MutableRefObject<any>
+}
 
 type TForm = TEmployee & {
-  UserGroupId: number;
-  FeeTQVNPerVolume: number;
-};
+  UserGroupId: number
+  FeeTQVNPerVolume: number
+}
 
 export const EmployeeManagementDetailForm: React.FC<TProps> = ({
   defaultValues,
@@ -37,173 +37,173 @@ export const EmployeeManagementDetailForm: React.FC<TProps> = ({
   oriEmail,
   oriPhone,
 }) => {
-  const [changePass, setChangePass] = useState(false);
-  const UserGroupNameCur = useRef(null);
+  const [changePass, setChangePass] = useState(false)
+  const UserGroupNameCur = useRef(null)
 
   const { handleSubmit, control, watch, getValues, reset } = useForm<TForm>({
-    mode: "onBlur",
-  });
+    mode: 'onBlur',
+  })
 
   useDeepEffect(() => {
     reset({
       ...defaultValues,
-      PasswordNew: "",
-      PasswordAgain: "",
+      PasswordNew: '',
+      PasswordAgain: '',
       IsResetPassword: false,
-    });
-  }, [defaultValues]);
+    })
+  }, [defaultValues])
 
   const mutationUpdate = useMutation(user.update, {
     onSuccess: () => {
-      toast.success("Cập nhật nhân viên thành công");
+      toast.success('Cập nhật nhân viên thành công')
     },
     onError: (error) => {
-      toast.error((error as any)?.response?.data?.ResultMessage);
+      toast.error((error as any)?.response?.data?.ResultMessage)
     },
-  });
+  })
 
   const _onPress = (data: TForm) => {
-    toast.info("Đang xử lý ...");
+    toast.info('Đang xử lý ...')
     if (data?.PasswordNew) {
       if (data?.PasswordAgain !== data?.PasswordNew) {
-        toast.error("Mật khẩu nhập lại sai rồi nè!");
-        return;
+        toast.error('Mật khẩu nhập lại sai rồi nè!')
+        return
       } else {
         const newData = {
           ...data,
           PasswordNew: data?.PasswordNew.trim(),
           PasswordAgain: data?.PasswordAgain.trim(),
           IsResetPassword: true,
-        };
+        }
         mutationUpdate.mutateAsync({
           ...newData,
           UserGroupName: UserGroupNameCur.current,
-        });
+        })
       }
     } else {
       mutationUpdate.mutateAsync({
         ...data,
         UserGroupName: UserGroupNameCur.current,
-      });
+      })
     }
-  };
+  }
 
   return (
-    <div className="w-full">
-      <div className="grid md:grid-cols-2 gap-4">
-        <div className="tableBox md:col-span-2 xl:col-span-1 grid sm:grid-cols-2 gap-4">
-          <div className="col-span-full font-bold text-[22px]">
+    <div className='w-full'>
+      <div className='grid gap-4 md:grid-cols-2'>
+        <div className='tableBox grid gap-4 sm:grid-cols-2 md:col-span-2 xl:col-span-1'>
+          <div className='col-span-full text-[22px] font-bold'>
             Cấu hình người dùng
           </div>
           <FormInput
             control={control}
-            name="UserName"
-            placeholder="Username"
-            label="Nhập username"
+            name='UserName'
+            placeholder='Username'
+            label='Nhập username'
             required={false}
             disabled={true}
           />
           <FormInput
             control={control}
-            name="FullName"
-            placeholder="Nhập họ và tên"
-            label="Họ và tên"
-            rules={{ required: "Không bỏ trống họ và tên" }}
+            name='FullName'
+            placeholder='Nhập họ và tên'
+            label='Họ và tên'
+            rules={{ required: 'Không bỏ trống họ và tên' }}
           />
           <FormInput
             control={control}
-            name="Address"
-            placeholder="Địa chỉ"
-            label="Nhập địa chỉ"
-            rules={{ required: "Không bỏ trống địa chỉ" }}
+            name='Address'
+            placeholder='Địa chỉ'
+            label='Nhập địa chỉ'
+            rules={{ required: 'Không bỏ trống địa chỉ' }}
           />
           <div>
             <FormDate
-              label="Ngày sinh"
-              name="Birthday"
+              label='Ngày sinh'
+              name='Birthday'
               control={control}
-              placeholder="Nhập ngày sinh"
+              placeholder='Nhập ngày sinh'
             />
           </div>
           <FormInput
-            type="email"
+            type='email'
             control={control}
-            name="Email"
-            placeholder="Email"
-            label="Email"
+            name='Email'
+            placeholder='Email'
+            label='Email'
             rules={{
-              required: "Vui lòng điền email..",
+              required: 'Vui lòng điền email..',
               pattern: {
                 value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                message: "email không đúng định dạng",
+                message: 'email không đúng định dạng',
               },
               validate: {
                 check: (value) => {
                   if (value !== oriEmail.current) {
-                    return checkUnique(value, EUnique.email);
-                  } else return;
+                    return checkUnique(value, EUnique.email)
+                  } else return
                 },
               },
             }}
           />
           <FormSelect
             control={control}
-            label="Giới Tính"
-            placeholder=""
-            name="Gender"
+            label='Giới Tính'
+            placeholder=''
+            name='Gender'
             data={genderData}
-            select={{ label: "Name", value: "Id" }}
+            select={{ label: 'Name', value: 'Id' }}
             defaultValue={genderData?.[defaultValues?.Gender]}
             required={false}
           />
           <FormInput
             control={control}
-            name="Phone"
-            placeholder=""
-            label="Số điện thoại"
+            name='Phone'
+            placeholder=''
+            label='Số điện thoại'
             rules={{
-              required: "Vui lòng điền số điện thoại..",
+              required: 'Vui lòng điền số điện thoại..',
               pattern: {
                 value:
                   /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
-                message: "Sđt không đúng định dạng",
+                message: 'Sđt không đúng định dạng',
               },
               validate: {
                 check: (value) => {
                   if (value !== oriPhone.current) {
-                    return checkUnique(value.trim(), EUnique.phone);
-                  } else return;
+                    return checkUnique(value.trim(), EUnique.phone)
+                  } else return
                 },
               },
             }}
           />
-          <div className="col-span-full flex gap-4 justify-end flex-col items-stretch">
+          <div className='col-span-full flex flex-col items-stretch justify-end gap-4'>
             <div>
-              <label className="mr-3">Đổi mật khẩu?</label>
+              <label className='mr-3'>Đổi mật khẩu?</label>
               <Switch
                 onChange={() => {
-                  setChangePass(!changePass);
-                  reset();
+                  setChangePass(!changePass)
+                  reset()
                 }}
               />
             </div>
-            <div className="">
+            <div className=''>
               <FormInput
                 control={control}
                 required={changePass}
                 disabled={!changePass}
-                name="PasswordNew"
-                type="text"
-                placeholder="Mật khẩu mới"
-                label="Mật khẩu mới"
+                name='PasswordNew'
+                type='text'
+                placeholder='Mật khẩu mới'
+                label='Mật khẩu mới'
                 rules={
                   changePass
                     ? {
                         minLength: {
                           value: 8,
-                          message: "Mật khẩu ít nhất 8 kí tự",
+                          message: 'Mật khẩu ít nhất 8 kí tự',
                         },
-                        required: "Vui lòng điền mật khẩu",
+                        required: 'Vui lòng điền mật khẩu',
                       }
                     : {}
                 }
@@ -212,20 +212,20 @@ export const EmployeeManagementDetailForm: React.FC<TProps> = ({
                 control={control}
                 required={changePass}
                 disabled={!changePass}
-                name="PasswordAgain"
-                type="text"
-                placeholder="Nhập lại mật khẩu mới"
-                label="Nhập lại mật khẩu mới"
+                name='PasswordAgain'
+                type='text'
+                placeholder='Nhập lại mật khẩu mới'
+                label='Nhập lại mật khẩu mới'
                 rules={
                   changePass
                     ? {
-                        required: "Vui lòng xác nhận mật khẩu..",
+                        required: 'Vui lòng xác nhận mật khẩu..',
                         validate: {
                           checkEqualPassword: (value) => {
                             return (
-                              getValues("PasswordNew") === value ||
+                              getValues('PasswordNew') === value ||
                               createComplain()
-                            );
+                            )
                           },
                         },
                       }
@@ -235,169 +235,169 @@ export const EmployeeManagementDetailForm: React.FC<TProps> = ({
             </div>
           </div>
         </div>
-        <div className="tableBox md:col-span-2 xl:col-span-1 grid grid-cols-1 gap-4">
-          <div className="col-span-1 font-bold text-[22px]">Cấu hình giá</div>
-          <div className="col-span-1 grid sm:grid-cols-2 gap-4">
-            <div className="col-span-1">
-              <div className="mb-3">
+        <div className='tableBox grid grid-cols-1 gap-4 md:col-span-2 xl:col-span-1'>
+          <div className='col-span-1 text-[22px] font-bold'>Cấu hình giá</div>
+          <div className='col-span-1 grid gap-4 sm:grid-cols-2'>
+            <div className='col-span-1'>
+              <div className='mb-3'>
                 <FormInputNumber
                   control={control}
-                  name="Currency"
+                  name='Currency'
                   // defaultValue={defaultValues?.Currency}
-                  suffix=" VNĐ"
-                  label="Tỉ giá riêng (VNĐ)"
-                  placeholder="Tỉ giá riêng (VNĐ)"
+                  suffix=' VNĐ'
+                  label='Tỉ giá riêng (VNĐ)'
+                  placeholder='Tỉ giá riêng (VNĐ)'
                   required={false}
                 />
               </div>
-              <div className="mb-3">
+              <div className='mb-3'>
                 <FormInputNumber
                   control={control}
-                  name="FeeBuyPro"
+                  name='FeeBuyPro'
                   // defaultValue={defaultValues?.FeeBuyPro ?? 0}
-                  label="Phí mua hàng riêng (%)"
-                  suffix=" %"
-                  placeholder="Phí mua hàng riêng (%)"
+                  label='Phí mua hàng riêng (%)'
+                  suffix=' %'
+                  placeholder='Phí mua hàng riêng (%)'
                   required={false}
                 />
               </div>
-              <div className="mb-3">
+              <div className='mb-3'>
                 <FormInputNumber
                   control={control}
-                  name="Deposit"
-                  suffix=" %"
-                  label="Phí đặt cọc riêng (%)"
-                  placeholder="Phí đặt cọc riêng (%)"
+                  name='Deposit'
+                  suffix=' %'
+                  label='Phí đặt cọc riêng (%)'
+                  placeholder='Phí đặt cọc riêng (%)'
                   required={false}
                 />
               </div>
-              <div className="mb-3">
+              <div className='mb-3'>
                 <FormInputNumber
                   control={control}
-                  name="FeeTQVNPerWeight"
-                  label="Phí cân nặng riêng (VNĐ/Kg)"
-                  suffix=" VNĐ/Kg"
-                  placeholder="Phí cân nặng riêng (VNĐ/Kg)"
+                  name='FeeTQVNPerWeight'
+                  label='Phí cân nặng riêng (VNĐ/Kg)'
+                  suffix=' VNĐ/Kg'
+                  placeholder='Phí cân nặng riêng (VNĐ/Kg)'
                   required={false}
                 />
               </div>
-              <div className="mb-3">
+              <div className='mb-3'>
                 <FormInputNumber
                   control={control}
-                  name="FeeTQVNPerVolume"
-                  label="Phí thể tích riêng (VNĐ/m3)"
-                  placeholder="Phí thể tích riêng (VNĐ/m3)"
-                  suffix=" VNĐ/m3"
+                  name='FeeTQVNPerVolume'
+                  label='Phí thể tích riêng (VNĐ/m3)'
+                  placeholder='Phí thể tích riêng (VNĐ/m3)'
+                  suffix=' VNĐ/m3'
                   required={false}
                 />
               </div>
             </div>
-            <div className="col-span-1">
-              <div className="mb-3">
+            <div className='col-span-1'>
+              <div className='mb-3'>
                 <FormSelect
                   control={control}
-                  placeholder=""
-                  name="SaleId"
-                  label="Nhân viên kinh doanh"
+                  placeholder=''
+                  name='SaleId'
+                  label='Nhân viên kinh doanh'
                   data={userSaleCatalogue}
                   required={false}
-                  select={{ label: "UserName", value: "Id" }}
+                  select={{ label: 'UserName', value: 'Id' }}
                   isClearable={true}
                   defaultValue={{
                     UserName:
                       userSaleCatalogue?.find(
-                        (item) => item.Id === defaultValues?.SaleId
-                      )?.UserName ?? "Chọn nhân viên kinh doanh",
+                        (item) => item.Id === defaultValues?.SaleId,
+                      )?.UserName ?? 'Chọn nhân viên kinh doanh',
                     Id: defaultValues?.SaleId ?? 0,
                   }}
                 />
               </div>
-              <div className="mb-3">
+              <div className='mb-3'>
                 <FormSelect
                   control={control}
-                  placeholder=""
-                  name="DatHangId"
-                  label="Nhân viên đặt hàng"
+                  placeholder=''
+                  name='DatHangId'
+                  label='Nhân viên đặt hàng'
                   isClearable={true}
                   data={userOrderCatalogue}
                   required={false}
-                  select={{ label: "UserName", value: "Id" }}
+                  select={{ label: 'UserName', value: 'Id' }}
                   defaultValue={{
                     UserName:
                       userOrderCatalogue?.find(
-                        (item) => item.Id === defaultValues?.DatHangId
-                      )?.UserName ?? "Chọn nhân viên đặt hàng",
+                        (item) => item.Id === defaultValues?.DatHangId,
+                      )?.UserName ?? 'Chọn nhân viên đặt hàng',
                     Id: defaultValues?.DatHangId ?? 0,
                   }}
                 />
               </div>
-              <div className="mb-3">
+              <div className='mb-3'>
                 <FormSelect
                   control={control}
-                  placeholder=""
-                  name="LevelId"
+                  placeholder=''
+                  name='LevelId'
                   required={false}
-                  label="Cấp người dùng"
+                  label='Cấp người dùng'
                   data={userLevelCatalogue}
-                  select={{ label: "Name", value: "Id" }}
+                  select={{ label: 'Name', value: 'Id' }}
                   defaultValue={{
                     Name:
                       userLevelCatalogue?.find(
-                        (item) => item.Id === defaultValues?.LevelId
-                      )?.Name ?? "Chọn cấp người dùng",
+                        (item) => item.Id === defaultValues?.LevelId,
+                      )?.Name ?? 'Chọn cấp người dùng',
                     Id: defaultValues?.LevelId,
                   }}
                 />
               </div>
-              <div className="mb-3">
+              <div className='mb-3'>
                 <FormSelect
                   control={control}
-                  placeholder=""
-                  name="UserGroupId"
-                  label="Quyền hạn"
+                  placeholder=''
+                  name='UserGroupId'
+                  label='Quyền hạn'
                   data={userGroupCatalogue}
-                  select={{ label: "Name", value: "Id" }}
+                  select={{ label: 'Name', value: 'Id' }}
                   defaultValue={{
                     Name: defaultValues?.UserGroupName,
                     Id: defaultValues?.UserGroupId,
                   }}
                   callback={(val) => {
                     UserGroupNameCur.current = userGroupCatalogue.find(
-                      (item) => item.Id === val
-                    )?.Name;
+                      (item) => item.Id === val,
+                    )?.Name
                   }}
                 />
               </div>
-              <div className="mb-3">
+              <div className='mb-3'>
                 <FormSelect
                   control={control}
-                  name="Status"
+                  name='Status'
                   data={activeData.slice(1)}
                   defaultValue={{
                     id: defaultValues?.Status,
                     name: defaultValues?.StatusName,
                   }}
-                  label="Trạng thái tài khoản"
-                  placeholder="Chọn trạng thái tài khoản"
+                  label='Trạng thái tài khoản'
+                  placeholder='Chọn trạng thái tài khoản'
                   required={false}
-                  menuPlacement="bottom"
+                  menuPlacement='bottom'
                 />
               </div>
             </div>
           </div>
 
-          <div className="col-span-1 flex justify-end">
+          <div className='col-span-1 flex justify-end'>
             <IconButton
-              icon="fas fa-edit"
-              title="Cập nhật"
+              icon='fas fa-edit'
+              title='Cập nhật'
               onClick={handleSubmit(_onPress)}
-              btnClass="!mr-2 !bg-active"
+              btnClass='!mr-2 !bg-active'
               showLoading
-              toolip=""
+              toolip=''
             />
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

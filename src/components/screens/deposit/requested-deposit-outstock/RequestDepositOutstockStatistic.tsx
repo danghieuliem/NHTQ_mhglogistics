@@ -1,23 +1,23 @@
-import { Table } from "antd";
-import React from "react";
-import { DataTable } from "~/components";
-import { TColumnsType, TTable } from "~/types/table";
-import { _format } from "~/utils";
+import { Table } from 'antd'
+import React from 'react'
+import { DataTable } from '~/components'
+import { TColumnsType, TTable } from '~/types/table'
+import { _format } from '~/utils'
 
 export const RequestDepositOutstockStatistic: React.FC<
   TTable<TTransportationOrder> & {
-    paymentStatusName: string;
-    smallPackagesData: any;
+    paymentStatusName: string
+    smallPackagesData: any
   }
 > = ({ data, loading, paymentStatusName, smallPackagesData }) => {
   const columns: TColumnsType<TTransportationOrder> = [
     {
-      dataIndex: "BarCode",
-      title: "Mã kiện",
-      align: "center",
+      dataIndex: 'BarCode',
+      title: 'Mã kiện',
+      align: 'center',
     },
     {
-      dataIndex: "Weight",
+      dataIndex: 'Weight',
       title: (
         <>
           Cân nặng
@@ -25,10 +25,10 @@ export const RequestDepositOutstockStatistic: React.FC<
           (kg)
         </>
       ),
-      align: "center",
+      align: 'center',
     },
     {
-      dataIndex: "SensorFeeVND",
+      dataIndex: 'SensorFeeVND',
       title: (
         <>
           Cước vật tư
@@ -36,11 +36,11 @@ export const RequestDepositOutstockStatistic: React.FC<
           (VNĐ)
         </>
       ),
-      align: "center",
+      align: 'center',
       render: (fee) => fee && _format.getVND(fee),
     },
     {
-      dataIndex: "AdditionFeeVND",
+      dataIndex: 'AdditionFeeVND',
       title: (
         <>
           PP hàng ĐB
@@ -48,10 +48,10 @@ export const RequestDepositOutstockStatistic: React.FC<
           (VNĐ)
         </>
       ),
-      align: "center",
+      align: 'center',
       render: (fee) => fee && _format.getVND(fee),
     },
-  ];
+  ]
 
   const summary = (data: TTransportationOrder[]) => (
     <React.Fragment>
@@ -59,7 +59,7 @@ export const RequestDepositOutstockStatistic: React.FC<
         <Table.Summary.Cell index={0} colSpan={3}>
           <b>Tổng số kiện</b>
         </Table.Summary.Cell>
-        <Table.Summary.Cell index={1} align="center">
+        <Table.Summary.Cell index={1} align='center'>
           <b>{data?.length || 0} kiện</b>
         </Table.Summary.Cell>
       </Table.Summary.Row>
@@ -67,15 +67,15 @@ export const RequestDepositOutstockStatistic: React.FC<
         <Table.Summary.Cell index={0} colSpan={3}>
           <b>Tổng cân nặng</b>
         </Table.Summary.Cell>
-        <Table.Summary.Cell index={1} align="center">
-          {data.reduce((prev, cur) => prev + cur.Weight, 0) + " Kg"}
+        <Table.Summary.Cell index={1} align='center'>
+          {data.reduce((prev, cur) => prev + cur.Weight, 0) + ' Kg'}
         </Table.Summary.Cell>
       </Table.Summary.Row>
       <Table.Summary.Row>
         <Table.Summary.Cell index={0} colSpan={3}>
           <b>Trạng thái</b>
         </Table.Summary.Cell>
-        <Table.Summary.Cell index={1} align="center">
+        <Table.Summary.Cell index={1} align='center'>
           {paymentStatusName}
         </Table.Summary.Cell>
       </Table.Summary.Row>
@@ -83,19 +83,19 @@ export const RequestDepositOutstockStatistic: React.FC<
         <Table.Summary.Cell index={0} colSpan={3}>
           <b>Tổng tiền</b>
         </Table.Summary.Cell>
-        <Table.Summary.Cell index={1} align="center">
-          <b className="text-warning">
+        <Table.Summary.Cell index={1} align='center'>
+          <b className='text-warning'>
             {_format.getVND(
-              data.reduce((prev, cur) => prev + cur.TotalPriceVND, 0)
+              data.reduce((prev, cur) => prev + cur.TotalPriceVND, 0),
             )}
           </b>
         </Table.Summary.Cell>
       </Table.Summary.Row>
     </React.Fragment>
-  );
+  )
 
   return (
-    <div className="mt-4">
+    <div className='mt-4'>
       <DataTable
         {...{
           columns,
@@ -105,5 +105,5 @@ export const RequestDepositOutstockStatistic: React.FC<
         }}
       />
     </div>
-  );
-};
+  )
+}

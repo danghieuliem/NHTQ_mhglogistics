@@ -1,3 +1,3 @@
-export * from "./VolumeFeeTable";
-export * from "./VolumeFeeFilter";
-export * from "./VolumeFeeForm";
+export * from './VolumeFeeTable'
+export * from './VolumeFeeFilter'
+export * from './VolumeFeeForm'

@@ -1,17 +1,17 @@
-import { Space } from "antd";
-import React from "react";
-import { ActionButton, DataTable } from "~/components";
-import { smallPackageStatus } from "~/configs";
-import { TColumnsType, TTable } from "~/types/table";
-import { _format } from "~/utils";
-import TagStatus from "../../status/TagStatus";
-import { useScreen } from "~/hooks";
+import { Space } from 'antd'
+import React from 'react'
+import { ActionButton, DataTable } from '~/components'
+import { smallPackageStatus } from '~/configs'
+import { TColumnsType, TTable } from '~/types/table'
+import { _format } from '~/utils'
+import TagStatus from '../../status/TagStatus'
+import { useScreen } from '~/hooks'
 type TProps = {
-  filter;
-  handleFilter: (newFilter) => void;
-  refetch: () => void;
-  handleAssign;
-};
+  filter
+  handleFilter: (newFilter) => void
+  refetch: () => void
+  handleAssign
+}
 export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
   data,
   loading,
@@ -20,21 +20,21 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
   refetch,
   handleAssign,
 }) => {
-  const { isWidthMD, isWidthSM } = useScreen();
+  const { isWidthMD, isWidthSM } = useScreen()
   const columns: TColumnsType<TSmallPackage> = [
     {
-      dataIndex: "Id",
-      title: "ID",
-      responsive: ["lg"],
+      dataIndex: 'Id',
+      title: 'ID',
+      responsive: ['lg'],
     },
     {
-      dataIndex: "Code",
-      title: "Bao hàng",
-      responsive: ["lg"],
+      dataIndex: 'Code',
+      title: 'Bao hàng',
+      responsive: ['lg'],
     },
     {
-      dataIndex: "OrderTransactionCode",
-      title: "Mã vận đơn",
+      dataIndex: 'OrderTransactionCode',
+      title: 'Mã vận đơn',
     },
     // {
     // 	dataIndex: "MainOrderCode",
@@ -52,20 +52,20 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
     //   align: "right",
     // },
     {
-      dataIndex: "Weight",
-      title: "Cân kg",
-      align: "right",
-      responsive: ["sm"],
+      dataIndex: 'Weight',
+      title: 'Cân kg',
+      align: 'right',
+      responsive: ['sm'],
     },
     {
-      dataIndex: "Volume",
-      title: "Khối m3",
-      align: "right",
-      responsive: ["sm"],
+      dataIndex: 'Volume',
+      title: 'Khối m3',
+      align: 'right',
+      responsive: ['sm'],
     },
     {
-      dataIndex: "Status",
-      title: "Trạng thái kiện",
+      dataIndex: 'Status',
+      title: 'Trạng thái kiện',
       render: (status, record) => (
         <TagStatus
           color={smallPackageStatus.find((x) => x.id === record.Status)?.color}
@@ -81,19 +81,19 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
     //   responsive: ["xl"],
     // },
     {
-      dataIndex: "Created",
-      title: "Ngày tạo",
+      dataIndex: 'Created',
+      title: 'Ngày tạo',
       render: (date) => date && _format.getVNDate(date),
-      responsive: ["lg"],
+      responsive: ['lg'],
       width: 200,
     },
     {
-      dataIndex: "action",
-      align: "right",
+      dataIndex: 'action',
+      align: 'right',
       width: 190,
-      fixed: isWidthSM ? null : "right",
-      title: "Gán kiện",
-      responsive: ["md"],
+      fixed: isWidthSM ? null : 'right',
+      title: 'Gán kiện',
+      responsive: ['md'],
       render: (_, record) => (
         <Space>
           {/* <ActionButton
@@ -103,23 +103,23 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
 						title="Cập nhật"
 					/> */}
           <ActionButton
-            icon="fas fa-plus-circle"
-            onClick={() => handleAssign(record, "assign1")}
-            title="Mua hộ"
+            icon='fas fa-plus-circle'
+            onClick={() => handleAssign(record, 'assign1')}
+            title='Mua hộ'
             isButton
-            isButtonClassName="bg-blue !text-white"
+            isButtonClassName='bg-blue !text-white'
           />
           <ActionButton
-            icon="fas fa-plus-circle"
-            onClick={() => handleAssign(record, "assign2")}
-            title="Ký gửi"
+            icon='fas fa-plus-circle'
+            onClick={() => handleAssign(record, 'assign2')}
+            title='Ký gửi'
             isButton
-            isButtonClassName="bg-green !text-white"
+            isButtonClassName='bg-green !text-white'
           />
         </Space>
       ),
     },
-  ];
+  ]
 
   return (
     <>
@@ -141,11 +141,11 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
                 ...filter,
                 PageIndex: page.current,
                 PageSize: page.pageSize,
-              });
+              })
             },
           }}
         />
       </div>
     </>
-  );
-};
+  )
+}

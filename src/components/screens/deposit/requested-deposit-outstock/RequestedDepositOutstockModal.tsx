@@ -1,34 +1,34 @@
-import { useRouter } from "next/router";
-import React from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import { exportRequestTurn } from "~/api";
-import { Button, FormCard, Modal } from "~/components";
-import { FormInput, FormSelect } from "~/components/globals/formBase";
-import { useCatalogue } from "~/hooks/useCatalogue";
-import { TForm } from "~/types/table";
+import { useRouter } from 'next/router'
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import { exportRequestTurn } from '~/api'
+import { Button, FormCard, Modal } from '~/components'
+import { FormInput, FormSelect } from '~/components/globals/formBase'
+import { useCatalogue } from '~/hooks/useCatalogue'
+import { TForm } from '~/types/table'
 
 export const RequestedDepositOutstockModal: React.FC<
   TForm<{}> & { SmallPackageIds: number[] }
 > = ({ onCancel, visible, SmallPackageIds }) => {
   const { control, handleSubmit } = useForm<TExportRequestTurn>({
-    mode: "onBlur",
-  });
+    mode: 'onBlur',
+  })
 
-  const { shippingTypeToVN } = useCatalogue({ shippingTypeToVNEnabled: true });
+  const { shippingTypeToVN } = useCatalogue({ shippingTypeToVNEnabled: true })
 
-  const router = useRouter();
+  const router = useRouter()
   const _onPress = async (data) => {
     try {
       const res = await exportRequestTurn.create({
         ...data,
         SmallPackageIds,
-      });
-      router.push(`/deposit/non-request-deposit-outstock/${res?.Data?.Id}`);
+      })
+      router.push(`/deposit/non-request-deposit-outstock/${res?.Data?.Id}`)
     } catch (error) {
-      toast.error((error as any)?.response?.data?.ResultMessage);
+      toast.error((error as any)?.response?.data?.ResultMessage)
     }
-  };
+  }
 
   return (
     <Modal visible={visible} onCancel={undefined}>
@@ -37,24 +37,24 @@ export const RequestedDepositOutstockModal: React.FC<
           <p>Xuất kho</p>
         </FormCard.Header>
         <FormCard.Body>
-          <div className="grid grid-cols-1 gap-4">
-            <div className="col-span-1">
+          <div className='grid grid-cols-1 gap-4'>
+            <div className='col-span-1'>
               <FormSelect
                 control={control}
-                name="ShippingTypeInVNId"
+                name='ShippingTypeInVNId'
                 data={shippingTypeToVN}
-                select={{ label: "Name", value: "Id" }}
-                placeholder="Chọn hình thức giao hàng"
-                label="Hình thức giao hàng"
-                rules={{ required: "This field is required" }}
+                select={{ label: 'Name', value: 'Id' }}
+                placeholder='Chọn hình thức giao hàng'
+                label='Hình thức giao hàng'
+                rules={{ required: 'This field is required' }}
               />
             </div>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <FormInput
                 control={control}
-                name="Note"
-                label="Ghi chú"
-                placeholder=""
+                name='Note'
+                label='Ghi chú'
+                placeholder=''
                 required={false}
               />
             </div>
@@ -62,13 +62,13 @@ export const RequestedDepositOutstockModal: React.FC<
         </FormCard.Body>
         <FormCard.Footer>
           <Button
-            title="Xuất kho"
-            btnClass="!bg-orange"
+            title='Xuất kho'
+            btnClass='!bg-orange'
             onClick={handleSubmit(_onPress)}
           />
-          <Button title="Huỷ" btnClass="!bg-red" onClick={onCancel} />
+          <Button title='Huỷ' btnClass='!bg-red' onClick={onCancel} />
         </FormCard.Footer>
       </FormCard>
     </Modal>
-  );
-};
+  )
+}

@@ -12,8 +12,8 @@ const Footwear = {
         { Title: 'Giày nữ da thật', Value: '真皮女鞋' },
         { Title: 'Giày gót vừa', Value: '中跟鞋' },
         { Title: 'Giày đế bằng', Value: '平底鞋' },
-        { Title: 'Giày mũi vuông retro', Value: '复古方头鞋' }
-      ]
+        { Title: 'Giày mũi vuông retro', Value: '复古方头鞋' },
+      ],
     },
     {
       Title: 'Dép đi trong nhà',
@@ -23,8 +23,8 @@ const Footwear = {
         { Title: 'Dép linen', Value: '亚麻拖鞋' },
         { Title: 'Dép vải đi trong nhà', Value: '帆布拖鞋' },
         { Title: 'Dép da', Value: '皮拖鞋' },
-        { Title: 'Dép đi biển', Value: '海滩拖鞋' }
-      ]
+        { Title: 'Dép đi biển', Value: '海滩拖鞋' },
+      ],
     },
     {
       Title: 'Giày vải',
@@ -33,8 +33,8 @@ const Footwear = {
         { Title: 'Giày vải cao cổ', Value: '高帮布鞋' },
         { Title: 'Giày vải thấp cổ', Value: '低帮布鞋' },
         { Title: 'Giày vải nam', Value: '男士布鞋' },
-        { Title: 'Giày vải nữ', Value: '女士布鞋' }
-      ]
+        { Title: 'Giày vải nữ', Value: '女士布鞋' },
+      ],
     },
     {
       Title: 'Giày nam',
@@ -44,8 +44,8 @@ const Footwear = {
         { Title: 'Giày da công sở', Value: '商务皮鞋' },
         { Title: 'Giày thể thao nam', Value: '男士运动鞋' },
         { Title: 'Giày thời trang nam', Value: '男士时尚鞋' },
-        { Title: 'Giày nam phong cách lịch lãm', Value: '时尚绅士鞋' }
-      ]
+        { Title: 'Giày nam phong cách lịch lãm', Value: '时尚绅士鞋' },
+      ],
     },
     {
       Title: 'Giày trẻ em',
@@ -54,9 +54,9 @@ const Footwear = {
         { Title: 'Giày thể thao trẻ em', Value: '儿童运动鞋' },
         { Title: 'Giày trẻ em sơ sinh', Value: '婴儿鞋' },
         { Title: 'Giày bé trai', Value: '男婴鞋' },
-        { Title: 'Giày bé gái', Value: '女婴鞋' }
-      ]
-    }
-  ]
+        { Title: 'Giày bé gái', Value: '女婴鞋' },
+      ],
+    },
+  ],
 }
 export default Footwear

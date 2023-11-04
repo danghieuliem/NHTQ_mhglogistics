@@ -1,16 +1,16 @@
-import React from "react";
-import { Layout, CheckWarehouseChinaForm } from "~/components";
-import { breadcrumb } from "~/configs";
-import { SEOConfigs } from "~/configs/SEOConfigs";
+import React from 'react'
+import { Layout, CheckWarehouseChinaForm } from '~/components'
+import { breadcrumb } from '~/configs'
+import { SEOConfigs } from '~/configs/SEOConfigs'
 
-import { TNextPageWithLayout } from "~/types/layout";
+import { TNextPageWithLayout } from '~/types/layout'
 
 const Index: TNextPageWithLayout = () => {
-  return <CheckWarehouseChinaForm />;
-};
+  return <CheckWarehouseChinaForm />
+}
 
-Index.displayName = SEOConfigs.checkWarehouseTQ;
-Index.breadcrumb = breadcrumb.warehouse.checkWarehouseTQ;
-Index.Layout = Layout;
+Index.displayName = SEOConfigs.checkWarehouseTQ
+Index.breadcrumb = breadcrumb.warehouse.checkWarehouseTQ
+Index.Layout = Layout
 
-export default Index;
+export default Index

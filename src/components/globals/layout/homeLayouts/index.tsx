@@ -1,5 +1,5 @@
-import React from "react";
+import React from 'react'
 
 export const HomeLayout: React.FC<{}> = ({ children }) => {
-  return <></>;
-};
+  return <></>
+}

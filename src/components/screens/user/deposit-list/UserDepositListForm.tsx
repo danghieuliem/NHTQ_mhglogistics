@@ -1,29 +1,29 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import { useQuery } from "react-query";
-import { transportationOrder } from "~/api";
-import { FormCard, FormInput, FormSelect, Modal } from "~/components";
-import { useCatalogue } from "~/hooks/useCatalogue";
-import { _format } from "~/utils";
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { useQuery } from 'react-query'
+import { transportationOrder } from '~/api'
+import { FormCard, FormInput, FormSelect, Modal } from '~/components'
+import { useCatalogue } from '~/hooks/useCatalogue'
+import { _format } from '~/utils'
 
 type TProps = {
-  visible: boolean;
-  onCancel: () => void;
-  ids: number[];
-  isAll: boolean;
-  enabled: boolean;
-};
+  visible: boolean
+  onCancel: () => void
+  ids: number[]
+  isAll: boolean
+  enabled: boolean
+}
 
 type TForm = {
-  ShippingType: number;
-  Note: string;
+  ShippingType: number
+  Note: string
   /**
    * 0: Thanh toán tại kho,
    * 2: Thanh toán qua ví
    */
-  Type: 0 | 2;
-  ListID: number[];
-};
+  Type: 0 | 2
+  ListID: number[]
+}
 
 export const UserDepositListForm: React.FC<TProps> = ({
   onCancel,
@@ -34,11 +34,11 @@ export const UserDepositListForm: React.FC<TProps> = ({
 }) => {
   // catalogue scope
   // ===== BEGIN =====
-  const { shippingTypeToVN } = useCatalogue({ shippingTypeToVNEnabled: true });
+  const { shippingTypeToVN } = useCatalogue({ shippingTypeToVNEnabled: true })
   // ===== END =====
 
   const { data, isFetching } = useQuery(
-    ["billing", ids, isAll],
+    ['billing', ids, isAll],
     () =>
       transportationOrder.getBillingInfo({
         IsAll: isAll,
@@ -47,8 +47,8 @@ export const UserDepositListForm: React.FC<TProps> = ({
     {
       enabled,
       select: (data) => data.Data,
-    }
-  );
+    },
+  )
 
   // const queryClient = useQueryClient();
   // const mutationPayment = useMutation(
@@ -73,7 +73,7 @@ export const UserDepositListForm: React.FC<TProps> = ({
   // 	}
   // );
 
-  const { control, handleSubmit } = useForm<TForm>({ mode: "onBlur" });
+  const { control, handleSubmit } = useForm<TForm>({ mode: 'onBlur' })
 
   // const _onPressAtWarehouse = (data: TForm) =>
   // 	mutationPayment.mutateAsync({ ...data, Type: 0, ListID: ids });
@@ -88,39 +88,39 @@ export const UserDepositListForm: React.FC<TProps> = ({
           <p>Thanh toán xuất kho</p>
         </FormCard.Header>
         <FormCard.Body>
-          <div className="text-sm mb-4">
+          <div className='mb-4 text-sm'>
             Tổng số mã xuất kho của quý khách : {data?.ListId?.length}
           </div>
-          <div className="text-sm my-4">
-            Tổng số kg xuất kho: {data?.TotalWeight + " kg"}.{" "}
+          <div className='my-4 text-sm'>
+            Tổng số kg xuất kho: {data?.TotalWeight + ' kg'}.{' '}
             {_format.getVND(data?.TotalWeightPriceVND)}.
           </div>
-          <div className="text-sm my-4">
+          <div className='my-4 text-sm'>
             Cước vật tư: {_format.getVND(data?.TotalSensoredFeeVND)}.
           </div>
-          <div className="text-sm my-4">
+          <div className='my-4 text-sm'>
             PP hàng đặc biệt: {_format.getVND(data?.TotalAdditionFeeVND)}.
           </div>
-          <div className="text-sm my-4">
-            Tổng số tiền xuất kho của quý khách:{" "}
+          <div className='my-4 text-sm'>
+            Tổng số tiền xuất kho của quý khách:{' '}
             {_format.getVND(data?.TotalPriceVND)}.
           </div>
           <FormSelect
             control={control}
-            name="ShippingType"
+            name='ShippingType'
             data={shippingTypeToVN}
-            placeholder=""
-            label="Hình thức vận chuyển trong nước:"
-            select={{ label: "Name", value: "Id" }}
-            selectContainerClassName="my-4"
-            rules={{ required: "This field is required" }}
+            placeholder=''
+            label='Hình thức vận chuyển trong nước:'
+            select={{ label: 'Name', value: 'Id' }}
+            selectContainerClassName='my-4'
+            rules={{ required: 'This field is required' }}
           />
           <FormInput
             control={control}
-            name="Note"
-            label="Ghi chú:"
-            placeholder=""
-            inputContainerClassName="mt-4"
+            name='Note'
+            label='Ghi chú:'
+            placeholder=''
+            inputContainerClassName='mt-4'
             required={false}
           />
         </FormCard.Body>
@@ -142,5 +142,5 @@ export const UserDepositListForm: React.FC<TProps> = ({
 				</FormCard.Footer> */}
       </FormCard>
     </Modal>
-  );
-};
+  )
+}

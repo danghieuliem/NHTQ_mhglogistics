@@ -20,14 +20,14 @@ const WomensFashion = {
       Children: [
         {
           Title: 'Thời trang phong cách thanh lịch',
-          Value: '女装优雅风格时尚'
+          Value: '女装优雅风格时尚',
         },
         { Title: 'Thời trang phong cách tươi mới', Value: '女装新潮时尚' },
         { Title: 'Thời trang phong cách retro', Value: '女装复古时尚' },
-        { Title: 'Thời trang phong cách đường phố', Value: '女装街头时尚' }
-      ]
-    }
-  ]
+        { Title: 'Thời trang phong cách đường phố', Value: '女装街头时尚' },
+      ],
+    },
+  ],
 }
 
 export default WomensFashion

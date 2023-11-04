@@ -1,9 +1,9 @@
-import { Tag } from "antd";
-import React from "react";
-import { DataTable } from "~/components";
-import { orderStatus } from "~/configs";
-import { TColumnsType, TTable } from "~/types/table";
-import { _format } from "~/utils";
+import { Tag } from 'antd'
+import React from 'react'
+import { DataTable } from '~/components'
+import { orderStatus } from '~/configs'
+import { TColumnsType, TTable } from '~/types/table'
+import { _format } from '~/utils'
 
 export const OrderListClientTable: React.FC<TTable<TOrder>> = ({
   data,
@@ -12,20 +12,20 @@ export const OrderListClientTable: React.FC<TTable<TOrder>> = ({
 }) => {
   const columns: TColumnsType<TOrder> = [
     {
-      dataIndex: "Id",
-      title: "ID",
-      align: "center",
-      responsive: ["lg"],
+      dataIndex: 'Id',
+      title: 'ID',
+      align: 'center',
+      responsive: ['lg'],
     },
     {
-      dataIndex: "ImageOrigin",
-      title: "Ảnh sản phẩm",
-      align: "center",
-      responsive: ["md"],
+      dataIndex: 'ImageOrigin',
+      title: 'Ảnh sản phẩm',
+      align: 'center',
+      responsive: ['md'],
       render: (img, record) => (
-        <div className="flex justify-center">
+        <div className='flex justify-center'>
           <img
-            src={img ? img : "/default/pro-empty.jpg"}
+            src={img ? img : '/default/pro-empty.jpg'}
             alt={`Product image ${record.Id}`}
             width={78}
             height={78}
@@ -34,7 +34,7 @@ export const OrderListClientTable: React.FC<TTable<TOrder>> = ({
       ),
     },
     {
-      dataIndex: "TotalOrderAmount",
+      dataIndex: 'TotalOrderAmount',
       title: (
         <>
           Tổng tiền
@@ -42,17 +42,17 @@ export const OrderListClientTable: React.FC<TTable<TOrder>> = ({
           (VNĐ)
         </>
       ),
-      align: "center",
-      render: (money) => _format.getVND(money, ""),
+      align: 'center',
+      render: (money) => _format.getVND(money, ''),
     },
     {
-      dataIndex: "OrderTypeName",
-      title: "Loại",
-      align: "center",
-      responsive: ["md"],
+      dataIndex: 'OrderTypeName',
+      title: 'Loại',
+      align: 'center',
+      responsive: ['md'],
     },
     {
-      dataIndex: "OrdererUserName",
+      dataIndex: 'OrdererUserName',
       title: (
         <>
           Nhân viên
@@ -60,11 +60,11 @@ export const OrderListClientTable: React.FC<TTable<TOrder>> = ({
           đặt hàng
         </>
       ),
-      align: "center",
-      responsive: ["md"],
+      align: 'center',
+      responsive: ['md'],
     },
     {
-      dataIndex: "SalerUserName",
+      dataIndex: 'SalerUserName',
       title: (
         <>
           Nhân viên
@@ -72,18 +72,18 @@ export const OrderListClientTable: React.FC<TTable<TOrder>> = ({
           kinh doanh
         </>
       ),
-      align: "center",
-      responsive: ["lg"],
+      align: 'center',
+      responsive: ['lg'],
     },
     {
-      dataIndex: "Created",
-      title: "Ngày đặt",
-      align: "center",
-      responsive: ["lg"],
+      dataIndex: 'Created',
+      title: 'Ngày đặt',
+      align: 'center',
+      responsive: ['lg'],
       render: (date) => _format.getVNDate(date),
     },
     {
-      dataIndex: "Status",
+      dataIndex: 'Status',
       title: (
         <>
           Trạng thái
@@ -92,14 +92,14 @@ export const OrderListClientTable: React.FC<TTable<TOrder>> = ({
         </>
       ),
       render: (status, record) => {
-        const color = orderStatus.find((x) => x.id === status);
-        return <Tag color={color?.color}>{record?.StatusName}</Tag>;
+        const color = orderStatus.find((x) => x.id === status)
+        return <Tag color={color?.color}>{record?.StatusName}</Tag>
       },
       width: 160,
     },
-  ];
+  ]
 
   return (
     <DataTable {...{ pagination, data, onChange: handlePagination, columns }} />
-  );
-};
+  )
+}

@@ -1,9 +1,9 @@
-import BaseAPI from '../methods';
+import BaseAPI from '../methods'
 
 type TFilterParams = {
-	Type: number;
-};
+  Type: number
+}
 
-const { globalReport } = new BaseAPI<TReportUser, TFilterParams>('report-user');
+const { globalReport } = new BaseAPI<TReportUser, TFilterParams>('report-user')
 
-export const reportUser = globalReport;
+export const reportUser = globalReport

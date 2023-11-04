@@ -1,5 +1,5 @@
-import BaseAPI from '../methods';
+import BaseAPI from '../methods'
 
-const { globalCRUD } = new BaseAPI<TCustomerBenefit>('customer-benefits');
+const { globalCRUD } = new BaseAPI<TCustomerBenefit>('customer-benefits')
 
-export const customerBenefits = globalCRUD;
+export const customerBenefits = globalCRUD

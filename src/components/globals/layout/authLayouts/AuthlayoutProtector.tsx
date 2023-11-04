@@ -1,13 +1,13 @@
-import { HubConnectionBuilder } from "@microsoft/signalr";
-import Cookies from "js-cookie";
-import router from "next/router";
-import { FC, ReactElement, useEffect } from "react";
-import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
-import { user } from "~/api";
-import configHomeData from "~/api/config-home";
-import { setToken } from "~/api/instance";
-import { config } from "~/configs";
+import { HubConnectionBuilder } from '@microsoft/signalr'
+import Cookies from 'js-cookie'
+import router from 'next/router'
+import { FC, ReactElement, useEffect } from 'react'
+import { useQuery } from 'react-query'
+import { useSelector } from 'react-redux'
+import { user } from '~/api'
+import configHomeData from '~/api/config-home'
+import { setToken } from '~/api/instance'
+import { config } from '~/configs'
 import {
   RootState,
   selectConnection,
@@ -17,91 +17,91 @@ import {
   useAppDispatch,
   useAppSelector,
   updateUser,
-} from "~/store";
+} from '~/store'
 
 const AuthLayoutProtector: FC<{ children: ReactElement[] | ReactElement }> = ({
   children,
 }) => {
-  const dispatch = useAppDispatch();
-  const session = Cookies.get(config.tokenName);
+  const dispatch = useAppDispatch()
+  const session = Cookies.get(config.tokenName)
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurrentInfo
-  );
+    (state: RootState) => state.userCurrentInfo,
+  )
 
   if (!userCurrentInfo.Id || !session) {
-    router.push("/");
+    router.push('/')
     // return null;
   }
 
   useQuery({
-    queryKey: "clientData",
+    queryKey: 'clientData',
     queryFn: () =>
       user.getByID(userCurrentInfo.Id).then((res) => {
         dispatch(
           updateUser({
             ...userCurrentInfo,
             ...res?.Data,
-          })
-        );
+          }),
+        )
       }),
     staleTime: 3000,
     refetchOnMount: false,
     refetchOnWindowFocus: true,
-  });
+  })
 
   useQuery({
-    queryKey: ["homeConfig"],
+    queryKey: ['homeConfig'],
     queryFn: () =>
       configHomeData.get().then((res) => {
-        dispatch(updateGlobal({ ...res?.Data }));
+        dispatch(updateGlobal({ ...res?.Data }))
       }),
     staleTime: 3000,
     refetchOnMount: false,
     refetchOnWindowFocus: true,
-  });
+  })
 
-  setToken(userCurrentInfo?.Token);
-  dispatch(setRouter(userCurrentInfo.UserGroupId));
+  setToken(userCurrentInfo?.Token)
+  dispatch(setRouter(userCurrentInfo.UserGroupId))
 
   useEffect(() => {
-    if (!userCurrentInfo?.Id) return;
-    (async () => {
+    if (!userCurrentInfo?.Id) return
+    ;(async () => {
       try {
         let connection = new HubConnectionBuilder()
           .withUrl(`${process.env.NEXT_PUBLIC_HUBS_SERVER}`)
           .withAutomaticReconnect()
-          .build();
+          .build()
 
-        await connection.start();
+        await connection.start()
         await connection.invoke(
-          "join",
+          'join',
           JSON.stringify(userCurrentInfo?.Id),
-          JSON.stringify(userCurrentInfo?.UserGroupId)
-        );
+          JSON.stringify(userCurrentInfo?.UserGroupId),
+        )
 
-        dispatch(setConnection(connection));
+        dispatch(setConnection(connection))
 
         return () => {
-          connection.stop();
-        };
+          connection.stop()
+        }
       } catch (err) {
-        console.error(err);
+        console.error(err)
       }
-    })();
-  }, [userCurrentInfo?.Id]);
+    })()
+  }, [userCurrentInfo?.Id])
 
-  const connection = useAppSelector(selectConnection);
-  const connectionId = connection?.connectionId;
+  const connection = useAppSelector(selectConnection)
+  const connectionId = connection?.connectionId
 
   useEffect(() => {
-    if (!connectionId) return;
-    connection.on("change-temp", (resetCart) => {
-      if (!resetCart) return;
+    if (!connectionId) return
+    connection.on('change-temp', (resetCart) => {
+      if (!resetCart) return
       // dispatch(getCartInfoByUserId(UserId));
-    });
-  }, [connectionId]);
+    })
+  }, [connectionId])
 
-  return <>{children}</>;
-};
+  return <>{children}</>
+}
 
-export default AuthLayoutProtector;
+export default AuthLayoutProtector

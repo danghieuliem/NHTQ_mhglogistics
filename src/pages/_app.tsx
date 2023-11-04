@@ -1,49 +1,49 @@
-import { ConfigProvider } from "antd";
+import { ConfigProvider } from 'antd'
 // import {getSession, SessionProvider} from "next-auth/react";
-import Head from "next/head";
-import NProgress from "nprogress";
-import { useState } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { TAppPropsWithLayout } from "~/types/layout";
+import Head from 'next/head'
+import NProgress from 'nprogress'
+import { useState } from 'react'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { TAppPropsWithLayout } from '~/types/layout'
 // toast
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.min.css";
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.min.css'
 
 // redux
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import { persistor, store } from "~/store";
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
+import { persistor, store } from '~/store'
 
 // change locale to vietnamese
-import locale from "antd/lib/locale/vi_VN";
-import "moment/locale/en-in";
+import locale from 'antd/lib/locale/vi_VN'
+import 'moment/locale/en-in'
 
 // add styles and icons
-import "antd/dist/antd.less";
-import "nprogress/nprogress.css";
-import "tippy.js/dist/tippy.css";
-import "~/assets/css/main.scss";
-import "../assets/fontawesome/css/all.min.css";
-import "../styles/globals.css";
-import "../styles/newStyles.css";
-import "../styles/antdOverWrite.css";
-import BlankLayout from "~/components/globals/layout/blankLayouts";
+import 'antd/dist/antd.less'
+import 'nprogress/nprogress.css'
+import 'tippy.js/dist/tippy.css'
+import '~/assets/css/main.scss'
+import '../assets/fontawesome/css/all.min.css'
+import '../styles/globals.css'
+import '../styles/newStyles.css'
+import '../styles/antdOverWrite.css'
+import BlankLayout from '~/components/globals/layout/blankLayouts'
 // import "../styles/styles.css";
 // signalR
 
 // config
-const queryClient = new QueryClient();
+const queryClient = new QueryClient()
 
-NProgress.configure({ showSpinner: false });
+NProgress.configure({ showSpinner: false })
 
 const MyApp = ({
   Component,
   pageProps: { session, ...pageProps },
 }: TAppPropsWithLayout) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
   // const getLayout = Component.getLayout || ((page) => page);
-  const Layout = Component.Layout || BlankLayout;
-  const breadcrumb = Component.breadcrumb;
+  const Layout = Component.Layout || BlankLayout
+  const breadcrumb = Component.breadcrumb
 
   // React.useEffect(() => {
   // 	if (localStorage.getItem("token") && localStorage.getItem("currentUser")) {
@@ -77,13 +77,13 @@ const MyApp = ({
           <ConfigProvider locale={locale}>
             <Head>
               <link
-                rel="icon"
-                type="image/png"
-                href="/default/default_favicon.png"
+                rel='icon'
+                type='image/png'
+                href='/default/default_favicon.png'
               />
-              <meta http-equiv="Pragma" content="no-cache" />
+              <meta http-equiv='Pragma' content='no-cache' />
               <title>
-                {!loading ? Component?.displayName : "Đang chuyển hướng..."}
+                {!loading ? Component?.displayName : 'Đang chuyển hướng...'}
               </title>
             </Head>
             <Layout breadcrumb={breadcrumb}>
@@ -95,7 +95,7 @@ const MyApp = ({
       </PersistGate>
     </Provider>
     // </SessionProvider>
-  );
-};
+  )
+}
 
-export default MyApp;
+export default MyApp

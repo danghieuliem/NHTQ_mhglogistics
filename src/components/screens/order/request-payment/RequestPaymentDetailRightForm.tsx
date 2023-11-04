@@ -1,67 +1,67 @@
-import React from "react";
+import React from 'react'
 import {
   FormInput,
   FormInputNumber,
   FormTextarea,
-} from "~/components/globals/formBase";
-import { TControl } from "~/types/field";
+} from '~/components/globals/formBase'
+import { TControl } from '~/types/field'
 
 export const RequestPaymentDetailRightForm: React.FC<
   TControl<TRequestPaymentOrder> & { loading: boolean }
 > = ({ control, getValues, fields, loading, setValue }) => {
   return (
     <React.Fragment>
-      <div className="tableBox mb-4">
-        <div className="text-base mb-4 font-bold">THÔNG TIN ĐƠN HÀNG</div>
-        <div className="grid sm:grid-cols-2 gap-4">
-          <div className="col-span-1">
+      <div className='tableBox mb-4'>
+        <div className='mb-4 text-base font-bold'>THÔNG TIN ĐƠN HÀNG</div>
+        <div className='grid gap-4 sm:grid-cols-2'>
+          <div className='col-span-1'>
             <FormInputNumber
               control={control}
-              name="CurrencyConfig"
-              label="Tỷ giá hệ thống"
-              placeholder=""
+              name='CurrencyConfig'
+              label='Tỷ giá hệ thống'
+              placeholder=''
               disabled
-              rules={{ required: "This field is required" }}
+              rules={{ required: 'This field is required' }}
             />
           </div>
-          <div className="col-span-1">
+          <div className='col-span-1'>
             <FormInputNumber
               control={control}
-              name="Currency"
-              label="Tỷ giá tính tiền"
-              placeholder=""
+              name='Currency'
+              label='Tỷ giá tính tiền'
+              placeholder=''
               disabled
-              rules={{ required: "This field is required" }}
+              rules={{ required: 'This field is required' }}
             />
           </div>
-          <div className="col-span-1">
+          <div className='col-span-1'>
             <FormInputNumber
               control={control}
-              name="TotalPrice"
-              label="Tổng tiền Tệ (¥)"
-              placeholder=""
-              prefix="¥ "
+              name='TotalPrice'
+              label='Tổng tiền Tệ (¥)'
+              placeholder=''
+              prefix='¥ '
               disabled
-              rules={{ required: "This field is required" }}
+              rules={{ required: 'This field is required' }}
             />
           </div>
-          <div className="col-span-1">
+          <div className='col-span-1'>
             <FormInputNumber
               control={control}
-              name="TotalPriceVND"
-              label="Tổng tiền (VNĐ)"
-              placeholder=""
-              suffix=" VNĐ"
+              name='TotalPriceVND'
+              label='Tổng tiền (VNĐ)'
+              placeholder=''
+              suffix=' VNĐ'
               disabled
-              rules={{ required: "This field is required" }}
+              rules={{ required: 'This field is required' }}
             />
           </div>
-          <div className="col-span-full">
+          <div className='col-span-full'>
             <FormTextarea
               control={control}
-              name="Note"
-              label="Ghi chú"
-              placeholder=""
+              name='Note'
+              label='Ghi chú'
+              placeholder=''
               required={false}
             />
           </div>
@@ -80,28 +80,28 @@ export const RequestPaymentDetailRightForm: React.FC<
 					</div> */}
         </div>
       </div>
-      <div className="grid sm:grid-cols-2 gap-4 tableBox">
-        <div className="text-base col-span-full font-bold">
+      <div className='tableBox grid gap-4 sm:grid-cols-2'>
+        <div className='col-span-full text-base font-bold'>
           CHI TIẾT HÓA ĐƠN
         </div>
         {fields.map((item, index) => (
           <React.Fragment key={item.id}>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <FormInputNumber
                 control={control}
                 name={`PayHelpDetails.${index}.Desc1`}
-                label="Tổng tiền hóa đơn thanh toán hộ"
-                placeholder=""
+                label='Tổng tiền hóa đơn thanh toán hộ'
+                placeholder=''
                 disabled
-                rules={{ required: "This field is required" }}
+                rules={{ required: 'This field is required' }}
               />
             </div>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <FormInput
                 control={control}
                 name={`PayHelpDetails.${index}.Desc2`}
-                label="Nội dung hóa đơn thanh toán hộ"
-                placeholder=""
+                label='Nội dung hóa đơn thanh toán hộ'
+                placeholder=''
                 required={false}
               />
             </div>
@@ -114,5 +114,5 @@ export const RequestPaymentDetailRightForm: React.FC<
 				data={getValues("HistoryServices")}
 			/> */}
     </React.Fragment>
-  );
-};
+  )
+}

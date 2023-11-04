@@ -1,22 +1,22 @@
-import { Modal } from "antd";
-import { FC } from "react";
-import { toast } from "react-toastify";
-import { feeVolume } from "~/api";
-import { ActionButton, DataTable } from "~/components";
-import { TColumnsType, TTable } from "~/types/table";
-import { _format } from "~/utils";
-import TagStatus from "../../status/TagStatus";
+import { Modal } from 'antd'
+import { FC } from 'react'
+import { toast } from 'react-toastify'
+import { feeVolume } from '~/api'
+import { ActionButton, DataTable } from '~/components'
+import { TColumnsType, TTable } from '~/types/table'
+import { _format } from '~/utils'
+import TagStatus from '../../status/TagStatus'
 type TProps = {
-  refetch: () => void;
-  handleUpdate: () => void;
-  handleGetID: (id: number) => void;
+  refetch: () => void
+  handleUpdate: () => void
+  handleGetID: (id: number) => void
   filter: {
-    TotalItems: number;
-    PageIndex: number;
-    PageSize: number;
-  };
-  handleFilter: (newFiter) => void;
-};
+    TotalItems: number
+    PageIndex: number
+    PageSize: number
+  }
+  handleFilter: (newFiter) => void
+}
 
 export const VolumeFeeTable: FC<TTable<TVolumeFee | any> & TProps> = ({
   data,
@@ -27,38 +27,38 @@ export const VolumeFeeTable: FC<TTable<TVolumeFee | any> & TProps> = ({
 }) => {
   const columns: TColumnsType<TVolumeFee> = [
     {
-      dataIndex: "Id",
-      title: "Thứ tự",
+      dataIndex: 'Id',
+      title: 'Thứ tự',
       width: 80,
-      align: "center",
-      responsive: ["lg"],
+      align: 'center',
+      responsive: ['lg'],
     },
     {
-      dataIndex: "HelpMovingName",
-      title: "Loại đơn",
+      dataIndex: 'HelpMovingName',
+      title: 'Loại đơn',
       render: (_, record) => {
         return (
           <TagStatus
-            color={record.IsHelpMoving ? "#097aeb" : "#b31717"}
+            color={record.IsHelpMoving ? '#097aeb' : '#b31717'}
             statusName={record.HelpMovingName}
           />
-        );
+        )
       },
       sorter: (a, b) => +a?.IsHelpMoving - +b?.IsHelpMoving,
       width: 140,
     },
     {
-      dataIndex: "WareHouseFromName",
-      title: "Từ kho",
-      responsive: ["md"],
+      dataIndex: 'WareHouseFromName',
+      title: 'Từ kho',
+      responsive: ['md'],
     },
     {
-      dataIndex: "WareHouseToName",
-      title: "Đến kho",
-      responsive: ["md"],
+      dataIndex: 'WareHouseToName',
+      title: 'Đến kho',
+      responsive: ['md'],
     },
     {
-      dataIndex: "VolumeFrom",
+      dataIndex: 'VolumeFrom',
       title: (
         <>
           Thể tích từ
@@ -66,12 +66,12 @@ export const VolumeFeeTable: FC<TTable<TVolumeFee | any> & TProps> = ({
           (m3)
         </>
       ),
-      align: "right",
-      responsive: ["md"],
-      render: (_, record) => _format.getVND(record?.VolumeFrom, ""),
+      align: 'right',
+      responsive: ['md'],
+      render: (_, record) => _format.getVND(record?.VolumeFrom, ''),
     },
     {
-      dataIndex: "VolumeTo",
+      dataIndex: 'VolumeTo',
       title: (
         <>
           Thể tích đến
@@ -79,12 +79,12 @@ export const VolumeFeeTable: FC<TTable<TVolumeFee | any> & TProps> = ({
           (m3)
         </>
       ),
-      align: "right",
-      responsive: ["md"],
-      render: (_, record) => _format.getVND(record?.VolumeTo, ""),
+      align: 'right',
+      responsive: ['md'],
+      render: (_, record) => _format.getVND(record?.VolumeTo, ''),
     },
     {
-      dataIndex: "Price",
+      dataIndex: 'Price',
       title: (
         <>
           Giá
@@ -92,12 +92,12 @@ export const VolumeFeeTable: FC<TTable<TVolumeFee | any> & TProps> = ({
           (VNĐ)
         </>
       ),
-      align: "right",
-      responsive: ["md"],
-      render: (_, record) => _format.getVND(record?.Price, ""),
+      align: 'right',
+      responsive: ['md'],
+      render: (_, record) => _format.getVND(record?.Price, ''),
     },
     {
-      dataIndex: "ShippingTypeToWareHouseName",
+      dataIndex: 'ShippingTypeToWareHouseName',
       title: (
         <>
           Hình thức
@@ -105,43 +105,43 @@ export const VolumeFeeTable: FC<TTable<TVolumeFee | any> & TProps> = ({
           vận chuyển
         </>
       ),
-      responsive: ["md"],
+      responsive: ['md'],
     },
     {
-      dataIndex: "action",
-      title: "Thao tác",
-      align: "right",
+      dataIndex: 'action',
+      title: 'Thao tác',
+      align: 'right',
       render: (_, record) => {
         return (
           <>
             <ActionButton
               onClick={() => {
-                handleGetID(record?.Id);
-                handleUpdate();
+                handleGetID(record?.Id)
+                handleUpdate()
               }}
-              icon="fas fa-edit"
-              title="Cập nhật"
+              icon='fas fa-edit'
+              title='Cập nhật'
             />
 
             <ActionButton
               onClick={() =>
                 Modal.confirm({
-                  title: "Xác nhận xóa cấu hình này?",
+                  title: 'Xác nhận xóa cấu hình này?',
                   onOk: () => {
-                    feeVolume.delete(record.Id);
-                    toast.success("Xóa thành công!");
-                    refetch();
+                    feeVolume.delete(record.Id)
+                    toast.success('Xóa thành công!')
+                    refetch()
                   },
                 })
               }
-              icon="fas fa-trash"
-              title="Xóa"
+              icon='fas fa-trash'
+              title='Xóa'
             />
           </>
-        );
+        )
       },
     },
-  ];
+  ]
 
   return (
     <>
@@ -155,5 +155,5 @@ export const VolumeFeeTable: FC<TTable<TVolumeFee | any> & TProps> = ({
         }}
       />
     </>
-  );
-};
+  )
+}

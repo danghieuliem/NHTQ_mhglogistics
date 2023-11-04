@@ -35,5 +35,5 @@ export const baseCatalogueArr: any[] = [
   MakeupAndCosmetics,
   // BeautyCare,
   Accessory,
-  MeasuringTools
+  MeasuringTools,
 ]

@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 const IncomeTransportSum = () => {
-	return <div>IncomeTransportSum</div>;
-};
+  return <div>IncomeTransportSum</div>
+}
 
-export default IncomeTransportSum;
+export default IncomeTransportSum

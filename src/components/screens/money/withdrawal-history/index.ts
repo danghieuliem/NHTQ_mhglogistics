@@ -1,2 +1,2 @@
-export * from "./WithDrawalHistoryTable";
-export * from "./WithDrawalHistoryForm";
+export * from './WithDrawalHistoryTable'
+export * from './WithDrawalHistoryForm'

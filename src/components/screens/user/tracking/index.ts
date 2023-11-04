@@ -1,2 +1,2 @@
-export * from "./TrackingFilter";
-export * from "./TrackingDetail";
+export * from './TrackingFilter'
+export * from './TrackingDetail'

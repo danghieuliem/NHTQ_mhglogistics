@@ -1,22 +1,22 @@
-import { Popconfirm, Space, Tag } from "antd";
-import TextArea from "antd/lib/input/TextArea";
-import React from "react";
-import { ActionButton, DataTable } from "~/components";
-import { IconButton } from "~/components/globals/button/IconButton";
+import { Popconfirm, Space, Tag } from 'antd'
+import TextArea from 'antd/lib/input/TextArea'
+import React from 'react'
+import { ActionButton, DataTable } from '~/components'
+import { IconButton } from '~/components/globals/button/IconButton'
 import {
   EExportStatusData,
   EPaymentData,
   exportStatusData,
   paymentData,
-} from "~/configs/appConfigs";
-import { TColumnsType, TTable } from "~/types/table";
-import { _format } from "~/utils";
-import { DepositStatisticNote } from "./DepositStatisticNote";
+} from '~/configs/appConfigs'
+import { TColumnsType, TTable } from '~/types/table'
+import { _format } from '~/utils'
+import { DepositStatisticNote } from './DepositStatisticNote'
 
 export const DepositStatisticTable: React.FC<
   TTable<TUserStatisticalDeposit> & {
-    onPayment: (data: TUserStatisticalDepositUpdateStatus) => Promise<unknown>;
-    onUpdateNote: (data: TUserStatisticalDepositUpdateNote) => Promise<unknown>;
+    onPayment: (data: TUserStatisticalDepositUpdateStatus) => Promise<unknown>
+    onUpdateNote: (data: TUserStatisticalDepositUpdateNote) => Promise<unknown>
   }
 > = ({
   data,
@@ -28,51 +28,51 @@ export const DepositStatisticTable: React.FC<
 }) => {
   const columns: TColumnsType<TUserStatisticalDeposit> = [
     {
-      dataIndex: "Id",
-      title: "ID",
-      align: "center",
-      responsive: ["sm"],
+      dataIndex: 'Id',
+      title: 'ID',
+      align: 'center',
+      responsive: ['sm'],
     },
     {
-      dataIndex: "UserName",
-      title: "Tên tài khoản",
-      align: "center",
+      dataIndex: 'UserName',
+      title: 'Tên tài khoản',
+      align: 'center',
     },
     {
-      dataIndex: "Created",
-      title: "Ngày YCXK",
-      align: "center",
-      responsive: ["sm"],
+      dataIndex: 'Created',
+      title: 'Ngày YCXK',
+      align: 'center',
+      responsive: ['sm'],
       render: (date) => date && _format.getVNDate(date),
     },
     {
-      dataIndex: "BarCodeAndDateOuts",
-      title: () => <div className="text-center">Ngày XK</div>,
+      dataIndex: 'BarCodeAndDateOuts',
+      title: () => <div className='text-center'>Ngày XK</div>,
       render: (record) =>
         record.map((item) => (
-          <div className="flex mb-2">
-            {item?.OrderTransactionCode !== "" && (
-              <div className="w-[140px]">
-                <p className="text-[#777676] font-medium text-xs">mã vận đơn</p>
-                <div className="text-xs text-[#777676] bg-[#0000000a] p-1 mr-2 rounded-md">
+          <div className='mb-2 flex'>
+            {item?.OrderTransactionCode !== '' && (
+              <div className='w-[140px]'>
+                <p className='text-xs font-medium text-[#777676]'>mã vận đơn</p>
+                <div className='mr-2 rounded-md bg-[#0000000a] p-1 text-xs text-[#777676]'>
                   {item?.OrderTransactionCode}
                 </div>
               </div>
             )}
-            {item?.DateOutWarehouse !== "" && (
-              <div className="w-[140px]">
-                <p className="text-[#777676] font-medium text-xs">ngày xk</p>
-                <div className="text-xs text-[#777676] bg-[#0000000a] p-1 mr-2 rounded-md">
+            {item?.DateOutWarehouse !== '' && (
+              <div className='w-[140px]'>
+                <p className='text-xs font-medium text-[#777676]'>ngày xk</p>
+                <div className='mr-2 rounded-md bg-[#0000000a] p-1 text-xs text-[#777676]'>
                   {_format.getShortVNDate(item?.DateOutWarehouse)}
                 </div>
               </div>
             )}
           </div>
         )),
-      responsive: ["md"],
+      responsive: ['md'],
     },
     {
-      dataIndex: "TotalPackage",
+      dataIndex: 'TotalPackage',
       title: (
         <>
           Tổng số
@@ -80,17 +80,17 @@ export const DepositStatisticTable: React.FC<
           kiện
         </>
       ),
-      align: "center",
-      responsive: ["lg"],
+      align: 'center',
+      responsive: ['lg'],
     },
     {
-      dataIndex: "TotalWeight",
-      title: "Tổng số KG",
-      align: "center",
-      responsive: ["lg"],
+      dataIndex: 'TotalWeight',
+      title: 'Tổng số KG',
+      align: 'center',
+      responsive: ['lg'],
     },
     {
-      dataIndex: "TotalPriceVND",
+      dataIndex: 'TotalPriceVND',
       title: (
         <>
           Tổng cước
@@ -98,17 +98,17 @@ export const DepositStatisticTable: React.FC<
           (VNĐ)
         </>
       ),
-      align: "center",
-      responsive: ["xl"],
+      align: 'center',
+      responsive: ['xl'],
     },
     {
-      dataIndex: "ShippingTypeInVNName",
-      title: "HTVC",
-      align: "center",
-      responsive: ["xl"],
+      dataIndex: 'ShippingTypeInVNName',
+      title: 'HTVC',
+      align: 'center',
+      responsive: ['xl'],
     },
     {
-      dataIndex: "StatusExport",
+      dataIndex: 'StatusExport',
       title: (
         <>
           Trạng thái
@@ -116,33 +116,33 @@ export const DepositStatisticTable: React.FC<
           thanh toán
         </>
       ),
-      align: "center",
+      align: 'center',
       render: (_, record) => {
         return (
           <Tag color={paymentData?.[record.Status]?.color}>
             {record.StatusName}
           </Tag>
-        );
+        )
       },
-      responsive: ["xl"],
+      responsive: ['xl'],
     },
     {
-      dataIndex: "StatusExport",
-      title: "Trạng thái",
-      align: "center",
+      dataIndex: 'StatusExport',
+      title: 'Trạng thái',
+      align: 'center',
       render: (status, record) => {
         return (
           <Tag color={exportStatusData?.[record.StatusExport - 1]?.color}>
             {record.StatusExportName}
           </Tag>
-        );
+        )
       },
-      responsive: ["xl"],
+      responsive: ['xl'],
     },
     {
-      dataIndex: "StaffNote",
-      title: "Ghi chú",
-      align: "center",
+      dataIndex: 'StaffNote',
+      title: 'Ghi chú',
+      align: 'center',
       render: (note, { Id, StaffNote }) => (
         <DepositStatisticNote
           name={Id.toString()}
@@ -150,20 +150,20 @@ export const DepositStatisticTable: React.FC<
           onClick={(StaffNote: string) => onUpdateNote({ Id, StaffNote })}
         />
       ),
-      responsive: ["xl"],
+      responsive: ['xl'],
     },
     {
-      dataIndex: "action",
-      title: "Thao tác",
-      align: "right",
+      dataIndex: 'action',
+      title: 'Thao tác',
+      align: 'right',
       render: (_, record) => (
         <Space>
           {record.Status === EPaymentData.Unpaid &&
           record.StatusExport === EExportStatusData.Unexport ? (
             <React.Fragment>
               <Popconfirm
-                title="Bạn có muốn thanh toán bằng ví?"
-                placement="leftBottom"
+                title='Bạn có muốn thanh toán bằng ví?'
+                placement='leftBottom'
                 onConfirm={() =>
                   onPayment({
                     Id: record.Id,
@@ -173,13 +173,13 @@ export const DepositStatisticTable: React.FC<
                 }
               >
                 <ActionButton
-                  icon="fal fa-credit-card"
-                  title="Thanh toán bằng ví"
+                  icon='fal fa-credit-card'
+                  title='Thanh toán bằng ví'
                 />
               </Popconfirm>
               <Popconfirm
-                placement="leftBottom"
-                title="Bạn có muốn thanh toán trực tiếp?"
+                placement='leftBottom'
+                title='Bạn có muốn thanh toán trực tiếp?'
                 onConfirm={() =>
                   onPayment({
                     Id: record.Id,
@@ -189,13 +189,13 @@ export const DepositStatisticTable: React.FC<
                 }
               >
                 <ActionButton
-                  icon="fas fa-money-bill-wave"
-                  title="Thanh toán trực tiếp"
+                  icon='fas fa-money-bill-wave'
+                  title='Thanh toán trực tiếp'
                 />
               </Popconfirm>
               <Popconfirm
-                placement="leftBottom"
-                title="Bạn có muốn huỷ thống kê?"
+                placement='leftBottom'
+                title='Bạn có muốn huỷ thống kê?'
                 onConfirm={() =>
                   onPayment({
                     Id: record.Id,
@@ -204,21 +204,21 @@ export const DepositStatisticTable: React.FC<
                   })
                 }
               >
-                <ActionButton icon="fas fa-trash" title="Hủy thống kê" />
+                <ActionButton icon='fas fa-trash' title='Hủy thống kê' />
               </Popconfirm>
             </React.Fragment>
           ) : (
             <ActionButton
               onClick={undefined}
-              icon="fad fa-shredder"
-              title="In phiếu"
+              icon='fad fa-shredder'
+              title='In phiếu'
             />
           )}
         </Space>
       ),
-      responsive: ["xl"],
+      responsive: ['xl'],
     },
-  ];
+  ]
 
   return (
     <DataTable
@@ -231,5 +231,5 @@ export const DepositStatisticTable: React.FC<
         onChange: handlePagination,
       }}
     />
-  );
-};
+  )
+}

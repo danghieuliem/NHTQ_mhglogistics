@@ -1,19 +1,19 @@
-import { InputNumber, Tooltip } from "antd";
-import { isInteger } from "lodash";
-import React, { useState } from "react";
-import { ActionButton, toast } from "~/components";
-import { _format } from "~/utils";
+import { InputNumber, Tooltip } from 'antd'
+import { isInteger } from 'lodash'
+import React, { useState } from 'react'
+import { ActionButton, toast } from '~/components'
+import { _format } from '~/utils'
 
 type TProps = {
-  order: TProduct;
-  index: number;
-  handleUpdateProduct: any;
-  loading: boolean;
-  RoleID: number;
+  order: TProduct
+  index: number
+  handleUpdateProduct: any
+  loading: boolean
+  RoleID: number
   // setCheckUpdate: () => void;
-  dataStatus: number;
-  orderType: number;
-};
+  dataStatus: number
+  orderType: number
+}
 
 export const OrderProductItem: React.FC<TProps> = ({
   order,
@@ -25,59 +25,59 @@ export const OrderProductItem: React.FC<TProps> = ({
   orderType,
   // setCheckUpdate,
 }) => {
-  const [changeValue, setChangeValue] = useState(false);
-  const [brand, setBrand] = useState(order?.Brand);
-  const [quantity, setQuantity] = useState(order?.Quantity);
-  const [priceVND, setPriceVND] = useState(order?.UPriceBuyVN);
+  const [changeValue, setChangeValue] = useState(false)
+  const [brand, setBrand] = useState(order?.Brand)
+  const [quantity, setQuantity] = useState(order?.Quantity)
+  const [priceVND, setPriceVND] = useState(order?.UPriceBuyVN)
   const [priceOrigin, setPriceOrigin] = useState(() => {
     if (orderType === 3) {
-      return order?.PriceOrigin;
+      return order?.PriceOrigin
     } else {
       return order?.PriceOrigin < order?.PricePromotion
         ? order?.PriceOrigin
-        : order?.PricePromotion;
+        : order?.PricePromotion
     }
-  });
+  })
 
   // const [total, setTotal] = useState(order?.PriceVND);
-  const [total, setTotal] = useState(order?.UPriceBuyVN * order?.Quantity);
+  const [total, setTotal] = useState(order?.UPriceBuyVN * order?.Quantity)
 
   function onChangeOrderBrand(e: React.ChangeEvent<HTMLInputElement>) {
-    setChangeValue(true);
-    setBrand(e.target.value);
+    setChangeValue(true)
+    setBrand(e.target.value)
   }
 
   function handleQuantity(val: number) {
     if (isInteger(val)) {
-      setChangeValue(true);
-      setQuantity(val >= 0 ? val : 1);
-      const newTotal = priceVND * val;
-      setTotal(newTotal);
+      setChangeValue(true)
+      setQuantity(val >= 0 ? val : 1)
+      const newTotal = priceVND * val
+      setTotal(newTotal)
     }
   }
 
   function handleChangePriceCNY(val: string) {
-    setChangeValue(true);
-    setPriceOrigin(Number(val));
-    const totalPriceVND = Number(val) * order?.CurrentCNYVN;
-    const newTotal = totalPriceVND * quantity;
-    setPriceVND(totalPriceVND);
-    setTotal(newTotal);
+    setChangeValue(true)
+    setPriceOrigin(Number(val))
+    const totalPriceVND = Number(val) * order?.CurrentCNYVN
+    const newTotal = totalPriceVND * quantity
+    setPriceVND(totalPriceVND)
+    setTotal(newTotal)
   }
 
   return (
     <div
       key={order.Id}
-      className={`orderProductItem ${changeValue && "!"}border-[red] my-2`}
+      className={`orderProductItem ${changeValue && '!'}border-[red] my-2`}
       style={{
-        opacity: loading ? "0.4" : "1",
-        pointerEvents: loading ? "none" : "all",
-        backgroundColor: changeValue && "#f3e6e6",
+        opacity: loading ? '0.4' : '1',
+        pointerEvents: loading ? 'none' : 'all',
+        backgroundColor: changeValue && '#f3e6e6',
       }}
     >
-      <div className="grid grid-cols-12">
+      <div className='grid grid-cols-12'>
         {changeValue && (
-          <div className="col-span-full flex justify-center">
+          <div className='col-span-full flex justify-center'>
             {/* <Tooltip title="Cập nhật đơn hàng này!">
 							<Checkbox
 								onClick={() => {
@@ -85,15 +85,15 @@ export const OrderProductItem: React.FC<TProps> = ({
 								}}
 							/>
 						</Tooltip> */}
-            <span className="text-right ml-4 text-[red] font-bold italic">
+            <span className='ml-4 text-right font-bold italic text-[red]'>
               Giá trị thay đổi! Vui lòng cập nhật sản phẩm!
             </span>
           </div>
         )}
 
-        <div className="flex col-span-full items-center mb-5 justify-between px-3 borderBottom">
-          <Tooltip title="Link đến sản phẩm">
-            <a href={order?.LinkOrigin} target="_blank" className="mainTitle">
+        <div className='borderBottom col-span-full mb-5 flex items-center justify-between px-3'>
+          <Tooltip title='Link đến sản phẩm'>
+            <a href={order?.LinkOrigin} target='_blank' className='mainTitle'>
               {order?.TitleOrigin}
             </a>
           </Tooltip>
@@ -102,11 +102,11 @@ export const OrderProductItem: React.FC<TProps> = ({
             RoleID === 4 ||
             RoleID === 8 ||
             RoleID === 6) && (
-            <div className="xl:block">
+            <div className='xl:block'>
               <ActionButton
-                iconContainerClassName="border-none"
-                title="Cập nhật"
-                icon={loading ? "fas fa-sync fa-spin" : "fas fa-sync-alt"}
+                iconContainerClassName='border-none'
+                title='Cập nhật'
+                icon={loading ? 'fas fa-sync fa-spin' : 'fas fa-sync-alt'}
                 onClick={() => {
                   handleUpdateProduct(
                     {
@@ -116,56 +116,56 @@ export const OrderProductItem: React.FC<TProps> = ({
                       PriceOrigin: priceOrigin,
                       PriceVND: priceVND,
                     },
-                    order?.Id
-                  );
-                  setChangeValue(false);
+                    order?.Id,
+                  )
+                  setChangeValue(false)
                 }}
               />
             </div>
           )}
         </div>
-        <div className="flex flex-col xs:flex-row col-span-full md:col-span-7 xl:col-span-5 items-center gap-4 py-4">
-          <div className="flex">
-            <div className="self-stretch flex items-center">
-              <Tooltip title="Mã sản phẩm">
-                <p className="p-2 leading-[initial] font-bold text-[red]">
+        <div className='col-span-full flex flex-col items-center gap-4 py-4 xs:flex-row md:col-span-7 xl:col-span-5'>
+          <div className='flex'>
+            <div className='flex items-center self-stretch'>
+              <Tooltip title='Mã sản phẩm'>
+                <p className='p-2 font-bold leading-[initial] text-[red]'>
                   {order?.Id}
                 </p>
               </Tooltip>
             </div>
-            <div className="w-[75px] h-[75px] border border-[#6969691a] ml-4 rounded-xl overflow-hidden flex items-center">
-              <a href={order?.LinkOrigin} target="_blank">
-                <img src={order?.ImageOrigin} width="100%" height="100%" />
+            <div className='ml-4 flex h-[75px] w-[75px] items-center overflow-hidden rounded-xl border border-[#6969691a]'>
+              <a href={order?.LinkOrigin} target='_blank'>
+                <img src={order?.ImageOrigin} width='100%' height='100%' />
               </a>
             </div>
           </div>
-          <div className="ml-2 flex-1">
-            <div className="flex flex-wrap items-end">
-              <span className="text-sm mr-4 text-[#484747] font-semibold">
+          <div className='ml-2 flex-1'>
+            <div className='flex flex-wrap items-end'>
+              <span className='mr-4 text-sm font-semibold text-[#484747]'>
                 * Thuộc tính:
               </span>
               <span>{order?.Property}</span>
             </div>
-            <div className="flex flex-wrap items-end">
-              <span className="text-sm mr-4 text-[#484747] font-semibold">
+            <div className='flex flex-wrap items-end'>
+              <span className='mr-4 text-sm font-semibold text-[#484747]'>
                 * Ghi chú:
               </span>
               <input
                 disabled={!(RoleID === 1 || RoleID === 3 || RoleID === 4)}
-                type="text"
-                className="border-b !rounded-none border-[#0000003a] text-[#000] bg-[transparent] outline-0 flex-1 mr-8"
-                value={brand ?? ""}
+                type='text'
+                className='mr-8 flex-1 !rounded-none border-b border-[#0000003a] bg-[transparent] text-[#000] outline-0'
+                value={brand ?? ''}
                 onChange={(e) => onChangeOrderBrand(e)}
               />
             </div>
           </div>
         </div>
-        <div className="grid col-span-full xs:grid-cols-2 xl:flex md:col-span-5 xl:col-span-7">
-          <div className="grid xs:justify-between ml-2">
-            <div className="text-sm font-medium text-black mb-2">
+        <div className='col-span-full grid xs:grid-cols-2 md:col-span-5 xl:col-span-7 xl:flex'>
+          <div className='ml-2 grid xs:justify-between'>
+            <div className='mb-2 text-sm font-medium text-black'>
               Số lượng (cái)
             </div>
-            <div className="text-sm">
+            <div className='text-sm'>
               <InputNumber
                 disabled={
                   !(
@@ -176,7 +176,7 @@ export const OrderProductItem: React.FC<TProps> = ({
                     RoleID === 6
                   )
                 }
-                className="!rounded-[6px] !w-full"
+                className='!w-full !rounded-[6px]'
                 min={0}
                 max={100000}
                 value={quantity}
@@ -184,11 +184,11 @@ export const OrderProductItem: React.FC<TProps> = ({
               />
             </div>
           </div>
-          <div className="grid xs:justify-between ml-2">
-            <div className="text-sm font-medium text-black mb-2">
+          <div className='ml-2 grid xs:justify-between'>
+            <div className='mb-2 text-sm font-medium text-black'>
               Đơn giá (¥)
             </div>
-            <div className="text-sm">
+            <div className='text-sm'>
               <InputNumber
                 disabled={
                   !(
@@ -199,33 +199,33 @@ export const OrderProductItem: React.FC<TProps> = ({
                     RoleID === 6
                   )
                 }
-                className="!rounded-[6px] !w-full"
-                value={_format.getYuan(priceOrigin, "")}
+                className='!w-full !rounded-[6px]'
+                value={_format.getYuan(priceOrigin, '')}
                 onChange={handleChangePriceCNY}
               />
             </div>
           </div>
-          <div className="grid xs:justify-between ml-2">
-            <div className="text-sm font-medium text-black mb-2">
+          <div className='ml-2 grid xs:justify-between'>
+            <div className='mb-2 text-sm font-medium text-black'>
               Đơn giá (VNĐ)
             </div>
-            <div className="text-sm">
+            <div className='text-sm'>
               <InputNumber
-                className="!rounded-[6px] !w-full"
-                value={_format.getVND(priceVND, "")}
+                className='!w-full !rounded-[6px]'
+                value={_format.getVND(priceVND, '')}
                 disabled={true}
                 // onChange={handleChangePriceCNY}
               />
             </div>
           </div>
-          <div className="grid xs:justify-between ml-2">
-            <div className="text-sm font-medium text-black mb-2">
+          <div className='ml-2 grid xs:justify-between'>
+            <div className='mb-2 text-sm font-medium text-black'>
               Thành tiền (VNĐ)
             </div>
-            <div className="text-sm">
+            <div className='text-sm'>
               <InputNumber
-                className="!rounded-[6px] !w-full"
-                value={_format.getVND(total, "")}
+                className='!w-full !rounded-[6px]'
+                value={_format.getVND(total, '')}
                 disabled={true}
               />
             </div>
@@ -233,5 +233,5 @@ export const OrderProductItem: React.FC<TProps> = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

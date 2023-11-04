@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { mainOrder, payHelp, transportationOrder } from "~/api";
+import { useEffect, useState } from 'react'
+import { useQuery } from 'react-query'
+import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { mainOrder, payHelp, transportationOrder } from '~/api'
 import {
   UserAnotherOrder,
   UserLayout,
@@ -10,57 +10,57 @@ import {
   UserPayment,
   UserStatistic,
   UserTransfer,
-} from "~/components";
-import { breadcrumb } from "~/configs";
-import { SEOHomeConfigs } from "~/configs/SEOConfigs";
-import { EParamQ } from "~/enums";
-import { RootState } from "~/store";
-import { TNextPageWithLayout } from "~/types/layout";
+} from '~/components'
+import { breadcrumb } from '~/configs'
+import { SEOHomeConfigs } from '~/configs/SEOConfigs'
+import { EParamQ } from '~/enums'
+import { RootState } from '~/store'
+import { TNextPageWithLayout } from '~/types/layout'
 const dataBoxItem = [
   {
-    key: "mainOrderTotal",
-    label: "Mua hàng hộ",
-    path: "/user/order-list",
-    icon: "fas fa-shopping-basket",
-    color: "#1582F5",
-    bgColor: "#EBF4FE",
+    key: 'mainOrderTotal',
+    label: 'Mua hàng hộ',
+    path: '/user/order-list',
+    icon: 'fas fa-shopping-basket',
+    color: '#1582F5',
+    bgColor: '#EBF4FE',
     value: null,
   },
   {
-    key: "mainOrderOtherTotal",
-    label: "Mua hàng hộ khác",
+    key: 'mainOrderOtherTotal',
+    label: 'Mua hàng hộ khác',
     path: `/user/order-list?q=${EParamQ.otherOrder}`,
-    icon: "fas fa-cubes",
-    color: "#009000",
-    bgColor: "#E5FFE5",
+    icon: 'fas fa-cubes',
+    color: '#009000',
+    bgColor: '#E5FFE5',
     value: null,
   },
   {
-    key: "transportTotal",
-    label: "Ký gửi",
-    path: "/user/deposit-list",
-    icon: "fas fa-dolly",
-    color: "#FF7A00",
-    bgColor: "#FFF4EA",
+    key: 'transportTotal',
+    label: 'Ký gửi',
+    path: '/user/deposit-list',
+    icon: 'fas fa-dolly',
+    color: '#FF7A00',
+    bgColor: '#FFF4EA',
     value: null,
   },
   {
-    key: "paymentTotal",
-    label: "Thanh toán hộ",
-    path: "/user/request-list",
-    icon: "fas fa-credit-card",
-    color: "#F00",
-    bgColor: "#FFF1F1",
+    key: 'paymentTotal',
+    label: 'Thanh toán hộ',
+    path: '/user/request-list',
+    icon: 'fas fa-credit-card',
+    color: '#F00',
+    bgColor: '#FFF1F1',
     value: null,
   },
-];
+]
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurrentInfo
-  );
+    (state: RootState) => state.userCurrentInfo,
+  )
 
-  const [total, setTotal] = useState(dataBoxItem);
+  const [total, setTotal] = useState(dataBoxItem)
 
   const {
     data: orderData,
@@ -68,11 +68,11 @@ const Index: TNextPageWithLayout = () => {
     isLoading: isLoadingOrder,
   } = useQuery(
     [
-      "userOrderListMainOrder",
+      'userOrderListMainOrder',
       {
         PageIndex: 1,
         PageSize: 10,
-        OrderBy: "Created desc",
+        OrderBy: 'Created desc',
         UID: userCurrentInfo?.Id,
         OrderType: 1,
       },
@@ -82,22 +82,22 @@ const Index: TNextPageWithLayout = () => {
         .getList({
           PageIndex: 1,
           PageSize: 10,
-          OrderBy: "Created desc",
+          OrderBy: 'Created desc',
           UID: userCurrentInfo?.Id,
           OrderType: 1,
         })
         .then((res) => {
-          dataBoxItem[0].value = res.Data.TotalItem;
-          return res.Data;
+          dataBoxItem[0].value = res.Data.TotalItem
+          return res.Data
         }),
     {
       onError: (error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+        toast.error((error as any)?.response?.data?.ResultMessage)
       },
       enabled: !!userCurrentInfo?.Id,
       staleTime: 5000,
-    }
-  );
+    },
+  )
 
   const {
     data: otherOrderData,
@@ -105,11 +105,11 @@ const Index: TNextPageWithLayout = () => {
     isLoading: isLoadingOtherOrder,
   } = useQuery(
     [
-      "userOrderOtherList",
+      'userOrderOtherList',
       {
         PageIndex: 1,
         PageSize: 10,
-        OrderBy: "Created desc",
+        OrderBy: 'Created desc',
         OrderType: 3,
         UID: userCurrentInfo?.Id,
       },
@@ -119,22 +119,22 @@ const Index: TNextPageWithLayout = () => {
         .getList({
           PageIndex: 1,
           PageSize: 10,
-          OrderBy: "Created desc",
+          OrderBy: 'Created desc',
           UID: userCurrentInfo?.Id,
           OrderType: 3,
         })
         .then((res) => {
-          dataBoxItem[1].value = res.Data.TotalItem;
-          return res.Data;
+          dataBoxItem[1].value = res.Data.TotalItem
+          return res.Data
         }),
     {
       onError: (error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+        toast.error((error as any)?.response?.data?.ResultMessage)
       },
       enabled: !!userCurrentInfo?.Id,
       staleTime: 5000,
-    }
-  );
+    },
+  )
 
   const {
     isFetching: isFetchingPayment,
@@ -142,11 +142,11 @@ const Index: TNextPageWithLayout = () => {
     isLoading: isLoadingPayment,
   } = useQuery(
     [
-      "requestPaymentData",
+      'requestPaymentData',
       {
         PageCurrent: 1,
         PageSize: 10,
-        OrderBy: "Created desc",
+        OrderBy: 'Created desc',
         UID: userCurrentInfo?.Id,
       },
     ],
@@ -155,21 +155,21 @@ const Index: TNextPageWithLayout = () => {
         .getList({
           PageIndex: 1,
           PageSize: 10,
-          OrderBy: "Created desc",
+          OrderBy: 'Created desc',
           UID: userCurrentInfo?.Id,
         })
         .then((res) => {
-          dataBoxItem[3].value = res.Data.TotalItem;
-          return res.Data;
+          dataBoxItem[3].value = res.Data.TotalItem
+          return res.Data
         }),
     {
       onError: (error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+        toast.error((error as any)?.response?.data?.ResultMessage)
       },
       staleTime: 5000,
       enabled: !!userCurrentInfo?.Id,
-    }
-  );
+    },
+  )
 
   const {
     isFetching: isFetchingTransport,
@@ -177,7 +177,7 @@ const Index: TNextPageWithLayout = () => {
     isLoading: isLoadingTransport,
   } = useQuery(
     [
-      "deliveryOrder",
+      'deliveryOrder',
       {
         Current: 1,
         PageSize: 10,
@@ -189,36 +189,36 @@ const Index: TNextPageWithLayout = () => {
         .getList({
           PageIndex: 1,
           PageSize: 10,
-          OrderBy: "Created desc",
+          OrderBy: 'Created desc',
           UID: userCurrentInfo?.Id,
         })
         .then((res) => {
-          dataBoxItem[2].value = res.Data.TotalItem;
-          return res.Data;
+          dataBoxItem[2].value = res.Data.TotalItem
+          return res.Data
         }),
     {
       onError: (error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+        toast.error((error as any)?.response?.data?.ResultMessage)
       },
       enabled: !!userCurrentInfo?.Id,
       staleTime: 5000,
-    }
-  );
+    },
+  )
 
   useEffect(() => {
-    setTotal(dataBoxItem);
-  }, [transportData, paymentData, orderData, otherOrderData]);
+    setTotal(dataBoxItem)
+  }, [transportData, paymentData, orderData, otherOrderData])
 
   useEffect(() => {
-    setTotal(dataBoxItem);
-  }, [orderData]);
+    setTotal(dataBoxItem)
+  }, [orderData])
 
   return (
-    <div className="grid grid-cols-4 gap-4">
-      <div className="col-span-4">
+    <div className='grid grid-cols-4 gap-4'>
+      <div className='col-span-4'>
         <UserStatistic total={total} />
       </div>
-      <div className={"col-span-4"}>
+      <div className={'col-span-4'}>
         <UserOrder
           {...{
             data: orderData,
@@ -227,7 +227,7 @@ const Index: TNextPageWithLayout = () => {
           }}
         />
       </div>
-      <div className={"col-span-4"}>
+      <div className={'col-span-4'}>
         <UserAnotherOrder
           {...{
             data: otherOrderData,
@@ -236,7 +236,7 @@ const Index: TNextPageWithLayout = () => {
           }}
         />
       </div>
-      <div className={"col-span-4"}>
+      <div className={'col-span-4'}>
         <UserTransfer
           {...{
             data: transportData,
@@ -245,7 +245,7 @@ const Index: TNextPageWithLayout = () => {
           }}
         />
       </div>
-      <div className={"col-span-4"}>
+      <div className={'col-span-4'}>
         <UserPayment
           {...{
             data: paymentData,
@@ -255,11 +255,11 @@ const Index: TNextPageWithLayout = () => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-Index.displayName = SEOHomeConfigs.dashboard;
-Index.breadcrumb = breadcrumb.dashboard;
-Index.Layout = UserLayout;
+Index.displayName = SEOHomeConfigs.dashboard
+Index.breadcrumb = breadcrumb.dashboard
+Index.Layout = UserLayout
 
-export default Index;
+export default Index

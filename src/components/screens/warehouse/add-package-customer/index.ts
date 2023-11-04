@@ -1,2 +1,2 @@
-export * from './AddPackageCustomerForm';
-export * from './AddPackageCustomerTable';
+export * from './AddPackageCustomerForm'
+export * from './AddPackageCustomerTable'

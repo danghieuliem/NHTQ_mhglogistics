@@ -1,44 +1,44 @@
-import { TablePaginationConfig } from "antd";
-import router from "next/router";
-import { useCallback, useState } from "react";
-import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { reportMainOrder } from "~/api";
+import { TablePaginationConfig } from 'antd'
+import router from 'next/router'
+import { useCallback, useState } from 'react'
+import { useQuery } from 'react-query'
+import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { reportMainOrder } from '~/api'
 import {
   Layout,
   SalesFilter,
   SalesMoneyStatisticChart,
   SalesMoneyStatisticTable,
   SalesOrderStatisticTable,
-} from "~/components";
-import { breadcrumb, defaultPagination } from "~/configs";
-import { SEOConfigs } from "~/configs/SEOConfigs";
-import { RootState } from "~/store";
-import { TNextPageWithLayout } from "~/types/layout";
+} from '~/components'
+import { breadcrumb, defaultPagination } from '~/configs'
+import { SEOConfigs } from '~/configs/SEOConfigs'
+import { RootState } from '~/store'
+import { TNextPageWithLayout } from '~/types/layout'
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurrentInfo
-  );
+    (state: RootState) => state.userCurrentInfo,
+  )
 
-  const [type, setType] = useState<"sum" | "detail">("detail");
-  const [fromDate, setFromDate] = useState<string>(null);
-  const [toDate, setToDate] = useState<string>(null);
+  const [type, setType] = useState<'sum' | 'detail'>('detail')
+  const [fromDate, setFromDate] = useState<string>(null)
+  const [toDate, setToDate] = useState<string>(null)
   const handleFilter = (fromDate: string, toDate: string) => {
-    setFromDate(fromDate);
-    setToDate(toDate);
-  };
+    setFromDate(fromDate)
+    setToDate(toDate)
+  }
 
   // const [paymentPagination, setPaymentPagination] =
   //   useState<TablePaginationConfig>(defaultPagination);
   const [orderPagination, setOrderPagination] =
-    useState<TablePaginationConfig>(defaultPagination);
+    useState<TablePaginationConfig>(defaultPagination)
 
   const resetPagination = () => {
     // setPaymentPagination(defaultPagination);
-    setOrderPagination(defaultPagination);
-  };
+    setOrderPagination(defaultPagination)
+  }
 
   // const {
   //   data: userPaymentReportData,
@@ -91,7 +91,7 @@ const Index: TNextPageWithLayout = () => {
     isLoading: isLoadingOrder,
   } = useQuery(
     [
-      "clientOrderReportData",
+      'clientOrderReportData',
       {
         Current: orderPagination.current,
         FromDate: fromDate,
@@ -105,7 +105,7 @@ const Index: TNextPageWithLayout = () => {
         .getList({
           PageIndex: orderPagination.current,
           PageSize: orderPagination.pageSize,
-          OrderBy: "Id desc",
+          OrderBy: 'Id desc',
           FromDate: fromDate,
           ToDate: toDate,
           UID: userCurrentInfo?.Id,
@@ -115,16 +115,16 @@ const Index: TNextPageWithLayout = () => {
         .then((res) => res.Data),
     {
       onSuccess: (data) => {
-        setOrderPagination({ ...orderPagination, total: data?.TotalItem });
+        setOrderPagination({ ...orderPagination, total: data?.TotalItem })
       },
       onError: (error) =>
         toast.error((error as any)?.response?.data?.ResultMessage),
-    }
-  );
+    },
+  )
 
   const { data: totalOverviewData } = useQuery(
     [
-      "get-total-overview",
+      'get-total-overview',
       {
         fromDate,
         toDate,
@@ -141,10 +141,10 @@ const Index: TNextPageWithLayout = () => {
       }),
     {
       onError: (error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+        toast.error((error as any)?.response?.data?.ResultMessage)
       },
-    }
-  );
+    },
+  )
 
   // const handleExportExcelPayment = async () => {
   //   try {
@@ -159,7 +159,7 @@ const Index: TNextPageWithLayout = () => {
   // };
 
   const handleExportExcelOrder = useCallback(async () => {
-    const id = toast.loading("Đang xử lý ...");
+    const id = toast.loading('Đang xử lý ...')
     let newFilter = {
       PageSize: 20,
       PageIndex: 1,
@@ -167,41 +167,41 @@ const Index: TNextPageWithLayout = () => {
       ToDate: toDate,
       UID: userCurrentInfo?.Id,
       RoleID: userCurrentInfo?.UserGroupId,
-    };
+    }
 
     if (fromDate || toDate) {
       newFilter = {
         ...newFilter,
         PageSize: 9999,
-      };
+      }
     }
     try {
-      const res = await reportMainOrder.export(newFilter);
-      router.push(`${res.Data}`);
+      const res = await reportMainOrder.export(newFilter)
+      router.push(`${res.Data}`)
     } catch (error) {
       toast.update(id, {
         isLoading: false,
         autoClose: 3000,
-        type: "error",
+        type: 'error',
         render: (error as any)?.response?.data?.ResultMessage,
-      });
+      })
     } finally {
       toast.update(id, {
         isLoading: false,
         autoClose: 1,
-        type: "default",
-      });
+        type: 'default',
+      })
     }
-  }, [fromDate, toDate]);
+  }, [fromDate, toDate])
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-      <div className="tableBox lg:col-span-8 hidden md:block">
+    <div className='grid grid-cols-1 gap-4 lg:grid-cols-12'>
+      <div className='tableBox hidden md:block lg:col-span-8'>
         <SalesFilter
           handleFilter={handleFilter}
           type={type}
           handleType={() =>
-            setType((type) => (type === "detail" ? "sum" : "detail"))
+            setType((type) => (type === 'detail' ? 'sum' : 'detail'))
           }
           resetPagination={resetPagination}
         />
@@ -211,10 +211,10 @@ const Index: TNextPageWithLayout = () => {
         />
       </div>
 
-      <div className="lg:col-span-4">
+      <div className='lg:col-span-4'>
         <SalesMoneyStatisticTable data={totalOverviewData?.Data} />
       </div>
-      <div className="col-span-full">
+      <div className='col-span-full'>
         <SalesOrderStatisticTable
           pagination={orderPagination}
           handlePagination={setOrderPagination}
@@ -236,11 +236,11 @@ const Index: TNextPageWithLayout = () => {
 				/>
 			</div> */}
     </div>
-  );
-};
+  )
+}
 
-Index.displayName = SEOConfigs.statistical.turnover;
-Index.breadcrumb = breadcrumb.statistical.sales;
-Index.Layout = Layout;
+Index.displayName = SEOConfigs.statistical.turnover
+Index.breadcrumb = breadcrumb.statistical.sales
+Index.Layout = Layout
 
-export default Index;
+export default Index

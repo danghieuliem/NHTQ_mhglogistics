@@ -1,12 +1,12 @@
-import { CaretRightOutlined } from "@ant-design/icons";
-import { Collapse } from "antd";
-import clsx from "clsx";
-import { useRouter } from "next/router";
-import React from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useSelector } from "react-redux";
-import { mainOrder } from "~/api";
+import { CaretRightOutlined } from '@ant-design/icons'
+import { Collapse } from 'antd'
+import clsx from 'clsx'
+import { useRouter } from 'next/router'
+import React from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useSelector } from 'react-redux'
+import { mainOrder } from '~/api'
 import {
   Empty,
   Layout,
@@ -20,42 +20,42 @@ import {
   OrderSurChargeList,
   OrderTransferCodeList,
   toast,
-} from "~/components";
-import { EOrderStatus, breadcrumb } from "~/configs";
-import { SEOConfigs } from "~/configs/SEOConfigs";
-import { useCatalogue } from "~/hooks";
-import { RootState } from "~/store";
-import { TNextPageWithLayout } from "~/types/layout";
+} from '~/components'
+import { EOrderStatus, breadcrumb } from '~/configs'
+import { SEOConfigs } from '~/configs/SEOConfigs'
+import { useCatalogue } from '~/hooks'
+import { RootState } from '~/store'
+import { TNextPageWithLayout } from '~/types/layout'
 
-const className = "TabPanel";
-const { Panel } = Collapse;
+const className = 'TabPanel'
+const { Panel } = Collapse
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurrentInfo
-  );
+    (state: RootState) => state.userCurrentInfo,
+  )
 
-  const { query } = useRouter();
-  const router = useRouter();
-  const orderId = Number(router.query.id);
-  const [active, setActive] = React.useState(0);
-  const queryClient = useQueryClient();
+  const { query } = useRouter()
+  const router = useRouter()
+  const orderId = Number(router.query.id)
+  const [active, setActive] = React.useState(0)
+  const queryClient = useQueryClient()
 
   const { userSale, userOrder } = useCatalogue({
     userSaleEnabled: true,
     userOrderEnabled: true,
-  });
+  })
 
   const form = useForm<TOrder>({
-    mode: "onBlur",
-  });
+    mode: 'onBlur',
+  })
 
   const { data, isError, isLoading, isFetching, refetch } = useQuery(
-    ["order-list", orderId],
+    ['order-list', orderId],
     () => mainOrder.getByID(+query?.id),
     {
       onSuccess: (data) => {
-        form.reset(data?.Data);
+        form.reset(data?.Data)
       },
       onError: toast.error,
       retry: false,
@@ -63,30 +63,30 @@ const Index: TNextPageWithLayout = () => {
       keepPreviousData: true,
       refetchOnWindowFocus: true,
       staleTime: 2000,
-    }
-  );
+    },
+  )
 
   const mutationUpdate = useMutation(mainOrder.update, {
     onSuccess: () => {
-      toast.success("Cập nhật đơn hàng thành công");
-      queryClient.invalidateQueries("history-order");
-      refetch();
+      toast.success('Cập nhật đơn hàng thành công')
+      queryClient.invalidateQueries('history-order')
+      refetch()
     },
     onError: (error) => {
-      toast.error((error as any)?.response?.data?.ResultMessage);
+      toast.error((error as any)?.response?.data?.ResultMessage)
     },
-  });
+  })
 
   const _onUpdate = async (data: TOrder) => {
     if (data?.AmountDeposit > data?.TotalPriceVND) {
-      toast.error("Số tiền phải cọc không được lớn hơn tổng tiền đơn");
-      return;
+      toast.error('Số tiền phải cọc không được lớn hơn tổng tiền đơn')
+      return
     }
     const { HistoryOrderChanges, PayOrderHistories, Complains, ...newData } =
-      data;
+      data
 
     if (newData.Status === 100) {
-      newData.IsCheckNotiPrice = false;
+      newData.IsCheckNotiPrice = false
     }
 
     // if ([EOrderStatus.ChoBaoGia].includes(data?.Status)) {
@@ -95,27 +95,27 @@ const Index: TNextPageWithLayout = () => {
     //   await mutationUpdate.mutateAsync(newData);
     // }
 
-    await mutationUpdate.mutateAsync(newData);
-  };
+    await mutationUpdate.mutateAsync(newData)
+  }
 
   if (isError) {
-    return <Empty />;
+    return <Empty />
   }
 
   return (
     <FormProvider {...form}>
       <div
-        className="grid grid-cols-10 gap-4"
+        className='grid grid-cols-10 gap-4'
         style={{
-          opacity: isFetching ? "0.8" : "1",
-          pointerEvents: isFetching ? "none" : "all",
+          opacity: isFetching ? '0.8' : '1',
+          pointerEvents: isFetching ? 'none' : 'all',
         }}
       >
-        <div className="col-span-full lg:col-span-3 xl:col-span-2">
+        <div className='col-span-full lg:col-span-3 xl:col-span-2'>
           <div
             style={{
-              position: "sticky",
-              top: "10px",
+              position: 'sticky',
+              top: '10px',
             }}
           >
             <OrderDetail
@@ -129,23 +129,23 @@ const Index: TNextPageWithLayout = () => {
             />
           </div>
         </div>
-        <div className="col-span-full lg:col-span-7 xl:col-span-8">
+        <div className='col-span-full lg:col-span-7 xl:col-span-8'>
           <Collapse
-            expandIconPosition="right"
+            expandIconPosition='right'
             expandIcon={({ isActive }) => (
               <CaretRightOutlined rotate={isActive ? 90 : 0} />
             )}
-            defaultActiveKey={["1", "2", "3", "4", "5", "6", "7"]}
+            defaultActiveKey={['1', '2', '3', '4', '5', '6', '7']}
           >
             <Panel
               header={`Mã đơn hàng (${
                 data?.Data?.MainOrderCodes?.length || 0
               })`}
-              key="1"
+              key='1'
             >
               <div
-                id="order-code"
-                className={clsx(className, active === 0 && "")}
+                id='order-code'
+                className={clsx(className, active === 0 && '')}
               >
                 <OrderCode
                   data={data?.Data}
@@ -157,11 +157,11 @@ const Index: TNextPageWithLayout = () => {
             </Panel>
             <Panel
               header={`Mã vận đơn (${data?.Data?.SmallPackages.length || 0})`}
-              key="2"
+              key='2'
             >
               <div
-                id="transfer-code-list"
-                className={clsx(className, "!py-0", active === 1 && "")}
+                id='transfer-code-list'
+                className={clsx(className, '!py-0', active === 1 && '')}
               >
                 <OrderTransferCodeList
                   data={data?.Data}
@@ -173,11 +173,11 @@ const Index: TNextPageWithLayout = () => {
             </Panel>
             <Panel
               header={`Danh sách sản phẩm (${data?.Data?.Orders?.length || 0})`}
-              key="3"
+              key='3'
             >
               <div
-                id="product-list"
-                className={clsx(className, active === 2 && "")}
+                id='product-list'
+                className={clsx(className, active === 2 && '')}
               >
                 <OrderProductList
                   data={data?.Data}
@@ -187,10 +187,10 @@ const Index: TNextPageWithLayout = () => {
                 />
               </div>
             </Panel>
-            <Panel header="Chi phí đơn hàng" key="4">
+            <Panel header='Chi phí đơn hàng' key='4'>
               <div
-                id="surcharge-list"
-                className={clsx(className, active === 3 && "")}
+                id='surcharge-list'
+                className={clsx(className, active === 3 && '')}
               >
                 <OrderSurChargeList
                   data={data?.Data}
@@ -205,10 +205,10 @@ const Index: TNextPageWithLayout = () => {
                 />
               </div>
             </Panel>
-            <Panel header="Nhân viên xử lý" key="5">
+            <Panel header='Nhân viên xử lý' key='5'>
               <div
-                id="handling-staff"
-                className={clsx(className, active === 5 && "")}
+                id='handling-staff'
+                className={clsx(className, active === 5 && '')}
               >
                 <OrderHandlingStaff
                   data={data?.Data}
@@ -219,16 +219,16 @@ const Index: TNextPageWithLayout = () => {
                 />
               </div>
             </Panel>
-            <Panel header="Thông tin đặt hàng" key="6">
+            <Panel header='Thông tin đặt hàng' key='6'>
               <div
-                id="order-info"
-                className={clsx(className, active === 6 && "")}
+                id='order-info'
+                className={clsx(className, active === 6 && '')}
               >
                 <OrderInfo data={data?.Data} loading={isLoading} />
               </div>
             </Panel>
-            <Panel header="Lịch sử" key="7">
-              <div id="history" className={clsx(className, active === 7 && "")}>
+            <Panel header='Lịch sử' key='7'>
+              <div id='history' className={clsx(className, active === 7 && '')}>
                 <OrderHistory data={data?.Data} loading={isFetching} />
               </div>
             </Panel>
@@ -236,11 +236,11 @@ const Index: TNextPageWithLayout = () => {
         </div>
       </div>
     </FormProvider>
-  );
-};
+  )
+}
 
-Index.displayName = SEOConfigs.oder.detail;
-Index.breadcrumb = breadcrumb.order.orderList.detail;
-Index.Layout = Layout;
+Index.displayName = SEOConfigs.oder.detail
+Index.breadcrumb = breadcrumb.order.orderList.detail
+Index.Layout = Layout
 
-export default Index;
+export default Index

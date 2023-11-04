@@ -1,10 +1,10 @@
-import BaseAPI from '../methods';
+import BaseAPI from '../methods'
 
 type TFilterParams = {
-	FromDate: string;
-	ToDate: string;
-};
+  FromDate: string
+  ToDate: string
+}
 
-const { globalReport } = new BaseAPI<any, TFilterParams>('report-pay-help');
+const { globalReport } = new BaseAPI<any, TFilterParams>('report-pay-help')
 
-export const reportPayHelp = globalReport;
+export const reportPayHelp = globalReport

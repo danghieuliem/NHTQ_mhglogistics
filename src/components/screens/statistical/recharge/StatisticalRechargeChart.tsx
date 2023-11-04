@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,8 +9,8 @@ import {
   Tooltip,
   Legend,
   Filler,
-} from "chart.js";
-import { Line, Bar } from "react-chartjs-2";
+} from 'chart.js'
+import { Line, Bar } from 'react-chartjs-2'
 
 ChartJS.register(
   CategoryScale,
@@ -20,8 +20,8 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  Filler
-);
+  Filler,
+)
 
 const options = {
   responsive: true,
@@ -36,18 +36,18 @@ const options = {
       grid: { display: true, borderDash: [3, 3], drawBorder: false },
     },
   },
-};
+}
 
 type TProps = {
   dataChart: {
-    totalRecharge: number;
-    totalWithdraw: number;
-  };
-};
+    totalRecharge: number
+    totalWithdraw: number
+  }
+}
 
 export const StatisticalRechargeChart = (dataChart: TProps) => {
   // const labels = ['Tiền nạp', 'Tiền rút', 'Dư tạm thời'];
-  const labels = ["Tổng tiền nạp - rút"];
+  const labels = ['Tổng tiền nạp - rút']
 
   const data = {
     labels,
@@ -67,25 +67,25 @@ export const StatisticalRechargeChart = (dataChart: TProps) => {
       //   fill: true,
       // },
       {
-        label: "Tổng tiền nạp",
+        label: 'Tổng tiền nạp',
         data: [dataChart?.dataChart?.totalRecharge],
-        backgroundColor: "green",
+        backgroundColor: 'green',
       },
       {
-        label: "Tổng tiền rút",
+        label: 'Tổng tiền rút',
         data: [dataChart?.dataChart?.totalWithdraw],
-        backgroundColor: "darkred",
+        backgroundColor: 'darkred',
       },
     ],
-  };
+  }
 
   return (
     <React.Fragment>
-      <p className="text-sm !my-4 text-active font-bold text-center">
+      <p className='!my-4 text-center text-sm font-bold text-active'>
         Biểu đồ thống kê tiền nạp
       </p>
       {/* <Line options={options} data={data} height={100} /> */}
-      <Bar height={100} data={data} options={options}/>
+      <Bar height={100} data={data} options={options} />
     </React.Fragment>
-  );
-};
+  )
+}

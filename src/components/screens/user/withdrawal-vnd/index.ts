@@ -1,2 +1,2 @@
-export * from "./WithDrawalVNDForm";
-export * from "./WithDrawalVNDTable";
+export * from './WithDrawalVNDForm'
+export * from './WithDrawalVNDTable'

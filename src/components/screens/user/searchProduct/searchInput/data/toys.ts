@@ -11,7 +11,7 @@ const Toys = {
     {
       Title: 'mô hình đồ ăn bánh kẹo',
       Value: '食品、糖果模型',
-      Children: []
+      Children: [],
     },
     { Title: 'đồ chơi trẻ em', Value: '儿童玩具', Children: [] },
     { Title: 'đồ chơi thú bông', Value: '毛绒玩具', Children: [] },
@@ -22,7 +22,7 @@ const Toys = {
     { Title: 'mô hình xe', Value: '汽车模型', Children: [] },
     { Title: 'máy bay điều khiển', Value: '遥控飞机', Children: [] },
     { Title: 'đồ chơi mô hình', Value: '模型玩具', Children: [] },
-    { Title: 'nhà bóng', Value: '气球屋', Children: [] }
-  ]
+    { Title: 'nhà bóng', Value: '气球屋', Children: [] },
+  ],
 }
 export default Toys

@@ -1,6 +1,6 @@
-import React from "react";
-import Lottie from "react-lottie";
-import * as loading from "~/assets/json/loading.json";
+import React from 'react'
+import Lottie from 'react-lottie'
+import * as loading from '~/assets/json/loading.json'
 
 export const Loading = () => {
   const defaultOptions = {
@@ -8,9 +8,9 @@ export const Loading = () => {
     autoplay: true,
     animationData: loading,
     rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
+      preserveAspectRatio: 'xMidYMid slice',
     },
-  };
+  }
 
-  return <Lottie options={defaultOptions} height={"auto"} width={80} />;
-};
+  return <Lottie options={defaultOptions} height={'auto'} width={80} />
+}

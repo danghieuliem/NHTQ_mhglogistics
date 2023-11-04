@@ -1,5 +1,5 @@
-import Link from "next/link";
-import styles from "./index.module.css";
+import Link from 'next/link'
+import styles from './index.module.css'
 
 export const HomeBanner = ({ data }) => {
   return (
@@ -8,43 +8,43 @@ export const HomeBanner = ({ data }) => {
       style={{
         backgroundImage: data?.BannerIMG
           ? `url(${data?.BannerIMG})`
-          : "/default/banner_bg.png",
+          : '/default/banner_bg.png',
       }}
     >
       <div className={`container ${styles.container}`}>
         <div className={styles.containerHome}>
           <div className={styles.content}>
             <div className={styles.text}>
-              <h1 className="text-[#fff] md:!text-[40px] font-bold sm:!text-[30px]">
+              <h1 className='font-bold text-[#fff] sm:!text-[30px] md:!text-[40px]'>
                 {data?.BannerText ?? (
                   <>
-                    Hệ thống nhập hàng <br /> Trung Quốc{" "}
-                    <span style={{ color: "#F5851E" }}>uy tín</span>
+                    Hệ thống nhập hàng <br /> Trung Quốc{' '}
+                    <span style={{ color: '#F5851E' }}>uy tín</span>
                   </>
                 )}
               </h1>
             </div>
             <div className={styles.extension}>
-              <p className="text-[#fff] text-[20px]">
+              <p className='text-[20px] text-[#fff]'>
                 Cài đặt công cụ đặt hàng:
               </p>
               <div className={styles.exWrapper}>
-                <Link href={data?.CocCocExtensionLink ?? "/"}>
-                  <a target="_blank" className={styles.btnExt}>
+                <Link href={data?.CocCocExtensionLink ?? '/'}>
+                  <a target='_blank' className={styles.btnExt}>
                     <img
-                      src="/default/logo-coccoc.png"
-                      alt=""
+                      src='/default/logo-coccoc.png'
+                      alt=''
                       width={30}
                       height={30}
                     />
                     <span>Cốc Cốc</span>
                   </a>
                 </Link>
-                <Link href={data?.ChromeExtensionLink ?? "/"}>
-                  <a target="_blank" className={styles.btnExt}>
+                <Link href={data?.ChromeExtensionLink ?? '/'}>
+                  <a target='_blank' className={styles.btnExt}>
                     <img
-                      src="/default/logo-chrome.png"
-                      alt=""
+                      src='/default/logo-chrome.png'
+                      alt=''
                       width={30}
                       height={30}
                     />
@@ -58,7 +58,7 @@ export const HomeBanner = ({ data }) => {
         </div>
       </div>
 
-      <img src="/default/banner_truck.png" className={styles.bannerTruck} />
+      <img src='/default/banner_truck.png' className={styles.bannerTruck} />
     </div>
-  );
-};
+  )
+}

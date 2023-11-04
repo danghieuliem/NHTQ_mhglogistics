@@ -11,8 +11,8 @@ const ElectricAppliances = {
         { Title: 'Máy uốn tóc', Value: '直发器' },
         { Title: 'Bàn chải đánh răng điện', Value: '电动牙刷' },
         { Title: 'Máy xông hơi mặt', Value: '面部蒸汽机' },
-        { Title: 'Ghế mát xa', Value: '按摩椅' }
-      ]
+        { Title: 'Ghế mát xa', Value: '按摩椅' },
+      ],
     },
     {
       Title: 'Đồ bếp, đồ gia dụng',
@@ -45,9 +45,9 @@ const ElectricAppliances = {
         { Title: 'Sáp sàn', Value: '地板蜡' },
         { Title: 'Máy giặt', Value: '洗衣机' },
         { Title: 'Điều hòa', Value: '空调' },
-        { Title: 'Máy nước nóng', Value: '热水器' }
-      ]
-    }
-  ]
+        { Title: 'Máy nước nóng', Value: '热水器' },
+      ],
+    },
+  ],
 }
 export default ElectricAppliances

@@ -1,50 +1,50 @@
-import { Tabs } from "antd";
-import router from "next/router";
-import { Control, useForm } from "react-hook-form";
-import { useMutation } from "react-query";
-import { pageType } from "~/api";
+import { Tabs } from 'antd'
+import router from 'next/router'
+import { Control, useForm } from 'react-hook-form'
+import { useMutation } from 'react-query'
+import { pageType } from '~/api'
 import {
   AddArticleCategoryForm,
   ArticleSEOForm,
   IconButton,
   Layout,
   toast,
-} from "~/components";
-import { breadcrumb } from "~/configs";
-import { SEOConfigs } from "~/configs/SEOConfigs";
-import { TNextPageWithLayout } from "~/types/layout";
+} from '~/components'
+import { breadcrumb } from '~/configs'
+import { SEOConfigs } from '~/configs/SEOConfigs'
+import { TNextPageWithLayout } from '~/types/layout'
 
-type TForm = Partial<TArticleCategory & TArticleSEO & { sideBar: boolean }>;
+type TForm = Partial<TArticleCategory & TArticleSEO & { sideBar: boolean }>
 
 const Index: TNextPageWithLayout = () => {
   const { control, handleSubmit } = useForm<TForm>({
-    mode: "onBlur",
-  });
+    mode: 'onBlur',
+  })
 
   const mutationAdd = useMutation((data: any) => pageType.create(data), {
-    onSuccess: () => toast.success("Tạo chuyên mục thành công"),
+    onSuccess: () => toast.success('Tạo chuyên mục thành công'),
     onError: toast.error,
-  });
+  })
 
   const _onPress = async (data: any) => {
     try {
-      await mutationAdd.mutateAsync(data);
+      await mutationAdd.mutateAsync(data)
     } catch (error) {}
-  };
+  }
 
   return (
     <>
-      <div className="tableBox">
+      <div className='tableBox'>
         <Tabs
           tabBarExtraContent={
-            <div className="mb-4">
+            <div className='mb-4'>
               <IconButton
                 onClick={handleSubmit(_onPress)}
-                icon="fas fa-plus-circle"
-                title="Tạo mới"
-                btnClass="!mr-4"
+                icon='fas fa-plus-circle'
+                title='Tạo mới'
+                btnClass='!mr-4'
                 showLoading
-                toolip=""
+                toolip=''
               />
               {/* <IconButton
                 icon="fas fa-undo-alt"
@@ -55,7 +55,7 @@ const Index: TNextPageWithLayout = () => {
             </div>
           }
         >
-          <Tabs.TabPane key={"1"} tab="Nội dung chuyên mục">
+          <Tabs.TabPane key={'1'} tab='Nội dung chuyên mục'>
             <AddArticleCategoryForm
               control={
                 control as Control<
@@ -66,17 +66,17 @@ const Index: TNextPageWithLayout = () => {
             />
           </Tabs.TabPane>
 
-          <Tabs.TabPane key={"2"} tab="Cấu hình SEO">
+          <Tabs.TabPane key={'2'} tab='Cấu hình SEO'>
             <ArticleSEOForm control={control as Control<TArticleSEO, object>} />
           </Tabs.TabPane>
         </Tabs>
       </div>
     </>
-  );
-};
+  )
+}
 
-Index.displayName = SEOConfigs.post.addCategories;
-Index.breadcrumb = breadcrumb.article.articleCategory.add;
-Index.Layout = Layout;
+Index.displayName = SEOConfigs.post.addCategories
+Index.breadcrumb = breadcrumb.article.articleCategory.add
+Index.Layout = Layout
 
-export default Index;
+export default Index

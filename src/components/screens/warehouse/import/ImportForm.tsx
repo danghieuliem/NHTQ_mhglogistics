@@ -1,55 +1,55 @@
-import { Modal } from "antd";
-import router from "next/router";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useQuery } from "react-query";
-import { toast } from "react-toastify";
-import { bigPackage, smallPackage } from "~/api";
-import { FormSelect, FormUpload } from "~/components";
-import { IconButton } from "~/components/globals/button/IconButton";
+import { Modal } from 'antd'
+import router from 'next/router'
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useQuery } from 'react-query'
+import { toast } from 'react-toastify'
+import { bigPackage, smallPackage } from '~/api'
+import { FormSelect, FormUpload } from '~/components'
+import { IconButton } from '~/components/globals/button/IconButton'
 
-export const ImportForm = ({type}) => {
-  const { control, handleSubmit } = useForm<TImport>({ mode: "onBlur" });
-  const [bigPackages, setBigPackages] = useState([]);
-  const [loadingExport, setLoadingExport] = useState(false);
-  const [loadingImport, setLoadingImport] = useState(false);
+export const ImportForm = ({ type }) => {
+  const { control, handleSubmit } = useForm<TImport>({ mode: 'onBlur' })
+  const [bigPackages, setBigPackages] = useState([])
+  const [loadingExport, setLoadingExport] = useState(false)
+  const [loadingImport, setLoadingImport] = useState(false)
   const { isFetching, refetch } = useQuery(
-    "bigPackageList",
+    'bigPackageList',
     () =>
       bigPackage.getList({
         PageIndex: 1,
         PageSize: 1000000,
-        OrderBy: "Id desc",
+        OrderBy: 'Id desc',
         Status: 1,
       }),
     {
       onSuccess: (data) => {
-        setBigPackages(data?.Data?.Items);
+        setBigPackages(data?.Data?.Items)
       },
       onError: toast.error,
-    }
-  );
+    },
+  )
   const handleExportExcelTemplate = async () => {
     try {
-      setLoadingExport(true);
-      const res = await smallPackage.getTemplateImport();
-      setLoadingExport(false);
-      router.push(`${res.Data}`);
+      setLoadingExport(true)
+      const res = await smallPackage.getTemplateImport()
+      setLoadingExport(false)
+      router.push(`${res.Data}`)
     } catch (error) {
-      toast.error(error);
+      toast.error(error)
     }
-  };
+  }
 
   const _onPress = (data: TImport) => {
-    setLoadingImport(true);
+    setLoadingImport(true)
     smallPackage
       .postImportPackage({
         ...data,
-        Type: type
+        Type: type,
       })
       .then((res) => {
         Modal.info({
-          title: "Import thành công!",
+          title: 'Import thành công!',
           content: (
             <div>
               <p>Số mã hành công: {res?.Data?.TotalSuccess}</p>
@@ -59,61 +59,61 @@ export const ImportForm = ({type}) => {
             </div>
           ),
           onOk() {},
-        });
-        setLoadingImport(false);
+        })
+        setLoadingImport(false)
       })
       .catch((error) => {
-        setLoadingImport(false);
-        toast.error((error as any)?.response?.data?.ResultMessage);
-      });
-  };
+        setLoadingImport(false)
+        toast.error((error as any)?.response?.data?.ResultMessage)
+      })
+  }
 
   return (
     <React.Fragment>
       <FormSelect
         control={control}
-        name="BigPackageId"
+        name='BigPackageId'
         data={bigPackages}
-        select={{ label: "Name", value: "Id" }}
-        defaultValue={{ Name: "Chọn bao lớn", Id: 0 }}
-        placeholder="Chọn bao lớn"
-        selectClassName="max-w-[500px]"
+        select={{ label: 'Name', value: 'Id' }}
+        defaultValue={{ Name: 'Chọn bao lớn', Id: 0 }}
+        placeholder='Chọn bao lớn'
+        selectClassName='max-w-[500px]'
       />
-      <div className="mt-4 max-w-[500px]">
+      <div className='mt-4 max-w-[500px]'>
         <FormUpload
           control={control}
-          name="FileURL"
-          label="Import file: "
-          listType="text"
-          rules={{ required: "This field is required" }}
-          fileType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          messsageFileType="Đây không phải là file excel"
+          name='FileURL'
+          label='Import file: '
+          listType='text'
+          rules={{ required: 'This field is required' }}
+          fileType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          messsageFileType='Đây không phải là file excel'
         >
-          <div className="rounded-lg px-2 text-xl text-main">
-            <i className="fas fa-upload"></i>
+          <div className='rounded-lg px-2 text-xl text-main'>
+            <i className='fas fa-upload'></i>
           </div>
         </FormUpload>
       </div>
-      <div className="flex mt-4">
+      <div className='mt-4 flex'>
         <IconButton
           onClick={handleSubmit(_onPress)}
-          btnClass={"mr-4"}
-          icon={loadingImport ? "fas fa-sync fa-spin" : "fas fa-file-import"}
-          btnIconClass="!mr-2"
-          title="Import"
-          toolip=""
+          btnClass={'mr-4'}
+          icon={loadingImport ? 'fas fa-sync fa-spin' : 'fas fa-file-import'}
+          btnIconClass='!mr-2'
+          title='Import'
+          toolip=''
           disabled={loadingImport}
         />
         <IconButton
           onClick={handleExportExcelTemplate}
-          btnIconClass="!mr-2"
-          icon={loadingExport ? "fas fa-sync fa-spin" : "fas fa-file-export"}
-          title="Xuất File Mẫu"
-          toolip=""
+          btnIconClass='!mr-2'
+          icon={loadingExport ? 'fas fa-sync fa-spin' : 'fas fa-file-export'}
+          title='Xuất File Mẫu'
+          toolip=''
           disabled={loadingExport}
           blue
         />
       </div>
     </React.Fragment>
-  );
-};
+  )
+}

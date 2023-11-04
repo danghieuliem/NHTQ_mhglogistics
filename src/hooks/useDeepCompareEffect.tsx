@@ -1,14 +1,14 @@
-import React from "react";
-import _ from "lodash";
+import React from 'react'
+import _ from 'lodash'
 
 const useDeepCompareMemoize = (value) => {
-  const ref = React.useRef();
+  const ref = React.useRef()
 
   if (!_.isEqual(ref.current, value)) {
-    ref.current = value;
+    ref.current = value
   }
-  return ref.current;
-};
+  return ref.current
+}
 
 export const useDeepEffect = (callback, dependencies) =>
-  React.useEffect(callback, useDeepCompareMemoize(dependencies));
+  React.useEffect(callback, useDeepCompareMemoize(dependencies))

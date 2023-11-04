@@ -1,3 +1,3 @@
-export * from './RequestedDepositOutstockForm';
-export * from './RequestDepositOutstockUserInfo';
-export * from './RequestDepositOutstockStatistic';
+export * from './RequestedDepositOutstockForm'
+export * from './RequestDepositOutstockUserInfo'
+export * from './RequestDepositOutstockStatistic'

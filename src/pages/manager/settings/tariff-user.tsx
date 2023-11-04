@@ -1,35 +1,35 @@
-import { TablePaginationConfig } from "antd";
-import { useCallback, useRef, useState } from "react";
-import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
-import { userLevel } from "~/api";
+import { TablePaginationConfig } from 'antd'
+import { useCallback, useRef, useState } from 'react'
+import { useQuery } from 'react-query'
+import { useSelector } from 'react-redux'
+import { userLevel } from '~/api'
 import {
   Layout,
   TariffUserFormMemo,
   TariffUserTable,
   toast,
-} from "~/components";
-import { breadcrumb } from "~/configs";
-import { defaultPagination } from "~/configs/appConfigs";
-import { SEOConfigs } from "~/configs/SEOConfigs";
-import { RootState } from "~/store";
-import { TNextPageWithLayout } from "~/types/layout";
+} from '~/components'
+import { breadcrumb } from '~/configs'
+import { defaultPagination } from '~/configs/appConfigs'
+import { SEOConfigs } from '~/configs/SEOConfigs'
+import { RootState } from '~/store'
+import { TNextPageWithLayout } from '~/types/layout'
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurrentInfo
-  );
+    (state: RootState) => state.userCurrentInfo,
+  )
   const [pagination, setPagination] =
-    useState<TablePaginationConfig>(defaultPagination);
+    useState<TablePaginationConfig>(defaultPagination)
 
   const { isFetching, isError, error, data, isLoading } = useQuery(
-    ["userLevelData", { Current: pagination.current }],
+    ['userLevelData', { Current: pagination.current }],
     () =>
       userLevel
         .getList({
           PageIndex: pagination.current,
           PageSize: pagination.pageSize,
-          OrderBy: "Id desc",
+          OrderBy: 'Id desc',
         })
         .then((res) => res.Data),
     {
@@ -38,17 +38,17 @@ const Index: TNextPageWithLayout = () => {
         setPagination({ ...pagination, total: data.TotalItem }),
       onError: toast.error,
       enabled: userCurrentInfo?.UserGroupId === 1,
-    }
-  );
+    },
+  )
 
-  const [modal, setModal] = useState(false);
-  const item = useRef<TTariffUser>();
+  const [modal, setModal] = useState(false)
+  const item = useRef<TTariffUser>()
   const handleModal = (itemSelected) => {
-    item.current = itemSelected;
-    setModal(!modal);
-  };
+    item.current = itemSelected
+    setModal(!modal)
+  }
 
-  const handleCloseModal = useCallback(() => setModal(false), []);
+  const handleCloseModal = useCallback(() => setModal(false), [])
 
   return (
     <>
@@ -70,10 +70,10 @@ const Index: TNextPageWithLayout = () => {
         }}
       />
     </>
-  );
-};
-Index.displayName = SEOConfigs?.settings?.feeUser;
-Index.breadcrumb = breadcrumb.settings.tariffUser;
-Index.Layout = Layout;
+  )
+}
+Index.displayName = SEOConfigs?.settings?.feeUser
+Index.breadcrumb = breadcrumb.settings.tariffUser
+Index.Layout = Layout
 
-export default Index;
+export default Index

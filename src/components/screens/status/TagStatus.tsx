@@ -1,32 +1,32 @@
-import React from "react";
+import React from 'react'
 
 interface TProps {
-  color: string;
-  statusName: string;
+  color: string
+  statusName: string
 }
 
 const TagStatus = ({ color, statusName }: TProps) => {
   return (
-    <div className="w-fit flex justify-center items-center gap-1">
+    <div className='flex w-fit items-center justify-center gap-1'>
       <span
         style={{
           background: color,
-          width: "6px",
-          height: "6px",
-          borderRadius: "100%",
+          width: '6px',
+          height: '6px',
+          borderRadius: '100%',
         }}
       ></span>
       <span
         style={{
           color: color,
-          fontSize: "12px",
-          fontWeight: "bold",
+          fontSize: '12px',
+          fontWeight: 'bold',
         }}
       >
         {statusName}
       </span>
     </div>
-  );
-};
+  )
+}
 
-export default React.memo(TagStatus);
+export default React.memo(TagStatus)

@@ -1,3 +1,3 @@
-export * from './FloatingListTable';
-export * from './FloatingListFilter';
-export * from './FloatingListForm';
+export * from './FloatingListTable'
+export * from './FloatingListFilter'
+export * from './FloatingListForm'

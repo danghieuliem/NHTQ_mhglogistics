@@ -1,9 +1,9 @@
-import React from "react";
-import { DataTable } from "~/components";
-import { complainStatus } from "~/configs";
-import { TColumnsType, TTable } from "~/types/table";
-import { _format } from "~/utils";
-import TagStatus from "../../status/TagStatus";
+import React from 'react'
+import { DataTable } from '~/components'
+import { complainStatus } from '~/configs'
+import { TColumnsType, TTable } from '~/types/table'
+import { _format } from '~/utils'
+import TagStatus from '../../status/TagStatus'
 
 export const ReportListTable: React.FC<TTable<TReport>> = ({
   data,
@@ -13,28 +13,28 @@ export const ReportListTable: React.FC<TTable<TReport>> = ({
 }) => {
   const columns: TColumnsType<TReport> = [
     {
-      dataIndex: "MainOrderId",
-      title: "ID đơn hàng",
+      dataIndex: 'MainOrderId',
+      title: 'ID đơn hàng',
       width: 100,
-      align: "right",
-      responsive: ["sm"],
+      align: 'right',
+      responsive: ['sm'],
     },
     {
-      dataIndex: "Created",
-      title: "Ngày tạo",
-      responsive: ["lg"],
+      dataIndex: 'Created',
+      title: 'Ngày tạo',
+      responsive: ['lg'],
       width: 200,
       render: (date) => <div>{_format.getVNDate(date)}</div>,
     },
     {
-      dataIndex: "ComplainText",
-      title: "Nội dung",
-      responsive: ["md"],
-      render: (_) => <>{_ ? _ : "--"}</>,
+      dataIndex: 'ComplainText',
+      title: 'Nội dung',
+      responsive: ['md'],
+      render: (_) => <>{_ ? _ : '--'}</>,
     },
     {
-      dataIndex: "Amount",
-      align: "right",
+      dataIndex: 'Amount',
+      align: 'right',
       width: 200,
       title: (
         <>
@@ -42,24 +42,24 @@ export const ReportListTable: React.FC<TTable<TReport>> = ({
           (VNĐ)
         </>
       ),
-      render: (money) => _format.getVND(money, ""),
+      render: (money) => _format.getVND(money, ''),
     },
     {
-      dataIndex: "UpdatedBy",
-      title: "Nhân viên xử lý",
+      dataIndex: 'UpdatedBy',
+      title: 'Nhân viên xử lý',
       width: 140,
-      responsive: ["xl"],
+      responsive: ['xl'],
     },
     {
-      dataIndex: "Updated",
-      title: "Ngày xử lý",
-      responsive: ["xl"],
+      dataIndex: 'Updated',
+      title: 'Ngày xử lý',
+      responsive: ['xl'],
       render: (date) => <div>{_format.getVNDate(date)}</div>,
       width: 200,
     },
     {
-      dataIndex: "Status",
-      title: "Trạng thái",
+      dataIndex: 'Status',
+      title: 'Trạng thái',
       width: 120,
       render: (status, record) => (
         <TagStatus
@@ -68,7 +68,7 @@ export const ReportListTable: React.FC<TTable<TReport>> = ({
         />
       ),
     },
-  ];
+  ]
 
   return (
     <DataTable
@@ -82,5 +82,5 @@ export const ReportListTable: React.FC<TTable<TReport>> = ({
         mediaWidth: 1200,
       }}
     />
-  );
-};
+  )
+}

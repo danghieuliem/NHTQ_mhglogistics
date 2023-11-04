@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react'
 
-import { Bar } from "react-chartjs-2";
+import { Bar } from 'react-chartjs-2'
 
 const options = {
   plugins: {
@@ -15,43 +15,43 @@ const options = {
       grid: { display: true, borderDash: [3, 3] },
     },
   },
-};
+}
 
 const PaymentProfitChart = ({ dataChart }) => {
-  const labels = [`Thống kê lợi nhuận thanh toán hộ`];
+  const labels = [`Thống kê lợi nhuận thanh toán hộ`]
   const data = {
     labels,
     datasets: [
       {
-        label: "Tổng tiền tệ",
+        label: 'Tổng tiền tệ',
         data: [dataChart?.MaxTotalPrice],
-        backgroundColor: "rgba(255, 99, 132, 0.8)",
+        backgroundColor: 'rgba(255, 99, 132, 0.8)',
       },
       {
-        label: "Tổng tiền vốn",
+        label: 'Tổng tiền vốn',
         data: [dataChart?.MaxTotalPriceVNDGiaGoc],
-        backgroundColor: "rgba(255, 159, 64, 0.8)",
+        backgroundColor: 'rgba(255, 159, 64, 0.8)',
       },
       {
-        label: "Tổng tiền thu",
+        label: 'Tổng tiền thu',
         data: [dataChart?.MaxTotalPriceVND],
-        backgroundColor: "rgba(255, 205, 86, 0.8)",
+        backgroundColor: 'rgba(255, 205, 86, 0.8)',
       },
       {
-        label: "Tổng tiền lời",
+        label: 'Tổng tiền lời',
         data: [dataChart?.MaxProfit],
-        backgroundColor: "rgba(75, 192, 192, 0.8)",
+        backgroundColor: 'rgba(75, 192, 192, 0.8)',
       },
     ],
-  };
+  }
   return (
-    <div className="hidden xs:block">
-      <p className="text-sm !my-4 text-[#2d2d2daa] uppercase font-bold text-center">
+    <div className='hidden xs:block'>
+      <p className='!my-4 text-center text-sm font-bold uppercase text-[#2d2d2daa]'>
         Thống kê lợi nhuận thanh toán hộ
       </p>
       <Bar height={70} options={options} data={data} />
     </div>
-  );
-};
+  )
+}
 
-export { PaymentProfitChart };
+export { PaymentProfitChart }

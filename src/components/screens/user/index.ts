@@ -1,1 +1,1 @@
-export * from "./history-transaction-vnd";
+export * from './history-transaction-vnd'

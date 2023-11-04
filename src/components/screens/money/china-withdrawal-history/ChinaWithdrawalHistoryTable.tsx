@@ -1,9 +1,9 @@
-import { Tag } from "antd";
-import React from "react";
-import { ActionButton, DataTable } from "~/components";
-import { paymentStatusData } from "~/configs";
-import { TColumnsType, TTable } from "~/types/table";
-import { _format } from "~/utils";
+import { Tag } from 'antd'
+import React from 'react'
+import { ActionButton, DataTable } from '~/components'
+import { paymentStatusData } from '~/configs'
+import { TColumnsType, TTable } from '~/types/table'
+import { _format } from '~/utils'
 
 const ChinaWithdrawHistoryTable: React.FC<TTable<TRechargeRMB | TRefund>> = ({
   data,
@@ -13,17 +13,17 @@ const ChinaWithdrawHistoryTable: React.FC<TTable<TRechargeRMB | TRefund>> = ({
 }) => {
   const columns: TColumnsType<TRechargeRMB | TRefund> = [
     {
-      dataIndex: "Id",
-      title: "ID",
-      align: "center",
+      dataIndex: 'Id',
+      title: 'ID',
+      align: 'center',
     },
     {
-      dataIndex: "UserName",
-      title: "Username",
-      align: "center",
+      dataIndex: 'UserName',
+      title: 'Username',
+      align: 'center',
     },
     {
-      dataIndex: "Amount",
+      dataIndex: 'Amount',
       title: (
         <>
           Số tiền
@@ -31,14 +31,14 @@ const ChinaWithdrawHistoryTable: React.FC<TTable<TRechargeRMB | TRefund>> = ({
           (VNĐ)
         </>
       ),
-      align: "center",
-      responsive: ["sm"],
-      render: (record) => _format.getVND(record, ""),
+      align: 'center',
+      responsive: ['sm'],
+      render: (record) => _format.getVND(record, ''),
     },
     {
-      dataIndex: "Status",
-      title: "Trạng thái",
-      align: "center",
+      dataIndex: 'Status',
+      title: 'Trạng thái',
+      align: 'center',
       render: (status, record) => {
         return (
           <Tag
@@ -48,53 +48,53 @@ const ChinaWithdrawHistoryTable: React.FC<TTable<TRechargeRMB | TRefund>> = ({
           >
             {record?.StatusName}
           </Tag>
-        );
+        )
       },
-      responsive: ["md"],
+      responsive: ['md'],
     },
     {
-      dataIndex: "Created",
-      title: "Ngày tạo",
-      align: "center",
+      dataIndex: 'Created',
+      title: 'Ngày tạo',
+      align: 'center',
       render: (date) => date && _format.getShortVNDate(date),
-      responsive: ["lg"],
+      responsive: ['lg'],
     },
     {
-      dataIndex: "CreatedBy",
-      title: "Người tạo",
-      align: "center",
-      responsive: ["lg"],
-    },
-
-    {
-      dataIndex: "UpdatedBy",
-      title: "Người duyệt",
-      align: "center",
-      responsive: ["xl"],
+      dataIndex: 'CreatedBy',
+      title: 'Người tạo',
+      align: 'center',
+      responsive: ['lg'],
     },
 
     {
-      dataIndex: "Updated",
-      title: "Ngày duyệt",
-      align: "center",
+      dataIndex: 'UpdatedBy',
+      title: 'Người duyệt',
+      align: 'center',
+      responsive: ['xl'],
+    },
+
+    {
+      dataIndex: 'Updated',
+      title: 'Ngày duyệt',
+      align: 'center',
       render: (date) => date && _format.getShortVNDate(date),
-      responsive: ["xl"],
+      responsive: ['xl'],
     },
 
     {
-      dataIndex: "action",
-      title: "Thao tác",
-      align: "right",
+      dataIndex: 'action',
+      title: 'Thao tác',
+      align: 'right',
       render: (_, record) => (
         <ActionButton
           onClick={() => handleModal(record)}
-          icon="fad fa-edit"
-          title="Cập nhật"
+          icon='fad fa-edit'
+          title='Cập nhật'
         />
       ),
-      responsive: ["xl"],
+      responsive: ['xl'],
     },
-  ];
+  ]
 
   return (
     <DataTable
@@ -106,7 +106,7 @@ const ChinaWithdrawHistoryTable: React.FC<TTable<TRechargeRMB | TRefund>> = ({
         pagination,
       }}
     />
-  );
-};
+  )
+}
 
-export { ChinaWithdrawHistoryTable };
+export { ChinaWithdrawHistoryTable }

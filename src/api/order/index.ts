@@ -1,16 +1,14 @@
-import BaseAPI from '../methods';
+import BaseAPI from '../methods'
 
 type TFilterParams = {
-	UID: number;
-};
+  UID: number
+}
 
-const { globalCRUD, post } = new BaseAPI<TOrder, TFilterParams>(
-	'order'
-);
+const { globalCRUD, post } = new BaseAPI<TOrder, TFilterParams>('order')
 
 export const order = {
-	...globalCRUD,
-	
-	exportExcel: (params: {MainOrderID: number}) =>
-		post("/export-excel", undefined, {params}),
-};
+  ...globalCRUD,
+
+  exportExcel: (params: { MainOrderID: number }) =>
+    post('/export-excel', undefined, { params }),
+}

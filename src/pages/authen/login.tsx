@@ -1,70 +1,70 @@
-import { Divider } from "antd";
-import Link from "next/link";
-import { useCallback, useState } from "react";
-import { useSelector } from "react-redux";
+import { Divider } from 'antd'
+import Link from 'next/link'
+import { useCallback, useState } from 'react'
+import { useSelector } from 'react-redux'
 import {
   Button,
   ForgotPasswordForm,
   RegisterFormMemo,
   SignInForm,
-} from "~/components";
-import { RootState } from "~/store";
-import { TNextPageWithLayout } from "~/types/layout";
-import styles from "./index.module.css";
-import { TrialForm } from "~/components/screens/auth/Trial";
-import BlankLayout from "~/components/globals/layout/blankLayouts";
+} from '~/components'
+import { RootState } from '~/store'
+import { TNextPageWithLayout } from '~/types/layout'
+import styles from './index.module.css'
+import { TrialForm } from '~/components/screens/auth/Trial'
+import BlankLayout from '~/components/globals/layout/blankLayouts'
 
 const Index: TNextPageWithLayout = () => {
   const dataGlobal: TConfig = useSelector(
-    (state: RootState) => state.dataGlobal
-  );
+    (state: RootState) => state.dataGlobal,
+  )
 
-  const [isOpen, setIsOpen] = useState("login");
+  const [isOpen, setIsOpen] = useState('login')
 
-  const handleSetOpen = useCallback((x) => setIsOpen(x), []);
+  const handleSetOpen = useCallback((x) => setIsOpen(x), [])
 
   return (
     <div className={styles.loginPage}>
       <div className={styles.loginWrapper}>
         <div>
           <div className={styles.loginText}>
-            <Link href={"/"}>
+            <Link href={'/'}>
               <a>
                 <div className={styles.loginLogo}>
-                  <img src={dataGlobal?.LogoIMG} alt="" />
+                  <img src={dataGlobal?.LogoIMG} alt='' />
                 </div>
               </a>
             </Link>
             <Divider />
-            {isOpen === "login" && <h1>Đăng nhập hệ thống</h1>}
+            {isOpen === 'login' && <h1>Đăng nhập hệ thống</h1>}
 
-            {isOpen === "register" && <h1>Đăng ký tài khoản</h1>}
+            {isOpen === 'register' && <h1>Đăng ký tài khoản</h1>}
 
-            {isOpen === "forgetPass" && <h1>Tìm lại mật khẩu</h1>}
+            {isOpen === 'forgetPass' && <h1>Tìm lại mật khẩu</h1>}
 
-            {isOpen === "trial" && <h1>Phân quyền dùng thử</h1>}
+            {isOpen === 'trial' && <h1>Phân quyền dùng thử</h1>}
           </div>
         </div>
-        {isOpen === "login" && (
+        {isOpen === 'login' && (
           <>
             <SignInForm handleOpen={handleSetOpen} />
             <Button
-              onClick={() => setIsOpen("trial")}
-              title="Dùng thử"
-              btnClass="!bg-green"
+              onClick={() => setIsOpen('trial')}
+              title='Dùng thử'
+              btnClass='!bg-green'
             />
           </>
         )}
 
-        {isOpen === "register" && (
+        {isOpen === 'register' && (
           <RegisterFormMemo handleOpen={handleSetOpen} />
         )}
 
-        {isOpen === "forgetPass" && (
+        {isOpen === 'forgetPass' && (
           <ForgotPasswordForm handleOpen={handleSetOpen} />
         )}
 
-        {isOpen === "trial" && <TrialForm handleOpen={handleSetOpen} />}
+        {isOpen === 'trial' && <TrialForm handleOpen={handleSetOpen} />}
 
         <div className={styles.loginContact}>
           <div className={styles.infoWrapper}>
@@ -77,12 +77,12 @@ const Index: TNextPageWithLayout = () => {
           </div>
         </div>
       </div>
-      <img src="/default/login-bottom.png" alt="" className={styles.img} />
+      <img src='/default/login-bottom.png' alt='' className={styles.img} />
     </div>
-  );
-};
+  )
+}
 
-Index.Layout = BlankLayout;
-Index.displayName = "Hệ thống";
+Index.Layout = BlankLayout
+Index.displayName = 'Hệ thống'
 
-export default Index;
+export default Index

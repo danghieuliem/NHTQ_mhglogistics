@@ -1,60 +1,60 @@
-import { Input } from "antd";
-import router from "next/router";
-import React, { useState } from "react";
-import { useQueryClient } from "react-query";
-import { toast } from "react-toastify";
-import { outStockSession } from "~/api";
-import { ActionButton, DataTable } from "~/components";
-import { TColumnsType, TTable } from "~/types/table";
-import TagStatus from "../../status/TagStatus";
-import Link from "next/link";
-import { smallPackageStatus } from "~/configs";
+import { Input } from 'antd'
+import router from 'next/router'
+import React, { useState } from 'react'
+import { useQueryClient } from 'react-query'
+import { toast } from 'react-toastify'
+import { outStockSession } from '~/api'
+import { ActionButton, DataTable } from '~/components'
+import { TColumnsType, TTable } from '~/types/table'
+import TagStatus from '../../status/TagStatus'
+import Link from 'next/link'
+import { smallPackageStatus } from '~/configs'
 
 const CustomInput = ({ data, setIdsExport, idsExport, handleOnChangeKey }) => {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('')
 
   return (
     <Input
-      placeholder="Nhập mã vận đơn cần quét (Enter để quét)"
-      className=""
+      placeholder='Nhập mã vận đơn cần quét (Enter để quét)'
+      className=''
       value={inputValue}
       onChange={(e) => setInputValue((e.target as HTMLInputElement).value)}
       allowClear={true}
       onPressEnter={(val) => {
-        const target = val.target as HTMLInputElement;
+        const target = val.target as HTMLInputElement
         if (!target.value) {
-          toast.warn("Vui lòng nhập mã vận đơn!");
-          return;
+          toast.warn('Vui lòng nhập mã vận đơn!')
+          return
         }
-        setInputValue(target.value);
+        setInputValue(target.value)
         const insert = data.find(
-          (d) => d?.OrderTransactionCode === inputValue.toString().trim()
-        )?.Id;
+          (d) => d?.OrderTransactionCode === inputValue.toString().trim(),
+        )?.Id
 
         if (idsExport.find((id) => id === insert)) {
-          toast.warn("Bạn đã quét mã này rồi!");
-          return;
+          toast.warn('Bạn đã quét mã này rồi!')
+          return
         }
 
         if (insert) {
-          handleOnChangeKey([...idsExport, insert]);
+          handleOnChangeKey([...idsExport, insert])
         }
 
-        setInputValue("");
+        setInputValue('')
       }}
     />
-  );
-};
+  )
+}
 
 export const OutStockTable: React.FC<
   TTable<TWarehouseVN> & { UID: number }
 > = ({ data, UID }) => {
-  const [idsExport, setIdsExport] = useState([]);
+  const [idsExport, setIdsExport] = useState([])
 
   const columns: TColumnsType<TWarehouseCN> = [
     {
-      dataIndex: "MainOrderId",
-      title: "Order ID",
+      dataIndex: 'MainOrderId',
+      title: 'Order ID',
       render: (_, record) => {
         return (
           <Link
@@ -64,25 +64,25 @@ export const OutStockTable: React.FC<
                 : record?.TransportationOrderId
             }`}
           >
-            <a target={"_blank"}>
+            <a target={'_blank'}>
               {record?.MainOrderId
                 ? record?.MainOrderId
                 : record?.TransportationOrderId}
             </a>
           </Link>
-        );
+        )
       },
     },
     {
-      dataIndex: "OrderType",
-      title: "Loại ĐH",
+      dataIndex: 'OrderType',
+      title: 'Loại ĐH',
       render: (value: number, record) => {
         return (
           <TagStatus
-            color={value === 2 ? "blue" : "green"} // TODO: ?????
+            color={value === 2 ? 'blue' : 'green'} // TODO: ?????
             statusName={record.OrderTypeName}
           />
-        );
+        )
       },
     },
     // {
@@ -118,97 +118,97 @@ export const OutStockTable: React.FC<
     //   ),
     // },
     {
-      dataIndex: "OrderTransactionCode",
-      title: "Mã vận đơn",
-      responsive: ["md"],
+      dataIndex: 'OrderTransactionCode',
+      title: 'Mã vận đơn',
+      responsive: ['md'],
     },
     {
-      dataIndex: "Weight",
-      title: "Cân nặng (kg)",
-      align: "right",
-      responsive: ["md"],
+      dataIndex: 'Weight',
+      title: 'Cân nặng (kg)',
+      align: 'right',
+      responsive: ['md'],
     },
     {
-      dataIndex: "VolumePayment",
-      title: "Khối (m3)",
-      align: "right",
-      responsive: ["md"],
+      dataIndex: 'VolumePayment',
+      title: 'Khối (m3)',
+      align: 'right',
+      responsive: ['md'],
     },
     {
-      dataIndex: "LWH",
-      title: "Kích thước",
-      align: "right",
-      responsive: ["md"],
+      dataIndex: 'LWH',
+      title: 'Kích thước',
+      align: 'right',
+      responsive: ['md'],
     },
     {
-      dataIndex: "Status",
-      title: "Trạng thái",
+      dataIndex: 'Status',
+      title: 'Trạng thái',
       render: (status) => {
-        const findStatus = smallPackageStatus.find((x) => x?.id === status);
+        const findStatus = smallPackageStatus.find((x) => x?.id === status)
 
         return (
           <TagStatus color={findStatus?.color} statusName={findStatus?.name} />
-        );
+        )
       },
     },
-  ];
+  ]
 
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   const handleOutStock = () => {
-    const id = toast.loading("Đang xử lý ...");
+    const id = toast.loading('Đang xử lý ...')
     outStockSession
       .create({
         UID: UID,
-        Note: "",
+        Note: '',
         SmallPackageIds: idsExport,
       })
       .then((res) => {
-        queryClient.invalidateQueries("outStockSession");
+        queryClient.invalidateQueries('outStockSession')
         router.push({
-          pathname: "/manager/warehouse/out-stock/detail",
+          pathname: '/manager/warehouse/out-stock/detail',
           query: { id: res?.Data?.Id },
-        });
+        })
         toast.update(id, {
-          render: "Chọn đơn hàng thành công, đang chuyển trang ...",
+          render: 'Chọn đơn hàng thành công, đang chuyển trang ...',
           autoClose: 500,
-          type: "success",
+          type: 'success',
           isLoading: false,
-        });
+        })
       })
       .catch((error) => {
         toast.update(id, {
           render: (error as any)?.response?.data?.ResultCode,
           autoClose: 3000,
-          type: "error",
+          type: 'error',
           isLoading: false,
-        });
-      });
-  };
+        })
+      })
+  }
 
   const handleOnChangeKey = (val) => {
-    setIdsExport(val);
-  };
+    setIdsExport(val)
+  }
 
   return (
-    <div className="mt-4">
-      <div className="flex flex-col xs:flex-row justify-between xs:items-end">
-        <div className="flex items-center">
-          <div className="w-full">
+    <div className='mt-4'>
+      <div className='flex flex-col justify-between xs:flex-row xs:items-end'>
+        <div className='flex items-center'>
+          <div className='w-full'>
             <CustomInput
               data={data}
               setIdsExport={setIdsExport}
               idsExport={idsExport}
               handleOnChangeKey={handleOnChangeKey}
             />
-            <div className="mt-4">
-              <div className="text-green font-semibold w-[200px]">
-                Số kiện tìm thấy:{" "}
-                <span className="text-orange ml-1">{data?.length}</span>{" "}
+            <div className='mt-4'>
+              <div className='w-[200px] font-semibold text-green'>
+                Số kiện tìm thấy:{' '}
+                <span className='ml-1 text-orange'>{data?.length}</span>{' '}
               </div>
-              <div className="text-green font-semibold w-[200px]">
+              <div className='w-[200px] font-semibold text-green'>
                 Số kiện chọn xuất kho:
-                <span className="text-orange ml-1">{idsExport?.length}</span>
+                <span className='ml-1 text-orange'>{idsExport?.length}</span>
               </div>
             </div>
           </div>
@@ -217,10 +217,10 @@ export const OutStockTable: React.FC<
           {idsExport?.length > 0 && (
             <ActionButton
               onClick={() => handleOutStock()}
-              icon="fas fa-hand-holding-box"
-              title="Xuất kho các kiện đã chọn!"
+              icon='fas fa-hand-holding-box'
+              title='Xuất kho các kiện đã chọn!'
               isButton
-              isButtonClassName="bg-main !text-white"
+              isButtonClassName='bg-main !text-white'
             />
           )}
         </div>
@@ -231,12 +231,12 @@ export const OutStockTable: React.FC<
           columns: columns,
           mediaWidth: 768,
           rowSelection: {
-            type: "checkbox",
+            type: 'checkbox',
             onChange: (value) => handleOnChangeKey(value),
             selectedRowKeys: idsExport,
           },
         }}
       />
     </div>
-  );
-};
+  )
+}

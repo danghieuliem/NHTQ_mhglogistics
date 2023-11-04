@@ -12,7 +12,7 @@ const MensFashion = {
     { Title: 'áo len nam', Value: '男士羊毛衫', Children: [] },
     { Title: 'áo vest nam', Value: '男士马甲', Children: [] },
     { Title: 'đồ bộ thoải mái nam', Value: '男士休闲套装', Children: [] },
-    { Title: 'trang phục bóng chày nam', Value: '男士棒球服装', Children: [] }
-  ]
+    { Title: 'trang phục bóng chày nam', Value: '男士棒球服装', Children: [] },
+  ],
 }
 export default MensFashion

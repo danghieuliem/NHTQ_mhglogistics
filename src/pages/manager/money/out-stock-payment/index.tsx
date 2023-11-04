@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { useQuery } from "react-query";
-import { outStockSession } from "~/api";
+import { useState } from 'react'
+import { useQuery } from 'react-query'
+import { outStockSession } from '~/api'
 import {
   Layout,
   NotFound,
   OutStockPaymentFilter,
   OutStockPaymentTable,
   toast,
-} from "~/components";
-import { breadcrumb } from "~/configs";
-import { SEOConfigs } from "~/configs/SEOConfigs";
-import { TNextPageWithLayout } from "~/types/layout";
+} from '~/components'
+import { breadcrumb } from '~/configs'
+import { SEOConfigs } from '~/configs/SEOConfigs'
+import { TNextPageWithLayout } from '~/types/layout'
 
 const Index: TNextPageWithLayout = () => {
   const [filter, setFilter] = useState({
@@ -21,11 +21,11 @@ const Index: TNextPageWithLayout = () => {
     TotalItems: null,
     PageIndex: 1,
     PageSize: 20,
-  });
+  })
 
   const handleFilter = (newFilter) => {
-    setFilter({ ...filter, ...newFilter });
-  };
+    setFilter({ ...filter, ...newFilter })
+  }
 
   const {
     data: userOutstockData,
@@ -33,7 +33,7 @@ const Index: TNextPageWithLayout = () => {
     isError,
   } = useQuery(
     [
-      "clientWithdrawData",
+      'clientWithdrawData',
       [
         filter.SearchContent,
         filter.Status,
@@ -53,9 +53,9 @@ const Index: TNextPageWithLayout = () => {
           PageSize: data?.PageSize,
         }),
       onError: toast.error,
-    }
-  );
-  if (isError) return <NotFound />;
+    },
+  )
+  if (isError) return <NotFound />
 
   return (
     <>
@@ -68,11 +68,11 @@ const Index: TNextPageWithLayout = () => {
         handleFilter={handleFilter}
       />
     </>
-  );
-};
+  )
+}
 
-Index.displayName = SEOConfigs.moneyManagement.payExport;
-Index.breadcrumb = breadcrumb.money.outstockPayment.main;
-Index.Layout = Layout;
+Index.displayName = SEOConfigs.moneyManagement.payExport
+Index.breadcrumb = breadcrumb.money.outstockPayment.main
+Index.Layout = Layout
 
-export default Index;
+export default Index

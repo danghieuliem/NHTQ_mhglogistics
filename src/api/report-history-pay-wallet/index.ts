@@ -1,12 +1,12 @@
-import BaseAPI from '../methods';
+import BaseAPI from '../methods'
 
 type TFilterParams = {
-	FromDate: string;
-	ToDate: string;
-};
+  FromDate: string
+  ToDate: string
+}
 
 const { globalReport } = new BaseAPI<TReportHistoryPayWallet, TFilterParams>(
-	'report-history-pay-wallet'
-);
+  'report-history-pay-wallet',
+)
 
-export const reportHistoryPayWallet = globalReport;
+export const reportHistoryPayWallet = globalReport

@@ -14,8 +14,8 @@ const Phone = {
         { Title: 'pin dự phòng', Value: '充电宝' },
         { Title: 'sạc pin', Value: '充电器' },
         { Title: 'ống kính điện thoại', Value: '手机镜头' },
-        { Title: 'tai nghe có dây', Value: '有线耳机' }
-      ]
+        { Title: 'tai nghe có dây', Value: '有线耳机' },
+      ],
     },
     {
       Title: 'Hàng chính hãng',
@@ -25,14 +25,14 @@ const Phone = {
         { Title: 'vỏ ipad', Value: '平板电脑壳' },
         { Title: 'miếng dán màn hình ipad', Value: '平板电脑屏幕保护膜' },
         { Title: 'miếng dán màn hình apple', Value: '苹果屏幕保护膜' },
-        { Title: 'dây đeo đồng hồ apple', Value: '苹果手表表带' }
-      ]
+        { Title: 'dây đeo đồng hồ apple', Value: '苹果手表表带' },
+      ],
     },
     {
       Title: 'Phụ kiện Apple',
       Value: '苹果配件',
-      Children: []
-    }
-  ]
+      Children: [],
+    },
+  ],
 }
 export default Phone

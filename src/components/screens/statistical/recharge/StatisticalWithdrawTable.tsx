@@ -1,8 +1,8 @@
-import { ActionButton, DataTable } from "~/components";
-import { TColumnsType } from "~/types/table";
-import { _format } from "~/utils";
-import TagStatus from "../../status/TagStatus";
-import { useScreen } from "~/hooks";
+import { ActionButton, DataTable } from '~/components'
+import { TColumnsType } from '~/types/table'
+import { _format } from '~/utils'
+import TagStatus from '../../status/TagStatus'
+import { useScreen } from '~/hooks'
 
 export const StatisticalWithdrawTable = ({
   data,
@@ -11,50 +11,50 @@ export const StatisticalWithdrawTable = ({
   pagination,
   handleExportExcelWithDraw,
 }) => {
-  const { isWidthSM, isWidthMD } = useScreen();
+  const { isWidthSM, isWidthMD } = useScreen()
   const columns: TColumnsType<TStatisticalWithdrawList> = [
     {
-      dataIndex: "Id",
-      title: "ID",
+      dataIndex: 'Id',
+      title: 'ID',
       width: 70,
-      responsive: ["lg"],
+      responsive: ['lg'],
     },
     {
-      dataIndex: "CreatedBy",
-      title: "Người duyệt",
-      responsive: ["sm"],
+      dataIndex: 'CreatedBy',
+      title: 'Người duyệt',
+      responsive: ['sm'],
     },
     {
-      dataIndex: "UserName",
-      title: "Username",
+      dataIndex: 'UserName',
+      title: 'Username',
     },
     {
-      dataIndex: "Amount",
+      dataIndex: 'Amount',
       title: (
         <>
           Số tiền <br />
           (VNĐ)
         </>
       ),
-      align: "right",
-      responsive: ["sm"],
-      render: (money) => _format.getVND(money, ""),
+      align: 'right',
+      responsive: ['sm'],
+      render: (money) => _format.getVND(money, ''),
     },
     {
-      dataIndex: "Created",
-      title: "Ngày tạo",
+      dataIndex: 'Created',
+      title: 'Ngày tạo',
       width: 200,
-      responsive: ["lg"],
+      responsive: ['lg'],
       render: (date) => _format.getVNDate(date),
     },
     {
-      dataIndex: "Status",
-      title: "Trạng thái",
-      fixed: isWidthSM ? null : "right",
+      dataIndex: 'Status',
+      title: 'Trạng thái',
+      fixed: isWidthSM ? null : 'right',
       width: 100,
-      render: () => <TagStatus color="green" statusName="Thành công" />,
+      render: () => <TagStatus color='green' statusName='Thành công' />,
     },
-  ];
+  ]
 
   return (
     <DataTable
@@ -64,19 +64,19 @@ export const StatisticalWithdrawTable = ({
         bordered: true,
         loading,
         pagination,
-        title: "Danh sách rút tiền",
+        title: 'Danh sách rút tiền',
         onChange: handlePagination,
         scroll: isWidthMD ? { x: true } : { y: 700, x: 1200 },
         extraElement: (
           <ActionButton
             onClick={() => handleExportExcelWithDraw()}
-            icon="fas fa-file-export"
-            title="Xuất"
+            icon='fas fa-file-export'
+            title='Xuất'
             isButton
-            isButtonClassName="bg-green !text-white"
+            isButtonClassName='bg-green !text-white'
           />
         ),
       }}
     />
-  );
-};
+  )
+}

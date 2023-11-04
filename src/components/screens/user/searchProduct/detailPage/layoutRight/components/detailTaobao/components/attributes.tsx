@@ -1,31 +1,31 @@
-import { useState, useEffect } from "react";
-import styles from "../../common/_index.module.scss";
-import { TConfigPidVid } from "../../hooks/useMapData";
-import { AttributeItems } from "./attributeItems";
+import { useState, useEffect } from 'react'
+import styles from '../../common/_index.module.scss'
+import { TConfigPidVid } from '../../hooks/useMapData'
+import { AttributeItems } from './attributeItems'
 
 export const Attributes = ({
   listAttributes,
   handleSelectAttribute,
   onChangePreview,
 }: {
-  listAttributes: TAttribute[][];
-  handleSelectAttribute: (param: { ids: TConfigPidVid; index: number }) => void;
-  onChangePreview: (img: string) => void;
+  listAttributes: TAttribute[][]
+  handleSelectAttribute: (param: { ids: TConfigPidVid; index: number }) => void
+  onChangePreview: (img: string) => void
 }) => {
-  const [selected, setSelected] = useState<{ [key: string]: string }>({});
+  const [selected, setSelected] = useState<{ [key: string]: string }>({})
 
   useEffect(() => {
-    const newSelected: { [key: string]: string } = {};
+    const newSelected: { [key: string]: string } = {}
     listAttributes.forEach((att, idx) => {
-      newSelected[idx] = att[0].Vid;
-    });
-    setSelected(newSelected);
-  }, []);
+      newSelected[idx] = att[0].Vid
+    })
+    setSelected(newSelected)
+  }, [])
 
   const handleSelected = (param: {
-    attributeItem: TAttribute;
-    indexOfAttributes: number;
-    indexOfAttributeItems: number;
+    attributeItem: TAttribute
+    indexOfAttributes: number
+    indexOfAttributeItems: number
   }) => {
     handleSelectAttribute({
       ids: {
@@ -33,32 +33,32 @@ export const Attributes = ({
         Vid: param.attributeItem.Vid,
       },
       index: param.indexOfAttributes,
-    });
-    onChangePreview(param.attributeItem?.ImageUrl || "");
+    })
+    onChangePreview(param.attributeItem?.ImageUrl || '')
 
-    const newSelected: { [key: string]: string } = { ...selected };
-    newSelected[param.indexOfAttributes] = param.attributeItem.Vid;
-    setSelected(newSelected);
-  };
+    const newSelected: { [key: string]: string } = { ...selected }
+    newSelected[param.indexOfAttributes] = param.attributeItem.Vid
+    setSelected(newSelected)
+  }
 
   return (
     <>
       {listAttributes?.length !== 0 && (
-        <div className={styles["attributes-contain"]}>
+        <div className={styles['attributes-contain']}>
           {listAttributes?.map((attributes: TAttribute[], idx: number) => (
             <div
-              className={styles["attributes-content"]}
+              className={styles['attributes-content']}
               key={`fmAttributes-${idx}`}
             >
-              <div className={styles["attributes-header"]}>
-                <span className={styles["attributes-name"]}>
+              <div className={styles['attributes-header']}>
+                <span className={styles['attributes-name']}>
                   {
                     attributes[0].PropertyName
                     // *** attributes[0] hard code [0] because all items in an attributes has the same PropertyName
                   }
                 </span>
               </div>
-              <div className={styles["attributes-wrapper"]}>
+              <div className={styles['attributes-wrapper']}>
                 <AttributeItems
                   selectedVid={selected[idx]}
                   data={attributes}
@@ -76,5 +76,5 @@ export const Attributes = ({
         </div>
       )}
     </>
-  );
-};
+  )
+}

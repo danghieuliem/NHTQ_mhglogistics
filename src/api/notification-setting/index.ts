@@ -1,5 +1,5 @@
-import BaseAPI from '../methods';
+import BaseAPI from '../methods'
 
-const { globalCRUD } = new BaseAPI<TNotification>('notification-setting');
+const { globalCRUD } = new BaseAPI<TNotification>('notification-setting')
 
-export const notificationSetting = globalCRUD;
+export const notificationSetting = globalCRUD

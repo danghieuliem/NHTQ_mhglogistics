@@ -1,24 +1,24 @@
-import React from "react";
-import { Switch } from "antd";
+import React from 'react'
+import { Switch } from 'antd'
 import {
   Control,
   Controller,
   FieldValues,
   Path,
   RegisterOptions,
-} from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
+} from 'react-hook-form'
+import { ErrorMessage } from '@hookform/error-message'
 
 type TProps<TFieldValues> = {
-  required?: boolean;
-  name: Path<TFieldValues>;
-  label?: string;
-  rules?: RegisterOptions;
-  control: Control<TFieldValues, object>;
-  hideText?: boolean;
-  trueChecked?: string;
-  falseChecked?: string;
-};
+  required?: boolean
+  name: Path<TFieldValues>
+  label?: string
+  rules?: RegisterOptions
+  control: Control<TFieldValues, object>
+  hideText?: boolean
+  trueChecked?: string
+  falseChecked?: string
+}
 
 export const FormSwitch = <TFieldValues extends FieldValues = FieldValues>({
   control,
@@ -27,17 +27,14 @@ export const FormSwitch = <TFieldValues extends FieldValues = FieldValues>({
   required,
   rules,
   hideText = false,
-  trueChecked = "Hiện",
-  falseChecked = "Ẩn",
+  trueChecked = 'Hiện',
+  falseChecked = 'Ẩn',
 }: TProps<TFieldValues>) => {
   return (
-    <div className="">
+    <div className=''>
       {label && (
-        <label
-          className="text-[12px] py-[2px] font-bold"
-          htmlFor={name}
-        >
-          {label} {required === true && <span className="text-red">*</span>}
+        <label className='py-[2px] text-[12px] font-bold' htmlFor={name}>
+          {label} {required === true && <span className='text-red'>*</span>}
         </label>
       )}
       <Controller
@@ -45,19 +42,19 @@ export const FormSwitch = <TFieldValues extends FieldValues = FieldValues>({
         name={name}
         rules={rules}
         render={({ field: { value, ...newField }, formState: { errors } }) => (
-          <div className="w-full">
-            <div className="flex items-center">
-              {!hideText && <div className="text-base">{falseChecked}</div>}
-              <div className="mx-2">
+          <div className='w-full'>
+            <div className='flex items-center'>
+              {!hideText && <div className='text-base'>{falseChecked}</div>}
+              <div className='mx-2'>
                 <Switch checked={value} {...newField} />
               </div>
-              {!hideText && <div className="text-base">{trueChecked}</div>}
+              {!hideText && <div className='text-base'>{trueChecked}</div>}
             </div>
             <ErrorMessage
               errors={errors}
               name={name as any}
               render={({ message }) => (
-                <p className="text-warning text-xs font-medium mt-1">
+                <p className='mt-1 text-xs font-medium text-warning'>
                   {message}
                 </p>
               )}
@@ -66,5 +63,5 @@ export const FormSwitch = <TFieldValues extends FieldValues = FieldValues>({
         )}
       />
     </div>
-  );
-};
+  )
+}
