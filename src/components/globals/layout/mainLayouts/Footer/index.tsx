@@ -1,19 +1,19 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "~/store";
-import styles from "./index.module.css";
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { RootState } from '~/store'
+import styles from './index.module.css'
 
 type TProps = {
-  hover: boolean;
-  userPage?: boolean;
-};
+  hover: boolean
+  userPage?: boolean
+}
 
 const Footer: React.FC<TProps> = () => {
-  const dataGlobal: any = useSelector((state: RootState) => state.dataGlobal);
+  const dataGlobal: any = useSelector((state: RootState) => state.dataGlobal)
 
   return (
     <footer className={styles.footer}>
-      <div className="component-container">
+      <div className='component-container'>
         <div className={styles.inner}>
           <div>
             <span className={styles.tag}>Hotline hỗ trợ:</span>
@@ -31,7 +31,7 @@ const Footer: React.FC<TProps> = () => {
         </div>
       </div>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

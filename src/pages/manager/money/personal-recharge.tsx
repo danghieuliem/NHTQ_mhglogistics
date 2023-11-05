@@ -1,22 +1,22 @@
-import { useState } from "react";
-import { useQuery } from "react-query";
-import { user } from "~/api";
+import { useState } from 'react'
+import { useQuery } from 'react-query'
+import { user } from '~/api'
 import {
   ClientListFilterMemo,
   Layout,
   PersonalRechargeTable,
   toast,
-} from "~/components";
-import { breadcrumb } from "~/configs";
-import { SEOConfigs } from "~/configs/SEOConfigs";
-import { TNextPageWithLayout } from "~/types/layout";
+} from '~/components'
+import { breadcrumb } from '~/configs'
+import { SEOConfigs } from '~/configs/SEOConfigs'
+import { TNextPageWithLayout } from '~/types/layout'
 
 const Index: TNextPageWithLayout = () => {
   const [filter, setFilter] = useState({
     PageIndex: 1,
     PageSize: 20,
     TotalItems: null,
-    OrderBy: "Id desc",
+    OrderBy: 'Id desc',
     Id: null,
     UserGroupId: 2,
     UserName: null,
@@ -24,15 +24,15 @@ const Index: TNextPageWithLayout = () => {
     SearchContent: null,
     SalerID: null,
     OrdererID: null,
-  });
+  })
 
   const handleFilter = (newFilter) => {
-    setFilter({ ...filter, ...newFilter });
-  };
+    setFilter({ ...filter, ...newFilter })
+  }
 
   const { isFetching, data } = useQuery(
     [
-      "clientData",
+      'clientData',
       [
         filter.PageIndex,
         filter.UserName,
@@ -54,8 +54,8 @@ const Index: TNextPageWithLayout = () => {
         }),
       onError: toast.error,
       staleTime: 5000,
-    }
-  );
+    },
+  )
 
   return (
     <>
@@ -68,11 +68,11 @@ const Index: TNextPageWithLayout = () => {
         loading={isFetching}
       />
     </>
-  );
-};
+  )
+}
 
-Index.displayName = SEOConfigs.moneyManagement.personalRecharge;
-Index.breadcrumb = breadcrumb.money.personalRecharge;
-Index.Layout = Layout;
+Index.displayName = SEOConfigs.moneyManagement.personalRecharge
+Index.breadcrumb = breadcrumb.money.personalRecharge
+Index.Layout = Layout
 
-export default Index;
+export default Index

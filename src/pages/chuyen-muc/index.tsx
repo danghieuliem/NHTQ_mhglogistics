@@ -1,57 +1,52 @@
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { pageType } from "~/api";
-import {
-  HomeBreadcrumb,
-  HomeCard,
-  HomeLayout,
-  HomeSidebar,
-} from "~/components";
-import ContentItem from "~/components/globals/layout/homeLayouts/Card/ContentItem";
-import MetaTags from "~/components/globals/metaTag";
-import { SEOConfigs } from "~/configs/SEOConfigs";
-import { RootState } from "~/store";
-import { TNextPageWithLayout } from "~/types/layout";
-import { _format } from "~/utils";
-import styles from "./index.module.css";
+import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { useQuery } from 'react-query'
+import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { pageType } from '~/api'
+import { HomeBreadcrumb, HomeCard, HomeLayout, HomeSidebar } from '~/components'
+import ContentItem from '~/components/globals/layout/homeLayouts/Card/ContentItem'
+import MetaTags from '~/components/globals/metaTag'
+import { SEOConfigs } from '~/configs/SEOConfigs'
+import { RootState } from '~/store'
+import { TNextPageWithLayout } from '~/types/layout'
+import { _format } from '~/utils'
+import styles from './index.module.css'
 
 const Index: TNextPageWithLayout = () => {
-  const router = useRouter();
-  const dataGlobal: any = useSelector((state: RootState) => state.dataGlobal);
-  const [Data, setData] = useState<any>(null);
+  const router = useRouter()
+  const dataGlobal: any = useSelector((state: RootState) => state.dataGlobal)
+  const [Data, setData] = useState<any>(null)
 
-  const targetCode = router?.query?.code?.toString().trim();
+  const targetCode = router?.query?.code?.toString().trim()
 
   useQuery({
-    queryKey: ["articals", targetCode],
+    queryKey: ['articals', targetCode],
     queryFn: () =>
       pageType
         .getByCode(targetCode)
         .then((res) => {
-          setData(res?.Data);
+          setData(res?.Data)
         })
         .catch((error) => {
-          toast.error((error as any)?.response?.data?.ResultMessage);
+          toast.error((error as any)?.response?.data?.ResultMessage)
         }),
     enabled: !!targetCode,
     refetchOnWindowFocus: false,
-  });
+  })
 
   return (
     <>
       <Head>
         <title>
-          {Data?.Title && Data?.Title !== " " ? Data?.Title : Data?.Name}
+          {Data?.Title && Data?.Title !== ' ' ? Data?.Title : Data?.Name}
         </title>
       </Head>
       <MetaTags data={Data} dataConfig={dataGlobal} />
 
       <div className={styles.chuyenMuc}>
-        <div className="container">
+        <div className='container'>
           <div className={styles.inner}>
             {!(Data?.Pages.length > 0) && (
               <HomeBreadcrumb currentRoute={Data} name={Data?.Name} />
@@ -72,9 +67,9 @@ const Index: TNextPageWithLayout = () => {
                     <ContentItem
                       data={Data}
                       code={router?.query?.Code}
-                      Title={""}
-                      IMG={""}
-                      Description={""}
+                      Title={''}
+                      IMG={''}
+                      Description={''}
                       Created={undefined}
                       PageContent={undefined}
                     />
@@ -82,7 +77,7 @@ const Index: TNextPageWithLayout = () => {
                 ) : (
                   Data?.Pages.length > 0 && (
                     <HomeCard
-                      direction={"vertical"}
+                      direction={'vertical'}
                       data={Data?.Pages}
                       code={router?.query?.Code}
                       name={Data?.Name}
@@ -91,7 +86,7 @@ const Index: TNextPageWithLayout = () => {
                 )}
               </div>
               <div className={styles.right}>
-                <div className="sticky top-[120px]">
+                <div className='sticky top-[120px]'>
                   <HomeSidebar />
                 </div>
               </div>
@@ -100,10 +95,10 @@ const Index: TNextPageWithLayout = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-Index.displayName = SEOConfigs.homePage;
-Index.Layout = HomeLayout;
+Index.displayName = SEOConfigs.homePage
+Index.Layout = HomeLayout
 
-export default Index;
+export default Index

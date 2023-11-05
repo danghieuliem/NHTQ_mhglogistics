@@ -1,29 +1,28 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react'
 
 function useInfiniteScroll(cb) {
-	const loadMoreRef = useRef(null);
+  const loadMoreRef = useRef(null)
 
-	const handleObserver = useCallback((entries) => {
-		const [target] = entries;
-		if (target.isIntersecting) {
-			cb();
-		}
-	}, []);
+  const handleObserver = useCallback((entries) => {
+    const [target] = entries
+    if (target.isIntersecting) {
+      cb()
+    }
+  }, [])
 
-	useEffect(() => {
-		const option = {
-			root: null,
-			rootMargin: '0px',
-			threshold: 1.0
-		};
+  useEffect(() => {
+    const option = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0,
+    }
 
-		const observer = new IntersectionObserver(handleObserver, option);
+    const observer = new IntersectionObserver(handleObserver, option)
 
-		if (loadMoreRef.current) observer.observe(loadMoreRef.current);
-	}, [handleObserver]);
+    if (loadMoreRef.current) observer.observe(loadMoreRef.current)
+  }, [handleObserver])
 
-	return { loadMoreRef };
+  return { loadMoreRef }
 }
 
-export { useInfiniteScroll };
-
+export { useInfiniteScroll }

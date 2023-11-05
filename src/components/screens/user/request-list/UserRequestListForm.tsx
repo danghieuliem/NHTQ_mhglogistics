@@ -1,41 +1,41 @@
-import { Card } from "antd";
-import Link from "next/link";
-import Router from "next/router";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
-import { toast } from "react-toastify";
-import { payHelp } from "~/api";
-import { DataTable, FormInputNumber, FormTextarea } from "~/components";
-import { IconButton } from "~/components/globals/button/IconButton";
-import { paymentData } from "~/configs/appConfigs";
-import { TColumnsType } from "~/types/table";
-import { _format } from "~/utils";
-import TagStatus from "../../status/TagStatus";
+import { Card } from 'antd'
+import Link from 'next/link'
+import Router from 'next/router'
+import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useMutation } from 'react-query'
+import { toast } from 'react-toastify'
+import { payHelp } from '~/api'
+import { DataTable, FormInputNumber, FormTextarea } from '~/components'
+import { IconButton } from '~/components/globals/button/IconButton'
+import { paymentData } from '~/configs/appConfigs'
+import { TColumnsType } from '~/types/table'
+import { _format } from '~/utils'
+import TagStatus from '../../status/TagStatus'
 
 type TProps = {
-  data: TRequestPaymentOrder;
-};
+  data: TRequestPaymentOrder
+}
 
 export const UserRequestListForm: React.FC<TProps> = ({ data }) => {
-  const [updateLoading, setUpdateLoading] = useState(false);
-  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [updateLoading, setUpdateLoading] = useState(false)
+  const [deleteLoading, setDeleteLoading] = useState(false)
 
   const { control, handleSubmit, getValues, watch, reset } =
     useForm<TRequestPaymentOrder>({
-      mode: "onBlur",
-    });
+      mode: 'onBlur',
+    })
 
   useEffect(() => {
-    reset(data);
-  }, [data]);
+    reset(data)
+  }, [data])
 
   const mutationUpdatePayment = useMutation(payHelp.update, {
     onSuccess: () => {
-      toast.success("Cập nhật thành công");
-      Router.push("/user/request-list");
+      toast.success('Cập nhật thành công')
+      Router.push('/user/request-list')
     },
-  });
+  })
 
   // const _onUpdate = (data: TRequestPaymentOrder) => {
   //   try {
@@ -49,42 +49,42 @@ export const UserRequestListForm: React.FC<TProps> = ({ data }) => {
 
   const _onDeletePayment = (data: TRequestPaymentOrder) => {
     try {
-      setDeleteLoading(true);
+      setDeleteLoading(true)
 
       mutationUpdatePayment.mutateAsync({
         ...data,
         Status: 3,
-      });
+      })
     } catch (error) {
-      setDeleteLoading(false);
-      toast.error(error);
+      setDeleteLoading(false)
+      toast.error(error)
     }
-  };
+  }
 
   const columns: TColumnsType<
     TCreateRequestPaymentOrder & { Desc2: string; Desc1: number }
   > = [
     {
-      dataIndex: "Id",
-      title: "Id",
-      responsive: ["lg"],
+      dataIndex: 'Id',
+      title: 'Id',
+      responsive: ['lg'],
     },
     {
-      dataIndex: "Created",
-      title: "Ngày tạo",
+      dataIndex: 'Created',
+      title: 'Ngày tạo',
       render: (value) => _format.getVNDate(value),
-      responsive: ["lg"],
+      responsive: ['lg'],
     },
     {
-      dataIndex: "action",
-      title: "Ghi chú",
+      dataIndex: 'action',
+      title: 'Ghi chú',
       render: (_, record) => {
-        return <div>{record?.Desc2}</div>;
+        return <div>{record?.Desc2}</div>
       },
-      responsive: ["lg"],
+      responsive: ['lg'],
     },
     {
-      dataIndex: "action",
+      dataIndex: 'action',
       title: (
         <>
           Tỉ giá
@@ -92,11 +92,11 @@ export const UserRequestListForm: React.FC<TProps> = ({ data }) => {
           (VNĐ)
         </>
       ),
-      align: "right",
-      render: () => _format.getVND(data?.Currency, " "),
+      align: 'right',
+      render: () => _format.getVND(data?.Currency, ' '),
     },
     {
-      dataIndex: "action",
+      dataIndex: 'action',
       title: (
         <>
           Giá tiền
@@ -104,11 +104,11 @@ export const UserRequestListForm: React.FC<TProps> = ({ data }) => {
           (¥)
         </>
       ),
-      align: "right",
-      render: (_, record) => _format.getYuan(record?.Desc1, " "),
+      align: 'right',
+      render: (_, record) => _format.getYuan(record?.Desc1, ' '),
     },
     {
-      dataIndex: "action",
+      dataIndex: 'action',
       title: (
         <>
           Giá tiền
@@ -116,25 +116,25 @@ export const UserRequestListForm: React.FC<TProps> = ({ data }) => {
           (VNĐ)
         </>
       ),
-      align: "right",
+      align: 'right',
       render: (_, record) =>
-        _format.getVND(record?.Desc1 * data?.Currency, " "),
+        _format.getVND(record?.Desc1 * data?.Currency, ' '),
     },
-  ];
+  ]
 
   return (
     <div
       style={{
-        opacity: updateLoading === true || deleteLoading === true ? "0.8" : "1",
+        opacity: updateLoading === true || deleteLoading === true ? '0.8' : '1',
         pointerEvents:
-          updateLoading === true || deleteLoading === true ? "none" : "all",
+          updateLoading === true || deleteLoading === true ? 'none' : 'all',
       }}
-      className="grid grid-cols-12 gap-4"
+      className='grid grid-cols-12 gap-4'
     >
       <Card
-        className="col-span-12 lg:col-span-3"
+        className='col-span-12 lg:col-span-3'
         extra={
-          <div className="col-span-3 text-base font-bold flex justify-between uppercase">
+          <div className='col-span-3 flex justify-between text-base font-bold uppercase'>
             Thông tin
             <TagStatus
               color={paymentData[data?.Status]?.color}
@@ -143,71 +143,71 @@ export const UserRequestListForm: React.FC<TProps> = ({ data }) => {
           </div>
         }
       >
-        <div className="col-span-12 lg:col-span-3 grid grid-cols-1 lg:grid-cols-1 gap-2">
+        <div className='col-span-12 grid grid-cols-1 gap-2 lg:col-span-3 lg:grid-cols-1'>
           <FormInputNumber
             control={control}
-            name="Currency"
-            label="Tỉ giá"
+            name='Currency'
+            label='Tỉ giá'
             placeholder={`${_format.getVND(data?.Currency)}`}
             required={false}
             disabled
           />
           <FormInputNumber
             control={control}
-            name="TotalPrice"
-            label="Tổng tiền Tệ (¥)"
-            placeholder=""
-            prefix="¥ "
+            name='TotalPrice'
+            label='Tổng tiền Tệ (¥)'
+            placeholder=''
+            prefix='¥ '
             required={false}
             disabled
           />
           <FormInputNumber
             control={control}
-            name="TotalPriceVND"
-            label="Tổng tiền (VNĐ)"
-            placeholder=""
-            suffix=" VNĐ"
+            name='TotalPriceVND'
+            label='Tổng tiền (VNĐ)'
+            placeholder=''
+            suffix=' VNĐ'
             required={false}
             disabled
           />
           <FormTextarea
             control={control}
-            name="Note"
-            label="Ghi chú"
-            placeholder=""
+            name='Note'
+            label='Ghi chú'
+            placeholder=''
             required={false}
             disabled
           />
-          <Link href="/user/request-list">
+          <Link href='/user/request-list'>
             <a>
               <IconButton
                 onClick={undefined}
-                title="Trở về"
-                icon="fas fa-undo-alt"
-                toolip=""
+                title='Trở về'
+                icon='fas fa-undo-alt'
+                toolip=''
               />
             </a>
           </Link>
           {data?.Status === 1 && (
             <IconButton
               onClick={handleSubmit(_onDeletePayment)}
-              title="Hủy yêu cầu"
-              icon={deleteLoading ? "fas fa-sync fa-spin" : "fas fa-trash-alt"}
-              toolip="Hủy yêu cầu thanh toán này!"
-              btnClass="!ml-auto"
+              title='Hủy yêu cầu'
+              icon={deleteLoading ? 'fas fa-sync fa-spin' : 'fas fa-trash-alt'}
+              toolip='Hủy yêu cầu thanh toán này!'
+              btnClass='!ml-auto'
             />
           )}
         </div>
       </Card>
-      <div className="col-span-12 lg:col-span-9 h-fit">
+      <div className='col-span-12 h-fit lg:col-span-9'>
         <DataTable
           {...{
             data: data?.PayHelpDetails as any,
             columns,
-            title: "Danh sách chi tiết",
+            title: 'Danh sách chi tiết',
           }}
         />
       </div>
     </div>
-  );
-};
+  )
+}

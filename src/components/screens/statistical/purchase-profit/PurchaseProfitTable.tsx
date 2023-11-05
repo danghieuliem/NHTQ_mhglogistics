@@ -1,34 +1,34 @@
-import { FC } from "react";
-import { ActionButton, DataTable, IconButton } from "~/components";
-import { useScreen } from "~/hooks";
-import { TColumnsType, TTable } from "~/types/table";
-import { _format } from "~/utils";
+import { FC } from 'react'
+import { ActionButton, DataTable, IconButton } from '~/components'
+import { useScreen } from '~/hooks'
+import { TColumnsType, TTable } from '~/types/table'
+import { _format } from '~/utils'
 
 const PurchaseProfitTable: FC<
   TTable<TStatisticalPurchaseProfit> & {
-    handleExportExcel: () => void;
-    filter;
-    handleFilter: (newFilter) => void;
+    handleExportExcel: () => void
+    filter
+    handleFilter: (newFilter) => void
   }
 > = ({ data, filter, handleFilter, loading, handleExportExcel }) => {
-  const { isWidthMD } = useScreen();
+  const { isWidthMD } = useScreen()
   const columns: TColumnsType<TStatisticalPurchaseProfit> = [
     {
-      dataIndex: "Id",
+      dataIndex: 'Id',
       title: () => <>Mã đơn hàng</>,
-      fixed: "left",
-      align: "right",
+      fixed: 'left',
+      align: 'right',
       width: 100,
-      responsive: ["lg"],
+      responsive: ['lg'],
     },
     {
-      dataIndex: "UserName",
-      title: "Username",
-      fixed: isWidthMD ? null : "left",
+      dataIndex: 'UserName',
+      title: 'Username',
+      fixed: isWidthMD ? null : 'left',
       width: 120,
     },
     {
-      dataIndex: "TotalPriceVND",
+      dataIndex: 'TotalPriceVND',
       title: () => (
         <>
           Tổng tiền
@@ -37,11 +37,11 @@ const PurchaseProfitTable: FC<
         </>
       ),
       width: 120,
-      align: "right",
-      render: (money) => _format.getVND(money, ""),
+      align: 'right',
+      render: (money) => _format.getVND(money, ''),
     },
     {
-      dataIndex: "TotalPriceReal",
+      dataIndex: 'TotalPriceReal',
       title: () => (
         <>
           Tổng tiền thật
@@ -49,12 +49,12 @@ const PurchaseProfitTable: FC<
           (VNĐ)
         </>
       ),
-      align: "right",
+      align: 'right',
       width: 120,
-      render: (money) => _format.getVND(money, ""),
+      render: (money) => _format.getVND(money, ''),
     },
     {
-      dataIndex: "PriceVND",
+      dataIndex: 'PriceVND',
       title: () => (
         <>
           Tiền hàng
@@ -62,13 +62,13 @@ const PurchaseProfitTable: FC<
           (VNĐ)
         </>
       ),
-      align: "right",
+      align: 'right',
       width: 120,
-      responsive: ["md"],
-      render: (money) => _format.getVND(money, ""),
+      responsive: ['md'],
+      render: (money) => _format.getVND(money, ''),
     },
     {
-      dataIndex: "Profit",
+      dataIndex: 'Profit',
       title: () => (
         <>
           Lợi nhuận
@@ -76,13 +76,13 @@ const PurchaseProfitTable: FC<
           (VNĐ)
         </>
       ),
-      align: "right",
+      align: 'right',
       width: 120,
-      responsive: ["md"],
-      render: (money) => _format.getVND(money, ""),
+      responsive: ['md'],
+      render: (money) => _format.getVND(money, ''),
     },
     {
-      dataIndex: "FeeShipCN",
+      dataIndex: 'FeeShipCN',
       width: 120,
       title: () => (
         <>
@@ -91,12 +91,12 @@ const PurchaseProfitTable: FC<
           (VNĐ)
         </>
       ),
-      align: "right",
-      responsive: ["md"],
-      render: (money) => _format.getVND(money, ""),
+      align: 'right',
+      responsive: ['md'],
+      render: (money) => _format.getVND(money, ''),
     },
     {
-      dataIndex: "FeeShipCNReal",
+      dataIndex: 'FeeShipCNReal',
       width: 120,
       title: () => (
         <>
@@ -105,12 +105,12 @@ const PurchaseProfitTable: FC<
           (VNĐ)
         </>
       ),
-      align: "right",
-      responsive: ["md"],
-      render: (money) => _format.getVND(money, ""),
+      align: 'right',
+      responsive: ['md'],
+      render: (money) => _format.getVND(money, ''),
     },
     {
-      dataIndex: "FeeWeight",
+      dataIndex: 'FeeWeight',
       title: () => (
         <>
           Phí vận chuyển
@@ -118,13 +118,13 @@ const PurchaseProfitTable: FC<
           (VNĐ)
         </>
       ),
-      align: "right",
+      align: 'right',
       width: 120,
-      responsive: ["md"],
-      render: (money) => _format.getVND(money, ""),
+      responsive: ['md'],
+      render: (money) => _format.getVND(money, ''),
     },
     {
-      dataIndex: "FeeBuyPro",
+      dataIndex: 'FeeBuyPro',
       title: () => (
         <>
           Phí mua hàng
@@ -132,13 +132,13 @@ const PurchaseProfitTable: FC<
           (VNĐ)
         </>
       ),
-      align: "right",
+      align: 'right',
       width: 120,
-      responsive: ["md"],
-      render: (money) => _format.getVND(money, ""),
+      responsive: ['md'],
+      render: (money) => _format.getVND(money, ''),
     },
     {
-      dataIndex: "IsCheckProductPrice",
+      dataIndex: 'IsCheckProductPrice',
       title: () => (
         <>
           Phí kiểm đếm
@@ -146,13 +146,13 @@ const PurchaseProfitTable: FC<
           (VNĐ)
         </>
       ),
-      align: "right",
+      align: 'right',
       width: 120,
-      responsive: ["lg"],
-      render: (money) => _format.getVND(money, ""),
+      responsive: ['lg'],
+      render: (money) => _format.getVND(money, ''),
     },
     {
-      dataIndex: "IsPackedPrice",
+      dataIndex: 'IsPackedPrice',
       title: () => (
         <>
           Phí đóng gỗ
@@ -160,13 +160,13 @@ const PurchaseProfitTable: FC<
           (VNĐ)
         </>
       ),
-      align: "right",
+      align: 'right',
       width: 120,
-      responsive: ["lg"],
-      render: (money) => _format.getVND(money, ""),
+      responsive: ['lg'],
+      render: (money) => _format.getVND(money, ''),
     },
     {
-      dataIndex: "InsuranceMoney",
+      dataIndex: 'InsuranceMoney',
       title: () => (
         <>
           Phí bảo hiểm
@@ -174,20 +174,20 @@ const PurchaseProfitTable: FC<
           (VNĐ)
         </>
       ),
-      align: "right",
+      align: 'right',
       width: 120,
-      responsive: ["lg"],
-      render: (money) => _format.getVND(money, ""),
+      responsive: ['lg'],
+      render: (money) => _format.getVND(money, ''),
     },
     {
-      dataIndex: "Created",
-      title: "Ngày đặt",
+      dataIndex: 'Created',
+      title: 'Ngày đặt',
       width: 200,
       render: (_, record) => <>{_format.getVNDate(record.Created)}</>,
-      fixed: "right",
-      responsive: ["lg"],
+      fixed: 'right',
+      responsive: ['lg'],
     },
-  ];
+  ]
   return (
     <DataTable
       {...{
@@ -196,14 +196,14 @@ const PurchaseProfitTable: FC<
         bordered: true,
         loading,
         scroll: isWidthMD ? { x: true } : { y: 700, x: 1200 },
-        extraElementClassName: "ml-auto",
+        extraElementClassName: 'ml-auto',
         extraElement: (
           <ActionButton
             onClick={handleExportExcel}
-            icon="fas fa-file-export"
-            title="Xuất"
+            icon='fas fa-file-export'
+            title='Xuất'
             isButton
-            isButtonClassName="bg-green !text-white"
+            isButtonClassName='bg-green !text-white'
           />
         ),
         pagination: {
@@ -216,11 +216,11 @@ const PurchaseProfitTable: FC<
             ...filter,
             PageIndex: page.current,
             PageSize: page.pageSize,
-          });
+          })
         },
       }}
     />
-  );
-};
+  )
+}
 
-export { PurchaseProfitTable };
+export { PurchaseProfitTable }

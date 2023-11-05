@@ -1,19 +1,19 @@
-import { useQuery } from "react-query";
-import { toast } from "react-toastify";
-import { permitObject } from "~/api/permit-object";
+import { useQuery } from 'react-query'
+import { toast } from 'react-toastify'
+import { permitObject } from '~/api/permit-object'
 
 // thời gian sẽ api loại 1 lần // 5 là số phút + 6 * 10000 là 1 phút  =  5 phút
-const staleTime = 5 * 6 * 10000;
+const staleTime = 5 * 6 * 10000
 // bắt đầu thực thi từ thời gian
-const initialDataUpdatedAt = new Date().getTime();
+const initialDataUpdatedAt = new Date().getTime()
 // api error
 const onError = (error: any) => {
-  toast.error((error as any)?.response?.data?.ResultMessage);
-};
+  toast.error((error as any)?.response?.data?.ResultMessage)
+}
 
 type TProps = {
-  permitParams?: TPaginationParamsWithReactQuery;
-};
+  permitParams?: TPaginationParamsWithReactQuery
+}
 
 export const useCatalogueWithPagination = (props: TProps) => {
   const {
@@ -22,13 +22,13 @@ export const useCatalogueWithPagination = (props: TProps) => {
       onSucess: permitOnSucess,
       ...newPermitParams
     },
-  } = props;
+  } = props
 
   const permitList = useQuery(
-    ["permitList", newPermitParams],
+    ['permitList', newPermitParams],
     async () =>
       await permitObject
-        .getList({ ...newPermitParams, OrderBy: "Id desc" })
+        .getList({ ...newPermitParams, OrderBy: 'Id desc' })
         .then((res) => res.Data),
     {
       staleTime,
@@ -36,9 +36,9 @@ export const useCatalogueWithPagination = (props: TProps) => {
       onSuccess: permitOnSucess,
       onError,
       enabled: permitEnabled,
-    }
-  );
+    },
+  )
 
   // kiểm tra api nếu không có params thì trả về undefined, ngược lại thì trả đúng api
-  return { permitList: props.permitParams && permitList.data } as const;
-};
+  return { permitList: props.permitParams && permitList.data } as const
+}

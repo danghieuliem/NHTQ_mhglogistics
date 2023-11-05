@@ -1,10 +1,10 @@
-import { Divider, Popover } from "antd";
-import router from "next/router";
-import { useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { mainOrder } from "~/api";
+import { Divider, Popover } from 'antd'
+import router from 'next/router'
+import { useState } from 'react'
+import { useFieldArray, useForm } from 'react-hook-form'
+import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { mainOrder } from '~/api'
 import {
   ActionButton,
   CreateOrderSelect,
@@ -12,25 +12,25 @@ import {
   FormCheckbox,
   FormInput,
   UserLayout,
-} from "~/components";
-import { SEOHomeConfigs } from "~/configs/SEOConfigs";
-import { useDeepEffect } from "~/hooks";
-import { useCatalogue } from "~/hooks/useCatalogue";
-import { RootState } from "~/store";
-import { TNextPageWithLayout } from "~/types/layout";
+} from '~/components'
+import { SEOHomeConfigs } from '~/configs/SEOConfigs'
+import { useDeepEffect } from '~/hooks'
+import { useCatalogue } from '~/hooks/useCatalogue'
+import { RootState } from '~/store'
+import { TNextPageWithLayout } from '~/types/layout'
 
 const Index: TNextPageWithLayout = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurrentInfo
-  );
+    (state: RootState) => state.userCurrentInfo,
+  )
 
   const { warehouseTQ, warehouseVN, shippingTypeToWarehouse } = useCatalogue({
     warehouseTQEnabled: true,
     warehouseVNEnabled: true,
     shippingTypeToWarehouseEnabled: true,
-  });
+  })
 
   const defaultValuesProducts = [
     {
@@ -42,7 +42,7 @@ const Index: TNextPageWithLayout = () => {
       PropertyProduct: null,
       QuantityProduct: null,
     },
-  ];
+  ]
 
   const defaultValues = {
     Products: defaultValuesProducts,
@@ -51,14 +51,14 @@ const Index: TNextPageWithLayout = () => {
     IsInsurance: false,
     IsFastDelivery: false,
     ShippingType: shippingTypeToWarehouse?.find(
-      (x) => x.Id === userCurrentInfo?.ShippingType
+      (x) => x.Id === userCurrentInfo?.ShippingType,
     )?.Id,
     WarehouseTQ: warehouseTQ?.find(
-      (x) => x.Id === userCurrentInfo?.WarehouseFrom
+      (x) => x.Id === userCurrentInfo?.WarehouseFrom,
     )?.Id,
     WarehouseVN: warehouseVN?.find((x) => x.Id === userCurrentInfo?.WarehouseTo)
       ?.Id,
-  };
+  }
 
   const {
     control,
@@ -66,22 +66,22 @@ const Index: TNextPageWithLayout = () => {
     handleSubmit,
     formState: { isSubmitting },
   } = useForm<TUserCreateOrder>({
-    mode: "onBlur",
+    mode: 'onBlur',
     defaultValues: defaultValues,
-  });
+  })
 
   const { append, fields, remove } = useFieldArray({
-    name: "Products",
+    name: 'Products',
     control,
-    keyName: "Id",
-  });
+    keyName: 'Id',
+  })
 
   useDeepEffect(() => {
-    reset(defaultValues);
-  }, [warehouseTQ, warehouseVN, shippingTypeToWarehouse]);
+    reset(defaultValues)
+  }, [warehouseTQ, warehouseVN, shippingTypeToWarehouse])
 
   const _onPress = async (data: TUserCreateOrder) => {
-    console.log(data);
+    console.log(data)
     // setLoading(true);
     // const id = toast.loading("Đang xử lý ...");
     // mainOrder
@@ -104,13 +104,13 @@ const Index: TNextPageWithLayout = () => {
     //     });
     //   })
     //   .finally(() => setLoading(false))
-  };
+  }
 
   return (
     <>
-      <div className="flex w-fit ml-auto">
+      <div className='ml-auto flex w-fit'>
         <ActionButton
-          title="Thêm"
+          title='Thêm'
           onClick={() =>
             append({
               Id: new Date().getTime(),
@@ -123,16 +123,16 @@ const Index: TNextPageWithLayout = () => {
               QuantityProduct: null,
             })
           }
-          icon="fas fa-plus-circle"
+          icon='fas fa-plus-circle'
           isButton
-          isButtonClassName="bg-green !text-white mr-2"
+          isButtonClassName='bg-green !text-white mr-2'
         />
         <Popover
-          trigger={"click"}
-          placement="bottomLeft"
+          trigger={'click'}
+          placement='bottomLeft'
           content={
-            <div className="grid grid-cols-4 p-4 w-[500px] max-w-[90vw]">
-              <div className="col-span-4 grid grid-col-2">
+            <div className='grid w-[500px] max-w-[90vw] grid-cols-4 p-4'>
+              <div className='grid-col-2 col-span-4 grid'>
                 <CreateOrderSelect
                   {...{
                     control,
@@ -143,76 +143,76 @@ const Index: TNextPageWithLayout = () => {
                   }}
                 />
               </div>
-              <div className="col-span-4">
-                <Divider className="!my-4" />
+              <div className='col-span-4'>
+                <Divider className='!my-4' />
               </div>
-              <div className="col-span-4 grid grid-cols-2 gap-4">
-                <div className="col-span-2 grid grid-cols-2">
-                  <div className="col-span-1">
+              <div className='col-span-4 grid grid-cols-2 gap-4'>
+                <div className='col-span-2 grid grid-cols-2'>
+                  <div className='col-span-1'>
                     <FormCheckbox
                       control={control}
-                      name="IsPacked"
+                      name='IsPacked'
                       defaultChecked={false}
-                      label="Đóng gỗ"
+                      label='Đóng gỗ'
                     />
                   </div>
-                  <div className="col-span-1">
+                  <div className='col-span-1'>
                     <FormCheckbox
                       control={control}
-                      name="IsCheckProduct"
+                      name='IsCheckProduct'
                       defaultChecked={false}
-                      label="Kiểm hàng"
+                      label='Kiểm hàng'
                     />
                   </div>
-                  <div className="col-span-1">
+                  <div className='col-span-1'>
                     <FormCheckbox
                       control={control}
-                      name="IsInsurance"
+                      name='IsInsurance'
                       defaultChecked={false}
-                      label="Bảo hiểm"
+                      label='Bảo hiểm'
                     />
                   </div>
-                  <div className="col-span-1">
+                  <div className='col-span-1'>
                     <FormCheckbox
                       control={control}
-                      name="IsFastDelivery"
+                      name='IsFastDelivery'
                       defaultChecked={false}
-                      label="Giao hàng"
+                      label='Giao hàng'
                     />
                   </div>
                 </div>
-                <div className="col-span-2">
+                <div className='col-span-2'>
                   <FormInput
-                    label="Ghi chú toàn đơn hàng"
+                    label='Ghi chú toàn đơn hàng'
                     control={control}
-                    name="UserNote"
-                    placeholder={""}
+                    name='UserNote'
+                    placeholder={''}
                     required={false}
-                    inputContainerClassName=""
+                    inputContainerClassName=''
                   />
                 </div>
               </div>
-              <div className="col-span-4">
-                <Divider className="!my-4" />
+              <div className='col-span-4'>
+                <Divider className='!my-4' />
               </div>
-              <div className="col-span-4 flex items-end justify-end">
+              <div className='col-span-4 flex items-end justify-end'>
                 <ActionButton
                   onClick={handleSubmit(_onPress)}
-                  icon="fas fa-check-circle"
-                  title="Tạo đơn"
+                  icon='fas fa-check-circle'
+                  title='Tạo đơn'
                   isButton
                   disabled={loading}
-                  isButtonClassName="bg-main !text-white"
+                  isButtonClassName='bg-main !text-white'
                 />
               </div>
             </div>
           }
         >
           <ActionButton
-            icon="fas fa-hand-point-right"
-            title="Tiếp tục"
+            icon='fas fa-hand-point-right'
+            title='Tiếp tục'
             isButton
-            isButtonClassName="bg-blue !text-white"
+            isButtonClassName='bg-blue !text-white'
           />
         </Popover>
       </div>
@@ -228,11 +228,11 @@ const Index: TNextPageWithLayout = () => {
         />
       )}
     </>
-  );
-};
+  )
+}
 
-Index.displayName = SEOHomeConfigs.buyGroceries.createOderPageTMDT;
-Index.breadcrumb = "Tạo đơn mua hộ khác";
-Index.Layout = UserLayout;
+Index.displayName = SEOHomeConfigs.buyGroceries.createOderPageTMDT
+Index.breadcrumb = 'Tạo đơn mua hộ khác'
+Index.Layout = UserLayout
 
-export default Index;
+export default Index

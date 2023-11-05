@@ -1,1 +1,1 @@
-export * from './ReportListTable';
+export * from './ReportListTable'

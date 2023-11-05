@@ -1,41 +1,41 @@
-import { ErrorMessage } from "@hookform/error-message";
-import clsx from "clsx";
-import _ from "lodash";
+import { ErrorMessage } from '@hookform/error-message'
+import clsx from 'clsx'
+import _ from 'lodash'
 import {
   Control,
   Controller,
   FieldValues,
   Path,
   RegisterOptions,
-} from "react-hook-form";
-import NumberFormat from "react-number-format";
+} from 'react-hook-form'
+import NumberFormat from 'react-number-format'
 
 type TProps<TFieldValues> = {
-  required?: boolean;
-  name: Path<TFieldValues>;
-  label?: string;
-  placeholder: string;
-  rules?: RegisterOptions;
-  control: Control<TFieldValues, object>;
-  inputClassName?: string;
-  allowNegative?: boolean;
-  disabledOnChange?: boolean;
-  format?: string;
-  hideError?: boolean;
-  inputContainerClassName?: string;
-  thousandSeparator?: boolean;
-  prefix?: string;
-  suffix?: string;
-  disabled?: boolean;
-  decimalSeparator?: string;
-  callback?: (val?: number) => void;
-  onEnter?: () => void;
-  decimalScale?: number;
-  defaultValue?: number;
-};
+  required?: boolean
+  name: Path<TFieldValues>
+  label?: string
+  placeholder: string
+  rules?: RegisterOptions
+  control: Control<TFieldValues, object>
+  inputClassName?: string
+  allowNegative?: boolean
+  disabledOnChange?: boolean
+  format?: string
+  hideError?: boolean
+  inputContainerClassName?: string
+  thousandSeparator?: boolean
+  prefix?: string
+  suffix?: string
+  disabled?: boolean
+  decimalSeparator?: string
+  callback?: (val?: number) => void
+  onEnter?: () => void
+  decimalScale?: number
+  defaultValue?: number
+}
 
 export const FormInputNumber = <
-  TFieldValues extends FieldValues = FieldValues
+  TFieldValues extends FieldValues = FieldValues,
 >({
   control,
   name,
@@ -53,20 +53,17 @@ export const FormInputNumber = <
   thousandSeparator = true,
   disabledOnChange = false,
   disabled = false,
-  decimalSeparator = ".",
+  decimalSeparator = '.',
   callback,
   onEnter,
   decimalScale,
   defaultValue,
 }: TProps<TFieldValues>) => {
   return (
-    <div className={`${inputContainerClassName} w-full relative`}>
+    <div className={`${inputContainerClassName} relative w-full`}>
       {label && (
-        <label
-          className="text-[12px] py-[2px] font-bold"
-          htmlFor={name}
-        >
-          {label}: {required === true && <span className="text-red">*</span>}
+        <label className='py-[2px] text-[12px] font-bold' htmlFor={name}>
+          {label}: {required === true && <span className='text-red'>*</span>}
         </label>
       )}
       <Controller
@@ -78,7 +75,7 @@ export const FormInputNumber = <
           fieldState: { error },
           formState: { errors },
         }) => (
-          <div className="w-full">
+          <div className='w-full'>
             <NumberFormat
               disabled={disabled}
               prefix={prefix}
@@ -92,21 +89,21 @@ export const FormInputNumber = <
               defaultValue={defaultValue}
               getInputRef={ref}
               onKeyPress={(e) => {
-                if (e.code === "Enter") {
-                  onEnter?.();
+                if (e.code === 'Enter') {
+                  onEnter?.()
                 }
               }}
               onValueChange={(value) => {
-                onChange(value.floatValue);
-                callback?.(value.floatValue);
+                onChange(value.floatValue)
+                callback?.(value.floatValue)
               }}
               {...newField}
               className={clsx(
-                "!rounded-[4px] px-[11px] py-[4px] text-[rgba(0,0,0,.85)] h-10  border border-[#dedede] w-full placeholder-[#c6c6c6] hover:border-orange transition duration-300 focus:shadow-input focus:border-orange outline-0",
+                'h-10 w-full !rounded-[4px] border border-[#dedede]  px-[11px] py-[4px] text-[rgba(0,0,0,.85)] placeholder-[#c6c6c6] outline-0 transition duration-300 hover:border-orange focus:border-orange focus:shadow-input',
                 inputClassName,
                 disabled &&
-                  "cursor-not-allowed border-[#dedede] bg-[#f5f5f5] hover:border-[#d9d9d9]",
-                !_.isEmpty(error) && "!border-warning"
+                  'cursor-not-allowed border-[#dedede] bg-[#f5f5f5] hover:border-[#d9d9d9]',
+                !_.isEmpty(error) && '!border-warning',
               )}
               decimalScale={decimalScale}
             />
@@ -115,7 +112,7 @@ export const FormInputNumber = <
                 errors={errors}
                 name={name as any}
                 render={({ message }) => (
-                  <p className="text-warning text-xs font-medium mt-1">
+                  <p className='mt-1 text-xs font-medium text-warning'>
                     {message}
                   </p>
                 )}
@@ -125,5 +122,5 @@ export const FormInputNumber = <
         )}
       />
     </div>
-  );
-};
+  )
+}

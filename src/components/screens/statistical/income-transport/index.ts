@@ -1,3 +1,3 @@
-export * from './IncomeTransportTable';
+export * from './IncomeTransportTable'
 // export * from './IncomeTransportSum'
-export * from './IncomeTransportFilter';
+export * from './IncomeTransportFilter'

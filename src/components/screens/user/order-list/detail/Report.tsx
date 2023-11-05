@@ -1,56 +1,56 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { complain } from "~/api";
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { useMutation, useQueryClient } from 'react-query'
+import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { complain } from '~/api'
 import {
   Button,
   FormInputNumber,
   FormTextarea,
   FormUploadMultiple,
-} from "~/components";
-import { RootState } from "~/store";
+} from '~/components'
+import { RootState } from '~/store'
 
 type TPropsTable = {
-  Id?: number;
-  UID: number;
-  ImageOrigin?: string;
-  TitleOrigin?: string;
-  UPriceBuy?: number;
-  UPriceBuyVN?: number;
-  ComplainText?: string;
-  IMG?: string[] | string;
-  Amount?: number;
-};
+  Id?: number
+  UID: number
+  ImageOrigin?: string
+  TitleOrigin?: string
+  UPriceBuy?: number
+  UPriceBuyVN?: number
+  ComplainText?: string
+  IMG?: string[] | string
+  Amount?: number
+}
 
 type TProps = {
-  defaultValue: any;
-};
+  defaultValue: any
+}
 
 const ReportContent = ({ defaultValue }: TProps) => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurrentInfo
-  );
+    (state: RootState) => state.userCurrentInfo,
+  )
 
   const { handleSubmit, control } = useForm<TPropsTable>({
-    mode: "onBlur",
+    mode: 'onBlur',
     defaultValues: {
       ...defaultValue,
       recieveNumber: 0,
     },
-  });
+  })
 
   // useEffect(() => {
   //   resetField("Amount")
   // }, [defaultValue?.Id]);
 
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
-  const mutationAdd = useMutation((data: TPropsTable) => complain.create(data));
+  const mutationAdd = useMutation((data: TPropsTable) => complain.create(data))
 
   const _onPress = async (data: TPropsTable) => {
-    const id = toast.loading("Đang xử lý ...");
+    const id = toast.loading('Đang xử lý ...')
 
     const newData = defaultValue.OrderType
       ? {
@@ -68,35 +68,35 @@ const ReportContent = ({ defaultValue }: TProps) => {
           ComplainText: data?.ComplainText,
           IMG: JSON.stringify(data?.IMG),
           Amount: data?.Amount,
-        };
+        }
 
     await mutationAdd
       .mutateAsync(newData)
       .then(() => {
-        queryClient.invalidateQueries({ queryKey: "orderList" });
-        queryClient.invalidateQueries({ queryKey: "userDepositList" });
+        queryClient.invalidateQueries({ queryKey: 'orderList' })
+        queryClient.invalidateQueries({ queryKey: 'userDepositList' })
 
         toast.update(id, {
-          render: "Tạo khiếu nại thành công",
-          type: "success",
+          render: 'Tạo khiếu nại thành công',
+          type: 'success',
           autoClose: 500,
           isLoading: false,
-        });
+        })
       })
       .catch((error) => {
         toast.update(id, {
           render: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
+          type: 'error',
           autoClose: 1000,
           isLoading: false,
-        });
-      });
-  };
+        })
+      })
+  }
 
   return (
     <React.Fragment>
-      <div className="p-4">
-        <div className="grid grid-cols-1 gap-2">
+      <div className='p-4'>
+        <div className='grid grid-cols-1 gap-2'>
           {/* <div className="col-span-1">
             <FormInput
               control={control}
@@ -107,43 +107,43 @@ const ReportContent = ({ defaultValue }: TProps) => {
               required={false}
             />
           </div> */}
-          <h1 className="font-bold text-lg">
+          <h1 className='text-lg font-bold'>
             Tạo khiếu nại đơn hàng #{defaultValue?.Id}
           </h1>
-          <div className="col-span-1">
+          <div className='col-span-1'>
             <FormInputNumber
               control={control}
-              name="Amount"
-              label="Số tiền y/c bồi thường (VNĐ)"
-              suffix=" VNĐ"
-              placeholder=""
-              rules={{ required: "Vui lòng nhập số tiền bồi thường" }}
+              name='Amount'
+              label='Số tiền y/c bồi thường (VNĐ)'
+              suffix=' VNĐ'
+              placeholder=''
+              rules={{ required: 'Vui lòng nhập số tiền bồi thường' }}
             />
           </div>
-          <div className="col-span-1">
+          <div className='col-span-1'>
             <FormTextarea
               control={control}
-              name="ComplainText"
-              label="Nội dung"
-              placeholder=""
-              rules={{ required: "Vui lòng nhập nội dung khiếu nại" }}
+              name='ComplainText'
+              label='Nội dung'
+              placeholder=''
+              rules={{ required: 'Vui lòng nhập nội dung khiếu nại' }}
             />
           </div>
-          <div className="col-span-1 w-[710px]">
+          <div className='col-span-1 w-[710px]'>
             <FormUploadMultiple
               control={control}
-              name="IMG"
-              label="Hình ảnh"
-              rules={{ required: "Vui lòng thêm ảnh khiếu nại" }}
+              name='IMG'
+              label='Hình ảnh'
+              rules={{ required: 'Vui lòng thêm ảnh khiếu nại' }}
             />
-            <p className="text-red italic">
+            <p className='italic text-red'>
               Lưu ý: Up tối đa 6 ảnh, định dạng .jpg hoặc .png
             </p>
           </div>
         </div>
-        <div className="text-right mt-4">
+        <div className='mt-4 text-right'>
           <Button
-            title="Tạo khiếu nại"
+            title='Tạo khiếu nại'
             onClick={handleSubmit(_onPress)}
             // icon={loading ? "fas fa-sync fa-spin" : "fas fa-check-circle"}
             // btnIconClass="!mr-2"
@@ -153,7 +153,7 @@ const ReportContent = ({ defaultValue }: TProps) => {
         </div>
       </div>
     </React.Fragment>
-  );
-};
+  )
+}
 
-export const ReportContentMemo = React.memo(ReportContent);
+export const ReportContentMemo = React.memo(ReportContent)

@@ -16,12 +16,12 @@ const onSortConfigurators = (a: string, b: string) => {
   return 0
 }
 
-export const useMapData = data => {
+export const useMapData = (data) => {
   const { Attributes, ConfiguredItems, Promotions } = data
 
   const mapAttributesPidAndVid = useMemo<TMapAttribute>((): TMapAttribute => {
     const map: TMapAttribute | {} = {}
-    Attributes.forEach(att => {
+    Attributes.forEach((att) => {
       if (!att.IsConfigurator) return
       map[att.Pid] = map[att.Pid] || {}
       map[att.Pid][att.Vid] = att
@@ -31,10 +31,10 @@ export const useMapData = data => {
 
   const mapConfigurator = useMemo<{ [key: string]: TConfigItem }>(() => {
     const map = {}
-    ConfiguredItems.forEach(config => {
+    ConfiguredItems.forEach((config) => {
       const { Configurators = [] } = config
       const key = Configurators.sort((a, b) =>
-        onSortConfigurators(a.Pid, b.Pid)
+        onSortConfigurators(a.Pid, b.Pid),
       )
         .reduce((pre, cur) => {
           return `${pre}|${cur.Pid}_${cur.Vid}`
@@ -61,12 +61,12 @@ export const useMapData = data => {
         (pre: string, cur: TConfigPidVid): string => {
           return `${pre}|${cur.Pid}_${cur.Vid}`
         },
-        ''
+        '',
       ).substring(1)
 
       return mapConfigurator[key].Price
     },
-    [mapConfigurator]
+    [mapConfigurator],
   )
 
   const getPromoPriceOfItem = useCallback(
@@ -77,22 +77,22 @@ export const useMapData = data => {
         (pre: string, cur: TConfigPidVid): string => {
           return `${pre}|${cur.Pid}_${cur.Vid}`
         },
-        ''
+        '',
       ).substring(1)
 
       const promo = Promotions[0]?.ConfiguredItems?.find(
-        config => config.Id === item.Id
+        (config) => config.Id === item.Id,
       )
       return promo?.Price
     },
-    [mapConfigurator, Promotions]
+    [mapConfigurator, Promotions],
   )
 
   const getAttributeWithPidAndVid = useCallback(
     (ids: TConfigPidVid): TAttribute | undefined => {
       return mapAttributesPidAndVid[ids.Pid]?.[ids.Vid]
     },
-    [mapAttributesPidAndVid]
+    [mapAttributesPidAndVid],
   )
 
   const getItemWithArrayPidAndVid = useCallback(
@@ -104,7 +104,7 @@ export const useMapData = data => {
         .substring(1)
       return mapConfigurator[key]
     },
-    [mapConfigurator]
+    [mapConfigurator],
   )
 
   return {
@@ -114,6 +114,6 @@ export const useMapData = data => {
     getPriceOfItem,
     getAttributeWithPidAndVid,
     getItemWithArrayPidAndVid,
-    getPromoPriceOfItem
+    getPromoPriceOfItem,
   }
 }

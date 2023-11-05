@@ -1,40 +1,40 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 const initalState: TUser = {
   UserGroupName: undefined,
-  AvatarIMG: "",
-  Email: "",
-  FullName: "",
+  AvatarIMG: '',
+  Email: '',
+  FullName: '',
   IsCheckOTP: false,
   IsConfirmOTP: false,
-  Phone: "",
+  Phone: '',
   Roles: [],
   UserId: 0,
   UserGroupId: 0,
-  UserName: "",
-  LastName: "",
-  FirstName: "",
+  UserName: '',
+  LastName: '',
+  FirstName: '',
   OneSignalPlayerID: undefined,
-  Token: "",
-  Id: null
-};
+  Token: '',
+  Id: null,
+}
 
 export const userCurrentInfo = createSlice({
-  name: "userCurrentInfo",
+  name: 'userCurrentInfo',
   initialState: initalState,
   reducers: {
     updateUser: (state: any, action: PayloadAction<TUser>) => {
       return {
         ...state,
         ...action.payload,
-      };
+      }
     },
     logOut: (state: any, action: PayloadAction<TUser>) => {
       return {
         ...initalState,
-      };
+      }
     },
   },
-});
+})
 
-export const { updateUser, logOut } = userCurrentInfo.actions;
+export const { updateUser, logOut } = userCurrentInfo.actions

@@ -1,30 +1,30 @@
-import { useState } from "react";
-import { useQuery } from "react-query";
-import { toast } from "react-toastify";
-import { bigPackage } from "~/api";
+import { useState } from 'react'
+import { useQuery } from 'react-query'
+import { toast } from 'react-toastify'
+import { bigPackage } from '~/api'
 import {
   Layout,
   PackageManagementFilter,
   PackageManagementTable,
-} from "~/components";
-import { breadcrumb } from "~/configs";
-import { SEOConfigs } from "~/configs/SEOConfigs";
-import { TNextPageWithLayout } from "~/types/layout";
+} from '~/components'
+import { breadcrumb } from '~/configs'
+import { SEOConfigs } from '~/configs/SEOConfigs'
+import { TNextPageWithLayout } from '~/types/layout'
 
 const Index: TNextPageWithLayout = () => {
   const [filter, setFilter] = useState({
     PageIndex: 1,
     PageSize: 20,
-    OrderBy: "Id desc",
+    OrderBy: 'Id desc',
     SearchContent: null,
     TotalItems: null,
-  });
+  })
 
   const handleFilter = (newFilter) => {
-    setFilter({ ...filter, ...newFilter });
-  };
+    setFilter({ ...filter, ...newFilter })
+  }
   const { data, isFetching, isLoading } = useQuery(
-    ["bigPackageList", [filter.PageIndex, filter.SearchContent]],
+    ['bigPackageList', [filter.PageIndex, filter.SearchContent]],
     () => bigPackage.getList(filter).then((res) => res.Data),
     {
       keepPreviousData: true,
@@ -36,13 +36,13 @@ const Index: TNextPageWithLayout = () => {
           PageSize: data?.PageSize,
         }),
       onError: (error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+        toast.error((error as any)?.response?.data?.ResultMessage)
       },
       staleTime: 5000,
-    }
-  );
+    },
+  )
 
-  if (!data) return null;
+  if (!data) return null
 
   return (
     <>
@@ -55,11 +55,11 @@ const Index: TNextPageWithLayout = () => {
         loading={isFetching}
       />
     </>
-  );
-};
+  )
+}
 
-Index.displayName = SEOConfigs.parcelManagement.packageManagement;
-Index.breadcrumb = breadcrumb.warehouse.packageManagement.detail;
-Index.Layout = Layout;
+Index.displayName = SEOConfigs.parcelManagement.packageManagement
+Index.breadcrumb = breadcrumb.warehouse.packageManagement.detail
+Index.Layout = Layout
 
-export default Index;
+export default Index

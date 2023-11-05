@@ -1,5 +1,5 @@
-import { BackTop } from "antd";
-import styles from "./index.module.css";
+import { BackTop } from 'antd'
+import styles from './index.module.css'
 
 export const ButtonBackTop: React.FC<{}> = ({ children }) => {
   return (
@@ -8,5 +8,5 @@ export const ButtonBackTop: React.FC<{}> = ({ children }) => {
         <i className={`fas fa-angle-double-up  ${styles.backTopIcon}`}></i>
       </div>
     </BackTop>
-  );
-};
+  )
+}

@@ -1,5 +1,5 @@
-import BaseAPI from '../methods';
+import BaseAPI from '../methods'
 
-const { globalCRUD } = new BaseAPI<TStep>('shippingtypetowarehouse');
+const { globalCRUD } = new BaseAPI<TStep>('shippingtypetowarehouse')
 
-export const shipping = globalCRUD;
+export const shipping = globalCRUD

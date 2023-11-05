@@ -1,65 +1,65 @@
-import Link from "next/link";
-import React from "react";
-import { ActionButton, DataTable } from "~/components";
-import { activeData } from "~/configs";
-import { TColumnsType, TTable } from "~/types/table";
-import { _format } from "~/utils";
-import TagStatus from "../../status/TagStatus";
-import { useScreen } from "~/hooks";
+import Link from 'next/link'
+import React from 'react'
+import { ActionButton, DataTable } from '~/components'
+import { activeData } from '~/configs'
+import { TColumnsType, TTable } from '~/types/table'
+import { _format } from '~/utils'
+import TagStatus from '../../status/TagStatus'
+import { useScreen } from '~/hooks'
 type TProps = {
-  filter;
-  handleFilter: (newFilter) => void;
-};
+  filter
+  handleFilter: (newFilter) => void
+}
 
 export const PersonalRechargeTable: React.FC<
   TTable<TClient | any> & TProps
 > = ({ data, loading, handleFilter, filter }) => {
-  const { isWidthMD, isWidthSM } = useScreen();
+  const { isWidthMD, isWidthSM } = useScreen()
   const columns: TColumnsType<TClient> = [
     {
-      dataIndex: "Id",
-      fixed: "left",
-      title: "ID",
+      dataIndex: 'Id',
+      fixed: 'left',
+      title: 'ID',
       width: 60,
-      responsive: ["lg"],
+      responsive: ['lg'],
     },
     {
-      dataIndex: "UserName",
-      title: "Username",
-      fixed: !isWidthMD ? "left" : null,
+      dataIndex: 'UserName',
+      title: 'Username',
+      fixed: !isWidthMD ? 'left' : null,
     },
     {
-      dataIndex: "FullName",
-      title: "Họ và tên",
-      responsive: ["md"],
+      dataIndex: 'FullName',
+      title: 'Họ và tên',
+      responsive: ['md'],
     },
     {
-      dataIndex: "Phone",
-      title: "Điện thoại",
-      align: "right",
-      responsive: ["sm"],
+      dataIndex: 'Phone',
+      title: 'Điện thoại',
+      align: 'right',
+      responsive: ['sm'],
     },
     {
-      dataIndex: "Wallet",
+      dataIndex: 'Wallet',
       title: (
         <>
           Số dư <br />
           (VNĐ)
         </>
       ),
-      align: "right",
-      responsive: ["sm"],
-      render: (record) => _format.getVND(record, ""),
+      align: 'right',
+      responsive: ['sm'],
+      render: (record) => _format.getVND(record, ''),
     },
     {
-      dataIndex: "Created",
-      title: "Ngày nạp",
-      responsive: ["lg"],
+      dataIndex: 'Created',
+      title: 'Ngày nạp',
+      responsive: ['lg'],
       render: (_, record) => <>{_format.getVNDate(record.Created)}</>,
     },
     {
-      dataIndex: "Status",
-      title: "Trạng thái",
+      dataIndex: 'Status',
+      title: 'Trạng thái',
       render: (status: number) => (
         <TagStatus
           color={activeData[status]?.color}
@@ -68,24 +68,24 @@ export const PersonalRechargeTable: React.FC<
       ),
     },
     {
-      dataIndex: "action",
-      title: "Thao tác",
-      align: "right",
+      dataIndex: 'action',
+      title: 'Thao tác',
+      align: 'right',
       width: 120,
-      fixed: "right",
-      responsive: ["sm"],
+      fixed: 'right',
+      responsive: ['sm'],
       render: (_, record) => (
-        <div className="flex flex-wrap gap-1">
+        <div className='flex flex-wrap gap-1'>
           <Link
             href={`/manager/money/vietnam-recharge/?id=${record?.Id}`}
             passHref
           >
-            <a target="_blank">
+            <a target='_blank'>
               <ActionButton
-                icon="fas fa-badge-dollar"
-                title="Nạp tiền"
+                icon='fas fa-badge-dollar'
+                title='Nạp tiền'
                 isButton
-                isButtonClassName="bg-green !text-white"
+                isButtonClassName='bg-green !text-white'
               />
             </a>
           </Link>
@@ -93,11 +93,11 @@ export const PersonalRechargeTable: React.FC<
             href={`/manager/money/vietnam-withdrawal/?id=${record?.Id}`}
             passHref
           >
-            <a target="_blank">
+            <a target='_blank'>
               <ActionButton
-                icon="fas fa-wallet"
-                title="Rút tiền"
-                isButtonClassName="bg-orange-900 !text-white"
+                icon='fas fa-wallet'
+                title='Rút tiền'
+                isButtonClassName='bg-orange-900 !text-white'
                 isButton
               />
             </a>
@@ -105,7 +105,7 @@ export const PersonalRechargeTable: React.FC<
         </div>
       ),
     },
-  ];
+  ]
 
   return (
     <>
@@ -126,10 +126,10 @@ export const PersonalRechargeTable: React.FC<
               ...filter,
               PageIndex: page.current,
               PageSize: page.pageSize,
-            });
+            })
           },
         }}
       />
     </>
-  );
-};
+  )
+}

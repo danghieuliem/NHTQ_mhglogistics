@@ -1,9 +1,9 @@
-import BaseAPI from '../methods';
+import BaseAPI from '../methods'
 
-const { globalCRUD, post } = new BaseAPI<TPackage>('big-package');
+const { globalCRUD, post } = new BaseAPI<TPackage>('big-package')
 
 export const bigPackage = {
-	...globalCRUD,
-	exportExcel: (params: Partial<TPaginationParams & TPackage>) =>
-		post('/export-excel', undefined, { params })
-};
+  ...globalCRUD,
+  exportExcel: (params: Partial<TPaginationParams & TPackage>) =>
+    post('/export-excel', undefined, { params }),
+}

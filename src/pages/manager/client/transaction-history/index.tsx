@@ -1,48 +1,48 @@
-import router, { useRouter } from "next/router";
-import { useState } from "react";
-import { useQuery } from "react-query";
-import { historyPayWallet, user } from "~/api";
+import router, { useRouter } from 'next/router'
+import { useState } from 'react'
+import { useQuery } from 'react-query'
+import { historyPayWallet, user } from '~/api'
 import {
   ClientTransactionHistoryFilter,
   ClientTransactionHistoryTable,
   Layout,
   toast,
-} from "~/components";
-import { breadcrumb } from "~/configs";
-import { SEOConfigs } from "~/configs/SEOConfigs";
-import { TNextPageWithLayout } from "~/types/layout";
-import { _format } from "~/utils";
+} from '~/components'
+import { breadcrumb } from '~/configs'
+import { SEOConfigs } from '~/configs/SEOConfigs'
+import { TNextPageWithLayout } from '~/types/layout'
+import { _format } from '~/utils'
 
 const Index: TNextPageWithLayout = () => {
-  const { query } = useRouter();
+  const { query } = useRouter()
 
   const { data: userData } = useQuery(
-    ["clientData", +query?.id],
+    ['clientData', +query?.id],
     () => user.getByID(+query?.id),
     {
       select: (data) => data.Data,
       retry: false,
       enabled: !!query?.id,
-    }
-  );
+    },
+  )
 
   const [filter, setFilter] = useState({
     PageIndex: 1,
     PageSize: 20,
     TotalItems: null,
-    OrderBy: "Id desc",
+    OrderBy: 'Id desc',
     UID: null,
     FromDate: null,
     ToDate: null,
     Status: null,
-  });
+  })
 
   const handleFilter = (newFilter) => {
-    setFilter({ ...filter, ...newFilter });
-  };
+    setFilter({ ...filter, ...newFilter })
+  }
 
   const { data: userTransactionData, isFetching } = useQuery(
-    ["clientTransactionrData", { ...filter, UID: userData?.Id }],
+    ['clientTransactionrData', { ...filter, UID: userData?.Id }],
     () =>
       historyPayWallet
         .getList({ ...filter, UID: userData?.Id })
@@ -57,11 +57,11 @@ const Index: TNextPageWithLayout = () => {
           PageSize: data?.PageSize,
         }),
       onError: (error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+        toast.error((error as any)?.response?.data?.ResultMessage)
       },
       enabled: !!query?.id && !!userData,
-    }
-  );
+    },
+  )
 
   const handleExportExcel = async () => {
     try {
@@ -69,22 +69,22 @@ const Index: TNextPageWithLayout = () => {
         .getExportExcel({
           UID: +query?.id,
         })
-        .then((res) => router.push(res?.Data));
+        .then((res) => router.push(res?.Data))
     } catch (error) {
-      toast.error(error);
+      toast.error(error)
     }
-  };
+  }
 
   return (
     <>
-      <div className="flex items-end justify-between">
-        <div className="tableBox ">
-          <div className="text-main font-bold">
-            <i className="fas fa-user mr-2"></i>
+      <div className='flex items-end justify-between'>
+        <div className='tableBox '>
+          <div className='font-bold text-main'>
+            <i className='fas fa-user mr-2'></i>
             <span>{userData?.UserName}</span>
           </div>
-          <div className="text-sec font-bold">
-            <i className="fas fa-usd-circle  mr-2"></i>
+          <div className='font-bold text-sec'>
+            <i className='fas fa-usd-circle  mr-2'></i>
             <span>{_format.getVND(userData?.Wallet)}</span>
           </div>
         </div>
@@ -102,11 +102,11 @@ const Index: TNextPageWithLayout = () => {
         handleFilter={handleFilter}
       />
     </>
-  );
-};
+  )
+}
 
-Index.displayName = SEOConfigs.moneyManagement.historyTransaction;
-Index.breadcrumb = breadcrumb.client.transactionHistory.detail;
-Index.Layout = Layout;
+Index.displayName = SEOConfigs.moneyManagement.historyTransaction
+Index.breadcrumb = breadcrumb.client.transactionHistory.detail
+Index.Layout = Layout
 
-export default Index;
+export default Index

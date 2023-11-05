@@ -1,15 +1,19 @@
-import BaseAPI from '../methods';
+import BaseAPI from '../methods'
 
 type TFilterParams = {
-	UID: number;
-	Status: number;
-	FromDate: string;
-	ToDate: string;
-};
+  UID: number
+  Status: number
+  FromDate: string
+  ToDate: string
+}
 
-const { globalCRUD, post } = new BaseAPI<TUserHistoryTransactionVND, TFilterParams>('history-pay-wallet');
+const { globalCRUD, post } = new BaseAPI<
+  TUserHistoryTransactionVND,
+  TFilterParams
+>('history-pay-wallet')
 
 export const historyPayWallet = {
-	...globalCRUD,
-	getExportExcel: (params: Partial<TPaginationParams & TFilterParams>) => post("/export-excel", undefined, {params})
-};
+  ...globalCRUD,
+  getExportExcel: (params: Partial<TPaginationParams & TFilterParams>) =>
+    post('/export-excel', undefined, { params }),
+}

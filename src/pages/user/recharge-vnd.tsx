@@ -1,8 +1,8 @@
-import { Drawer, Space, Tag } from "antd";
-import React, { useRef, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useSelector } from "react-redux";
-import { adminSendUserWallet } from "~/api";
+import { Drawer, Space, Tag } from 'antd'
+import React, { useRef, useState } from 'react'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useSelector } from 'react-redux'
+import { adminSendUserWallet } from '~/api'
 import {
   ActionButton,
   HistoryRechargeVNDTable,
@@ -11,89 +11,89 @@ import {
   RechargeVNDForm,
   UserLayout,
   toast,
-} from "~/components";
-import { RechargeContent } from "~/components/screens/user/recharge-vnd";
-import { SEOHomeConfigs } from "~/configs/SEOConfigs";
-import { useCatalogue } from "~/hooks/useCatalogue";
-import { RootState } from "~/store";
-import { TNextPageWithLayout } from "~/types/layout";
-import { _format } from "~/utils";
+} from '~/components'
+import { RechargeContent } from '~/components/screens/user/recharge-vnd'
+import { SEOHomeConfigs } from '~/configs/SEOConfigs'
+import { useCatalogue } from '~/hooks/useCatalogue'
+import { RootState } from '~/store'
+import { TNextPageWithLayout } from '~/types/layout'
+import { _format } from '~/utils'
 
 export const CreateRequestCom = ({ newUser, bank, TotalAmount }) => {
-  const [isShow, setIsShow] = useState(false);
+  const [isShow, setIsShow] = useState(false)
 
   return (
     <>
       <ActionButton
         isButton
-        icon=""
-        title="Tạo yêu cầu thanh toán"
+        icon=''
+        title='Tạo yêu cầu thanh toán'
         onClick={() => setIsShow(!isShow)}
-        isButtonClassName="!bg-main !text-white ml-auto lg:mb-4"
+        isButtonClassName='!bg-main !text-white ml-auto lg:mb-4'
       />
       <Drawer
         title={
-          <Tag color="text-white" className="!bg-main shadow-lg">
+          <Tag color='text-white' className='!bg-main shadow-lg'>
             Tạo yêu cầu nạp tiền
           </Tag>
         }
         visible={isShow}
         onClose={() => setIsShow(!isShow)}
-        width={"96vw"}
+        width={'96vw'}
         closable={false}
         closeIcon={false}
         extra={
           <Space>
             <IconButton
               onClick={() => setIsShow(!isShow)}
-              title=""
-              icon="far fa-times !mr-0"
-              btnClass="!bg-red"
+              title=''
+              icon='far fa-times !mr-0'
+              btnClass='!bg-red'
               showLoading
-              toolip=""
+              toolip=''
             />
           </Space>
         }
       >
-        <div className="grid grid-cols-12 gap-4 m-4">
-          <div className="col-span-full font-bold text-sm text-blue py-1 px-4 w-fit rounded-[4px]">
+        <div className='m-4 grid grid-cols-12 gap-4'>
+          <div className='col-span-full w-fit rounded-[4px] py-1 px-4 text-sm font-bold text-blue'>
             Tổng tiền đã nạp: {_format.getVND(TotalAmount)}
           </div>
-          <div className="col-span-12 lg:col-span-6">
+          <div className='col-span-12 lg:col-span-6'>
             <RechargeContent newUser={newUser} />
           </div>
-          <div className="col-span-12 lg:col-span-6">
+          <div className='col-span-12 lg:col-span-6'>
             <RechargeVNDForm bankCatalogue={bank ?? []} newUser={newUser} />
           </div>
         </div>
       </Drawer>
     </>
-  );
-};
+  )
+}
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurrentInfo
-  );
-  const { bank } = useCatalogue({ bankEnabled: true });
-  const item = useRef<TUserHistoryRechargeVND>();
-  const [modal, setModal] = useState(false);
-  const queryClient = useQueryClient();
+    (state: RootState) => state.userCurrentInfo,
+  )
+  const { bank } = useCatalogue({ bankEnabled: true })
+  const item = useRef<TUserHistoryRechargeVND>()
+  const [modal, setModal] = useState(false)
+  const queryClient = useQueryClient()
 
   const [filter, setFilter] = useState({
     TotalItems: null,
     PageIndex: 1,
     PageSize: 20,
-    OrderBy: "Id desc",
+    OrderBy: 'Id desc',
     UID: userCurrentInfo?.Id,
-  });
+  })
 
   const handleFilter = (newFilter) => {
-    setFilter({ ...filter, ...newFilter });
-  };
+    setFilter({ ...filter, ...newFilter })
+  }
 
   const { isFetching, data } = useQuery(
-    ["rechargeVNDList", [filter.PageIndex]],
+    ['rechargeVNDList', [filter.PageIndex]],
     () => adminSendUserWallet.getList({ ...filter }).then((res) => res.Data),
     {
       keepPreviousData: true,
@@ -105,43 +105,43 @@ const Index: TNextPageWithLayout = () => {
           TotalItems: data?.TotalItem,
           PageIndex: data?.PageIndex,
           PageSize: data?.PageSize,
-        });
+        })
       },
       onError: (error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+        toast.error((error as any)?.response?.data?.ResultMessage)
       },
-    }
-  );
+    },
+  )
 
   const handleModal = (itemSelected?: TUserHistoryRechargeVND) => {
     if (itemSelected) {
-      item.current = itemSelected;
-      setModal(true);
+      item.current = itemSelected
+      setModal(true)
     } else {
-      item.current = undefined;
-      setModal(false);
+      item.current = undefined
+      setModal(false)
     }
-  };
+  }
 
   const mutationDelete = useMutation(adminSendUserWallet.updateStatusCancel, {
     onSuccess: () => {
-      queryClient.invalidateQueries("rechargeVNDList");
-      handleModal(undefined);
-      toast.success("Huỷ yêu cầu thành công");
+      queryClient.invalidateQueries('rechargeVNDList')
+      handleModal(undefined)
+      toast.success('Huỷ yêu cầu thành công')
     },
     onError: (error) => {
-      toast.error((error as any)?.response?.data?.ResultMessage);
+      toast.error((error as any)?.response?.data?.ResultMessage)
     },
-  });
+  })
 
   return (
     <React.Fragment>
       {window.innerWidth >= 860 && (
-        <div className="tableBox grid grid-cols-12 gap-4 mb-4">
-          <div className="col-span-6 border-r-2 pr-4 border-[#dfdfdf]">
+        <div className='tableBox mb-4 grid grid-cols-12 gap-4'>
+          <div className='col-span-6 border-r-2 border-[#dfdfdf] pr-4'>
             <RechargeContent newUser={userCurrentInfo} />
           </div>
-          <div className="col-span-6">
+          <div className='col-span-6'>
             <RechargeVNDForm
               bankCatalogue={bank ?? []}
               newUser={userCurrentInfo}
@@ -171,14 +171,14 @@ const Index: TNextPageWithLayout = () => {
           mutationDelete.mutateAsync({ ...item.current, Status: 3 })
         }
         visible={modal}
-        title="Bạn có chắc muốn huỷ yêu cầu"
+        title='Bạn có chắc muốn huỷ yêu cầu'
       />
     </React.Fragment>
-  );
-};
+  )
+}
 
-Index.displayName = SEOHomeConfigs.financialManagement.rechargeVNĐ;
-Index.Layout = UserLayout;
-Index.breadcrumb = "Tạo yêu cầu nạp";
+Index.displayName = SEOHomeConfigs.financialManagement.rechargeVNĐ
+Index.Layout = UserLayout
+Index.breadcrumb = 'Tạo yêu cầu nạp'
 
-export default Index;
+export default Index

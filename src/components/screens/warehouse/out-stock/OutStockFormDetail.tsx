@@ -1,16 +1,16 @@
-import { useRouter } from "next/router";
-import React from "react";
-import { useMutation, useQuery } from "react-query";
-import { outStockSession } from "~/api";
-import { Empty, toast } from "~/components";
-import { OutStockFormFilter } from "./OutStockFormFilter";
-import { OutStockFormTableDetail } from "./OutStockFormTableDetail";
+import { useRouter } from 'next/router'
+import React from 'react'
+import { useMutation, useQuery } from 'react-query'
+import { outStockSession } from '~/api'
+import { Empty, toast } from '~/components'
+import { OutStockFormFilter } from './OutStockFormFilter'
+import { OutStockFormTableDetail } from './OutStockFormTableDetail'
 
 export const OutStockFormDetail: React.FC = () => {
-  const { query } = useRouter();
+  const { query } = useRouter()
 
   const { data, isError, isFetching, refetch } = useQuery(
-    ["outStockDetail"],
+    ['outStockDetail'],
     () => outStockSession.getByID(+query?.id),
     {
       onSuccess: (data) => data,
@@ -19,41 +19,41 @@ export const OutStockFormDetail: React.FC = () => {
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       enabled: !!+query?.id,
-    }
-  );
-  const totalMustPay = data?.Data.TotalPay;
+    },
+  )
+  const totalMustPay = data?.Data.TotalPay
 
   const mutationDelete = useMutation(outStockSession.deleteNotePayment, {
     onSuccess: () => refetch(),
     onError: toast.error,
-  });
+  })
 
   const mutationExport = useMutation(
     () => outStockSession.export({ Id: data?.Data?.Id }),
     {
       onSuccess: (res) => {
-        toast.success("Xuất kho thành công");
+        toast.success('Xuất kho thành công')
       },
       onError: toast.error,
-    }
-  );
+    },
+  )
 
   const onOutstock = async () => {
     try {
-      await mutationExport.mutateAsync();
+      await mutationExport.mutateAsync()
     } catch (error) {}
-  };
+  }
 
   const onHide = async () => {
     try {
-      await mutationDelete.mutateAsync({ Id: data?.Data?.Id });
+      await mutationDelete.mutateAsync({ Id: data?.Data?.Id })
     } catch (error) {}
-  };
+  }
 
-  if (isError) return <Empty />;
+  if (isError) return <Empty />
 
   return (
-    <div className="">
+    <div className=''>
       <OutStockFormFilter
         onReload={refetch}
         onOutstock={onOutstock}
@@ -69,5 +69,5 @@ export const OutStockFormDetail: React.FC = () => {
         dataAll={data?.Data}
       />
     </div>
-  );
-};
+  )
+}

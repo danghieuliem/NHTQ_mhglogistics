@@ -1,2 +1,2 @@
-export * from "./CreateDepositSelect";
-export * from "./CreateDepositTable";
+export * from './CreateDepositSelect'
+export * from './CreateDepositTable'

@@ -1,16 +1,16 @@
-import BaseAPI from '../methods';
+import BaseAPI from '../methods'
 
 type TUserAvatar = {
-  avatarIMG: string,
+  avatarIMG: string
   userId: number
 }
 
 const { globalCRUD, gGetPermissionDetail, post } = new BaseAPI<TUserAvatar>(
-	'user/update-avatar'
-);
+  'user/update-avatar',
+)
 
 export const userAvatar = {
-	...globalCRUD,
-	gGetPermissionDetail,
-	getPermissions: () => post<TPermissions[]>('user/update-avatar')
-};
+  ...globalCRUD,
+  gGetPermissionDetail,
+  getPermissions: () => post<TPermissions[]>('user/update-avatar'),
+}

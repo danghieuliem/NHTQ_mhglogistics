@@ -16,8 +16,8 @@ const SportsClothes = {
         { Title: 'Đồ lặn', Value: '潜水服' },
         { Title: 'Trang phục cưỡi ngựa', Value: '骑马运动服装' },
         { Title: 'Áo T-shirt mau khô', Value: '快干T恤' },
-        { Title: 'Áo khoác thể thao', Value: '运动夹克' }
-      ]
+        { Title: 'Áo khoác thể thao', Value: '运动夹克' },
+      ],
     },
     {
       Title: 'Đồ bơi',
@@ -30,8 +30,8 @@ const SportsClothes = {
         { Title: 'Đồ bơi trẻ em', Value: '儿童泳装' },
         { Title: 'Mũ bơi', Value: '游泳帽' },
         { Title: 'Set đồ bơi 3 món', Value: '三件式泳装套装' },
-        { Title: 'Đồ bơi size lớn', Value: '大号泳装' }
-      ]
+        { Title: 'Đồ bơi size lớn', Value: '大号泳装' },
+      ],
     },
     {
       Title: 'Đồ bảo vệ balo',
@@ -39,9 +39,9 @@ const SportsClothes = {
         { Title: 'Túi chống nước', Value: '防水袋' },
         { Title: 'Balo thể thao', Value: '运动背包' },
         { Title: 'Túi thể thao', Value: '运动包' },
-        { Title: 'Balo rằn ri', Value: '徒步背包' }
-      ]
-    }
-  ]
+        { Title: 'Balo rằn ri', Value: '徒步背包' },
+      ],
+    },
+  ],
 }
 export default SportsClothes

@@ -1,2 +1,2 @@
-export * from "./DepositStatisticFilter";
-export * from "./DepositStatisticTable";
+export * from './DepositStatisticFilter'
+export * from './DepositStatisticTable'

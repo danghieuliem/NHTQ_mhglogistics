@@ -1,33 +1,33 @@
-import React from "react";
-import { Grid } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
+import React from 'react'
+import { Grid } from 'swiper'
+import { Swiper, SwiperSlide } from 'swiper/react'
 
 // Import Swiper styles
-import { useRouter } from "next/router";
-import { Pagination } from "swiper";
-import "swiper/css";
-import "swiper/css/grid";
-import "swiper/css/pagination";
-import { HomeBreadcrumb } from "~/components";
-import { _format } from "~/utils";
-import styles from "./index.module.css";
+import { useRouter } from 'next/router'
+import { Pagination } from 'swiper'
+import 'swiper/css'
+import 'swiper/css/grid'
+import 'swiper/css/pagination'
+import { HomeBreadcrumb } from '~/components'
+import { _format } from '~/utils'
+import styles from './index.module.css'
 
 type TProps = {
-  data: _TPageType_Field_Page[];
-  code: any;
-  name: string;
-  direction: "vertical" | "horizontal";
-};
+  data: _TPageType_Field_Page[]
+  code: any
+  name: string
+  direction: 'vertical' | 'horizontal'
+}
 
 const NewsItemSwiper = ({ item, name }) => {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <div className={styles.NewsItemBox}>
       <a
         onClick={() => {
-          localStorage.setItem("PageTypeId", item?.PageTypeId);
-          router.push(`/bai-viet/${item?.Code}`);
+          localStorage.setItem('PageTypeId', item?.PageTypeId)
+          router.push(`/bai-viet/${item?.Code}`)
         }}
       >
         <div className={styles.newsTop}>
@@ -37,11 +37,11 @@ const NewsItemSwiper = ({ item, name }) => {
               style={{
                 background: item?.IMG
                   ? `url(${
-                      item?.IMG?.includes(" ")
-                        ? item?.IMG.replaceAll(" ", "%20")
+                      item?.IMG?.includes(' ')
+                        ? item?.IMG.replaceAll(' ', '%20')
                         : item.IMG
                     })`
-                  : "url(/default/pro-empty.jpg)",
+                  : 'url(/default/pro-empty.jpg)',
               }}
             ></div>
           </div>
@@ -57,17 +57,17 @@ const NewsItemSwiper = ({ item, name }) => {
         <p>{item?.Summary}</p>
       </a>
     </div>
-  );
-};
+  )
+}
 
 const NewsItem = ({ item, name }) => {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <div
       className={styles.NewsItemBoxVertical}
       onClick={() => {
-        router.push(`/chuyen-muc/detail/?code=${item?.Code}`);
+        router.push(`/chuyen-muc/detail/?code=${item?.Code}`)
       }}
     >
       <a>
@@ -76,11 +76,11 @@ const NewsItem = ({ item, name }) => {
           style={{
             background: item?.IMG
               ? `url(${
-                  item?.IMG?.includes(" ")
-                    ? item?.IMG.replaceAll(" ", "%20")
+                  item?.IMG?.includes(' ')
+                    ? item?.IMG.replaceAll(' ', '%20')
                     : item.IMG
                 })`
-              : "url(/default/pro-empty.jpg)",
+              : 'url(/default/pro-empty.jpg)',
           }}
         ></div>
         <div className={styles.infoVertical}>
@@ -98,20 +98,20 @@ const NewsItem = ({ item, name }) => {
         </div>
       </a>
     </div>
-  );
-};
+  )
+}
 
 export const HomeCard: React.FC<TProps> = ({ data, name, direction }) => {
   const pagination = {
     clickable: true,
     renderBullet: function (index, className) {
-      return '<span class="' + className + '">' + (index + 1) + "</span>";
+      return '<span class="' + className + '">' + (index + 1) + '</span>'
     },
-  };
+  }
 
   return (
     <>
-      {direction === "vertical" ? (
+      {direction === 'vertical' ? (
         <>
           {data
             ?.filter((item) => item.Active === true)
@@ -121,7 +121,7 @@ export const HomeCard: React.FC<TProps> = ({ data, name, direction }) => {
                   <React.Fragment key={item?.Code}>
                     <NewsItem item={item} name={name} />
                   </React.Fragment>
-                )
+                ),
             )}
         </>
       ) : (
@@ -152,10 +152,10 @@ export const HomeCard: React.FC<TProps> = ({ data, name, direction }) => {
                   <SwiperSlide key={item?.Code}>
                     <NewsItemSwiper item={item} name={name} />
                   </SwiperSlide>
-                )
+                ),
             )}
         </Swiper>
       )}
     </>
-  );
-};
+  )
+}

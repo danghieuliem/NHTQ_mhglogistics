@@ -1,17 +1,17 @@
-import { useRouter } from "next/router";
-import { useQuery } from "react-query";
-import { Page } from "~/api";
-import { _format } from "~/utils";
-import styles from "./index.module.css";
+import { useRouter } from 'next/router'
+import { useQuery } from 'react-query'
+import { Page } from '~/api'
+import { _format } from '~/utils'
+import styles from './index.module.css'
 
 const NewsItem = ({ item }) => {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <a
       onClick={() => {
-        localStorage.setItem("PageTypeId", item?.PageTypeId);
-        router.push(`/chuyen-muc/detail/?code=${item?.Code}`);
+        localStorage.setItem('PageTypeId', item?.PageTypeId)
+        router.push(`/chuyen-muc/detail/?code=${item?.Code}`)
       }}
     >
       <div className={styles.NewsItemBox}>
@@ -20,11 +20,11 @@ const NewsItem = ({ item }) => {
           style={{
             background: item?.IMG
               ? `url(${
-                  item?.IMG?.includes(" ")
-                    ? item?.IMG.replaceAll(" ", "%20")
+                  item?.IMG?.includes(' ')
+                    ? item?.IMG.replaceAll(' ', '%20')
                     : item?.IMG
                 })`
-              : "url(/default/pro-empty.jpg)",
+              : 'url(/default/pro-empty.jpg)',
           }}
         />
         <div className={styles.datetime}>
@@ -33,12 +33,12 @@ const NewsItem = ({ item }) => {
         </div>
       </div>
     </a>
-  );
-};
+  )
+}
 
 export const HomeSidebar = () => {
   const { data: news } = useQuery<any>({
-    queryKey: ["menuHome"],
+    queryKey: ['menuHome'],
     queryFn: () =>
       Page.getList({
         Active: true,
@@ -46,23 +46,21 @@ export const HomeSidebar = () => {
         PageIndex: 1,
       })
         .then((res) => {
-          return res?.Data?.Items;
+          return res?.Data?.Items
         })
         .catch((error) => {}),
     staleTime: 5000,
-  });
+  })
 
   return (
     <>
       <div className={styles.newAticle}>
         <span className={styles.head}>
-          <img src="/icon/docs.png" alt="" />
+          <img src='/icon/docs.png' alt='' />
           <h3>Bài viết gần đây</h3>
         </span>
         <div className={styles.itemsBox}>
-          {news?.map((item) => (
-            <NewsItem item={item} key={item?.Id} />
-          ))}
+          {news?.map((item) => <NewsItem item={item} key={item?.Id} />)}
         </div>
       </div>
       {/* <div className={styles.chuyenMuc}>
@@ -87,5 +85,5 @@ export const HomeSidebar = () => {
         </div>
       </div> */}
     </>
-  );
-};
+  )
+}

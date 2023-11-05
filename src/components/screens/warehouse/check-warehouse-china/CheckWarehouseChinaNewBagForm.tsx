@@ -1,77 +1,77 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
-import { toast } from "react-toastify";
-import { bigPackage } from "~/api";
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { useMutation, useQueryClient } from 'react-query'
+import { toast } from 'react-toastify'
+import { bigPackage } from '~/api'
 import {
   Button,
   FormCard,
   FormInput,
   FormInputNumber,
   Modal,
-} from "~/components";
-import { TForm } from "~/types/table";
+} from '~/components'
+import { TForm } from '~/types/table'
 
 export const CheckWarehouseChinaNewBagForm: React.FC<
   TForm<TPackage> & { refetch }
 > = ({ visible, onCancel, refetch }) => {
   const { handleSubmit, control, reset } = useForm<TPackage>({
-    mode: "onBlur",
-  });
+    mode: 'onBlur',
+  })
 
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
   const mutationCreate = useMutation(bigPackage.create, {
     onSuccess: async () => {
       // mutationCreate.reset();
-      toast.success("Thêm bao lớn thành công");
+      toast.success('Thêm bao lớn thành công')
       // reset();
-      onCancel();
-      queryClient.invalidateQueries("bigPackageList");
+      onCancel()
+      queryClient.invalidateQueries('bigPackageList')
     },
     onError: (error) => {
-      toast.error((error as any)?.response?.data?.ResultMessage);
+      toast.error((error as any)?.response?.data?.ResultMessage)
     },
-  });
+  })
 
   const _onPress = (data: TPackage) =>
-    mutationCreate.mutateAsync({ ...data, Name: data.Code });
+    mutationCreate.mutateAsync({ ...data, Name: data.Code })
 
   return (
     <Modal visible={visible} onCancel={onCancel}>
       <FormCard>
         <FormCard.Header onCancel={onCancel}>
-          <div className="w-full">
+          <div className='w-full'>
             <p>Thêm bao lớn mới</p>
           </div>
         </FormCard.Header>
         <FormCard.Body>
-          <div className="grid grid-cols-1 gap-4">
-            <div className="col-span-1">
+          <div className='grid grid-cols-1 gap-4'>
+            <div className='col-span-1'>
               <FormInput
                 control={control}
-                name="Code"
-                label="Mã bao hàng"
-                placeholder=""
-                rules={{ required: "Không bỏ trống mã bao hàng" }}
+                name='Code'
+                label='Mã bao hàng'
+                placeholder=''
+                rules={{ required: 'Không bỏ trống mã bao hàng' }}
               />
             </div>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <FormInputNumber
                 control={control}
-                name="Weight"
-                label="Cân nặng (kg)"
-                placeholder=""
-                suffix=" kg"
+                name='Weight'
+                label='Cân nặng (kg)'
+                placeholder=''
+                suffix=' kg'
                 required={false}
               />
             </div>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <FormInputNumber
                 control={control}
-                name="Volume"
-                label="Khối (m3)"
-                placeholder=""
-                suffix=" m3"
+                name='Volume'
+                label='Khối (m3)'
+                placeholder=''
+                suffix=' m3'
                 required={false}
               />
             </div>
@@ -79,13 +79,13 @@ export const CheckWarehouseChinaNewBagForm: React.FC<
         </FormCard.Body>
         <FormCard.Footer>
           <Button
-            title="Thêm"
+            title='Thêm'
             onClick={handleSubmit(_onPress)}
-            btnClass="bg-main mr-2"
+            btnClass='bg-main mr-2'
           />
-          <Button title="Huỷ" onClick={onCancel} btnClass="!bg-red" />
+          <Button title='Huỷ' onClick={onCancel} btnClass='!bg-red' />
         </FormCard.Footer>
       </FormCard>
     </Modal>
-  );
-};
+  )
+}

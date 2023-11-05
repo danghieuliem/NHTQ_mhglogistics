@@ -1,2 +1,2 @@
-export * from './adminSlice';
-export * from './select';
+export * from './adminSlice'
+export * from './select'

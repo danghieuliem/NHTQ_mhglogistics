@@ -1,2 +1,1 @@
-export * from './HookWrapper';
-
+export * from './HookWrapper'

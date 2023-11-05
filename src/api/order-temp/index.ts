@@ -1,14 +1,17 @@
-import BaseAPI from '../methods';
+import BaseAPI from '../methods'
 
 type TFilterParams = {
-	UID: number;
-	ShopId: number;
-};
+  UID: number
+  ShopId: number
+}
 
-const { globalCRUD, put } = new BaseAPI<TUserCartOrderTemp, TFilterParams>('order-temp');
+const { globalCRUD, put } = new BaseAPI<TUserCartOrderTemp, TFilterParams>(
+  'order-temp',
+)
 
 export const orderTemp = {
-	...globalCRUD,
+  ...globalCRUD,
 
-	updateField: (data: { Id: number; Quantity: number }) => put<TUserCartOrderTemp>('/update-brand-and-quantity', data)
-};
+  updateField: (data: { Id: number; Quantity: number }) =>
+    put<TUserCartOrderTemp>('/update-brand-and-quantity', data),
+}

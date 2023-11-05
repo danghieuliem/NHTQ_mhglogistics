@@ -1,1 +1,1 @@
-export * from "./StatisticalDepositTable";
+export * from './StatisticalDepositTable'

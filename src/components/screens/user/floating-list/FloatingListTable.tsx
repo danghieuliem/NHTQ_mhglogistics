@@ -1,12 +1,12 @@
-import { Space, Tag, Tooltip } from "antd";
-import React, { useRef, useState } from "react";
-import { ActionButton, DataTable, FloatingListForm } from "~/components";
+import { Space, Tag, Tooltip } from 'antd'
+import React, { useRef, useState } from 'react'
+import { ActionButton, DataTable, FloatingListForm } from '~/components'
 import {
   smallPackageStatusConfirm,
   smallPackageStatusData,
-} from "~/configs/appConfigs";
-import { TColumnsType, TTable } from "~/types/table";
-import { _format } from "~/utils";
+} from '~/configs/appConfigs'
+import { TColumnsType, TTable } from '~/types/table'
+import { _format } from '~/utils'
 
 export const FloatingListTable: React.FC<TTable<TSmallPackage>> = ({
   data,
@@ -15,19 +15,19 @@ export const FloatingListTable: React.FC<TTable<TSmallPackage>> = ({
 }) => {
   const columns: TColumnsType<TSmallPackage> = [
     {
-      dataIndex: "Id",
-      align: "center",
-      title: "ID",
+      dataIndex: 'Id',
+      align: 'center',
+      title: 'ID',
     },
     {
-      dataIndex: "OrderTransactionCode",
-      align: "center",
-      title: "Mã vận đơn",
+      dataIndex: 'OrderTransactionCode',
+      align: 'center',
+      title: 'Mã vận đơn',
     },
     {
-      dataIndex: "Status",
-      align: "center",
-      title: "Trạng thái",
+      dataIndex: 'Status',
+      align: 'center',
+      title: 'Trạng thái',
       render: (status, record) => (
         <Tag
           color={
@@ -38,70 +38,70 @@ export const FloatingListTable: React.FC<TTable<TSmallPackage>> = ({
         </Tag>
       ),
 
-      responsive: ["sm"],
+      responsive: ['sm'],
     },
     {
-      dataIndex: "FloatingUserName",
-      align: "center",
-      title: "Người nhận",
-      responsive: ["md"],
+      dataIndex: 'FloatingUserName',
+      align: 'center',
+      title: 'Người nhận',
+      responsive: ['md'],
     },
     {
-      dataIndex: "FloatingStatus",
-      align: "center",
-      title: "Trạng thái xác nhận",
+      dataIndex: 'FloatingStatus',
+      align: 'center',
+      title: 'Trạng thái xác nhận',
       render: (status, record) => (
         <Tag
           color={
             smallPackageStatusConfirm.find(
-              (x) => x.id === record?.FloatingStatus
+              (x) => x.id === record?.FloatingStatus,
             )?.color
           }
         >
-          {record.FloatingStatusName == ""
-            ? "Chưa xác nhận"
+          {record.FloatingStatusName == ''
+            ? 'Chưa xác nhận'
             : record.FloatingStatusName}
         </Tag>
       ),
-      responsive: ["lg"],
+      responsive: ['lg'],
     },
     {
-      dataIndex: "Created",
-      align: "center",
-      title: "Ngày tạo",
+      dataIndex: 'Created',
+      align: 'center',
+      title: 'Ngày tạo',
       render: (date) => _format.getShortVNDate(date),
-      responsive: ["xl"],
+      responsive: ['xl'],
     },
     {
-      dataIndex: "action",
-      align: "center",
-      title: "Thao tác",
+      dataIndex: 'action',
+      align: 'center',
+      title: 'Thao tác',
       render: (_, record) => (
         <Space>
-          <Tooltip title="Xác nhận">
+          <Tooltip title='Xác nhận'>
             <ActionButton
               onClick={() => handleModal(record)}
-              icon="fas fa-box-check"
-              title="Xác nhận"
+              icon='fas fa-box-check'
+              title='Xác nhận'
               btnYellow
             />
           </Tooltip>
         </Space>
       ),
-      responsive: ["xl"],
+      responsive: ['xl'],
     },
-  ];
+  ]
 
-  const item = useRef<TSmallPackage>();
-  const [modal, setModal] = useState(false);
+  const item = useRef<TSmallPackage>()
+  const [modal, setModal] = useState(false)
   const handleModal = (itemSelected: TSmallPackage) => {
-    item.current = itemSelected;
-    setModal(true);
-  };
+    item.current = itemSelected
+    setModal(true)
+  }
 
   return (
     <>
-      <div className="">
+      <div className=''>
         <DataTable
           {...{
             columns,
@@ -111,7 +111,7 @@ export const FloatingListTable: React.FC<TTable<TSmallPackage>> = ({
           }}
         />
       </div>
-      <div className="">
+      <div className=''>
         <FloatingListForm
           defaultValues={item?.current}
           visible={modal}
@@ -119,5 +119,5 @@ export const FloatingListTable: React.FC<TTable<TSmallPackage>> = ({
         />
       </div>
     </>
-  );
-};
+  )
+}

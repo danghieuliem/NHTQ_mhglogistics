@@ -1,2 +1,2 @@
-export * from './TariffGoodsCheckingTable';
-export * from './TariffGoodsCheckingForm';
+export * from './TariffGoodsCheckingTable'
+export * from './TariffGoodsCheckingForm'

@@ -1,7 +1,7 @@
-import BaseAPI from "../methods";
+import BaseAPI from '../methods'
 
-const { get } = new BaseAPI<any>("search");
+const { get } = new BaseAPI<any>('search')
 
 export const searchProduct = {
-  get: (params: { url: string }) => get("/get-full-link", { params }),
-};
+  get: (params: { url: string }) => get('/get-full-link', { params }),
+}

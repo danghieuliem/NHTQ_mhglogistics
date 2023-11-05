@@ -1,11 +1,11 @@
-import BaseAPI from '../methods';
+import BaseAPI from '../methods'
 
 const { globalCRUD, gGetPermissionDetail, get } = new BaseAPI<TUserGroup>(
-	'user-group'
-);
+  'user-group',
+)
 
 export const userGroup = {
-	...globalCRUD,
-	gGetPermissionDetail,
-	getPermissions: () => get<TPermissions[]>('/get-permissions')
-};
+  ...globalCRUD,
+  gGetPermissionDetail,
+  getPermissions: () => get<TPermissions[]>('/get-permissions'),
+}

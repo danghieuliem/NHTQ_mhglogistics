@@ -1,27 +1,27 @@
-import React, { useEffect, useRef } from "react";
-import { Checkbox } from "antd";
+import React, { useEffect, useRef } from 'react'
+import { Checkbox } from 'antd'
 import {
   Control,
   Controller,
   FieldValues,
   Path,
   RegisterOptions,
-} from "react-hook-form";
-import clsx from "clsx";
-import { ErrorMessage } from "@hookform/error-message";
+} from 'react-hook-form'
+import clsx from 'clsx'
+import { ErrorMessage } from '@hookform/error-message'
 
 type TProps<TFieldValues> = {
-  name: Path<TFieldValues>;
-  label?: string;
-  rules?: RegisterOptions;
-  control: Control<TFieldValues, object>;
-  checkBoxClassName?: string;
-  hideError?: boolean;
-  disabled?: boolean;
-  defaultChecked?: boolean;
-  onChange?: any;
-  valueP?: boolean;
-};
+  name: Path<TFieldValues>
+  label?: string
+  rules?: RegisterOptions
+  control: Control<TFieldValues, object>
+  checkBoxClassName?: string
+  hideError?: boolean
+  disabled?: boolean
+  defaultChecked?: boolean
+  onChange?: any
+  valueP?: boolean
+}
 
 export const FormCheckbox = <TFieldValues extends FieldValues = FieldValues>({
   label,
@@ -44,7 +44,7 @@ export const FormCheckbox = <TFieldValues extends FieldValues = FieldValues>({
         <React.Fragment>
           <Checkbox
             disabled={disabled}
-            className={clsx(checkBoxClassName, "text-base")}
+            className={clsx(checkBoxClassName, 'text-base')}
             {...newField}
             checked={value}
             defaultChecked={defaultChecked}
@@ -56,7 +56,7 @@ export const FormCheckbox = <TFieldValues extends FieldValues = FieldValues>({
               errors={errors}
               name={name as any}
               render={({ message }) => (
-                <p className="text-warning text-xs font-medium mt-1">
+                <p className='mt-1 text-xs font-medium text-warning'>
                   {message}
                 </p>
               )}
@@ -65,5 +65,5 @@ export const FormCheckbox = <TFieldValues extends FieldValues = FieldValues>({
         </React.Fragment>
       )}
     />
-  );
-};
+  )
+}

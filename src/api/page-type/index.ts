@@ -1,12 +1,12 @@
-import BaseAPI from '../methods';
+import BaseAPI from '../methods'
 
 type TFilterParams = {
-	Name: string;
-};
+  Name: string
+}
 
-const { globalCRUD, get } = new BaseAPI<TPageType, TFilterParams>('page-type');
+const { globalCRUD, get } = new BaseAPI<TPageType, TFilterParams>('page-type')
 
 export const pageType = {
-	...globalCRUD,
-	getByCode: (code: any) => get<any>(`/get-by-code`, { params: { code } })
-};
+  ...globalCRUD,
+  getByCode: (code: any) => get<any>(`/get-by-code`, { params: { code } }),
+}

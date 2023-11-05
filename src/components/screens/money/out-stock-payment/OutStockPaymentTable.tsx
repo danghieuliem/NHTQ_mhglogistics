@@ -1,16 +1,16 @@
-import { Pagination } from "antd";
-import Link from "next/link";
-import React from "react";
-import { ActionButton, DataTable } from "~/components";
-import { TColumnsType, TTable } from "~/types/table";
-import { _format } from "~/utils";
-import TagStatus from "../../status/TagStatus";
-import { useScreen } from "~/hooks";
+import { Pagination } from 'antd'
+import Link from 'next/link'
+import React from 'react'
+import { ActionButton, DataTable } from '~/components'
+import { TColumnsType, TTable } from '~/types/table'
+import { _format } from '~/utils'
+import TagStatus from '../../status/TagStatus'
+import { useScreen } from '~/hooks'
 
 type TProps = {
-  filter;
-  handleFilter: (newFilter) => void;
-};
+  filter
+  handleFilter: (newFilter) => void
+}
 
 const OutStockPaymentTable: React.FC<TTable<TOutStockSession> & TProps> = ({
   data,
@@ -18,28 +18,28 @@ const OutStockPaymentTable: React.FC<TTable<TOutStockSession> & TProps> = ({
   filter,
   handleFilter,
 }) => {
-  const { isWidthMD } = useScreen();
+  const { isWidthMD } = useScreen()
 
   const columns: TColumnsType<TOutStockSession> = [
     {
-      dataIndex: "Id",
-      title: "ID",
+      dataIndex: 'Id',
+      title: 'ID',
       width: 50,
-      responsive: ["lg"],
+      responsive: ['lg'],
     },
     {
-      dataIndex: "Created",
-      title: "Ngày tạo",
-      responsive: ["lg"],
+      dataIndex: 'Created',
+      title: 'Ngày tạo',
+      responsive: ['lg'],
       render: (date) => _format.getVNDate(date),
     },
     {
-      dataIndex: "UserName",
-      title: "Username",
-      render: (_, record) => <>{record?.UserName ?? "--"}</>,
+      dataIndex: 'UserName',
+      title: 'Username',
+      render: (_, record) => <>{record?.UserName ?? '--'}</>,
     },
     {
-      dataIndex: "TotalPay",
+      dataIndex: 'TotalPay',
       title: (
         <>
           Tổng tiền
@@ -47,43 +47,43 @@ const OutStockPaymentTable: React.FC<TTable<TOutStockSession> & TProps> = ({
           (VNĐ)
         </>
       ),
-      align: "right",
-      responsive: ["sm"],
-      render: (val) => _format.getVND(val, ""),
+      align: 'right',
+      responsive: ['sm'],
+      render: (val) => _format.getVND(val, ''),
     },
     {
-      dataIndex: "Status",
-      title: "Trạng thái",
+      dataIndex: 'Status',
+      title: 'Trạng thái',
       render: (status, record) => (
         <TagStatus
-          color={status === 1 ? "#cf1322" : "#389e0d"}
+          color={status === 1 ? '#cf1322' : '#389e0d'}
           statusName={record.StatusName}
         />
       ),
     },
     {
-      dataIndex: "Updated",
-      title: "Ngày cập nhật",
-      responsive: ["lg"],
+      dataIndex: 'Updated',
+      title: 'Ngày cập nhật',
+      responsive: ['lg'],
       render: (date) => _format.getVNDate(date),
     },
     {
-      dataIndex: "action",
-      title: "Thao tác",
-      fixed: "right",
+      dataIndex: 'action',
+      title: 'Thao tác',
+      fixed: 'right',
       width: 120,
-      responsive: ["sm"],
+      responsive: ['sm'],
       render: (_, record) => (
         <Link
           href={`/manager/money/out-stock-payment/detail/?id=${record?.Id}`}
         >
-          <a target="_blank">
-            <ActionButton icon="fad fa-edit" title="Cập nhật" isButton />
+          <a target='_blank'>
+            <ActionButton icon='fad fa-edit' title='Cập nhật' isButton />
           </a>
         </Link>
       ),
     },
-  ];
+  ]
 
   return (
     <>
@@ -104,12 +104,12 @@ const OutStockPaymentTable: React.FC<TTable<TOutStockSession> & TProps> = ({
               ...filter,
               PageIndex: page.current,
               PageSize: page.pageSize,
-            });
+            })
           },
         }}
       />
     </>
-  );
-};
+  )
+}
 
-export { OutStockPaymentTable };
+export { OutStockPaymentTable }

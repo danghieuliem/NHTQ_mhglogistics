@@ -1,47 +1,47 @@
-import { useCallback, useState } from "react";
-import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
-import { feeVolume } from "~/api";
+import { useCallback, useState } from 'react'
+import { useQuery } from 'react-query'
+import { useSelector } from 'react-redux'
+import { feeVolume } from '~/api'
 import {
   Layout,
   toast,
   VolumeFeeFilter,
   VolumeFeeFormMemo,
   VolumeFeeTable,
-} from "~/components";
-import { breadcrumb } from "~/configs";
-import { SEOConfigs } from "~/configs/SEOConfigs";
-import { RootState } from "~/store";
-import type { TNextPageWithLayout } from "~/types/layout";
+} from '~/components'
+import { breadcrumb } from '~/configs'
+import { SEOConfigs } from '~/configs/SEOConfigs'
+import { RootState } from '~/store'
+import type { TNextPageWithLayout } from '~/types/layout'
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurrentInfo
-  );
+    (state: RootState) => state.userCurrentInfo,
+  )
 
-  const [modalAdd, setModalAdd] = useState(false);
-  const [modalUpdate, setModalUpdate] = useState(false);
-  const [idTarget, setIdTarget] = useState(null);
+  const [modalAdd, setModalAdd] = useState(false)
+  const [modalUpdate, setModalUpdate] = useState(false)
+  const [idTarget, setIdTarget] = useState(null)
 
   const [filter, setFilter] = useState({
     PageIndex: 1,
     PageSize: 999999,
-    OrderBy: "Id desc",
+    OrderBy: 'Id desc',
     WarehouseFromId: null,
     WarehouseId: null,
     ShippingTypeToWareHouseId: null,
     IsHelpMoving: null,
     TotalItems: null,
-  });
+  })
 
   const handleFilter = (newFilter) => {
-    setFilter({ ...filter, ...newFilter });
-    return;
-  };
+    setFilter({ ...filter, ...newFilter })
+    return
+  }
 
   const { isFetching, data, isLoading, refetch } = useQuery(
     [
-      "feeVolumeData",
+      'feeVolumeData',
       [
         filter.PageIndex,
         filter.WarehouseFromId,
@@ -59,17 +59,17 @@ const Index: TNextPageWithLayout = () => {
           TotalItems: data?.Data?.TotalItem,
           PageIndex: data?.Data?.PageIndex,
           PageSize: data?.Data?.PageSize,
-        });
-        return data?.Data?.Items;
+        })
+        return data?.Data?.Items
       },
       enabled: userCurrentInfo?.UserGroupId === 1,
       refetchOnWindowFocus: false,
       onError: toast.error,
-    }
-  );
+    },
+  )
 
-  const handleCloseUpdateModal = useCallback(() => setModalUpdate(false), []);
-  const handlCloseAddModal = useCallback(() => setModalAdd(false), []);
+  const handleCloseUpdateModal = useCallback(() => setModalUpdate(false), [])
+  const handlCloseAddModal = useCallback(() => setModalAdd(false), [])
 
   return (
     <div>
@@ -94,31 +94,31 @@ const Index: TNextPageWithLayout = () => {
 
       <VolumeFeeFormMemo
         {...{
-          title: "Cập nhật phí thể tích TQ - VN",
+          title: 'Cập nhật phí thể tích TQ - VN',
           onCancel: handleCloseUpdateModal,
           defaultValues: data?.Data?.Items,
           visible: modalUpdate,
           idTarget,
         }}
         refetch={refetch}
-        type={"update"}
+        type={'update'}
       />
 
       <VolumeFeeFormMemo
         {...{
-          title: "Thêm phí thể tích TQ - VN",
+          title: 'Thêm phí thể tích TQ - VN',
           onCancel: handlCloseAddModal,
           // defaultValues: {},
           visible: modalAdd,
         }}
         refetch={refetch}
-        type={"addNew"}
+        type={'addNew'}
       />
     </div>
-  );
-};
-Index.displayName = SEOConfigs?.settings.volume;
-Index.breadcrumb = breadcrumb.settings.volume;
-Index.Layout = Layout;
+  )
+}
+Index.displayName = SEOConfigs?.settings.volume
+Index.breadcrumb = breadcrumb.settings.volume
+Index.Layout = Layout
 
-export default Index;
+export default Index

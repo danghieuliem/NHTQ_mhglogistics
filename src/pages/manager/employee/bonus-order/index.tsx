@@ -1,9 +1,9 @@
-import { Modal } from "antd";
-import router from "next/router";
-import { useCallback, useState } from "react";
-import { useMutation, useQuery } from "react-query";
-import { useSelector } from "react-redux";
-import { staffIncome } from "~/api";
+import { Modal } from 'antd'
+import router from 'next/router'
+import { useCallback, useState } from 'react'
+import { useMutation, useQuery } from 'react-query'
+import { useSelector } from 'react-redux'
+import { staffIncome } from '~/api'
 import {
   BonusManagementFilterMemo,
   BonusManagementTable,
@@ -11,20 +11,20 @@ import {
   FormCard,
   Layout,
   toast,
-} from "~/components";
-import { breadcrumb } from "~/configs";
-import { SEOConfigs } from "~/configs/SEOConfigs";
-import { RootState } from "~/store";
-import { TNextPageWithLayout } from "~/types/layout";
-import { _format } from "~/utils";
-import { toast as toastR } from "react-toastify";
+} from '~/components'
+import { breadcrumb } from '~/configs'
+import { SEOConfigs } from '~/configs/SEOConfigs'
+import { RootState } from '~/store'
+import { TNextPageWithLayout } from '~/types/layout'
+import { _format } from '~/utils'
+import { toast as toastR } from 'react-toastify'
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurrentInfo
-  );
+    (state: RootState) => state.userCurrentInfo,
+  )
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const [filter, setFilter] = useState({
     PageIndex: 1,
@@ -37,19 +37,19 @@ const Index: TNextPageWithLayout = () => {
     ToDate: null,
     Status: null,
     Type: 0,
-  });
+  })
 
   const handleFilter = useCallback((newFilter) => {
-    const filterNew = { ...filter, ...newFilter };
+    const filterNew = { ...filter, ...newFilter }
     if (filterNew?.RoleID !== 1 || filter?.RoleID !== 3) {
-      delete filterNew.UID;
+      delete filterNew.UID
     }
-    setFilter(filterNew);
-  }, []);
+    setFilter(filterNew)
+  }, [])
 
   const { isFetching, data, isLoading, refetch } = useQuery(
     [
-      "bonusList",
+      'bonusList',
       [
         filter.PageIndex,
         filter.SearchContent,
@@ -72,12 +72,12 @@ const Index: TNextPageWithLayout = () => {
       onError: toast.error,
       refetchOnWindowFocus: true,
       staleTime: 5000,
-    }
-  );
+    },
+  )
 
   const _onExportExcel = useCallback(async () => {
-    const id = toastR.loading("Đang xử lý ...");
-    let newFilter = { ...filter };
+    const id = toastR.loading('Đang xử lý ...')
+    let newFilter = { ...filter }
 
     if (
       filter.FromDate ||
@@ -89,20 +89,20 @@ const Index: TNextPageWithLayout = () => {
       newFilter = {
         ...filter,
         PageSize: 9999,
-      };
+      }
     }
 
     try {
-      const res = await staffIncome.exportExcel(newFilter);
-      router.push(`${res.Data}`);
+      const res = await staffIncome.exportExcel(newFilter)
+      router.push(`${res.Data}`)
     } catch (error) {
-      toast.error(error);
+      toast.error(error)
     } finally {
       toastR.update(id, {
         isLoading: false,
         autoClose: 1,
-        type: "default",
-      });
+        type: 'default',
+      })
     }
   }, [
     filter.FromDate,
@@ -110,56 +110,56 @@ const Index: TNextPageWithLayout = () => {
     filter.SearchContent,
     filter.Status,
     filter.RoleID,
-  ]);
+  ])
 
   const mutationPayment = useMutation(
     () => staffIncome.payment({ Type: 2, Id: 0 }),
     {
       onSuccess: () => {
-        toast.success("Thanh toán thành công");
-        setIsModalOpen(false);
-        refetch();
+        toast.success('Thanh toán thành công')
+        setIsModalOpen(false)
+        refetch()
       },
       onError: toast.error,
-    }
-  );
+    },
+  )
 
   const _handlePayAll = async () => {
-    await mutationPayment.mutateAsync();
-  };
+    await mutationPayment.mutateAsync()
+  }
 
   const mutationPaymentOne = useMutation(
     (Id: number) => staffIncome.payment({ Type: 1, Id }),
     {
       onSuccess: () => {
-        toast.success("Thanh toán thành công");
-        refetch();
+        toast.success('Thanh toán thành công')
+        refetch()
       },
       onError: toast.error,
-    }
-  );
+    },
+  )
 
   const _handlePayment = async (Id: number) => {
-    await mutationPaymentOne.mutateAsync(Id);
-  };
+    await mutationPaymentOne.mutateAsync(Id)
+  }
 
-  const handleOpenModal = useCallback(() => setIsModalOpen(true), []);
+  const handleOpenModal = useCallback(() => setIsModalOpen(true), [])
 
   return (
     <>
-      <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-2">
-        <div className="grid md:grid-cols-2 gap-2">
-          <div className="tableBox flex flex-col">
-            <div className="text-label font-bold">Tổng tiền đã thanh toán:</div>
-            <span className="text-blue font-semibold flex justify-end">
+      <div className='flex flex-col items-start justify-between gap-2 md:flex-row md:items-end'>
+        <div className='grid gap-2 md:grid-cols-2'>
+          <div className='tableBox flex flex-col'>
+            <div className='font-bold text-label'>Tổng tiền đã thanh toán:</div>
+            <span className='flex justify-end font-semibold text-blue'>
               {_format.getVND(data?.Items[0]?.MaxTotalPriceReceivePayment)}
             </span>
           </div>
-          <div className="tableBox flex flex-col">
-            <span className="text-label font-bold">
+          <div className='tableBox flex flex-col'>
+            <span className='font-bold text-label'>
               Tổng tiền chưa thanh toán:
             </span>
-            <span className="text-orange font-semibold flex items-center justify-end">
+            <span className='flex items-center justify-end font-semibold text-orange'>
               {_format.getVND(data?.Items[0]?.MaxTotalPriceReceiveNotPayment)}
             </span>
           </div>
@@ -193,36 +193,36 @@ const Index: TNextPageWithLayout = () => {
             Thông báo!
           </FormCard.Header>
           <FormCard.Body>
-            <div className="ml-2 flex items-center justify-between">
-              <span className="text-[#5c5b5b]">Tổng tiền thanh toán:</span>
-              <span className="text-orange font-semibold ">
+            <div className='ml-2 flex items-center justify-between'>
+              <span className='text-[#5c5b5b]'>Tổng tiền thanh toán:</span>
+              <span className='font-semibold text-orange '>
                 {_format.getVND(data?.Items[0]?.MaxTotalPriceReceiveNotPayment)}
               </span>
             </div>
           </FormCard.Body>
           <FormCard.Footer>
             <Button
-              title="Thanh toán"
-              btnClass="!bg-main mr-2"
+              title='Thanh toán'
+              btnClass='!bg-main mr-2'
               disabled={
                 data?.Items[0]?.MaxTotalPriceReceiveNotPayment ? false : true
               }
               onClick={() => _handlePayAll()}
             />
             <Button
-              title="Hủy"
+              title='Hủy'
               onClick={() => setIsModalOpen(false)}
-              btnClass="!bg-red"
+              btnClass='!bg-red'
             />
           </FormCard.Footer>
         </FormCard>
       </Modal>
     </>
-  );
-};
+  )
+}
 
-Index.displayName = SEOConfigs?.staff?.commissionManager;
-Index.breadcrumb = breadcrumb.employee.bonusManagement.order;
-Index.Layout = Layout;
+Index.displayName = SEOConfigs?.staff?.commissionManager
+Index.breadcrumb = breadcrumb.employee.bonusManagement.order
+Index.Layout = Layout
 
-export default Index;
+export default Index

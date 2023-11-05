@@ -1,6 +1,6 @@
-import React, { FC, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import React, { FC, useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import {
   Button,
   Modal,
@@ -8,19 +8,19 @@ import {
   FormCheckbox,
   FormInput,
   toast,
-} from "~/components";
-import { TForm } from "~/types/table";
-import { notificationSetting } from "~/api";
+} from '~/components'
+import { TForm } from '~/types/table'
+import { notificationSetting } from '~/api'
 
 export const NotificationsForm: FC<
   TForm<TSettingNotification> & { refetch }
 > = ({ onCancel, defaultValues, visible, refetch }) => {
   const { handleSubmit, reset, control } = useForm<TSettingNotification>({
     defaultValues,
-  });
+  })
 
   const { isFetching } = useQuery(
-    ["warehouseFeeId", defaultValues?.Id],
+    ['warehouseFeeId', defaultValues?.Id],
     () =>
       notificationSetting.getByID(defaultValues?.Id).then((res) => res.Data),
     {
@@ -28,116 +28,113 @@ export const NotificationsForm: FC<
       refetchOnWindowFocus: false,
       onSuccess: (data) => reset(data),
       onError: toast.error,
-    }
-  );
+    },
+  )
 
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
   const mutationUpdate = useMutation(notificationSetting.update, {
     // refresh item + table data after updating successfully
     onSuccess: async (_, variables) => {
-      queryClient.invalidateQueries("warehouseFeeData");
-      queryClient.setQueryData(
-        ["warehouseFeeId", defaultValues?.Id],
-        variables
-      );
-      onCancel();
-      refetch();
-      toast.success("Cập nhật cấu hình thành công");
+      queryClient.invalidateQueries('warehouseFeeData')
+      queryClient.setQueryData(['warehouseFeeId', defaultValues?.Id], variables)
+      onCancel()
+      refetch()
+      toast.success('Cập nhật cấu hình thành công')
     },
     onError: toast.error,
-  });
+  })
 
   useEffect(() => {
-    reset(defaultValues);
-  }, [defaultValues]);
+    reset(defaultValues)
+  }, [defaultValues])
 
   const _onPress = (data: TSettingNotification) => {
     // dùng new data này, không dùng ở trên, dùng ở trên có khả năng thay đổi field disabled
-    let newData = JSON.parse(JSON.stringify(data));
-    delete newData.name;
-    mutationUpdate.mutateAsync({ ...newData });
-  };
+    let newData = JSON.parse(JSON.stringify(data))
+    delete newData.name
+    mutationUpdate.mutateAsync({ ...newData })
+  }
 
   function handleOnCancel() {
-    reset();
-    onCancel();
+    reset()
+    onCancel()
   }
 
   return (
     <Modal visible={visible} onCancel={handleOnCancel}>
       <FormCard>
         <FormCard.Header onCancel={handleOnCancel}>
-          <div className="w-full">
-            <p className="xl:text-lg text-base">
-              CẤU HÌNH THÔNG BÁO #{defaultValues?.Id}{" "}
+          <div className='w-full'>
+            <p className='text-base xl:text-lg'>
+              CẤU HÌNH THÔNG BÁO #{defaultValues?.Id}{' '}
             </p>
           </div>
         </FormCard.Header>
         <FormCard.Body>
-          <div className="grid xs:grid-cols-2 gap-3">
-            <div className="col-span-full">
+          <div className='grid gap-3 xs:grid-cols-2'>
+            <div className='col-span-full'>
               <FormInput
                 control={control}
-                name="Name"
-                label="Tên thông báo"
-                placeholder="Tên thông báo"
+                name='Name'
+                label='Tên thông báo'
+                placeholder='Tên thông báo'
                 disabled
               />
             </div>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <FormCheckbox
                 control={control}
-                name="IsNotifyAdmin"
-                label="Thông báo admin"
+                name='IsNotifyAdmin'
+                label='Thông báo admin'
               />
             </div>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <FormCheckbox
                 control={control}
-                name="IsNotifyUser"
-                label="Thông báo User"
+                name='IsNotifyUser'
+                label='Thông báo User'
               />
             </div>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <FormCheckbox
                 control={control}
-                name="IsNotifyAccountant"
-                label="Thông báo kế toán"
+                name='IsNotifyAccountant'
+                label='Thông báo kế toán'
               />
             </div>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <FormCheckbox
                 control={control}
-                name="IsNotifyOrderer"
-                label="Thông báo đặt hàng"
+                name='IsNotifyOrderer'
+                label='Thông báo đặt hàng'
               />
             </div>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <FormCheckbox
                 control={control}
-                name="IsNotifySaler"
-                label="Thông báo bán hàng"
+                name='IsNotifySaler'
+                label='Thông báo bán hàng'
               />
             </div>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <FormCheckbox
                 control={control}
-                name="IsNotifyWarehoueFrom"
-                label="Thông báo kho Trung Quốc"
+                name='IsNotifyWarehoueFrom'
+                label='Thông báo kho Trung Quốc'
               />
             </div>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <FormCheckbox
                 control={control}
-                name="IsNotifyWarehoue"
-                label="Thông báo kho Việt Nam"
+                name='IsNotifyWarehoue'
+                label='Thông báo kho Việt Nam'
               />
             </div>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <FormCheckbox
                 control={control}
-                name="IsEmailAdmin"
-                label="Gửi mail Admin"
+                name='IsEmailAdmin'
+                label='Gửi mail Admin'
               />
             </div>
             {/* <div className="col-span-1">
@@ -151,13 +148,13 @@ export const NotificationsForm: FC<
         </FormCard.Body>
         <FormCard.Footer>
           <Button
-            title="Cập nhật"
-            btnClass="!bg-main mr-2"
+            title='Cập nhật'
+            btnClass='!bg-main mr-2'
             onClick={handleSubmit(_onPress)}
           />
-          <Button title="Hủy" btnClass="!bg-red" onClick={handleOnCancel} />
+          <Button title='Hủy' btnClass='!bg-red' onClick={handleOnCancel} />
         </FormCard.Footer>
       </FormCard>
     </Modal>
-  );
-};
+  )
+}

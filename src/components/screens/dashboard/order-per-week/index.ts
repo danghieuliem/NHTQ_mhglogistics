@@ -1,1 +1,1 @@
-export * from './OrdersPerWeek';
+export * from './OrdersPerWeek'

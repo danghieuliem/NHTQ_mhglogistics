@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
-import { focusManager } from 'react-query';
+import { useEffect } from 'react'
+import { focusManager } from 'react-query'
 
 export const useDisableRefetchOnFocus = () => {
-	useEffect(() => {
-		focusManager.setFocused(false);
-		return () => focusManager.setFocused(undefined);
-	}, []);
-};
+  useEffect(() => {
+    focusManager.setFocused(false)
+    return () => focusManager.setFocused(undefined)
+  }, [])
+}

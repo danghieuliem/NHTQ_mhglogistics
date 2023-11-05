@@ -1,3 +1,3 @@
-export * from './TariffBuyProForm';
-export * from './TariffBuyProTable';
-export * from './TariffBuyProFilter';
+export * from './TariffBuyProForm'
+export * from './TariffBuyProTable'
+export * from './TariffBuyProFilter'

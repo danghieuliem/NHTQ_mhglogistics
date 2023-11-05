@@ -2783,6 +2783,11 @@ postcss@^8.1.6, postcss@^8.2.15, postcss@^8.4.5:
     picocolors "^1.0.0"
     source-map-js "^1.0.1"
 
+prettier-plugin-tailwindcss@^0.5.6:
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-tailwindcss/-/prettier-plugin-tailwindcss-0.5.6.tgz#8e511857a49bf127f078985f52b04a70e8e92285"
+  integrity sha512-2Xgb+GQlkPAUCFi3sV+NOYcSI5XgduvDBL2Zt/hwJudeKXkyvRS65c38SB0yb9UB40+1rL83I6m0RtlOQ8eHdg==
+
 prettier@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.0.3.tgz#432a51f7ba422d1469096c0fdc28e235db8f9643"

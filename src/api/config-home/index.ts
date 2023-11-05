@@ -1,10 +1,10 @@
-import BaseAPI from "../methods";
+import BaseAPI from '../methods'
 
-const { get, globalCRUD } = new BaseAPI<TReport>("menu");
+const { get, globalCRUD } = new BaseAPI<TReport>('menu')
 
 const configHomeData = {
   ...globalCRUD,
-  get: () => get("/config?id=1"),
-};
+  get: () => get('/config?id=1'),
+}
 
-export default configHomeData;
+export default configHomeData

@@ -1,16 +1,16 @@
-import { Popover } from "antd";
-import { FC } from "react";
-import { useForm } from "react-hook-form";
-import { useQuery } from "react-query";
-import { shipping, warehouseFrom, warehouseTo } from "~/api";
-import { FormSelect } from "~/components";
-import { IconButton } from "~/components/globals/button/IconButton";
-import { categoryData } from "~/configs";
+import { Popover } from 'antd'
+import { FC } from 'react'
+import { useForm } from 'react-hook-form'
+import { useQuery } from 'react-query'
+import { shipping, warehouseFrom, warehouseTo } from '~/api'
+import { FormSelect } from '~/components'
+import { IconButton } from '~/components/globals/button/IconButton'
+import { categoryData } from '~/configs'
 
 type TProps = {
-  handleFilter: (newFilter) => void;
-  handleAddStaff: () => void;
-};
+  handleFilter: (newFilter) => void
+  handleAddStaff: () => void
+}
 
 export const TariffChinaVietNamFilter: FC<TProps> = (props) => {
   const { handleSubmit, reset, control } = useForm<TFilterWareHouseFee>({
@@ -20,35 +20,35 @@ export const TariffChinaVietNamFilter: FC<TProps> = (props) => {
       ShippingTypeToWareHouseId: null,
       IsHelpMoving: null,
     },
-    mode: "onBlur",
-  });
+    mode: 'onBlur',
+  })
 
   const _onFilter = (data: TFilterWareHouseFee) => {
-    props.handleFilter({ ...data });
-  };
+    props.handleFilter({ ...data })
+  }
 
-  const { data: wareHouse } = useQuery(["warehouseTo"], () =>
+  const { data: wareHouse } = useQuery(['warehouseTo'], () =>
     warehouseTo
       .getList({
         PageSize: 999999,
         PageIndex: 1,
         Active: true,
       })
-      .then((res) => res.Data.Items)
-  );
+      .then((res) => res.Data.Items),
+  )
 
-  const { data: wareHouseFrom } = useQuery(["warehouseFrom"], () =>
+  const { data: wareHouseFrom } = useQuery(['warehouseFrom'], () =>
     warehouseFrom
       .getList({
         PageSize: 999999,
         PageIndex: 1,
         Active: true,
       })
-      .then((res) => res.Data.Items)
-  );
+      .then((res) => res.Data.Items),
+  )
 
   const { data: shippingType } = useQuery(
-    ["shippingType"],
+    ['shippingType'],
     () =>
       shipping
         .getList({
@@ -59,92 +59,92 @@ export const TariffChinaVietNamFilter: FC<TProps> = (props) => {
         .then((res) => res.Data.Items),
     {
       retry: false,
-    }
-  );
+    },
+  )
 
   return (
-    <div className="flex justify-between">
+    <div className='flex justify-between'>
       <Popover
-        placement="bottomLeft"
-        trigger={"click"}
+        placement='bottomLeft'
+        trigger={'click'}
         content={
-          <div className="w-fit grid xs:grid-cols-2 gap-4 !p-4">
-            <div className="col-span-1">
+          <div className='grid w-fit gap-4 !p-4 xs:grid-cols-2'>
+            <div className='col-span-1'>
               <FormSelect
                 isClearable={true}
                 data={wareHouseFrom}
                 control={control}
-                name="WarehouseFromId"
-                placeholder="Kho Trung Quốc"
-                select={{ label: "Name", value: "Id" }}
-                label="Kho Trung Quốc"
+                name='WarehouseFromId'
+                placeholder='Kho Trung Quốc'
+                select={{ label: 'Name', value: 'Id' }}
+                label='Kho Trung Quốc'
                 required={false}
               />
             </div>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <FormSelect
                 isClearable={true}
                 data={wareHouse}
                 control={control}
-                name="WarehouseId"
-                placeholder="Kho Việt Nam"
-                select={{ label: "Name", value: "Id" }}
-                label="Kho Việt Nam"
+                name='WarehouseId'
+                placeholder='Kho Việt Nam'
+                select={{ label: 'Name', value: 'Id' }}
+                label='Kho Việt Nam'
                 required={false}
               />
             </div>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <FormSelect
                 isClearable={true}
                 data={shippingType}
                 control={control}
-                name="ShippingTypeToWareHouseId"
-                placeholder="Hình thức v/c"
-                select={{ label: "Name", value: "Id" }}
-                label="Hình thức vận chuyển"
+                name='ShippingTypeToWareHouseId'
+                placeholder='Hình thức v/c'
+                select={{ label: 'Name', value: 'Id' }}
+                label='Hình thức vận chuyển'
                 required={false}
               />
             </div>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <FormSelect
                 isClearable={true}
                 control={control}
-                name="IsHelpMoving"
+                name='IsHelpMoving'
                 data={categoryData}
-                select={{ label: "Name", value: "Id" }}
-                placeholder="Loại đơn hàng"
-                label="Loại đơn hàng"
+                select={{ label: 'Name', value: 'Id' }}
+                placeholder='Loại đơn hàng'
+                label='Loại đơn hàng'
                 required={false}
               />
             </div>
-            <div className="col-span-full flex justify-end">
+            <div className='col-span-full flex justify-end'>
               <IconButton
                 onClick={handleSubmit(_onFilter)}
-                icon="!mr-0"
-                title="Tìm kiếm"
+                icon='!mr-0'
+                title='Tìm kiếm'
                 showLoading
-                toolip="Lọc"
+                toolip='Lọc'
               />
             </div>
           </div>
         }
       >
         <IconButton
-          icon="fas fa-filter"
-          title="Lọc"
+          icon='fas fa-filter'
+          title='Lọc'
           showLoading
-          btnClass="mr-2"
-          toolip="Bộ lọc"
+          btnClass='mr-2'
+          toolip='Bộ lọc'
         />
       </Popover>
       <IconButton
         onClick={props.handleAddStaff}
-        title="Thêm"
-        icon="fas fa-plus-circle"
+        title='Thêm'
+        icon='fas fa-plus-circle'
         showLoading
-        toolip="Thêm phí TQ-VN"
+        toolip='Thêm phí TQ-VN'
         green
       />
     </div>
-  );
-};
+  )
+}

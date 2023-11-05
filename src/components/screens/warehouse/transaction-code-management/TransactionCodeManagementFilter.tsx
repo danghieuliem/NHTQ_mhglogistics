@@ -1,55 +1,55 @@
-import { Popover } from "antd";
-import { useRouter } from "next/router";
-import React, { useRef } from "react";
+import { Popover } from 'antd'
+import { useRouter } from 'next/router'
+import React, { useRef } from 'react'
 import {
   ActionButton,
   FilterInput,
   FilterRangeDate,
   FilterSelect,
-} from "~/components";
-import { IconButton } from "~/components/globals/button/IconButton";
-import { smallPackageStatus } from "~/configs";
-import { searchSmallPackageStatusData } from "~/configs/appConfigs";
+} from '~/components'
+import { IconButton } from '~/components/globals/button/IconButton'
+import { smallPackageStatus } from '~/configs'
+import { searchSmallPackageStatusData } from '~/configs/appConfigs'
 
 const inputProps = {
-  id: "code",
-  name: "code",
-  placeholder: "Nhập nội dung",
-  label: "Nội dung",
-};
+  id: 'code',
+  name: 'code',
+  placeholder: 'Nhập nội dung',
+  label: 'Nội dung',
+}
 
 type TProps = {
-  handleFilter: (newFilter) => void;
-  handleExporTExcel: () => void;
-};
+  handleFilter: (newFilter) => void
+  handleExporTExcel: () => void
+}
 
 const TransactionCodeManagementFilter: React.FC<TProps> = ({
   handleFilter,
   handleExporTExcel,
 }) => {
-  const router = useRouter();
-  const SearchType = useRef<number>(null);
-  const SearchContent = useRef<string>(null);
-  const Status = useRef<number>(null);
-  const FromDate = useRef<string>(null);
-  const ToDate = useRef<string>(null);
+  const router = useRouter()
+  const SearchType = useRef<number>(null)
+  const SearchContent = useRef<string>(null)
+  const Status = useRef<number>(null)
+  const FromDate = useRef<string>(null)
+  const ToDate = useRef<string>(null)
 
   return (
-    <div className="flex flex-col xs:flex-row justify-between xs:items-end gap-4">
-      <div className="flex flex-col xs:flex-row xs:items-end gap-4">
+    <div className='flex flex-col justify-between gap-4 xs:flex-row xs:items-end'>
+      <div className='flex flex-col gap-4 xs:flex-row xs:items-end'>
         <Popover
-          trigger={"click"}
-          placement="topLeft"
+          trigger={'click'}
+          placement='topLeft'
           content={
-            <div className="grid grid-cols-1 gap-2 p-2">
+            <div className='grid grid-cols-1 gap-2 p-2'>
               <FilterSelect
                 data={
-                  router.asPath.includes("user")
+                  router.asPath.includes('user')
                     ? searchSmallPackageStatusData.slice(0, 3)
                     : searchSmallPackageStatusData
                 }
-                placeholder="Chọn tìm kiếm theo"
-                label="Tìm kiếm theo"
+                placeholder='Chọn tìm kiếm theo'
+                label='Tìm kiếm theo'
                 isClearable
                 handleSearch={(val: number) => (SearchType.current = val)}
               />
@@ -61,13 +61,13 @@ const TransactionCodeManagementFilter: React.FC<TProps> = ({
               />
               <FilterRangeDate
                 handleDate={(val: string[]) => {
-                  FromDate.current = val[0];
-                  ToDate.current = val[1];
+                  FromDate.current = val[0]
+                  ToDate.current = val[1]
                 }}
-                placeholder="Chọn từ ngày / đến ngày"
-                format="DD/MM/YYYY"
+                placeholder='Chọn từ ngày / đến ngày'
+                format='DD/MM/YYYY'
               />
-              <div className="col-span-full ml-auto">
+              <div className='col-span-full ml-auto'>
                 <IconButton
                   onClick={() =>
                     handleFilter({
@@ -79,10 +79,10 @@ const TransactionCodeManagementFilter: React.FC<TProps> = ({
                       PageIndex: 1,
                     })
                   }
-                  icon="!mr-0"
-                  title="Tìm kiếm"
-                  btnIconClass=""
-                  toolip="Lọc"
+                  icon='!mr-0'
+                  title='Tìm kiếm'
+                  btnIconClass=''
+                  toolip='Lọc'
                 />
               </div>
             </div>
@@ -90,16 +90,16 @@ const TransactionCodeManagementFilter: React.FC<TProps> = ({
         >
           <ActionButton
             isButton
-            icon="fas fa-filter"
-            title="Bộ lọc"
-            isButtonClassName="bg-main !text-white "
+            icon='fas fa-filter'
+            title='Bộ lọc'
+            isButtonClassName='bg-main !text-white '
           />
         </Popover>
-        <div className="w-[200px]">
+        <div className='w-[200px]'>
           <FilterSelect
             data={smallPackageStatus}
-            placeholder="Chọn trạng thái"
-            label="Trạng thái"
+            placeholder='Chọn trạng thái'
+            label='Trạng thái'
             isClearable
             handleSearch={(val: number) => {
               handleFilter({
@@ -109,22 +109,22 @@ const TransactionCodeManagementFilter: React.FC<TProps> = ({
                 FromDate: FromDate.current,
                 ToDate: ToDate.current,
                 PageIndex: 1,
-              });
+              })
             }}
           />
         </div>
       </div>
       <ActionButton
         onClick={() => handleExporTExcel()}
-        icon="fas fa-file-export !mr-2"
+        icon='fas fa-file-export !mr-2'
         isButton
-        isButtonClassName="bg-green !text-white mr-2"
-        title="Xuất"
+        isButtonClassName='bg-green !text-white mr-2'
+        title='Xuất'
       />
     </div>
-  );
-};
+  )
+}
 
 export const TransactionCodeManagementFilterMemo = React.memo(
-  TransactionCodeManagementFilter
-);
+  TransactionCodeManagementFilter,
+)

@@ -1,2 +1,2 @@
-export * from "./HistoryTransactionVNDFilter";
-export * from "./HistoryTransactionVNDTable";
+export * from './HistoryTransactionVNDFilter'
+export * from './HistoryTransactionVNDTable'

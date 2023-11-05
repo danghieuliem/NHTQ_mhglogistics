@@ -13,8 +13,8 @@ const MakeupAndCosmetics = {
         { Title: 'Son bóng', Value: '唇彩' },
         { Title: 'Phấn mắt', Value: '眼影' },
         { Title: 'Bút kẻ lông mày', Value: '眉笔' },
-        { Title: 'Nước hoa', Value: '香水' }
-      ]
+        { Title: 'Nước hoa', Value: '香水' },
+      ],
     },
     {
       Title: 'Chăm sóc da',
@@ -25,8 +25,8 @@ const MakeupAndCosmetics = {
         { Title: 'Kem dưỡng mắt', Value: '眼霜' },
         { Title: 'Tinh chất dưỡng da', Value: '精华液' },
         { Title: 'Kem dưỡng da tay', Value: '护手霜' },
-        { Title: 'Kem dưỡng chống lão hóa', Value: '抗衰老霜' }
-      ]
+        { Title: 'Kem dưỡng chống lão hóa', Value: '抗衰老霜' },
+      ],
     },
     {
       Title: 'Dụng cụ trang điểm',
@@ -36,8 +36,8 @@ const MakeupAndCosmetics = {
         { Title: 'Giấy thấm dầu cho mặt', Value: '吸油纸' },
         { Title: 'Bộ chai lọ chiết mỹ phẩm', Value: '化妆品瓶罐套装' },
         { Title: 'Kéo tỉa lông mày', Value: '修眉刀' },
-        { Title: 'Lược chải đầu', Value: '梳子' }
-      ]
+        { Title: 'Lược chải đầu', Value: '梳子' },
+      ],
     },
     {
       Title: 'Sản phẩm chăm sóc móng',
@@ -48,8 +48,8 @@ const MakeupAndCosmetics = {
         { Title: 'Giũa móng tay', Value: '指甲锉' },
         { Title: 'Móng giả dán móng', Value: '假指甲' },
         { Title: 'Đồ trang trí móng', Value: '美甲工具' },
-        { Title: 'Bộ làm móng đầy đủ', Value: '美甲套装' }
-      ]
+        { Title: 'Bộ làm móng đầy đủ', Value: '美甲套装' },
+      ],
     },
     {
       Title: 'Sản phẩm chăm cá nhân',
@@ -64,8 +64,8 @@ const MakeupAndCosmetics = {
         { Title: 'nhuộm tóc', Value: '染发' },
         { Title: 'kem đánh răng', Value: '牙膏' },
         { Title: 'bàn chải đánh răng', Value: '牙刷杯' },
-        { Title: 'nước súc miệng', Value: '漱口水' }
-      ]
+        { Title: 'nước súc miệng', Value: '漱口水' },
+      ],
     },
     {
       Title: 'Khăng giấy/ Khăng ướt',
@@ -75,9 +75,9 @@ const MakeupAndCosmetics = {
         { Title: 'giấy vệ sinh', Value: '卫生纸' },
         { Title: 'giấy cuộn', Value: '卷纸' },
         { Title: 'bỉm cho người già', Value: '成人尿布' },
-        { Title: 'giấy vệ sinh vuông', Value: '方形卫生纸' }
-      ]
-    }
-  ]
+        { Title: 'giấy vệ sinh vuông', Value: '方形卫生纸' },
+      ],
+    },
+  ],
 }
 export default MakeupAndCosmetics

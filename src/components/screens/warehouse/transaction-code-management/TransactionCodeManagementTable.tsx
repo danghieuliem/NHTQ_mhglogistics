@@ -1,19 +1,19 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React from "react";
-import { DataTable } from "~/components";
-import { smallPackageStatus } from "~/configs";
-import { TColumnsType, TTable } from "~/types/table";
-import { _format } from "~/utils";
-import TagStatus from "../../status/TagStatus";
-import { useScreen } from "~/hooks";
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import React from 'react'
+import { DataTable } from '~/components'
+import { smallPackageStatus } from '~/configs'
+import { TColumnsType, TTable } from '~/types/table'
+import { _format } from '~/utils'
+import TagStatus from '../../status/TagStatus'
+import { useScreen } from '~/hooks'
 type TProps = {
-  filter;
-  handleFilter: (newFilter) => void;
-  handleExporTExcel;
-  isSelect?: any;
-  handleOnChangeKey?: any;
-};
+  filter
+  handleFilter: (newFilter) => void
+  handleExporTExcel
+  isSelect?: any
+  handleOnChangeKey?: any
+}
 export const TransactionCodeManagementTable: React.FC<
   TTable<TSmallPackage> & TProps
 > = ({
@@ -25,86 +25,86 @@ export const TransactionCodeManagementTable: React.FC<
   isSelect,
   handleOnChangeKey,
 }) => {
-  const router = useRouter();
-  const { isWidthSM } = useScreen();
+  const router = useRouter()
+  const { isWidthSM } = useScreen()
 
   const columnsUser: TColumnsType<TSmallPackage> = [
     {
-      dataIndex: "MainOrderCode",
-      title: "Mã đơn hàng",
+      dataIndex: 'MainOrderCode',
+      title: 'Mã đơn hàng',
       render: (_, record) => {
         return (
           <TagStatus
-            color={record?.OrderType === 1 ? "red" : "blue"}
+            color={record?.OrderType === 1 ? 'red' : 'blue'}
             statusName={_}
           />
-        );
+        )
       },
       width: 100,
     },
     {
-      dataIndex: "Created",
-      title: "Ngày tạo",
+      dataIndex: 'Created',
+      title: 'Ngày tạo',
       width: 140,
-      responsive: ["xl"],
+      responsive: ['xl'],
       render: (date) => {
         return (
           <>
             <div>{_format.getVNDate(date)}</div>
           </>
-        );
+        )
       },
     },
     {
-      dataIndex: "Code",
+      dataIndex: 'Code',
       width: 200,
-      title: "Bao hàng/Mã vận đơn",
-      responsive: ["sm"],
+      title: 'Bao hàng/Mã vận đơn',
+      responsive: ['sm'],
       // render: (_) => <></>,
       render: (_, record) => {
         return (
           <div>
-            <div className="flex justify-between">
+            <div className='flex justify-between'>
               <span>Bao hàng: </span>
-              <span>{_ === "" ? "--" : _}</span>
+              <span>{_ === '' ? '--' : _}</span>
             </div>
-            <div className="flex justify-between">
+            <div className='flex justify-between'>
               <span>Mã vận đơn: </span>
               <span>
-                {record?.OrderTransactionCode === ""
-                  ? "--"
+                {record?.OrderTransactionCode === ''
+                  ? '--'
                   : record?.OrderTransactionCode}
               </span>
             </div>
           </div>
-        );
+        )
       },
     },
     {
-      dataIndex: "PayableWeight",
-      title: "Thông tin kiện",
-      align: "right",
+      dataIndex: 'PayableWeight',
+      title: 'Thông tin kiện',
+      align: 'right',
       render: (_, record) => {
         return (
           <div>
-            <div className="flex justify-between">
-              <span className="font-semibold">Cân nặng (kg): </span>
+            <div className='flex justify-between'>
+              <span className='font-semibold'>Cân nặng (kg): </span>
               <span>{record?.PayableWeight}</span>
             </div>
-            <div className="flex justify-between">
-              <span className="font-semibold">Số khối (m3): </span>
+            <div className='flex justify-between'>
+              <span className='font-semibold'>Số khối (m3): </span>
               <span>{_format.getVolume(record?.VolumePayment)}</span>
             </div>
-            <div className="flex justify-between">
-              <span className="font-semibold">DxRxC: </span>
+            <div className='flex justify-between'>
+              <span className='font-semibold'>DxRxC: </span>
               <span>
                 {`${record.Length} x ${record.Width} x ${record.Height}`}
               </span>
             </div>
           </div>
-        );
+        )
       },
-      responsive: ["md"],
+      responsive: ['md'],
       width: 200,
     },
     // {
@@ -114,20 +114,20 @@ export const TransactionCodeManagementTable: React.FC<
     //   responsive: ["xl"],
     // },
     {
-      dataIndex: "Status",
-      title: "Trạng thái",
+      dataIndex: 'Status',
+      title: 'Trạng thái',
       render: (status, record) => {
-        const color = smallPackageStatus.find((x) => x.id === status);
-        return <TagStatus color={color?.color} statusName={color?.name} />;
+        const color = smallPackageStatus.find((x) => x.id === status)
+        return <TagStatus color={color?.color} statusName={color?.name} />
       },
       width: 100,
     },
-  ];
+  ]
 
   const columnsAmin: TColumnsType<TSmallPackage> = [
     {
-      dataIndex: "Id",
-      title: "Id đơn",
+      dataIndex: 'Id',
+      title: 'Id đơn',
       width: 80,
       render: (_, __) => {
         return (
@@ -142,7 +142,7 @@ export const TransactionCodeManagementTable: React.FC<
                     : `/manager/order/order-list/detail/?id=${__?.MainOrderId}`
                 }
               >
-                <a target="_blank">
+                <a target='_blank'>
                   {__.OrderType === 2
                     ? __.TransportationOrderId
                     : __?.MainOrderId}
@@ -150,94 +150,94 @@ export const TransactionCodeManagementTable: React.FC<
               </Link>
             )}
           </>
-        );
+        )
       },
     },
     {
-      dataIndex: "MainOrderCode",
-      title: "Loại đơn",
+      dataIndex: 'MainOrderCode',
+      title: 'Loại đơn',
       render: (_, record) => {
         return (
           <TagStatus
             color={
               record?.OrderType === 3
-                ? "red"
+                ? 'red'
                 : record?.OrderType === 2
-                ? "green"
-                : "blue"
+                ? 'green'
+                : 'blue'
             }
             statusName={
               record?.OrderType === 3
-                ? "Trôi nổi"
+                ? 'Trôi nổi'
                 : record?.OrderType === 2
-                ? "Ký gửi"
-                : "Mua hộ"
+                ? 'Ký gửi'
+                : 'Mua hộ'
             }
           />
-        );
+        )
       },
       width: 100,
     },
     {
-      dataIndex: "UserName",
-      title: "Username",
+      dataIndex: 'UserName',
+      title: 'Username',
       width: 120,
     },
     {
-      dataIndex: "ProductType",
-      title: "Loại hàng",
+      dataIndex: 'ProductType',
+      title: 'Loại hàng',
       width: 120,
-      responsive: ["md"],
+      responsive: ['md'],
     },
     {
-      dataIndex: "Code",
+      dataIndex: 'Code',
       width: 250,
-      title: "Bao hàng/Mã vận đơn",
-      responsive: ["sm"],
+      title: 'Bao hàng/Mã vận đơn',
+      responsive: ['sm'],
       render: (_, record) => {
         return (
           <div>
-            <div className="flex justify-between">
-              <span className="font-semibold">Bao hàng: </span>
-              <span>{_ === "" ? "--" : _}</span>
+            <div className='flex justify-between'>
+              <span className='font-semibold'>Bao hàng: </span>
+              <span>{_ === '' ? '--' : _}</span>
             </div>
-            <div className="flex justify-between">
-              <span className="font-semibold">Mã vận đơn: </span>
+            <div className='flex justify-between'>
+              <span className='font-semibold'>Mã vận đơn: </span>
               <span>
-                {record?.OrderTransactionCode === ""
-                  ? "--"
+                {record?.OrderTransactionCode === ''
+                  ? '--'
                   : record?.OrderTransactionCode}
               </span>
             </div>
           </div>
-        );
+        )
       },
     },
     {
-      dataIndex: "PayableWeight",
-      title: "Thông tin kiện",
-      align: "right",
+      dataIndex: 'PayableWeight',
+      title: 'Thông tin kiện',
+      align: 'right',
       render: (_, record) => {
         return (
           <div>
-            <div className="flex justify-between">
-              <span className="font-semibold">Cân nặng (kg): </span>
+            <div className='flex justify-between'>
+              <span className='font-semibold'>Cân nặng (kg): </span>
               <span>{record?.PayableWeight}</span>
             </div>
-            <div className="flex justify-between">
-              <span className="font-semibold">Số khối (m3): </span>
+            <div className='flex justify-between'>
+              <span className='font-semibold'>Số khối (m3): </span>
               <span>{_format.getVolume(record?.VolumePayment)}</span>
             </div>
-            <div className="flex justify-between">
-              <span className="font-semibold">DxRxC: </span>
+            <div className='flex justify-between'>
+              <span className='font-semibold'>DxRxC: </span>
               <span>
                 {`${record.Length} x ${record.Width} x ${record.Height}`}
               </span>
             </div>
           </div>
-        );
+        )
       },
-      responsive: ["md"],
+      responsive: ['md'],
       width: 200,
     },
     // {
@@ -246,35 +246,35 @@ export const TransactionCodeManagementTable: React.FC<
     //   width: 120,
     // },
     {
-      dataIndex: "Created",
-      title: "Ngày tạo",
+      dataIndex: 'Created',
+      title: 'Ngày tạo',
       render: (date) => {
         return (
           <>
             <div>{_format.getVNDate(date)}</div>
           </>
-        );
+        )
       },
       width: 200,
-      responsive: ["lg"],
+      responsive: ['lg'],
     },
     {
-      dataIndex: "Status",
-      title: "Trạng thái",
-      fixed: "right",
+      dataIndex: 'Status',
+      title: 'Trạng thái',
+      fixed: 'right',
       render: (status, record) => {
-        const color = smallPackageStatus.find((x) => x.id === status);
-        return <TagStatus color={color?.color} statusName={color?.name} />;
+        const color = smallPackageStatus.find((x) => x.id === status)
+        return <TagStatus color={color?.color} statusName={color?.name} />
       },
       width: 120,
     },
-  ];
+  ]
 
   return (
     <>
       <DataTable
         {...{
-          columns: !router?.asPath.includes("/user/")
+          columns: !router?.asPath.includes('/user/')
             ? columnsAmin
             : columnsUser,
           data,
@@ -285,7 +285,7 @@ export const TransactionCodeManagementTable: React.FC<
           scroll: isWidthSM ? { x: true } : { y: 700 },
           rowSelection: isSelect
             ? {
-                type: "checkbox",
+                type: 'checkbox',
                 onChange: (value) => handleOnChangeKey(value),
                 selectedRowKeys: isSelect,
               }
@@ -300,10 +300,10 @@ export const TransactionCodeManagementTable: React.FC<
               ...filter,
               PageIndex: page.current,
               PageSize: page.pageSize,
-            });
+            })
           },
         }}
       />
     </>
-  );
-};
+  )
+}

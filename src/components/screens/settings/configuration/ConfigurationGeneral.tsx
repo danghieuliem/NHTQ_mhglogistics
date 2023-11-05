@@ -1,138 +1,138 @@
-import { Popconfirm, Switch, Tooltip } from "antd";
-import React, { FC, useState } from "react";
-import { Control } from "react-hook-form";
-import { FormEditor, FormInput, FormRangeDate, FormUpload } from "~/components";
+import { Popconfirm, Switch, Tooltip } from 'antd'
+import React, { FC, useState } from 'react'
+import { Control } from 'react-hook-form'
+import { FormEditor, FormInput, FormRangeDate, FormUpload } from '~/components'
 
 type TProps<T extends object = object> = {
-  control: Control<T, object>;
-  data: T;
-};
+  control: Control<T, object>
+  data: T
+}
 
 export const ConfigurationGeneral: FC<TProps<TConfig1>> = ({
   control,
   data,
 }) => {
-  const [editChormeEx, setEditChormeEx] = useState(false);
-  const [editCocCocEx, setEditCocCocEx] = useState(false);
-  const [changeTimeWork, setChangeTimeWork] = useState(false);
+  const [editChormeEx, setEditChormeEx] = useState(false)
+  const [editCocCocEx, setEditCocCocEx] = useState(false)
+  const [changeTimeWork, setChangeTimeWork] = useState(false)
 
   return (
     <React.Fragment>
-      <div className="grid sm:grid-cols-4 lg:grid-cols-3 gap-4">
-        <div className="text-xs col-span-full" style={{ color: "red" }}>
+      <div className='grid gap-4 sm:grid-cols-4 lg:grid-cols-3'>
+        <div className='col-span-full text-xs' style={{ color: 'red' }}>
           * Lưu ý trước khi thay đổi!
         </div>
-        <div className="sm:col-span-2 lg:col-span-1 grid gap-4">
+        <div className='grid gap-4 sm:col-span-2 lg:col-span-1'>
           <FormInput
             control={control}
-            label="Tên website"
-            placeholder="Tên website"
-            name="WebsiteName"
+            label='Tên website'
+            placeholder='Tên website'
+            name='WebsiteName'
             required={false}
           />
           <FormInput
             control={control}
-            label="Tên công ty viết tắt"
-            placeholder=""
-            name="CompanyName"
+            label='Tên công ty viết tắt'
+            placeholder=''
+            name='CompanyName'
             required={false}
             // rules={{ required: 'Không bỏ trống tên công ty viết tắt' }}
           />
           <FormInput
             control={control}
-            label="Tên công ty ngắn"
-            placeholder=""
-            name="CompanyShortName"
+            label='Tên công ty ngắn'
+            placeholder=''
+            name='CompanyShortName'
             required={false}
             // rules={{ required: 'Không bỏ trống tên công ty ngắn' }}
           />
           <FormInput
             control={control}
-            label="Tên công ty dài"
-            placeholder=""
-            name="CompanyLongName"
+            label='Tên công ty dài'
+            placeholder=''
+            name='CompanyLongName'
             required={false}
             // rules={{ required: 'Không bỏ trống tên công ty dài' }}
           />
           <FormInput
             control={control}
-            label="Mã số thuế"
-            placeholder=""
-            name="TaxCode"
+            label='Mã số thuế'
+            placeholder=''
+            name='TaxCode'
             required={false}
           />
           <FormInput
             control={control}
-            label="Địa chỉ 1"
-            name="Address"
-            placeholder="Địa chỉ 1"
+            label='Địa chỉ 1'
+            name='Address'
+            placeholder='Địa chỉ 1'
           />
           <FormInput
             control={control}
-            label="Địa chỉ 2"
-            name="Address2"
-            placeholder="Địa chỉ 2"
+            label='Địa chỉ 2'
+            name='Address2'
+            placeholder='Địa chỉ 2'
             required={false}
           />
           <FormInput
             control={control}
-            label="Địa chỉ 3"
-            name="Address3"
-            placeholder="Địa chỉ 3"
+            label='Địa chỉ 3'
+            name='Address3'
+            placeholder='Địa chỉ 3'
             required={false}
           />
         </div>
 
-        <div className="sm:col-span-2 lg:col-span-1 h-fit grid gap-4">
+        <div className='grid h-fit gap-4 sm:col-span-2 lg:col-span-1'>
           <FormInput
             control={control}
-            label="Email liên lạc"
-            placeholder=""
-            name="EmailContact"
+            label='Email liên lạc'
+            placeholder=''
+            name='EmailContact'
             required={false}
             // rules={{ required: 'Không bỏ trống Email liên lạc' }}
           />
           <FormInput
             control={control}
-            label="Email hỗ trợ"
-            placeholder=""
-            name="EmailSupport"
+            label='Email hỗ trợ'
+            placeholder=''
+            name='EmailSupport'
             required={false}
             // rules={{ required: 'không bỏ trống Email hỗ trợ' }}
           />
           <FormInput
             control={control}
-            label="Hotline"
-            placeholder=""
-            name="Hotline"
+            label='Hotline'
+            placeholder=''
+            name='Hotline'
             required={false}
             // rules={{ required: 'Không bỏ trống hotline' }}
           />
           <FormInput
             control={control}
-            label="Hotline hỗ trợ"
-            placeholder=""
-            name="HotlineSupport"
+            label='Hotline hỗ trợ'
+            placeholder=''
+            name='HotlineSupport'
             required={false}
             // rules={{ required: 'Không bỏ trống hotline hỗ trợ' }}
           />
           <FormInput
             control={control}
-            label="Hotline phản hồi"
-            placeholder=""
-            name="HotlineFeedback"
+            label='Hotline phản hồi'
+            placeholder=''
+            name='HotlineFeedback'
             required={false}
             // rules={{ required: 'Không bỏ trống hotline phản hồi' }}
           />
-          <div className="">
-            <div className="flex flex-col items-baseline mr-4">
+          <div className=''>
+            <div className='mr-4 flex flex-col items-baseline'>
               <div>
-                Giờ hoạt động:{" "}
-                <span className="font-bold ml-2">{data?.TimeWork}</span>
+                Giờ hoạt động:{' '}
+                <span className='ml-2 font-bold'>{data?.TimeWork}</span>
               </div>
-              <Tooltip title="Thay đổi thời gian làm việc!">
+              <Tooltip title='Thay đổi thời gian làm việc!'>
                 <Switch
-                  className="!mr-4"
+                  className='!mr-4'
                   onChange={() => setChangeTimeWork(!changeTimeWork)}
                 />
               </Tooltip>
@@ -141,9 +141,9 @@ export const ConfigurationGeneral: FC<TProps<TConfig1>> = ({
               {changeTimeWork && (
                 <FormRangeDate
                   control={control}
-                  label="Chọn giờ làm việc mới!"
-                  placeholder={["Bắt đầu", "Kết thúc"]}
-                  name="TimeWork"
+                  label='Chọn giờ làm việc mới!'
+                  placeholder={['Bắt đầu', 'Kết thúc']}
+                  name='TimeWork'
                   required={false}
                   // rules={{ required: 'Chọn giờ hoạt động' }}
                 />
@@ -152,21 +152,21 @@ export const ConfigurationGeneral: FC<TProps<TConfig1>> = ({
           </div>
         </div>
 
-        <div className="col-span-full lg:col-span-1 h-fit grid gap-4">
-          <div className="col-span-1 mb-3 flex flex-col xs:flex-row">
-            <div className="mr-8">
+        <div className='col-span-full grid h-fit gap-4 lg:col-span-1'>
+          <div className='col-span-1 mb-3 flex flex-col xs:flex-row'>
+            <div className='mr-8'>
               <FormUpload
                 control={control}
-                name="LogoIMG"
-                label="Logo"
+                name='LogoIMG'
+                label='Logo'
                 required={false}
               />
             </div>
-            <div className="mr-8">
+            <div className='mr-8'>
               <FormUpload
                 control={control}
-                name="BannerIMG"
-                label="Banner"
+                name='BannerIMG'
+                label='Banner'
                 required={false}
               />
             </div>
@@ -174,23 +174,23 @@ export const ConfigurationGeneral: FC<TProps<TConfig1>> = ({
           <FormInput
             onBlur={() => setEditChormeEx(!editChormeEx)}
             control={control}
-            label="Đường đến công cụ (Chrome)"
-            placeholder=""
-            name="ChromeExtensionLink"
+            label='Đường đến công cụ (Chrome)'
+            placeholder=''
+            name='ChromeExtensionLink'
             // disabled={!editChormeEx}
             // rules={{ required: 'Không bỏ trống tên đường dẫn!' }}
           />
           <FormInput
             onBlur={() => setEditCocCocEx(!editCocCocEx)}
             control={control}
-            label="Đường dẫn đến công cụ (Cốc cốc)"
-            placeholder=""
-            name="CocCocExtensionLink"
+            label='Đường dẫn đến công cụ (Cốc cốc)'
+            placeholder=''
+            name='CocCocExtensionLink'
             // disabled={!editCocCocEx}
             // rules={{ required: 'Không bỏ trống tên đường dẫn!' }}
           />
         </div>
       </div>
     </React.Fragment>
-  );
-};
+  )
+}

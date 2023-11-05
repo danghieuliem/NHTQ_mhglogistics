@@ -1,49 +1,49 @@
-import { Menu } from "antd";
-import clsx from "clsx";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { FC, useEffect, useState } from "react";
-import { userRouter } from "~/configs/routers";
-import { RootState, selectRouter, useAppSelector } from "~/store";
-import styles from "./index.module.css";
-import { useQuery } from "react-query";
-import { mainOrder } from "~/api";
-import { useSelector } from "react-redux";
-const { SubMenu } = Menu;
+import { Menu } from 'antd'
+import clsx from 'clsx'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import React, { FC, useEffect, useState } from 'react'
+import { userRouter } from '~/configs/routers'
+import { RootState, selectRouter, useAppSelector } from '~/store'
+import styles from './index.module.css'
+import { useQuery } from 'react-query'
+import { mainOrder } from '~/api'
+import { useSelector } from 'react-redux'
+const { SubMenu } = Menu
 
 export type TProps = {
-  hover: boolean;
-  tabbar: boolean;
-  userPage?: boolean;
-  handleHover?: (val: boolean) => void;
-};
+  hover: boolean
+  tabbar: boolean
+  userPage?: boolean
+  handleHover?: (val: boolean) => void
+}
 
 const Sidebar: FC<TProps> = ({ userPage, hover, handleHover }) => {
-  let menuRouter = useAppSelector(selectRouter);
-  const router = useRouter();
+  let menuRouter = useAppSelector(selectRouter)
+  const router = useRouter()
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurrentInfo
-  );
+    (state: RootState) => state.userCurrentInfo,
+  )
 
-  let renderMenuRouter = userPage ? userRouter : menuRouter;
+  let renderMenuRouter = userPage ? userRouter : menuRouter
 
-  const [activeKey, setActiveKey] = useState([]);
+  const [activeKey, setActiveKey] = useState([])
 
-  const [activeRouter, setActiveRouter] = useState([""]);
-  const [obj, setObj] = useState({});
+  const [activeRouter, setActiveRouter] = useState([''])
+  const [obj, setObj] = useState({})
 
   const handleActiveKey = (name: string) => {
-    const indexKey = activeKey.indexOf(name);
+    const indexKey = activeKey.indexOf(name)
     if (indexKey === -1) {
-      setActiveKey([...activeKey, name]);
+      setActiveKey([...activeKey, name])
     } else {
-      activeKey.splice(indexKey, 1);
-      setActiveKey([...activeKey]);
+      activeKey.splice(indexKey, 1)
+      setActiveKey([...activeKey])
     }
-  };
+  }
 
   useQuery(
-    ["count-order"],
+    ['count-order'],
     () =>
       mainOrder
         .getCountOrder({
@@ -55,21 +55,21 @@ const Sidebar: FC<TProps> = ({ userPage, hover, handleHover }) => {
               : userCurrentInfo?.UserGroupId,
         })
         .then((res) => {
-          let data = res?.Data;
-          let obj = {};
+          let data = res?.Data
+          let obj = {}
           data?.forEach((item) => {
-            obj[item.Key] = item.Value;
-          });
-          setObj(obj);
+            obj[item.Key] = item.Value
+          })
+          setObj(obj)
         }),
     {
       enabled: [1, 3, 4, 6, 7, 8].includes(userCurrentInfo?.UserGroupId),
       retry: false,
-    }
-  );
+    },
+  )
 
   useEffect(() => {
-    setActiveRouter([router?.asPath]);
+    setActiveRouter([router?.asPath])
 
     for (let i in renderMenuRouter) {
       for (let x in renderMenuRouter[i].Children) {
@@ -77,31 +77,31 @@ const Sidebar: FC<TProps> = ({ userPage, hover, handleHover }) => {
           for (let z in renderMenuRouter[i].Children[x].SubChildren) {
             if (
               router?.asPath.match(
-                renderMenuRouter[i].Children[x].SubChildren[z].Path
+                renderMenuRouter[i].Children[x].SubChildren[z].Path,
               )
             ) {
               setActiveKey([
-                clsx(renderMenuRouter[i].Children[x]?.Label, "-subItem"),
-              ]);
-              break;
+                clsx(renderMenuRouter[i].Children[x]?.Label, '-subItem'),
+              ])
+              break
             }
           }
         }
       }
     }
-  }, [router.asPath]);
+  }, [router.asPath])
 
   return (
     <div className={clsx(styles.navWrapper, hover && styles.navWrapperOpen)}>
       {renderMenuRouter?.map((menuParent) => (
         <div key={menuParent?.Title} className={styles.menuWrapper}>
           <div className={styles.mainTitle}>
-            <span className="mr-2">
+            <span className='mr-2'>
               <i className={menuParent?.Icon}></i>
             </span>
             <span>{menuParent?.Title}</span>
           </div>
-          <Menu mode="inline" openKeys={activeKey} selectedKeys={activeRouter}>
+          <Menu mode='inline' openKeys={activeKey} selectedKeys={activeRouter}>
             {menuParent?.Children.map((child) => {
               if (!child?.SubChildren) {
                 return (
@@ -109,7 +109,8 @@ const Sidebar: FC<TProps> = ({ userPage, hover, handleHover }) => {
                     key={clsx(child?.Path)}
                     className={clsx(
                       styles.childLabel,
-                      activeRouter[0] === child?.Path && styles.childLabelActive
+                      activeRouter[0] === child?.Path &&
+                        styles.childLabelActive,
                     )}
                     onClick={
                       () => window.innerWidth <= 1200 && handleHover(false) // max 1200px lg tailwind
@@ -117,7 +118,7 @@ const Sidebar: FC<TProps> = ({ userPage, hover, handleHover }) => {
                   >
                     <Link
                       href={child.Path}
-                      key={clsx(child?.Path, "-item")}
+                      key={clsx(child?.Path, '-item')}
                       passHref
                     >
                       <a>
@@ -126,12 +127,12 @@ const Sidebar: FC<TProps> = ({ userPage, hover, handleHover }) => {
                       </a>
                     </Link>
                   </Menu.Item>
-                );
+                )
               } else {
                 return (
                   <SubMenu
-                    key={clsx(child?.Label, "-subItem")}
-                    className={clsx(styles.subMenu, "nav-subMenu")}
+                    key={clsx(child?.Label, '-subItem')}
+                    className={clsx(styles.subMenu, 'nav-subMenu')}
                     title={
                       <span className={styles.subMenuLabel}>
                         {/* <i className={child?.Icon}></i> */}
@@ -139,7 +140,7 @@ const Sidebar: FC<TProps> = ({ userPage, hover, handleHover }) => {
                       </span>
                     }
                     onTitleClick={() => {
-                      handleActiveKey(clsx(child?.Label, "-subItem"));
+                      handleActiveKey(clsx(child?.Label, '-subItem'))
                     }}
                   >
                     {child?.SubChildren.map((item) => (
@@ -147,11 +148,11 @@ const Sidebar: FC<TProps> = ({ userPage, hover, handleHover }) => {
                         key={item?.Label}
                         className={clsx(
                           styles.subLabel,
-                          !router.asPath.match("/order/order-list/")
+                          !router.asPath.match('/order/order-list/')
                             ? activeRouter[0].match(item?.Path) &&
                                 styles.subLabelActive
                             : activeRouter[0] === item?.Path &&
-                                styles.subLabelActive
+                                styles.subLabelActive,
                         )}
                         onClick={
                           () => window.innerWidth <= 1200 && handleHover(false) // max 1200px lg tailwind
@@ -160,9 +161,9 @@ const Sidebar: FC<TProps> = ({ userPage, hover, handleHover }) => {
                         <Link href={item.Path}>
                           <a>
                             {/* <i className="fal fa-long-arrow-alt-right"></i> */}
-                            <i className="fas fa-dot-circle"></i>
+                            <i className='fas fa-dot-circle'></i>
                             <span>
-                              {item?.Label}{" "}
+                              {item?.Label}{' '}
                               <span>{item?.Key && `(${obj[item.Key]})`}</span>
                             </span>
                           </a>
@@ -170,14 +171,14 @@ const Sidebar: FC<TProps> = ({ userPage, hover, handleHover }) => {
                       </Menu.Item>
                     ))}
                   </SubMenu>
-                );
+                )
               }
             })}
           </Menu>
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default React.memo(Sidebar);
+export default React.memo(Sidebar)

@@ -1,35 +1,35 @@
-import { TablePaginationConfig } from "antd";
-import { useCallback, useRef, useState } from "react";
-import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
-import { priceChange } from "~/api";
+import { TablePaginationConfig } from 'antd'
+import { useCallback, useRef, useState } from 'react'
+import { useQuery } from 'react-query'
+import { useSelector } from 'react-redux'
+import { priceChange } from '~/api'
 import {
   Layout,
   TariffPriceChangeFormMemo,
   TariffPriceChangeTable,
   toast,
-} from "~/components";
-import { breadcrumb } from "~/configs";
-import { defaultPagination } from "~/configs/appConfigs";
-import { SEOConfigs } from "~/configs/SEOConfigs";
-import { RootState } from "~/store";
-import { TNextPageWithLayout } from "~/types/layout";
-import { _format } from "~/utils";
+} from '~/components'
+import { breadcrumb } from '~/configs'
+import { defaultPagination } from '~/configs/appConfigs'
+import { SEOConfigs } from '~/configs/SEOConfigs'
+import { RootState } from '~/store'
+import { TNextPageWithLayout } from '~/types/layout'
+import { _format } from '~/utils'
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurrentInfo
-  );
+    (state: RootState) => state.userCurrentInfo,
+  )
   const dataGlobal: TConfig = useSelector(
-    (state: RootState) => state.dataGlobal
-  );
+    (state: RootState) => state.dataGlobal,
+  )
 
   const [pagination, setPagination] =
-    useState<TablePaginationConfig>(defaultPagination);
+    useState<TablePaginationConfig>(defaultPagination)
 
   const { isFetching, data } = useQuery(
     [
-      "priceChangeData",
+      'priceChangeData',
       { Current: pagination.current, PageSize: pagination.pageSize },
     ],
     () =>
@@ -37,7 +37,7 @@ const Index: TNextPageWithLayout = () => {
         .getList({
           PageIndex: pagination.current,
           PageSize: pagination.pageSize,
-          OrderBy: "Id desc",
+          OrderBy: 'Id desc',
         })
         .then((res) => res.Data),
     {
@@ -48,24 +48,24 @@ const Index: TNextPageWithLayout = () => {
       enabled: userCurrentInfo?.UserGroupId === 1,
       refetchOnWindowFocus: true,
       staleTime: 5000,
-    }
-  );
+    },
+  )
 
-  const [modal, setModal] = useState(false);
-  const item = useRef<TTariffPriceChange>();
+  const [modal, setModal] = useState(false)
+  const item = useRef<TTariffPriceChange>()
   const handleModal = (itemSelected) => {
-    item.current = itemSelected;
-    setModal(!modal);
-  };
+    item.current = itemSelected
+    setModal(!modal)
+  }
 
-  const handleCloseModal = useCallback(() => setModal(false), []);
+  const handleCloseModal = useCallback(() => setModal(false), [])
 
   return (
     <>
-      <div className="tableBox w-fit">
-        <div className="text-right">
-          <p className="font-bold">Giá tiền mặc định: </p>
-          <span className="text-main font-semibold">
+      <div className='tableBox w-fit'>
+        <div className='text-right'>
+          <p className='font-bold'>Giá tiền mặc định: </p>
+          <span className='font-semibold text-main'>
             {_format.getVND(dataGlobal?.PricePayHelpDefault)}
           </span>
         </div>
@@ -89,11 +89,11 @@ const Index: TNextPageWithLayout = () => {
         }}
       />
     </>
-  );
-};
+  )
+}
 
-Index.displayName = SEOConfigs?.settings?.feePayFor;
-Index.breadcrumb = breadcrumb.settings.tariffPriceChange;
-Index.Layout = Layout;
+Index.displayName = SEOConfigs?.settings?.feePayFor
+Index.breadcrumb = breadcrumb.settings.tariffPriceChange
+Index.Layout = Layout
 
-export default Index;
+export default Index
