@@ -1,34 +1,34 @@
-import router from "next/router";
-import { useCallback, useState } from "react";
-import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { user } from "~/api";
+import router from 'next/router'
+import { useCallback, useState } from 'react'
+import { useQuery } from 'react-query'
+import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { user } from '~/api'
 import {
   ActionButton,
   ClientListFilterMemo,
   ClientListFormMemo,
   ClientListTable,
   Layout,
-} from "~/components";
-import { breadcrumb } from "~/configs";
-import { SEOConfigs } from "~/configs/SEOConfigs";
-import { useCatalogue } from "~/hooks/useCatalogue";
-import { RootState } from "~/store";
-import { TNextPageWithLayout } from "~/types/layout";
+} from '~/components'
+import { breadcrumb } from '~/configs'
+import { SEOConfigs } from '~/configs/SEOConfigs'
+import { useCatalogue } from '~/hooks/useCatalogue'
+import { RootState } from '~/store'
+import { TNextPageWithLayout } from '~/types/layout'
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurrentInfo
-  );
+    (state: RootState) => state.userCurrentInfo,
+  )
 
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(false)
 
   const [filter, setFilter] = useState({
     PageIndex: 1,
     PageSize: 20,
     TotalItems: null,
-    OrderBy: "Id desc",
+    OrderBy: 'Id desc',
     Id: null,
     UserName: null,
     UID: userCurrentInfo?.Id,
@@ -38,11 +38,11 @@ const Index: TNextPageWithLayout = () => {
     SearchContent: null,
     SalerID: null,
     OrdererID: null,
-  });
+  })
 
   const handleFilter = useCallback((newFilter) => {
-    setFilter({ ...filter, ...newFilter });
-  }, []);
+    setFilter({ ...filter, ...newFilter })
+  }, [])
 
   // useCatalogue scope
   // ===== BEGIN =====
@@ -51,12 +51,12 @@ const Index: TNextPageWithLayout = () => {
     userLevelEnabled: true,
     userOrderEnabled: true,
     userSaleEnabled: true,
-  });
+  })
   // ===== END =====
 
   const { isFetching, data, isLoading, refetch } = useQuery(
     [
-      "clientData",
+      'clientData',
       [
         filter.PageIndex,
         filter.Id,
@@ -77,18 +77,18 @@ const Index: TNextPageWithLayout = () => {
           TotalItems: data?.TotalItem,
           PageIndex: data?.PageIndex,
           PageSize: data?.PageSize,
-        });
+        })
       },
       refetchOnWindowFocus: false,
       onError: (error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+        toast.error((error as any)?.response?.data?.ResultMessage)
       },
-    }
-  );
+    },
+  )
 
   const _onExportExcel = useCallback(async () => {
-    const id = toast.loading("Đang xử lý ...");
-    let newFilter = { ...filter };
+    const id = toast.loading('Đang xử lý ...')
+    let newFilter = { ...filter }
 
     if (
       filter.OrdererID ||
@@ -100,19 +100,19 @@ const Index: TNextPageWithLayout = () => {
       newFilter = {
         ...filter,
         PageSize: 9999,
-      };
+      }
     }
     try {
-      const res = await user.exportExcel(newFilter);
-      router.push(`${res.Data}`);
+      const res = await user.exportExcel(newFilter)
+      router.push(`${res.Data}`)
     } catch (error) {
-      toast.error(error);
+      toast.error(error)
     } finally {
       toast.update(id, {
         isLoading: false,
         autoClose: 1,
-        type: "default",
-      });
+        type: 'default',
+      })
     }
   }, [
     filter.OrdererID,
@@ -120,14 +120,14 @@ const Index: TNextPageWithLayout = () => {
     filter.SalerID,
     filter.SearchContent,
     filter.UserName,
-  ]);
+  ])
 
-  const handleCloseModal = useCallback(() => setModal(false), []);
+  const handleCloseModal = useCallback(() => setModal(false), [])
 
   return (
     <>
-      <div className="flex justify-between">
-        <div className="flex items-center">
+      <div className='flex justify-between'>
+        <div className='flex items-center'>
           <ClientListFilterMemo
             handleFilter={handleFilter}
             dathangList={userOrder}
@@ -135,20 +135,20 @@ const Index: TNextPageWithLayout = () => {
             roleID={userCurrentInfo?.UserGroupId}
           />
         </div>
-        <div className="flex gap-2 items-center">
+        <div className='flex items-center gap-2'>
           <ActionButton
             onClick={() => setModal(true)}
-            icon="fas fa-plus-circle"
+            icon='fas fa-plus-circle'
             isButton
-            isButtonClassName="bg-green !text-white"
-            title="Thêm"
+            isButtonClassName='bg-green !text-white'
+            title='Thêm'
           />
           <ActionButton
             onClick={() => _onExportExcel()}
-            icon="fas fa-file-export "
+            icon='fas fa-file-export '
             isButton
-            isButtonClassName="bg-blue !text-white"
-            title="Xuất"
+            isButtonClassName='bg-blue !text-white'
+            title='Xuất'
           />
         </div>
       </div>
@@ -177,11 +177,11 @@ const Index: TNextPageWithLayout = () => {
         }}
       />
     </>
-  );
-};
+  )
+}
 
-Index.displayName = SEOConfigs.listCustomer;
-Index.breadcrumb = breadcrumb.client.clientList.main;
-Index.Layout = Layout;
+Index.displayName = SEOConfigs.listCustomer
+Index.breadcrumb = breadcrumb.client.clientList.main
+Index.Layout = Layout
 
-export default Index;
+export default Index

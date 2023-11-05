@@ -4,11 +4,11 @@
  * 2: Quản lý mã vận đơn
  * 3: Danh sách kiện thất lạc
  */
-type TMenu = 0 | 1 | 2 | 3;
+type TMenu = 0 | 1 | 2 | 3
 
 /**
  * 1: Theo MainOrderId
  * 2: Theo Id
  * 3: Theo UserName
  */
-type TSearchType = 1 | 2 | 3;
+type TSearchType = 1 | 2 | 3

@@ -1,5 +1,5 @@
-import BaseAPI from '../methods';
+import BaseAPI from '../methods'
 
-const { globalCRUD } = new BaseAPI('fee-support');
+const { globalCRUD } = new BaseAPI('fee-support')
 
-export const feeSupport = globalCRUD;
+export const feeSupport = globalCRUD

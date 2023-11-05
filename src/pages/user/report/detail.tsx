@@ -1,10 +1,10 @@
-import router, { useRouter } from "next/router";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { complain, mainOrder } from "~/api";
+import router, { useRouter } from 'next/router'
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { complain, mainOrder } from '~/api'
 import {
   FormInput,
   FormInputNumber,
@@ -12,117 +12,117 @@ import {
   FormUpload,
   IconButton,
   UserLayout,
-} from "~/components";
-import { SEOHomeConfigs } from "~/configs/SEOConfigs";
-import { RootState } from "~/store";
-import { TNextPageWithLayout } from "~/types/layout";
+} from '~/components'
+import { SEOHomeConfigs } from '~/configs/SEOConfigs'
+import { RootState } from '~/store'
+import { TNextPageWithLayout } from '~/types/layout'
 
 const Index: TNextPageWithLayout = () => {
-  const { query } = useRouter();
+  const { query } = useRouter()
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurrentInfo
-  );
-  const [loading, setLoading] = useState(false);
+    (state: RootState) => state.userCurrentInfo,
+  )
+  const [loading, setLoading] = useState(false)
 
   const { data, isError, isLoading } = useQuery(
-    ["orderReportList", +query?.id],
+    ['orderReportList', +query?.id],
     () => mainOrder.getByID(+query?.id),
     {
       onSuccess: (data) => data.Data,
       onError: toast.error,
       retry: false,
-    }
-  );
+    },
+  )
 
   const { handleSubmit, control } = useForm<TReport>({
-    mode: "onBlur",
+    mode: 'onBlur',
     defaultValues: {
       MainOrderId: Number(query?.id),
       UID: userCurrentInfo?.Id,
     },
-  });
+  })
 
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
   const mutationAdd = useMutation((data: TReport) => complain.create(data), {
     onSuccess: () => {
-      mutationAdd.reset();
-      toast.success("Tạo khiếu nại thành công");
-      queryClient.invalidateQueries({ queryKey: "menuData" });
-      setLoading(false);
-      router.back();
+      mutationAdd.reset()
+      toast.success('Tạo khiếu nại thành công')
+      queryClient.invalidateQueries({ queryKey: 'menuData' })
+      setLoading(false)
+      router.back()
     },
     onError: (error) => {
-      toast.error((error as any)?.response?.data?.ResultMessage);
+      toast.error((error as any)?.response?.data?.ResultMessage)
     },
-  });
+  })
 
   const _onPress = async (data: TReport) => {
     try {
-      setLoading(true);
-      await mutationAdd.mutateAsync(data);
+      setLoading(true)
+      await mutationAdd.mutateAsync(data)
     } catch (error) {
-      toast.error("Lỗi tạo khiếu nại! Vui lòng thử lại!");
+      toast.error('Lỗi tạo khiếu nại! Vui lòng thử lại!')
     }
-  };
+  }
   return (
     <React.Fragment>
-      <div className="titlePageUser !mb-0">TẠO KHIẾU NẠI MỚI</div>
-      <div className="tableBox px-4 ">
-        <div className="grid grid-cols-2 gap-4 ">
-          <div className="col-span-1">
+      <div className='titlePageUser !mb-0'>TẠO KHIẾU NẠI MỚI</div>
+      <div className='tableBox px-4 '>
+        <div className='grid grid-cols-2 gap-4 '>
+          <div className='col-span-1'>
             <FormInput
               control={control}
-              name="MainOrderId"
+              name='MainOrderId'
               disabled
-              label="Mã shop"
-              placeholder=""
-              rules={{ required: "This field is required " }}
+              label='Mã shop'
+              placeholder=''
+              rules={{ required: 'This field is required ' }}
             />
           </div>
-          <div className="col-span-1">
+          <div className='col-span-1'>
             <FormInputNumber
               control={control}
-              name="Amount"
-              label="Số tiền (VNĐ)"
-              suffix=" VNĐ"
-              placeholder=""
-              rules={{ required: "This field is required " }}
+              name='Amount'
+              label='Số tiền (VNĐ)'
+              suffix=' VNĐ'
+              placeholder=''
+              rules={{ required: 'This field is required ' }}
             />
           </div>
-          <div className="col-span-2">
+          <div className='col-span-2'>
             <FormTextarea
               control={control}
-              name="ComplainText"
-              label="Nội dung"
-              placeholder=""
+              name='ComplainText'
+              label='Nội dung'
+              placeholder=''
               required={false}
             />
           </div>
-          <div className="col-span-2">
+          <div className='col-span-2'>
             <FormUpload
               control={control}
-              name="IMG"
-              label="Hình ảnh"
+              name='IMG'
+              label='Hình ảnh'
               required={false}
             />
           </div>
         </div>
-        <div className="text-right">
+        <div className='text-right'>
           <IconButton
-            title="Tạo khiếu nại"
+            title='Tạo khiếu nại'
             onClick={handleSubmit(_onPress)}
-            icon={loading ? "fas fa-sync fa-spin" : "fas fa-check-circle"}
-            btnIconClass="!mr-2"
+            icon={loading ? 'fas fa-sync fa-spin' : 'fas fa-check-circle'}
+            btnIconClass='!mr-2'
             showLoading
-            toolip=""
+            toolip=''
           />
         </div>
       </div>
     </React.Fragment>
-  );
-};
+  )
+}
 
-Index.displayName = SEOHomeConfigs.createComplain;
-Index.Layout = UserLayout;
+Index.displayName = SEOHomeConfigs.createComplain
+Index.Layout = UserLayout
 
-export default Index;
+export default Index

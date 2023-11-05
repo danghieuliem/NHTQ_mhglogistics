@@ -1,32 +1,32 @@
-import { Modal } from "antd";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "~/store";
-import styles from "./index.module.css";
+import { Modal } from 'antd'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { RootState } from '~/store'
+import styles from './index.module.css'
 
 export const PopupNoti = () => {
   // const notiShow = useRef(false);
-  const dataGlobal: any = useSelector((state: RootState) => state.dataGlobal);
-  const showNoti = JSON.parse(localStorage.getItem("showNoti"));
+  const dataGlobal: any = useSelector((state: RootState) => state.dataGlobal)
+  const showNoti = JSON.parse(localStorage.getItem('showNoti'))
 
   const [openModal, setOpenModal] = useState(() => {
-    if (showNoti) return showNoti;
+    if (showNoti) return showNoti
 
     if (showNoti === undefined || showNoti === null) {
-      return !!dataGlobal?.NotiPopupTitle;
+      return !!dataGlobal?.NotiPopupTitle
     }
-  });
+  })
 
   useEffect(() => {
     if (showNoti) {
-      setOpenModal(showNoti);
-      return;
+      setOpenModal(showNoti)
+      return
     }
 
     if (showNoti === undefined || showNoti === null) {
-      setOpenModal(!!dataGlobal?.NotiPopupTitle);
+      setOpenModal(!!dataGlobal?.NotiPopupTitle)
     }
-  }, [dataGlobal?.NotiPopupTitle]);
+  }, [dataGlobal?.NotiPopupTitle])
 
   return (
     <Modal
@@ -50,8 +50,8 @@ export const PopupNoti = () => {
           <button
             className={`${styles.btn} ${styles.btn1}`}
             onClick={() => {
-              setOpenModal(!openModal);
-              localStorage.setItem("showNoti", JSON.stringify(false));
+              setOpenModal(!openModal)
+              localStorage.setItem('showNoti', JSON.stringify(false))
             }}
           >
             Đóng và không hiện lại
@@ -67,10 +67,10 @@ export const PopupNoti = () => {
           <a href={`mailto:${dataGlobal?.NotiPopupEmail}`}>
             {dataGlobal?.NotiPopupEmail || dataGlobal?.EmailContact}
           </a>
-          <span className="text-white hidden sm:block">||</span>
+          <span className='hidden text-white sm:block'>||</span>
           <a href={`tel:${dataGlobal?.Hotline}`}>{dataGlobal?.Hotline}</a>
         </div>
       </div>
     </Modal>
-  );
-};
+  )
+}

@@ -1,42 +1,42 @@
-import { Popover } from "antd";
-import React, { useRef } from "react";
+import { Popover } from 'antd'
+import React, { useRef } from 'react'
 import {
   ActionButton,
   FilterInput,
   FilterRangeDate,
   FilterSelect,
-} from "~/components";
-import { IconButton } from "~/components/globals/button/IconButton";
-import { outstockStatusData, searchData } from "~/configs/appConfigs";
+} from '~/components'
+import { IconButton } from '~/components/globals/button/IconButton'
+import { outstockStatusData, searchData } from '~/configs/appConfigs'
 
 const usernameProps = {
-  placeholder: "Nhập username",
-  label: "Username",
-  id: "UserName",
-  name: "UserName",
-};
+  placeholder: 'Nhập username',
+  label: 'Username',
+  id: 'UserName',
+  name: 'UserName',
+}
 
 type TProps = {
-  handleFilter: (newFilter) => void;
-};
+  handleFilter: (newFilter) => void
+}
 
 export const OutStockPaymentFilter: React.FC<TProps> = ({ handleFilter }) => {
-  const SearchContent = useRef<string>(null);
-  const Status = useRef<number>(null);
-  const FromDate = useRef<string>(null);
-  const ToDate = useRef<string>(null);
+  const SearchContent = useRef<string>(null)
+  const Status = useRef<number>(null)
+  const FromDate = useRef<string>(null)
+  const ToDate = useRef<string>(null)
 
   return (
-    <div className="flex items-end gap-2">
+    <div className='flex items-end gap-2'>
       <Popover
-        trigger={"click"}
-        placement="bottomLeft"
+        trigger={'click'}
+        placement='bottomLeft'
         content={
-          <div className="grid grid-cols-1 gap-2 p-2">
+          <div className='grid grid-cols-1 gap-2 p-2'>
             <FilterSelect
               data={searchData}
-              label="Tìm kiếm theo"
-              placeholder="Tìm kiếm"
+              label='Tìm kiếm theo'
+              placeholder='Tìm kiếm'
               handleSearch={() => null}
               isClearable={true}
             />
@@ -49,15 +49,15 @@ export const OutStockPaymentFilter: React.FC<TProps> = ({ handleFilter }) => {
             />
 
             <FilterRangeDate
-              format="DD/MM/YYYY"
-              placeholder="Từ ngày/đến ngày"
+              format='DD/MM/YYYY'
+              placeholder='Từ ngày/đến ngày'
               handleDate={(val: string[]) => {
-                FromDate.current = val[0];
-                ToDate.current = val[1];
+                FromDate.current = val[0]
+                ToDate.current = val[1]
               }}
             />
 
-            <div className="col-span-full ml-auto">
+            <div className='col-span-full ml-auto'>
               <IconButton
                 onClick={() =>
                   handleFilter({
@@ -68,27 +68,27 @@ export const OutStockPaymentFilter: React.FC<TProps> = ({ handleFilter }) => {
                     PageIndex: 1,
                   })
                 }
-                icon="mr-0"
-                title="Tìm kiếm"
+                icon='mr-0'
+                title='Tìm kiếm'
                 showLoading
-                toolip="Lọc"
+                toolip='Lọc'
               />
             </div>
           </div>
         }
       >
         <ActionButton
-          icon="fas fa-filter"
-          title="Lọc"
+          icon='fas fa-filter'
+          title='Lọc'
           isButton
-          isButtonClassName="bg-main !text-white"
+          isButtonClassName='bg-main !text-white'
         />
       </Popover>
-      <div className="w-[200px]">
+      <div className='w-[200px]'>
         <FilterSelect
           data={outstockStatusData}
-          placeholder="Chọn trạng thái"
-          label="Trạng thái"
+          placeholder='Chọn trạng thái'
+          label='Trạng thái'
           handleSearch={(val: number) => {
             handleFilter({
               SearchContent: SearchContent.current,
@@ -96,11 +96,11 @@ export const OutStockPaymentFilter: React.FC<TProps> = ({ handleFilter }) => {
               FromDate: FromDate.current,
               ToDate: ToDate.current,
               PageIndex: 1,
-            });
+            })
           }}
           isClearable={true}
         />
       </div>
     </div>
-  );
-};
+  )
+}

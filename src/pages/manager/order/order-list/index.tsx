@@ -1,23 +1,23 @@
-import router, { useRouter } from "next/router";
-import { Fragment, useCallback, useEffect, useState } from "react";
-import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { mainOrder } from "~/api";
-import { Layout, OrderListFilter, OrderListTable } from "~/components";
-import { orderStatus } from "~/configs";
-import { SEOConfigs } from "~/configs/SEOConfigs";
-import { EParamQ } from "~/enums";
-import { useCatalogue } from "~/hooks/useCatalogue";
-import { RootState } from "~/store";
-import { TNextPageWithLayout } from "~/types/layout";
+import router, { useRouter } from 'next/router'
+import { Fragment, useCallback, useEffect, useState } from 'react'
+import { useQuery } from 'react-query'
+import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { mainOrder } from '~/api'
+import { Layout, OrderListFilter, OrderListTable } from '~/components'
+import { orderStatus } from '~/configs'
+import { SEOConfigs } from '~/configs/SEOConfigs'
+import { EParamQ } from '~/enums'
+import { useCatalogue } from '~/hooks/useCatalogue'
+import { RootState } from '~/store'
+import { TNextPageWithLayout } from '~/types/layout'
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurrentInfo
-  );
-  const { query } = useRouter();
-  const [numberOfOrder, setNumberOfOrder] = useState(orderStatus);
+    (state: RootState) => state.userCurrentInfo,
+  )
+  const { query } = useRouter()
+  const [numberOfOrder, setNumberOfOrder] = useState(orderStatus)
   const [filter, setFilter] = useState({
     TypeSearch: null,
     SearchContent: null,
@@ -32,13 +32,13 @@ const Index: TNextPageWithLayout = () => {
     OrderType: query?.q === EParamQ.otherOrder ? 3 : 1,
     PageIndex: 1,
     PageSize: 20,
-    OrderBy: "Id desc",
+    OrderBy: 'Id desc',
     UID: userCurrentInfo?.Id,
     RoleID:
       userCurrentInfo?.UserGroupId === 8 || userCurrentInfo?.UserGroupId === 6
         ? 3
         : userCurrentInfo?.UserGroupId,
-  });
+  })
 
   useEffect(() => {
     setFilter({
@@ -55,21 +55,21 @@ const Index: TNextPageWithLayout = () => {
       OrderType: query?.q === EParamQ.otherOrder ? 3 : 1,
       PageIndex: 1,
       PageSize: 20,
-      OrderBy: "Id desc",
+      OrderBy: 'Id desc',
       UID: userCurrentInfo?.Id,
       RoleID:
         userCurrentInfo?.UserGroupId === 8 ? 3 : userCurrentInfo?.UserGroupId,
-    });
-    setNumberOfOrder(orderStatus);
-  }, [query?.q]);
+    })
+    setNumberOfOrder(orderStatus)
+  }, [query?.q])
 
   const handleFilter = (newFilter) => {
-    setFilter({ ...filter, ...newFilter });
-  };
+    setFilter({ ...filter, ...newFilter })
+  }
 
   const { data, isFetching, isLoading, refetch } = useQuery(
     [
-      "orderList",
+      'orderList',
       [
         filter.TypeSearch,
         filter.FromDate,
@@ -92,26 +92,26 @@ const Index: TNextPageWithLayout = () => {
           TotalItems: data?.TotalItem,
           // PageIndex: data?.PageIndex,
           PageSize: data?.PageSize,
-        });
+        })
       },
       onError: (error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+        toast.error((error as any)?.response?.data?.ResultMessage)
       },
       keepPreviousData: true,
       refetchOnWindowFocus: true,
       refetchOnReconnect: true,
       staleTime: Number(query?.q) !== filter?.OrderType ? 0 : 5000,
-    }
-  );
+    },
+  )
 
   const { userOrder, userSale } = useCatalogue({
     userOrderEnabled: true,
     userSaleEnabled: true,
-  });
+  })
 
   const handleExportExcel = useCallback(async () => {
-    const id = toast.loading("Đang xử lý ...");
-    let newFilter = { ...filter };
+    const id = toast.loading('Đang xử lý ...')
+    let newFilter = { ...filter }
 
     if (
       filter.TypeSearch ||
@@ -126,24 +126,24 @@ const Index: TNextPageWithLayout = () => {
       newFilter = {
         ...filter,
         PageSize: 9999,
-      };
+      }
     }
 
     try {
-      const res = await mainOrder.exportExcel(newFilter);
+      const res = await mainOrder.exportExcel(newFilter)
       toast.update(id, {
         isLoading: false,
         autoClose: 1,
-        type: "default",
-      });
-      router.push(`${res.Data}`);
+        type: 'default',
+      })
+      router.push(`${res.Data}`)
     } catch (error) {
       toast.update(id, {
         isLoading: false,
         autoClose: 2000,
-        type: "error",
+        type: 'error',
         render: (error as any)?.response?.data?.ResultMessage,
-      });
+      })
     }
   }, [
     filter.TypeSearch,
@@ -154,11 +154,11 @@ const Index: TNextPageWithLayout = () => {
     filter.IsNotMainOrderCode,
     filter.SearchContent,
     filter.Status,
-  ]);
+  ])
 
   useQuery(
     [
-      "number-of-order",
+      'number-of-order',
       {
         UID: userCurrentInfo?.Id,
         RoleID:
@@ -181,28 +181,28 @@ const Index: TNextPageWithLayout = () => {
       }),
     {
       onSuccess(res) {
-        const data = res.Data;
+        const data = res.Data
         data?.forEach((d) => {
-          const target = orderStatus.find((x) => x.id === d?.Status);
+          const target = orderStatus.find((x) => x.id === d?.Status)
           if (target) {
-            target.value = d?.Quantity;
+            target.value = d?.Quantity
           }
-        });
+        })
       },
       onError(error) {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+        toast.error((error as any)?.response?.data?.ResultMessage)
       },
       keepPreviousData: true,
       staleTime: 5000,
-    }
-  );
+    },
+  )
 
   return (
     <Fragment>
-      <div className="breadcrumb">
+      <div className='breadcrumb'>
         {query?.q === EParamQ.otherOrder
-          ? "Đơn hàng mua hộ khác"
-          : "Đơn hàng mua hộ"}
+          ? 'Đơn hàng mua hộ khác'
+          : 'Đơn hàng mua hộ'}
       </div>
       <OrderListFilter
         numberOfOrder={numberOfOrder}
@@ -229,10 +229,10 @@ const Index: TNextPageWithLayout = () => {
         }
       /> */}
     </Fragment>
-  );
-};
+  )
+}
 
-Index.displayName = SEOConfigs.oder.orderMain;
-Index.Layout = Layout;
+Index.displayName = SEOConfigs.oder.orderMain
+Index.Layout = Layout
 
-export default Index;
+export default Index

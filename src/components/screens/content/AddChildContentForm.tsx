@@ -1,8 +1,8 @@
-import React, { Children, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useQuery, useQueryClient } from "react-query";
-import { toast } from "react-toastify";
-import { Page, menu } from "~/api";
+import React, { Children, useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { useQuery, useQueryClient } from 'react-query'
+import { toast } from 'react-toastify'
+import { Page, menu } from '~/api'
 import {
   FormCard,
   FormInput,
@@ -10,22 +10,22 @@ import {
   FormSelect,
   FormSwitch,
   Modal,
-} from "~/components";
-import { IconButton } from "~/components/globals/button/IconButton";
+} from '~/components'
+import { IconButton } from '~/components/globals/button/IconButton'
 
 const templates = [
-  { name: "Trong hệ thống", id: 1 },
-  { name: "Khác", id: 0 },
-];
+  { name: 'Trong hệ thống', id: 1 },
+  { name: 'Khác', id: 0 },
+]
 
 const ArticalListComp = ({ control, watch, setValue, categogyList }) => {
   const { data, isFetching } = useQuery(
     [
-      "Page",
+      'Page',
       {
         PageIndex: 1,
         PageSize: 99999,
-        OrderBy: "PageTypeId",
+        OrderBy: 'PageTypeId',
         PageTypeId: watch().PageTypeId,
       },
     ],
@@ -33,45 +33,45 @@ const ArticalListComp = ({ control, watch, setValue, categogyList }) => {
       Page.getList({
         PageIndex: 1,
         PageSize: 99999,
-        OrderBy: "PageTypeId",
+        OrderBy: 'PageTypeId',
         PageTypeId: watch().PageTypeId,
       }).then((res) => res?.Data),
     {
       keepPreviousData: true,
       onSuccess: (data) => {
-        return data?.Items;
+        return data?.Items
       },
       onError: (error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+        toast.error((error as any)?.response?.data?.ResultMessage)
       },
       refetchOnWindowFocus: false,
       staleTime: 5000,
-    }
-  );
+    },
+  )
   return (
     <>
-      <div className="col-span-1">
+      <div className='col-span-1'>
         <FormSelect
           control={control}
-          label="Danh sách bài viết"
-          placeholder="Chọn bài viết"
-          name="PageId"
+          label='Danh sách bài viết'
+          placeholder='Chọn bài viết'
+          name='PageId'
           data={data?.Items}
-          select={{ label: "Title", value: "Id" }}
+          select={{ label: 'Title', value: 'Id' }}
           required={false}
           isClearable
           disabled={!watch().IsEdit}
           callback={() => {
             if (watch().PageId) {
               setValue(
-                "Link",
-                data?.Items.find((x) => x.Id === watch().PageId)?.Code
-              );
+                'Link',
+                data?.Items.find((x) => x.Id === watch().PageId)?.Code,
+              )
             } else {
               setValue(
-                "Link",
-                categogyList.find((x) => x.Id === watch().PageTypeId)?.Code
-              );
+                'Link',
+                categogyList.find((x) => x.Id === watch().PageTypeId)?.Code,
+              )
             }
           }}
           defaultValue={
@@ -82,35 +82,35 @@ const ArticalListComp = ({ control, watch, setValue, categogyList }) => {
           }
         />
       </div>
-      <div className="col-span-1">
+      <div className='col-span-1'>
         <FormInput
           control={control}
-          name="Link"
-          placeholder=""
-          label="Link bài viết"
+          name='Link'
+          placeholder=''
+          label='Link bài viết'
           disabled={!!watch().IsEdit}
         />
       </div>
     </>
-  );
-};
+  )
+}
 
 const CategoryListComp = ({ control, watch, categogyList, setValue }) => {
   // console.log(dataMenuList, watch().PageTypeId);
 
   return (
     <>
-      <div className="col-span-1">
+      <div className='col-span-1'>
         <FormSelect
           control={control}
-          label="Chuyên mục"
-          placeholder="Chọn chuyên mục"
-          name="PageTypeId"
+          label='Chuyên mục'
+          placeholder='Chọn chuyên mục'
+          name='PageTypeId'
           data={categogyList}
-          select={{ label: "Name", value: "Id" }}
+          select={{ label: 'Name', value: 'Id' }}
           required={!!watch().IsEdit}
           rules={{
-            required: "This field is required",
+            required: 'This field is required',
           }}
           defaultValue={
             watch().PageTypeId && {
@@ -121,9 +121,9 @@ const CategoryListComp = ({ control, watch, categogyList, setValue }) => {
           disabled={!watch().IsEdit}
           callback={() => {
             setValue(
-              "Link",
-              categogyList.find((x) => x.Id === watch().PageTypeId)?.Code
-            );
+              'Link',
+              categogyList.find((x) => x.Id === watch().PageTypeId)?.Code,
+            )
           }}
         />
       </div>
@@ -134,8 +134,8 @@ const CategoryListComp = ({ control, watch, categogyList, setValue }) => {
         categogyList={categogyList}
       />
     </>
-  );
-};
+  )
+}
 
 const AddChildContentForm: React.FC<any> = ({
   child,
@@ -145,30 +145,30 @@ const AddChildContentForm: React.FC<any> = ({
   // const [data, setData] = useState<any>();
 
   const { control, handleSubmit, setValue, reset, watch } = useForm<{
-    Name: string;
-    Link: string;
-    Active: boolean;
-    Position: number;
-    PageTypeId?: number;
-    PageId?: number;
-    IsEdit?: number;
-    Parent: number;
+    Name: string
+    Link: string
+    Active: boolean
+    Position: number
+    PageTypeId?: number
+    PageId?: number
+    IsEdit?: number
+    Parent: number
   }>({
-    mode: "onBlur",
+    mode: 'onBlur',
     defaultValues: {
       ...child,
       IsEdit: child?.PageTypeId ? 1 : 0,
     },
-  });
+  })
 
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   useEffect(() => {
     reset({
       ...child,
       IsEdit: child?.PageTypeId ? 1 : 0,
-    });
-  }, [child?.Id]);
+    })
+  }, [child?.Id])
 
   useEffect(() => {
     reset({
@@ -180,84 +180,84 @@ const AddChildContentForm: React.FC<any> = ({
       PageTypeId: watch().PageTypeId,
       PageId: null,
       IsEdit: watch().IsEdit,
-    });
-  }, [watch().PageTypeId]);
+    })
+  }, [watch().PageTypeId])
 
   const _onPress = (newData: {
-    Name: string;
-    Link: string;
-    Active: boolean;
-    Position: number;
-    PageTypeId?: number;
-    PageId?: number;
-    IsEdit?: number;
-    Parent: number;
+    Name: string
+    Link: string
+    Active: boolean
+    Position: number
+    PageTypeId?: number
+    PageId?: number
+    IsEdit?: number
+    Parent: number
   }) => {
-    const sendData = { ...newData };
+    const sendData = { ...newData }
 
     if (!sendData?.IsEdit) {
-      delete sendData?.PageId;
-      delete sendData?.PageTypeId;
+      delete sendData?.PageId
+      delete sendData?.PageTypeId
     }
-    delete sendData?.IsEdit;
+    delete sendData?.IsEdit
 
-    onCancel();
-    const id = toast.loading("Đang xử lý ...");
+    onCancel()
+    const id = toast.loading('Đang xử lý ...')
     menu
       .create(sendData)
       .then(() => {
-        queryClient.invalidateQueries("menuData");
+        queryClient.invalidateQueries('menuData')
         toast.update(id, {
-          render: "Tạo menu mới thành công",
-          type: "success",
+          render: 'Tạo menu mới thành công',
+          type: 'success',
           isLoading: false,
           autoClose: 500,
-        });
+        })
       })
       .catch((error) => {
         toast.update(id, {
           render: (error as any)?.response?.data?.ResultMessage,
-          type: "error",
+          type: 'error',
           isLoading: false,
           autoClose: 1000,
-        });
-      });
-  };
+        })
+      })
+  }
 
   return (
     <Modal visible={!!child} width={1000}>
       <FormCard>
         <FormCard.Header onCancel={onCancel}>
-          <div className="w-full">
+          <div className='w-full'>
             <p>Thêm menu con</p>
           </div>
         </FormCard.Header>
         <FormCard.Body>
-          <div className={`grid md:grid-cols-2 gap-4`}>
-            <div className="grid gap-4 h-fit">
+          <div className={`grid gap-4 md:grid-cols-2`}>
+            <div className='grid h-fit gap-4'>
               <FormInput
                 control={control}
-                name="Name"
-                label="Tên menu con"
-                placeholder={""}
-                rules={{ required: "Vui lòng điền thông tin" }}
+                name='Name'
+                label='Tên menu con'
+                placeholder={''}
+                rules={{ required: 'Vui lòng điền thông tin' }}
               />
               <FormInputNumber
                 control={control}
-                name="Position"
-                label="Vị trí menu con"
-                placeholder=""
-                rules={{ required: "Vui lòng điền vị trí hiển thị" }}
+                name='Position'
+                label='Vị trí menu con'
+                placeholder=''
+                rules={{ required: 'Vui lòng điền vị trí hiển thị' }}
               />
-              <div className="grid xs:grid-cols-3 gap-4">
-                <div className="xs:col-span-2">
+              <div className='grid gap-4 xs:grid-cols-3'>
+                <div className='xs:col-span-2'>
                   <FormSelect
-                    name="IsEdit"
+                    name='IsEdit'
                     control={control}
-                    label="Bài viết trong hệ thống?"
+                    label='Bài viết trong hệ thống?'
                     data={templates}
-                    select={{ label: "name", value: "id" }}
-                    placeholder={""}
+                    select={{ label: 'name', value: 'id' }}
+                    placeholder={''}
                     required={false}
                     defaultValue={{
                       name: templates?.find((x) => x.id === watch().IsEdit)
@@ -266,18 +266,18 @@ const AddChildContentForm: React.FC<any> = ({
                     }}
                   />
                 </div>
-                <div className="xs:col-span-1">
+                <div className='xs:col-span-1'>
                   <FormSwitch
                     control={control}
-                    name="Active"
-                    label="Trạng thái"
+                    name='Active'
+                    label='Trạng thái'
                     required={false}
                   />
                 </div>
               </div>
             </div>
 
-            <div className="col-span-1 grid grid-cols-1 gap-3 h-fit">
+            <div className='col-span-1 grid h-fit grid-cols-1 gap-3'>
               <CategoryListComp
                 control={control}
                 watch={watch}
@@ -290,16 +290,16 @@ const AddChildContentForm: React.FC<any> = ({
         <FormCard.Footer>
           <IconButton
             onClick={handleSubmit(_onPress)}
-            icon="fas fa-edit"
-            btnIconClass="!mr-2"
-            title="Thêm mới"
+            icon='fas fa-edit'
+            btnIconClass='!mr-2'
+            title='Thêm mới'
             showLoading
-            toolip=""
+            toolip=''
           />
         </FormCard.Footer>
       </FormCard>
     </Modal>
-  );
-};
+  )
+}
 
-export const AddChildContentFormMemo = React.memo(AddChildContentForm);
+export const AddChildContentFormMemo = React.memo(AddChildContentForm)

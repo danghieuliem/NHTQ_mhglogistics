@@ -1,27 +1,27 @@
-import { Divider, Popover } from "antd";
-import router from "next/router";
-import React from "react";
-import { useFieldArray, useForm } from "react-hook-form";
-import { useMutation, useQuery } from "react-query";
-import { useSelector } from "react-redux";
-import { transportationOrder, user } from "~/api";
+import { Divider, Popover } from 'antd'
+import router from 'next/router'
+import React from 'react'
+import { useFieldArray, useForm } from 'react-hook-form'
+import { useMutation, useQuery } from 'react-query'
+import { useSelector } from 'react-redux'
+import { transportationOrder, user } from '~/api'
 import {
   ActionButton,
   CreateDepositSelect,
   CreateDepositTable,
   Layout,
   toast,
-} from "~/components";
-import { SEOHomeConfigs } from "~/configs/SEOConfigs";
-import { useDeepEffect } from "~/hooks";
-import { useCatalogue } from "~/hooks/useCatalogue";
-import { RootState } from "~/store";
-import { TNextPageWithLayout } from "~/types/layout";
+} from '~/components'
+import { SEOHomeConfigs } from '~/configs/SEOConfigs'
+import { useDeepEffect } from '~/hooks'
+import { useCatalogue } from '~/hooks/useCatalogue'
+import { RootState } from '~/store'
+import { TNextPageWithLayout } from '~/types/layout'
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurrentInfo
-  );
+    (state: RootState) => state.userCurrentInfo,
+  )
 
   const { data: userList } = useQuery([], () =>
     user
@@ -30,15 +30,15 @@ const Index: TNextPageWithLayout = () => {
         RoleID: userCurrentInfo?.UserGroupId,
       })
       .then((res) => {
-        return res?.Data;
-      })
-  );
+        return res?.Data
+      }),
+  )
 
   const { warehouseTQ, warehouseVN, shippingTypeToWarehouse } = useCatalogue({
     warehouseTQEnabled: true,
     warehouseVNEnabled: true,
     shippingTypeToWarehouseEnabled: true,
-  });
+  })
 
   const defaultValues = {
     smallPackages: [
@@ -52,60 +52,60 @@ const Index: TNextPageWithLayout = () => {
       },
     ],
     ShippingType: shippingTypeToWarehouse?.find(
-      (x) => x.Id === userCurrentInfo?.ShippingType
+      (x) => x.Id === userCurrentInfo?.ShippingType,
     )?.Id,
     WarehouseTQ: warehouseTQ?.find(
-      (x) => x.Id === userCurrentInfo?.WarehouseFrom
+      (x) => x.Id === userCurrentInfo?.WarehouseFrom,
     )?.Id,
     WarehouseVN: warehouseVN?.find((x) => x.Id === userCurrentInfo?.WarehouseTo)
       ?.Id,
-  };
+  }
 
   const { control, reset, handleSubmit, setValue } =
     useForm<TUserCreateDeposit>({
-      mode: "onBlur",
-    });
+      mode: 'onBlur',
+    })
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "smallPackages",
-    keyName: "Id",
-  });
+    name: 'smallPackages',
+    keyName: 'Id',
+  })
 
   useDeepEffect(() => {
-    reset(defaultValues);
-  }, [warehouseTQ, warehouseVN, shippingTypeToWarehouse]);
+    reset(defaultValues)
+  }, [warehouseTQ, warehouseVN, shippingTypeToWarehouse])
 
   const mutationAdd = useMutation(
     (data: TUserCreateDeposit) => transportationOrder.create(data),
     {
       onSuccess: () => {
-        toast.success("Tạo đơn hàng ký gửi thành công");
-        reset(defaultValues);
-        router.push("/manager/deposit/deposit-list");
+        toast.success('Tạo đơn hàng ký gửi thành công')
+        reset(defaultValues)
+        router.push('/manager/deposit/deposit-list')
       },
       onError: toast.error,
-    }
-  );
+    },
+  )
 
   const _onPress = (data: TUserCreateDeposit) => {
-    let flat = true;
+    let flat = true
     data.smallPackages.forEach((item) => {
       if (!item.Category || !item.Amount) {
-        toast.warning("Loại sản phẩm hoặc số lượng đang để trống!");
-        flat = false;
-        return;
+        toast.warning('Loại sản phẩm hoặc số lượng đang để trống!')
+        flat = false
+        return
       }
-    });
+    })
 
     if (flat) {
-      mutationAdd.mutateAsync(data);
+      mutationAdd.mutateAsync(data)
     }
-  };
+  }
 
   return (
     <React.Fragment>
-      <div className="flex w-fit ml-auto">
+      <div className='ml-auto flex w-fit'>
         <ActionButton
           onClick={() =>
             append({
@@ -120,17 +120,17 @@ const Index: TNextPageWithLayout = () => {
               FeeShip: 0,
             })
           }
-          title="Thêm"
-          icon="fas fa-plus-circle"
+          title='Thêm'
+          icon='fas fa-plus-circle'
           isButton
-          isButtonClassName="bg-green !text-white mr-2"
+          isButtonClassName='bg-green !text-white mr-2'
         />
         <Popover
-          trigger={"click"}
-          placement="bottomLeft"
+          trigger={'click'}
+          placement='bottomLeft'
           content={
-            <div className="grid grid-cols-4 p-4 sm:w-[500px]">
-              <div className="col-span-4 grid grid-col-2">
+            <div className='grid grid-cols-4 p-4 sm:w-[500px]'>
+              <div className='grid-col-2 col-span-4 grid'>
                 <CreateDepositSelect
                   {...{
                     control,
@@ -142,26 +142,26 @@ const Index: TNextPageWithLayout = () => {
                   }}
                 />
               </div>
-              <div className="col-span-4">
-                <Divider className="!my-4" />
+              <div className='col-span-4'>
+                <Divider className='!my-4' />
               </div>
-              <div className="col-span-4 flex items-end justify-end">
+              <div className='col-span-4 flex items-end justify-end'>
                 <ActionButton
                   onClick={handleSubmit(_onPress)}
-                  icon="fas fa-check-circle"
-                  title="Tạo đơn"
+                  icon='fas fa-check-circle'
+                  title='Tạo đơn'
                   isButton
-                  isButtonClassName="bg-main !text-white"
+                  isButtonClassName='bg-main !text-white'
                 />
               </div>
             </div>
           }
         >
           <ActionButton
-            icon="fas fa-hand-point-right"
-            title="Tiếp tục"
+            icon='fas fa-hand-point-right'
+            title='Tiếp tục'
             isButton
-            isButtonClassName="bg-blue !text-white"
+            isButtonClassName='bg-blue !text-white'
           />
         </Popover>
       </div>
@@ -177,11 +177,11 @@ const Index: TNextPageWithLayout = () => {
         }}
       />
     </React.Fragment>
-  );
-};
+  )
+}
 
-Index.displayName = SEOHomeConfigs.consignmentShipping.createOderDeposit;
-Index.breadcrumb = "Tạo đơn hàng ký gửi";
-Index.Layout = Layout;
+Index.displayName = SEOHomeConfigs.consignmentShipping.createOderDeposit
+Index.breadcrumb = 'Tạo đơn hàng ký gửi'
+Index.Layout = Layout
 
-export default Index;
+export default Index

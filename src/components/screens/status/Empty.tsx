@@ -1,6 +1,6 @@
-import * as empty from "~/assets/json/empty.json";
+import * as empty from '~/assets/json/empty.json'
 
-import Lottie from "react-lottie";
+import Lottie from 'react-lottie'
 
 export const Empty = () => {
   const defaultOptions = {
@@ -8,13 +8,13 @@ export const Empty = () => {
     autoplay: true,
     animationData: empty,
     rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
+      preserveAspectRatio: 'xMidYMid slice',
     },
-  };
+  }
 
   return (
-    <div className={"w-full h-full p-[20%]"}>
-      <Lottie options={defaultOptions} width={"200px"} />
+    <div className={'h-full w-full p-[20%]'}>
+      <Lottie options={defaultOptions} width={'200px'} />
     </div>
-  );
-};
+  )
+}

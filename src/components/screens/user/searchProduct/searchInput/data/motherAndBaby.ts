@@ -14,23 +14,23 @@ const MotherAndBaby = {
         { Title: 'túi cho mẹ', Value: '妈妈包' },
         { Title: 'máy hút sữa', Value: '吸奶器' },
         { Title: 'túi đựng đồ đi đẻ', Value: '孕妇包' },
-        { Title: 'miếng lót thấm sửa', Value: '吸奶垫' }
-      ]
+        { Title: 'miếng lót thấm sửa', Value: '吸奶垫' },
+      ],
     },
     {
       Title: 'Bỉm, tã, khăn giấy',
       Children: [
         { Title: 'tã quần', Value: '小裤尿布' },
-        { Title: 'khăn ướt em bé', Value: '婴儿湿巾' }
-      ]
+        { Title: 'khăn ướt em bé', Value: '婴儿湿巾' },
+      ],
     },
     {
       Title: 'Tăm, gội',
       Children: [
         { Title: 'Bình sữa', Value: '奶瓶' },
         { Title: 'Dụng cụ cho bé ăn', Value: '婴儿餐具' },
-        { Title: 'Chăm sóc da cho bé', Value: '婴儿护肤' }
-      ]
+        { Title: 'Chăm sóc da cho bé', Value: '婴儿护肤' },
+      ],
     },
     {
       Title: 'Khác',
@@ -39,10 +39,10 @@ const MotherAndBaby = {
         { Title: 'Giường em bé', Value: '婴儿床' },
         { Title: 'Đai lưng', Value: '婴儿腰带' },
         { Title: 'Xe điện', Value: '儿童电动车' },
-        { Title: 'Ghế ăn em bé', Value: '婴儿餐椅' }
-      ]
-    }
-  ]
+        { Title: 'Ghế ăn em bé', Value: '婴儿餐椅' },
+      ],
+    },
+  ],
 }
 
 export default MotherAndBaby

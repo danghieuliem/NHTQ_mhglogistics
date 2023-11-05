@@ -1,5 +1,5 @@
-import BaseAPI from "../methods";
+import BaseAPI from '../methods'
 
-const {globalCRUD} = new BaseAPI<TService>("service");
+const { globalCRUD } = new BaseAPI<TService>('service')
 
-export const service = globalCRUD;
+export const service = globalCRUD

@@ -1,1 +1,1 @@
-export * from './dataGlobalSlice';
+export * from './dataGlobalSlice'

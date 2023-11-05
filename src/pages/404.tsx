@@ -1,12 +1,12 @@
-import React from "react";
-import { NotFound } from "~/components";
-import BlankLayout from "~/components/globals/layout/blankLayouts";
-import { TNextPageWithLayout } from "~/types/layout";
+import React from 'react'
+import { NotFound } from '~/components'
+import BlankLayout from '~/components/globals/layout/blankLayouts'
+import { TNextPageWithLayout } from '~/types/layout'
 
 const Index: TNextPageWithLayout = () => {
-  return <NotFound />;
-};
+  return <NotFound />
+}
 
-Index.Layout = BlankLayout;
+Index.Layout = BlankLayout
 
-export default Index;
+export default Index

@@ -1,27 +1,27 @@
-import { useState } from "react";
-import { useQuery } from "react-query";
-import { toast } from "react-toastify";
-import { smallPackage } from "~/api";
-import { Empty, UserLayout } from "~/components";
+import { useState } from 'react'
+import { useQuery } from 'react-query'
+import { toast } from 'react-toastify'
+import { smallPackage } from '~/api'
+import { Empty, UserLayout } from '~/components'
 import {
   TrackingDetail,
   TrackingFilter,
-} from "~/components/screens/user/tracking";
-import { SEOHomeConfigs } from "~/configs/SEOConfigs";
-import { TNextPageWithLayout } from "~/types/layout";
+} from '~/components/screens/user/tracking'
+import { SEOHomeConfigs } from '~/configs/SEOConfigs'
+import { TNextPageWithLayout } from '~/types/layout'
 
 const Index: TNextPageWithLayout = () => {
-  const [TransactionCode, setTransactionCode] = useState<string>(null);
+  const [TransactionCode, setTransactionCode] = useState<string>(null)
   const handleFilter = (TransactionCode: string) => {
-    if (TransactionCode === "") {
-      toast.warn("Vui lòng nhập mã vận đơn!");
-      return;
+    if (TransactionCode === '') {
+      toast.warn('Vui lòng nhập mã vận đơn!')
+      return
     }
-    setTransactionCode(TransactionCode.trim());
-  };
+    setTransactionCode(TransactionCode.trim())
+  }
 
   const { data } = useQuery(
-    ["tracking", TransactionCode],
+    ['tracking', TransactionCode],
     () => smallPackage.getByTransactionCode({ TransactionCode }),
     {
       select: (data) => data.Data,
@@ -29,15 +29,15 @@ const Index: TNextPageWithLayout = () => {
       refetchOnWindowFocus: false,
       retry: false,
       refetchOnReconnect: false,
-    }
-  );
+    },
+  )
 
   return (
-    <div className="grid grid-cols-1 gap-4">
-      <div className="w-full xl:w-1/4">
+    <div className='grid grid-cols-1 gap-4'>
+      <div className='w-full xl:w-1/4'>
         <TrackingFilter handleFilter={handleFilter} />
       </div>
-      <div className="">
+      <div className=''>
         <div>
           {TransactionCode && data?.length > 0 && (
             <TrackingDetail data={data} />
@@ -46,11 +46,11 @@ const Index: TNextPageWithLayout = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-Index.displayName = SEOHomeConfigs.tracking;
-Index.breadcrumb = "Tracking mã vận đơn";
-Index.Layout = UserLayout;
+Index.displayName = SEOHomeConfigs.tracking
+Index.breadcrumb = 'Tracking mã vận đơn'
+Index.Layout = UserLayout
 
-export default Index;
+export default Index

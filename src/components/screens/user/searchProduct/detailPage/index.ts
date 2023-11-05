@@ -1,2 +1,2 @@
-export * from "./layoutLeft";
-export * from "./layoutRight";
+export * from './layoutLeft'
+export * from './layoutRight'

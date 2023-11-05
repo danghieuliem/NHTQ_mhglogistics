@@ -1,22 +1,22 @@
-import router from "next/router";
-import { useCallback, useRef, useState } from "react";
-import { useQuery } from "react-query";
-import { toast } from "react-toastify";
-import { adminSendUserWallet } from "~/api";
+import router from 'next/router'
+import { useCallback, useRef, useState } from 'react'
+import { useQuery } from 'react-query'
+import { toast } from 'react-toastify'
+import { adminSendUserWallet } from '~/api'
 import {
   Layout,
   NotFound,
   RechargeHistoryFilter,
   RechargeHistoryForm,
   RechargeHistoryTable,
-} from "~/components";
-import { breadcrumb } from "~/configs";
-import { SEOConfigs } from "~/configs/SEOConfigs";
-import { TNextPageWithLayout } from "~/types/layout";
-import { _format } from "~/utils";
+} from '~/components'
+import { breadcrumb } from '~/configs'
+import { SEOConfigs } from '~/configs/SEOConfigs'
+import { TNextPageWithLayout } from '~/types/layout'
+import { _format } from '~/utils'
 
-const boxTop = "col-span-1 tableBox cardTopTable p-2 items-center";
-const boxBottom = "tableBox cardTopTable col-span-1 w-full p-3";
+const boxTop = 'col-span-1 tableBox cardTopTable p-2 items-center'
+const boxBottom = 'tableBox cardTopTable col-span-1 w-full p-3'
 
 const Index: TNextPageWithLayout = () => {
   const [filter, setFilter] = useState({
@@ -27,18 +27,18 @@ const Index: TNextPageWithLayout = () => {
     Status: null,
     FromDate: null,
     ToDate: null,
-  });
+  })
 
   const handleFilter = (newFilter) => {
-    setFilter({ ...filter, ...newFilter });
-  };
+    setFilter({ ...filter, ...newFilter })
+  }
 
-  const item = useRef<TUserHistoryRechargeVND>();
-  const [modal, setModal] = useState(false);
+  const item = useRef<TUserHistoryRechargeVND>()
+  const [modal, setModal] = useState(false)
   const handleModal = (itemSelected: TUserHistoryRechargeVND) => {
-    item.current = itemSelected;
-    setModal(true);
-  };
+    item.current = itemSelected
+    setModal(true)
+  }
 
   const {
     data: userRechargeData,
@@ -46,7 +46,7 @@ const Index: TNextPageWithLayout = () => {
     isError,
   } = useQuery(
     [
-      "clientRechargeData",
+      'clientRechargeData',
       [
         filter.PageIndex,
         filter.SearchContent,
@@ -63,18 +63,18 @@ const Index: TNextPageWithLayout = () => {
           TotalItems: data?.TotalItem,
           PageIndex: data?.PageIndex,
           PageSize: data?.PageSize,
-        });
-        return data?.Items;
+        })
+        return data?.Items
       },
       onError: (error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+        toast.error((error as any)?.response?.data?.ResultMessage)
       },
-    }
-  );
+    },
+  )
 
   const handleExportExcel = useCallback(async () => {
-    const id = toast.loading("Đang xử lý ...");
-    let newFilter = { ...filter };
+    const id = toast.loading('Đang xử lý ...')
+    let newFilter = { ...filter }
 
     if (
       filter.SearchContent ||
@@ -85,94 +85,94 @@ const Index: TNextPageWithLayout = () => {
       newFilter = {
         ...filter,
         PageSize: 9999,
-      };
+      }
     }
 
     try {
-      const res = await adminSendUserWallet.exportExcel(newFilter);
-      router.push(`${res.Data}`);
+      const res = await adminSendUserWallet.exportExcel(newFilter)
+      router.push(`${res.Data}`)
     } catch (error) {
       toast.update(id, {
         isLoading: false,
         autoClose: 1,
-        type: "error",
+        type: 'error',
         render: (error as any)?.response?.data?.ResultMessage,
-      });
+      })
     } finally {
       toast.update(id, {
         isLoading: false,
         autoClose: 1,
-        type: "default",
-      });
+        type: 'default',
+      })
     }
-  }, [filter.SearchContent, filter.Status, filter.FromDate, filter.ToDate]);
+  }, [filter.SearchContent, filter.Status, filter.FromDate, filter.ToDate])
 
-  if (isError) return <NotFound />;
+  if (isError) return <NotFound />
 
   return (
     <>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-2 mb-4">
+      <div className='mb-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4'>
         <div className={boxTop}>
           Tổng đơn
-          <span className="text-bold text-blue font-semibold text-[20px]">
+          <span className='text-bold text-[20px] font-semibold text-blue'>
             {userRechargeData?.TotalItem}
           </span>
         </div>
         <div className={boxTop}>
           Số đơn đã duyệt
-          <span className="text-bold text-green font-semibold text-[20px]">
+          <span className='text-bold text-[20px] font-semibold text-green'>
             {userRechargeData?.Items?.[0]?.TotalStatus2 ?? 0}
           </span>
         </div>
         <div className={boxTop}>
           Số đơn chờ duyệt
-          <span className="text-bold text-[#f7b467] font-semibold text-[20px]">
+          <span className='text-bold text-[20px] font-semibold text-[#f7b467]'>
             {userRechargeData?.Items?.[0]?.TotalStatus1 ?? 0}
           </span>
         </div>
         <div className={boxTop}>
           Số đơn đã huỷ
-          <span className="text-bold text-red font-semibold text-[20px]">
+          <span className='text-bold text-[20px] font-semibold text-red'>
             {userRechargeData?.Items?.[0]?.TotalStatus3 ?? 0}
           </span>
         </div>
       </div>
-      <div className="grid md:grid-cols-3 gap-2 mb-4">
+      <div className='mb-4 grid gap-2 md:grid-cols-3'>
         <div className={boxBottom}>
-          <div className="IconBoxFilter IconFilter text-white bg-[#e75b5b]">
-            <i className="fas fa-sack-dollar"></i>
+          <div className='IconBoxFilter IconFilter bg-[#e75b5b] text-white'>
+            <i className='fas fa-sack-dollar'></i>
           </div>
           <div>
-            <div className="text-right">Tổng số tiền:</div>
-            <span className="font-bold text-base text-[#e75b5b] flex items-center justify-end">
+            <div className='text-right'>Tổng số tiền:</div>
+            <span className='flex items-center justify-end text-base font-bold text-[#e75b5b]'>
               {_format.getVND(userRechargeData?.Items?.[0]?.TotalAmount)}
             </span>
           </div>
         </div>
         <div className={boxBottom}>
-          <div className="IconBoxFilter text-white bg-green IconFilter">
-            <i className="fas fa-sack-dollar"></i>
+          <div className='IconBoxFilter IconFilter bg-green text-white'>
+            <i className='fas fa-sack-dollar'></i>
           </div>
           <div>
-            <div className="text-right">Tổng số tiền đã duyệt:</div>
-            <span className="font-bold text-base text-green flex items-center justify-end">
+            <div className='text-right'>Tổng số tiền đã duyệt:</div>
+            <span className='flex items-center justify-end text-base font-bold text-green'>
               {_format.getVND(userRechargeData?.Items?.[0]?.TotalAmount2)}
             </span>
           </div>
         </div>
         <div className={boxBottom}>
-          <div className="IconBoxFilter text-white bg-main IconFilter">
-            <i className="fas fa-sack-dollar"></i>
+          <div className='IconBoxFilter IconFilter bg-main text-white'>
+            <i className='fas fa-sack-dollar'></i>
           </div>
           <div>
-            <div className="text-right">Tổng số tiền chờ duyệt:</div>
-            <span className="font-bold text-base text-main flex items-center justify-end">
+            <div className='text-right'>Tổng số tiền chờ duyệt:</div>
+            <span className='flex items-center justify-end text-base font-bold text-main'>
               {_format.getVND(userRechargeData?.Items?.[0]?.TotalAmount1)}
             </span>
           </div>
         </div>
       </div>
-      <div className="">
+      <div className=''>
         <RechargeHistoryFilter
           handleFilter={handleFilter}
           handleExportExcel={handleExportExcel}
@@ -193,11 +193,11 @@ const Index: TNextPageWithLayout = () => {
         />
       </div>
     </>
-  );
-};
+  )
+}
 
-Index.displayName = SEOConfigs.moneyManagement.historyRechargeVN;
-Index.breadcrumb = breadcrumb.money.rechargeHistory;
-Index.Layout = Layout;
+Index.displayName = SEOConfigs.moneyManagement.historyRechargeVN
+Index.breadcrumb = breadcrumb.money.rechargeHistory
+Index.Layout = Layout
 
-export default Index;
+export default Index

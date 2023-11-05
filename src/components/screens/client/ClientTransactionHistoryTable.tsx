@@ -1,40 +1,40 @@
-import { Pagination } from "antd";
-import { isNumber } from "lodash";
-import React from "react";
-import { DataTable } from "~/components/globals/table";
-import { TColumnsType, TTable } from "~/types/table";
-import { _format } from "~/utils";
+import { Pagination } from 'antd'
+import { isNumber } from 'lodash'
+import React from 'react'
+import { DataTable } from '~/components/globals/table'
+import { TColumnsType, TTable } from '~/types/table'
+import { _format } from '~/utils'
 
 export const ClientTransactionHistoryTable: React.FC<
   TTable<TUserHistoryTransactionVND> & { filter; handleFilter }
 > = ({ data, filter, handleFilter, loading }) => {
   const columns: TColumnsType<TUserHistoryTransactionVND> = [
     {
-      dataIndex: "Id",
-      title: "STT",
+      dataIndex: 'Id',
+      title: 'STT',
       render: (_, __, index) => index + 1,
       width: 50,
-      responsive: ["lg"],
+      responsive: ['lg'],
     },
     {
-      dataIndex: "Created",
-      title: "Ngày giao dịch",
-      responsive: ["lg"],
+      dataIndex: 'Created',
+      title: 'Ngày giao dịch',
+      responsive: ['lg'],
       render: (date) => _format.getVNDate(date),
     },
     {
-      dataIndex: "Content",
-      title: "Nội dung",
-      responsive: ["lg"],
+      dataIndex: 'Content',
+      title: 'Nội dung',
+      responsive: ['lg'],
       width: 300,
     },
     {
-      dataIndex: "TradeTypeName",
-      title: "Loại giao dịch",
+      dataIndex: 'TradeTypeName',
+      title: 'Loại giao dịch',
     },
     {
-      dataIndex: "Amount",
-      align: "right",
+      dataIndex: 'Amount',
+      align: 'right',
       title: (
         <>
           Số tiền
@@ -44,8 +44,8 @@ export const ClientTransactionHistoryTable: React.FC<
       ),
     },
     {
-      dataIndex: "MoneyLeft",
-      align: "right",
+      dataIndex: 'MoneyLeft',
+      align: 'right',
       title: (
         <>
           Số dư
@@ -53,10 +53,10 @@ export const ClientTransactionHistoryTable: React.FC<
           (VNĐ)
         </>
       ),
-      responsive: ["sm"],
-      render: (money) => _format.getVND(money, ""),
+      responsive: ['sm'],
+      render: (money) => _format.getVND(money, ''),
     },
-  ];
+  ]
 
   return (
     <>
@@ -69,7 +69,7 @@ export const ClientTransactionHistoryTable: React.FC<
           loading,
         }}
       />
-      <div className="mt-4 text-right">
+      <div className='mt-4 text-right'>
         <Pagination
           total={filter?.TotalItems}
           current={filter?.PageIndex}
@@ -80,5 +80,5 @@ export const ClientTransactionHistoryTable: React.FC<
         />
       </div>
     </>
-  );
-};
+  )
+}

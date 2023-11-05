@@ -1,5 +1,5 @@
-import BaseAPI from '../methods';
+import BaseAPI from '../methods'
 
-const { globalCRUD } = new BaseAPI<TTariffUser>('user-level');
+const { globalCRUD } = new BaseAPI<TTariffUser>('user-level')
 
-export const userLevel = globalCRUD;
+export const userLevel = globalCRUD

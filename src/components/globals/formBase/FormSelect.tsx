@@ -1,58 +1,60 @@
-import { ErrorMessage } from "@hookform/error-message";
-import clsx from "clsx";
-import _ from "lodash";
-import React from "react";
+import { ErrorMessage } from '@hookform/error-message'
+import clsx from 'clsx'
+import _ from 'lodash'
+import React from 'react'
 import {
   Control,
   Controller,
   FieldValues,
   Path,
   RegisterOptions,
-} from "react-hook-form";
+} from 'react-hook-form'
 import Select, {
   components,
   DropdownIndicatorProps,
   GroupBase,
   IndicatorSeparatorProps,
   StylesConfig,
-} from "react-select";
-import { TFieldSelect } from "~/types/field";
-import { _format } from "~/utils";
+} from 'react-select'
+import { TFieldSelect } from '~/types/field'
+import { _format } from '~/utils'
 
 type TProps<TFieldValues, TFieldDatas> = {
-  data: TFieldDatas[];
+  data: TFieldDatas[]
   select?: {
-    [P in keyof TFieldSelect<TFieldDatas>]: TFieldSelect<TFieldDatas>[P];
-  };
-  defaultValue?: Partial<TFieldDatas> | TSmallPackage;
-  required?: boolean;
-  name: Path<TFieldValues>;
-  label?: string;
-  placeholder: string;
-  rules?: RegisterOptions;
-  control: Control<TFieldValues, object>;
-  menuPlacement?: "auto" | "bottom" | "top";
-  selectClassName?: string;
-  hideError?: boolean;
-  selectContainerClassName?: string;
-  isClearable?: boolean;
-  menuPortalTarget?: HTMLElement;
-  styles?: StylesConfig<unknown, boolean, GroupBase<unknown>>;
-  disabled?: boolean;
-  isMulti?: boolean;
-  closeMenuOnSelect?: boolean;
-  itemIsValue?: boolean;
-  callback?: (val?: number) => Promise<any> | void;
-  isLoading?: boolean;
-  indicatorSeparator?: React.ComponentType<IndicatorSeparatorProps<unknown, boolean, GroupBase<unknown>>>;
-};
+    [P in keyof TFieldSelect<TFieldDatas>]: TFieldSelect<TFieldDatas>[P]
+  }
+  defaultValue?: Partial<TFieldDatas> | TSmallPackage
+  required?: boolean
+  name: Path<TFieldValues>
+  label?: string
+  placeholder: string
+  rules?: RegisterOptions
+  control: Control<TFieldValues, object>
+  menuPlacement?: 'auto' | 'bottom' | 'top'
+  selectClassName?: string
+  hideError?: boolean
+  selectContainerClassName?: string
+  isClearable?: boolean
+  menuPortalTarget?: HTMLElement
+  styles?: StylesConfig<unknown, boolean, GroupBase<unknown>>
+  disabled?: boolean
+  isMulti?: boolean
+  closeMenuOnSelect?: boolean
+  itemIsValue?: boolean
+  callback?: (val?: number) => Promise<any> | void
+  isLoading?: boolean
+  indicatorSeparator?: React.ComponentType<
+    IndicatorSeparatorProps<unknown, boolean, GroupBase<unknown>>
+  >
+}
 
 export const FormSelect = <
   TFieldValues extends FieldValues = FieldValues,
-  TFieldDatas extends object = object
+  TFieldDatas extends object = object,
 >({
   data,
-  select = { label: "name", value: "id" },
+  select = { label: 'name', value: 'id' },
   defaultValue,
   required = true,
   control,
@@ -60,7 +62,7 @@ export const FormSelect = <
   name,
   placeholder,
   rules,
-  menuPlacement = "bottom",
+  menuPlacement = 'bottom',
   selectClassName,
   selectContainerClassName,
   hideError = false,
@@ -73,21 +75,20 @@ export const FormSelect = <
   itemIsValue = false,
   isLoading = false,
   callback,
-  indicatorSeparator = () => <span className="text-[#cfcfcf] !mx-2">|</span>,
+  indicatorSeparator = () => <span className='!mx-2 text-[#cfcfcf]'>|</span>,
 }: TProps<TFieldValues, TFieldDatas>) => {
-  const { label: l, value: v } = select;
+  const { label: l, value: v } = select
 
-  const [selected, setSelected] =
-    React.useState<{ id: number; name: number | string }>(null);
+  const [selected, setSelected] = React.useState<{
+    id: number
+    name: number | string
+  }>(null)
 
   return (
-    <div className={clsx("w-full", selectContainerClassName)}>
+    <div className={clsx('w-full', selectContainerClassName)}>
       {label && (
-        <label
-          className="text-[12px] py-[2px] font-bold"
-          htmlFor={name}
-        >
-          {label} {required === true && <span className="text-red">*</span>}
+        <label className='py-[2px] text-[12px] font-bold' htmlFor={name}>
+          {label} {required === true && <span className='text-red'>*</span>}
         </label>
       )}
       <Controller
@@ -111,33 +112,36 @@ export const FormSelect = <
               menuPortalTarget={menuPortalTarget}
               theme={_format.customThemes}
               options={data}
-              classNamePrefix={clsx({ "!border-warning: ": !_.isEmpty(error) })}
-              getOptionLabel={(e) => (e as any)?.[l] || "unknow"}
+              classNamePrefix={clsx({ '!border-warning: ': !_.isEmpty(error) })}
+              getOptionLabel={(e) => (e as any)?.[l] || 'unknow'}
               getOptionValue={(e) => (e as any)?.[v]}
               isDisabled={disabled}
               placeholder={placeholder}
               defaultValue={defaultValue}
               menuPlacement={menuPlacement}
               className={selectClassName}
-              components={{ DropdownIndicator, IndicatorSeparator: indicatorSeparator }}
+              components={{
+                DropdownIndicator,
+                IndicatorSeparator: indicatorSeparator,
+              }}
               onChange={
                 !disabled &&
                 ((opt: any) => {
                   if (Array.isArray(opt)) {
                     if (itemIsValue) {
-                      onChange(opt);
+                      onChange(opt)
                     } else {
-                      const newOpt: number[] = opt?.map((item) => item?.[v]);
-                      onChange(newOpt);
+                      const newOpt: number[] = opt?.map((item) => item?.[v])
+                      onChange(newOpt)
                     }
                   } else {
-                    onChange(itemIsValue ? opt : opt?.[v]);
+                    onChange(itemIsValue ? opt : opt?.[v])
                   }
                   if (callback && !isMulti) {
-                    setSelected(opt);
-                    (callback(opt?.[v as string]) as any)?.catch(() =>
-                      setSelected(selected)
-                    );
+                    setSelected(opt)
+                    ;(callback(opt?.[v as string]) as any)?.catch(() =>
+                      setSelected(selected),
+                    )
                   }
                 })
               }
@@ -148,7 +152,7 @@ export const FormSelect = <
                 errors={errors}
                 name={name as any}
                 render={({ message }) => (
-                  <p className="text-warning text-xs font-medium mt-1">
+                  <p className='mt-1 text-xs font-medium text-warning'>
                     {message}
                   </p>
                 )}
@@ -158,13 +162,13 @@ export const FormSelect = <
         )}
       />
     </div>
-  );
-};
+  )
+}
 
 const DropdownIndicator: React.FC<DropdownIndicatorProps> = (props) => {
   return (
     <components.DropdownIndicator {...props}>
-      <img src="/icon/selecter-arrow.png" alt="" className="pr-2" />
+      <img src='/icon/selecter-arrow.png' alt='' className='pr-2' />
     </components.DropdownIndicator>
-  );
-};
+  )
+}

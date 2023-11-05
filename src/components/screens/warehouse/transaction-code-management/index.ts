@@ -1,2 +1,2 @@
-export * from "./TransactionCodeManagementFilter";
-export * from "./TransactionCodeManagementTable";
+export * from './TransactionCodeManagementFilter'
+export * from './TransactionCodeManagementTable'

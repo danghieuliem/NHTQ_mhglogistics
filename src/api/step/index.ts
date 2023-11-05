@@ -1,5 +1,5 @@
-import BaseAPI from '../methods';
+import BaseAPI from '../methods'
 
-const { globalCRUD } = new BaseAPI<TStep>('step');
+const { globalCRUD } = new BaseAPI<TStep>('step')
 
-export const step = globalCRUD;
+export const step = globalCRUD

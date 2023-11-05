@@ -1,9 +1,9 @@
-import { Skeleton } from "antd";
-import { useRouter } from "next/router";
-import React, { FC } from "react";
-import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
-import { refund, withdraw } from "~/api";
+import { Skeleton } from 'antd'
+import { useRouter } from 'next/router'
+import React, { FC } from 'react'
+import { useForm } from 'react-hook-form'
+import { useMutation } from 'react-query'
+import { refund, withdraw } from '~/api'
 import {
   FormInput,
   FormInputNumber,
@@ -11,27 +11,27 @@ import {
   FormTextarea,
   IconButton,
   toast,
-} from "~/components";
-import { paymentStatusData } from "~/configs/appConfigs";
-import { useDeepEffect } from "~/hooks";
-import { _format } from "~/utils";
+} from '~/components'
+import { paymentStatusData } from '~/configs/appConfigs'
+import { useDeepEffect } from '~/hooks'
+import { _format } from '~/utils'
 
 type TProps = {
-  page: "china" | "vietnam";
-  userData: TEmployee | any;
-  loading: boolean;
-};
+  page: 'china' | 'vietnam'
+  userData: TEmployee | any
+  loading: boolean
+}
 
 export const ChinaAndVietNamWithdrawalForm: FC<TProps> = ({
   page,
   userData,
   loading,
 }) => {
-  const router = useRouter();
+  const router = useRouter()
 
   const { handleSubmit, control, reset, getValues } = useForm<TWithDraw>({
-    mode: "onBlur",
-  });
+    mode: 'onBlur',
+  })
 
   useDeepEffect(() => {
     if (!!userData) {
@@ -39,12 +39,12 @@ export const ChinaAndVietNamWithdrawalForm: FC<TProps> = ({
         UID: userData.Id,
         Status: paymentStatusData[1].id,
         UserName: userData.UserName,
-        Wallet: page === "china" ? userData.WalletCNY : userData.Wallet,
+        Wallet: page === 'china' ? userData.WalletCNY : userData.Wallet,
         Note: `${userData.UserName} rút tiền ra khỏi tài khoản`,
         Type: 2,
-      });
+      })
     }
-  }, [userData]);
+  }, [userData])
 
   const mutationCreateWithDraw = useMutation(withdraw.create, {
     onSuccess: (_, data) => {
@@ -52,14 +52,14 @@ export const ChinaAndVietNamWithdrawalForm: FC<TProps> = ({
         data.Status === 2
           ? `Rút tiền vào ví cho khách ${data.UserName} thành công số tiền ${
               data.Amount
-            } ${page === "vietnam" ? "vnđ" : "tệ"}`
+            } ${page === 'vietnam' ? 'vnđ' : 'tệ'}`
           : `tạo yêu cầu rút tiền thành công cho khách ${
               data.UserName
-            } số tiền ${data.Amount} ${page === "vietnam" ? "vnđ" : "tệ"}`
-      );
+            } số tiền ${data.Amount} ${page === 'vietnam' ? 'vnđ' : 'tệ'}`,
+      )
     },
     onError: toast.error,
-  });
+  })
 
   const mutationCreateRefund = useMutation(refund.create, {
     onSuccess: (_, data) => {
@@ -67,119 +67,119 @@ export const ChinaAndVietNamWithdrawalForm: FC<TProps> = ({
         data.Status === 2
           ? `Rút tiền vào ví cho khách ${data.UserName} thành công số tiền ${
               data.Amount
-            } ${page === "vietnam" ? "vnđ" : "tệ"}`
+            } ${page === 'vietnam' ? 'vnđ' : 'tệ'}`
           : `tạo yêu cầu rút tiền thành công cho khách ${
               data.UserName
-            } số tiền ${data.Amount} ${page === "vietnam" ? "vnđ" : "tệ"}`
-      );
+            } số tiền ${data.Amount} ${page === 'vietnam' ? 'vnđ' : 'tệ'}`,
+      )
     },
     onError: toast.error,
-  });
+  })
 
   const _onPress = (data: TWithDraw) => {
-    page === "vietnam"
+    page === 'vietnam'
       ? mutationCreateWithDraw.mutateAsync(data)
-      : mutationCreateRefund.mutateAsync(data);
-    router.back();
-  };
+      : mutationCreateRefund.mutateAsync(data)
+    router.back()
+  }
 
   return (
-    <div className="grid sm:grid-cols-2 gap-2">
-      <div className="col-span-1">
+    <div className='grid gap-2 sm:grid-cols-2'>
+      <div className='col-span-1'>
         <FormInput
           control={control}
-          name="UserName"
-          placeholder=""
-          label="Username"
+          name='UserName'
+          placeholder=''
+          label='Username'
           disabled
           required={false}
-          rules={{ required: "This field is required" }}
+          rules={{ required: 'This field is required' }}
         />
       </div>
-      <div className="col-span-1">
+      <div className='col-span-1'>
         <FormInputNumber
           required={false}
           control={control}
-          name="Wallet"
-          placeholder=""
-          label={`Ví tiền (${page === "china" ? "¥" : "VNĐ"})`}
+          name='Wallet'
+          placeholder=''
+          label={`Ví tiền (${page === 'china' ? '¥' : 'VNĐ'})`}
           disabled
-          prefix={page === "china" && "¥ "}
-          suffix={page === "vietnam" && " VNĐ"}
-          rules={{ required: "This field is required" }}
+          prefix={page === 'china' && '¥ '}
+          suffix={page === 'vietnam' && ' VNĐ'}
+          rules={{ required: 'This field is required' }}
         />
       </div>
-      <div className="col-span-1">
-        {page === "vietnam" ? (
+      <div className='col-span-1'>
+        {page === 'vietnam' ? (
           <FormInputNumber
             control={control}
-            name="Amount"
-            placeholder=""
+            name='Amount'
+            placeholder=''
             label={`Số tiền (VNĐ)`}
-            suffix={" VNĐ"}
-            rules={{ required: "This field is required nè" }}
+            suffix={' VNĐ'}
+            rules={{ required: 'This field is required nè' }}
             callback={(value) => {
-              if (value > getValues("Wallet")) {
+              if (value > getValues('Wallet')) {
                 toast.warning(
                   `Bạn chỉ được rút tối đa ${_format.getVND(
-                    getValues("Wallet")
-                  )}`
-                );
+                    getValues('Wallet'),
+                  )}`,
+                )
               }
             }}
           />
         ) : (
           <FormInputNumber
             control={control}
-            name="Amount"
-            placeholder=""
+            name='Amount'
+            placeholder=''
             label={`Số tiền (¥)`}
-            prefix={"¥ "}
-            rules={{ required: "This field is required nè" }}
+            prefix={'¥ '}
+            rules={{ required: 'This field is required nè' }}
             callback={(value) => {
-              if (value > getValues("Wallet")) {
+              if (value > getValues('Wallet')) {
                 toast.warning(
                   `Bạn chỉ được rút tối đa ${_format.getYuan(
-                    getValues("Wallet"),
-                    "¥"
-                  )}`
-                );
+                    getValues('Wallet'),
+                    '¥',
+                  )}`,
+                )
               }
             }}
           />
         )}
       </div>
-      <div className="col-span-1">
+      <div className='col-span-1'>
         <FormSelect
           control={control}
-          name="Status"
+          name='Status'
           data={paymentStatusData.slice(1, 3)}
-          placeholder=""
-          label="Trạng thái"
+          placeholder=''
+          label='Trạng thái'
           defaultValue={paymentStatusData[1]}
-          rules={{ required: "This field is required" }}
+          rules={{ required: 'This field is required' }}
         />
       </div>
-      <div className="col-span-1">
+      <div className='col-span-1'>
         <FormTextarea
           control={control}
-          name="Note"
+          name='Note'
           rows={1}
-          placeholder=""
-          label="Nội dung"
+          placeholder=''
+          label='Nội dung'
           required={false}
         />
       </div>
-      <div className="col-span-1 flex items-end justify-end">
+      <div className='col-span-1 flex items-end justify-end'>
         <IconButton
-          title="Cập nhật"
+          title='Cập nhật'
           onClick={handleSubmit(_onPress)}
           showLoading
-          icon="fas fa-pencil"
-          btnIconClass="!mr-2"
-          toolip=""
+          icon='fas fa-pencil'
+          btnIconClass='!mr-2'
+          toolip=''
         />
       </div>
     </div>
-  );
-};
+  )
+}

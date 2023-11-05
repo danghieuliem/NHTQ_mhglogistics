@@ -1,24 +1,24 @@
-import { Divider, Space } from "antd";
-import React from "react";
-import { useFieldArray, useFormContext } from "react-hook-form";
-import { toast } from "react-toastify";
-import { feeSupport } from "~/api";
+import { Divider, Space } from 'antd'
+import React from 'react'
+import { useFieldArray, useFormContext } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import { feeSupport } from '~/api'
 import {
   ActionButton,
   DataTable,
   FormInput,
   FormInputNumber,
-} from "~/components";
-import { IconButton } from "~/components/globals/button/IconButton";
-import { useScreen } from "~/hooks";
-import { TColumnsType } from "~/types/table";
+} from '~/components'
+import { IconButton } from '~/components/globals/button/IconButton'
+import { useScreen } from '~/hooks'
+import { TColumnsType } from '~/types/table'
 
 type TProps = {
-  data: TOrder;
-  loading: boolean;
-  handleUpdate: (data: TOrder) => Promise<void>;
-  RoleID: number;
-};
+  data: TOrder
+  loading: boolean
+  handleUpdate: (data: TOrder) => Promise<void>
+  RoleID: number
+}
 
 export const OrderSurChargeList: React.FC<TProps> = ({
   data,
@@ -26,80 +26,80 @@ export const OrderSurChargeList: React.FC<TProps> = ({
   handleUpdate,
   RoleID,
 }) => {
-  const { isWidthSM } = useScreen();
-  const FeeSupports = data?.FeeSupports;
-  const { control, reset, handleSubmit } = useFormContext<TOrder>();
+  const { isWidthSM } = useScreen()
+  const FeeSupports = data?.FeeSupports
+  const { control, reset, handleSubmit } = useFormContext<TOrder>()
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "FeeSupports",
-  });
+    name: 'FeeSupports',
+  })
 
   const columns: TColumnsType<TFeeSupport> = [
     {
-      dataIndex: "SupportName",
-      title: "Tên phụ phí",
-      align: "center",
+      dataIndex: 'SupportName',
+      title: 'Tên phụ phí',
+      align: 'center',
       render: (_, __, index) => (
         <FormInput
           control={control}
           name={`FeeSupports.${index}.SupportName` as const}
-          placeholder=""
+          placeholder=''
           hideError
-          rules={{ required: "This field is required " }}
+          rules={{ required: 'This field is required ' }}
         />
       ),
     },
     {
-      dataIndex: "SupportInfoVND",
-      title: "Số tiền (VNĐ)",
-      align: "center",
-      responsive: ["sm"],
+      dataIndex: 'SupportInfoVND',
+      title: 'Số tiền (VNĐ)',
+      align: 'center',
+      responsive: ['sm'],
       render: (_, __, index) => (
         <FormInputNumber
-          suffix=" VNĐ"
+          suffix=' VNĐ'
           control={control}
           name={`FeeSupports.${index}.SupportInfoVND` as const}
-          placeholder=""
+          placeholder=''
           hideError
-          rules={{ required: "This field is required " }}
+          rules={{ required: 'This field is required ' }}
         />
       ),
       // responsive: ["lg"],
     },
     {
-      dataIndex: "action",
-      title: "Thao tác",
-      align: "right",
+      dataIndex: 'action',
+      title: 'Thao tác',
+      align: 'right',
       className: `${
         RoleID === 1 || RoleID === 3 || RoleID === 8 || RoleID === 6
-          ? ""
-          : "hidden"
+          ? ''
+          : 'hidden'
       }`,
       render: (_, record: any, index) => {
         return (
           <Space>
             <ActionButton
-              icon="fas fa-minus-circle"
-              title="Xóa"
+              icon='fas fa-minus-circle'
+              title='Xóa'
               onClick={() => {
-                const id = toast.loading("Đang xử lý ...");
+                const id = toast.loading('Đang xử lý ...')
                 const item: any = FeeSupports?.find(
-                  (x: any) => x?.Id === record?.Id
-                );
+                  (x: any) => x?.Id === record?.Id,
+                )
                 if (!!item) {
                   feeSupport
                     .delete(item.Id)
                     .then(() => {
-                      remove(index);
-                      toast.success("Xoá phụ phí thành công");
+                      remove(index)
+                      toast.success('Xoá phụ phí thành công')
                       toast.update(id, {
-                        render: "Xoá phụ phí thành công!",
+                        render: 'Xoá phụ phí thành công!',
                         autoClose: 500,
                         isLoading: false,
-                        type: "success",
-                      });
-                      handleSubmit(handleUpdate)();
+                        type: 'success',
+                      })
+                      handleSubmit(handleUpdate)()
                       // const newFeeSupports = FeeSupports.filter(itemx => itemx.Id !== item.Id)
 
                       // const newData = {
@@ -114,32 +114,32 @@ export const OrderSurChargeList: React.FC<TProps> = ({
                         render: (error as any)?.response?.data?.ResultMessage,
                         autoClose: 1000,
                         isLoading: false,
-                        type: "error",
-                      });
-                    });
+                        type: 'error',
+                      })
+                    })
                 } else {
-                  remove(index);
+                  remove(index)
                   toast.update(id, {
-                    render: "Xoá phụ phí thành công!",
+                    render: 'Xoá phụ phí thành công!',
                     autoClose: 500,
                     isLoading: false,
-                    type: "success",
-                  });
+                    type: 'success',
+                  })
                 }
               }}
             />
           </Space>
-        );
+        )
       },
       // responsive: ["xl"],
       width: 90,
     },
-  ];
+  ]
 
   return (
     <>
-      <div className="py-2 uppercase flex border-b justify-between items-end">
-        <span className="text-base font-bold border-main">
+      <div className='flex items-end justify-between border-b py-2 uppercase'>
+        <span className='border-main text-base font-bold'>
           Danh sách phụ phí
         </span>
         {(RoleID === 1 ||
@@ -148,29 +148,29 @@ export const OrderSurChargeList: React.FC<TProps> = ({
           RoleID === 8 ||
           RoleID === 6) && (
           <IconButton
-            icon="fas fa-plus-circle"
-            title="Tạo"
+            icon='fas fa-plus-circle'
+            title='Tạo'
             onClick={() =>
               append({
                 SupportInfoVND: 0,
                 MainOrderId: 0,
                 Id: 0,
-                SupportName: "",
+                SupportName: '',
               })
             }
             showLoading
-            toolip=""
+            toolip=''
           />
         )}
       </div>
       <DataTable
         isExpand={isWidthSM}
-        rowKey={"id" as any}
+        rowKey={'id' as any}
         columns={columns}
         data={fields}
-        style="detailOrder"
+        style='detailOrder'
       />
       <Divider />
     </>
-  );
-};
+  )
+}

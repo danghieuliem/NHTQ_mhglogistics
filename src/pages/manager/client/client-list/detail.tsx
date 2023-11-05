@@ -1,34 +1,34 @@
-import { useRouter } from "next/router";
-import React, { useRef } from "react";
-import { useQuery } from "react-query";
-import { user } from "~/api";
-import { ClientListDetailForm, Empty, Layout } from "~/components";
-import { breadcrumb } from "~/configs";
-import { SEOConfigs } from "~/configs/SEOConfigs";
-import { useCatalogue } from "~/hooks/useCatalogue";
-import { TNextPageWithLayout } from "~/types/layout";
+import { useRouter } from 'next/router'
+import React, { useRef } from 'react'
+import { useQuery } from 'react-query'
+import { user } from '~/api'
+import { ClientListDetailForm, Empty, Layout } from '~/components'
+import { breadcrumb } from '~/configs'
+import { SEOConfigs } from '~/configs/SEOConfigs'
+import { useCatalogue } from '~/hooks/useCatalogue'
+import { TNextPageWithLayout } from '~/types/layout'
 
 const Index: TNextPageWithLayout = () => {
-  const { query } = useRouter();
-  const oriEmail = useRef(null);
-  const oriPhone = useRef(null);
+  const { query } = useRouter()
+  const oriEmail = useRef(null)
+  const oriPhone = useRef(null)
 
   const { data, isLoading, isError } = useQuery(
-    ["clientData", +query?.id],
+    ['clientData', +query?.id],
     () => user.getByID(+query?.id),
     {
       onSuccess: (data) => {
-        oriEmail.current = data.Data.Email;
-        oriPhone.current = data.Data.Phone;
+        oriEmail.current = data.Data.Email
+        oriPhone.current = data.Data.Phone
 
-        return data.Data;
+        return data.Data
       },
       enabled: !!query?.id,
       retry: false,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
-    }
-  );
+    },
+  )
 
   // useCatalogue scope
   // ===== BEGIN =====
@@ -37,13 +37,13 @@ const Index: TNextPageWithLayout = () => {
     userLevelEnabled: !!query?.id,
     userOrderEnabled: !!query?.id,
     userSaleEnabled: !!query?.id,
-  });
+  })
   // ===== END =====
 
-  if (isError) return <Empty />;
+  if (isError) return <Empty />
 
   return (
-    <div className="">
+    <div className=''>
       <ClientListDetailForm
         {...{
           defaultValues: data?.Data,
@@ -57,10 +57,10 @@ const Index: TNextPageWithLayout = () => {
         }}
       />
     </div>
-  );
-};
+  )
+}
 
-Index.displayName = SEOConfigs.staff.infoAccount;
-Index.breadcrumb = breadcrumb.client.clientList.detail;
-Index.Layout = Layout;
-export default Index;
+Index.displayName = SEOConfigs.staff.infoAccount
+Index.breadcrumb = breadcrumb.client.clientList.detail
+Index.Layout = Layout
+export default Index

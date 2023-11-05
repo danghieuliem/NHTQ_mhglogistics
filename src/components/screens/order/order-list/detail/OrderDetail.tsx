@@ -1,42 +1,42 @@
-import { Affix, Modal } from "antd";
-import clsx from "clsx";
-import React, { FC } from "react";
-import { useFormContext } from "react-hook-form";
-import { useMediaQuery } from "react-responsive";
-import { toast } from "react-toastify";
-import { mainOrder } from "~/api";
-import { ActionButton, FormSelect } from "~/components";
-import { IconButton } from "~/components/globals/button/IconButton";
-import { EOrderStatus, orderStatus } from "~/configs";
-import { useCatalogue } from "~/hooks/useCatalogue";
-import { _format } from "~/utils";
+import { Affix, Modal } from 'antd'
+import clsx from 'clsx'
+import React, { FC } from 'react'
+import { useFormContext } from 'react-hook-form'
+import { useMediaQuery } from 'react-responsive'
+import { toast } from 'react-toastify'
+import { mainOrder } from '~/api'
+import { ActionButton, FormSelect } from '~/components'
+import { IconButton } from '~/components/globals/button/IconButton'
+import { EOrderStatus, orderStatus } from '~/configs'
+import { useCatalogue } from '~/hooks/useCatalogue'
+import { _format } from '~/utils'
 
 type TProps = {
-  active: number;
-  handleActive: (active: number) => void;
-  handleUpdate: (data: TOrder) => Promise<void>;
-  data: TOrder;
-  loading: boolean;
-  disabledPayment?: boolean;
-  refetch?: any;
-  RoleID: number;
-};
+  active: number
+  handleActive: (active: number) => void
+  handleUpdate: (data: TOrder) => Promise<void>
+  data: TOrder
+  loading: boolean
+  disabledPayment?: boolean
+  refetch?: any
+  RoleID: number
+}
 
 const nameContent =
-  "w-2/4 py-1 text-sm font-bold text-[#3E3C6A] tracking-normal";
-const contentItem = "flex items-center";
-const contentValue = "w-2/4 py-1 text-sm font-medium text-black";
+  'w-2/4 py-1 text-sm font-bold text-[#3E3C6A] tracking-normal'
+const contentItem = 'flex items-center'
+const contentValue = 'w-2/4 py-1 text-sm font-medium text-black'
 // const linkMenu = "cursor-pointer py-[2px] !text-main text-sm block";
 // const linkMenuActive = "border-l-2 border-orange !text-black font-medium";
 
 const IsShouldAffix: React.FC<{}> = ({ children }) => {
-  const isBigScreen = useMediaQuery({ query: "(min-width: 1280px)" });
+  const isBigScreen = useMediaQuery({ query: '(min-width: 1280px)' })
   return isBigScreen ? (
     <Affix offsetTop={20}>{children}</Affix>
   ) : (
     <>{children}</>
-  );
-};
+  )
+}
 
 const ComponentAffix: React.FC<TProps> = ({
   data,
@@ -52,15 +52,15 @@ const ComponentAffix: React.FC<TProps> = ({
     warehouseTQEnabled: !!RoleID,
     warehouseVNEnabled: !!RoleID,
     shippingTypeToWarehouseEnabled: !!RoleID,
-  });
+  })
 
   const defaultOrderStatus = RoleID === 4 && [
     // ...orderStatus?.slice(1, 2),
     // ...orderStatus.slice(4, 5),
     ...orderStatus?.slice(5, 6),
-  ];
+  ]
 
-  const { handleSubmit, control } = useFormContext<TOrder>();
+  const { handleSubmit, control } = useFormContext<TOrder>()
 
   /**
    * Chưa đặt cọc = 0,
@@ -77,9 +77,9 @@ const ComponentAffix: React.FC<TProps> = ({
 
   return (
     <>
-      <div className="tableBox">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="col-span-2">
+      <div className='tableBox'>
+        <div className='grid grid-cols-2 gap-4'>
+          <div className='col-span-2'>
             {data?.Status === EOrderStatus.ChoBaoGia && (
               <div className={clsx(contentItem)}>
                 <div className={clsx(nameContent)}>Báo giá: </div>
@@ -87,7 +87,7 @@ const ComponentAffix: React.FC<TProps> = ({
                   <IconButton
                     onClick={async () =>
                       Modal.confirm({
-                        title: "Xác nhận báo giá đơn này?",
+                        title: 'Xác nhận báo giá đơn này?',
                         onOk: () => {
                           mainOrder
                             .updateNotiPrice({
@@ -96,16 +96,16 @@ const ComponentAffix: React.FC<TProps> = ({
                               Status: EOrderStatus.DonMoi,
                             })
                             .then(() => {
-                              toast.success("Đã báo giá cho khách!");
-                              refetch();
-                            });
+                              toast.success('Đã báo giá cho khách!')
+                              refetch()
+                            })
                         },
                       })
                     }
-                    title="Báo giá"
-                    icon="fas fa-credit-card"
+                    title='Báo giá'
+                    icon='fas fa-credit-card'
                     showLoading
-                    toolip="Click để báo giá cho khách"
+                    toolip='Click để báo giá cho khách'
                     yellow
                     disabled={
                       [5].includes(RoleID)
@@ -145,18 +145,18 @@ const ComponentAffix: React.FC<TProps> = ({
             </div>
             <div className={clsx(contentItem)}>
               <div className={clsx(nameContent)}>Còn lại</div>
-              <div className={clsx(contentValue, "!text-warning")}>
+              <div className={clsx(contentValue, '!text-warning')}>
                 {_format.getVND(data?.RemainingAmount)}
               </div>
             </div>
           </div>
-          <div className="col-span-2">
+          <div className='col-span-2'>
             <div className={clsx(contentItem)}>
               <FormSelect
                 control={control}
-                name="Status"
-                label="Trạng thái"
-                placeholder=""
+                name='Status'
+                label='Trạng thái'
+                placeholder=''
                 data={
                   RoleID === 4
                     ? defaultOrderStatus
@@ -174,11 +174,11 @@ const ComponentAffix: React.FC<TProps> = ({
             <div className={clsx(contentItem)}>
               <FormSelect
                 control={control}
-                name="FromPlace"
-                label="Kho TQ"
-                placeholder=""
+                name='FromPlace'
+                label='Kho TQ'
+                placeholder=''
                 data={warehouseTQ}
-                select={{ label: "Name", value: "Id" }}
+                select={{ label: 'Name', value: 'Id' }}
                 defaultValue={{
                   Id: data?.FromPlace,
                   Name: data?.FromPlaceName,
@@ -196,11 +196,11 @@ const ComponentAffix: React.FC<TProps> = ({
             <div className={clsx(contentItem)}>
               <FormSelect
                 control={control}
-                name="ReceivePlace"
-                label="Nhận hàng tại"
-                placeholder=""
+                name='ReceivePlace'
+                label='Nhận hàng tại'
+                placeholder=''
                 data={warehouseVN}
-                select={{ label: "Name", value: "Id" }}
+                select={{ label: 'Name', value: 'Id' }}
                 defaultValue={{
                   Id: data?.ReceivePlace,
                   Name: data?.ReceivePlaceName,
@@ -218,11 +218,11 @@ const ComponentAffix: React.FC<TProps> = ({
             <div className={clsx(contentItem)}>
               <FormSelect
                 control={control}
-                name="ShippingType"
-                label="PPVC"
-                placeholder=""
+                name='ShippingType'
+                label='PPVC'
+                placeholder=''
                 data={shippingTypeToWarehouse}
-                select={{ label: "Name", value: "Id" }}
+                select={{ label: 'Name', value: 'Id' }}
                 defaultValue={{
                   Id: data?.ShippingType,
                   Name: data?.ShippingTypeName,
@@ -244,14 +244,14 @@ const ComponentAffix: React.FC<TProps> = ({
           RoleID === 4 ||
           RoleID === 8 ||
           RoleID === 6) && (
-          <div className="flex flex-wrap items-center justify-center jus mt-3 pt-3 m-auto border-t border-[#edf1f7]">
+          <div className='jus m-auto mt-3 flex flex-wrap items-center justify-center border-t border-[#edf1f7] pt-3'>
             <ActionButton
               onClick={handleSubmit(handleUpdate)}
-              icon="fas fa-pencil"
-              title="Cập nhật"
+              icon='fas fa-pencil'
+              title='Cập nhật'
               disabled={data?.Status === 0 && RoleID === 4}
               isButton
-              isButtonClassName="bg-green !text-white"
+              isButtonClassName='bg-green !text-white'
             />
 
             {(data?.Status === EOrderStatus.VeVN ||
@@ -265,11 +265,11 @@ const ComponentAffix: React.FC<TProps> = ({
                   data?.TotalOrderAmount !== data?.Deposit && (
                     <a
                       style={{
-                        margin: "4px",
+                        margin: '4px',
                         pointerEvents:
                           data?.TotalOrderAmount === data?.Deposit
-                            ? "none"
-                            : "all",
+                            ? 'none'
+                            : 'all',
                       }}
                     >
                       <ActionButton
@@ -277,10 +277,10 @@ const ComponentAffix: React.FC<TProps> = ({
                           Modal.confirm({
                             title:
                               data?.Status === 0
-                                ? "Đặt cọc đơn này?"
-                                : "Thanh toán đơn này?",
+                                ? 'Đặt cọc đơn này?'
+                                : 'Thanh toán đơn này?',
                             onOk: () => {
-                              const id = toast.loading("Đang xử lý ...");
+                              const id = toast.loading('Đang xử lý ...')
                               mainOrder
                                 .payment({
                                   Id: data?.Id,
@@ -296,14 +296,14 @@ const ComponentAffix: React.FC<TProps> = ({
                                   toast.update(id, {
                                     render: `${
                                       data?.Status === 0
-                                        ? "Đặt cọc thành công!"
-                                        : "Thanh toán thành công!"
+                                        ? 'Đặt cọc thành công!'
+                                        : 'Thanh toán thành công!'
                                     }`,
                                     autoClose: 500,
                                     isLoading: false,
-                                    type: "success",
-                                  });
-                                  refetch();
+                                    type: 'success',
+                                  })
+                                  refetch()
                                 })
                                 .catch((error) => {
                                   toast.update(id, {
@@ -311,21 +311,21 @@ const ComponentAffix: React.FC<TProps> = ({
                                       ?.ResultMessage,
                                     autoClose: 1000,
                                     isLoading: false,
-                                    type: "error",
-                                  });
-                                });
+                                    type: 'error',
+                                  })
+                                })
                             },
                           })
                         }
-                        icon="fas fa-credit-card"
+                        icon='fas fa-credit-card'
                         // title="Thanh toán"
                         title={
                           data?.Status === EOrderStatus.DonMoi
-                            ? "Đặt cọc"
-                            : "Thanh toán"
+                            ? 'Đặt cọc'
+                            : 'Thanh toán'
                         }
                         isButton
-                        isButtonClassName="bg-blue !text-white"
+                        isButtonClassName='bg-blue !text-white'
                       />
                     </a>
                   )}
@@ -335,13 +335,13 @@ const ComponentAffix: React.FC<TProps> = ({
         )}
       </div>
     </>
-  );
-};
+  )
+}
 
 export const OrderDetail: FC<TProps> = (props) => {
   return (
     <IsShouldAffix>
       <ComponentAffix {...props} />
     </IsShouldAffix>
-  );
-};
+  )
+}

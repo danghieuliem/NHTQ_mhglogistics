@@ -1,5 +1,5 @@
-import BaseAPI from "../methods";
+import BaseAPI from '../methods'
 
-const {globalCRUD} = new BaseAPI<TTariffTQVN>("warehouse");
+const { globalCRUD } = new BaseAPI<TTariffTQVN>('warehouse')
 
-export const warehouseTo = globalCRUD;
+export const warehouseTo = globalCRUD

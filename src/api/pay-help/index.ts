@@ -1,17 +1,17 @@
-import BaseAPI from "../methods";
+import BaseAPI from '../methods'
 
 type TFilterParams = {
-  UID: number;
-  Status: number;
-  FromDate: string;
-  ToDate: string;
-  OrderType: number;
-};
+  UID: number
+  Status: number
+  FromDate: string
+  ToDate: string
+  OrderType: number
+}
 
 const { globalCRUD, put, get, post } = new BaseAPI<
   TRequestPaymentOrder,
   TFilterParams
->("pay-help");
+>('pay-help')
 
 export const payHelp = {
   ...globalCRUD,
@@ -23,7 +23,7 @@ export const payHelp = {
     get<number>(`/get-exchange-rate/${price}`, { params: { price } }),
 
   exportExcel: (params: Partial<TPaginationParams & TFilterParams>) =>
-    post("/export-excel", undefined, { params }),
+    post('/export-excel', undefined, { params }),
 
-  confirm: (id: number) => put("/confirm", { id }),
-};
+  confirm: (id: number) => put('/confirm', { id }),
+}

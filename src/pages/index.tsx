@@ -1,13 +1,13 @@
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import BlankLayout from "~/components/globals/layout/blankLayouts";
-import { TNextPageWithLayout } from "~/types/layout";
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
+import BlankLayout from '~/components/globals/layout/blankLayouts'
+import { TNextPageWithLayout } from '~/types/layout'
 
 const Index: TNextPageWithLayout = () => {
-  const router = useRouter();
+  const router = useRouter()
   useEffect(() => {
-    window.location.reload();
-  }, [router?.asPath]);
+    window.location.reload()
+  }, [router?.asPath])
 
   // const dataGlobal: TConfig = useSelector(
   //   (state: RootState) => state.dataGlobal
@@ -81,10 +81,10 @@ const Index: TNextPageWithLayout = () => {
         </div>
       </div> */}
     </>
-  );
-};
+  )
+}
 
 // Index.displayName = SEOConfigs.homePage;
-Index.Layout = BlankLayout;
+Index.Layout = BlankLayout
 
-export default Index;
+export default Index

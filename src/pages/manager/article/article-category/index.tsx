@@ -1,18 +1,18 @@
-import { useQuery } from "react-query";
-import { pageType } from "~/api";
-import { ArticleCategoryTable, Layout, toast } from "~/components";
-import { breadcrumb } from "~/configs";
-import { SEOConfigs } from "~/configs/SEOConfigs";
-import { TNextPageWithLayout } from "~/types/layout";
+import { useQuery } from 'react-query'
+import { pageType } from '~/api'
+import { ArticleCategoryTable, Layout, toast } from '~/components'
+import { breadcrumb } from '~/configs'
+import { SEOConfigs } from '~/configs/SEOConfigs'
+import { TNextPageWithLayout } from '~/types/layout'
 
 const Index: TNextPageWithLayout = () => {
   const { data, isFetching } = useQuery(
     [
-      "pageType",
+      'pageType',
       {
         PageIndex: 1,
         PageSize: 1000,
-        OrderBy: "Id desc",
+        OrderBy: 'Id desc',
       },
     ],
     () =>
@@ -20,21 +20,21 @@ const Index: TNextPageWithLayout = () => {
         .getList({
           PageIndex: 1,
           PageSize: 1000,
-          OrderBy: "Id desc",
+          OrderBy: 'Id desc',
         })
         .then((res) => {
-          return res?.Data;
+          return res?.Data
         }),
     {
       onSuccess: (data) => data?.Items,
       onError: toast.error,
-    }
-  );
-  return <ArticleCategoryTable data={data?.Items} loading={isFetching} />;
-};
+    },
+  )
+  return <ArticleCategoryTable data={data?.Items} loading={isFetching} />
+}
 
-Index.displayName = SEOConfigs.post.Categories;
-Index.breadcrumb = breadcrumb.article.articleCategory.main;
-Index.Layout = Layout;
+Index.displayName = SEOConfigs.post.Categories
+Index.breadcrumb = breadcrumb.article.articleCategory.main
+Index.Layout = Layout
 
-export default Index;
+export default Index

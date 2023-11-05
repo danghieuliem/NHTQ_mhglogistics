@@ -1,19 +1,19 @@
-import { Checkbox } from "antd";
-import React from "react";
+import { Checkbox } from 'antd'
+import React from 'react'
 import {
   ActionButton,
   DataTable,
   FormInput,
   FormInputNumber,
-} from "~/components";
-import { toast } from "~/components/toast";
-import { TControl } from "~/types/field";
-import { TColumnsType, TTable } from "~/types/table";
+} from '~/components'
+import { toast } from '~/components/toast'
+import { TControl } from '~/types/field'
+import { TColumnsType, TTable } from '~/types/table'
 
 type TProps = TControl<TUserCreateDeposit> &
   TTable<TUserCreateDepositBill> & {
-    onPress: (data: TUserCreateDeposit) => void;
-  };
+    onPress: (data: TUserCreateDeposit) => void
+  }
 
 export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
   control,
@@ -22,33 +22,33 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
   setValue,
 }) => {
   function handleCheckbox(ctrl, e) {
-    setValue(ctrl, e.target.checked);
+    setValue(ctrl, e.target.checked)
   }
 
   const columns: TColumnsType<TUserCreateDepositBill> = [
     {
-      dataIndex: "Id",
-      title: "STT",
-      align: "right",
+      dataIndex: 'Id',
+      title: 'STT',
+      align: 'right',
       render: (_, __, index) => ++index,
       width: 50,
     },
     {
-      dataIndex: "OrderTransactionCode",
-      title: "Mã kiện",
-      responsive: ["md"],
+      dataIndex: 'OrderTransactionCode',
+      title: 'Mã kiện',
+      responsive: ['md'],
       render: (_, __, index) => (
         <FormInput
           control={control}
           name={`smallPackages.${index}.OrderTransactionCode`}
-          placeholder=""
+          placeholder=''
           hideError
           rules={{
-            required: "Mã kiện không được trống",
+            required: 'Mã kiện không được trống',
             validate: {
               check: (value) => {
                 if (/\s/g.test(value)) {
-                  return "Mã kiện đang trống!";
+                  return 'Mã kiện đang trống!'
                 }
               },
             },
@@ -58,55 +58,55 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
       width: 160,
     },
     {
-      dataIndex: "Category",
-      title: "Loại sản phẩm",
+      dataIndex: 'Category',
+      title: 'Loại sản phẩm',
       render: (_, __, index) => (
         <FormInput
           control={control}
           name={`smallPackages.${index}.Category`}
-          placeholder=""
+          placeholder=''
         />
       ),
-      responsive: ["md"],
+      responsive: ['md'],
       width: 120,
     },
     {
-      dataIndex: "Amount",
-      title: "Số lượng",
-      align: "right",
+      dataIndex: 'Amount',
+      title: 'Số lượng',
+      align: 'right',
       render: (_, __, index) => (
         <FormInputNumber
           control={control}
           name={`smallPackages.${index}.Amount`}
-          placeholder=""
+          placeholder=''
         />
       ),
       width: 80,
-      responsive: ["md"],
+      responsive: ['md'],
     },
     {
-      dataIndex: "FeeShip",
-      title: "Phí COD (¥)",
-      align: "right",
+      dataIndex: 'FeeShip',
+      title: 'Phí COD (¥)',
+      align: 'right',
       render: (_, __, index) => (
         <FormInputNumber
-          prefix={"¥ "}
+          prefix={'¥ '}
           control={control}
           name={`smallPackages.${index}.FeeShip`}
-          placeholder=""
+          placeholder=''
         />
       ),
       width: 80,
-      responsive: ["md"],
+      responsive: ['md'],
     },
     {
-      dataIndex: "IsCheckProduct",
-      title: "Dịch vụ",
-      align: "center",
+      dataIndex: 'IsCheckProduct',
+      title: 'Dịch vụ',
+      align: 'center',
       render: (_, __, index) => (
-        <div className="flex flex-col gap-1">
-          <div className="flex justify-between">
-            <span className="text-left">Kiểm đếm: </span>
+        <div className='flex flex-col gap-1'>
+          <div className='flex justify-between'>
+            <span className='text-left'>Kiểm đếm: </span>
             <Checkbox
               defaultChecked={false}
               onChange={(e) =>
@@ -114,8 +114,8 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
               }
             />
           </div>
-          <div className="flex justify-between">
-            <span className="text-left">Đóng gỗ: </span>
+          <div className='flex justify-between'>
+            <span className='text-left'>Đóng gỗ: </span>
             <Checkbox
               defaultChecked={false}
               onChange={(e) =>
@@ -123,8 +123,8 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
               }
             />
           </div>
-          <div className="flex justify-between">
-            <span className="text-left">Bảo hiểm: </span>
+          <div className='flex justify-between'>
+            <span className='text-left'>Bảo hiểm: </span>
             <Checkbox
               defaultChecked={false}
               onChange={(e) =>
@@ -135,42 +135,42 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
         </div>
       ),
       width: 80,
-      responsive: ["md"],
+      responsive: ['md'],
     },
     {
-      dataIndex: "UserNote",
-      title: "Ghi chú",
+      dataIndex: 'UserNote',
+      title: 'Ghi chú',
       width: 200,
       render: (_, __, index) => (
         <FormInput
           control={control}
           name={`smallPackages.${index}.UserNote`}
-          placeholder=""
+          placeholder=''
         />
       ),
-      responsive: ["md"],
+      responsive: ['md'],
     },
     {
-      dataIndex: "action",
-      title: "Thao tác",
+      dataIndex: 'action',
+      title: 'Thao tác',
       render: (_, __, index) => (
         <ActionButton
-          title="Xoá"
-          icon="mr-0"
+          title='Xoá'
+          icon='mr-0'
           onClick={() => {
             if (data.length > 1) {
-              remove(index);
+              remove(index)
             } else {
-              toast.warning("Phải có ít nhất 1 kiện ký gửi");
+              toast.warning('Phải có ít nhất 1 kiện ký gửi')
             }
           }}
           isButton
-          isButtonClassName="bg-red !text-white"
+          isButtonClassName='bg-red !text-white'
         />
       ),
       width: 80,
     },
-  ];
+  ]
 
   return (
     <DataTable
@@ -180,5 +180,5 @@ export const CreateDepositTable: React.FC<TProps & { setValue }> = ({
         bordered: true,
       }}
     />
-  );
-};
+  )
+}

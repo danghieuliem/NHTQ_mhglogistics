@@ -1,7 +1,7 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import { customerBenefits } from "~/api";
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import { customerBenefits } from '~/api'
 import {
   Button,
   FormCard,
@@ -12,120 +12,120 @@ import {
   FormTextarea,
   FormUpload,
   Modal,
-} from "~/components";
-import { benefitData } from "~/configs/appConfigs";
-import { useDeepEffect } from "~/hooks";
-import { TForm } from "~/types/table";
+} from '~/components'
+import { benefitData } from '~/configs/appConfigs'
+import { useDeepEffect } from '~/hooks'
+import { TForm } from '~/types/table'
 
 export const ClientBenefitForm: React.FC<
   TForm<TCustomerBenefit> & { refetchcustomerBenefits }
 > = ({ onCancel, visible, defaultValues, refetchcustomerBenefits }) => {
   const { control, reset, handleSubmit, getValues } = useForm<TCustomerBenefit>(
     {
-      mode: "onBlur",
-    }
-  );
+      mode: 'onBlur',
+    },
+  )
 
   useDeepEffect(() => {
-    reset(defaultValues);
-  }, [defaultValues]);
+    reset(defaultValues)
+  }, [defaultValues])
 
   const _onPress = (data: TEmployee & { UserGroupId: number }) => {
-    const id = toast.loading("Đang xử lý ...");
+    const id = toast.loading('Đang xử lý ...')
     customerBenefits
       .update(data)
       .then(() => {
-        refetchcustomerBenefits();
+        refetchcustomerBenefits()
         toast.update(id, {
-          render: "Cập nhật thành công!",
-          type: "success",
+          render: 'Cập nhật thành công!',
+          type: 'success',
           isLoading: false,
           autoClose: 500,
-        });
+        })
       })
       .catch((error) => {
         toast.update(id, {
-          render: "Cập nhật thất bại!",
-          type: "error",
+          render: 'Cập nhật thất bại!',
+          type: 'error',
           isLoading: false,
           autoClose: 1000,
-        });
+        })
       })
-      .finally(() => onCancel());
-  };
+      .finally(() => onCancel())
+  }
 
   return (
     <Modal onCancel={onCancel} visible={visible} width={1000}>
       <FormCard>
         <FormCard.Header onCancel={onCancel}>
-          <div className="w-full">
+          <div className='w-full'>
             <p>Cập nhật quyền lợi khách hàng</p>
           </div>
         </FormCard.Header>
         <FormCard.Body>
-          <div className="grid xs:grid-cols-2 gap-4">
-            <div className="col-span-1">
+          <div className='grid gap-4 xs:grid-cols-2'>
+            <div className='col-span-1'>
               <FormInput
                 control={control}
-                name="Name"
-                rules={{ required: "This field is required" }}
-                label="Tên quyền lợi"
-                placeholder=""
+                name='Name'
+                rules={{ required: 'This field is required' }}
+                label='Tên quyền lợi'
+                placeholder=''
               />
             </div>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <FormInputNumber
                 control={control}
-                name="Position"
-                rules={{ required: "This field is required" }}
-                label="Vị trí"
-                placeholder=""
+                name='Position'
+                rules={{ required: 'This field is required' }}
+                label='Vị trí'
+                placeholder=''
               />
             </div>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <FormInput
                 control={control}
-                name="Link"
+                name='Link'
                 required={false}
-                label="Link"
-                placeholder=""
+                label='Link'
+                placeholder=''
               />
             </div>
-            <div className="col-span-1">
+            <div className='col-span-1'>
               <FormSelect
                 control={control}
-                name="ItemType"
+                name='ItemType'
                 data={benefitData}
-                label="Quyền lợi"
-                placeholder=""
+                label='Quyền lợi'
+                placeholder=''
                 defaultValue={{
-                  id: getValues("ItemType"),
-                  name: getValues("ItemTypeName"),
+                  id: getValues('ItemType'),
+                  name: getValues('ItemTypeName'),
                 }}
               />
             </div>
-            <div className="xs:col-span-2">
+            <div className='xs:col-span-2'>
               <FormUpload
                 control={control}
-                name="IMG"
-                label="Hình ảnh"
+                name='IMG'
+                label='Hình ảnh'
                 required={false}
               />
             </div>
-            <div className="xs:col-span-2">
+            <div className='xs:col-span-2'>
               <FormTextarea
                 control={control}
-                name="Description"
-                label="Mô tả ngắn"
-                placeholder=""
+                name='Description'
+                label='Mô tả ngắn'
+                placeholder=''
                 required={false}
               />
             </div>
-            <div className="xs:col-span-2">
+            <div className='xs:col-span-2'>
               <FormSwitch
                 control={control}
-                name="Active"
-                label="Trạng thái:"
+                name='Active'
+                label='Trạng thái:'
                 required={false}
               />
             </div>
@@ -133,19 +133,19 @@ export const ClientBenefitForm: React.FC<
         </FormCard.Body>
         <FormCard.Footer>
           <Button
-            title="Cập nhật"
-            btnClass="!bg-main mr-2"
+            title='Cập nhật'
+            btnClass='!bg-main mr-2'
             onClick={handleSubmit(_onPress)}
           />
           <Button
-            title="Hủy"
-            btnClass="!bg-red"
+            title='Hủy'
+            btnClass='!bg-red'
             onClick={() => {
-              onCancel();
+              onCancel()
             }}
           />
         </FormCard.Footer>
       </FormCard>
     </Modal>
-  );
-};
+  )
+}

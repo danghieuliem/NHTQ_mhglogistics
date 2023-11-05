@@ -1,3 +1,3 @@
-export * from "./OrderListFilter";
-export * from "./OrderListTable";
-export * from "./detail";
+export * from './OrderListFilter'
+export * from './OrderListTable'
+export * from './detail'

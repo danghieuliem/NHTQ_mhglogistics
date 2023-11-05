@@ -1,20 +1,20 @@
-import { useCallback, useRef, useState } from "react";
-import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { transportationOrder } from "~/api";
-import { UserDepositListTable, UserLayout } from "~/components";
-import { breadcrumb } from "~/configs";
-import { orderMoneyOfOrdersData } from "~/configs/appConfigs";
-import { SEOHomeConfigs } from "~/configs/SEOConfigs";
-import { RootState } from "~/store";
-import { TNextPageWithLayout } from "~/types/layout";
-import { _format } from "~/utils";
+import { useCallback, useRef, useState } from 'react'
+import { useQuery } from 'react-query'
+import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { transportationOrder } from '~/api'
+import { UserDepositListTable, UserLayout } from '~/components'
+import { breadcrumb } from '~/configs'
+import { orderMoneyOfOrdersData } from '~/configs/appConfigs'
+import { SEOHomeConfigs } from '~/configs/SEOConfigs'
+import { RootState } from '~/store'
+import { TNextPageWithLayout } from '~/types/layout'
+import { _format } from '~/utils'
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurrentInfo
-  );
+    (state: RootState) => state.userCurrentInfo,
+  )
 
   const [filter, setFilter] = useState({
     PageIndex: 1,
@@ -26,22 +26,22 @@ const Index: TNextPageWithLayout = () => {
     FromDate: null,
     ToDate: null,
     UID: userCurrentInfo?.Id,
-    OrderBy: "Id desc",
-  });
+    OrderBy: 'Id desc',
+  })
 
-  const [ids, setIds] = useState<number[]>([]);
-  const isAll = useRef(false);
-  const item = useRef<TUserDeposit>();
-  const [modal, setModal] = useState(false);
-  const [moneyOfOrders, setMoneyOfOrders] = useState(orderMoneyOfOrdersData);
+  const [ids, setIds] = useState<number[]>([])
+  const isAll = useRef(false)
+  const item = useRef<TUserDeposit>()
+  const [modal, setModal] = useState(false)
+  const [moneyOfOrders, setMoneyOfOrders] = useState(orderMoneyOfOrdersData)
 
   const handleFilter = useCallback((newFilter) => {
-    setFilter({ ...filter, ...newFilter });
-  }, []);
+    setFilter({ ...filter, ...newFilter })
+  }, [])
 
   const { isFetching, data } = useQuery(
     [
-      "userDepositList",
+      'userDepositList',
       [
         filter.PageIndex,
         filter.TypeSearch,
@@ -64,46 +64,46 @@ const Index: TNextPageWithLayout = () => {
           PageSize: data?.PageSize,
         }),
       onError: (error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+        toast.error((error as any)?.response?.data?.ResultMessage)
       },
       enabled: !!userCurrentInfo?.Id,
-    }
-  );
+    },
+  )
 
   // modal delete
   const handleModal = (itemSelected: TUserDeposit = undefined) => {
-    item.current = itemSelected;
-    setModal(!modal);
-  };
+    item.current = itemSelected
+    setModal(!modal)
+  }
 
   const handleSelectIds = (item: TUserDeposit) => {
     if (!!ids.find((x) => x === item.Id)) {
-      setIds(ids.filter((x) => x !== item.Id));
+      setIds(ids.filter((x) => x !== item.Id))
     } else {
-      setIds([...ids, item.Id]);
+      setIds([...ids, item.Id])
     }
-    isAll.current = false;
-  };
+    isAll.current = false
+  }
 
-  useQuery(["deposit-amount-list"], () => transportationOrder.getAmountList(), {
+  useQuery(['deposit-amount-list'], () => transportationOrder.getAmountList(), {
     onSuccess: (res) => {
-      const data = res.Data;
+      const data = res.Data
       for (let key in data) {
         moneyOfOrders.forEach((item) => {
           if (item.key === key) {
-            item.value = _format.getVND(data[key], "");
+            item.value = _format.getVND(data[key], '')
           }
-        });
+        })
       }
-      setMoneyOfOrders(moneyOfOrders);
+      setMoneyOfOrders(moneyOfOrders)
     },
     onError: (error) => {
-      toast.error((error as any)?.response?.data?.ResultMessage);
+      toast.error((error as any)?.response?.data?.ResultMessage)
     },
     retry: false,
     enabled: !!userCurrentInfo?.Id,
     refetchOnWindowFocus: true,
-  });
+  })
 
   return (
     <UserDepositListTable
@@ -118,11 +118,11 @@ const Index: TNextPageWithLayout = () => {
         ids: !!ids.length,
       }}
     />
-  );
-};
+  )
+}
 
-Index.displayName = SEOHomeConfigs.consignmentShipping.listOderDeposit;
-Index.Layout = UserLayout;
-Index.breadcrumb = breadcrumb.deposit.depositList.main;
+Index.displayName = SEOHomeConfigs.consignmentShipping.listOderDeposit
+Index.Layout = UserLayout
+Index.breadcrumb = breadcrumb.deposit.depositList.main
 
-export default Index;
+export default Index

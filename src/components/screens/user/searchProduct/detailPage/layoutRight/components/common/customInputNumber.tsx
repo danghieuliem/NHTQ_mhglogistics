@@ -14,13 +14,15 @@ export const CustomInputNumber = (prop: {
       <div
         className={styles['next-input-group-addon next-after']}
         style={{
-          margin: '0 -11px'
-        }}>
+          margin: '0 -11px',
+        }}
+      >
         <button
           disabled={!data?.Quantity}
-          type="button"
-          className={clsx(styles['next-btn'], 'w-8 h-7')}
-          onClick={onClick}>
+          type='button'
+          className={clsx(styles['next-btn'], 'h-7 w-8')}
+          onClick={onClick}
+        >
           <i className={icon}></i>
         </button>
       </div>
@@ -36,7 +38,7 @@ export const CustomInputNumber = (prop: {
               if (total - 1 < 0) return
               setTotal(total - 1)
             }}
-            icon="fal fa-minus"
+            icon='fal fa-minus'
           />
         }
         addonAfter={
@@ -45,10 +47,10 @@ export const CustomInputNumber = (prop: {
               if (total + 1 > data?.Quantity) return
               setTotal(total + 1)
             }}
-            icon="fal fa-plus"
+            icon='fal fa-plus'
           />
         }
-        onBlur={e => {
+        onBlur={(e) => {
           const newVal = +e.currentTarget.value
           if (Number.isNaN(newVal) || newVal < 0 || newVal > data?.Quantity)
             return
@@ -61,7 +63,7 @@ export const CustomInputNumber = (prop: {
         max={data?.Quantity || 0}
         style={{ textAlign: 'center' }}
         controls={false}
-        size="small"
+        size='small'
       />
     </span>
   )

@@ -1,9 +1,9 @@
-import { Space } from "antd";
-import router from "next/router";
-import React, { useMemo } from "react";
-import { useFieldArray, useFormContext } from "react-hook-form";
-import { toast } from "react-toastify";
-import { smallPackage } from "~/api";
+import { Space } from 'antd'
+import router from 'next/router'
+import React, { useMemo } from 'react'
+import { useFieldArray, useFormContext } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import { smallPackage } from '~/api'
 import {
   ActionButton,
   DataTable,
@@ -12,16 +12,16 @@ import {
   FormInputNumber,
   FormSelect,
   IconButton,
-} from "~/components";
-import { smallPackageStatus, ESmallPackage } from "~/configs";
-import { TColumnsType } from "~/types/table";
+} from '~/components'
+import { smallPackageStatus, ESmallPackage } from '~/configs'
+import { TColumnsType } from '~/types/table'
 
 type TProps = {
-  data: TOrder;
-  loading: boolean;
-  handleUpdate: (data: TOrder) => Promise<void>;
-  RoleID: number;
-};
+  data: TOrder
+  loading: boolean
+  handleUpdate: (data: TOrder) => Promise<void>
+  RoleID: number
+}
 
 export const OrderTransferCodeList: React.FC<TProps> = ({
   data,
@@ -29,25 +29,25 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
   handleUpdate,
   RoleID,
 }) => {
-  const { control, watch, handleSubmit } = useFormContext<TOrder>();
-  const formValue = useMemo(() => watch(), [watch() as TOrder]);
-  const SmallPackages = data?.SmallPackages;
+  const { control, watch, handleSubmit } = useFormContext<TOrder>()
+  const formValue = useMemo(() => watch(), [watch() as TOrder])
+  const SmallPackages = data?.SmallPackages
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "SmallPackages",
-  });
+    name: 'SmallPackages',
+  })
 
   const columns: TColumnsType<TSmallPackage> = [
     {
-      dataIndex: "OrderTransactionCode",
-      title: "Mã vận đơn",
+      dataIndex: 'OrderTransactionCode',
+      title: 'Mã vận đơn',
       render: (_, __, index) => {
         return (
           <>
             <FormInput
               control={control}
               name={`SmallPackages.${index}.OrderTransactionCode` as const}
-              placeholder=""
+              placeholder=''
               hideError
               disabled={
                 !(
@@ -58,26 +58,26 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
                   RoleID === 6
                 )
               }
-              rules={{ required: "This field is required" }}
+              rules={{ required: 'This field is required' }}
             />
           </>
-        );
+        )
       },
-      fixed: "left",
+      fixed: 'left',
       width: 200,
     },
     {
-      dataIndex: "MainOrderCodeId",
-      title: "Mã đơn hàng",
-      responsive: ["md"],
+      dataIndex: 'MainOrderCodeId',
+      title: 'Mã đơn hàng',
+      responsive: ['md'],
       render: (_, __, index) => (
         <FormSelect
           control={control}
           data={formValue.MainOrderCodes}
           name={`SmallPackages.${index}.MainOrderCodeId` as const}
-          select={{ label: "Code", value: "Id" }}
+          select={{ label: 'Code', value: 'Id' }}
           defaultValue={SmallPackages?.[index]}
-          placeholder=""
+          placeholder=''
           hideError
           disabled={
             !(
@@ -88,77 +88,77 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
               RoleID === 6
             )
           }
-          rules={{ required: "This field is required" }}
+          rules={{ required: 'This field is required' }}
         />
       ),
       width: 180,
     },
     {
-      dataIndex: "Weight",
-      align: "center",
-      responsive: ["md"],
+      dataIndex: 'Weight',
+      align: 'center',
+      responsive: ['md'],
       title: () => <>Cân nặng</>,
       render: (_, __, index) => (
         <FormInputNumber
           control={control}
           name={`SmallPackages.${index}.Weight` as const}
-          placeholder=""
+          placeholder=''
           // disabled
-          suffix=" Kg"
+          suffix=' Kg'
           disabled={!(RoleID === 1 || RoleID === 3)}
           allowNegative={false}
           hideError
-          rules={{ required: "This field is required" }}
+          rules={{ required: 'This field is required' }}
           // inputContainerClassName="max-w-[50px] mx-auto"
-          inputClassName="text-center"
+          inputClassName='text-center'
         />
       ),
       width: 100,
     },
     {
-      dataIndex: "VolumePayment",
-      align: "center",
-      responsive: ["md"],
+      dataIndex: 'VolumePayment',
+      align: 'center',
+      responsive: ['md'],
       title: () => <>Thể tích</>,
       render: (_, __, index) => (
         <FormInputNumber
           control={control}
           name={`SmallPackages.${index}.VolumePayment` as const}
-          placeholder=""
+          placeholder=''
           disabled
-          suffix=" m3"
+          suffix=' m3'
           // disabled={!(RoleID === 1 || RoleID === 3 || RoleID === 4)}
           allowNegative={false}
           hideError
-          rules={{ required: "This field is required" }}
+          rules={{ required: 'This field is required' }}
           // inputContainerClassName="max-w-[50px] mx-auto"
-          inputClassName="text-center"
+          inputClassName='text-center'
         />
       ),
       width: 100,
     },
     {
-      dataIndex: "LWH",
-      align: "center",
-      responsive: ["md"],
+      dataIndex: 'LWH',
+      align: 'center',
+      responsive: ['md'],
       title: () => <>Kích thước</>,
       render: (_, __, index) => (
         <FormInput
           control={control}
           disabled
           name={`SmallPackages.${index}.LWH` as const}
-          placeholder=""
+          placeholder=''
           hideError
           // inputContainerClassName="w-[120px] mx-auto"
-          inputClassName="text-center"
+          inputClassName='text-center'
         />
       ),
       width: 140,
     },
     {
-      dataIndex: "Status",
-      title: "Trạng thái",
-      responsive: ["md"],
+      dataIndex: 'Status',
+      title: 'Trạng thái',
+      responsive: ['md'],
       render: (_, __, index) => (
         <FormSelect
           control={control}
@@ -177,17 +177,17 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
               RoleID === 6
             )
           }
-          placeholder=""
+          placeholder=''
           hideError
-          rules={{ required: "This field is required" }}
+          rules={{ required: 'This field is required' }}
         />
       ),
       width: 180,
     },
     {
-      dataIndex: "Description",
-      title: "Ghi chú",
-      responsive: ["md"],
+      dataIndex: 'Description',
+      title: 'Ghi chú',
+      responsive: ['md'],
       render: (_, record: any, index) => (
         <FormInput
           disabled={
@@ -201,25 +201,25 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
           }
           control={control}
           name={`SmallPackages.${index}.Description` as const}
-          placeholder=""
+          placeholder=''
           hideError
         />
       ),
       width: 120,
     },
     {
-      dataIndex: "action",
-      title: "Thao tác",
+      dataIndex: 'action',
+      title: 'Thao tác',
       width: 80,
-      responsive: ["md"],
+      responsive: ['md'],
       render: (_, record, index) => {
         return (
           <Space>
             <ActionButton
-              icon="fas fa-trash-alt"
-              title="Xoá"
+              icon='fas fa-trash-alt'
+              title='Xoá'
               isButton
-              isButtonClassName="bg-red !text-white"
+              isButtonClassName='bg-red !text-white'
               disabled={
                 !(
                   RoleID === 1 ||
@@ -231,32 +231,32 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
               }
               onClick={() => {
                 const item: any = SmallPackages?.find(
-                  (x: any) => x?.Id === record.Id
-                );
+                  (x: any) => x?.Id === record.Id,
+                )
                 if (!!item) {
-                  const id = toast.loading("Đang xử lý ...");
+                  const id = toast.loading('Đang xử lý ...')
                   smallPackage
                     .delete(item.Id)
                     .then(() => {
-                      remove(index);
+                      remove(index)
                       toast.update(id, {
-                        render: "Xoá mã vận đơn thành công",
+                        render: 'Xoá mã vận đơn thành công',
                         isLoading: false,
                         autoClose: 500,
-                        type: "success",
-                      });
-                      handleSubmit(handleUpdate)();
+                        type: 'success',
+                      })
+                      handleSubmit(handleUpdate)()
                     })
                     .catch((error) => {
                       toast.update(id, {
-                        render: "Đã xảy ra lỗi!",
+                        render: 'Đã xảy ra lỗi!',
                         isLoading: false,
                         autoClose: 1000,
-                        type: "error",
-                      });
-                    });
+                        type: 'error',
+                      })
+                    })
                 } else {
-                  remove(index);
+                  remove(index)
                 }
               }}
             />
@@ -267,32 +267,32 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
               onClick={handleSubmit(handleUpdate)}
             /> */}
           </Space>
-        );
+        )
       },
     },
-  ];
+  ]
 
   const onExportExcel = async (data: TOrder) => {
     try {
       const res = await smallPackage.exportExcel({
         MainOrderId: data.Id,
-      });
-      router.push(`${res.Data}`);
+      })
+      router.push(`${res.Data}`)
     } catch (error) {
-      toast.error(error);
+      toast.error(error)
     }
-  };
+  }
 
   return (
     <React.Fragment>
       <DataTable
         {...{
-          className: "custom-table-antd-detail-order",
+          className: 'custom-table-antd-detail-order',
           columns: columns,
           data: fields,
-          style: "detailOrder",
+          style: 'detailOrder',
           bordered: true,
-          rowKey: "id" as any,
+          rowKey: 'id' as any,
         }}
       />
       {(RoleID === 1 ||
@@ -300,12 +300,12 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
         RoleID === 4 ||
         RoleID === 8 ||
         RoleID === 6) && (
-        <div className="flex items-center m-2 justify-between">
+        <div className='m-2 flex items-center justify-between'>
           <div>
             <IconButton
-              title="Tạo"
-              btnClass="!mr-4"
-              icon="fas fa-plus-circle"
+              title='Tạo'
+              btnClass='!mr-4'
+              icon='fas fa-plus-circle'
               onClick={() => {
                 append({
                   Status: ESmallPackage.MoiTao,
@@ -313,28 +313,28 @@ export const OrderTransferCodeList: React.FC<TProps> = ({
                   MainOrderId: data?.Id,
                   Weight: 0,
                   VolumePayment: 0,
-                });
+                })
               }}
               showLoading
-              toolip=""
+              toolip=''
               disabled={RoleID === 4 && data?.Status === 0}
             />
             <FormCheckbox
               control={control}
-              name="IsDoneSmallPackage"
-              label="Đủ mã vận đơn"
+              name='IsDoneSmallPackage'
+              label='Đủ mã vận đơn'
             />
           </div>
           <IconButton
             onClick={() => onExportExcel(data)}
-            title="Xuất"
-            icon="fas fa-file-export"
+            title='Xuất'
+            icon='fas fa-file-export'
             showLoading
-            toolip="Xuất thống kê"
+            toolip='Xuất thống kê'
             green
           />
         </div>
       )}
     </React.Fragment>
-  );
-};
+  )
+}

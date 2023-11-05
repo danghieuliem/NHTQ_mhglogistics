@@ -1,2 +1,2 @@
-export * from "./NotificationsForm";
-export * from "./NotificationsTable";
+export * from './NotificationsForm'
+export * from './NotificationsTable'

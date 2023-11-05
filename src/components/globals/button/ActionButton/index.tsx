@@ -1,27 +1,27 @@
-import { Tooltip } from "antd";
-import clsx from "clsx";
-import { FC } from "react";
+import { Tooltip } from 'antd'
+import clsx from 'clsx'
+import { FC } from 'react'
 
 type TProps = {
-  icon: string;
-  title: string;
-  onClick?: () => void;
-  iconContainerClassName?: string;
-  btnGreen?: boolean;
-  btnRed?: boolean;
-  btnYellow?: boolean;
-  btnViolet?: boolean;
-  btnBlue?: boolean;
-  disabled?: boolean;
-  isButton?: boolean;
-  isButtonClassName?: string;
-};
+  icon: string
+  title: string
+  onClick?: () => void
+  iconContainerClassName?: string
+  btnGreen?: boolean
+  btnRed?: boolean
+  btnYellow?: boolean
+  btnViolet?: boolean
+  btnBlue?: boolean
+  disabled?: boolean
+  isButton?: boolean
+  isButtonClassName?: string
+}
 
-const btnStyleGreen = "text-[#1f8f2b]";
-const btnStyleRed = "text-[#f02b02] ";
-const btnStyleYellow = "text-[#edb90e]  ";
-const btnStyleViolet = "text-[#7410b3]";
-const btnStyleBlue = "text-[#119ff5]";
+const btnStyleGreen = 'text-[#1f8f2b]'
+const btnStyleRed = 'text-[#f02b02] '
+const btnStyleYellow = 'text-[#edb90e]  '
+const btnStyleViolet = 'text-[#7410b3]'
+const btnStyleBlue = 'text-[#119ff5]'
 
 export const ActionButton: FC<TProps> = ({
   icon,
@@ -42,46 +42,46 @@ export const ActionButton: FC<TProps> = ({
     <div
       {...props}
       className={clsx(
-        "my-[2px] w-fit flex justify-between items-center py-[5px] px-[8px] shadow-md hover:shadow-none transition-all duration-300 rounded-[4px] !cursor-pointer text-[#061d49] hover:bg-main hover:!text-[#fff]",
-        isButtonClassName
+        'my-[2px] flex w-fit !cursor-pointer items-center justify-between rounded-[4px] py-[5px] px-[8px] text-[#061d49] shadow-md transition-all duration-300 hover:bg-main hover:!text-[#fff] hover:shadow-none',
+        isButtonClassName,
       )}
       style={{
-        opacity: disabled ? "0.3" : "1",
-        pointerEvents: disabled ? "none" : "all",
+        opacity: disabled ? '0.3' : '1',
+        pointerEvents: disabled ? 'none' : 'all',
       }}
       onClick={onClick}
     >
-      <i className={clsx(icon, "text-[16px] mr-1")}></i>
+      <i className={clsx(icon, 'mr-1 text-[16px]')}></i>
       <span>{title}</span>
     </div>
   ) : (
-    <Tooltip title={disabled ? "" : title}>
+    <Tooltip title={disabled ? '' : title}>
       <div
         {...props}
-        className="group inline-block p-1 w-fit"
+        className='group inline-block w-fit p-1'
         style={{
-          opacity: disabled ? "0.3" : "1",
-          pointerEvents: disabled ? "none" : "all",
+          opacity: disabled ? '0.3' : '1',
+          pointerEvents: disabled ? 'none' : 'all',
         }}
       >
-        <div className="cursor-pointer" onClick={onClick}>
+        <div className='cursor-pointer' onClick={onClick}>
           <div
             className={clsx(
-              " transition duration-300 text-center p-2 pt-[6px] h-8 mr-1 rounded-md text-sec",
+              ' mr-1 h-8 rounded-md p-2 pt-[6px] text-center text-sec transition duration-300',
               iconContainerClassName,
               btnGreen && btnStyleGreen,
               btnRed && btnStyleRed,
               btnYellow && btnStyleYellow,
               btnViolet && btnStyleViolet,
-              btnBlue && btnStyleBlue
+              btnBlue && btnStyleBlue,
             )}
           >
             <i
-              className={clsx(icon, " transition duration-300 h-4 text-[16px]")}
+              className={clsx(icon, ' h-4 text-[16px] transition duration-300')}
             ></i>
           </div>
         </div>
       </div>
     </Tooltip>
-  );
-};
+  )
+}

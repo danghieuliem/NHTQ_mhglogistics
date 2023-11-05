@@ -1,34 +1,34 @@
-import { useState } from "react";
-import { useQuery } from "react-query";
-import { toast } from "react-toastify";
-import { reportHistoryPayWallet } from "~/api";
+import { useState } from 'react'
+import { useQuery } from 'react-query'
+import { toast } from 'react-toastify'
+import { reportHistoryPayWallet } from '~/api'
 import {
   Layout,
   TransactionChart,
   TransactionFilter,
   TransactionTable,
-} from "~/components";
-import { breadcrumb } from "~/configs";
-import { SEOConfigs } from "~/configs/SEOConfigs";
-import { TNextPageWithLayout } from "~/types/layout";
-import { _format } from "~/utils";
+} from '~/components'
+import { breadcrumb } from '~/configs'
+import { SEOConfigs } from '~/configs/SEOConfigs'
+import { TNextPageWithLayout } from '~/types/layout'
+import { _format } from '~/utils'
 
 const Index: TNextPageWithLayout = () => {
   const [filter, setFilter] = useState({
     TotalItems: null,
     PageIndex: 1,
     PageSize: 20,
-    OrderBy: "Id desc",
+    OrderBy: 'Id desc',
     FromDate: null,
     ToDate: null,
-  });
+  })
 
-  const [chartData, setChartData] = useState<Record<string, number>>(null);
-  const handleFilter = (newFilter) => setFilter({ ...filter, ...newFilter });
+  const [chartData, setChartData] = useState<Record<string, number>>(null)
+  const handleFilter = (newFilter) => setFilter({ ...filter, ...newFilter })
 
   const { data, isFetching, isLoading } = useQuery(
     [
-      "clientTransactionReportData",
+      'clientTransactionReportData',
       [filter.PageIndex, filter.FromDate, filter.ToDate],
     ],
     () => reportHistoryPayWallet.getList(filter).then((res) => res.Data),
@@ -39,7 +39,7 @@ const Index: TNextPageWithLayout = () => {
           TotalItems: data?.TotalItem,
           // PageIndex: data?.PageIndex,
           PageSize: data?.PageSize,
-        });
+        })
         setChartData({
           TotalAmount: data?.Items[0]?.TotalAmount,
           TotalDeposit: data?.Items[0]?.TotalDeposit,
@@ -54,29 +54,29 @@ const Index: TNextPageWithLayout = () => {
           TotalPaymentSaveWare: data?.Items[0]?.TotalPaymentSaveWare,
           TotalRecivePaymentTransport:
             data?.Items[0]?.TotalRecivePaymentTransport,
-        });
+        })
       },
       onError: (error) => {
-        toast.error((error as any)?.response?.data?.ResultMessage);
+        toast.error((error as any)?.response?.data?.ResultMessage)
       },
-    }
-  );
+    },
+  )
 
   return (
-    <div className="">
-      <div className="flex flex-col lg:flex-row gap-4">
+    <div className=''>
+      <div className='flex flex-col gap-4 lg:flex-row'>
         <TransactionFilter handleFilter={handleFilter} />
-        <div className="tableBox text-lg text-[#333] flex items-center gap-4 w-fit">
-          Tổng số tiền giao dịch:{" "}
-          <span className="font-bold text-main">
+        <div className='tableBox flex w-fit items-center gap-4 text-lg text-[#333]'>
+          Tổng số tiền giao dịch:{' '}
+          <span className='font-bold text-main'>
             {_format.getVND(data?.Items[0]?.TotalAmount)}
           </span>
         </div>
       </div>
-      <div className="hidden sm:block">
+      <div className='hidden sm:block'>
         <TransactionChart dataChart={chartData} />
       </div>
-      <div className="mt-6">
+      <div className='mt-6'>
         <TransactionTable
           data={data?.Items}
           loading={isFetching}
@@ -85,11 +85,11 @@ const Index: TNextPageWithLayout = () => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-Index.displayName = SEOConfigs.statistical.transaction;
-Index.breadcrumb = breadcrumb.statistical.transaction;
-Index.Layout = Layout;
+Index.displayName = SEOConfigs.statistical.transaction
+Index.breadcrumb = breadcrumb.statistical.transaction
+Index.Layout = Layout
 
-export default Index;
+export default Index

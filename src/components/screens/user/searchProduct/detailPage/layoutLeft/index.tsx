@@ -15,7 +15,7 @@ export const LayoutLeft: FC<LayoutLeftProps> = ({ item, attributeImage }) => {
   const [previewList, setPreviewList] = useState<TPreviewItem[]>([])
   const [previewSelected, setPreviewSelected] = useState<TPreviewItem>({
     type: 'image',
-    data: item.Pictures[0]
+    data: item.Pictures[0],
   })
   const handleScroll = useCallback((number: number) => {
     setLeftTime(number)
@@ -30,43 +30,43 @@ export const LayoutLeft: FC<LayoutLeftProps> = ({ item, attributeImage }) => {
         Large: {
           Url: attributeImage,
           Height: 496,
-          Width: 496
+          Width: 496,
         },
         Medium: {
           Url: attributeImage,
           Height: 496,
-          Width: 496
+          Width: 496,
         },
         Small: {
           Url: attributeImage,
           Height: 496,
-          Width: 496
-        }
-      }
+          Width: 496,
+        },
+      },
     })
   }, [attributeImage])
   useEffect(() => {
     if (!item) return
     if (!!item.Videos?.length) {
-      const fmVideos: TPreviewItem[] = [...item.Videos].map(vl => {
+      const fmVideos: TPreviewItem[] = [...item.Videos].map((vl) => {
         return {
           type: 'video',
-          data: vl
+          data: vl,
         }
       })
-      const fmPictures: TPreviewItem[] = [...item.Pictures].map(el => {
+      const fmPictures: TPreviewItem[] = [...item.Pictures].map((el) => {
         return {
           type: 'image',
-          data: el
+          data: el,
         }
       })
       const rs: TPreviewItem[] = fmVideos.concat(fmPictures)
       setPreviewList(rs)
     } else {
-      const fmPictures: TPreviewItem[] = [...item.Pictures].map(el => {
+      const fmPictures: TPreviewItem[] = [...item.Pictures].map((el) => {
         return {
           type: 'image',
-          data: el
+          data: el,
         }
       })
       setPreviewList(fmPictures)
@@ -86,7 +86,7 @@ export const LayoutLeft: FC<LayoutLeftProps> = ({ item, attributeImage }) => {
             <video className={styles['preview-video']} controls muted>
               <source
                 src={(previewSelected.data as TVideoProduct).Url}
-                type="video/mp4"
+                type='video/mp4'
               />
               Your browser does not support the video tag.
             </video>
@@ -98,8 +98,9 @@ export const LayoutLeft: FC<LayoutLeftProps> = ({ item, attributeImage }) => {
             onClick={() => {
               if (!leftTime) return
               handleScroll(leftTime - 1)
-            }}>
-            <img src="https://img.alicdn.com/imgextra/i3/O1CN011Awjsy1QH90HZCSqZ_!!6000000001950-2-tps-22-38.png" />
+            }}
+          >
+            <img src='https://img.alicdn.com/imgextra/i3/O1CN011Awjsy1QH90HZCSqZ_!!6000000001950-2-tps-22-38.png' />
           </div>
           <div className={styles['detail-gallery-turn-outter-wrapper']}>
             <div
@@ -108,19 +109,21 @@ export const LayoutLeft: FC<LayoutLeftProps> = ({ item, attributeImage }) => {
                 left: `-${leftTime * 66}px`,
                 width: `${
                   previewList.length * 60 + (previewList.length - 1) * 6
-                }px`
-              }}>
+                }px`,
+              }}
+            >
               {previewList.map((vl, idx) => {
                 return (
                   <div
                     className={clsx(
                       styles['detail-gallery-turn-item'],
-                      'relative'
+                      'relative',
                     )}
                     key={`${vl.type}-${idx}`}
                     onMouseEnter={() => {
                       setPreviewSelected(vl)
-                    }}>
+                    }}
+                  >
                     <img
                       src={
                         vl.type == 'image'
@@ -128,16 +131,17 @@ export const LayoutLeft: FC<LayoutLeftProps> = ({ item, attributeImage }) => {
                           : (vl.data as TVideoProduct).PreviewUrl
                       }
                       style={{
-                        opacity: vl.type == 'image' ? 1 : 0.8
+                        opacity: vl.type == 'image' ? 1 : 0.8,
                       }}
-                      alt="gallery-item"
+                      alt='gallery-item'
                     />
 
                     <i
                       className={clsx(
-                        'absolute left-[50%] translate-x-[-50%] text-white text-[20px] far fa-play-circle',
-                        vl.type == 'image' ? 'hidden' : 'block'
-                      )}></i>
+                        'far fa-play-circle absolute left-[50%] translate-x-[-50%] text-[20px] text-white',
+                        vl.type == 'image' ? 'hidden' : 'block',
+                      )}
+                    ></i>
                   </div>
                 )
               })}
@@ -148,8 +152,9 @@ export const LayoutLeft: FC<LayoutLeftProps> = ({ item, attributeImage }) => {
             onClick={() => {
               if (leftTime >= previewList.length - 7) return
               handleScroll(leftTime + 1)
-            }}>
-            <img src="https://img.alicdn.com/imgextra/i1/O1CN01q4AL5P1SSiErG6lB2_!!6000000002246-2-tps-20-36.png" />
+            }}
+          >
+            <img src='https://img.alicdn.com/imgextra/i1/O1CN01q4AL5P1SSiErG6lB2_!!6000000002246-2-tps-20-36.png' />
           </div>
         </div>
       </div>

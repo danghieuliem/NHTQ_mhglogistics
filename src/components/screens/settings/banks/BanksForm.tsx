@@ -1,8 +1,8 @@
-import { Image } from "antd";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { bank } from "~/api/bank";
+import { Image } from 'antd'
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { bank } from '~/api/bank'
 import {
   Button,
   FormCard,
@@ -10,11 +10,11 @@ import {
   FormSelect,
   FormSwitch,
   Modal,
-} from "~/components";
-import { toast } from "~/components/toast";
-import { useCatalogue } from "~/hooks";
-import { TForm } from "~/types/table";
-import { _format } from "~/utils";
+} from '~/components'
+import { toast } from '~/components/toast'
+import { useCatalogue } from '~/hooks'
+import { TForm } from '~/types/table'
+import { _format } from '~/utils'
 
 export const BanksForm: React.FC<TForm<TBank> & { type?: string }> = ({
   onCancel,
@@ -25,87 +25,87 @@ export const BanksForm: React.FC<TForm<TBank> & { type?: string }> = ({
   type,
 }) => {
   const { handleSubmit, reset, control, watch } = useForm<TBank>({
-    mode: "onBlur",
-  });
-  const [bankSelectId, setBankSelectId] = useState({});
+    mode: 'onBlur',
+  })
+  const [bankSelectId, setBankSelectId] = useState({})
 
   const { vietQRbankList } = useCatalogue({
-    bankVietQREnabled: type === "add",
-  });
+    bankVietQREnabled: type === 'add',
+  })
 
   React.useEffect(() => {
     if (visible) {
-      reset(!defaultValues ? { Active: true } : defaultValues);
+      reset(!defaultValues ? { Active: true } : defaultValues)
     }
-  }, [visible]);
+  }, [visible])
 
   React.useEffect(() => {
-    if (!bankSelectId && type !== "add") return;
+    if (!bankSelectId && type !== 'add') return
 
-    const bankTarget = vietQRbankList?.find((x) => x.id === bankSelectId);
+    const bankTarget = vietQRbankList?.find((x) => x.id === bankSelectId)
 
     reset({
       BankName: bankTarget?.shortName,
       IMG: bankTarget?.logo,
       Active: true,
       // IMGQR: bankTarget?.logo,
-    });
-  }, [bankSelectId]);
+    })
+  }, [bankSelectId])
 
   // fetch get item by id
   const { isFetching, data } = useQuery(
-    ["bankId", defaultValues?.Id],
+    ['bankId', defaultValues?.Id],
     () => bank.getByID(defaultValues?.Id).then((res) => res.Data),
     {
       enabled: !!defaultValues?.Id,
       refetchOnWindowFocus: false,
       onSuccess: (data) => reset(data),
       onError: toast.error,
-    }
-  );
+    },
+  )
 
   // update item
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
   const mutationUpdate = useMutation(bank.update, {
     // refresh item + table data after updating successfully
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries("bankList");
-      queryClient.setQueryData(["bankId", defaultValues?.Id], {
+      queryClient.invalidateQueries('bankList')
+      queryClient.setQueryData(['bankId', defaultValues?.Id], {
         ...variables,
         IMG: _format.addUrlForImage(variables?.IMG),
-      });
-      toast.success("Cập nhật thành công");
-      onCancel();
+      })
+      toast.success('Cập nhật thành công')
+      onCancel()
     },
     onError: toast.error,
-  });
+  })
 
   // add item
   const mutationAdd = useMutation(bank.create, {
     // refresh item + table data after adding successfully
     onSuccess: async () => {
-      queryClient.invalidateQueries("bankList");
-      reset();
-      onCancel();
-      toast.success("Thêm thành công");
+      queryClient.invalidateQueries('bankList')
+      reset()
+      onCancel()
+      toast.success('Thêm thành công')
     },
     onError: toast.error,
-  });
+  })
 
   const _onPress = async (dataOnPress: TBank) => {
     if (defaultValues?.Id) {
       // update method
-      return mutationUpdate.mutateAsync({ ...dataOnPress });
+      return mutationUpdate.mutateAsync({ ...dataOnPress })
     } else {
       // add method
-      delete dataOnPress?.BankId;
-      return mutationAdd.mutateAsync({ ...dataOnPress });
+      delete dataOnPress?.BankId
+      return mutationAdd.mutateAsync({ ...dataOnPress })
     }
-  };
+  }
 
   function handleOnCancel() {
-    reset();
-    onCancel();
+    reset()
+    onCancel()
   }
 
   return (
@@ -116,58 +116,58 @@ export const BanksForm: React.FC<TForm<TBank> & { type?: string }> = ({
         }
       >
         <FormCard.Header onCancel={handleOnCancel}>
-          <div className="w-full">
+          <div className='w-full'>
             <p>{title || `CẤU HÌNH NGÂN HÀNG #${data?.Id}`}</p>
           </div>
         </FormCard.Header>
         <FormCard.Body>
-          <div className="grid sm:grid-cols-2 gap-2">
-            {type === "add" && (
-              <div className="col-span-full">
+          <div className='grid gap-2 sm:grid-cols-2'>
+            {type === 'add' && (
+              <div className='col-span-full'>
                 <FormSelect
                   control={control}
-                  name="BankId"
-                  placeholder="Vui lòng chọn ngân hàng"
+                  name='BankId'
+                  placeholder='Vui lòng chọn ngân hàng'
                   data={vietQRbankList}
-                  label="Chọn ngân hàng"
+                  label='Chọn ngân hàng'
                   select={{
-                    label: "longName",
-                    value: "id",
+                    label: 'longName',
+                    value: 'id',
                   }}
                   callback={(val) => {
-                    setBankSelectId(val);
+                    setBankSelectId(val)
                   }}
                 />
               </div>
             )}
             <FormInput
               control={control}
-              name="BankName"
-              label="Tên ngân hàng"
+              name='BankName'
+              label='Tên ngân hàng'
               required={false}
               disabled={true}
-              placeholder="Tên ngân hàng"
+              placeholder='Tên ngân hàng'
             />
             <FormInput
               control={control}
-              name="Name"
-              label="Chi nhánh"
-              rules={{ required: "Vui lòng điền Chi nhánh" }}
-              placeholder="Chi nhánh"
+              name='Name'
+              label='Chi nhánh'
+              rules={{ required: 'Vui lòng điền Chi nhánh' }}
+              placeholder='Chi nhánh'
             />
             <FormInput
               control={control}
-              name="Branch"
-              label="Chủ tài khoản "
-              rules={{ required: "Vui lòng điền Chủ tài khoản" }}
-              placeholder="Chủ tài khoản "
+              name='Branch'
+              label='Chủ tài khoản '
+              rules={{ required: 'Vui lòng điền Chủ tài khoản' }}
+              placeholder='Chủ tài khoản '
             />
             <FormInput
               control={control}
-              name="BankNumber"
-              label="Số tài khoản"
-              rules={{ required: "Vui lòng điền Số tài khoản" }}
-              placeholder="Số tài khoản"
+              name='BankNumber'
+              label='Số tài khoản'
+              rules={{ required: 'Vui lòng điền Số tài khoản' }}
+              placeholder='Số tài khoản'
             />
 
             {/* <FormUpload
@@ -178,22 +178,22 @@ export const BanksForm: React.FC<TForm<TBank> & { type?: string }> = ({
                 /> */}
             <FormSwitch
               control={control}
-              name="Active"
-              label="Trạng thái"
+              name='Active'
+              label='Trạng thái'
               required={false}
             />
-            <Image src={watch().IMG} width={"200px"} />
+            <Image src={watch().IMG} width={'200px'} />
           </div>
         </FormCard.Body>
         <FormCard.Footer>
           <Button
             title={btnAddTitle}
-            btnClass="!bg-main mr-2"
+            btnClass='!bg-main mr-2'
             onClick={handleSubmit(_onPress)}
           />
-          <Button title="Hủy" btnClass="!bg-red" onClick={handleOnCancel} />
+          <Button title='Hủy' btnClass='!bg-red' onClick={handleOnCancel} />
         </FormCard.Footer>
       </FormCard>
     </Modal>
-  );
-};
+  )
+}

@@ -1,14 +1,14 @@
-import React from "react";
-import { useFormContext } from "react-hook-form";
-import { FormSelect } from "~/components";
+import React from 'react'
+import { useFormContext } from 'react-hook-form'
+import { FormSelect } from '~/components'
 
 type TProps = {
-  data: TOrder;
-  userSaleCatalogue: TUserCatalogue[];
-  userOrderCatalogue: TUserCatalogue[];
-  loading: boolean;
-  RoleID: number;
-};
+  data: TOrder
+  userSaleCatalogue: TUserCatalogue[]
+  userOrderCatalogue: TUserCatalogue[]
+  loading: boolean
+  RoleID: number
+}
 
 export const OrderHandlingStaff: React.FC<TProps> = ({
   data,
@@ -17,15 +17,15 @@ export const OrderHandlingStaff: React.FC<TProps> = ({
   loading,
   RoleID,
 }) => {
-  const { control } = useFormContext<TOrder>();
+  const { control } = useFormContext<TOrder>()
 
   return (
-    <div className="grid xs:grid-cols-2 gap-4">
+    <div className='grid gap-4 xs:grid-cols-2'>
       <FormSelect
         control={control}
-        name="SalerId"
+        name='SalerId'
         data={userSaleCatalogue}
-        select={{ label: "UserName", value: "Id" }}
+        select={{ label: 'UserName', value: 'Id' }}
         defaultValue={
           data?.SalerUserName &&
           data?.SalerId && {
@@ -33,17 +33,17 @@ export const OrderHandlingStaff: React.FC<TProps> = ({
             Id: data?.SalerId,
           }
         }
-        placeholder="Nhân viên saler"
-        label="Nhân viên saler"
+        placeholder='Nhân viên saler'
+        label='Nhân viên saler'
         isClearable
         required={false}
         disabled={!(RoleID === 1 || RoleID === 3 || RoleID !== 4)}
       />
       <FormSelect
         control={control}
-        name="DatHangId"
+        name='DatHangId'
         data={userOrderCatalogue}
-        select={{ label: "UserName", value: "Id" }}
+        select={{ label: 'UserName', value: 'Id' }}
         defaultValue={
           data?.OrdererUserName &&
           data?.DatHangId && {
@@ -51,12 +51,12 @@ export const OrderHandlingStaff: React.FC<TProps> = ({
             Id: data?.DatHangId,
           }
         }
-        placeholder="Nhân viên đặt hàng"
-        label="Nhân viên đặt hàng"
+        placeholder='Nhân viên đặt hàng'
+        label='Nhân viên đặt hàng'
         isClearable
         required={false}
         disabled={!(RoleID === 1 || RoleID === 3 || RoleID !== 4)}
       />
     </div>
-  );
-};
+  )
+}

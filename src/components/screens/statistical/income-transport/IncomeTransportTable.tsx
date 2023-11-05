@@ -1,9 +1,9 @@
-import { Tag } from "antd";
-import React, { FC } from "react";
-import { DataTable } from "~/components";
-import { createdOrderStatusData } from "~/configs";
-import { TColumnsType, TTable } from "~/types/table";
-import { _format } from "~/utils";
+import { Tag } from 'antd'
+import React, { FC } from 'react'
+import { DataTable } from '~/components'
+import { createdOrderStatusData } from '~/configs'
+import { TColumnsType, TTable } from '~/types/table'
+import { _format } from '~/utils'
 
 const IncomeTransportTable: FC<TTable<TStatisticalIncomeTransport>> = ({
   data,
@@ -13,87 +13,87 @@ const IncomeTransportTable: FC<TTable<TStatisticalIncomeTransport>> = ({
 }) => {
   const columns: TColumnsType<TStatisticalIncomeTransport> = [
     {
-      dataIndex: "Id",
-      key: "Id",
-      title: "Mã đơn hàng ",
-      align: "center",
-      fixed: "left",
+      dataIndex: 'Id',
+      key: 'Id',
+      title: 'Mã đơn hàng ',
+      align: 'center',
+      fixed: 'left',
       width: 100,
-      responsive: ["lg"],
+      responsive: ['lg'],
       ellipsis: true,
     },
     {
-      dataIndex: "UserName",
-      key: "UserName",
-      title: "Username",
-      align: "center",
-      fixed: "left",
+      dataIndex: 'UserName',
+      key: 'UserName',
+      title: 'Username',
+      align: 'center',
+      fixed: 'left',
       width: 100,
-      responsive: ["sm"],
+      responsive: ['sm'],
       ellipsis: true,
     },
     {
-      dataIndex: "OrderTransactionCode",
-      key: "OrderTransactionCode",
-      title: "Mã vận đơn",
-      align: "center",
+      dataIndex: 'OrderTransactionCode',
+      key: 'OrderTransactionCode',
+      title: 'Mã vận đơn',
+      align: 'center',
       width: 200,
       ellipsis: true,
     },
     {
-      dataIndex: "Weight",
-      key: "Weight",
-      title: "Cân nặng",
-      align: "center",
-      responsive: ["sm"],
+      dataIndex: 'Weight',
+      key: 'Weight',
+      title: 'Cân nặng',
+      align: 'center',
+      responsive: ['sm'],
       width: 200,
       ellipsis: true,
     },
     {
-      dataIndex: "WareHouseFrom",
-      key: "WareHouseFrom",
-      title: "Kho TQ",
-      align: "center",
-      responsive: ["md"],
+      dataIndex: 'WareHouseFrom',
+      key: 'WareHouseFrom',
+      title: 'Kho TQ',
+      align: 'center',
+      responsive: ['md'],
       width: 200,
       ellipsis: true,
     },
     {
-      dataIndex: "WareHouseTo",
-      key: "WareHouseTo",
-      title: "Kho VN",
-      align: "center",
-      responsive: ["md"],
+      dataIndex: 'WareHouseTo',
+      key: 'WareHouseTo',
+      title: 'Kho VN',
+      align: 'center',
+      responsive: ['md'],
       width: 200,
       ellipsis: true,
     },
     {
-      dataIndex: "ShippingTypeName",
-      key: "ShippingTypeName",
-      title: "PTVC",
-      align: "center",
-      responsive: ["md"],
+      dataIndex: 'ShippingTypeName',
+      key: 'ShippingTypeName',
+      title: 'PTVC',
+      align: 'center',
+      responsive: ['md'],
       width: 200,
       ellipsis: true,
     },
     {
-      dataIndex: "SensorFeeVND",
-      key: "SensorFeeVND",
+      dataIndex: 'SensorFeeVND',
+      key: 'SensorFeeVND',
       title: (
         <>
           Cước vật tư <br />
           (VNĐ)
         </>
       ),
-      align: "center",
+      align: 'center',
       render: (money) => _format.getVND(money),
-      responsive: ["md"],
+      responsive: ['md'],
       width: 200,
       ellipsis: true,
     },
     {
-      dataIndex: "AdditionFeeVND",
-      key: "AdditionFeeVND",
+      dataIndex: 'AdditionFeeVND',
+      key: 'AdditionFeeVND',
       title: (
         <>
           PP mặt hàng
@@ -101,97 +101,97 @@ const IncomeTransportTable: FC<TTable<TStatisticalIncomeTransport>> = ({
           đặc biệt
         </>
       ),
-      align: "center",
+      align: 'center',
       render: (money) => _format.getVND(money),
-      responsive: ["lg"],
+      responsive: ['lg'],
       width: 200,
       ellipsis: true,
     },
     {
-      dataIndex: "FeeWeightPerKg",
-      key: "FeeWeightPerKg",
+      dataIndex: 'FeeWeightPerKg',
+      key: 'FeeWeightPerKg',
       title: (
         <>
           Tiền cân KG <br /> (VNĐ)
         </>
       ),
-      align: "center",
+      align: 'center',
       render: (money) => _format.getVND(money),
-      responsive: ["lg"],
+      responsive: ['lg'],
       width: 200,
       ellipsis: true,
     },
     {
-      dataIndex: "TotalPriceVND",
-      key: "TotalPriceVND",
+      dataIndex: 'TotalPriceVND',
+      key: 'TotalPriceVND',
       title: (
         <>
           Tổng tiền <br />
           (br)
         </>
       ),
-      align: "center",
+      align: 'center',
       render: (money) => _format.getVND(money),
-      responsive: ["lg"],
+      responsive: ['lg'],
       width: 200,
       ellipsis: true,
     },
     {
-      dataIndex: "Created",
-      key: "Created",
-      title: "Ngày tạo",
-      align: "center",
+      dataIndex: 'Created',
+      key: 'Created',
+      title: 'Ngày tạo',
+      align: 'center',
       render: (date) => _format.getShortVNDate(date),
-      responsive: ["lg"],
+      responsive: ['lg'],
       width: 200,
       ellipsis: true,
     },
     {
-      dataIndex: "DateInTQWarehouse",
-      key: "DateInTQWarehouse",
-      title: "Ngày về TQ",
-      align: "center",
+      dataIndex: 'DateInTQWarehouse',
+      key: 'DateInTQWarehouse',
+      title: 'Ngày về TQ',
+      align: 'center',
       render: (date) => _format.getShortVNDate(date),
-      responsive: ["lg"],
+      responsive: ['lg'],
       width: 200,
       ellipsis: true,
     },
     {
-      dataIndex: "DateInLasteWareHouse",
-      key: "DateInLasteWareHouse",
-      title: "Ngày về VN",
-      align: "center",
+      dataIndex: 'DateInLasteWareHouse',
+      key: 'DateInLasteWareHouse',
+      title: 'Ngày về VN',
+      align: 'center',
       render: (date) => _format.getShortVNDate(date),
-      responsive: ["lg"],
+      responsive: ['lg'],
       width: 200,
       ellipsis: true,
     },
     {
-      dataIndex: "DateExportRequest",
-      key: "DateExportRequest",
-      title: "Ngày YCXK",
-      align: "center",
+      dataIndex: 'DateExportRequest',
+      key: 'DateExportRequest',
+      title: 'Ngày YCXK',
+      align: 'center',
       render: (date) => _format.getShortVNDate(date),
-      responsive: ["lg"],
+      responsive: ['lg'],
       width: 200,
       ellipsis: true,
     },
     {
-      dataIndex: "DateExport",
-      key: "DateExport",
-      title: "Ngày xuất kho",
-      align: "center",
+      dataIndex: 'DateExport',
+      key: 'DateExport',
+      title: 'Ngày xuất kho',
+      align: 'center',
       render: (date) => _format.getShortVNDate(date),
-      responsive: ["lg"],
+      responsive: ['lg'],
       width: 200,
       ellipsis: true,
     },
     {
-      dataIndex: "Status",
-      title: "Trạng thái",
-      align: "center",
-      fixed: "right",
-      responsive: ["sm"],
+      dataIndex: 'Status',
+      title: 'Trạng thái',
+      align: 'center',
+      fixed: 'right',
+      responsive: ['sm'],
       width: 200,
       ellipsis: true,
       render: (status, record) => {
@@ -203,10 +203,10 @@ const IncomeTransportTable: FC<TTable<TStatisticalIncomeTransport>> = ({
           >
             {record?.StatusName}
           </Tag>
-        );
+        )
       },
     },
-  ];
+  ]
 
   return (
     <DataTable
@@ -219,7 +219,7 @@ const IncomeTransportTable: FC<TTable<TStatisticalIncomeTransport>> = ({
         loading,
       }}
     />
-  );
-};
+  )
+}
 
-export { IncomeTransportTable };
+export { IncomeTransportTable }

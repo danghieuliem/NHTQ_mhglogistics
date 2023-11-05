@@ -1,33 +1,33 @@
-import { Popover } from "antd";
-import clsx from "clsx";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { FC, useEffect, useState } from "react";
-import { userRouter } from "~/configs/routers";
-import styles from "./index.module.css";
+import { Popover } from 'antd'
+import clsx from 'clsx'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { FC, useEffect, useState } from 'react'
+import { userRouter } from '~/configs/routers'
+import styles from './index.module.css'
 
 export const MenuHorizontal: FC<{}> = ({}) => {
-  const router = useRouter();
-  const renderMenuRouter: any = userRouter;
+  const router = useRouter()
+  const renderMenuRouter: any = userRouter
 
-  const [activeKey, setActiveKey] = useState([]);
+  const [activeKey, setActiveKey] = useState([])
 
-  const [activeRouter, setActiveRouter] = useState([""]);
+  const [activeRouter, setActiveRouter] = useState([''])
 
   const handleActiveKey = (name: string) => {
-    const indexKey = activeKey.indexOf(name);
+    const indexKey = activeKey.indexOf(name)
 
     if (indexKey === -1) {
-      setActiveKey([...activeKey, name]);
+      setActiveKey([...activeKey, name])
     } else {
-      activeKey.splice(indexKey, 1);
-      setActiveKey([...activeKey]);
+      activeKey.splice(indexKey, 1)
+      setActiveKey([...activeKey])
     }
-  };
+  }
 
   useEffect(() => {
-    setActiveRouter([router?.asPath]);
-    setActiveKey([]);
+    setActiveRouter([router?.asPath])
+    setActiveKey([])
 
     for (let i in renderMenuRouter) {
       for (let x in renderMenuRouter[i].Children) {
@@ -35,22 +35,22 @@ export const MenuHorizontal: FC<{}> = ({}) => {
           for (let z in renderMenuRouter[i].Children[x]?.SubChildren) {
             if (
               router?.asPath.match(
-                renderMenuRouter[i].Children[x]?.SubChildren[z].Path
+                renderMenuRouter[i].Children[x]?.SubChildren[z].Path,
               )
             ) {
-              setActiveKey([renderMenuRouter[i].Children[x]?.Label]);
-              break;
+              setActiveKey([renderMenuRouter[i].Children[x]?.Label])
+              break
             }
           }
         }
       }
     }
-  }, [router.asPath]);
+  }, [router.asPath])
 
   return (
     <>
       <div className={clsx(styles.navigation)}>
-        <div className="component-container">
+        <div className='component-container'>
           <nav className={styles.userNav}>
             {renderMenuRouter?.map((menuParent) => (
               <div key={menuParent?.Title}>
@@ -58,15 +58,16 @@ export const MenuHorizontal: FC<{}> = ({}) => {
                   if (!child?.SubChildren) {
                     return (
                       <div
-                        key={clsx(child?.Path, "-item")}
+                        key={clsx(child?.Path, '-item')}
                         className={clsx(
                           styles.liItem,
-                          activeRouter[0] === child?.Path && styles.liItemActive
+                          activeRouter[0] === child?.Path &&
+                            styles.liItemActive,
                         )}
                       >
                         <Link
                           href={child.Path}
-                          key={clsx(child?.Path, "-item")}
+                          key={clsx(child?.Path, '-item')}
                           passHref
                         >
                           <a>
@@ -74,12 +75,12 @@ export const MenuHorizontal: FC<{}> = ({}) => {
                           </a>
                         </Link>
                       </div>
-                    );
+                    )
                   } else {
                     return (
                       <Popover
-                        trigger={"hover"}
-                        key={clsx(child?.Path, "-item")}
+                        trigger={'hover'}
+                        key={clsx(child?.Path, '-item')}
                         content={() => (
                           <div className={styles.subMenu}>
                             {child?.SubChildren.map((item) => {
@@ -88,9 +89,9 @@ export const MenuHorizontal: FC<{}> = ({}) => {
                                   className={clsx(
                                     styles.subMenu,
                                     activeRouter[0] === item?.Path &&
-                                      styles.subMenuActive
+                                      styles.subMenuActive,
                                   )}
-                                  key={clsx(item?.Label, "-subItem")}
+                                  key={clsx(item?.Label, '-subItem')}
                                 >
                                   <Link href={item.Path}>
                                     <a>
@@ -98,7 +99,7 @@ export const MenuHorizontal: FC<{}> = ({}) => {
                                     </a>
                                   </Link>
                                 </div>
-                              );
+                              )
                             })}
                           </div>
                         )}
@@ -107,7 +108,7 @@ export const MenuHorizontal: FC<{}> = ({}) => {
                           className={clsx(
                             styles.liItem,
                             activeKey[0]?.match(child?.Label) &&
-                              styles.liItemActive
+                              styles.liItemActive,
                           )}
                         >
                           <a>
@@ -116,13 +117,13 @@ export const MenuHorizontal: FC<{}> = ({}) => {
                             <i
                               className={clsx(
                                 styles.dropdownIcon,
-                                "fas fa-chevron-square-down"
+                                'fas fa-chevron-square-down',
                               )}
                             ></i>
                           </a>
                         </div>
                       </Popover>
-                    );
+                    )
                   }
                 })}
               </div>
@@ -148,5 +149,5 @@ export const MenuHorizontal: FC<{}> = ({}) => {
         </Marquee>
       )} */}
     </>
-  );
-};
+  )
+}

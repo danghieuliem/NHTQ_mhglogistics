@@ -1,23 +1,23 @@
-import { Modal } from "antd";
-import router from "next/router";
-import React from "react";
-import { ActionButton, DataTable, toast } from "~/components";
-import { TColumnsType, TTable } from "~/types/table";
-import { _format } from "~/utils";
-import TagStatus from "../../status/TagStatus";
-import { useScreen } from "~/hooks";
+import { Modal } from 'antd'
+import router from 'next/router'
+import React from 'react'
+import { ActionButton, DataTable, toast } from '~/components'
+import { TColumnsType, TTable } from '~/types/table'
+import { _format } from '~/utils'
+import TagStatus from '../../status/TagStatus'
+import { useScreen } from '~/hooks'
 
 type TProps = {
   filter: {
-    TotalItems: number;
-    PageIndex: number;
-    PageSize: number;
-  };
-  handleFilter: (newFilter) => void;
-  handlePayment: (id: number) => void;
-  RoleID: number;
-  type: number;
-};
+    TotalItems: number
+    PageIndex: number
+    PageSize: number
+  }
+  handleFilter: (newFilter) => void
+  handlePayment: (id: number) => void
+  RoleID: number
+  type: number
+}
 
 export const BonusManagementTable: React.FC<TTable<TBonus> & TProps> = ({
   data,
@@ -28,174 +28,174 @@ export const BonusManagementTable: React.FC<TTable<TBonus> & TProps> = ({
   RoleID,
   type,
 }) => {
-  const { isWidthSM } = useScreen();
+  const { isWidthSM } = useScreen()
 
   const columns: TColumnsType<TBonus> = [
     {
-      dataIndex: "PayHelpOrderId",
-      title: "ID Đơn",
+      dataIndex: 'PayHelpOrderId',
+      title: 'ID Đơn',
       width: 60,
-      align: "right",
-      fixed: !isWidthSM ? "left" : false,
+      align: 'right',
+      fixed: !isWidthSM ? 'left' : false,
       render: (_, record) => {
-        let mainID = null;
+        let mainID = null
         switch (type) {
           case 0:
-            mainID = record?.MainOrderId;
-            break;
+            mainID = record?.MainOrderId
+            break
           case 1:
-            mainID = record?.TransportationOrderId;
-            break;
+            mainID = record?.TransportationOrderId
+            break
           default:
-            mainID = record?.PayHelpOrderId;
-            break;
+            mainID = record?.PayHelpOrderId
+            break
         }
-        return <>{mainID}</>;
+        return <>{mainID}</>
       },
     },
     {
-      dataIndex: "PercentReceive",
-      title: "Phần trăm",
-      align: "right",
+      dataIndex: 'PercentReceive',
+      title: 'Phần trăm',
+      align: 'right',
       width: 100,
     },
     {
-      dataIndex: "TotalPriceReceive",
-      title: "Hoa hồng (VNĐ)",
-      align: "right",
+      dataIndex: 'TotalPriceReceive',
+      title: 'Hoa hồng (VNĐ)',
+      align: 'right',
       render: (_, record) => {
-        return <div>{_format.getVND(record?.TotalPriceReceive, "")}</div>;
+        return <div>{_format.getVND(record?.TotalPriceReceive, '')}</div>
       },
       width: 140,
     },
     {
-      dataIndex: "UserName",
-      title: "Username",
+      dataIndex: 'UserName',
+      title: 'Username',
       width: 140,
     },
     {
-      dataIndex: "RoleName",
-      title: "Quyền hạn",
+      dataIndex: 'RoleName',
+      title: 'Quyền hạn',
       width: 140,
     },
     {
-      dataIndex: "Status",
-      title: "Trạng thái",
+      dataIndex: 'Status',
+      title: 'Trạng thái',
       width: 140,
       render: (status, record) => (
         <TagStatus
-          color={status !== 1 ? "blue" : "red"}
+          color={status !== 1 ? 'blue' : 'red'}
           statusName={record.StatusName}
         />
       ),
     },
     {
-      dataIndex: "MainOrderCompleteDate",
-      title: "Ngày hoàn thành",
+      dataIndex: 'MainOrderCompleteDate',
+      title: 'Ngày hoàn thành',
       render: (_, record) => (
         <>{_format.getVNDate(record?.MainOrderCompleteDate)}</>
       ),
       width: 200,
     },
     {
-      dataIndex: "Updated",
+      dataIndex: 'Updated',
       title: <>Ngày cập nhật</>,
       render: (_, record) => (
         <>
-          {_format.getVNDate(record.Updated)} <br />{" "}
-          <span className="text-green font-bold">{record.UpdatedBy}</span>
+          {_format.getVNDate(record.Updated)} <br />{' '}
+          <span className='font-bold text-green'>{record.UpdatedBy}</span>
         </>
       ),
       width: 200,
     },
     {
-      dataIndex: "action",
-      key: "action",
-      title: "Thao tác",
-      align: "right",
+      dataIndex: 'action',
+      key: 'action',
+      title: 'Thao tác',
+      align: 'right',
       width: 180,
-      fixed: !isWidthSM ? "right" : false,
+      fixed: !isWidthSM ? 'right' : false,
       render: (_, record) => {
         return (
-          <div className="flex flex-wrap gap-1">
+          <div className='flex flex-wrap gap-1'>
             <ActionButton
               isButton
               // isButtonClassName="bg-main !text-white !h-fit"
               onClick={() => {
-                let routerPush = {};
+                let routerPush = {}
                 switch (type) {
                   case 0:
                     routerPush = {
-                      pathname: "/manager/order/order-list/detail",
+                      pathname: '/manager/order/order-list/detail',
                       query: { id: record?.MainOrderId },
-                    };
-                    break;
+                    }
+                    break
                   case 1:
                     routerPush = {
-                      pathname: "/manager/deposit/deposit-list/detail",
+                      pathname: '/manager/deposit/deposit-list/detail',
                       query: { id: record?.TransportationOrderId },
-                    };
-                    break;
+                    }
+                    break
                   default:
                     routerPush = {
-                      pathname: "/manager/deposit/deposit-list/detail",
+                      pathname: '/manager/deposit/deposit-list/detail',
                       query: { id: record?.PayHelpOrderId },
-                    };
-                    break;
+                    }
+                    break
                 }
-                router.push(routerPush);
+                router.push(routerPush)
               }}
-              icon="!mr-0"
-              title="Chi tiết"
+              icon='!mr-0'
+              title='Chi tiết'
             />
             {record.Status === 1 &&
               (RoleID === 1 || RoleID === 3 || RoleID === 8) && (
                 <ActionButton
                   onClick={() =>
                     Modal.confirm({
-                      title: "Thanh toán hoa hồng đơn hàng này?",
+                      title: 'Thanh toán hoa hồng đơn hàng này?',
                       content: (
-                        <div className="mt-4 pb-4 border-b border-[#d5d4d4]">
-                          <div className="py-1 pl-5 flex justify-between">
-                            Username:{" "}
-                            <span className="font-bold">
+                        <div className='mt-4 border-b border-[#d5d4d4] pb-4'>
+                          <div className='flex justify-between py-1 pl-5'>
+                            Username:{' '}
+                            <span className='font-bold'>
                               {record?.UserName}
                             </span>
                           </div>
-                          <div className="py-1 pl-5 flex justify-between">
-                            Hoa hồng:{" "}
-                            <span className="font-bold">
+                          <div className='flex justify-between py-1 pl-5'>
+                            Hoa hồng:{' '}
+                            <span className='font-bold'>
                               {_format.getVND(
                                 record?.TotalPriceReceive,
-                                " VNĐ"
+                                ' VNĐ',
                               )}
                             </span>
                           </div>
                         </div>
                       ),
-                      okText: "Thanh toán",
-                      cancelText: "Hủy",
+                      okText: 'Thanh toán',
+                      cancelText: 'Hủy',
 
                       onOk: () => {
                         if (!record?.TotalPriceReceive) {
-                          toast.warning("Chưa có tiền hoa hồng để thanh toán!");
-                          return;
+                          toast.warning('Chưa có tiền hoa hồng để thanh toán!')
+                          return
                         }
-                        return handlePayment(record.Id);
+                        return handlePayment(record.Id)
                       },
                     })
                   }
-                  icon="!mr-0"
-                  title="Thanh toán"
+                  icon='!mr-0'
+                  title='Thanh toán'
                   isButton
-                  isButtonClassName="bg-blue !text-white h-fit"
+                  isButtonClassName='bg-blue !text-white h-fit'
                 />
               )}
           </div>
-        );
+        )
       },
     },
-  ];
+  ]
 
   return (
     <>
@@ -217,10 +217,10 @@ export const BonusManagementTable: React.FC<TTable<TBonus> & TProps> = ({
               ...filter,
               PageIndex: page.current,
               PageSize: page.pageSize,
-            });
+            })
           },
         }}
       />
     </>
-  );
-};
+  )
+}

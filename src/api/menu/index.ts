@@ -1,5 +1,5 @@
-import BaseAPI from '../methods';
+import BaseAPI from '../methods'
 
-const { globalCRUD } = new BaseAPI<TContentHome>('menu');
+const { globalCRUD } = new BaseAPI<TContentHome>('menu')
 
-export const menu = globalCRUD;
+export const menu = globalCRUD

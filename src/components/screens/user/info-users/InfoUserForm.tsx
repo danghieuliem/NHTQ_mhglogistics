@@ -1,12 +1,12 @@
-import { Card, Switch } from "antd";
-import clsx from "clsx";
-import React, { useState } from "react";
-import { FormDate, FormInput, FormSelect, FormTextarea } from "~/components";
-import { IconButton } from "~/components/globals/button/IconButton";
-import { genderData } from "~/configs";
-import { useCatalogue } from "~/hooks/useCatalogue";
-import { _format } from "~/utils";
-import { EUnique, checkUnique, createComplain } from "../../auth/method";
+import { Card, Switch } from 'antd'
+import clsx from 'clsx'
+import React, { useState } from 'react'
+import { FormDate, FormInput, FormSelect, FormTextarea } from '~/components'
+import { IconButton } from '~/components/globals/button/IconButton'
+import { genderData } from '~/configs'
+import { useCatalogue } from '~/hooks/useCatalogue'
+import { _format } from '~/utils'
+import { EUnique, checkUnique, createComplain } from '../../auth/method'
 
 export const InfoUserForm: React.FC<any> = ({
   data,
@@ -31,93 +31,93 @@ export const InfoUserForm: React.FC<any> = ({
     warehouseTQEnabled: true,
     userOrderEnabled: true,
     userSaleEnabled: true,
-  });
+  })
 
-  const [changePass, setChangePass] = useState(false);
-  const [showPass, setShowPass] = useState(false);
+  const [changePass, setChangePass] = useState(false)
+  const [showPass, setShowPass] = useState(false)
 
   return (
-    <div className="mt-6">
-      <div className="flex justify-between items-end mb-6">
-        <div className="font-bold text-md sm:text-xl">
+    <div className='mt-6'>
+      <div className='mb-6 flex items-end justify-between'>
+        <div className='text-md font-bold sm:text-xl'>
           <p>THÔNG TIN TÀI KHOẢN</p>
         </div>
         <IconButton
           onClick={handleSubmit(onPress)}
-          btnClass="!bg-main hover:!bg-sec shadow-lg"
-          icon={"fas fa-check-circle"}
-          btnIconClass="!mr-2"
-          title="Cập nhật"
+          btnClass='!bg-main hover:!bg-sec shadow-lg'
+          icon={'fas fa-check-circle'}
+          btnIconClass='!mr-2'
+          title='Cập nhật'
           disabled={loading}
         />
       </div>
-      <div className="grid grid-cols-12 gap-4">
+      <div className='grid grid-cols-12 gap-4'>
         <Card
-          title="Thông tin cá nhân"
-          className="h-fit tableBox col-span-12 sm:col-span-6 md:col-span-4"
-          headStyle={{ fontWeight: "bold" }}
+          title='Thông tin cá nhân'
+          className='tableBox col-span-12 h-fit sm:col-span-6 md:col-span-4'
+          headStyle={{ fontWeight: 'bold' }}
         >
-          <div className="grid grid-cols-2 gap-2 h-fit">
-            <div className="col-span-2">
+          <div className='grid h-fit grid-cols-2 gap-2'>
+            <div className='col-span-2'>
               <FormInput
                 control={control}
-                name="UserName"
-                label="Username"
-                placeholder=""
+                name='UserName'
+                label='Username'
+                placeholder=''
                 disabled
                 required={false}
               />
             </div>
-            <div className="col-span-2">
+            <div className='col-span-2'>
               <FormInput
                 control={control}
-                name="FullName"
-                label="Họ & tên của bạn"
-                placeholder=""
+                name='FullName'
+                label='Họ & tên của bạn'
+                placeholder=''
                 required={false}
               />
             </div>
-            <div className="md:col-span-2 lg:col-span-1">
+            <div className='md:col-span-2 lg:col-span-1'>
               <FormSelect
                 control={control}
-                label="Giới tính"
-                placeholder=""
-                name="Gender"
+                label='Giới tính'
+                placeholder=''
+                name='Gender'
                 data={genderData}
-                select={{ label: "Name", value: "Id" }}
+                select={{ label: 'Name', value: 'Id' }}
                 defaultValue={genderData?.[data?.Gender]}
                 required={false}
-                selectContainerClassName="md:w-full lg:w-3/4"
+                selectContainerClassName='md:w-full lg:w-3/4'
               />
             </div>
-            <div className="md:col-span-2 lg:col-span-1">
+            <div className='md:col-span-2 lg:col-span-1'>
               <FormDate
                 control={control}
-                label="Ngày sinh"
-                placeholder=""
-                name="Birthday"
+                label='Ngày sinh'
+                placeholder=''
+                name='Birthday'
                 required={false}
               />
             </div>
             {/* Quên mật khẩu */}
-            <div className="col-span-2 grid grid-cols-2 gap-4 mt-[12px] pt-[12px] border-t border-gray">
-              <div className="md:col-span-2 lg:col-span-1 relative">
+            <div className='col-span-2 mt-[12px] grid grid-cols-2 gap-4 border-t border-gray pt-[12px]'>
+              <div className='relative md:col-span-2 lg:col-span-1'>
                 <FormInput
                   control={control}
-                  name="PasswordNew"
-                  label="Mật khẩu mới"
-                  type={showPass ? "text" : "password"}
-                  placeholder=""
+                  name='PasswordNew'
+                  label='Mật khẩu mới'
+                  type={showPass ? 'text' : 'password'}
+                  placeholder=''
                   required={changePass}
                   disabled={!changePass}
                   suffix={
                     <div
-                      className="show-pass"
+                      className='show-pass'
                       onClick={() => setShowPass(!showPass)}
                     >
                       <i
                         className={clsx(
-                          !showPass ? "fas fa-eye-slash" : "fas fa-eye"
+                          !showPass ? 'fas fa-eye-slash' : 'fas fa-eye',
                         )}
                       ></i>
                     </div>
@@ -127,23 +127,23 @@ export const InfoUserForm: React.FC<any> = ({
                       ? {
                           minLength: {
                             value: 8,
-                            message: "Mật khẩu ít nhất 8 kí tự",
+                            message: 'Mật khẩu ít nhất 8 kí tự',
                           },
                           validate: {
                             check: (value) => {
                               const check = _format.checkUserNameVNese(
-                                value.trim()
-                              );
+                                value.trim(),
+                              )
 
-                              if (value.trim() === "") {
-                                return "Vui lòng điền mật khẩu";
+                              if (value.trim() === '') {
+                                return 'Vui lòng điền mật khẩu'
                               }
 
-                              if (value.trim().includes(" ")) {
-                                return "Mật khẩu không chứa khoảng trắng giữa 2 chữ!";
+                              if (value.trim().includes(' ')) {
+                                return 'Mật khẩu không chứa khoảng trắng giữa 2 chữ!'
                               }
                               if (check) {
-                                return "Mật khẩu không được chứa Tiếng Việt";
+                                return 'Mật khẩu không được chứa Tiếng Việt'
                               }
                             },
                           },
@@ -152,37 +152,37 @@ export const InfoUserForm: React.FC<any> = ({
                   }
                 />
               </div>
-              <div className="md:col-span-2 lg:col-span-1">
+              <div className='md:col-span-2 lg:col-span-1'>
                 <FormInput
                   control={control}
-                  name="PasswordAgain"
-                  label="Nhập lại mật khẩu"
-                  placeholder=""
-                  type={showPass ? "text" : "password"}
+                  name='PasswordAgain'
+                  label='Nhập lại mật khẩu'
+                  placeholder=''
+                  type={showPass ? 'text' : 'password'}
                   required={changePass}
                   disabled={!changePass}
                   rules={
                     changePass
                       ? {
-                          required: "Vui lòng xác nhận mật khẩu..",
+                          required: 'Vui lòng xác nhận mật khẩu..',
                           validate: {
                             checkEqualPassword: (value) => {
-                              const check = _format.checkUserNameVNese(value);
+                              const check = _format.checkUserNameVNese(value)
 
-                              if (value.trim() === "") {
-                                return "Vui lòng điền mật khẩu";
+                              if (value.trim() === '') {
+                                return 'Vui lòng điền mật khẩu'
                               }
 
-                              if (value.trim().includes(" ")) {
-                                return "Mật khẩu không chứa khoảng trắng giữa 2 chữ!";
+                              if (value.trim().includes(' ')) {
+                                return 'Mật khẩu không chứa khoảng trắng giữa 2 chữ!'
                               }
                               if (check) {
-                                return "Mật khẩu không được chứa Tiếng Việt";
+                                return 'Mật khẩu không được chứa Tiếng Việt'
                               }
                               return (
-                                getValues("PasswordNew") === value.trim() ||
+                                getValues('PasswordNew') === value.trim() ||
                                 createComplain()
-                              );
+                              )
                             },
                           },
                         }
@@ -190,13 +190,13 @@ export const InfoUserForm: React.FC<any> = ({
                   }
                 />
               </div>
-              <div className="col-span-2 flex items-center justify-end">
-                <label className="mr-3">Đổi mật khẩu?</label>
+              <div className='col-span-2 flex items-center justify-end'>
+                <label className='mr-3'>Đổi mật khẩu?</label>
                 <Switch
-                  size="small"
+                  size='small'
                   onChange={() => {
-                    setChangePass(!changePass);
-                    reset();
+                    setChangePass(!changePass)
+                    reset()
                   }}
                 />
               </div>
@@ -205,63 +205,63 @@ export const InfoUserForm: React.FC<any> = ({
         </Card>
 
         <Card
-          title="Thông tin liên hệ"
-          className="h-fit tableBox col-span-12 sm:col-span-6 md:col-span-4"
-          headStyle={{ fontWeight: "bold" }}
+          title='Thông tin liên hệ'
+          className='tableBox col-span-12 h-fit sm:col-span-6 md:col-span-4'
+          headStyle={{ fontWeight: 'bold' }}
         >
-          <div className="grid grid-cols-2 gap-2">
-            <div className="col-span-2">
+          <div className='grid grid-cols-2 gap-2'>
+            <div className='col-span-2'>
               <FormInput
                 control={control}
-                name="Phone"
-                label="Số điện thoại"
-                placeholder=""
+                name='Phone'
+                label='Số điện thoại'
+                placeholder=''
                 rules={{
-                  required: "Vui lòng điền số điện thoại..",
+                  required: 'Vui lòng điền số điện thoại..',
                   pattern: {
                     value:
                       /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
-                    message: "Sđt không đúng định dạng",
+                    message: 'Sđt không đúng định dạng',
                   },
                   validate: {
                     check: (value) => {
                       if (value !== oriPhone.current) {
-                        return checkUnique(value.trim(), EUnique.phone);
-                      } else return;
+                        return checkUnique(value.trim(), EUnique.phone)
+                      } else return
                     },
                   },
                 }}
               />
             </div>
-            <div className="col-span-2">
+            <div className='col-span-2'>
               <FormInput
                 control={control}
-                name="Email"
-                label="Địa chỉ Email"
-                placeholder=""
+                name='Email'
+                label='Địa chỉ Email'
+                placeholder=''
                 rules={{
-                  required: "Vui lòng điền email..",
+                  required: 'Vui lòng điền email..',
                   pattern: {
                     value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                    message: "email không đúng định dạng",
+                    message: 'email không đúng định dạng',
                   },
                   validate: {
                     check: (value) => {
                       if (value !== oriEmail.current) {
-                        return checkUnique(value, EUnique.email);
-                      } else return;
+                        return checkUnique(value, EUnique.email)
+                      } else return
                     },
                   },
                 }}
               />
             </div>
-            <div className="col-span-2">
+            <div className='col-span-2'>
               <FormTextarea
                 control={control}
                 // autoSize={{minRows: 2, maxRows: }}
-                name="Address"
-                label="Địa chỉ"
-                placeholder=""
+                name='Address'
+                label='Địa chỉ'
+                placeholder=''
                 rows={2}
                 required={false}
               />
@@ -270,92 +270,92 @@ export const InfoUserForm: React.FC<any> = ({
         </Card>
 
         <Card
-          title="Thông tin đơn hàng"
-          className="h-fit tableBox col-span-12 sm:col-span-6 md:col-span-4"
-          headStyle={{ fontWeight: "bold" }}
+          title='Thông tin đơn hàng'
+          className='tableBox col-span-12 h-fit sm:col-span-6 md:col-span-4'
+          headStyle={{ fontWeight: 'bold' }}
         >
-          <div className="grid grid-cols-2 gap-2">
-            <div className="col-span-2">
+          <div className='grid grid-cols-2 gap-2'>
+            <div className='col-span-2'>
               <FormSelect
                 control={control}
-                name="WarehouseFrom"
-                label="Kho Trung Quốc"
-                placeholder="Vui lòng chọn"
+                name='WarehouseFrom'
+                label='Kho Trung Quốc'
+                placeholder='Vui lòng chọn'
                 required={false}
                 isClearable
                 isLoading={warehouseTQ === undefined}
                 data={warehouseTQ}
-                select={{ label: "Name", value: "Id" }}
+                select={{ label: 'Name', value: 'Id' }}
                 defaultValue={warehouseTQ?.find(
-                  (x) => x.Id === data?.WarehouseFrom
+                  (x) => x.Id === data?.WarehouseFrom,
                 )}
               />
             </div>
-            <div className="col-span-2">
+            <div className='col-span-2'>
               <FormSelect
                 control={control}
-                label="Kho Việt Nam"
+                label='Kho Việt Nam'
                 // isLoading={wareh}
-                placeholder="Vui lòng chọn"
+                placeholder='Vui lòng chọn'
                 isClearable
-                select={{ label: "Name", value: "Id" }}
-                name="WarehouseTo"
+                select={{ label: 'Name', value: 'Id' }}
+                name='WarehouseTo'
                 isLoading={warehouseVN === undefined}
                 required={false}
                 data={warehouseVN}
                 defaultValue={warehouseVN?.find(
-                  (x) => x.Id === data?.WarehouseTo
+                  (x) => x.Id === data?.WarehouseTo,
                 )}
               />
             </div>
-            <div className="col-span-2">
+            <div className='col-span-2'>
               <FormSelect
                 control={control}
-                name="ShippingType"
-                label="Hình Thức VC"
-                placeholder="Vui lòng chọn"
+                name='ShippingType'
+                label='Hình Thức VC'
+                placeholder='Vui lòng chọn'
                 isClearable
                 required={false}
                 isLoading={shippingTypeToWarehouse === undefined}
                 data={shippingTypeToWarehouse}
-                select={{ label: "Name", value: "Id" }}
+                select={{ label: 'Name', value: 'Id' }}
                 defaultValue={shippingTypeToWarehouse?.find(
-                  (x) => x.Id === data?.ShippingType
+                  (x) => x.Id === data?.ShippingType,
                 )}
               />
             </div>
-            <div className="col-span-2">
+            <div className='col-span-2'>
               <FormSelect
                 control={control}
-                placeholder=""
-                name="DatHangId"
-                label="Nhân viên đặt hàng"
+                placeholder=''
+                name='DatHangId'
+                label='Nhân viên đặt hàng'
                 data={[]}
                 disabled
                 required={false}
-                select={{ label: "UserName", value: "Id" }}
+                select={{ label: 'UserName', value: 'Id' }}
                 defaultValue={{
                   UserName:
                     userOrder?.find((item) => item.Id === data?.DatHangId)
-                      ?.UserName ?? "Chưa có",
+                      ?.UserName ?? 'Chưa có',
                   Id: data?.DatHangId ?? 0,
                 }}
               />
             </div>
-            <div className="col-span-2">
+            <div className='col-span-2'>
               <FormSelect
                 control={control}
-                placeholder=""
-                name="SaleId"
-                label="Nhân viên kinh doanh"
+                placeholder=''
+                name='SaleId'
+                label='Nhân viên kinh doanh'
                 data={[]}
                 required={false}
-                select={{ label: "UserName", value: "Id" }}
+                select={{ label: 'UserName', value: 'Id' }}
                 disabled
                 defaultValue={{
                   UserName:
                     userSale?.find((item) => item.Id === data?.SaleId)
-                      ?.UserName ?? "Chưa có",
+                      ?.UserName ?? 'Chưa có',
                   Id: data?.SaleId ?? 0,
                 }}
               />
@@ -364,5 +364,5 @@ export const InfoUserForm: React.FC<any> = ({
         </Card>
       </div>
     </div>
-  );
-};
+  )
+}

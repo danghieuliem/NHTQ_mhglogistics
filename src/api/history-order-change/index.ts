@@ -1,5 +1,5 @@
-import BaseAPI from "../methods";
+import BaseAPI from '../methods'
 
-const { globalCRUD } = new BaseAPI("HistoryOrderChange");
+const { globalCRUD } = new BaseAPI('HistoryOrderChange')
 
-export const historyOrderChange = globalCRUD;
+export const historyOrderChange = globalCRUD

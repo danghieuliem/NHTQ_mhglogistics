@@ -1,37 +1,37 @@
-import { ErrorMessage } from "@hookform/error-message";
-import { Input, InputProps } from "antd";
-import clsx from "clsx";
-import _ from "lodash";
-import React, { ReactNode } from "react";
+import { ErrorMessage } from '@hookform/error-message'
+import { Input, InputProps } from 'antd'
+import clsx from 'clsx'
+import _ from 'lodash'
+import React, { ReactNode } from 'react'
 import {
   Control,
   Controller,
   FieldValues,
   Path,
   RegisterOptions,
-} from "react-hook-form";
-import { _format } from "~/utils";
+} from 'react-hook-form'
+import { _format } from '~/utils'
 
 type TProps<TFieldValues> = {
-  required?: boolean;
-  name: Path<TFieldValues>;
-  type?: InputProps["type"];
-  label?: string;
-  placeholder: string;
-  rules?: RegisterOptions;
-  control: Control<TFieldValues, object>;
-  inputClassName?: string;
-  inputContainerClassName?: string;
-  addonBefore?: ReactNode;
-  disabled?: boolean;
-  hideError?: boolean;
-  onEnter?: () => void;
-  prefix?: React.ReactNode;
-  suffix?: React.ReactNode;
-  onBlur?: () => void;
-  allowClear?: boolean;
-  homeType?: "login" | "register" | "forgetPass";
-};
+  required?: boolean
+  name: Path<TFieldValues>
+  type?: InputProps['type']
+  label?: string
+  placeholder: string
+  rules?: RegisterOptions
+  control: Control<TFieldValues, object>
+  inputClassName?: string
+  inputContainerClassName?: string
+  addonBefore?: ReactNode
+  disabled?: boolean
+  hideError?: boolean
+  onEnter?: () => void
+  prefix?: React.ReactNode
+  suffix?: React.ReactNode
+  onBlur?: () => void
+  allowClear?: boolean
+  homeType?: 'login' | 'register' | 'forgetPass'
+}
 
 export const FormInput = <TFieldValues extends FieldValues = FieldValues>({
   label,
@@ -39,7 +39,7 @@ export const FormInput = <TFieldValues extends FieldValues = FieldValues>({
   placeholder,
   rules,
   control,
-  type = "text",
+  type = 'text',
   disabled,
   required = true,
   inputClassName,
@@ -54,13 +54,13 @@ export const FormInput = <TFieldValues extends FieldValues = FieldValues>({
   homeType,
 }: TProps<TFieldValues>) => {
   return (
-    <div className={clsx(inputContainerClassName, "relative w-full")}>
+    <div className={clsx(inputContainerClassName, 'relative w-full')}>
       {label && (
         <label
-          className="text-[12px] text-label py-[2px] font-bold"
+          className='py-[2px] text-[12px] font-bold text-label'
           htmlFor={name}
         >
-          {label} {required === true && <span className="text-red">*</span>}
+          {label} {required === true && <span className='text-red'>*</span>}
         </label>
       )}
       <Controller
@@ -73,7 +73,7 @@ export const FormInput = <TFieldValues extends FieldValues = FieldValues>({
           formState: { errors },
         }) => {
           return (
-            <div className="w-full">
+            <div className='w-full'>
               <Input
                 disabled={disabled}
                 type={type}
@@ -81,8 +81,8 @@ export const FormInput = <TFieldValues extends FieldValues = FieldValues>({
                 placeholder={placeholder}
                 {...newField}
                 onKeyPress={(e) => {
-                  if (e.code === "Enter") {
-                    onEnter?.();
+                  if (e.code === 'Enter') {
+                    onEnter?.()
                   }
                 }}
                 onChange={!disabled && onChange}
@@ -90,7 +90,7 @@ export const FormInput = <TFieldValues extends FieldValues = FieldValues>({
                 suffix={suffix}
                 className={clsx(
                   inputClassName,
-                  !_.isEmpty(error) && "!border-red"
+                  !_.isEmpty(error) && '!border-red',
                 )}
                 allowClear={allowClear}
               />
@@ -100,7 +100,7 @@ export const FormInput = <TFieldValues extends FieldValues = FieldValues>({
                   name={name as any}
                   render={({ message }) => (
                     <p
-                      className={`text-red text-right text-[10px] font-medium mt-1`}
+                      className={`mt-1 text-right text-[10px] font-medium text-red`}
                     >
                       {message}
                     </p>
@@ -108,9 +108,9 @@ export const FormInput = <TFieldValues extends FieldValues = FieldValues>({
                 />
               )}
             </div>
-          );
+          )
         }}
       />
     </div>
-  );
-};
+  )
+}

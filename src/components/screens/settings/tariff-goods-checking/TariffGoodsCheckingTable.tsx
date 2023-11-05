@@ -1,7 +1,7 @@
-import { FC } from "react";
-import { ActionButton, DataTable } from "~/components";
-import { TColumnsType, TTable } from "~/types/table";
-import { _format } from "../../../../utils/index";
+import { FC } from 'react'
+import { ActionButton, DataTable } from '~/components'
+import { TColumnsType, TTable } from '~/types/table'
+import { _format } from '../../../../utils/index'
 
 export const TariffGoodsCheckingTable: FC<TTable<any>> = ({
   handleModal,
@@ -10,15 +10,15 @@ export const TariffGoodsCheckingTable: FC<TTable<any>> = ({
 }) => {
   const columns: TColumnsType<any> = [
     {
-      dataIndex: "AmountFrom",
-      title: "Số lượng từ",
-      align: "right",
+      dataIndex: 'AmountFrom',
+      title: 'Số lượng từ',
+      align: 'right',
       sorter: (a, b) => a.Id - b.Id,
     },
     {
-      dataIndex: "AmountTo",
-      title: "Số lượng đến",
-      align: "right",
+      dataIndex: 'AmountTo',
+      title: 'Số lượng đến',
+      align: 'right',
     },
     // {
     // 	dataIndex: "TypeName",
@@ -40,7 +40,7 @@ export const TariffGoodsCheckingTable: FC<TTable<any>> = ({
     // 	},
     // },
     {
-      dataIndex: "Fee",
+      dataIndex: 'Fee',
       title: (
         <>
           Mức phí
@@ -48,25 +48,25 @@ export const TariffGoodsCheckingTable: FC<TTable<any>> = ({
           (VNĐ)
         </>
       ),
-      align: "right",
+      align: 'right',
       render: (fee) => {
-        return <>{_format.getVND(fee, "")}</>;
+        return <>{_format.getVND(fee, '')}</>
       },
     },
     {
-      dataIndex: "action",
-      key: "action",
-      title: "Thao tác",
-      align: "right",
+      dataIndex: 'action',
+      key: 'action',
+      title: 'Thao tác',
+      align: 'right',
       render: (_, record) => (
         <ActionButton
           onClick={() => handleModal(record)}
-          icon="fas fa-edit"
-          title="Cập nhật"
+          icon='fas fa-edit'
+          title='Cập nhật'
         />
       ),
     },
-  ];
+  ]
 
   return (
     <DataTable
@@ -79,5 +79,5 @@ export const TariffGoodsCheckingTable: FC<TTable<any>> = ({
         bordered: true,
       }}
     />
-  );
-};
+  )
+}

@@ -1,2 +1,2 @@
-export * from './ChinaRechargeHistoryTable';
-export * from './ChinaRechargeHistoryForm';
+export * from './ChinaRechargeHistoryTable'
+export * from './ChinaRechargeHistoryForm'

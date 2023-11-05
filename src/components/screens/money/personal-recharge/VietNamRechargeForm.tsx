@@ -1,8 +1,8 @@
-import { useRouter } from "next/router";
-import React from "react";
-import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
-import { adminSendUserWallet } from "~/api";
+import { useRouter } from 'next/router'
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { useMutation, useQueryClient } from 'react-query'
+import { adminSendUserWallet } from '~/api'
 import {
   FormAsyncSelect,
   FormInput,
@@ -11,26 +11,26 @@ import {
   FormTextarea,
   IconButton,
   toast,
-} from "~/components";
-import { paymentStatusData } from "~/configs/appConfigs";
-import { useDeepEffect } from "~/hooks";
+} from '~/components'
+import { paymentStatusData } from '~/configs/appConfigs'
+import { useDeepEffect } from '~/hooks'
 
 type TProps = {
-  userData?: TEmployee | any;
-  bankData?: TBankCatalogue[];
-  loading: boolean;
-};
+  userData?: TEmployee | any
+  bankData?: TBankCatalogue[]
+  loading: boolean
+}
 
 export const VietNamRechargeForm: React.FC<TProps> = ({
   userData,
   bankData,
   loading,
 }) => {
-  const router = useRouter();
+  const router = useRouter()
 
   const { handleSubmit, control, reset } = useForm<TUserHistoryRechargeVND>({
-    mode: "onBlur",
-  });
+    mode: 'onBlur',
+  })
 
   useDeepEffect(() => {
     if (!!userData && !!bankData?.length) {
@@ -40,142 +40,142 @@ export const VietNamRechargeForm: React.FC<TProps> = ({
         Wallet: userData.Wallet,
         BankId: bankData[0].Id,
         Status: paymentStatusData[1].id,
-      });
+      })
     }
-  }, [userData, bankData]);
+  }, [userData, bankData])
 
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   const mutationUpdate = useMutation(adminSendUserWallet.create, {
     onSuccess: (_, data) => {
-      queryClient.invalidateQueries("clientData");
-      queryClient.invalidateQueries("withdrawList");
+      queryClient.invalidateQueries('clientData')
+      queryClient.invalidateQueries('withdrawList')
       toast.success(
         data.Status === 2
           ? `Nạp tiền vào ví cho khách ${data.UserName} thành công số tiền ${data.Amount} vnđ`
-          : `Tạo yêu cầu nạp tiền thành công cho khách ${data.UserName} số tiền ${data.Amount} vnđ`
-      );
+          : `Tạo yêu cầu nạp tiền thành công cho khách ${data.UserName} số tiền ${data.Amount} vnđ`,
+      )
     },
     onError: toast.error,
-  });
+  })
 
   const _onPress = async (data: TUserHistoryRechargeVND) => {
-    mutationUpdate.mutateAsync(data);
-    router.back();
-  };
+    mutationUpdate.mutateAsync(data)
+    router.back()
+  }
 
   return (
-    <div className="grid xs:grid-cols-2 gap-4">
-      <div className="col-span-1 grid grid-cols-1 gap-4 content-start">
-        <div className="col-span-1">
+    <div className='grid gap-4 xs:grid-cols-2'>
+      <div className='col-span-1 grid grid-cols-1 content-start gap-4'>
+        <div className='col-span-1'>
           <FormInput
             control={control}
-            name="UserName"
-            placeholder=""
+            name='UserName'
+            placeholder=''
             disabled
-            label="Username"
-            rules={{ required: "This field is required" }}
+            label='Username'
+            rules={{ required: 'This field is required' }}
             required={false}
           />
         </div>
-        <div className="col-span-1">
+        <div className='col-span-1'>
           <FormInputNumber
             control={control}
-            name="Wallet"
-            placeholder=""
+            name='Wallet'
+            placeholder=''
             disabled
-            label="Ví tiền (VNĐ)"
-            suffix=" VNĐ"
+            label='Ví tiền (VNĐ)'
+            suffix=' VNĐ'
             required={false}
-            rules={{ required: "This field is required" }}
+            rules={{ required: 'This field is required' }}
           />
         </div>
-        <div className="col-span-1">
+        <div className='col-span-1'>
           <FormInputNumber
             control={control}
-            name="Amount"
-            placeholder="Nhập số tiền cần nạp"
-            label="Số tiền (VNĐ)"
-            suffix=" VNĐ"
-            rules={{ required: "This field is required" }}
+            name='Amount'
+            placeholder='Nhập số tiền cần nạp'
+            label='Số tiền (VNĐ)'
+            suffix=' VNĐ'
+            rules={{ required: 'This field is required' }}
           />
         </div>
-        <div className="col-span-1 text-left hidden xs:block">
+        <div className='col-span-1 hidden text-left xs:block'>
           <IconButton
-            title="Cập nhật"
+            title='Cập nhật'
             onClick={handleSubmit(_onPress)}
             showLoading
-            icon="fas fa-pencil"
-            btnClass="!mr-2"
-            btnIconClass="!mr-2"
-            toolip=""
+            icon='fas fa-pencil'
+            btnClass='!mr-2'
+            btnIconClass='!mr-2'
+            toolip=''
           />
           <IconButton
             onClick={() => router.back()}
-            icon="fas fa-undo-alt"
-            title="Trở về"
+            icon='fas fa-undo-alt'
+            title='Trở về'
             showLoading
-            btnIconClass="!mr-2"
-            toolip=""
+            btnIconClass='!mr-2'
+            toolip=''
           />
         </div>
       </div>
-      <div className="col-span-1 grid grid-cols-1 gap-4 content-start">
-        <div className="col-span-1">
+      <div className='col-span-1 grid grid-cols-1 content-start gap-4'>
+        <div className='col-span-1'>
           <FormAsyncSelect
             control={control}
-            name="BankId"
+            name='BankId'
             data={{ options: bankData }}
             // defaultValue={bankData?.[0]}
-            select={{ label: "BankInfo", value: "Id" }}
-            placeholder="Chọn ngân hàng nạp tiền"
-            label="Ngân hàng"
+            select={{ label: 'BankInfo', value: 'Id' }}
+            placeholder='Chọn ngân hàng nạp tiền'
+            label='Ngân hàng'
             required={false}
-            rules={{ required: "This field is required" }}
+            rules={{ required: 'This field is required' }}
           />
         </div>
-        <div className="col-span-1">
+        <div className='col-span-1'>
           <FormSelect
             control={control}
-            name="Status"
+            name='Status'
             data={paymentStatusData.slice(1, 3)}
             // defaultValue={paymentStatusData[1]}
-            placeholder="Chọn trạng thái"
-            label="Trạng thái"
-            rules={{ required: "This field is required" }}
-            menuPlacement="top"
+            placeholder='Chọn trạng thái'
+            label='Trạng thái'
+            rules={{ required: 'This field is required' }}
+            menuPlacement='top'
             required={false}
           />
         </div>
-        <div className="col-span-1">
+        <div className='col-span-1'>
           <FormTextarea
             control={control}
-            name="TradeContent"
-            label="Nội dung"
-            placeholder=""
+            name='TradeContent'
+            label='Nội dung'
+            placeholder=''
             required={false}
           />
         </div>
       </div>
-      <div className="col-span-full xs:hidden text-left">
+      <div className='col-span-full text-left xs:hidden'>
         <IconButton
-          title="Cập nhật"
+          title='Cập nhật'
           onClick={handleSubmit(_onPress)}
           showLoading
-          icon="fas fa-pencil"
-          btnClass="!mr-2"
-          btnIconClass="!mr-2"
-          toolip=""
+          icon='fas fa-pencil'
+          btnClass='!mr-2'
+          btnIconClass='!mr-2'
+          toolip=''
         />
         <IconButton
           onClick={() => router.back()}
-          icon="fas fa-undo-alt"
-          title="Trở về"
+          icon='fas fa-undo-alt'
+          title='Trở về'
           showLoading
-          btnIconClass="!mr-2"
-          toolip=""
+          btnIconClass='!mr-2'
+          toolip=''
         />
       </div>
     </div>
-  );
-};
+  )
+}

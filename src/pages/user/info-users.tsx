@@ -1,90 +1,90 @@
-import { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { user } from "~/api";
-import { InfoUserContact, InfoUserForm, UserLayout } from "~/components";
-import { SEOHomeConfigs } from "~/configs/SEOConfigs";
-import { RootState, updateUser } from "~/store";
-import { TNextPageWithLayout } from "~/types/layout";
+import { useEffect, useRef, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { user } from '~/api'
+import { InfoUserContact, InfoUserForm, UserLayout } from '~/components'
+import { SEOHomeConfigs } from '~/configs/SEOConfigs'
+import { RootState, updateUser } from '~/store'
+import { TNextPageWithLayout } from '~/types/layout'
 
 const Index: TNextPageWithLayout = () => {
   const userCurrentInfo: TUser = useSelector(
-    (state: RootState) => state.userCurrentInfo
-  );
-  const dispatch = useDispatch();
+    (state: RootState) => state.userCurrentInfo,
+  )
+  const dispatch = useDispatch()
 
-  const [isLoading, setIsLoading] = useState(false);
-  const oriEmail = useRef(userCurrentInfo.Email);
-  const oriPhone = useRef(userCurrentInfo.Phone);
+  const [isLoading, setIsLoading] = useState(false)
+  const oriEmail = useRef(userCurrentInfo.Email)
+  const oriPhone = useRef(userCurrentInfo.Phone)
 
   const { control, reset, handleSubmit, getValues, setValue } = useForm<
     TUser & { PasswordAgain: string; PasswordNew: string; DatHangName: string }
   >({
-    mode: "onBlur",
+    mode: 'onBlur',
     defaultValues: {
-      PasswordNew: "",
-      PasswordAgain: "",
+      PasswordNew: '',
+      PasswordAgain: '',
       ...userCurrentInfo,
     },
-  });
+  })
 
   useEffect(() => {
     reset({
-      PasswordNew: "",
-      PasswordAgain: "",
+      PasswordNew: '',
+      PasswordAgain: '',
       ...userCurrentInfo,
-    });
+    })
 
-    oriEmail.current = userCurrentInfo.Email;
-    oriPhone.current = userCurrentInfo.Phone;
-  }, [userCurrentInfo]);
+    oriEmail.current = userCurrentInfo.Email
+    oriPhone.current = userCurrentInfo.Phone
+  }, [userCurrentInfo])
 
   const handleUpdateUserCurrent = async (data: TUser) => {
-    const id = toast.loading("Đang cập nhật...");
+    const id = toast.loading('Đang cập nhật...')
 
     try {
-      await user.update(data);
+      await user.update(data)
       toast.update(id, {
-        render: "Cập nhật thành công",
+        render: 'Cập nhật thành công',
         isLoading: false,
         autoClose: 500,
-        type: "success",
-      });
-      dispatch(updateUser({ ...data }));
+        type: 'success',
+      })
+      dispatch(updateUser({ ...data }))
     } catch (error) {
       toast.update(id, {
         render: (error as any)?.response?.data?.ResultMessage,
-        type: "error",
+        type: 'error',
         autoClose: 1000,
         isLoading: false,
-      });
+      })
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const _onPress = (data) => {
-    setIsLoading(true);
+    setIsLoading(true)
     if (data?.PasswordAgain) {
       if (data?.PasswordAgain !== data?.PasswordNew) {
-        toast.error("Mật khẩu nhập lại không đúng!");
-        setIsLoading(false);
-        return;
+        toast.error('Mật khẩu nhập lại không đúng!')
+        setIsLoading(false)
+        return
       } else {
         const newData = {
           ...data,
           IsResetPassword: true,
-        };
-        handleUpdateUserCurrent(newData);
+        }
+        handleUpdateUserCurrent(newData)
       }
     } else {
-      handleUpdateUserCurrent(data);
+      handleUpdateUserCurrent(data)
     }
-  };
+  }
 
   return (
-    <div className="mt-8">
+    <div className='mt-8'>
       <InfoUserContact data={userCurrentInfo} />
       <InfoUserForm
         data={userCurrentInfo}
@@ -98,10 +98,10 @@ const Index: TNextPageWithLayout = () => {
         oriPhone={oriPhone}
       />
     </div>
-  );
-};
+  )
+}
 
-Index.displayName = SEOHomeConfigs.infoUser;
-Index.Layout = UserLayout;
+Index.displayName = SEOHomeConfigs.infoUser
+Index.Layout = UserLayout
 
-export default Index;
+export default Index

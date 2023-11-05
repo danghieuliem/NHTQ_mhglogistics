@@ -1,4 +1,3 @@
-export * from './configuration';
-export * from './hook';
-export * from './features';
-
+export * from './configuration'
+export * from './hook'
+export * from './features'

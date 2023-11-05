@@ -1,9 +1,9 @@
-import React, { useRef, useState } from "react";
-import { ActionButton, DataTable } from "~/components";
-import { TColumnsType, TTable } from "~/types/table";
-import TagStatus from "../../status/TagStatus";
-import { ServiceForm } from "./ServiceForm";
-import { Image } from "antd";
+import React, { useRef, useState } from 'react'
+import { ActionButton, DataTable } from '~/components'
+import { TColumnsType, TTable } from '~/types/table'
+import TagStatus from '../../status/TagStatus'
+import { ServiceForm } from './ServiceForm'
+import { Image } from 'antd'
 
 export const ServiceList: React.FC<TTable<TService> & { refetchService }> = ({
   data,
@@ -11,37 +11,37 @@ export const ServiceList: React.FC<TTable<TService> & { refetchService }> = ({
 }) => {
   const columns: TColumnsType<TService> = [
     {
-      dataIndex: "Id",
-      title: "Vị trí",
+      dataIndex: 'Id',
+      title: 'Vị trí',
       render: (_, __, index) => ++index,
       width: 60,
-      align: "right",
+      align: 'right',
     },
     {
-      dataIndex: "IMG",
-      align: "center",
-      title: "Hình ảnh",
+      dataIndex: 'IMG',
+      align: 'center',
+      title: 'Hình ảnh',
       width: 80,
       render: (_, record) => (
         <Image
-          src={record?.IMG ? record.IMG : "/default/pro-empty.jpg"}
-          className="!h-[30px] !w-[30px]"
+          src={record?.IMG ? record.IMG : '/default/pro-empty.jpg'}
+          className='!h-[30px] !w-[30px]'
         />
       ),
     },
     {
-      dataIndex: "Name",
-      title: "Tên dịch vụ",
+      dataIndex: 'Name',
+      title: 'Tên dịch vụ',
       width: 280,
     },
     {
-      dataIndex: "Active",
+      dataIndex: 'Active',
       width: 100,
-      title: "Trạng thái",
+      title: 'Trạng thái',
       render: (_, record) => (
         <TagStatus
-          color={record?.Active ? "green" : "red"}
-          statusName={record?.Active ? "Hiện" : "Ẩn"}
+          color={record?.Active ? 'green' : 'red'}
+          statusName={record?.Active ? 'Hiện' : 'Ẩn'}
         />
       ),
     },
@@ -51,27 +51,27 @@ export const ServiceList: React.FC<TTable<TService> & { refetchService }> = ({
     //   render: (date) => _format.getVNDate(date),
     // },
     {
-      dataIndex: "action",
-      align: "right",
-      title: "Thao tác",
+      dataIndex: 'action',
+      align: 'right',
+      title: 'Thao tác',
       width: 100,
       render: (_, record) => (
         <ActionButton
-          icon="fas fa-edit text-sec"
+          icon='fas fa-edit text-sec'
           onClick={() => handleModal(record)}
-          title="Cập nhật"
+          title='Cập nhật'
           isButton
         />
       ),
     },
-  ];
+  ]
 
-  const item = useRef<TService>();
-  const [modal, setModal] = useState(false);
+  const item = useRef<TService>()
+  const [modal, setModal] = useState(false)
   const handleModal = (itemSelected: TService) => {
-    item.current = itemSelected;
-    setModal(true);
-  };
+    item.current = itemSelected
+    setModal(true)
+  }
 
   return (
     <React.Fragment>
@@ -80,7 +80,7 @@ export const ServiceList: React.FC<TTable<TService> & { refetchService }> = ({
           columns,
           data,
           isExpand: false,
-          title: "Danh sách dịch vụ",
+          title: 'Danh sách dịch vụ',
         }}
       />
       <ServiceForm
@@ -92,5 +92,5 @@ export const ServiceList: React.FC<TTable<TService> & { refetchService }> = ({
         }}
       />
     </React.Fragment>
-  );
-};
+  )
+}

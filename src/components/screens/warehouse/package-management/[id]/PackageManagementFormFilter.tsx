@@ -1,30 +1,30 @@
-import { Skeleton } from "antd";
-import React from "react";
-import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
-import { toast } from "react-toastify";
-import { smallPackage } from "~/api";
-import { ActionButton } from "~/components/globals/button/ActionButton";
-import { FilterInput } from "~/components/globals/filterBase";
-import { FormInput } from "~/components/globals/formBase";
+import { Skeleton } from 'antd'
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { useMutation } from 'react-query'
+import { toast } from 'react-toastify'
+import { smallPackage } from '~/api'
+import { ActionButton } from '~/components/globals/button/ActionButton'
+import { FilterInput } from '~/components/globals/filterBase'
+import { FormInput } from '~/components/globals/formBase'
 
 type TProps = {
-  handleFilter: (code: string) => void;
-  loading: boolean;
-  data;
-  refetch;
-};
+  handleFilter: (code: string) => void
+  loading: boolean
+  data
+  refetch
+}
 
 const InputSearchTransactionCode = ({ BigPackageId, refetch }) => {
   const { control, handleSubmit, getValues, reset, resetField, setValue } =
     useForm<TWarehouseCN>({
-      mode: "onBlur",
+      mode: 'onBlur',
       defaultValues: {
-        OrderTransactionCode: "",
+        OrderTransactionCode: '',
       },
-    });
+    })
 
-  const mutationUpdate = useMutation(smallPackage.update);
+  const mutationUpdate = useMutation(smallPackage.update)
 
   const handleUpdate = (data) => {
     smallPackage
@@ -32,51 +32,51 @@ const InputSearchTransactionCode = ({ BigPackageId, refetch }) => {
         TransactionCode: data.OrderTransactionCode.trim(),
       })
       .then((res) => {
-        const sendData = { ...res?.Data[0], BigPackageId: BigPackageId };
+        const sendData = { ...res?.Data[0], BigPackageId: BigPackageId }
 
-        const id = toast.loading("Đang xử lý...");
+        const id = toast.loading('Đang xử lý...')
         mutationUpdate
           .mutateAsync([sendData])
           .then(() => {
             toast.update(id, {
-              render: "Gán vào bao thành công!",
-              type: "success",
+              render: 'Gán vào bao thành công!',
+              type: 'success',
               autoClose: 500,
               isLoading: false,
-            });
-            refetch();
-            resetField("OrderTransactionCode");
+            })
+            refetch()
+            resetField('OrderTransactionCode')
           })
           .catch((error) => {
             toast.update(id, {
               render: (error as any)?.response?.data?.ResultMessage,
-              type: "error",
+              type: 'error',
               autoClose: 1000,
               isLoading: false,
-            });
-          });
-      });
-  };
+            })
+          })
+      })
+  }
 
   return (
-    <div className="flex flex-col xs:flex-row items-end gap-4">
+    <div className='flex flex-col items-end gap-4 xs:flex-row'>
       <FormInput
         control={control}
-        name="OrderTransactionCode"
-        placeholder="Mã vận đơn"
-        label="Thêm vào bao"
+        name='OrderTransactionCode'
+        placeholder='Mã vận đơn'
+        label='Thêm vào bao'
       />
 
       <ActionButton
-        icon=""
+        icon=''
         isButton
-        title="Thêm"
-        isButtonClassName="bg-blue !text-white"
+        title='Thêm'
+        isButtonClassName='bg-blue !text-white'
         onClick={handleSubmit(handleUpdate)}
       />
     </div>
-  );
-};
+  )
+}
 
 export const PackageManagementFormFilter: React.FC<TProps> = ({
   handleFilter,
@@ -85,23 +85,23 @@ export const PackageManagementFormFilter: React.FC<TProps> = ({
   refetch,
 }) => {
   return (
-    <div className="flex flex-col xs:flex-row gap-4 xs:items-end">
+    <div className='flex flex-col gap-4 xs:flex-row xs:items-end'>
       <Skeleton
         loading={loading}
         title={false}
-        paragraph={{ rows: 1, width: "100%" }}
+        paragraph={{ rows: 1, width: '100%' }}
       >
         <FilterInput
-          placeholder="Mã vận đơn"
-          label="Tìm mã vận đơn"
-          id="code"
-          name="cde"
-          inputClassName="barcode"
+          placeholder='Mã vận đơn'
+          label='Tìm mã vận đơn'
+          id='code'
+          name='cde'
+          inputClassName='barcode'
           handleSubmit={handleFilter}
           allowClear={false}
         />
         <InputSearchTransactionCode BigPackageId={data?.Id} refetch={refetch} />
       </Skeleton>
     </div>
-  );
-};
+  )
+}

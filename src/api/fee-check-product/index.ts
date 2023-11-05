@@ -1,5 +1,5 @@
-import BaseAPI from '../methods';
+import BaseAPI from '../methods'
 
-const { globalCRUD } = new BaseAPI<TTariffGoodsChecking>('fee-check-product');
+const { globalCRUD } = new BaseAPI<TTariffGoodsChecking>('fee-check-product')
 
-export const feeGoodsChecking = globalCRUD;
+export const feeGoodsChecking = globalCRUD

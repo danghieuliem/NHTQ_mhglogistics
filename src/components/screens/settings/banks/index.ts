@@ -1,2 +1,2 @@
-export * from "./BanksTable";
-export * from "./BanksForm";
+export * from './BanksTable'
+export * from './BanksForm'
