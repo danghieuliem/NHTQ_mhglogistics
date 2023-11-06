@@ -41,14 +41,12 @@ export const OutStockFormTableDetail: React.FC<
     {
       dataIndex: 'SmallPackage',
       title: 'Loại đơn hàng',
-      render(_, record, ___) {
+      render(value) {
         // return <div>{record?.SmallPackage?.MainOrderCode.split(":")[0]}</div>;
         return (
           <TagStatus
-            color={record?.SmallPackage?.OrderType === 3 ? 'red' : 'green'}
-            statusName={
-              record?.SmallPackage?.OrderType === 3 ? 'Trôi nổi' : 'Ký gửi'
-            }
+            color={value?.OrderType === 3 ? 'red' : 'green'}
+            statusName={value?.OrderTypeName}
           />
         )
       },
