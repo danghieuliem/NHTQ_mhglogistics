@@ -71,7 +71,6 @@ export const SEOConfigs = {
     transaction: 'Thống kê giao dịch',
     other: 'Thống kê đơn hàng',
     realMoney: 'Thống kê tiền mua hàng',
-    depositRevenue: 'Thống kê ký gửi',
     salesRevenue: 'Thống kê sale',
     orderRevenue: 'Thống kê đặt hàng',
     profitBuyFor: 'Thống kê lợi nhuận mua hộ',
