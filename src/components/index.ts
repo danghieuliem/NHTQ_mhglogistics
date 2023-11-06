@@ -69,7 +69,6 @@ export * from './screens/statistical/recharge'
 export * from './screens/statistical/sales'
 export * from './screens/statistical/surplus'
 export * from './screens/statistical/transaction'
-export * from './screens/statistical/income-transport'
 // ++ warehouse
 export * from './screens/warehouse/add-package-customer'
 export * from './screens/warehouse/check-warehouse-china'
