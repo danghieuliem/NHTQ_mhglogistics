@@ -1,5 +1,5 @@
 .navWrapper {
-  @apply shadow-lg bg-[#fff];
+  @apply bg-[#fff] shadow-lg;
   width: 0px;
   display: flex;
   flex-direction: column;
@@ -20,6 +20,7 @@
   padding: 10px;
   transform: translateX(0%);
   width: 250px;
+  padding-bottom: 50px;
 }
 
 .navListContent,
