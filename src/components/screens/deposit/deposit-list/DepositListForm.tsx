@@ -32,7 +32,7 @@ export const DepositListForm: React.FC<TProps> = ({
   RoleID,
   refetch,
 }) => {
-  const [canNote, setCanNote] = useState(null)
+  // const [canNote, setCanNote] = useState(null)
   const [disabled, setDisabled] = useState(false)
   const queryClient = useQueryClient()
   const { handleSubmit, reset, watch, setValue, control, getValues } =
@@ -166,7 +166,7 @@ export const DepositListForm: React.FC<TProps> = ({
                 (x) => x.id === defaultValues?.Status,
               )?.name,
             }}
-            callback={(val) => setCanNote(val === 1 ? 1 : null)}
+            // callback={(val) => setCanNote(val === 1 ? 1 : null)}
             rules={{ required: 'Không bỏ trống trạng thái' }}
           />
         </div>
@@ -433,7 +433,7 @@ export const DepositListForm: React.FC<TProps> = ({
               label='Lý do hủy đơn'
               rows={2}
               required={false}
-              disabled={canNote === 1 ? false : true}
+              // disabled={canNote === 1 ? false : true}
             />
           </div>
         </div>
