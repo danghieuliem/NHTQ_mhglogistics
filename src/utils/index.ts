@@ -146,7 +146,7 @@ class Format {
     }
     return (
       (price > 0
-        ? price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        ? price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
         : price) + suffix
     )
   }

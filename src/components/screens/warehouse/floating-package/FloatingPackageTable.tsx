@@ -58,7 +58,7 @@ export const FloatingPackageTable: React.FC<TTable<TSmallPackage> & TProps> = ({
       responsive: ['sm'],
     },
     {
-      dataIndex: 'Volume',
+      dataIndex: 'VolumePayment',
       title: 'Khối m3',
       align: 'right',
       responsive: ['sm'],
