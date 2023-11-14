@@ -392,16 +392,16 @@ export const OutstockPaymentDetail: React.FC<
             {...fullNameProps}
             inputClassName={'bg-[#333]'}
             value={user.name}
-            // handleSearch={(val) =>
-            // 	handleUser((prev) => ({...prev, name: val}))
-            // }
+            handleSearch={(val) =>
+              handleUser((prev) => ({ ...prev, name: val }))
+            }
           />
           <FilterInput
             {...phoneNumberProps}
             value={user.phone}
-            // handleSearch={(val) =>
-            // 	handleUser((prev) => ({...prev, phone: val}))
-            // }
+            handleSearch={(val) =>
+              handleUser((prev) => ({ ...prev, phone: val }))
+            }
           />
         </div>
         <div className='flex items-center'>
