@@ -117,23 +117,29 @@ export const OutStockFormTableDetail: React.FC<
     //     return record.SmallPackage.Volume;
     //   },
     // },
-    // {
-    //   dataIndex: "SmallPackage",
-    //   align: "right",
-    //   title: () => (
-    //     <React.Fragment>
-    //       Cân tính
-    //       <br />
-    //       tiền (kg)
-    //     </React.Fragment>
-    //   ),
-    //   render: (_, record, index) => {
-    //     return record.SmallPackage.PayableWeight;
-    //   },
-    // },
+    {
+      dataIndex: 'SmallPackage',
+      align: 'right',
+      title: () => (
+        <React.Fragment>
+          Cước phí
+          <br />
+          vận chuyển
+          <br />
+          (VNĐ)
+        </React.Fragment>
+      ),
+      render: (_, record, index) =>
+        _format.getVND(record.SmallPackage.TotalPrice, ''),
+    },
     {
       dataIndex: 'IsPayment',
-      title: 'Trạng thái thanh toán',
+      title: (
+        <>
+          Trạng thái <br />
+          thanh toán
+        </>
+      ),
       render: (record) => {
         return (
           <TagStatus
@@ -142,12 +148,6 @@ export const OutStockFormTableDetail: React.FC<
           />
         )
       },
-    },
-    {
-      dataIndex: 'OrderRemaining',
-      title: 'Số tiền cần thanh toán (VNĐ)',
-      align: 'right',
-      render: (price) => _format.getVND(price, ''),
     },
   ]
 

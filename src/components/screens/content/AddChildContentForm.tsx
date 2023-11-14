@@ -108,9 +108,9 @@ const CategoryListComp = ({ control, watch, categogyList, setValue }) => {
           name='PageTypeId'
           data={categogyList}
           select={{ label: 'Name', value: 'Id' }}
-          required={!!watch().IsEdit}
+          disabled={!watch().IsEdit}
           rules={{
-            required: 'This field is required',
+            required: watch().IsEdit ? 'This field is required' : false,
           }}
           defaultValue={
             watch().PageTypeId && {
@@ -118,7 +118,6 @@ const CategoryListComp = ({ control, watch, categogyList, setValue }) => {
               Id: watch().PageTypeId,
             }
           }
-          disabled={!watch().IsEdit}
           callback={() => {
             setValue(
               'Link',
