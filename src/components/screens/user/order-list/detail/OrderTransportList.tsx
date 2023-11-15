@@ -64,6 +64,8 @@ export const OrderTransportList: React.FC<TTable<TSmallPackage>> = ({
           KÍCH THƯỚC
           <br />
           (D x R x C)
+          <br />
+          (cm)
         </>
       ),
       responsive: ['lg'],

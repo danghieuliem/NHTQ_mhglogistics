@@ -95,6 +95,8 @@ export const OutStockFormTableDetail: React.FC<
           Kích thước
           <br />
           (D x R x C)
+          <br />
+          (cm)
         </>
       ),
       render: (_, record, index) => {

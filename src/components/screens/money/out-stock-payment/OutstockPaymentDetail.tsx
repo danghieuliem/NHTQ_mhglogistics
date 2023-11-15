@@ -302,7 +302,7 @@ export const OutstockPaymentDetail: React.FC<
               <th>Mã kiện</th>
               <th>Cân thực (kg)</th>
               <th>Số khối (m3)</th>
-              <th>Kích thước (D x R x C)</th>
+              <th>Kích thước (D x R x C) (cm)</th>
               <th>Phí cân nặng (VNĐ)</th>
               <th>Thành tiền (VNĐ)</th>
             </tr>

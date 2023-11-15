@@ -103,7 +103,7 @@ export const OutStockFormFilter: React.FC<TProps> = ({
                   <th>Mã kiện</th>
                   <th>Cân thực (kg)</th>
                   <th>Số khối (m3)</th>
-                  <th>Kích thước (D x R x C)</th>
+                  <th>Kích thước (D x R x C) (cm)</th>
                   <th>Phí cân nặng (VNĐ)</th>
                 </tr>
               </thead>
