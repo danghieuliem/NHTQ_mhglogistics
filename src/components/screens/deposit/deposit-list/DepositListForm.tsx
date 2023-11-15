@@ -181,7 +181,7 @@ export const DepositListForm: React.FC<TProps> = ({
             //     (x) => x.id >= defaultValues?.Status
             //   ),
             // ] : []}
-            data={transportationStatus}
+            data={[...transportationStatus].slice(1)}
             placeholder=''
             label='Trạng thái'
             defaultValue={{
