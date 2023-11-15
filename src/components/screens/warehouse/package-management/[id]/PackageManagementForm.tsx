@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash'
 import router from 'next/router'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -67,12 +68,10 @@ export const PackageManagementForm: React.FC<TProps> = ({ data, loading }) => {
       <div className='col-span-full'>
         <FormSelect
           control={control}
-          data={[
-            ...bigPackageStatus.slice(1, 2),
-            ...bigPackageStatus.filter((x) => x.id >= data?.Status),
-          ]}
+          data={[...bigPackageStatus.slice(1)]}
           defaultValue={
-            data?.Status && bigPackageStatus.find((x) => x.id === data?.Status)
+            isEmpty(data?.Status) &&
+            bigPackageStatus.find((x) => x.id === data?.Status)
           }
           name='Status'
           label='Trạng thái'
