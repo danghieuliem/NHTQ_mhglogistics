@@ -40,7 +40,7 @@ export const EmployeeManagementDetailForm: React.FC<TProps> = ({
   const [changePass, setChangePass] = useState(false)
   const UserGroupNameCur = useRef(null)
 
-  const { handleSubmit, control, watch, getValues, reset } = useForm<TForm>({
+  const { handleSubmit, control, setValue, getValues, reset } = useForm<TForm>({
     mode: 'onBlur',
   })
 
@@ -183,7 +183,8 @@ export const EmployeeManagementDetailForm: React.FC<TProps> = ({
               <Switch
                 onChange={() => {
                   setChangePass(!changePass)
-                  reset()
+                  setValue('PasswordNew', '')
+                  setValue('PasswordAgain', '')
                 }}
               />
             </div>
