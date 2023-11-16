@@ -13,11 +13,14 @@ import {
 import { IconButton } from '~/components/globals/button/IconButton'
 import { TColumnsType, TTable } from '~/types/table'
 import TagStatus from '../../status/TagStatus'
+import { EditChildContentFormMemo } from '../EditChildContentForm'
+import { isNull } from 'lodash'
 
 export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
   const [addNewModal, setAddNewModal] = useState(false)
   const [edit, setEdit] = useState(0)
-  const [child, setChild] = useState(0)
+
+  const [isSelectedEditChill, setIsSelectedEditChill] = useState<number>(null)
 
   const queryClient = useQueryClient()
   const mutationDelete = useMutation((id: any) => menu.delete(id), {
@@ -60,7 +63,7 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
     {
       dataIndex: 'action',
       title: 'Thao tác',
-      render: (_, record) => (
+      render: (_, record, index) => (
         <Popover
           trigger={'hover'}
           placement='right'
@@ -74,10 +77,10 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
                 isButtonClassName='bg-blue !text-white'
               />
               <ActionButton
-                icon='fas fa-plus-circle'
-                onClick={() => setChild(record?.Id)}
-                title='Thêm menu con'
-                isButtonClassName='bg-green !text-white'
+                icon='fas fa-layer-group'
+                onClick={() => setIsSelectedEditChill(index)}
+                title='Sub menu'
+                isButtonClassName='bg-main !text-white'
                 isButton
               />
               <ActionButton
@@ -160,10 +163,12 @@ export const ContentMenuList: React.FC<TTable<any>> = ({ data }) => {
         onCancel={handleCloseEditModal}
         categogyList={categogyList?.Items}
       />
-      <AddChildContentFormMemo
-        child={child}
+      <EditChildContentFormMemo
+        visible={!isNull(isSelectedEditChill)}
+        menuItem={data?.[isSelectedEditChill]}
+        handleRemove={_onRemove}
         categogyList={categogyList?.Items}
-        onCancel={() => setChild(0)}
+        onCancel={() => setIsSelectedEditChill(null)}
       />
     </React.Fragment>
   )

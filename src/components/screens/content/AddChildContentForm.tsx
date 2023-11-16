@@ -60,7 +60,7 @@ const ArticalListComp = ({ control, watch, setValue, categogyList }) => {
           select={{ label: 'Title', value: 'Id' }}
           required={false}
           isClearable
-          disabled={!watch().IsEdit}
+          disabled={!watch().Type}
           callback={() => {
             if (watch().PageId) {
               setValue(
@@ -88,7 +88,7 @@ const ArticalListComp = ({ control, watch, setValue, categogyList }) => {
           name='Link'
           placeholder=''
           label='Link bài viết'
-          disabled={!!watch().IsEdit}
+          disabled={!!watch().Type}
         />
       </div>
     </>
@@ -96,8 +96,6 @@ const ArticalListComp = ({ control, watch, setValue, categogyList }) => {
 }
 
 const CategoryListComp = ({ control, watch, categogyList, setValue }) => {
-  // console.log(dataMenuList, watch().PageTypeId);
-
   return (
     <>
       <div className='col-span-1'>
@@ -108,9 +106,9 @@ const CategoryListComp = ({ control, watch, categogyList, setValue }) => {
           name='PageTypeId'
           data={categogyList}
           select={{ label: 'Name', value: 'Id' }}
-          disabled={!watch().IsEdit}
+          disabled={!watch().Type}
           rules={{
-            required: watch().IsEdit ? 'This field is required' : false,
+            required: watch().Type ? 'This field is required' : false,
           }}
           defaultValue={
             watch().PageTypeId && {
@@ -136,71 +134,58 @@ const CategoryListComp = ({ control, watch, categogyList, setValue }) => {
   )
 }
 
-const AddChildContentForm: React.FC<any> = ({
-  child,
-  onCancel,
-  categogyList,
-}) => {
-  // const [data, setData] = useState<any>();
+type TSubmenu = {
+  Name: string
+  Link: string
+  Active: boolean
+  Position: number
+  PageId?: number
+  PageTypeId?: number
+  Type: ETypeSubmenu
+  Parent: number
+}
 
-  const { control, handleSubmit, setValue, reset, watch } = useForm<{
-    Name: string
-    Link: string
-    Active: boolean
-    Position: number
-    PageTypeId?: number
-    PageId?: number
-    IsEdit?: number
-    Parent: number
-  }>({
+enum ETypeSubmenu {
+  inSideSystem = 1,
+  outSideSystem = 0,
+}
+
+const AddChildContentForm: React.FC<{
+  visible: boolean
+  Parent: number
+  onCancel: () => void
+  categogyList: TPageType[]
+}> = ({ Parent, onCancel, categogyList, visible = false }) => {
+  const defaultFromData = {
+    Name: null,
+    Link: null,
+    Active: false,
+    Position: null,
+    PageId: null,
+    PageTypeId: null,
+    Type: ETypeSubmenu.inSideSystem,
+    Parent: Parent,
+  }
+  const { control, handleSubmit, setValue, watch, reset } = useForm<TSubmenu>({
     mode: 'onBlur',
-    defaultValues: {
-      ...child,
-      IsEdit: child?.PageTypeId ? 1 : 0,
-    },
+    defaultValues: { ...defaultFromData },
   })
 
   const queryClient = useQueryClient()
 
-  useEffect(() => {
-    reset({
-      ...child,
-      IsEdit: child?.PageTypeId ? 1 : 0,
-    })
-  }, [child?.Id])
+  const _onPress = (newData: TSubmenu) => {
+    const sendData: TSubmenu = { ...newData, Parent }
 
-  useEffect(() => {
-    reset({
-      Parent: child,
-      Name: watch().Name,
-      Link: watch().Link,
-      Active: watch().Active,
-      Position: watch().Position,
-      PageTypeId: watch().PageTypeId,
-      PageId: null,
-      IsEdit: watch().IsEdit,
-    })
-  }, [watch().PageTypeId])
+    console.log(sendData)
 
-  const _onPress = (newData: {
-    Name: string
-    Link: string
-    Active: boolean
-    Position: number
-    PageTypeId?: number
-    PageId?: number
-    IsEdit?: number
-    Parent: number
-  }) => {
-    const sendData = { ...newData }
-
-    if (!sendData?.IsEdit) {
+    if (sendData.Type === ETypeSubmenu.outSideSystem) {
       delete sendData?.PageId
       delete sendData?.PageTypeId
     }
-    delete sendData?.IsEdit
+    delete sendData?.Type
 
     onCancel()
+
     const id = toast.loading('Đang xử lý ...')
     menu
       .create(sendData)
@@ -212,6 +197,7 @@ const AddChildContentForm: React.FC<any> = ({
           isLoading: false,
           autoClose: 500,
         })
+        reset({ ...defaultFromData })
       })
       .catch((error) => {
         toast.update(id, {
@@ -224,7 +210,7 @@ const AddChildContentForm: React.FC<any> = ({
   }
 
   return (
-    <Modal visible={!!child} width={1000}>
+    <Modal visible={visible} width={1000}>
       <FormCard>
         <FormCard.Header onCancel={onCancel}>
           <div className='w-full'>
@@ -251,7 +237,7 @@ const AddChildContentForm: React.FC<any> = ({
               <div className='grid gap-4 xs:grid-cols-3'>
                 <div className='xs:col-span-2'>
                   <FormSelect
-                    name='IsEdit'
+                    name='Type'
                     control={control}
                     label='Bài viết trong hệ thống?'
                     data={templates}
@@ -259,9 +245,8 @@ const AddChildContentForm: React.FC<any> = ({
                     placeholder={''}
                     required={false}
                     defaultValue={{
-                      name: templates?.find((x) => x.id === watch().IsEdit)
-                        ?.name,
-                      id: watch().IsEdit,
+                      name: templates?.find((x) => x.id === watch().Type)?.name,
+                      id: templates?.find((x) => x.id === watch().Type)?.id,
                     }}
                   />
                 </div>

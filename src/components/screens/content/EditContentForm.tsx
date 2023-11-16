@@ -109,9 +109,6 @@ const CategoryListComp = ({ control, watch, categogyList, setValue }) => {
           data={categogyList}
           select={{ label: 'Name', value: 'Id' }}
           required={!!watch().IsEdit}
-          rules={{
-            required: 'This field is required',
-          }}
           defaultValue={
             watch().PageTypeId && {
               Name: categogyList.find((x) => x.Id === watch().PageTypeId)?.Name,
