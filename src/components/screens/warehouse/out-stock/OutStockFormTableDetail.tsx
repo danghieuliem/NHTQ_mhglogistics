@@ -42,15 +42,14 @@ export const OutStockFormTableDetail: React.FC<
       dataIndex: 'SmallPackage',
       title: 'Loại đơn hàng',
       render(value) {
-        // return <div>{record?.SmallPackage?.MainOrderCode.split(":")[0]}</div>;
         return (
           <TagStatus
-            color={value?.OrderType === 3 ? 'red' : 'green'}
+            color={['', 'Orange', 'green', 'blue'][value?.OrderType]}
             statusName={value?.OrderTypeName}
           />
         )
       },
-      width: 120,
+      width: 140,
     },
     {
       dataIndex: 'SmallPackage',
@@ -69,8 +68,7 @@ export const OutStockFormTableDetail: React.FC<
       ),
       align: 'right',
       width: 120,
-      render: (smallpackage: TSmallPackage) =>
-        smallpackage.Weight && smallpackage.Weight.toFixed(2),
+      render: (smallpackage: TSmallPackage) => smallpackage.Weight,
     },
     {
       dataIndex: 'SmallPackage',
@@ -83,8 +81,7 @@ export const OutStockFormTableDetail: React.FC<
       ),
       align: 'right',
       width: 120,
-      render: (smallpackage: TSmallPackage) =>
-        smallpackage.VolumePayment && smallpackage.VolumePayment.toFixed(5),
+      render: (smallpackage: TSmallPackage) => smallpackage.VolumePayment,
     },
     {
       dataIndex: 'SmallPackage',
@@ -142,11 +139,11 @@ export const OutStockFormTableDetail: React.FC<
           thanh toán
         </>
       ),
-      render: (record) => {
+      render: (val) => {
         return (
           <TagStatus
-            color={record ? '#388E3C' : '#D32F2F'}
-            statusName={record ? 'Đã thanh toán' : 'Chưa thanh toán'}
+            color={val ? '#1965e0' : '#f52525'}
+            statusName={val ? 'Đã thanh toán' : 'Chưa thanh toán'}
           />
         )
       },
@@ -158,17 +155,23 @@ export const OutStockFormTableDetail: React.FC<
       <>
         <Table.Summary.Row>
           <Table.Summary.Cell index={0} colSpan={7}>
+            <b>Tổng số kiện</b>
+          </Table.Summary.Cell>
+          <Table.Summary.Cell index={1} colSpan={1} align='right'>
+            {data.length} kiện
+          </Table.Summary.Cell>
+        </Table.Summary.Row>
+        <Table.Summary.Row>
+          <Table.Summary.Cell index={0} colSpan={7}>
             <b>Tổng số khối</b>
           </Table.Summary.Cell>
           <Table.Summary.Cell index={1} colSpan={1} align='right'>
-            <Text type='danger'>
-              {data
-                .reduce(
-                  (prev, cur) => prev + cur?.SmallPackage?.VolumePayment,
-                  0,
-                )
-                .toFixed(5) + ' m3'}
-            </Text>
+            {_format.getVolume(
+              data.reduce(
+                (prev, cur) => prev + cur?.SmallPackage?.VolumePayment,
+                0,
+              ),
+            ) + ' m3'}
           </Table.Summary.Cell>
         </Table.Summary.Row>
         <Table.Summary.Row>
@@ -176,14 +179,12 @@ export const OutStockFormTableDetail: React.FC<
             <b>Tổng cân nặng</b>
           </Table.Summary.Cell>
           <Table.Summary.Cell index={1} colSpan={1} align='right'>
-            <Text type='danger'>
-              {data
-                .reduce(
-                  (prev, cur) => prev + cur?.SmallPackage?.PayableWeight,
-                  0,
-                )
-                .toFixed(2) + ' KG'}
-            </Text>
+            {_format.getWeight(
+              data.reduce(
+                (prev, cur) => prev + cur?.SmallPackage?.PayableWeight,
+                0,
+              ),
+            ) + ' kg'}
           </Table.Summary.Cell>
         </Table.Summary.Row>
         <Table.Summary.Row>
@@ -200,8 +201,7 @@ export const OutStockFormTableDetail: React.FC<
           </Table.Summary.Cell>
           <Table.Summary.Cell index={1} colSpan={1} align='right'>
             <Text type='danger'>
-              {/* {_format.getVND(totalMustPay)} */}
-              {_format.getVND(dataAll?.TotalPay)}
+              <b>{_format.getVND(dataAll?.TotalPay)}</b>
             </Text>
           </Table.Summary.Cell>
         </Table.Summary.Row>

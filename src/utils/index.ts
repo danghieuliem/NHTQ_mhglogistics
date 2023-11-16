@@ -129,8 +129,13 @@ class Format {
     )
   }
 
+  getWeight = (val: number) => {
+    if (!_.isNumber(val)) return 0
+    return val?.toFixed(2)
+  }
+
   getVolume = (val: number) => {
-    if (isEmpty(val) || !_.isNumber(val)) return 0
+    if (!_.isNumber(val)) return 0
     return val?.toFixed(5)
   }
 
