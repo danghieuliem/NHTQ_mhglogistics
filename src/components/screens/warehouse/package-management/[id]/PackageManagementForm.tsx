@@ -1,21 +1,26 @@
 import { isEmpty } from 'lodash'
 import router from 'next/router'
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
 import { bigPackage } from '~/api'
 import { FormInput, FormInputNumber, FormSelect } from '~/components'
 import { IconButton } from '~/components/globals/button/IconButton'
 import { toast } from '~/components/toast'
-import { bigPackageStatus } from '~/configs'
+import { EBigPackge, bigPackageStatus } from '~/configs'
 import { useDeepEffect } from '~/hooks'
 
 type TProps = {
   data: TPackage
   loading: boolean
+  refetch: () => void
 }
 
-export const PackageManagementForm: React.FC<TProps> = ({ data, loading }) => {
+export const PackageManagementForm: React.FC<TProps> = ({
+  data,
+  loading,
+  refetch,
+}) => {
   const { handleSubmit, reset, control } = useForm<TPackage>({
     mode: 'onBlur',
   })
@@ -29,10 +34,24 @@ export const PackageManagementForm: React.FC<TProps> = ({ data, loading }) => {
 
   const _onPress = async (data: TPackage) => {
     try {
-      await mutationUpdate.mutateAsync(data)
+      await mutationUpdate.mutateAsync(data).finally(() => {
+        refetch()
+      })
       router.back()
     } catch (error) {}
   }
+
+  const dataForStatus = useMemo(() => {
+    let status = [...bigPackageStatus.slice(1)]
+
+    if (data?.Status === EBigPackge.DaHuy) {
+      status = status.slice(0, 2)
+    } else if (data?.Status !== EBigPackge.MoiTao) {
+      status = status.slice(data?.Status)
+    }
+
+    return status
+  }, [data])
 
   return (
     <div className='grid gap-4 xs:grid-cols-2'>
@@ -68,7 +87,7 @@ export const PackageManagementForm: React.FC<TProps> = ({ data, loading }) => {
       <div className='col-span-full'>
         <FormSelect
           control={control}
-          data={[...bigPackageStatus.slice(1)]}
+          data={dataForStatus}
           defaultValue={
             isEmpty(data?.Status) &&
             bigPackageStatus.find((x) => x.id === data?.Status)
@@ -81,6 +100,7 @@ export const PackageManagementForm: React.FC<TProps> = ({ data, loading }) => {
       </div>
       <div className='col-span-full flex border-t border-main pt-4'>
         <IconButton
+          disabled={data?.Status === EBigPackge.TrongKhoVN}
           icon='fas fa-pencil'
           title='Cập nhật'
           onClick={handleSubmit(_onPress)}
