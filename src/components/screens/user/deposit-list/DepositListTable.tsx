@@ -198,6 +198,7 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
     {
       dataIndex: 'OrderTransactionCode',
       title: 'Mã vận đơn',
+      width: 180,
     },
     {
       dataIndex: 'TotalPriceVND',
@@ -456,7 +457,7 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
           rowSelection,
           data,
           bordered: true,
-          scroll: { y: 640 },
+          scroll: { y: 640, x: 460 },
           extraElementClassName: '!w-full',
           extraElement: (
             <UserDepositListFilterMemo
