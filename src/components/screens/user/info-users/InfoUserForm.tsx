@@ -15,6 +15,7 @@ export const InfoUserForm: React.FC<any> = ({
   handleSubmit,
   loading,
   getValues,
+  setValue,
   reset,
   oriEmail,
   oriPhone,
@@ -196,7 +197,8 @@ export const InfoUserForm: React.FC<any> = ({
                   size='small'
                   onChange={() => {
                     setChangePass(!changePass)
-                    reset()
+                    setValue('PasswordNew', '')
+                    setValue('PasswordAgain', '')
                   }}
                 />
               </div>

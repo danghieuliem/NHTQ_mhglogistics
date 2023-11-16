@@ -42,15 +42,14 @@ export const OutStockFormTableDetail: React.FC<
       dataIndex: 'SmallPackage',
       title: 'Loại đơn hàng',
       render(value) {
-        // return <div>{record?.SmallPackage?.MainOrderCode.split(":")[0]}</div>;
         return (
           <TagStatus
-            color={value?.OrderType === 3 ? 'red' : 'green'}
+            color={['', 'Orange', 'green', 'blue'][value?.OrderType]}
             statusName={value?.OrderTypeName}
           />
         )
       },
-      width: 120,
+      width: 140,
     },
     {
       dataIndex: 'SmallPackage',
@@ -69,8 +68,7 @@ export const OutStockFormTableDetail: React.FC<
       ),
       align: 'right',
       width: 120,
-      render: (smallpackage: TSmallPackage) =>
-        smallpackage.Weight && smallpackage.Weight.toFixed(2),
+      render: (smallpackage: TSmallPackage) => smallpackage.Weight,
     },
     {
       dataIndex: 'SmallPackage',
@@ -83,8 +81,7 @@ export const OutStockFormTableDetail: React.FC<
       ),
       align: 'right',
       width: 120,
-      render: (smallpackage: TSmallPackage) =>
-        smallpackage.VolumePayment && smallpackage.VolumePayment.toFixed(5),
+      render: (smallpackage: TSmallPackage) => smallpackage.VolumePayment,
     },
     {
       dataIndex: 'SmallPackage',
@@ -95,6 +92,8 @@ export const OutStockFormTableDetail: React.FC<
           Kích thước
           <br />
           (D x R x C)
+          <br />
+          (cm)
         </>
       ),
       render: (_, record, index) => {
@@ -117,37 +116,37 @@ export const OutStockFormTableDetail: React.FC<
     //     return record.SmallPackage.Volume;
     //   },
     // },
-    // {
-    //   dataIndex: "SmallPackage",
-    //   align: "right",
-    //   title: () => (
-    //     <React.Fragment>
-    //       Cân tính
-    //       <br />
-    //       tiền (kg)
-    //     </React.Fragment>
-    //   ),
-    //   render: (_, record, index) => {
-    //     return record.SmallPackage.PayableWeight;
-    //   },
-    // },
+    {
+      dataIndex: 'SmallPackage',
+      align: 'right',
+      title: () => (
+        <React.Fragment>
+          Cước phí
+          <br />
+          vận chuyển
+          <br />
+          (VNĐ)
+        </React.Fragment>
+      ),
+      render: (_, record, index) =>
+        _format.getVND(record.SmallPackage.TotalPrice, ''),
+    },
     {
       dataIndex: 'IsPayment',
-      title: 'Trạng thái thanh toán',
-      render: (record) => {
+      title: (
+        <>
+          Trạng thái <br />
+          thanh toán
+        </>
+      ),
+      render: (val) => {
         return (
           <TagStatus
-            color={record ? '#388E3C' : '#D32F2F'}
-            statusName={record ? 'Đã thanh toán' : 'Chưa thanh toán'}
+            color={val ? '#1965e0' : '#f52525'}
+            statusName={val ? 'Đã thanh toán' : 'Chưa thanh toán'}
           />
         )
       },
-    },
-    {
-      dataIndex: 'OrderRemaining',
-      title: 'Số tiền cần thanh toán (VNĐ)',
-      align: 'right',
-      render: (price) => _format.getVND(price, ''),
     },
   ]
 
@@ -156,17 +155,23 @@ export const OutStockFormTableDetail: React.FC<
       <>
         <Table.Summary.Row>
           <Table.Summary.Cell index={0} colSpan={7}>
+            <b>Tổng số kiện</b>
+          </Table.Summary.Cell>
+          <Table.Summary.Cell index={1} colSpan={1} align='right'>
+            {data.length} kiện
+          </Table.Summary.Cell>
+        </Table.Summary.Row>
+        <Table.Summary.Row>
+          <Table.Summary.Cell index={0} colSpan={7}>
             <b>Tổng số khối</b>
           </Table.Summary.Cell>
           <Table.Summary.Cell index={1} colSpan={1} align='right'>
-            <Text type='danger'>
-              {data
-                .reduce(
-                  (prev, cur) => prev + cur?.SmallPackage?.VolumePayment,
-                  0,
-                )
-                .toFixed(5) + ' m3'}
-            </Text>
+            {_format.getVolume(
+              data.reduce(
+                (prev, cur) => prev + cur?.SmallPackage?.VolumePayment,
+                0,
+              ),
+            ) + ' m3'}
           </Table.Summary.Cell>
         </Table.Summary.Row>
         <Table.Summary.Row>
@@ -174,14 +179,12 @@ export const OutStockFormTableDetail: React.FC<
             <b>Tổng cân nặng</b>
           </Table.Summary.Cell>
           <Table.Summary.Cell index={1} colSpan={1} align='right'>
-            <Text type='danger'>
-              {data
-                .reduce(
-                  (prev, cur) => prev + cur?.SmallPackage?.PayableWeight,
-                  0,
-                )
-                .toFixed(2) + ' KG'}
-            </Text>
+            {_format.getWeight(
+              data.reduce(
+                (prev, cur) => prev + cur?.SmallPackage?.PayableWeight,
+                0,
+              ),
+            ) + ' kg'}
           </Table.Summary.Cell>
         </Table.Summary.Row>
         <Table.Summary.Row>
@@ -198,8 +201,7 @@ export const OutStockFormTableDetail: React.FC<
           </Table.Summary.Cell>
           <Table.Summary.Cell index={1} colSpan={1} align='right'>
             <Text type='danger'>
-              {/* {_format.getVND(totalMustPay)} */}
-              {_format.getVND(dataAll?.TotalPay)}
+              <b>{_format.getVND(dataAll?.TotalPay)}</b>
             </Text>
           </Table.Summary.Cell>
         </Table.Summary.Row>

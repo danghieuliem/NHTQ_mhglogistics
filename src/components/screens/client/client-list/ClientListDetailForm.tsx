@@ -51,6 +51,7 @@ export const ClientListDetailForm: React.FC<TProps> = ({
   const {
     handleSubmit,
     getValues,
+    setValue,
     reset,
     control,
     formState: { errors },
@@ -211,7 +212,8 @@ export const ClientListDetailForm: React.FC<TProps> = ({
               <Switch
                 onChange={() => {
                   setChangePass(!changePass)
-                  reset()
+                  setValue('PasswordNew', '')
+                  setValue('PasswordAgain', '')
                 }}
               />
             </div>

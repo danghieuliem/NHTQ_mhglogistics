@@ -77,18 +77,15 @@ export const OutstockPaymentDetail: React.FC<
     {
       dataIndex: 'SmallPackage',
       title: 'Loại đơn hàng',
-      render(_, record, ___) {
-        // return <div>{record?.SmallPackage?.MainOrderCode.split(":")[0]}</div>;
+      render(value) {
         return (
           <TagStatus
-            color={record?.SmallPackage?.OrderType === 3 ? 'red' : 'green'}
-            statusName={
-              record?.SmallPackage?.OrderType === 3 ? 'Trôi nổi' : 'Ký gửi'
-            }
+            color={['', 'Orange', 'green', 'blue'][value?.OrderType]}
+            statusName={value?.OrderTypeName}
           />
         )
       },
-      width: 120,
+      width: 140,
     },
     {
       dataIndex: 'SmallPackage',
@@ -108,8 +105,7 @@ export const OutstockPaymentDetail: React.FC<
       ),
       align: 'right',
       width: 120,
-      render: (smallPackage: TSmallPackage) =>
-        _format.getVND(smallPackage?.PayableWeight, ''),
+      render: (smallPackage: TSmallPackage) => smallPackage?.PayableWeight,
     },
     {
       dataIndex: 'SmallPackage',
@@ -122,8 +118,22 @@ export const OutstockPaymentDetail: React.FC<
       ),
       align: 'right',
       width: 120,
-      render: (smallPackage: TSmallPackage) =>
-        _format.getVolume(smallPackage?.VolumePayment),
+      render: (smallPackage: TSmallPackage) => smallPackage?.VolumePayment,
+    },
+    {
+      dataIndex: 'SmallPackage',
+      align: 'right',
+      title: () => (
+        <React.Fragment>
+          Cước phí
+          <br />
+          vận chuyển
+          <br />
+          (VNĐ)
+        </React.Fragment>
+      ),
+      render: (_, record, index) =>
+        _format.getVND(record.SmallPackage.TotalPrice, ''),
     },
     {
       dataIndex: 'SmallPackage',
@@ -154,18 +164,6 @@ export const OutstockPaymentDetail: React.FC<
         />
       ),
     },
-    {
-      dataIndex: 'OrderRemaining',
-      title: (
-        <>
-          Số tiền <br /> cần thanh toán <br /> (VNĐ)
-        </>
-      ),
-      align: 'right',
-      render: (money) => (
-        <b className='text-warning'>{_format.getVND(money, '')}</b>
-      ),
-    },
   ]
 
   const summary = () => {
@@ -173,14 +171,21 @@ export const OutstockPaymentDetail: React.FC<
       <React.Fragment>
         <Table.Summary.Row>
           <Table.Summary.Cell index={0} colSpan={7}>
+            <b>Tổng số kiện</b>
+          </Table.Summary.Cell>
+          <Table.Summary.Cell index={1} colSpan={1} align='right'>
+            {item?.OutStockSessionPackages?.length} kiện
+          </Table.Summary.Cell>
+        </Table.Summary.Row>
+        <Table.Summary.Row>
+          <Table.Summary.Cell index={0} colSpan={7}>
             <b>Tổng số khối</b>
           </Table.Summary.Cell>
           <Table.Summary.Cell index={1} colSpan={1} align='right'>
             {_format.getVolume(
-              item?.OutStockSessionPackages?.reduce(
-                (prev, cur) => prev + cur?.SmallPackage?.VolumePayment,
-                0,
-              ),
+              item?.OutStockSessionPackages?.reduce((prev, cur) => {
+                return prev + cur?.SmallPackage?.VolumePayment
+              }, 0),
             ) + ' m3'}
           </Table.Summary.Cell>
         </Table.Summary.Row>
@@ -189,9 +194,11 @@ export const OutstockPaymentDetail: React.FC<
             <b>Tổng cân nặng</b>
           </Table.Summary.Cell>
           <Table.Summary.Cell index={1} align='right'>
-            {item?.OutStockSessionPackages?.reduce(
-              (prev, cur) => prev + cur?.SmallPackage?.PayableWeight,
-              0,
+            {_format.getWeight(
+              item?.OutStockSessionPackages?.reduce(
+                (prev, cur) => prev + cur?.SmallPackage?.PayableWeight,
+                0,
+              ),
             ) + ' Kg'}
           </Table.Summary.Cell>
         </Table.Summary.Row>
@@ -302,7 +309,7 @@ export const OutstockPaymentDetail: React.FC<
               <th>Mã kiện</th>
               <th>Cân thực (kg)</th>
               <th>Số khối (m3)</th>
-              <th>Kích thước (D x R x C)</th>
+              <th>Kích thước (D x R x C) (cm)</th>
               <th>Phí cân nặng (VNĐ)</th>
               <th>Thành tiền (VNĐ)</th>
             </tr>
@@ -392,16 +399,16 @@ export const OutstockPaymentDetail: React.FC<
             {...fullNameProps}
             inputClassName={'bg-[#333]'}
             value={user.name}
-            // handleSearch={(val) =>
-            // 	handleUser((prev) => ({...prev, name: val}))
-            // }
+            handleSearch={(val) =>
+              handleUser((prev) => ({ ...prev, name: val }))
+            }
           />
           <FilterInput
             {...phoneNumberProps}
             value={user.phone}
-            // handleSearch={(val) =>
-            // 	handleUser((prev) => ({...prev, phone: val}))
-            // }
+            handleSearch={(val) =>
+              handleUser((prev) => ({ ...prev, phone: val }))
+            }
           />
         </div>
         <div className='flex items-center'>

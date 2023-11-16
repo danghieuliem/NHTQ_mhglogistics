@@ -47,7 +47,11 @@ const Index: TNextPageWithLayout = () => {
             <div className='mb-4 border-b border-label pb-2 text-base font-bold text-label'>
               <span>CẬP NHẬT BAO HÀNG</span>
             </div>
-            <PackageManagementForm data={data?.Data} loading={isLoading} />
+            <PackageManagementForm
+              data={data?.Data}
+              loading={isLoading}
+              refetch={refetch}
+            />
           </div>
         </div>
       </div>
