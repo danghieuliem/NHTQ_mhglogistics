@@ -9,6 +9,13 @@ import {
 import { IconButton } from '~/components/globals/button/IconButton'
 import { outstockStatusData, searchData } from '~/configs/appConfigs'
 
+const transportCodeProps = {
+  placeholder: 'Nhập mã vận đơn',
+  label: 'Mã vận đơn',
+  id: 'transportCode',
+  name: 'transportCode',
+}
+
 const usernameProps = {
   placeholder: 'Nhập username',
   label: 'Username',
@@ -21,6 +28,7 @@ type TProps = {
 }
 
 export const OutStockPaymentFilter: React.FC<TProps> = ({ handleFilter }) => {
+  const OrderTransactionCode = useRef<string>(null)
   const SearchContent = useRef<string>(null)
   const Status = useRef<number>(null)
   const FromDate = useRef<string>(null)
@@ -33,12 +41,11 @@ export const OutStockPaymentFilter: React.FC<TProps> = ({ handleFilter }) => {
         placement='bottomLeft'
         content={
           <div className='grid grid-cols-1 gap-2 p-2'>
-            <FilterSelect
-              data={searchData}
-              label='Tìm kiếm theo'
-              placeholder='Tìm kiếm'
-              handleSearch={() => null}
-              isClearable={true}
+            <FilterInput
+              {...transportCodeProps}
+              handleSearch={(val: string) =>
+                (OrderTransactionCode.current = val.trim())
+              }
             />
 
             <FilterInput
@@ -61,6 +68,7 @@ export const OutStockPaymentFilter: React.FC<TProps> = ({ handleFilter }) => {
               <IconButton
                 onClick={() =>
                   handleFilter({
+                    OrderTransactionCode: OrderTransactionCode.current,
                     SearchContent: SearchContent.current,
                     Status: Status.current,
                     FromDate: FromDate.current,
