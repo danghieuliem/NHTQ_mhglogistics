@@ -14,6 +14,7 @@ import { TNextPageWithLayout } from '~/types/layout'
 
 const Index: TNextPageWithLayout = () => {
   const [filter, setFilter] = useState({
+    OrderTransactionCode: null,
     SearchContent: null,
     Status: null,
     FromDate: null,
@@ -35,6 +36,7 @@ const Index: TNextPageWithLayout = () => {
     [
       'clientWithdrawData',
       [
+        filter.OrderTransactionCode,
         filter.SearchContent,
         filter.Status,
         filter.FromDate,
