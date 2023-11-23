@@ -12,10 +12,16 @@ import {
   FormTextarea,
   IconButton,
 } from '~/components'
-import { ETransportationOrder, transportationStatus } from '~/configs'
+import {
+  ETransportationOrder,
+  EUserGroupId,
+  transportationStatus,
+} from '~/configs'
 import { useDeepEffect } from '~/hooks'
 import { useCatalogue } from '~/hooks/useCatalogue'
 import TagStatus from '../../status/TagStatus'
+import { useSelector } from 'react-redux'
+import { RootState } from '~/store'
 
 type TProps = {
   defaultValues: TUserDeposit
@@ -32,7 +38,11 @@ export const DepositListForm: React.FC<TProps> = ({
   RoleID,
   refetch,
 }) => {
-  const [canNote, setCanNote] = useState(null)
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurrentInfo,
+  )
+
+  // const [canNote, setCanNote] = useState(null)
   const [disabled, setDisabled] = useState(false)
   const queryClient = useQueryClient()
   const { handleSubmit, reset, watch, setValue, control, getValues } =
@@ -74,9 +84,10 @@ export const DepositListForm: React.FC<TProps> = ({
       })
   }
 
-  const { warehouseTQ, warehouseVN } = useCatalogue({
+  const { warehouseTQ, warehouseVN, allUser } = useCatalogue({
     warehouseTQEnabled: true,
     warehouseVNEnabled: true,
+    allUserEnabled: true,
   })
 
   const handleSetValue = useCallback((key: keyof TUserDeposit, value: any) => {
@@ -118,14 +129,27 @@ export const DepositListForm: React.FC<TProps> = ({
           Thông tin
         </div>
         <div className='col-span-2'>
-          <FormInput
-            control={control}
-            name='UserName'
-            label='Username'
-            placeholder=''
-            disabled
-            required={false}
-          />
+          {userCurrentInfo.UserGroupId === EUserGroupId.Admin ? (
+            <FormSelect
+              control={control}
+              name='UID'
+              data={allUser}
+              placeholder='UserName'
+              label='UserName'
+              select={{ label: 'UserName', value: 'Id' }}
+              defaultValue={defaultValues}
+              rules={{ required: 'Không bỏ trống trạng thái' }}
+            />
+          ) : (
+            <FormInput
+              control={control}
+              name='UserName'
+              label='Username'
+              placeholder=''
+              disabled
+              required={false}
+            />
+          )}
         </div>
         <div className='col-span-2'>
           <FormInput
@@ -157,7 +181,7 @@ export const DepositListForm: React.FC<TProps> = ({
             //     (x) => x.id >= defaultValues?.Status
             //   ),
             // ] : []}
-            data={transportationStatus}
+            data={[...transportationStatus].slice(1)}
             placeholder=''
             label='Trạng thái'
             defaultValue={{
@@ -166,7 +190,7 @@ export const DepositListForm: React.FC<TProps> = ({
                 (x) => x.id === defaultValues?.Status,
               )?.name,
             }}
-            callback={(val) => setCanNote(val === 1 ? 1 : null)}
+            // callback={(val) => setCanNote(val === 1 ? 1 : null)}
             rules={{ required: 'Không bỏ trống trạng thái' }}
           />
         </div>
@@ -433,7 +457,7 @@ export const DepositListForm: React.FC<TProps> = ({
               label='Lý do hủy đơn'
               rows={2}
               required={false}
-              disabled={canNote === 1 ? false : true}
+              // disabled={canNote === 1 ? false : true}
             />
           </div>
         </div>

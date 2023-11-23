@@ -96,7 +96,7 @@ const ClientListForm: FC<TProps> = ({
       <FormCard>
         <FormCard.Header onCancel={onCancel}>
           <div className='w-full'>
-            <p>Thêm nhân viên</p>
+            <p>Thêm khách hàng</p>
           </div>
         </FormCard.Header>
         <FormCard.Body>

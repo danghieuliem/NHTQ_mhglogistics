@@ -129,8 +129,13 @@ class Format {
     )
   }
 
+  getWeight = (val: number) => {
+    if (!_.isNumber(val)) return 0
+    return val?.toFixed(2)
+  }
+
   getVolume = (val: number) => {
-    if (isEmpty(val) || !_.isNumber(val)) return 0
+    if (!_.isNumber(val)) return 0
     return val?.toFixed(5)
   }
 
@@ -146,7 +151,7 @@ class Format {
     }
     return (
       (price > 0
-        ? price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        ? price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
         : price) + suffix
     )
   }

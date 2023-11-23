@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 import { toast } from 'react-toastify'
@@ -15,9 +15,11 @@ import { TForm } from '~/types/table'
 export const CheckWarehouseChinaNewBagForm: React.FC<
   TForm<TPackage> & { refetch }
 > = ({ visible, onCancel, refetch }) => {
-  const { handleSubmit, control, reset } = useForm<TPackage>({
+  const { handleSubmit, control, watch } = useForm<TPackage>({
     mode: 'onBlur',
   })
+
+  const [isDisableSubmit, setIsDisableSubmit] = useState<boolean>(false)
 
   const queryClient = useQueryClient()
   const mutationCreate = useMutation(bigPackage.create, {
@@ -33,8 +35,12 @@ export const CheckWarehouseChinaNewBagForm: React.FC<
     },
   })
 
-  const _onPress = (data: TPackage) =>
-    mutationCreate.mutateAsync({ ...data, Name: data.Code })
+  const _onPress = (data: TPackage) => {
+    setIsDisableSubmit(true)
+    mutationCreate
+      .mutateAsync({ ...data, Name: data.Code })
+      .finally(() => setIsDisableSubmit(false))
+  }
 
   return (
     <Modal visible={visible} onCancel={onCancel}>
@@ -79,6 +85,7 @@ export const CheckWarehouseChinaNewBagForm: React.FC<
         </FormCard.Body>
         <FormCard.Footer>
           <Button
+            disabled={isDisableSubmit}
             title='Thêm'
             onClick={handleSubmit(_onPress)}
             btnClass='bg-main mr-2'

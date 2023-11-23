@@ -1249,6 +1249,17 @@ export const controllerList = {
 export type TControllerList =
   (typeof controllerList)[keyof typeof controllerList]
 
+export enum EUserGroupId {
+  Admin = 1,
+  User = 2,
+  Manager = 3,
+  Order = 4,
+  warehouseCN = 5,
+  warehouseVN = 6,
+  Saler = 7,
+  Accountant = 8,
+}
+
 // update by Siinh
 // firstPageDirect to check page user can accesabled, if not => redirect to page can access
 export const firstPageDirect = [

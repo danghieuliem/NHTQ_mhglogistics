@@ -25,7 +25,6 @@ export const breadcrumb = {
     paymentProfit: 'Thống kê lợi nhuận thanh toán hộ',
     order: 'Thống kê đơn hàng',
     money: 'Thống kê tiền mua hàng',
-    incomeTransport: 'Thống kê doanh thu ký gửi',
     incomeSale: 'Thống kê doanh thu sale',
     incomeOrder: 'Thống kê doanh thu đặt hàng',
     printPurchase: {

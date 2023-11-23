@@ -52,7 +52,7 @@ export const ImportForm = ({ type }) => {
           title: 'Import thành công!',
           content: (
             <div>
-              <p>Số mã hành công: {res?.Data?.TotalSuccess}</p>
+              <p>Số mã thành công: {res?.Data?.TotalSuccess}</p>
               <p>Số mã thất bại: {res?.Data?.TotalFailed} </p>
               <p>Số mã trùng: {res?.Data?.TotalDuplicate}</p>
               <p>Số kiện được cập nhật: {res?.Data?.TotalUpdate}</p>

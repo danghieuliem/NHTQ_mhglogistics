@@ -87,6 +87,7 @@ const Index: TNextPageWithLayout = () => {
     <div className='mt-8'>
       <InfoUserContact data={userCurrentInfo} />
       <InfoUserForm
+        setValue={setValue}
         data={userCurrentInfo}
         control={control}
         onPress={_onPress}
