@@ -8,6 +8,7 @@ import { mainOrder } from '~/api'
 import { ActionButton, FormSelect } from '~/components'
 import { IconButton } from '~/components/globals/button/IconButton'
 import { EOrderStatus, orderStatus } from '~/configs'
+import { EPaymentMethod, EPaymentType } from '~/enums'
 import { useCatalogue } from '~/hooks/useCatalogue'
 import { _format } from '~/utils'
 
@@ -249,7 +250,7 @@ const ComponentAffix: React.FC<TProps> = ({
               onClick={handleSubmit(handleUpdate)}
               icon='fas fa-pencil'
               title='Cập nhật'
-              disabled={data?.Status === 0 && RoleID === 4}
+              disabled={data?.Status === EOrderStatus.DonHuy && RoleID === 4}
               isButton
               isButtonClassName='bg-green !text-white'
             />
@@ -276,7 +277,7 @@ const ComponentAffix: React.FC<TProps> = ({
                         onClick={() =>
                           Modal.confirm({
                             title:
-                              data?.Status === 0
+                              data?.Status === EOrderStatus.DonMoi
                                 ? 'Đặt cọc đơn này?'
                                 : 'Thanh toán đơn này?',
                             onOk: () => {
@@ -285,17 +286,20 @@ const ComponentAffix: React.FC<TProps> = ({
                                 .payment({
                                   Id: data?.Id,
                                   Note: undefined,
-                                  PaymentMethod: 2,
-                                  PaymentType: data?.Status === 0 ? 1 : 2,
+                                  PaymentMethod: EPaymentMethod.card,
+                                  PaymentType:
+                                    data?.Status === EOrderStatus.DonMoi
+                                      ? EPaymentType.deposit
+                                      : EPaymentType.pay,
                                   Amount:
-                                    data?.Status === 0
+                                    data?.Status === EOrderStatus.DonMoi
                                       ? data?.AmountDeposit
                                       : data?.RemainingAmount,
                                 })
                                 .then(() => {
                                   toast.update(id, {
                                     render: `${
-                                      data?.Status === 0
+                                      data?.Status === EOrderStatus.DonMoi
                                         ? 'Đặt cọc thành công!'
                                         : 'Thanh toán thành công!'
                                     }`,
