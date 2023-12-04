@@ -6,12 +6,8 @@ import { useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 import { mainOrder } from '~/api'
 import { FormSelect, FormTextarea, IconButton, toast } from '~/components'
-import {
-  EFormalPaymentData,
-  EPaymentTypeData,
-  formalPaymentData,
-  paymentTypeData,
-} from '~/configs/appConfigs'
+import { formalPaymentData, paymentTypeData } from '~/configs/appConfigs'
+import { EPaymentMethod, EPaymentType } from '~/enums'
 import { _format } from '~/utils'
 
 type TProps = {
@@ -37,8 +33,8 @@ export const OrderPaymentForm: React.FC<TProps> = ({
     if (!!data) {
       reset({
         Id: data.Id,
-        PaymentMethod: EFormalPaymentData.Live,
-        PaymentType: EPaymentTypeData.Payment,
+        PaymentMethod: EPaymentMethod.cash,
+        PaymentType: EPaymentType.pay,
       })
     }
   }, [data])
