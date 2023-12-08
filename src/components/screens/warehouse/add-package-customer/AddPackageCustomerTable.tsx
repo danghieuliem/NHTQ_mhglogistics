@@ -1,5 +1,6 @@
 import { Input } from 'antd'
-import React from 'react'
+import { isNull } from 'lodash'
+import React, { useState } from 'react'
 import { useFieldArray } from 'react-hook-form'
 import {
   ActionButton,
@@ -19,11 +20,19 @@ export const AddPackageCustomerTable: React.FC<
   TTable<TWarehouseVN> &
     TControl<{ [key: string]: TWarehouseVN[] }> & {
       name: string
-      onPress: (data: TWarehouseVN[]) => void
+      onPress: (data: TWarehouseVN[]) => Promise<void>
       onHide: (data: TWarehouseVN[]) => void
     }
 > = ({ data, onPress, onHide, handleSubmit, name, control }) => {
   const {} = useFieldArray({ name, control, keyName: 'Id' })
+  const [isDisable, setIsDisable] = useState<boolean>(false)
+
+  const handleOnPress = (index = null) => {
+    setIsDisable(true)
+    onPress(isNull(index) ? data : [data[index]]).finally(() => {
+      setIsDisable(false)
+    })
+  }
 
   const columns: TColumnsType<TWarehouseVN> = [
     {
@@ -76,7 +85,7 @@ export const AddPackageCustomerTable: React.FC<
             name={`${name}.${index}.Weight` as any}
             placeholder=''
             inputClassName='max-w-[60px] h-[30px] text-center'
-            onEnter={() => onPress([data[index]])}
+            onEnter={() => handleOnPress(index)}
             defaultValue={weight}
           />
         )
@@ -96,7 +105,7 @@ export const AddPackageCustomerTable: React.FC<
               name={`${name}.${index}.Length` as any}
               placeholder=''
               inputClassName='max-w-[60px] h-[30px] text-center'
-              onEnter={() => onPress([data[index]])}
+              onEnter={() => handleOnPress(index)}
               defaultValue={0}
             />
           </div>
@@ -107,7 +116,7 @@ export const AddPackageCustomerTable: React.FC<
               name={`${name}.${index}.Width` as any}
               placeholder=''
               inputClassName='max-w-[60px] h-[30px] text-center'
-              onEnter={() => onPress([data[index]])}
+              onEnter={() => handleOnPress(index)}
               defaultValue={0}
             />
           </div>
@@ -118,7 +127,7 @@ export const AddPackageCustomerTable: React.FC<
               name={`${name}.${index}.Height` as any}
               placeholder=''
               inputClassName='max-w-[60px] h-[30px] text-center'
-              onEnter={() => onPress([data[index]])}
+              onEnter={() => handleOnPress(index)}
               defaultValue={0}
             />
           </div>
@@ -191,7 +200,7 @@ export const AddPackageCustomerTable: React.FC<
         <React.Fragment>
           <ActionButton
             icon='fas fa-sync-alt'
-            onClick={() => onPress([data[index]])}
+            onClick={() => (isDisable ? null : handleOnPress(index))}
             title='Cập nhật'
           />
           <ActionButton
@@ -222,7 +231,7 @@ export const AddPackageCustomerTable: React.FC<
             toolip=''
           />
           <IconButton
-            onClick={() => onPress(data)}
+            onClick={() => (isDisable ? null : handleOnPress())}
             icon='fas fa-edit'
             title='Cập nhật tất cả'
             toolip=''
