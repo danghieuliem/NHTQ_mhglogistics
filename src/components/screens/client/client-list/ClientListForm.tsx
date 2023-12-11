@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useQueryClient } from 'react-query'
 import { toast } from 'react-toastify'
@@ -45,6 +45,7 @@ const ClientListForm: FC<TProps> = ({
     defaultValues: { Gender: 0 },
   })
   const password = watch('Password')
+  const [isDisableBtnCreate, setIsDisableBtnCreate] = useState<boolean>(false)
 
   React.useEffect(() => {
     if (visible) {
@@ -67,10 +68,10 @@ const ClientListForm: FC<TProps> = ({
 
   const queryClient = useQueryClient()
 
-  const _onPress = (data: TEmployee) => {
+  const _onPress = async (data: TEmployee) => {
     onCancel()
     const id = toast.loading('Đang xử lý ...')
-    user
+    return user
       .create(data)
       .then((res) => {
         queryClient.invalidateQueries('clientData')
@@ -342,7 +343,17 @@ const ClientListForm: FC<TProps> = ({
           <Button
             title='Thêm mới'
             btnClass='!bg-main mr-2'
-            onClick={handleSubmit(_onPress)}
+            disabled={isDisableBtnCreate}
+            onClick={
+              isDisableBtnCreate
+                ? null
+                : () => {
+                    setIsDisableBtnCreate(true)
+                    handleSubmit(_onPress)().finally(() => {
+                      setIsDisableBtnCreate(false)
+                    })
+                  }
+            }
           />
           <Button title='Hủy' btnClass='!bg-red' onClick={onCancel} />
         </FormCard.Footer>
