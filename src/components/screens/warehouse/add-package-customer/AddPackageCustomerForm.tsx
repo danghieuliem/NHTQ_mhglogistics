@@ -147,6 +147,7 @@ export const AddPackageCustomerForm = () => {
   }
 
   const _onPress = async (data: TWarehouseVN[]) => {
+    toast.info('Đang sử lý, vui lòng đợi ...')
     const newdata: TWarehouseCN[] = data.map((item) => ({
       ...item,
       IsAssign: true,
