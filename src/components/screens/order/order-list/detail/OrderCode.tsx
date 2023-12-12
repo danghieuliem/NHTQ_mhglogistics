@@ -6,6 +6,7 @@ import { toast } from 'react-toastify'
 import { mainOrderCode } from '~/api'
 import { ActionButton, FormInput } from '~/components'
 import { AddOrderCode } from './AddOrderCode'
+import { EOrderStatus } from '~/configs'
 
 type TProps = {
   data: TOrder
@@ -49,7 +50,7 @@ export const OrderCode: React.FC<TProps> = ({
                 icon='fas fa-trash-alt'
                 isButton
                 isButtonClassName='bg-red !text-white ml-4'
-                disabled={RoleID === 4 && data?.Status === 0}
+                disabled={RoleID === 4 && data?.Status === EOrderStatus.DonHuy}
                 onClick={() =>
                   Modal.confirm({
                     title: 'Bạn có muốn xoá mã đơn hàng này?',

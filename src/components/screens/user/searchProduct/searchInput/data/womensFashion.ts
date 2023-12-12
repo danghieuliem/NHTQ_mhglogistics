@@ -4,7 +4,7 @@ const WomensFashion = {
   Children: [
     { Title: 'Quần áo cotton nữ', Value: '女t恤', Children: [] },
     { Title: 'Quần nữ thời trang', Value: '时尚女裤', Children: [] },
-    { Title: 'Áo khoát nỉ', Value: '绒毛衣', Children: [] },
+    { Title: 'Áo khoác nỉ', Value: '绒毛衣', Children: [] },
     { Title: 'Chân váy', Value: '裙子', Children: [] },
     { Title: 'Váy công sở', Value: '职业裙', Children: [] },
     { Title: 'Váy liền', Value: '连衣裙', Children: [] },

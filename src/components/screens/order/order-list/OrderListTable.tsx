@@ -12,6 +12,7 @@ import { TColumnsType, TTable } from '~/types/table'
 import { _format } from '~/utils'
 import TagStatus from '../../status/TagStatus'
 import { useScreen } from '~/hooks'
+import { EPaymentMethod, EPaymentType } from '~/enums'
 
 export const OrderListTable: React.FC<
   TTable<TOrder> & {
@@ -486,10 +487,13 @@ export const OrderListTable: React.FC<
                         .payment({
                           Id: record?.Id,
                           Note: undefined,
-                          PaymentMethod: 2,
-                          PaymentType: record?.Status === 0 ? 1 : 2,
+                          PaymentMethod: EPaymentMethod.card,
+                          PaymentType:
+                            record?.Status === EOrderStatus.DonMoi
+                              ? EPaymentType.deposit
+                              : EPaymentType.pay,
                           Amount:
-                            record?.Status === 0
+                            record?.Status === EOrderStatus.DonMoi
                               ? record?.AmountDeposit
                               : record?.RemainingAmount,
                         })
@@ -497,7 +501,7 @@ export const OrderListTable: React.FC<
                           refetch()
                           toast.update(id, {
                             render: `${
-                              record?.Status === 0
+                              record?.Status === EOrderStatus.DonMoi
                                 ? 'Đặt cọc thành công!'
                                 : 'Thanh toán thành công!'
                             }`,

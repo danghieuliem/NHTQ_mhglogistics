@@ -513,11 +513,7 @@ export const UserAnotherOrderListTable: React.FC<
   const rowSelection: TableRowSelection<TOrder> = {
     selectedRowKeys: selectedRowKeys?.map((item) => item.Id),
     getCheckboxProps: (record) => {
-      return [
-        EOrderStatus.DonMoi,
-        EOrderStatus.VeTQ,
-        EOrderStatus.VeVN,
-      ].includes(record.Status)
+      return [EOrderStatus.DonMoi, EOrderStatus.VeVN].includes(record.Status)
         ? { name: record.Id.toString(), disabled: false }
         : { name: record.Id.toString(), disabled: true, className: '!hidden' }
     },
