@@ -80,7 +80,7 @@ export const TrialForm = ({ handleOpen }) => {
   }
 
   return (
-    <div className='authContainer'>
+    <div className='authContainer h-64'>
       <form onSubmit={handleSubmit(_onPress)}>
         <div className='col-span-2'>
           <FormSelect
