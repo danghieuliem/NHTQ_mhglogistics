@@ -16,6 +16,7 @@ import MakeupAndCosmetics from './makeupAndCosmetics'
 import BeautyCare from './beautyCare'
 import Accessory from './accessory'
 import MeasuringTools from './measuringTools'
+import Shoes from './shoes'
 
 export const baseCatalogueArr: any[] = [
   WomensFashion,
@@ -36,4 +37,5 @@ export const baseCatalogueArr: any[] = [
   // BeautyCare,
   Accessory,
   MeasuringTools,
+  Shoes,
 ]

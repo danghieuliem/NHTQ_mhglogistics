@@ -1,63 +1,54 @@
 import clsx from 'clsx'
 import { FC, useCallback, useEffect, useState } from 'react'
 import styles from './_index.module.scss'
+import { isObject, isString } from 'lodash'
 
 type LayoutLeftProps = {
-  item: IDetailRapidProductItem
+  item: {
+    Videos: string[] | { Url: string; PreviewUrl: string }[]
+    Pictures: string[]
+  }
   attributeImage: string
 }
 type TPreviewItem = {
   type: 'image' | 'video'
-  data: TPictureProduct | TVideoProduct
+  data: {
+    Url: string
+    PreviewUrl?: string
+  }
 }
-export const LayoutLeft: FC<LayoutLeftProps> = ({ item, attributeImage }) => {
+export const LayoutLeft: FC<LayoutLeftProps> = ({ item }) => {
   const [leftTime, setLeftTime] = useState<number>(0)
   const [previewList, setPreviewList] = useState<TPreviewItem[]>([])
   const [previewSelected, setPreviewSelected] = useState<TPreviewItem>({
     type: 'image',
-    data: item.Pictures[0],
+    data: { Url: item?.Pictures[0] },
   })
   const handleScroll = useCallback((number: number) => {
     setLeftTime(number)
   }, [])
   useEffect(() => {
-    if (!attributeImage.length) return
-    setPreviewSelected({
-      type: 'image',
-      data: {
-        IsMain: false,
-        Url: attributeImage,
-        Large: {
-          Url: attributeImage,
-          Height: 496,
-          Width: 496,
-        },
-        Medium: {
-          Url: attributeImage,
-          Height: 496,
-          Width: 496,
-        },
-        Small: {
-          Url: attributeImage,
-          Height: 496,
-          Width: 496,
-        },
-      },
-    })
-  }, [attributeImage])
-  useEffect(() => {
     if (!item) return
     if (!!item.Videos?.length) {
       const fmVideos: TPreviewItem[] = [...item.Videos].map((vl) => {
+        if (isObject(vl))
+          return {
+            type: 'video',
+            data: {
+              ...(vl.PreviewUrl ? { PreviewUrl: vl.PreviewUrl } : {}),
+              Url: vl.Url,
+            },
+          }
+
         return {
           type: 'video',
-          data: vl,
+          data: { Url: vl },
         }
       })
       const fmPictures: TPreviewItem[] = [...item.Pictures].map((el) => {
         return {
           type: 'image',
-          data: el,
+          data: { Url: el },
         }
       })
       const rs: TPreviewItem[] = fmVideos.concat(fmPictures)
@@ -66,7 +57,7 @@ export const LayoutLeft: FC<LayoutLeftProps> = ({ item, attributeImage }) => {
       const fmPictures: TPreviewItem[] = [...item.Pictures].map((el) => {
         return {
           type: 'image',
-          data: el,
+          data: { Url: el },
         }
       })
       setPreviewList(fmPictures)
@@ -127,7 +118,7 @@ export const LayoutLeft: FC<LayoutLeftProps> = ({ item, attributeImage }) => {
                     <img
                       src={
                         vl.type == 'image'
-                          ? (vl.data as TPictureProduct).Small.Url
+                          ? (vl.data as TPictureProduct)?.Url
                           : (vl.data as TVideoProduct).PreviewUrl
                       }
                       style={{

@@ -10,14 +10,22 @@ export type TMapAttribute = {
   [key: string]: TAttribute
 }
 
-const onSortConfigurators = (a: string, b: string) => {
-  if (a >= b) return 1
-  if (a <= b) return -1
+const onSortConfigurators = (a: TConfigPidVid, b: TConfigPidVid) => {
+  if (a.Pid > b.Pid) return 1
+  if (a.Pid < b.Pid) return -1
   return 0
 }
 
 export const useMapData = (data) => {
-  const { Attributes, ConfiguredItems, Promotions } = data
+  const {
+    Attributes,
+    ConfiguredItems,
+    Promotions,
+  }: {
+    Attributes
+    ConfiguredItems: TConfigItem[]
+    Promotions
+  } = data
 
   const mapAttributesPidAndVid = useMemo<TMapAttribute>((): TMapAttribute => {
     const map: TMapAttribute | {} = {}
@@ -33,9 +41,7 @@ export const useMapData = (data) => {
     const map = {}
     ConfiguredItems.forEach((config) => {
       const { Configurators = [] } = config
-      const key = Configurators.sort((a, b) =>
-        onSortConfigurators(a.Pid, b.Pid),
-      )
+      const key = Configurators.sort(onSortConfigurators)
         .reduce((pre, cur) => {
           return `${pre}|${cur.Pid}_${cur.Vid}`
         }, '')
@@ -46,11 +52,12 @@ export const useMapData = (data) => {
   }, [ConfiguredItems])
 
   const listAttributes = useMemo((): TAttribute[][] => {
-    const data = Object.keys(mapAttributesPidAndVid)
-      .sort(onSortConfigurators)
-      .map((Pid): TAttribute[] => {
-        return Object.values<any>(mapAttributesPidAndVid[Pid])
-      })
+    const data = Object.values(mapAttributesPidAndVid).map(
+      (att): TAttribute[] => {
+        return Object.values<any>(att)
+      },
+    )
+
     return data
   }, [mapAttributesPidAndVid])
 
@@ -65,6 +72,21 @@ export const useMapData = (data) => {
       ).substring(1)
 
       return mapConfigurator[key].Price
+    },
+    [mapConfigurator],
+  )
+
+  const getPriceQuantityRanger = useCallback(
+    (item: TConfigItem): TConfigItem['QuantityRanges'] => {
+      if (isEmpty(item)) return undefined
+      const key: string = item?.Configurators?.reduce<any>(
+        (pre: string, cur: TConfigPidVid): string => {
+          return `${pre}|${cur.Pid}_${cur.Vid}`
+        },
+        '',
+      ).substring(1)
+
+      return mapConfigurator[key]?.QuantityRanges
     },
     [mapConfigurator],
   )
@@ -98,10 +120,12 @@ export const useMapData = (data) => {
   const getItemWithArrayPidAndVid = useCallback(
     (data: TConfigPidVid[]): TConfigItem => {
       const key: string = data
-        .reduce<any>((pre: string, cur: TConfigPidVid): string => {
+        .sort(onSortConfigurators)
+        .reduce((pre, cur) => {
           return `${pre}|${cur.Pid}_${cur.Vid}`
         }, '')
         .substring(1)
+
       return mapConfigurator[key]
     },
     [mapConfigurator],
@@ -111,6 +135,7 @@ export const useMapData = (data) => {
     listAttributes,
     mapConfigurator,
     ConfiguredItems,
+    getPriceQuantityRanger,
     getPriceOfItem,
     getAttributeWithPidAndVid,
     getItemWithArrayPidAndVid,

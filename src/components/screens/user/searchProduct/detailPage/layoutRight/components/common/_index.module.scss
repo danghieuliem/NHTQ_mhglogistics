@@ -1,12 +1,12 @@
 .layout-right {
-  padding-right: 64px
+  padding-right: 64px;
 }
 
 .title-contain {
   @apply mb-2;
 
   .title {
-    @apply text-[#4d4d4d] text-[24px];
+    @apply text-[24px] text-[#4d4d4d];
     line-height: initial;
 
     &:hover {
@@ -17,14 +17,14 @@
 }
 
 .price-contain {
-  @apply flex flex-row justify-start items-center;
+  @apply flex flex-row items-center justify-start;
   padding: 8px 16px 12px;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   background-color: #f9f9fa;
 
   .price-content {
-    @apply w-full flex;
+    @apply flex w-full;
 
     .price-header {
       @apply w-[80px] lg:w-[142px];
@@ -89,13 +89,13 @@
 }
 
 .attributes-contain {
-  @apply flex flex-col justify-start items-center gap-2 mb-4;
+  @apply mb-4 flex flex-col items-center justify-start gap-2;
 
   .attributes-content {
-    @apply w-full flex flex-col justify-start items-start gap-2;
+    @apply flex w-full flex-col items-start justify-start gap-2;
 
     .attributes-header {
-      @apply text-[#999] flex flex-col justify-start items-start;
+      @apply flex flex-col items-start justify-start text-[#999];
 
       .attributes-name {
         font-size: 16px;
@@ -105,12 +105,12 @@
       }
     }
     .attributes-wrapper {
-      @apply grow flex items-center flex-wrap gap-2;
+      @apply flex grow flex-wrap items-center gap-2;
 
       .attributes-item {
         .attributes-item-inner {
           border: 1px solid;
-          @apply shadow-sm border-label;
+          @apply border-label shadow-sm;
           padding: 4px;
           display: flex;
           gap: 5px;
@@ -123,9 +123,9 @@
           transition: all 0.3s ease-in-out;
 
           &:hover {
-            @apply bg-main border-main text-white;
+            @apply border-main bg-main text-white;
           }
-          .attributes-item-inner-value{
+          .attributes-item-inner-value {
             padding: 4px;
           }
         }
@@ -146,10 +146,10 @@
   }
 }
 .prop-section {
-  @apply flex flex-col justify-start items-start gap-2 mb-4;
+  @apply mb-4 flex flex-col items-start justify-start gap-2;
 
   .prop-header {
-    @apply text-[#999] flex flex-col justify-start items-start;
+    @apply flex flex-col items-start justify-start text-[#999];
     font-size: 16px;
     color: #333;
     font-weight: bold;
@@ -157,23 +157,23 @@
   }
 
   .prop-contain {
-    @apply grow flex w-full flex-col justify-start items-center gap-2;
+    @apply flex w-full grow flex-col items-center justify-start gap-2;
     background-color: transparent;
     max-height: 40vh;
     overflow-y: auto;
     padding-right: 10px;
 
     .prop-content {
-      @apply w-full flex items-start;
+      @apply flex w-full items-start;
     }
 
     .sku-item-wrapper {
-      @apply grow flex items-center relative;
+      @apply relative flex grow items-center;
       border-bottom: 1px dashed #e9e9e9;
       padding-bottom: 0.5rem;
 
       .sku-item-name {
-        @apply flex items-center justify-start font-bold flex-1;
+        @apply flex flex-1 items-center justify-start font-bold;
         flex: 2;
         font-size: 13px;
         color: #333;
@@ -187,7 +187,7 @@
         @apply flex;
 
         .sku-item-price {
-          @apply grow flex justify-end font-bold;
+          @apply flex grow justify-end font-bold;
           font-size: 13px;
           color: #333;
           align-items: center;
@@ -196,12 +196,12 @@
           padding-right: 10px;
           min-height: 25%;
 
-          .sku-item-price-origin{
-            @apply line-through text-main;
+          .sku-item-price-origin {
+            @apply text-main line-through;
           }
         }
         .sku-sale-num {
-          @apply grow flex justify-start items-center;
+          @apply flex grow items-center justify-start;
           font-size: 13px;
           color: #999;
           flex-wrap: wrap;
@@ -242,7 +242,7 @@
   }
 }
 .order-preview-total-price {
-  @apply flex flex-col items-start mb-4;
+  @apply mb-4 flex flex-col items-start;
 
   .order-preview-header {
     font-size: 12px;
@@ -257,7 +257,7 @@
   }
 }
 .order-button-wrapper {
-  @apply flex bg-white;
+  @apply flex;
 
   .add-on-button {
     @apply px-4;
