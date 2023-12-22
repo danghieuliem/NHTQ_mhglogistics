@@ -27,6 +27,11 @@ export const LayoutLeft: FC<LayoutLeftProps> = ({ item }) => {
   const handleScroll = useCallback((number: number) => {
     setLeftTime(number)
   }, [])
+
+  useEffect(() => {
+    console.log(item)
+  }, [item])
+
   useEffect(() => {
     if (!item) return
     if (!!item.Videos?.length) {
@@ -117,9 +122,10 @@ export const LayoutLeft: FC<LayoutLeftProps> = ({ item }) => {
                   >
                     <img
                       src={
-                        vl.type == 'image'
+                        vl.type === 'image'
                           ? (vl.data as TPictureProduct)?.Url
-                          : (vl.data as TVideoProduct).PreviewUrl
+                          : (vl.data as TVideoProduct).PreviewUrl ||
+                            '/default/dafault-thumail-image.png'
                       }
                       style={{
                         opacity: vl.type == 'image' ? 1 : 0.8,

@@ -55,6 +55,7 @@ export const useHookRapidAPI = () => {
         ShopId: shopId,
         Site: siteName,
       })
+      console.log(response.data.Result.Item)
     } catch (error) {
       toast.error('Có lỗi xảy ra, vui lòng thử lại')
     }
