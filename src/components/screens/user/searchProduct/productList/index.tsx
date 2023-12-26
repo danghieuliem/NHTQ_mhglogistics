@@ -1,16 +1,12 @@
 import { FC } from 'react'
 import styles from './product.module.scss'
-import { CardProduct } from '../cardProduct'
+import { CardProduct, TItem } from '../cardProduct'
 
 type ProductListProps = {
-  rapidProducts: IRapidProductItem[]
-  currency: number
+  rapidProducts: TItem[]
 }
 
-export const ProductList: FC<ProductListProps> = ({
-  rapidProducts,
-  currency,
-}) => {
+export const ProductList: FC<ProductListProps> = ({ rapidProducts }) => {
   return (
     <div>
       <div className={styles['order-list']}>
@@ -20,7 +16,7 @@ export const ProductList: FC<ProductListProps> = ({
               className={styles['product-wrap']}
               key={`IRapidProductItem-${el.Id}`}
             >
-              <CardProduct item={el} currency={currency} />
+              <CardProduct item={el} />
             </div>
           )
         })}

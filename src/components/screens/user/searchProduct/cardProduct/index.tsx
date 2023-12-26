@@ -1,17 +1,58 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import Link from 'next/link'
 import styles from './cardstyle.module.scss'
 import { useRouter } from 'next/router'
 import clsx from 'clsx'
 import { _format } from '~/utils'
+import { useQuery } from 'react-query'
+import { configuration } from '~/api'
+import { isNumber, isUndefined } from 'lodash'
+
+export type TItem = {
+  Id: string
+  MainPictureUrl: string
+  Title: string
+  PromotionPrice?: any
+  Price: { OriginalPrice: number }
+  TotalSales?: number
+  QuantityRanges: {
+    MinQuantity: number
+    Price: {
+      OriginalPrice: number
+    }
+  }[]
+  FeaturedValues?: {
+    Name: string
+    Value: string
+  }[]
+}
 
 type CardProductProps = {
-  item: IRapidProductItem
-  currency: number
+  item: TItem
 }
-export const CardProduct: FC<CardProductProps> = ({ item, currency }) => {
+export const CardProduct: FC<CardProductProps> = ({ item }) => {
   const router = useRouter()
   const { ecsite } = router.query
+
+  const { data: currencyConfig } = useQuery({
+    queryKey: ['get-currency'],
+    queryFn: () => configuration.getCurrency(),
+  })
+
+  const getPrice = () => {
+    if (isNumber(item?.PromotionPrice)) return item?.PromotionPrice
+
+    return !!item?.PromotionPrice
+      ? item.PromotionPrice?.OriginalPrice
+      : item.Price?.OriginalPrice
+  }
+
+  const getTotalSales = () => {
+    if (!isUndefined(item.FeaturedValues))
+      return +item.FeaturedValues?.find((x) => x.Name == 'TotalSales')?.Value
+
+    if (!isUndefined(item.TotalSales)) return item.TotalSales
+  }
 
   return (
     <div className={clsx(styles['card-wrap'], '')}>
@@ -52,34 +93,20 @@ export const CardProduct: FC<CardProductProps> = ({ item, currency }) => {
           <div className={styles['show-price']}>
             <div className={styles['rmb']}>¥</div>
             <div className={styles['price']}>
-              {_format.getYuan(
-                !!item?.PromotionPrice
-                  ? item.PromotionPrice?.OriginalPrice
-                  : item.Price?.OriginalPrice,
-                '',
-              )}
+              {_format.getYuan(getPrice(), '')}
             </div>
           </div>
           <div className={styles['show-price']}>
             <div className={'text-sm font-medium text-[#333]'}>
-              {_format.getVND(
-                (!!item?.PromotionPrice
-                  ? item.PromotionPrice?.OriginalPrice
-                  : item.Price?.OriginalPrice) * currency,
-                ' đ',
-              )}
+              {_format.getVND(getPrice() * (currencyConfig?.Data || 0), ' đ')}
             </div>
           </div>
         </div>
 
         <div className={styles['sale']}>
           Đã bán:{' '}
-          {Number(
-            item.FeaturedValues?.find((x) => x.Name == 'TotalSales')?.Value,
-          ) <= 500000
-            ? item.FeaturedValues?.find(
-                (x) => x.Name == 'TotalSales',
-              )?.Value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+          {Number(getTotalSales()) <= 500000
+            ? (getTotalSales() + '')?.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
             : '+500,000'}
         </div>
       </div>

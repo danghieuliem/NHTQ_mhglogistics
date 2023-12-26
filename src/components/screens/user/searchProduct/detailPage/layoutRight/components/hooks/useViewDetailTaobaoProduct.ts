@@ -11,27 +11,30 @@ export const useViewDetailProduct = (data) => {
     listAttributes,
   } = useMapData(data)
 
-  const [selectedAttributes, setSelectedAttributes] = useState<TConfigPidVid[]>(
-    [],
-  )
+  const [selectedAttributes, setSelectedAttributes] = useState<{
+    [Pid: string]: TConfigPidVid
+  }>({})
 
   useEffect(() => {
-    const newSelectedAttribute = listAttributes.map((listAtt) => ({
-      Pid: listAtt[0].Pid,
-      Vid: listAtt[0].Vid,
-    }))
+    const newSelectedAttribute: {
+      [Pid: string]: TConfigPidVid
+    } = {}
+
+    listAttributes.forEach((listAtt) => {
+      newSelectedAttribute[listAtt[0].Pid] = listAtt[0]
+    })
 
     setSelectedAttributes(newSelectedAttribute)
   }, [listAttributes])
 
   const selectedItem = useMemo<TConfigItem>((): TConfigItem => {
-    return getItemWithArrayPidAndVid(selectedAttributes)
+    return getItemWithArrayPidAndVid(Object.values(selectedAttributes))
   }, [selectedAttributes])
 
   const HandleSelectedAttribute = useCallback(
-    (param: { ids: TConfigPidVid; index: number }) => {
-      const newSelected = [...selectedAttributes]
-      newSelected[param.index] = param.ids
+    (ids: TConfigPidVid) => {
+      const newSelected = { ...selectedAttributes }
+      newSelected[ids.Pid] = ids
       setSelectedAttributes(newSelected)
     },
     [selectedAttributes, setSelectedAttributes],

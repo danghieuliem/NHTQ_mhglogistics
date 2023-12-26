@@ -141,7 +141,7 @@ const DetailModalForm: FC<Props> = ({ id, ecsite }) => {
         <div className='mx-auto flex w-full max-w-[1200px] flex-row flex-wrap justify-between gap-4'>
           <div className='w-full md:w-[36%]'>
             <div className='w-full'>
-              <LayoutLeft item={data} attributeImage={previewImg} />
+              <LayoutLeft item={data as any} attributeImage={previewImg} />
             </div>
           </div>
 

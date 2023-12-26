@@ -1,0 +1,195 @@
+.element-search {
+  @apply w-full flex items-center bg-white px-[5px];
+  border: 1px solid #d8d8d8;
+  .select-search {
+    width: 120px;
+    select {
+      width: 100%;
+    }
+  }
+}
+
+.input-search {
+  border-left: 1px solid #d8d8d8;
+  font-size: 16px;
+  flex-grow: 1;
+  .input {
+    margin: 0px;
+    background-color: transparent;
+    width: 100%;
+    text-indent: 20px;
+    box-sizing: border-box;
+    border-color: transparent;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+    &:focus {
+      border-color: transparent;
+    }
+  }
+}
+.input-btn {
+  @apply flex justify-center items-center bg-main;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #fff;
+}
+
+.catolo-item {
+  @apply shadow-md rounded-md;
+  position: relative;
+  cursor: pointer;
+  background-color: #fff;
+  transition: all 0.3s ease-in-out;
+  border: 1px solid transparent;
+
+  &:hover {
+    @apply border-main shadow-none;
+
+    .sub-menu {
+      transform: translateY(0%);
+      z-index: 50;
+      visibility: visible;
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+}
+
+.catolo-item-no-hover {
+  @apply shadow-md rounded-md;
+  position: relative;
+  cursor: pointer;
+  background-color: #fff;
+  transition: all 0.3s ease-in-out;
+  border: 1px solid transparent;
+}
+
+.catolo-wrap {
+  @apply grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6;
+
+  .catolo-item-title {
+    @apply flex items-center gap-2 p-2;
+    // border: 0.6px solid #a5a5a5;
+    img {
+      filter: brightness(0) saturate(100%) invert(75%) sepia(78%)
+        saturate(4975%) hue-rotate(332deg) brightness(103%) contrast(101%);
+    }
+  }
+
+  .catolo-last-child-group {
+    @apply relative;
+    &:hover > .catolo-last-child-group-item {
+      @apply scale-100;
+    }
+    .catolo-last-child-group-item {
+      @apply absolute z-[51] w-full scale-0 rounded-md;
+      top: 70%;
+      left: 40%;
+      transition: all 0.3s ease-in-out;
+
+      ul {
+        border: 1px solid transparent;
+        @apply bg-white shadow-xl rounded-md border-main;
+
+        li {
+          @apply text-main rounded-md;
+          padding: 8px 12px;
+          cursor: pointer;
+
+          &:hover {
+            @apply bg-main text-white;
+          }
+        }
+      }
+    }
+  }
+}
+
+.range-price-wrap {
+  @apply flex items-end flex-wrap gap-3;
+  .range-price-btn {
+    @apply px-10 py-2 text-white font-medium bg-main;
+    // background: linear-gradient(90deg, #ff7044, #ff4000);
+    height: 40px;
+    border-radius: 4px;
+  }
+}
+
+.sub-menu {
+  @apply shadow-md rounded-md;
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 100%;
+
+  transform: translateX(-50%);
+  z-index: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+  pointer-events: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    height: 20px;
+    width: 100%;
+    background-color: transparent;
+    top: -12px;
+  }
+}
+
+.sub-menu-ul {
+  @apply bg-main rounded-md;
+
+  li {
+    color: #fff;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      @apply bg-white text-main;
+    }
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .catolo-last-child-group {
+    .catolo-last-child-group-item {
+      width: fit-content !important;
+    }
+  }
+
+  .search_range-price-wrap {
+    .ant-input-number-group-wrapper {
+      width: 20px !important;
+    }
+  }
+
+  .min-price,
+  .max-price {
+    width: calc(50% - 6px) !important;
+
+    input {
+      font-size: 14px;
+    }
+  }
+
+  .element-search {
+    .select-search {
+      width: 100px;
+    }
+  }
+  .input-search {
+    .input {
+      font-size: 12px;
+    }
+  }
+
+  .range-price-wrap {
+    justify-content: flex-end;
+  }
+}

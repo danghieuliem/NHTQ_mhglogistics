@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import styles from '../../common/_index.module.scss'
 import { TConfigPidVid } from '../../hooks/useMapData'
 import { AttributeItems } from './attributeItems'
+import { isUndefined } from 'lodash'
 
 export const Attributes = ({
   listAttributes,
@@ -9,7 +10,7 @@ export const Attributes = ({
   onChangePreview,
 }: {
   listAttributes: TAttribute[][]
-  handleSelectAttribute: (param: { ids: TConfigPidVid; index: number }) => void
+  handleSelectAttribute: (val: TConfigPidVid) => void
   onChangePreview: (img: string) => void
 }) => {
   const [selected, setSelected] = useState<{ [key: string]: string }>({})
@@ -27,13 +28,7 @@ export const Attributes = ({
     indexOfAttributes: number
     indexOfAttributeItems: number
   }) => {
-    handleSelectAttribute({
-      ids: {
-        Pid: param.attributeItem.Pid,
-        Vid: param.attributeItem.Vid,
-      },
-      index: param.indexOfAttributes,
-    })
+    handleSelectAttribute(param.attributeItem)
     onChangePreview(param.attributeItem?.ImageUrl || '')
 
     const newSelected: { [key: string]: string } = { ...selected }
@@ -47,7 +42,12 @@ export const Attributes = ({
         <div className={styles['attributes-contain']}>
           {listAttributes?.map((attributes: TAttribute[], idx: number) => (
             <div
-              className={styles['attributes-content']}
+              className={
+                styles['attributes-content'] +
+                `${
+                  !isUndefined(attributes?.[0].ImageUrl) ? ' order-first' : ''
+                }`
+              }
               key={`fmAttributes-${idx}`}
             >
               <div className={styles['attributes-header']}>
