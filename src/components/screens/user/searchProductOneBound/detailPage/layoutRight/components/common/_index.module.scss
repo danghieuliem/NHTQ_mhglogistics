@@ -1,0 +1,291 @@
+.layout-right {
+  padding-right: 64px;
+}
+
+.title-contain {
+  @apply mb-2;
+
+  .title {
+    @apply text-[24px] text-[#4d4d4d];
+    line-height: initial;
+
+    &:hover {
+      color: #ff6000;
+      text-decoration: underline;
+    }
+  }
+}
+
+.price-contain {
+  @apply flex flex-row items-center justify-start;
+  padding: 8px 16px 12px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  background-color: #f9f9fa;
+
+  .price-content {
+    @apply flex w-full;
+
+    .price-header {
+      @apply w-[80px] lg:w-[142px];
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+
+      .price-name {
+        line-height: 28px;
+        font-size: 14px;
+        color: #999;
+      }
+
+      .price-num {
+        line-height: 18px;
+        font-size: 14px;
+        color: #999;
+        margin-top: 4px;
+      }
+    }
+    .step-price-wrapper {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+
+      .step-price-item {
+        .price-box {
+          display: flex;
+          flex-direction: row;
+          align-items: flex-end;
+          color: #ff4000;
+
+          .rmb {
+            font-size: 14px;
+            line-height: 22px;
+            margin-right: 4px;
+            font-weight: 500;
+          }
+
+          .price {
+            @apply text-[14px] lg:text-[24px];
+
+            line-height: 28px;
+            font-family: Arial, Helvetica;
+            font-weight: 500;
+          }
+        }
+        .unit-box {
+          @apply text-[12px] lg:text-[14px];
+          display: flex;
+          flex-direction: row;
+          margin-top: 4px;
+
+          line-height: 18px;
+          color: #333;
+        }
+      }
+    }
+  }
+}
+
+.attributes-contain {
+  @apply mb-4 flex flex-col items-center justify-start gap-2;
+
+  .attributes-content {
+    @apply flex w-full flex-col items-start justify-start gap-2;
+
+    .attributes-header {
+      @apply flex flex-col items-start justify-start text-[#999];
+
+      .attributes-name {
+        font-size: 16px;
+        color: #333;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+    }
+    .attributes-wrapper {
+      @apply flex grow flex-wrap items-center gap-2;
+
+      .attributes-item {
+        .attributes-item-inner {
+          border: 1px solid;
+          @apply border-label shadow-sm;
+          padding: 4px;
+          display: flex;
+          gap: 5px;
+          justify-content: flex-start;
+          position: relative;
+          cursor: pointer;
+          align-items: center;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: all 0.3s ease-in-out;
+
+          &:hover {
+            @apply border-main bg-main text-white;
+          }
+          .attributes-item-inner-value {
+            padding: 4px;
+          }
+        }
+
+        .attributes-item-inner-active {
+          @apply border-main bg-main text-white;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .attributes-wrapper {
+      max-height: 40vh;
+      overflow-y: auto;
+      padding: 10px 10px 10px 0;
+    }
+  }
+}
+.prop-section {
+  @apply mb-4 flex flex-col items-start justify-start gap-2;
+
+  .prop-header {
+    @apply flex flex-col items-start justify-start text-[#999];
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .prop-contain {
+    @apply flex w-full grow flex-col items-center justify-start gap-2;
+    background-color: transparent;
+    max-height: 40vh;
+    overflow-y: auto;
+    padding-right: 10px;
+
+    .prop-content {
+      @apply flex w-full items-start;
+    }
+
+    .sku-item-wrapper {
+      @apply relative flex grow items-center;
+      border-bottom: 1px dashed #e9e9e9;
+      padding-bottom: 0.5rem;
+
+      .sku-item-name {
+        @apply flex flex-1 items-center justify-start font-bold;
+        flex: 2;
+        font-size: 13px;
+        color: #333;
+        flex-wrap: wrap;
+        word-break: break-all;
+        padding-right: 10px;
+        min-height: 25%;
+      }
+
+      .sku-item-left {
+        @apply flex;
+
+        .sku-item-price {
+          @apply flex grow justify-end font-bold;
+          font-size: 13px;
+          color: #333;
+          align-items: center;
+          flex-wrap: wrap;
+          word-break: break-all;
+          padding-right: 10px;
+          min-height: 25%;
+
+          .sku-item-price-origin {
+            @apply text-main line-through;
+          }
+        }
+        .sku-sale-num {
+          @apply flex grow items-center justify-start;
+          font-size: 13px;
+          color: #999;
+          flex-wrap: wrap;
+          word-break: break-all;
+          padding-right: 10px;
+          min-height: 25%;
+        }
+      }
+      .next-number-picker-inline {
+        border: 1px solid #ededed;
+        width: 130px;
+        margin-left: 40px;
+      }
+      .sku-item-picker-inline {
+        // border: 1px solid #d9d9d9;
+
+        .next-input {
+          width: 68px;
+          input {
+            height: 28px;
+            width: 68px;
+            text-align: center;
+            outline: none;
+            box-shadow: none;
+          }
+        }
+      }
+      .sku-number-picker-message {
+        width: 130px;
+        color: #ff4000;
+        font-size: 12px;
+        position: absolute;
+        bottom: -1px;
+        right: 9px;
+        text-align: center;
+      }
+    }
+  }
+}
+.order-preview-total-price {
+  @apply mb-4 flex flex-col items-start;
+
+  .order-preview-header {
+    font-size: 12px;
+    color: #333;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: initial;
+  }
+
+  .order-preview-price {
+    @apply text-[18px] font-semibold text-main;
+  }
+}
+.order-button-wrapper {
+  @apply flex;
+
+  .add-on-button {
+    @apply px-4;
+    border: none;
+    background-color: #ff7044;
+    background: linear-gradient(90deg, #ff7044, #ff4000);
+    background-size: 100% 100%;
+    color: #fff;
+    line-height: 16px;
+    height: 40px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 768px) {
+  .prop-section {
+    @apply px-0;
+  }
+}
+@media (max-width: 680px) {
+  .sku-item-wrapper {
+    flex-direction: column;
+    align-items: unset !important;
+  }
+
+  .sku-item-price {
+    justify-content: flex-start !important;
+  }
+}

@@ -17,7 +17,7 @@ type TSearchEC = {
   filter?: string | number
 }
 
-type TPriceRange = string[]
+type TPriceRange = [string, string][]
 
 type TItem_imgs = {
   url: string
@@ -84,9 +84,8 @@ type TItemDetail = {
   ems_fee: number //0,
   shipping_to: ''
   has_discount: 'true' | 'false' // "true",
-  video: {
-    url: string //"https://cloud.video.taobao.com/play/u/456706214/p/2/e/6/t/1/362541952268.mp4?appKey=38829"
-  }
+  video: string //"https://cloud.video.taobao.com/play/u/456706214/p/2/e/6/t/1/362541952268.mp4?appKey=38829"
+
   is_virtual: string // "",
   sample_id: string //  "",
   is_promotion: 'true' | 'false'
@@ -102,7 +101,7 @@ type TItemDetail = {
   }
   seller_id: string //"456706214",
   shop_id: string //"112458579",
-  props_list: {}
+  props_list: { [key: string]: string }
   // "props_list": {
   //   "20509:398278313": "尺码:S（建议70-85斤）",
   //   "20509:802208820": "尺码:M（建议85--100斤）",
@@ -122,7 +121,7 @@ type TItemDetail = {
   data_f: string //"xdl",
   data_from: string //"hid",
   promo_type: null
-  props_img: {}
+  props_img: { [key: string]: string }
   error: null | string
   format_check: string // "ok",
   sales: number // 0,
@@ -130,6 +129,7 @@ type TItemDetail = {
   shop_item: []
   relate_items: []
   priceRange?: TPriceRange
+  min_num: string
 }
 
 type TDataSend = {
@@ -220,4 +220,7 @@ type TResponseOnebound = {
   sales: number
   seller_id: string
   title: string
+  titleVN?: string
 }
+
+type TPropsListItem = { [key: string]: string }

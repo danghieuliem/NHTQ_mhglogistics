@@ -1,0 +1,6 @@
+export * from './cardProduct'
+export * from './searchInput'
+export * from './productList'
+export * from './detailPage'
+export * from './searchPage'
+export * from './detailSearchPage'

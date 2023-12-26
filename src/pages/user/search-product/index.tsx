@@ -1,5 +1,5 @@
 import { UserLayout } from '~/components'
-import { SearchPage } from '~/components/screens/user/searchProduct'
+import { SearchPage } from '~/components/screens/user/searchProductOneBound'
 import { TNextPageWithLayout } from '~/types/layout'
 
 const Index: TNextPageWithLayout = () => {

@@ -33,7 +33,7 @@ export const _1688API = {
     })
   },
 
-  getItem: async (params: TGetItemAPI) => {
+  getItem: async (params: TGetItemAPI): Promise<TItemDetail> => {
     return new Promise((resolve, reject) => {
       const queryString = objectToQueryString(params)
 
@@ -41,7 +41,7 @@ export const _1688API = {
       fetch(url)
         .then((response) => response.json())
         .then((data) => {
-          resolve(data)
+          resolve(data.item)
         })
         .catch((error) => {
           reject(error)
@@ -71,7 +71,7 @@ export const _pindoudouAPI = {
   //   })
   // },
 
-  getItem: async (params: TGetItemAPI) => {
+  getItem: async (params: TGetItemAPI): Promise<TItemDetail> => {
     return new Promise((resolve, reject) => {
       const queryString = objectToQueryString(params)
 
@@ -79,7 +79,7 @@ export const _pindoudouAPI = {
       fetch(url)
         .then((response) => response.json())
         .then((data) => {
-          resolve(data)
+          resolve(data.item)
         })
         .catch((error) => {
           reject(error)
@@ -114,7 +114,7 @@ export const _taobaoAPI = {
     })
   },
 
-  getItem: async (params: TGetItemAPI) => {
+  getItem: async (params: TGetItemAPI): Promise<TItemDetail> => {
     return new Promise((resolve, reject) => {
       const queryString = objectToQueryString(params)
 
@@ -122,7 +122,7 @@ export const _taobaoAPI = {
       fetch(url)
         .then((response) => response.json())
         .then((data) => {
-          resolve(data)
+          resolve(data.item)
         })
         .catch((error) => {
           reject(error)

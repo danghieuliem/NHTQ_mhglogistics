@@ -1,28 +1,27 @@
 import clsx from 'clsx'
 import { FC, useCallback, useEffect, useState } from 'react'
 import styles from './_index.module.scss'
-import { isObject, isString } from 'lodash'
+import { isEmpty, isObject, isString } from 'lodash'
 
-type LayoutLeftProps = {
-  item: {
-    Videos: string[] | { Url: string; PreviewUrl: string }[]
-    Pictures: string[]
-  }
-  attributeImage: string
-}
 type TPreviewItem = {
   type: 'image' | 'video'
   data: {
-    Url: string
-    PreviewUrl?: string
+    url: string
+    previewUrl?: string
   }
 }
-export const LayoutLeft: FC<LayoutLeftProps> = ({ item }) => {
+export const LayoutLeft = ({
+  item,
+  attributeImage,
+}: {
+  item: TItemDetail
+  attributeImage: string
+}) => {
   const [leftTime, setLeftTime] = useState<number>(0)
   const [previewList, setPreviewList] = useState<TPreviewItem[]>([])
   const [previewSelected, setPreviewSelected] = useState<TPreviewItem>({
     type: 'image',
-    data: { Url: item?.Pictures[0] },
+    data: { url: item?.pic_url },
   })
   const handleScroll = useCallback((number: number) => {
     setLeftTime(number)
@@ -30,39 +29,21 @@ export const LayoutLeft: FC<LayoutLeftProps> = ({ item }) => {
 
   useEffect(() => {
     if (!item) return
-    if (!!item.Videos?.length) {
-      const fmVideos: TPreviewItem[] = [...item.Videos].map((vl) => {
-        if (isObject(vl))
-          return {
-            type: 'video',
-            data: {
-              ...(vl.PreviewUrl ? { PreviewUrl: vl.PreviewUrl } : {}),
-              Url: vl.Url,
-            },
-          }
 
-        return {
-          type: 'video',
-          data: { Url: vl },
-        }
+    const reviewItems: TPreviewItem[] = []
+    if (isEmpty(item.video)) {
+      reviewItems.push({
+        type: 'video',
+        data: { url: item.video, previewUrl: item.pic_url },
       })
-      const fmPictures: TPreviewItem[] = [...item.Pictures].map((el) => {
-        return {
-          type: 'image',
-          data: { Url: el },
-        }
-      })
-      const rs: TPreviewItem[] = fmVideos.concat(fmPictures)
-      setPreviewList(rs)
-    } else {
-      const fmPictures: TPreviewItem[] = [...item.Pictures].map((el) => {
-        return {
-          type: 'image',
-          data: { Url: el },
-        }
-      })
-      setPreviewList(fmPictures)
     }
+    ;[...item.item_imgs].forEach((el) => {
+      reviewItems.push({
+        type: 'image',
+        data: { url: el.url },
+      })
+    })
+    setPreviewList(reviewItems)
   }, [item])
 
   return (
@@ -72,14 +53,11 @@ export const LayoutLeft: FC<LayoutLeftProps> = ({ item }) => {
           {previewSelected.type === 'image' ? (
             <img
               className={styles['preview-image']}
-              src={previewSelected.data.Url}
+              src={previewSelected.data.url}
             />
           ) : (
             <video className={styles['preview-video']} controls muted>
-              <source
-                src={(previewSelected.data as TVideoProduct).Url}
-                type='video/mp4'
-              />
+              <source src={previewSelected.data.url} type='video/mp4' />
               Your browser does not support the video tag.
             </video>
           )}
@@ -119,8 +97,8 @@ export const LayoutLeft: FC<LayoutLeftProps> = ({ item }) => {
                     <img
                       src={
                         vl.type === 'image'
-                          ? (vl.data as TPictureProduct)?.Url
-                          : (vl.data as TVideoProduct).PreviewUrl ||
+                          ? vl.data?.url
+                          : vl.data.previewUrl ||
                             '/default/dafault-thumail-image.png'
                       }
                       style={{
