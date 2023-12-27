@@ -1,5 +1,5 @@
-import { InputNumber, Tooltip } from 'antd'
-import { isInteger } from 'lodash'
+import { InputNumber, Tooltip, Image } from 'antd'
+import { isEmpty, isInteger } from 'lodash'
 import React, { useState } from 'react'
 import { ActionButton, toast } from '~/components'
 import { _format } from '~/utils'
@@ -92,11 +92,23 @@ export const OrderProductItem: React.FC<TProps> = ({
         )}
 
         <div className='borderBottom col-span-full mb-5 flex items-center justify-between px-3'>
-          <Tooltip title='Link đến sản phẩm'>
-            <a href={order?.LinkOrigin} target='_blank' className='mainTitle'>
-              {order?.TitleOrigin}
-            </a>
-          </Tooltip>
+          {isEmpty(order?.LinkOrigin) ? (
+            <Tooltip title='Không có Link đến sản phẩm'>
+              <span className='text-lg font-bold'>{order?.TitleOrigin}</span>
+            </Tooltip>
+          ) : (
+            <Tooltip title='Link đến sản phẩm'>
+              <a
+                href={order?.LinkOrigin}
+                target='_blank'
+                className='text-lg font-bold text-blueLight hover:text-main'
+              >
+                <span className='underline'>{order?.TitleOrigin}</span>
+                &nbsp;&nbsp;
+                <i className='fas fa-external-link-alt text-sm'></i>
+              </a>
+            </Tooltip>
+          )}
           {(RoleID === 1 ||
             RoleID === 3 ||
             RoleID === 4 ||
@@ -134,9 +146,7 @@ export const OrderProductItem: React.FC<TProps> = ({
               </Tooltip>
             </div>
             <div className='ml-4 flex h-[75px] w-[75px] items-center overflow-hidden rounded-xl border border-[#6969691a]'>
-              <a href={order?.LinkOrigin} target='_blank'>
-                <img src={order?.ImageOrigin} width='100%' height='100%' />
-              </a>
+              <Image width={'100%'} src={order?.ImageOrigin} />
             </div>
           </div>
           <div className='ml-2 flex-1'>
