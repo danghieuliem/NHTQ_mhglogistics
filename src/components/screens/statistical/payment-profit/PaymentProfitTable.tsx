@@ -44,7 +44,7 @@ const PaymentProfitTable: FC<
       align: 'right',
       width: 120,
       responsive: ['md'],
-      render: (money) => _format.getVND(money, ''),
+      render: (money) => _format.getYuan(money, ''),
     },
     {
       dataIndex: 'TotalPriceVNDGiaGoc',
