@@ -1,4 +1,4 @@
-import { Divider, Modal, Popover } from 'antd'
+import { Divider, Image, Modal, Popover, Tag } from 'antd'
 import { TableRowSelection } from 'antd/lib/table/interface'
 import clsx from 'clsx'
 import Link from 'next/link'
@@ -194,16 +194,17 @@ export const UserAnotherOrderListTable: React.FC<
       dataIndex: 'ImageOrigin',
       title: 'Ảnh',
       align: 'center',
-      render: (img) => {
+      render: (img, record) => {
         return (
-          <div className='m-auto flex h-20 w-20 justify-center'>
-            <img
+          <div className='m-auto flex w-20 flex-col justify-center gap-2'>
+            <Image
               src={img ? img.replaceAll(' ', '') : '/default/pro-empty.jpg'}
               alt='image'
               width={75}
               height={75}
               style={{ borderRadius: '4px', objectFit: 'contain' }}
             />
+            <Tag color='green'>{record?.Site}</Tag>
           </div>
         )
       },
@@ -211,45 +212,52 @@ export const UserAnotherOrderListTable: React.FC<
     },
     {
       dataIndex: 'TotalPriceVND',
-      title: (
-        <>
-          Tổng tiền
-          <br />
-          (VNĐ)
-        </>
-      ),
+      title: <>Phí</>,
       align: 'right',
       responsive: ['sm'],
-      render: (price) => _format.getVND(price, ''),
+      render: (_, record) => {
+        const FormatData = [
+          {
+            title: 'Tỷ giá:',
+            value: _format.getVND(record?.CurrentCNYVN, ' đ'),
+          },
+          {
+            title: 'Tổng tiền:',
+            value: _format.getVND(record?.TotalPriceVND, ' đ'),
+          },
+          {
+            filterColor: '#008000',
+            title: 'Phải cọc:',
+            value: _format.getVND(record?.AmountDeposit, ' đ'),
+          },
+          {
+            filterColor: '#2196F3',
+            title: 'Đã cọc:',
+            value: _format.getVND(record?.Deposit, ' đ'),
+          },
+          {
+            filterColor: '#F44336',
+            title: 'Còn lại:',
+            value: _format.getVND(record?.RemainingAmount, ' đ'),
+          },
+        ]
+        return (
+          <>
+            {FormatData.map((e) => {
+              return (
+                <div
+                  className='flex justify-between'
+                  style={{ color: e.filterColor }}
+                >
+                  <span>{e.title}</span>
+                  <span>{e.value}</span>
+                </div>
+              )
+            })}
+          </>
+        )
+      },
       width: 120,
-    },
-    {
-      dataIndex: 'AmountDeposit',
-      title: (
-        <>
-          Số tiền phải cọc
-          <br />
-          (VNĐ)
-        </>
-      ),
-      align: 'right',
-      width: 120,
-      responsive: ['md'],
-      render: (price) => _format.getVND(price, ''),
-    },
-    {
-      dataIndex: 'Deposit',
-      title: (
-        <>
-          Số tiền đã cọc
-          <br />
-          (VNĐ)
-        </>
-      ),
-      width: 120,
-      align: 'right',
-      responsive: ['md'],
-      render: (price) => _format.getVND(price, ''),
     },
     {
       dataIndex: 'DepositDate',
@@ -408,7 +416,12 @@ export const UserAnotherOrderListTable: React.FC<
       title: 'Trạng thái',
       render: (status) => {
         const color = orderStatus.find((x) => x.id === status)
-        return <TagStatus color={color?.color} statusName={color?.name} />
+        return (
+          <div className='flex justify-center'>
+            {' '}
+            <TagStatus color={color?.color} statusName={color?.name} />
+          </div>
+        )
       },
       width: 140,
     },
@@ -418,7 +431,7 @@ export const UserAnotherOrderListTable: React.FC<
       align: 'right',
       render: (_, record) => {
         return (
-          <div className='flex flex-wrap gap-1'>
+          <div className='flex flex-col items-center gap-1'>
             <Link href={`/user/order-list/detail/?id=${record?.Id}`}>
               <a target='_blank'>
                 <ActionButton
