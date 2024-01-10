@@ -192,78 +192,84 @@ export const UserDepositListTable: React.FC<TTable<TUserDeposit> & TProps> = ({
     {
       dataIndex: 'Id',
       title: 'ID',
-      width: 60,
+      width: 110,
+      align: 'center',
       responsive: ['md'],
     },
     {
       dataIndex: 'OrderTransactionCode',
       title: 'Mã vận đơn',
-      width: 180,
+      width: 200,
     },
     {
       dataIndex: 'TotalPriceVND',
-      title: (
-        <>
-          Tổng tiền
-          <br />
-          (VNĐ)
-        </>
-      ),
-      align: 'right',
-      render: (money) => _format.getVND(money, ''),
+      title: 'Thông tin',
       responsive: ['md'],
-    },
-    {
-      dataIndex: 'PayableWeight',
-      align: 'right',
-      title: (
-        <>
-          Cân nặng
-          <br />
-          (Kg)
-        </>
-      ),
-      render: (PayableWeight) => <>{_format.getVND(PayableWeight, '')}</>,
-      responsive: ['lg'],
-    },
-    {
-      dataIndex: 'VolumePayment',
-      align: 'right',
-      title: (
-        <>
-          Thể tích
-          <br />
-          (m3)
-        </>
-      ),
-      render: (value) => <>{_format.getVolume(value)}</>,
-      responsive: ['lg'],
+      width: 210,
+      render: (_, record) => {
+        const formatDate = [
+          {
+            filterColor: '#008000',
+            title: 'Tổng tiền:',
+            value: _format.getVND(record.TotalPriceVND, ' đ'),
+          },
+          {
+            filterColor: 'var(--main-color)',
+            title: 'Cân nặng:',
+            value: _format.getWeight(record.PayableWeight) + ' Kg',
+          },
+          {
+            filterColor: '#2196F3',
+            title: 'Thể tích:',
+            value: _format.getVolume(record.VolumePayment) + ' m3',
+          },
+        ]
+        return (
+          <>
+            {formatDate.map((e, idx) => {
+              return (
+                <div
+                  key={idx}
+                  className='flex justify-between'
+                  style={{ color: e.filterColor }}
+                >
+                  <span>{e.title}</span>
+                  <span>{e.value}</span>
+                </div>
+              )
+            })}
+          </>
+        )
+      },
     },
     {
       dataIndex: 'CreateDate',
       title: 'TimeLine',
-      responsive: ['md'],
+      responsive: ['lg'],
       render: (_, record) => <TimelineRender record={record} />,
       width: 280,
     },
     {
       dataIndex: 'Status',
       title: 'Trạng thái',
+      width: 120,
       render: (status, record) => {
         const color = transportationStatus.find((x) => x.id === status)
         return (
-          <TagStatus color={color?.color} statusName={record?.StatusName} />
+          <div className='flex justify-center'>
+            <TagStatus color={color?.color} statusName={record?.StatusName} />
+          </div>
         )
       },
     },
     {
       dataIndex: 'action',
       title: 'Thao tác',
-      align: 'right',
       fixed: 'right',
+      width: 140,
       render: (_, record) => {
         return (
-          <div className='flex flex-wrap gap-1'>
+          <div className='flex flex-col items-center gap-1'>
             <Popover
               trigger={'click'}
               placement='leftBottom'

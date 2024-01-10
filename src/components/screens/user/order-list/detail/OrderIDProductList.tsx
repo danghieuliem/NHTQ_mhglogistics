@@ -129,7 +129,7 @@ export const OrderIDProductList: React.FC<any> = ({ data }) => {
       align: 'right',
       responsive: ['md'],
       render: (value) => {
-        return <div>{_format.getVND(value, '')}</div>
+        return <div>{_format.getYuan(value, '')}</div>
       },
     },
     {

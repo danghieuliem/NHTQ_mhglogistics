@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --main-color: #ff7a00;
+}
+
 p {
   margin: 0 !important;
 }
@@ -98,7 +102,6 @@ p {
   width: calc(100vw - 220px);
 }
 
-
 /* body.ant-scrolling-effect {
   touch-action: unset !important;
   width: auto !important;
@@ -106,7 +109,7 @@ p {
 } */
 
 .small_title {
-  font-family: "Inter";
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -119,7 +122,7 @@ p {
 
 .small_title::after {
   position: absolute;
-  content: "";
+  content: '';
   width: 32px;
   height: 2px;
   background-color: #f5851e;
@@ -130,7 +133,7 @@ p {
 }
 
 .main_title {
-  font-family: "Inter";
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 700;
   font-size: 36px;
