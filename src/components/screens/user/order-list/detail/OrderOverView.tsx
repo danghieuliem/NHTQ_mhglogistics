@@ -2,7 +2,7 @@ import { Card } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { IconButton } from '~/components'
 import TagStatus from '~/components/screens/status/TagStatus'
-import { orderStatus } from '~/configs'
+import { EOrderStatus, orderStatus } from '~/configs'
 import { _format } from '~/utils'
 
 type TProps = {
@@ -203,7 +203,7 @@ const OrderOverView: React.FC<TProps> = ({ data, updatePaid }) => {
             Tổng quan đơn hàng
           </span>
           <div className='flex justify-between'>
-            {data?.Status === 0 && (
+            {data?.Status === EOrderStatus.DonMoi && (
               <IconButton
                 onClick={() => updatePaid('deposit')}
                 title='Đặt cọc'
@@ -213,7 +213,7 @@ const OrderOverView: React.FC<TProps> = ({ data, updatePaid }) => {
                 btnClass='!bg-green'
               />
             )}
-            {data?.Status === 7 && (
+            {data?.Status === EOrderStatus.VeVN && (
               <IconButton
                 onClick={() => updatePaid('payment')}
                 title='Thanh toán'

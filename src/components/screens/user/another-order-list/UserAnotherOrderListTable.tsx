@@ -243,9 +243,10 @@ export const UserAnotherOrderListTable: React.FC<
         ]
         return (
           <>
-            {FormatData.map((e) => {
+            {FormatData.map((e, idx) => {
               return (
                 <div
+                  key={idx}
                   className='flex justify-between'
                   style={{ color: e.filterColor }}
                 >
