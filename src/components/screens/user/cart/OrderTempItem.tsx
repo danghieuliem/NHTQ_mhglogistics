@@ -319,7 +319,7 @@ export const OrderTempItem: React.FC<TTable<TUserCartOrderTemp> & TProps> = ({
         render: (value, record) => {
           return (
             <>
-              {_format.getVND(value, '')} /{' '}
+              {_format.getYuan(value, '')} /{' '}
               {_format.getVND(record?.UPriceBuyVN, '')}
             </>
           )

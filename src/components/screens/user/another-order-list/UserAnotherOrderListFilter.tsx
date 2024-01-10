@@ -16,12 +16,12 @@ import {
 import { EParamQ } from '~/enums'
 import { _format } from '~/utils'
 
-// const inputProps = {
-//   id: "id",
-//   name: "id",
-//   placeholder: "Nhập nội dung tìm kiếm",
-//   label: "ID đơn hàng / tên shop / tên website",
-// };
+const inputProps = {
+  id: 'id',
+  name: 'id',
+  placeholder: 'Nhập nội dung tìm kiếm',
+  label: 'Nhập nội dung tìm kiếm',
+}
 
 const filterBox = `py-2 px-[12px] font-bold uppercase text-[12px] rounded-[4px] leading-[initial]
 flex items-center justify-center border border-[#e8e8e8] shadow-lg 
@@ -260,7 +260,7 @@ const UserAnotherOrderListFilter: React.FC<TProps> = ({
                   handleSearch={(val: number) => (TypeSearch.current = val)}
                 />
               </div>
-              {/* <div className="col-span-1">
+              <div className='col-span-1'>
                 <FilterInput
                   {...{
                     ...inputProps,
@@ -268,7 +268,7 @@ const UserAnotherOrderListFilter: React.FC<TProps> = ({
                       (SearchContent.current = val),
                   }}
                 />
-              </div> */}
+              </div>
               <div className='col-span-1'>
                 <FilterSelect
                   isClearable={true}

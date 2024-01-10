@@ -175,7 +175,6 @@ export const UserRequestListTable: React.FC<
       dataIndex: 'Id',
       title: 'ID',
       width: 90,
-      responsive: ['lg'],
       render: (value) => {
         return (
           <Link passHref href={`/user/request-list/detail/?id=${value}`}>
@@ -185,66 +184,75 @@ export const UserRequestListTable: React.FC<
       },
     },
     {
-      dataIndex: 'TotalPrice',
-      title: (
-        <>
-          Tổng tiền
-          <br />
-          (¥)
-        </>
-      ),
-      align: 'right',
-      responsive: ['lg'],
-      render: (money) => _format.getYuan(money, ''),
-    },
-    {
       dataIndex: 'TotalPriceVND',
-      title: (
-        <>
-          Tổng tiền
-          <br />
-          (VNĐ)
-        </>
-      ),
-      align: 'right',
-      render: (money) => _format.getVND(money, ''),
-    },
-    {
-      dataIndex: 'Currency',
-      title: (
-        <>
-          Tỷ giá
-          <br />
-          (VNĐ)
-        </>
-      ),
-      align: 'right',
-      render: (excharge) => _format.getVND(excharge, ''),
-      responsive: ['lg'],
+      title: 'Thông tin',
+      width: 280,
+      responsive: ['md'],
+      render: (_, record) => {
+        const formatDate = [
+          {
+            filterColor: 'var(--main-color)',
+            title: 'Tỷ giá:',
+            value: _format.getVND(record.Currency) + ' Kg',
+          },
+          {
+            filterColor: '#008000',
+            title: 'Tổng tiền (¥):',
+            value: _format.getYuan(record.TotalPrice),
+          },
+          {
+            filterColor: '#2196F3',
+            title: 'Tổng tiền (VNĐ):',
+            value: _format.getVND(record.TotalPriceVND, ' đ'),
+          },
+        ]
+        return (
+          <>
+            {formatDate.map((e, idx) => {
+              return (
+                <div
+                  key={idx}
+                  className='flex justify-between'
+                  style={{ color: e.filterColor }}
+                >
+                  <span>{e.title}</span>
+                  <span>{e.value}</span>
+                </div>
+              )
+            })}
+          </>
+        )
+      },
     },
     {
       dataIndex: 'Created',
       title: 'TimeLine',
       render: (_, record) => <TimelineRender record={record} />,
       width: 280,
-      responsive: ['sm'],
+      responsive: ['lg'],
     },
     {
       dataIndex: 'Status',
       title: 'Trạng thái',
+      width: 150,
       render: (status) => {
         const color = payHelpStatus.find((x) => x.id === status)
-        return <TagStatus color={color?.color} statusName={color?.name} />
+        return (
+          <div className='flex justify-center'>
+            <TagStatus color={color?.color} statusName={color?.name} />
+          </div>
+        )
       },
     },
     {
       dataIndex: 'action',
       title: 'Thao tác',
+      width: 150,
       align: 'right',
       responsive: ['lg'],
       render: (_, record) => {
         return (
-          <div className='flex flex-wrap gap-1'>
+          <div className='flex flex-col items-center gap-1'>
             <Link passHref href={`/user/request-list/detail/?id=${record?.Id}`}>
               <a target='_blank' rel='noopener noreferrer'>
                 <ActionButton
