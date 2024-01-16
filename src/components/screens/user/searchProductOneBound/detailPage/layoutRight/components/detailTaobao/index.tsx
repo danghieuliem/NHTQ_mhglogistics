@@ -85,7 +85,11 @@ export const DetailTaobao: FC<TProps> = ({ item, onChangePreview }) => {
       selectedProps: 'N/A',
       selectedSKU_ID: 'N/A',
       shop_id: item.shop_id,
-      shop_name: item.seller_info.title,
+      shop_name:
+        item.seller_info?.shop_name ||
+        item.seller_info?.title ||
+        item.seller_info?.nick ||
+        '',
       stock: 9999,
       title_origin: item.title,
       title_translated: item.title,
@@ -103,6 +107,11 @@ export const DetailTaobao: FC<TProps> = ({ item, onChangePreview }) => {
       toast.error(`Chưa đạt số lượng tối thiểu là ${item.min_num}`)
       return
     }
+
+    console.log({
+      image: selectedSku.image,
+      image_model: rootProduct.image_model,
+    })
 
     const data = {
       ...rootProduct,

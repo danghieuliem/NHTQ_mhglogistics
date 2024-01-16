@@ -23,10 +23,12 @@ export const useViewDetailProduct = (data) => {
     const foundPropHaveKey = keysNewSelect?.find((key) => {
       return !isEmpty(props_img[key])
     })
-    newSelected.image = props_img[foundPropHaveKey]?.replace(
-      '//img.alicdn.com',
-      'http://g.search1.alicdn.com',
-    )
+    newSelected.image = props_img[foundPropHaveKey]?.includes('http')
+      ? props_img[foundPropHaveKey]
+      : props_img[foundPropHaveKey]?.replace(
+          '//img.alicdn.com',
+          'http://g.search1.alicdn.com',
+        )
 
     return newSelected
   }, [mapKeyPropertyValueSku, selectedProps, props_img])

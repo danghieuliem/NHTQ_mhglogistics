@@ -13,6 +13,9 @@ const ItemElement = ({
   mapKeyPropertyValueSku,
   mapKeyPropertyWithTotalSelected,
   selectedMainProp,
+  props_img,
+  handleSelectProp,
+  onChangePreview,
 }: {
   propItem: { key: string; value: string }
   setTotalSelected: (param: { properties: string; value: number }) => void
@@ -21,14 +24,42 @@ const ItemElement = ({
   }
   mapKeyPropertyWithTotalSelected: TKeyPropertyWithTotalSelect
   selectedMainProp: TSelectedProp
+  props_img?: TPropsListItem
+  handleSelectProp?: (val: TSelectedProp) => void
+  onChangePreview?: (val: string) => void
 }) => {
+  const key = useMemo<string>(() => {
+    return isEmpty(selectedMainProp)
+      ? propItem.key
+      : `${selectedMainProp?.key};${propItem.key}`
+  }, [selectedMainProp, propItem])
+
   const sku = useMemo<TSku>(() => {
-    return mapKeyPropertyValueSku?.[`${selectedMainProp?.key};${propItem.key}`]
-  }, [propItem, selectedMainProp])
+    return mapKeyPropertyValueSku?.[key]
+  }, [propItem, selectedMainProp, key])
 
   return sku ? (
     <div className={styles['prop-content']} key={`config-item-${propItem.key}`}>
       <div className={styles['sku-item-wrapper']}>
+        {!isEmpty(props_img?.[key]) && (
+          <div
+            className='cursor-pointer'
+            style={{
+              background: `url(${props_img[key]}) center center / contain no-repeat`,
+              width: props_img[key] && '36px',
+              height: '36px',
+              // marginRight: '2px'
+            }}
+            onClick={() => {
+              handleSelectProp &&
+                handleSelectProp({
+                  key,
+                  val: propItem.value,
+                })
+              onChangePreview(props_img[key] || '')
+            }}
+          ></div>
+        )}
         <div className={styles['sku-item-name']}>
           {propItem.value.split(':')[1]}
         </div>
@@ -62,6 +93,9 @@ export const SubAttributeItems = ({
   mapKeyPropertyValueSku,
   mapKeyPropertyWithTotalSelected,
   selectedMainProp,
+  props_img,
+  handleSelectProp,
+  onChangePreview,
 }: {
   propList: TPropsListItem
   setTotalSelected: (param: { properties: string; value: number }) => void
@@ -70,6 +104,9 @@ export const SubAttributeItems = ({
   }
   mapKeyPropertyWithTotalSelected: TKeyPropertyWithTotalSelect
   selectedMainProp: TSelectedProp
+  props_img?: TPropsListItem
+  handleSelectProp?: (val: TSelectedProp) => void
+  onChangePreview?: (val: string) => void
 }) => {
   return (
     <div className={styles['prop-contain']}>
@@ -77,6 +114,7 @@ export const SubAttributeItems = ({
         ? Object.keys(propList).map((key: string) => (
             <React.Fragment key={key}>
               <ItemElement
+                props_img={props_img}
                 mapKeyPropertyValueSku={mapKeyPropertyValueSku}
                 propItem={{ key, value: propList[key] }}
                 setTotalSelected={setTotalSelected}
@@ -84,6 +122,8 @@ export const SubAttributeItems = ({
                   mapKeyPropertyWithTotalSelected
                 }
                 selectedMainProp={selectedMainProp}
+                handleSelectProp={handleSelectProp}
+                onChangePreview={onChangePreview}
               />
             </React.Fragment>
           ))
