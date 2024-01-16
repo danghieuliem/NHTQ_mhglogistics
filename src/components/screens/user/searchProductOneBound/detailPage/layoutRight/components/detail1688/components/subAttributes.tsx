@@ -10,12 +10,14 @@ import {
 import { TranslateToVN } from '../../common/transplateToVN'
 
 export const SubAttributes = ({
+  props_img,
   propList,
   setTotalSelected,
   mapKeyPropertyValueSku,
   mapKeyPropertyWithTotalSelected,
   selectedMainProp,
 }: {
+  props_img?: TPropsListItem
   propList: TPropsListItem
   setTotalSelected: (param: { properties: string; value: number }) => void
   mapKeyPropertyValueSku: {
@@ -25,7 +27,7 @@ export const SubAttributes = ({
   selectedMainProp: TSelectedProp
 }) => {
   const propName = useMemo(() => {
-    return propList[Object.keys(propList)[0]].split(':')[0]
+    return propList[Object.keys(propList)[0]]?.split(':')[0]
   }, [propList])
 
   return (
@@ -38,6 +40,7 @@ export const SubAttributes = ({
         </div>
       </div>
       <SubAttributeItems
+        props_img={props_img}
         propList={propList}
         setTotalSelected={setTotalSelected}
         mapKeyPropertyValueSku={mapKeyPropertyValueSku}

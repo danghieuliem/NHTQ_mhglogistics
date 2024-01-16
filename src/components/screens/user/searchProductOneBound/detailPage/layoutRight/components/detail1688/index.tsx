@@ -105,7 +105,11 @@ export const Detail1688: FC<LayoutRightProps> = ({ item, onChangePreview }) => {
       selectedProps: 'N/A',
       selectedSKU_ID: 'N/A',
       shop_id: item.shop_id,
-      shop_name: item.seller_info?.title,
+      shop_name:
+        item.seller_info?.shop_name ||
+        item.seller_info?.title ||
+        item.seller_info?.nick ||
+        '',
       stock: 9999,
       title_origin: item.title,
       title_translated: item.title,
@@ -202,25 +206,40 @@ export const Detail1688: FC<LayoutRightProps> = ({ item, onChangePreview }) => {
 
         <Divider />
 
-        <Attributes
-          props_img={props_img}
-          propList={mainProps}
-          propSelected={selectedMainProp}
-          handleSelectProp={handleSelectedMainProp}
-          onChangePreview={onChangePreview}
-          mapKeyPropertyWithTotalSelected={mapKeyPropertyWithTotalSelected}
-          mapSelectedForMain={mapSelectedForMain}
-        />
+        {isEmpty(subProps) ? (
+          <>
+            <SubAttributes
+              props_img={props_img}
+              propList={mainProps}
+              setTotalSelected={handelChangeTotalSelectedProduct}
+              mapKeyPropertyValueSku={mapKeyPropertyValueSku}
+              mapKeyPropertyWithTotalSelected={mapKeyPropertyWithTotalSelected}
+              selectedMainProp={selectedMainProp}
+            />
+          </>
+        ) : (
+          <>
+            <Attributes
+              props_img={props_img}
+              propList={mainProps}
+              propSelected={selectedMainProp}
+              handleSelectProp={handleSelectedMainProp}
+              onChangePreview={onChangePreview}
+              mapKeyPropertyWithTotalSelected={mapKeyPropertyWithTotalSelected}
+              mapSelectedForMain={mapSelectedForMain}
+            />
 
-        <Divider />
+            <Divider />
 
-        <SubAttributes
-          propList={subProps}
-          setTotalSelected={handelChangeTotalSelectedProduct}
-          mapKeyPropertyValueSku={mapKeyPropertyValueSku}
-          mapKeyPropertyWithTotalSelected={mapKeyPropertyWithTotalSelected}
-          selectedMainProp={selectedMainProp}
-        />
+            <SubAttributes
+              propList={subProps}
+              setTotalSelected={handelChangeTotalSelectedProduct}
+              mapKeyPropertyValueSku={mapKeyPropertyValueSku}
+              mapKeyPropertyWithTotalSelected={mapKeyPropertyWithTotalSelected}
+              selectedMainProp={selectedMainProp}
+            />
+          </>
+        )}
 
         <Divider />
 
