@@ -20,6 +20,7 @@ type TConfig1 = {
   BackgroundAuth: string
   ChromeExtensionLink: string
   CocCocExtensionLink: string
+  IsAppAccepted?: boolean
 }
 
 type TConfig2 = {

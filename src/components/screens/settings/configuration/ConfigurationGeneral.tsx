@@ -1,7 +1,15 @@
-import { Popconfirm, Switch, Tooltip } from 'antd'
+import { Switch, Tooltip } from 'antd'
 import React, { FC, useState } from 'react'
 import { Control } from 'react-hook-form'
-import { FormEditor, FormInput, FormRangeDate, FormUpload } from '~/components'
+import { useSelector } from 'react-redux'
+import {
+  FormCheckbox,
+  FormInput,
+  FormRangeDate,
+  FormSwitch,
+  FormUpload,
+} from '~/components'
+import { RootState } from '~/store'
 
 type TProps<T extends object = object> = {
   control: Control<T, object>
@@ -12,6 +20,9 @@ export const ConfigurationGeneral: FC<TProps<TConfig1>> = ({
   control,
   data,
 }) => {
+  const userCurrentInfo: TUser = useSelector(
+    (state: RootState) => state.userCurrentInfo,
+  )
   const [editChormeEx, setEditChormeEx] = useState(false)
   const [editCocCocEx, setEditCocCocEx] = useState(false)
   const [changeTimeWork, setChangeTimeWork] = useState(false)
@@ -150,6 +161,17 @@ export const ConfigurationGeneral: FC<TProps<TConfig1>> = ({
               )}
             </div>
           </div>
+
+          {[20, 22].includes(userCurrentInfo.Id) ? (
+            <div>
+              <FormCheckbox
+                label='App đang chờ duyệt' // true: đã duyệt - false: chờ duyệt
+                control={control}
+                name='IsAppAccepted'
+              />
+              <div className='text-red'>Check TRUE nếu app ĐÃ DUYỆT</div>
+            </div>
+          ) : null}
         </div>
 
         <div className='col-span-full grid h-fit gap-4 lg:col-span-1'>
