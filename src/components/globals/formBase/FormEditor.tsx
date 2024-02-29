@@ -79,7 +79,7 @@ export const FormEditor = <TFieldValues extends FieldValues = FieldValues>({
           <div className='!h-full'>
             <Editor
               id={name}
-              apiKey={'iac8cfkdevssbiceknww2kkrpmblwb0ywmzork74l3kg1tlc'}
+              apiKey={process.env.NEXT_PUBLIC_TINYMCE}
               init={{
                 ...init,
               }}
