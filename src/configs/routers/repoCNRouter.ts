@@ -14,6 +14,16 @@ export const repoCNRouter = [
         Label: 'Import kho TQ',
       },
       {
+        Path: '/manager/warehouse/export/check-export-china/',
+        Icon: '',
+        Label: 'Xuất kho TQ',
+      },
+      {
+        Path: '/manager/warehouse/export/ImportComingVN',
+        Icon: '',
+        Label: 'Import xuất kho TQ',
+      },
+      {
         Path: '/manager/warehouse/package-management/',
         Icon: '',
         Label: 'Bao hàng',

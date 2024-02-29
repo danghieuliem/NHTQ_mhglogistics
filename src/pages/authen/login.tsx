@@ -11,7 +11,7 @@ import {
 import { RootState } from '~/store'
 import { TNextPageWithLayout } from '~/types/layout'
 import styles from './index.module.css'
-import { TrialForm } from '~/components/screens/auth/Trial'
+// import { TrialForm } from '~/components/screens/auth/Trial'
 import BlankLayout from '~/components/globals/layout/blankLayouts'
 
 const Index: TNextPageWithLayout = () => {
@@ -42,17 +42,17 @@ const Index: TNextPageWithLayout = () => {
 
             {isOpen === 'forgetPass' && <h1>Tìm lại mật khẩu</h1>}
 
-            {isOpen === 'trial' && <h1>Phân quyền dùng thử</h1>}
+            {/* {isOpen === 'trial' && <h1>Phân quyền dùng thử</h1>} */}
           </div>
         </div>
         {isOpen === 'login' && (
           <>
             <SignInForm handleOpen={handleSetOpen} />
-            <Button
+            {/* <Button
               onClick={() => setIsOpen('trial')}
               title='Dùng thử'
               btnClass='!bg-green'
-            />
+            /> */}
           </>
         )}
 
@@ -64,7 +64,7 @@ const Index: TNextPageWithLayout = () => {
           <ForgotPasswordForm handleOpen={handleSetOpen} />
         )}
 
-        {isOpen === 'trial' && <TrialForm handleOpen={handleSetOpen} />}
+        {/* {isOpen === 'trial' && <TrialForm handleOpen={handleSetOpen} />} */}
 
         <div className={styles.loginContact}>
           <div className={styles.infoWrapper}>
